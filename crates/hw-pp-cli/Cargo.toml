@@ -1,0 +1,25 @@
+[package]
+name = "hw-pp-cli"
+description = "Command-line interface for hw-pp (hello world plusplus)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "hw-pp"
+path = "src/main.rs"
+
+[dependencies]
+# hw-pp-core = { path = "../hw-pp-core" }
+anyhow.workspace = true
+clap.workspace = true
+hw-pp-core.workspace = true
+
+[dev-dependencies]
+assert_cmd.workspace = true
+predicates.workspace = true
+
+[lints]
+workspace = true

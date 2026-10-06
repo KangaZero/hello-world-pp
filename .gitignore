@@ -1,0 +1,20 @@
+# Build artifacts
+/target/
+/.cargo/
+**/*.rs.bk
+/aur/.SRCINFO
+
+# nix git-hook
+/.pre-commit-config.yaml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+design/
+result
+
+# Could also add for IDE, misc, agent related files but not in use as of now
