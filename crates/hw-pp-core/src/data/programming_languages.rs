@@ -1,5 +1,29 @@
 use super::common::ProgrammingLanguageCategory;
 use ProgrammingLanguageCategory::{Compiled, Esolang, Historical, Markup, Scripting};
+use thiserror::Error;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Error)]
+pub enum ProgrammingLanguageError {
+    #[error("no greetings found for language {0}: not a recorded language")]
+    UnknownLanguage(ProgrammingLanguageName),
+
+    #[error(
+        "no greetings found for {language}: dialect {dialect} is not recorded for this language"
+    )]
+    UnknownDialect {
+        language: ProgrammingLanguageName,
+        dialect: LanguageVersionDialect,
+    },
+
+    /// The dialect has no recorded greetings.
+    #[error("no greeting recorded for {language} ({dialect})")]
+    NoGreeting {
+        /// The requested language.
+        language: ProgrammingLanguageName,
+        /// The requested dialect.
+        dialect: LanguageVersionDialect,
+    },
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
 pub enum ProgrammingLanguageName {
@@ -136,6 +160,146 @@ impl core::fmt::Display for ProgrammingLanguageName {
     }
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum LanguageVersionDialect {
+    C99,
+    Cpp98,
+    Cpp20,
+    CSharp10,
+    Java17,
+    Java25CompactSourceFile,
+    Python2,
+    Python3,
+    JavaScriptEs2020,
+    TypeScript5,
+    Rust2021,
+    Go1,
+    Ruby3,
+    Php8,
+    Swift5,
+    Kotlin19,
+    Scala3,
+    Perl5,
+    Lua54,
+    R4,
+    Dart3,
+    Elixir1,
+    ErlangOtp,
+    Haskell2010,
+    Clojure111,
+    FSharp8,
+    OCaml5,
+    Zig013,
+    Nim2,
+    Julia110,
+    PosixShell,
+    PowerShell7,
+    X8664LinuxSyscalls,
+    Fortran90,
+    Cobol85,
+    Ada2012,
+    Pascal,
+    ClassicBasic,
+    VbNet,
+    Groovy4,
+    ObjectiveC2,
+    D2,
+    Crystal1,
+    Elm019,
+    Racket8,
+    AnsiCommonLisp,
+    R7rs,
+    IsoProlog,
+    Sql2016,
+    Matlab,
+    Solidity08,
+    Html5,
+    Css3,
+    Xml10,
+    CommonMark,
+    Latex2e,
+    Brainfuck,
+    Lolcode12,
+    Befunge93,
+    Apl,
+    Algol60,
+}
+
+impl LanguageVersionDialect {
+    #[must_use]
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::C99 => "C99",
+            Self::Cpp98 => "C++98",
+            Self::Cpp20 => "C++20",
+            Self::CSharp10 => "C# 10",
+            Self::Java17 => "Java 17",
+            Self::Java25CompactSourceFile => "Java 25 (compact source file)",
+            Self::Python2 => "Python 2",
+            Self::Python3 => "Python 3",
+            Self::JavaScriptEs2020 => "ES2020",
+            Self::TypeScript5 => "TypeScript 5",
+            Self::Rust2021 => "Rust 2021",
+            Self::Go1 => "Go 1",
+            Self::Ruby3 => "Ruby 3",
+            Self::Php8 => "PHP 8",
+            Self::Swift5 => "Swift 5",
+            Self::Kotlin19 => "Kotlin 1.9",
+            Self::Scala3 => "Scala 3",
+            Self::Perl5 => "Perl 5",
+            Self::Lua54 => "Lua 5.4",
+            Self::R4 => "R 4",
+            Self::Dart3 => "Dart 3",
+            Self::Elixir1 => "Elixir 1",
+            Self::ErlangOtp => "Erlang/OTP",
+            Self::Haskell2010 => "Haskell 2010",
+            Self::Clojure111 => "Clojure 1.11",
+            Self::FSharp8 => "F# 8",
+            Self::OCaml5 => "OCaml 5",
+            Self::Zig013 => "Zig 0.13",
+            Self::Nim2 => "Nim 2",
+            Self::Julia110 => "Julia 1.10",
+            Self::PosixShell => "POSIX shell",
+            Self::PowerShell7 => "PowerShell 7",
+            Self::X8664LinuxSyscalls => "x86-64 (Linux syscalls)",
+            Self::Fortran90 => "Fortran 90",
+            Self::Cobol85 => "COBOL 85",
+            Self::Ada2012 => "Ada 2012",
+            Self::Pascal => "Pascal",
+            Self::ClassicBasic => "Classic BASIC",
+            Self::VbNet => "VB.NET",
+            Self::Groovy4 => "Groovy 4",
+            Self::ObjectiveC2 => "Objective-C 2.0",
+            Self::D2 => "D 2",
+            Self::Crystal1 => "Crystal 1",
+            Self::Elm019 => "Elm 0.19",
+            Self::Racket8 => "Racket 8",
+            Self::AnsiCommonLisp => "ANSI Common Lisp",
+            Self::R7rs => "R7RS",
+            Self::IsoProlog => "ISO Prolog",
+            Self::Sql2016 => "SQL:2016",
+            Self::Matlab => "MATLAB",
+            Self::Solidity08 => "Solidity 0.8",
+            Self::Html5 => "HTML5",
+            Self::Css3 => "CSS3",
+            Self::Xml10 => "XML 1.0",
+            Self::CommonMark => "CommonMark",
+            Self::Latex2e => "LaTeX2e",
+            Self::Brainfuck => "Brainfuck",
+            Self::Lolcode12 => "LOLCODE 1.2",
+            Self::Befunge93 => "Befunge-93",
+            Self::Apl => "APL",
+            Self::Algol60 => "ALGOL 60",
+        }
+    }
+}
+
+impl core::fmt::Display for LanguageVersionDialect {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        f.write_str(self.as_str())
+    }
+}
+
 #[derive(Debug, Clone, Copy)]
 pub struct ProgrammingLanguage {
     pub name: ProgrammingLanguageName,
@@ -146,7 +310,7 @@ pub struct ProgrammingLanguage {
 
 #[derive(Debug, Clone, Copy)]
 pub struct LanguageVersion {
-    pub label: &'static str,  // "C++98", "C++20", "Python 3", etc.
+    pub label: LanguageVersionDialect,
     pub syntax: &'static str, // the actual source snippet
 }
 
@@ -156,7 +320,7 @@ pub static PROGRAMMING_LANGUAGES: &[ProgrammingLanguage] = &[
         extensions: &["c", "h"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "C99",
+            label: LanguageVersionDialect::C99,
             syntax: r#"#include <stdio.h>
 
 int main(void) {
@@ -171,7 +335,7 @@ int main(void) {
         categories: &[Compiled],
         versions: &[
             LanguageVersion {
-                label: "C++98",
+                label: LanguageVersionDialect::Cpp98,
                 syntax: r#"#include <iostream>
 
 int main() {
@@ -180,7 +344,7 @@ int main() {
 }"#,
             },
             LanguageVersion {
-                label: "C++20",
+                label: LanguageVersionDialect::Cpp20,
                 syntax: r#"#include <iostream>
 
 int main() {
@@ -194,7 +358,7 @@ int main() {
         extensions: &["cs"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "C# 10",
+            label: LanguageVersionDialect::CSharp10,
             syntax: r#"Console.WriteLine("Hello, World!");"#,
         }],
     },
@@ -204,7 +368,7 @@ int main() {
         categories: &[Compiled],
         versions: &[
             LanguageVersion {
-                label: "Java 17",
+                label: LanguageVersionDialect::Java17,
                 syntax: r#"class Main {
     public static void main(String[] args) {
         System.out.println("Hello, World!");
@@ -212,7 +376,7 @@ int main() {
 }"#,
             },
             LanguageVersion {
-                label: "Java 25 (compact source file)",
+                label: LanguageVersionDialect::Java25CompactSourceFile,
                 syntax: r#"void main() {
     IO.println("Hello, World!");
 }"#,
@@ -225,11 +389,11 @@ int main() {
         categories: &[Scripting],
         versions: &[
             LanguageVersion {
-                label: "Python 2",
+                label: LanguageVersionDialect::Python2,
                 syntax: r#"print "Hello, World!""#,
             },
             LanguageVersion {
-                label: "Python 3",
+                label: LanguageVersionDialect::Python3,
                 syntax: r#"print("Hello, World!")"#,
             },
         ],
@@ -239,7 +403,7 @@ int main() {
         extensions: &["js", "mjs", "cjs"],
         categories: &[Scripting],
         versions: &[LanguageVersion {
-            label: "ES2020",
+            label: LanguageVersionDialect::JavaScriptEs2020,
             syntax: r#"console.log("Hello, World!");"#,
         }],
     },
@@ -248,7 +412,7 @@ int main() {
         extensions: &["ts"],
         categories: &[Scripting, Compiled],
         versions: &[LanguageVersion {
-            label: "TypeScript 5",
+            label: LanguageVersionDialect::TypeScript5,
             syntax: r#"const greeting: string = "Hello, World!";
 console.log(greeting);"#,
         }],
@@ -258,7 +422,7 @@ console.log(greeting);"#,
         extensions: &["rs"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "Rust 2021",
+            label: LanguageVersionDialect::Rust2021,
             syntax: r#"fn main() {
     println!("Hello, World!");
 }"#,
@@ -269,7 +433,7 @@ console.log(greeting);"#,
         extensions: &["go"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "Go 1",
+            label: LanguageVersionDialect::Go1,
             syntax: r#"package main
 
 import "fmt"
@@ -284,7 +448,7 @@ func main() {
         extensions: &["rb"],
         categories: &[Scripting],
         versions: &[LanguageVersion {
-            label: "Ruby 3",
+            label: LanguageVersionDialect::Ruby3,
             syntax: r#"puts "Hello, World!""#,
         }],
     },
@@ -293,7 +457,7 @@ func main() {
         extensions: &["php"],
         categories: &[Scripting],
         versions: &[LanguageVersion {
-            label: "PHP 8",
+            label: LanguageVersionDialect::Php8,
             syntax: r#"<?php
 echo "Hello, World!\n";"#,
         }],
@@ -303,7 +467,7 @@ echo "Hello, World!\n";"#,
         extensions: &["swift"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "Swift 5",
+            label: LanguageVersionDialect::Swift5,
             syntax: r#"print("Hello, World!")"#,
         }],
     },
@@ -312,7 +476,7 @@ echo "Hello, World!\n";"#,
         extensions: &["kt", "kts"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "Kotlin 1.9",
+            label: LanguageVersionDialect::Kotlin19,
             syntax: r#"fun main() {
     println("Hello, World!")
 }"#,
@@ -323,7 +487,7 @@ echo "Hello, World!\n";"#,
         extensions: &["scala", "sc"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "Scala 3",
+            label: LanguageVersionDialect::Scala3,
             syntax: r#"@main def hello(): Unit =
     println("Hello, World!")"#,
         }],
@@ -333,7 +497,7 @@ echo "Hello, World!\n";"#,
         extensions: &["pl", "pm"],
         categories: &[Scripting],
         versions: &[LanguageVersion {
-            label: "Perl 5",
+            label: LanguageVersionDialect::Perl5,
             syntax: r#"print "Hello, World!\n";"#,
         }],
     },
@@ -342,7 +506,7 @@ echo "Hello, World!\n";"#,
         extensions: &["lua"],
         categories: &[Scripting],
         versions: &[LanguageVersion {
-            label: "Lua 5.4",
+            label: LanguageVersionDialect::Lua54,
             syntax: r#"print("Hello, World!")"#,
         }],
     },
@@ -351,7 +515,7 @@ echo "Hello, World!\n";"#,
         extensions: &["r", "R"],
         categories: &[Scripting],
         versions: &[LanguageVersion {
-            label: "R 4",
+            label: LanguageVersionDialect::R4,
             syntax: r#"cat("Hello, World!\n")"#,
         }],
     },
@@ -360,7 +524,7 @@ echo "Hello, World!\n";"#,
         extensions: &["dart"],
         categories: &[Compiled, Scripting],
         versions: &[LanguageVersion {
-            label: "Dart 3",
+            label: LanguageVersionDialect::Dart3,
             syntax: r"void main() {
     print('Hello, World!');
 }",
@@ -371,7 +535,7 @@ echo "Hello, World!\n";"#,
         extensions: &["ex", "exs"],
         categories: &[Compiled, Scripting],
         versions: &[LanguageVersion {
-            label: "Elixir 1",
+            label: LanguageVersionDialect::Elixir1,
             syntax: r#"IO.puts("Hello, World!")"#,
         }],
     },
@@ -380,7 +544,7 @@ echo "Hello, World!\n";"#,
         extensions: &["erl", "hrl"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "Erlang/OTP",
+            label: LanguageVersionDialect::ErlangOtp,
             syntax: r#"-module(hello).
 -export([main/0]).
 
@@ -393,7 +557,7 @@ main() ->
         extensions: &["hs", "lhs"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "Haskell 2010",
+            label: LanguageVersionDialect::Haskell2010,
             syntax: r#"main :: IO ()
 main = putStrLn "Hello, World!""#,
         }],
@@ -403,7 +567,7 @@ main = putStrLn "Hello, World!""#,
         extensions: &["clj", "cljs", "cljc"],
         categories: &[Compiled, Scripting],
         versions: &[LanguageVersion {
-            label: "Clojure 1.11",
+            label: LanguageVersionDialect::Clojure111,
             syntax: r#"(println "Hello, World!")"#,
         }],
     },
@@ -412,7 +576,7 @@ main = putStrLn "Hello, World!""#,
         extensions: &["fs", "fsx"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "F# 8",
+            label: LanguageVersionDialect::FSharp8,
             syntax: r#"printfn "Hello, World!""#,
         }],
     },
@@ -421,7 +585,7 @@ main = putStrLn "Hello, World!""#,
         extensions: &["ml", "mli"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "OCaml 5",
+            label: LanguageVersionDialect::OCaml5,
             syntax: r#"let () = print_endline "Hello, World!""#,
         }],
     },
@@ -430,7 +594,7 @@ main = putStrLn "Hello, World!""#,
         extensions: &["zig"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "Zig 0.13",
+            label: LanguageVersionDialect::Zig013,
             syntax: r#"const std = @import("std");
 
 pub fn main() !void {
@@ -443,7 +607,7 @@ pub fn main() !void {
         extensions: &["nim"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "Nim 2",
+            label: LanguageVersionDialect::Nim2,
             syntax: r#"echo "Hello, World!""#,
         }],
     },
@@ -452,7 +616,7 @@ pub fn main() !void {
         extensions: &["jl"],
         categories: &[Compiled, Scripting],
         versions: &[LanguageVersion {
-            label: "Julia 1.10",
+            label: LanguageVersionDialect::Julia110,
             syntax: r#"println("Hello, World!")"#,
         }],
     },
@@ -461,7 +625,7 @@ pub fn main() !void {
         extensions: &["sh", "bash"],
         categories: &[Scripting],
         versions: &[LanguageVersion {
-            label: "POSIX shell",
+            label: LanguageVersionDialect::PosixShell,
             syntax: r#"echo "Hello, World!""#,
         }],
     },
@@ -470,7 +634,7 @@ pub fn main() !void {
         extensions: &["ps1", "psm1"],
         categories: &[Scripting],
         versions: &[LanguageVersion {
-            label: "PowerShell 7",
+            label: LanguageVersionDialect::PowerShell7,
             syntax: r#"Write-Host "Hello, World!""#,
         }],
     },
@@ -479,7 +643,7 @@ pub fn main() !void {
         extensions: &["asm", "s"],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
-            label: "x86-64 (Linux syscalls)",
+            label: LanguageVersionDialect::X8664LinuxSyscalls,
             syntax: r#"section .data
     msg db "Hello, World!", 0x0a
     len equ $ - msg
@@ -503,7 +667,7 @@ _start:
         extensions: &["f", "f90", "f95"],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
-            label: "Fortran 90",
+            label: LanguageVersionDialect::Fortran90,
             syntax: r#"program hello
     print *, "Hello, World!"
 end program hello"#,
@@ -514,7 +678,7 @@ end program hello"#,
         extensions: &["cob", "cbl"],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
-            label: "COBOL 85",
+            label: LanguageVersionDialect::Cobol85,
             syntax: r#"       IDENTIFICATION DIVISION.
        PROGRAM-ID. HELLO.
        PROCEDURE DIVISION.
@@ -527,7 +691,7 @@ end program hello"#,
         extensions: &["adb", "ads"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "Ada 2012",
+            label: LanguageVersionDialect::Ada2012,
             syntax: r#"with Ada.Text_IO; use Ada.Text_IO;
 
 procedure Hello is
@@ -541,7 +705,7 @@ end Hello;"#,
         extensions: &["pas"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "Pascal",
+            label: LanguageVersionDialect::Pascal,
             syntax: r"program Hello;
 begin
     writeln('Hello, World!');
@@ -553,7 +717,7 @@ end.",
         extensions: &["bas"],
         categories: &[Scripting, Historical],
         versions: &[LanguageVersion {
-            label: "Classic BASIC",
+            label: LanguageVersionDialect::ClassicBasic,
             syntax: r#"10 PRINT "Hello, World!"
 20 END"#,
         }],
@@ -563,7 +727,7 @@ end.",
         extensions: &["vb"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "VB.NET",
+            label: LanguageVersionDialect::VbNet,
             syntax: r#"Module Program
     Sub Main()
         Console.WriteLine("Hello, World!")
@@ -576,7 +740,7 @@ End Module"#,
         extensions: &["groovy", "gvy"],
         categories: &[Scripting, Compiled],
         versions: &[LanguageVersion {
-            label: "Groovy 4",
+            label: LanguageVersionDialect::Groovy4,
             syntax: r#"println "Hello, World!""#,
         }],
     },
@@ -585,7 +749,7 @@ End Module"#,
         extensions: &["m", "mm"],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
-            label: "Objective-C 2.0",
+            label: LanguageVersionDialect::ObjectiveC2,
             syntax: r#"#import <Foundation/Foundation.h>
 
 int main() {
@@ -599,7 +763,7 @@ int main() {
         extensions: &["d"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "D 2",
+            label: LanguageVersionDialect::D2,
             syntax: r#"import std.stdio;
 
 void main() {
@@ -612,7 +776,7 @@ void main() {
         extensions: &["cr"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "Crystal 1",
+            label: LanguageVersionDialect::Crystal1,
             syntax: r#"puts "Hello, World!""#,
         }],
     },
@@ -621,7 +785,7 @@ void main() {
         extensions: &["elm"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "Elm 0.19",
+            label: LanguageVersionDialect::Elm019,
             syntax: r#"module Main exposing (main)
 
 import Html
@@ -635,7 +799,7 @@ main =
         extensions: &["rkt"],
         categories: &[Compiled, Scripting],
         versions: &[LanguageVersion {
-            label: "Racket 8",
+            label: LanguageVersionDialect::Racket8,
             syntax: r#"#lang racket
 (displayln "Hello, World!")"#,
         }],
@@ -645,7 +809,7 @@ main =
         extensions: &["lisp", "lsp", "cl"],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
-            label: "ANSI Common Lisp",
+            label: LanguageVersionDialect::AnsiCommonLisp,
             syntax: r#"(format t "Hello, World!~%")"#,
         }],
     },
@@ -654,7 +818,7 @@ main =
         extensions: &["scm", "ss"],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
-            label: "R7RS",
+            label: LanguageVersionDialect::R7rs,
             syntax: r#"(display "Hello, World!")
 (newline)"#,
         }],
@@ -664,7 +828,7 @@ main =
         extensions: &["pl", "pro"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "ISO Prolog",
+            label: LanguageVersionDialect::IsoProlog,
             syntax: r":- initialization(main).
 
 main :- write('Hello, World!'), nl, halt.",
@@ -675,7 +839,7 @@ main :- write('Hello, World!'), nl, halt.",
         extensions: &["sql"],
         categories: &[Scripting],
         versions: &[LanguageVersion {
-            label: "SQL:2016",
+            label: LanguageVersionDialect::Sql2016,
             syntax: r"SELECT 'Hello, World!' AS greeting;",
         }],
     },
@@ -684,7 +848,7 @@ main :- write('Hello, World!'), nl, halt.",
         extensions: &["m"],
         categories: &[Scripting],
         versions: &[LanguageVersion {
-            label: "MATLAB",
+            label: LanguageVersionDialect::Matlab,
             syntax: r"disp('Hello, World!')",
         }],
     },
@@ -693,7 +857,7 @@ main :- write('Hello, World!'), nl, halt.",
         extensions: &["sol"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
-            label: "Solidity 0.8",
+            label: LanguageVersionDialect::Solidity08,
             syntax: r#"// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
@@ -709,7 +873,7 @@ contract Hello {
         extensions: &["html", "htm"],
         categories: &[Markup],
         versions: &[LanguageVersion {
-            label: "HTML5",
+            label: LanguageVersionDialect::Html5,
             syntax: r"<!DOCTYPE html>
 <html>
   <body>
@@ -723,7 +887,7 @@ contract Hello {
         extensions: &["css"],
         categories: &[Markup],
         versions: &[LanguageVersion {
-            label: "CSS3",
+            label: LanguageVersionDialect::Css3,
             syntax: r#"body::before {
     content: "Hello, World!";
 }"#,
@@ -734,7 +898,7 @@ contract Hello {
         extensions: &["xml"],
         categories: &[Markup],
         versions: &[LanguageVersion {
-            label: "XML 1.0",
+            label: LanguageVersionDialect::Xml10,
             syntax: r#"<?xml version="1.0" encoding="UTF-8"?>
 <greeting>Hello, World!</greeting>"#,
         }],
@@ -744,7 +908,7 @@ contract Hello {
         extensions: &["md", "markdown"],
         categories: &[Markup],
         versions: &[LanguageVersion {
-            label: "CommonMark",
+            label: LanguageVersionDialect::CommonMark,
             syntax: r"# Hello, World!",
         }],
     },
@@ -753,7 +917,7 @@ contract Hello {
         extensions: &["tex"],
         categories: &[Markup],
         versions: &[LanguageVersion {
-            label: "LaTeX2e",
+            label: LanguageVersionDialect::Latex2e,
             syntax: r"\documentclass{article}
 \begin{document}
 Hello, World!
@@ -765,7 +929,7 @@ Hello, World!
         extensions: &["bf"],
         categories: &[Esolang],
         versions: &[LanguageVersion {
-            label: "Brainfuck",
+            label: LanguageVersionDialect::Brainfuck,
             syntax: r"++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
 ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.",
         }],
@@ -775,7 +939,7 @@ Hello, World!
         extensions: &["lol"],
         categories: &[Esolang],
         versions: &[LanguageVersion {
-            label: "LOLCODE 1.2",
+            label: LanguageVersionDialect::Lolcode12,
             syntax: r#"HAI 1.2
     VISIBLE "Hello, World!"
 KTHXBYE"#,
@@ -786,7 +950,7 @@ KTHXBYE"#,
         extensions: &["bf"],
         categories: &[Esolang],
         versions: &[LanguageVersion {
-            label: "Befunge-93",
+            label: LanguageVersionDialect::Befunge93,
             syntax: r#""!dlroW ,olleH">:#,_@"#,
         }],
     },
@@ -795,7 +959,7 @@ KTHXBYE"#,
         extensions: &["apl"],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
-            label: "APL",
+            label: LanguageVersionDialect::Apl,
             syntax: r"'Hello, World!'",
         }],
     },
@@ -804,10 +968,21 @@ KTHXBYE"#,
         extensions: &["alg"],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
-            label: "ALGOL 60",
+            label: LanguageVersionDialect::Algol60,
             syntax: r#"begin
     outstring(1, "Hello, World!\n")
 end"#,
         }],
     },
 ];
+
+pub fn hello_world_syntax_for(
+    _language: Option<ProgrammingLanguage>,
+    _dialect: Option<LanguageVersionDialect>,
+) {
+}
+
+#[must_use]
+pub fn get_all_programming_language_names() -> Vec<ProgrammingLanguageName> {
+    PROGRAMMING_LANGUAGES.iter().map(|lang| lang.name).collect()
+}

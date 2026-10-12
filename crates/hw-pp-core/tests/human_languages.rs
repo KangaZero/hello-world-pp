@@ -1,28 +1,38 @@
 use hw_pp_core::data::human_languages::{
-    DialectName, HumanLanguageError, HumanLanguageName, greeting_for, greetings_for,
+    DialectName, HumanLanguageError, HumanLanguageName, get_all_human_language_names,
+    hello_world_for,
 };
 
 #[test]
 fn english_american_hello_world() {
     assert_eq!(
-        greeting_for(HumanLanguageName::English, DialectName::AmericanEnglish),
+        hello_world_for(
+            Some(HumanLanguageName::English),
+            Some(DialectName::AmericanEnglish)
+        ),
         Ok("Hello, World!")
     );
 }
 
 #[test]
-fn kansai_japanese_greetings() {
+fn kansai_japanese_hello_world() {
     assert_eq!(
-        greetings_for(HumanLanguageName::Japanese, DialectName::KansaiJapanese),
-        Ok(&["こんにちは世界！", "まいど、世界！"][..])
+        hello_world_for(
+            Some(HumanLanguageName::Japanese),
+            Some(DialectName::KansaiJapanese)
+        ),
+        Ok("まいど、世界！")
     );
 }
 
 #[test]
-fn english_katakana_greetings() {
+fn english_katakana_hello_world() {
     assert_eq!(
-        greetings_for(HumanLanguageName::English, DialectName::EnglishKatakana),
-        Ok(&["ハローワールド", "ハーロ、ワルド"][..])
+        hello_world_for(
+            Some(HumanLanguageName::English),
+            Some(DialectName::EnglishKatakana)
+        ),
+        Ok("ハローワールド")
     );
 }
 
@@ -33,11 +43,17 @@ fn dialect_mismatch_for_language_errors() {
         dialect: DialectName::Mandarin,
     };
     assert_eq!(
-        greeting_for(HumanLanguageName::Spanish, DialectName::Mandarin),
+        hello_world_for(
+            Some(HumanLanguageName::Spanish),
+            Some(DialectName::Mandarin)
+        ),
         Err(expected)
     );
-    assert_eq!(
-        greetings_for(HumanLanguageName::Spanish, DialectName::Mandarin),
-        Err(expected)
-    );
+}
+
+#[test]
+fn all_human_language_names() {
+    let result = get_all_human_language_names();
+    assert!(result.contains(&HumanLanguageName::English));
+    assert!(result.len() > 20);
 }

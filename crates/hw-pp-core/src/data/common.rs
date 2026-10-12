@@ -1,4 +1,4 @@
-use super::human_languages::{DialectName, HumanLanguageName, greeting_for};
+use super::human_languages::{DialectName, HumanLanguageName, hello_world_for};
 use super::programming_languages::ProgrammingLanguageName;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -34,6 +34,6 @@ pub const DEFAULT_PROGRAMMING_LANGUAGE: ProgrammingLanguageName = ProgrammingLan
 /// Panics if the default language/dialect pair has no recorded greeting.
 #[must_use]
 pub fn default_greeting() -> &'static str {
-    greeting_for(DEFAULT_HUMAN_LANGUAGE, DEFAULT_DIALECT)
+    hello_world_for(Some(DEFAULT_HUMAN_LANGUAGE), Some(DEFAULT_DIALECT))
         .expect("default language/dialect must resolve to a greeting")
 }
