@@ -1,572 +1,994 @@
 use super::common::HumanLanguageCategory;
 use HumanLanguageCategory::{Constructed, Extinct, Natural, Signed};
+use thiserror::Error;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
+pub enum ScriptName {
+    #[default]
+    Latin,
+    Arabic,
+    Armenian,
+    Bengali,
+    Cyrillic,
+    Devanagari,
+    Georgian,
+    Greek,
+    Han,
+    SimplifiedChinese,
+    TraditionalChinese,
+    Hangul,
+    Hebrew,
+    Kanji,
+    Hiragana,
+    Katakana,
+    Piqad,
+    PersoArabic,
+    Tamil,
+    Telugu,
+    Thai,
+}
+
+impl ScriptName {
+    #[must_use]
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::Arabic => "Arabic",
+            Self::Armenian => "Armenian",
+            Self::Bengali => "Bengali",
+            Self::Cyrillic => "Cyrillic",
+            Self::Devanagari => "Devanagari",
+            Self::Georgian => "Georgian",
+            Self::Greek => "Greek",
+            Self::Han => "Han",
+            Self::SimplifiedChinese => "Simplified Chinese",
+            Self::TraditionalChinese => "Traditional Chinese",
+            Self::Hangul => "Hangul",
+            Self::Hebrew => "Hebrew",
+            Self::Kanji => "Kanji",
+            Self::Hiragana => "Hiragana",
+            Self::Katakana => "Katakana",
+            Self::Latin => "Latin",
+            Self::Piqad => "pIqaD",
+            Self::PersoArabic => "Perso-Arabic",
+            Self::Tamil => "Tamil",
+            Self::Telugu => "Telugu",
+            Self::Thai => "Thai",
+        }
+    }
+}
+
+impl core::fmt::Display for ScriptName {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        f.write_str(self.as_str())
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
+pub enum HumanLanguageName {
+    #[default]
+    English,
+    Chinese,
+    Spanish,
+    Hindi,
+    Arabic,
+    Bengali,
+    Portuguese,
+    Russian,
+    Japanese,
+    German,
+    French,
+    Italian,
+    Korean,
+    Turkish,
+    Vietnamese,
+    Polish,
+    Ukrainian,
+    Dutch,
+    Thai,
+    Greek,
+    Hebrew,
+    Swedish,
+    Indonesian,
+    Czech,
+    Finnish,
+    Danish,
+    Norwegian,
+    Hungarian,
+    Persian,
+    Swahili,
+    Romanian,
+    Tamil,
+    Telugu,
+    Armenian,
+    Georgian,
+    Yoruba,
+    Zulu,
+    Esperanto,
+    Lojban,
+    Klingon,
+    Latin,
+    Sanskrit,
+    AncientGreek,
+    AmericanSignLanguage,
+    BritishSignLanguage,
+}
+
+impl HumanLanguageName {
+    #[must_use]
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::English => "English",
+            Self::Chinese => "Chinese",
+            Self::Spanish => "Spanish",
+            Self::Hindi => "Hindi",
+            Self::Arabic => "Arabic",
+            Self::Bengali => "Bengali",
+            Self::Portuguese => "Portuguese",
+            Self::Russian => "Russian",
+            Self::Japanese => "Japanese",
+            Self::German => "German",
+            Self::French => "French",
+            Self::Italian => "Italian",
+            Self::Korean => "Korean",
+            Self::Turkish => "Turkish",
+            Self::Vietnamese => "Vietnamese",
+            Self::Polish => "Polish",
+            Self::Ukrainian => "Ukrainian",
+            Self::Dutch => "Dutch",
+            Self::Thai => "Thai",
+            Self::Greek => "Greek",
+            Self::Hebrew => "Hebrew",
+            Self::Swedish => "Swedish",
+            Self::Indonesian => "Indonesian",
+            Self::Czech => "Czech",
+            Self::Finnish => "Finnish",
+            Self::Danish => "Danish",
+            Self::Norwegian => "Norwegian",
+            Self::Hungarian => "Hungarian",
+            Self::Persian => "Persian",
+            Self::Swahili => "Swahili",
+            Self::Romanian => "Romanian",
+            Self::Tamil => "Tamil",
+            Self::Telugu => "Telugu",
+            Self::Armenian => "Armenian",
+            Self::Georgian => "Georgian",
+            Self::Yoruba => "Yoruba",
+            Self::Zulu => "Zulu",
+            Self::Esperanto => "Esperanto",
+            Self::Lojban => "Lojban",
+            Self::Klingon => "Klingon",
+            Self::Latin => "Latin",
+            Self::Sanskrit => "Sanskrit",
+            Self::AncientGreek => "Ancient Greek",
+            Self::AmericanSignLanguage => "American Sign Language",
+            Self::BritishSignLanguage => "British Sign Language",
+        }
+    }
+}
+
+impl core::fmt::Display for HumanLanguageName {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        f.write_str(self.as_str())
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
+pub enum DialectName {
+    #[default]
+    AmericanEnglish,
+    BritishEnglish,
+    AustralianEnglish,
+    EnglishKatakana,
+    EnglishCyrillic,
+    EnglishHangul,
+    Mandarin,
+    Cantonese,
+    Hokkien,
+    CastilianSpanish,
+    MexicanSpanish,
+    RioplatenseSpanish,
+    ModernStandardHindi,
+    ModernStandardArabic,
+    EgyptianArabic,
+    LevantineArabic,
+    StandardBengali,
+    BrazilianPortuguese,
+    EuropeanPortuguese,
+    StandardRussian,
+    StandardJapanese,
+    KansaiJapanese,
+    StandardGerman,
+    SwissGerman,
+    Bavarian,
+    MetropolitanFrench,
+    QuebecoisFrench,
+    StandardItalian,
+    SouthKorean,
+    NorthKorean,
+    IstanbulTurkish,
+    StandardVietnamese,
+    StandardPolish,
+    StandardUkrainian,
+    StandardDutch,
+    CentralThai,
+    ModernGreek,
+    ModernHebrew,
+    StandardSwedish,
+    StandardIndonesian,
+    StandardCzech,
+    StandardFinnish,
+    StandardDanish,
+    Bokmal,
+    Nynorsk,
+    StandardHungarian,
+    IranianPersian,
+    StandardSwahili,
+    StandardRomanian,
+    StandardTamil,
+    StandardTelugu,
+    EasternArmenian,
+    WesternArmenian,
+    StandardGeorgian,
+    StandardYoruba,
+    StandardZulu,
+    StandardEsperanto,
+    StandardLojban,
+    StandardKlingon,
+    ClassicalLatin,
+    ClassicalSanskrit,
+    AtticGreek,
+    Asl,
+    Bsl,
+}
+
+impl DialectName {
+    #[must_use]
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::AmericanEnglish => "American English",
+            Self::BritishEnglish => "British English",
+            Self::AustralianEnglish => "Australian English",
+            Self::EnglishKatakana => "English (Katakana)",
+            Self::EnglishCyrillic => "English (Cyrillic)",
+            Self::EnglishHangul => "English (Hangul)",
+            Self::Mandarin => "Mandarin",
+            Self::Cantonese => "Cantonese",
+            Self::Hokkien => "Hokkien",
+            Self::CastilianSpanish => "Castilian Spanish",
+            Self::MexicanSpanish => "Mexican Spanish",
+            Self::RioplatenseSpanish => "Rioplatense Spanish",
+            Self::ModernStandardHindi => "Modern Standard Hindi",
+            Self::ModernStandardArabic => "Modern Standard Arabic",
+            Self::EgyptianArabic => "Egyptian Arabic",
+            Self::LevantineArabic => "Levantine Arabic",
+            Self::StandardBengali => "Standard Bengali",
+            Self::BrazilianPortuguese => "Brazilian Portuguese",
+            Self::EuropeanPortuguese => "European Portuguese",
+            Self::StandardRussian => "Standard Russian",
+            Self::StandardJapanese => "Standard Japanese",
+            Self::KansaiJapanese => "Kansai Japanese",
+            Self::StandardGerman => "Standard German",
+            Self::SwissGerman => "Swiss German",
+            Self::Bavarian => "Bavarian",
+            Self::MetropolitanFrench => "Metropolitan French",
+            Self::QuebecoisFrench => "Québécois French",
+            Self::StandardItalian => "Standard Italian",
+            Self::SouthKorean => "South Korean",
+            Self::NorthKorean => "North Korean",
+            Self::IstanbulTurkish => "Istanbul Turkish",
+            Self::StandardVietnamese => "Standard Vietnamese",
+            Self::StandardPolish => "Standard Polish",
+            Self::StandardUkrainian => "Standard Ukrainian",
+            Self::StandardDutch => "Standard Dutch",
+            Self::CentralThai => "Central Thai",
+            Self::ModernGreek => "Modern Greek",
+            Self::ModernHebrew => "Modern Hebrew",
+            Self::StandardSwedish => "Standard Swedish",
+            Self::StandardIndonesian => "Standard Indonesian",
+            Self::StandardCzech => "Standard Czech",
+            Self::StandardFinnish => "Standard Finnish",
+            Self::StandardDanish => "Standard Danish",
+            Self::Bokmal => "Bokmål",
+            Self::Nynorsk => "Nynorsk",
+            Self::StandardHungarian => "Standard Hungarian",
+            Self::IranianPersian => "Iranian Persian",
+            Self::StandardSwahili => "Standard Swahili",
+            Self::StandardRomanian => "Standard Romanian",
+            Self::StandardTamil => "Standard Tamil",
+            Self::StandardTelugu => "Standard Telugu",
+            Self::EasternArmenian => "Eastern Armenian",
+            Self::WesternArmenian => "Western Armenian",
+            Self::StandardGeorgian => "Standard Georgian",
+            Self::StandardYoruba => "Standard Yoruba",
+            Self::StandardZulu => "Standard Zulu",
+            Self::StandardEsperanto => "Standard Esperanto",
+            Self::StandardLojban => "Standard Lojban",
+            Self::StandardKlingon => "Standard Klingon",
+            Self::ClassicalLatin => "Classical Latin",
+            Self::ClassicalSanskrit => "Classical Sanskrit",
+            Self::AtticGreek => "Attic Greek",
+            Self::Asl => "ASL",
+            Self::Bsl => "BSL",
+        }
+    }
+}
+
+impl core::fmt::Display for DialectName {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        f.write_str(self.as_str())
+    }
+}
 
 #[derive(Debug, Clone, Copy)]
 pub struct HumanLanguage {
-    pub name: &'static str,
+    pub name: HumanLanguageName,
     pub categories: &'static [HumanLanguageCategory],
-    pub scripts: &'static [&'static str], // scripts used by the language overall
+    pub scripts: &'static [ScriptName], // scripts used by the language overall
     pub dialects: &'static [Dialect],
 }
 
 #[derive(Debug, Clone, Copy)]
 pub struct Dialect {
-    pub label: &'static str,          // "Mandarin", "Cantonese", "ASL" vs "BSL"
-    pub script: Option<&'static str>, // this dialect's script, if it has a written form
-    pub hello_world: &'static str,
+    pub label: DialectName,            // "Mandarin", "Cantonese", "ASL" vs "BSL"
+    pub script: &'static [ScriptName], // this dialect's scripts; empty if no written form
+    pub hello_worlds: &'static [&'static str],
 }
 
 pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
     HumanLanguage {
-        name: "English",
+        name: HumanLanguageName::English,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[
+            ScriptName::Latin,
+            ScriptName::Katakana,
+            ScriptName::Cyrillic,
+            ScriptName::Hangul,
+        ],
         dialects: &[
             Dialect {
-                label: "American English",
-                script: Some("Latin"),
-                hello_world: "Hello, World!",
+                label: DialectName::AmericanEnglish,
+                script: &[ScriptName::Latin],
+                hello_worlds: &["Hello, World!"],
             },
             Dialect {
-                label: "British English",
-                script: Some("Latin"),
-                hello_world: "Hello, World!",
+                label: DialectName::BritishEnglish,
+                script: &[ScriptName::Latin],
+                hello_worlds: &["Hello, World!"],
             },
             Dialect {
-                label: "Australian English",
-                script: Some("Latin"),
-                hello_world: "G'day, World!",
+                label: DialectName::AustralianEnglish,
+                script: &[ScriptName::Latin],
+                hello_worlds: &["G'day, World!"],
+            },
+            Dialect {
+                label: DialectName::EnglishKatakana,
+                script: &[ScriptName::Katakana],
+                hello_worlds: &["ハローワールド", "ハーロ、ワルド"],
+            },
+            Dialect {
+                label: DialectName::EnglishCyrillic,
+                script: &[ScriptName::Cyrillic],
+                hello_worlds: &["Хелло, Ворлд"],
+            },
+            Dialect {
+                label: DialectName::EnglishHangul,
+                script: &[ScriptName::Hangul],
+                hello_worlds: &["헬로, 월드!"],
             },
         ],
     },
     HumanLanguage {
-        name: "Chinese",
+        name: HumanLanguageName::Chinese,
         categories: &[Natural],
-        scripts: &["Han", "Simplified Chinese", "Traditional Chinese"],
+        scripts: &[
+            ScriptName::Han,
+            ScriptName::SimplifiedChinese,
+            ScriptName::TraditionalChinese,
+        ],
         dialects: &[
             Dialect {
-                label: "Mandarin",
-                script: Some("Simplified Chinese"),
-                hello_world: "你好，世界！",
+                label: DialectName::Mandarin,
+                script: &[ScriptName::SimplifiedChinese],
+                hello_worlds: &["你好，世界！"],
             },
             Dialect {
-                label: "Cantonese",
-                script: Some("Traditional Chinese"),
-                hello_world: "哈囉，世界！",
+                label: DialectName::Cantonese,
+                script: &[ScriptName::TraditionalChinese],
+                hello_worlds: &["哈囉，世界！"],
             },
             Dialect {
-                label: "Hokkien",
-                script: Some("Traditional Chinese"),
-                hello_world: "汝好，世界！",
+                label: DialectName::Hokkien,
+                script: &[ScriptName::TraditionalChinese],
+                hello_worlds: &["汝好，世界！"],
             },
         ],
     },
     HumanLanguage {
-        name: "Spanish",
+        name: HumanLanguageName::Spanish,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[
             Dialect {
-                label: "Castilian Spanish",
-                script: Some("Latin"),
-                hello_world: "¡Hola, Mundo!",
+                label: DialectName::CastilianSpanish,
+                script: &[ScriptName::Latin],
+                hello_worlds: &["¡Hola, Mundo!"],
             },
             Dialect {
-                label: "Mexican Spanish",
-                script: Some("Latin"),
-                hello_world: "¡Hola, Mundo!",
+                label: DialectName::MexicanSpanish,
+                script: &[ScriptName::Latin],
+                hello_worlds: &["¡Hola, Mundo!"],
             },
             Dialect {
-                label: "Rioplatense Spanish",
-                script: Some("Latin"),
-                hello_world: "¡Hola, Mundo!",
+                label: DialectName::RioplatenseSpanish,
+                script: &[ScriptName::Latin],
+                hello_worlds: &["¡Hola, Mundo!"],
             },
         ],
     },
     HumanLanguage {
-        name: "Hindi",
+        name: HumanLanguageName::Hindi,
         categories: &[Natural],
-        scripts: &["Devanagari"],
+        scripts: &[ScriptName::Devanagari],
         dialects: &[Dialect {
-            label: "Modern Standard Hindi",
-            script: Some("Devanagari"),
-            hello_world: "नमस्ते दुनिया!",
+            label: DialectName::ModernStandardHindi,
+            script: &[ScriptName::Devanagari],
+            hello_worlds: &["नमस्ते दुनिया!"],
         }],
     },
     HumanLanguage {
-        name: "Arabic",
+        name: HumanLanguageName::Arabic,
         categories: &[Natural],
-        scripts: &["Arabic"],
+        scripts: &[ScriptName::Arabic],
         dialects: &[
             Dialect {
-                label: "Modern Standard Arabic",
-                script: Some("Arabic"),
-                hello_world: "مرحبا بالعالم!",
+                label: DialectName::ModernStandardArabic,
+                script: &[ScriptName::Arabic],
+                hello_worlds: &["مرحبا بالعالم!"],
             },
             Dialect {
-                label: "Egyptian Arabic",
-                script: Some("Arabic"),
-                hello_world: "أهلاً بالعالم!",
+                label: DialectName::EgyptianArabic,
+                script: &[ScriptName::Arabic],
+                hello_worlds: &["أهلاً بالعالم!"],
             },
             Dialect {
-                label: "Levantine Arabic",
-                script: Some("Arabic"),
-                hello_world: "مرحبا بالعالم!",
+                label: DialectName::LevantineArabic,
+                script: &[ScriptName::Arabic],
+                hello_worlds: &["مرحبا بالعالم!"],
             },
         ],
     },
     HumanLanguage {
-        name: "Bengali",
+        name: HumanLanguageName::Bengali,
         categories: &[Natural],
-        scripts: &["Bengali"],
+        scripts: &[ScriptName::Bengali],
         dialects: &[Dialect {
-            label: "Standard Bengali",
-            script: Some("Bengali"),
-            hello_world: "হ্যালো, বিশ্ব!",
+            label: DialectName::StandardBengali,
+            script: &[ScriptName::Bengali],
+            hello_worlds: &["হ্যালো, বিশ্ব!"],
         }],
     },
     HumanLanguage {
-        name: "Portuguese",
+        name: HumanLanguageName::Portuguese,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[
             Dialect {
-                label: "Brazilian Portuguese",
-                script: Some("Latin"),
-                hello_world: "Olá, Mundo!",
+                label: DialectName::BrazilianPortuguese,
+                script: &[ScriptName::Latin],
+                hello_worlds: &["Olá, Mundo!"],
             },
             Dialect {
-                label: "European Portuguese",
-                script: Some("Latin"),
-                hello_world: "Olá, Mundo!",
+                label: DialectName::EuropeanPortuguese,
+                script: &[ScriptName::Latin],
+                hello_worlds: &["Olá, Mundo!"],
             },
         ],
     },
     HumanLanguage {
-        name: "Russian",
+        name: HumanLanguageName::Russian,
         categories: &[Natural],
-        scripts: &["Cyrillic"],
+        scripts: &[ScriptName::Cyrillic],
         dialects: &[Dialect {
-            label: "Standard Russian",
-            script: Some("Cyrillic"),
-            hello_world: "Привет, мир!",
+            label: DialectName::StandardRussian,
+            script: &[ScriptName::Cyrillic],
+            hello_worlds: &["Привет, мир!"],
         }],
     },
     HumanLanguage {
-        name: "Japanese",
+        name: HumanLanguageName::Japanese,
         categories: &[Natural],
-        scripts: &["Kanji", "Hiragana", "Katakana"],
+        scripts: &[
+            ScriptName::Kanji,
+            ScriptName::Hiragana,
+            ScriptName::Katakana,
+        ],
         dialects: &[
             Dialect {
-                label: "Standard Japanese",
-                script: Some("Kanji, Hiragana"),
-                hello_world: "こんにちは世界！",
+                label: DialectName::StandardJapanese,
+                script: &[ScriptName::Kanji, ScriptName::Hiragana],
+                hello_worlds: &["こんにちは世界！"],
             },
             Dialect {
-                label: "Kansai Japanese",
-                script: Some("Kanji, Hiragana"),
-                hello_world: "こんにちは世界！",
+                label: DialectName::KansaiJapanese,
+                script: &[ScriptName::Kanji, ScriptName::Hiragana],
+                hello_worlds: &["こんにちは世界！", "まいど、世界！"],
             },
         ],
     },
     HumanLanguage {
-        name: "German",
+        name: HumanLanguageName::German,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[
             Dialect {
-                label: "Standard German",
-                script: Some("Latin"),
-                hello_world: "Hallo, Welt!",
+                label: DialectName::StandardGerman,
+                script: &[ScriptName::Latin],
+                hello_worlds: &["Hallo, Welt!"],
             },
             Dialect {
-                label: "Swiss German",
-                script: Some("Latin"),
-                hello_world: "Hallo, Wält!",
+                label: DialectName::SwissGerman,
+                script: &[ScriptName::Latin],
+                hello_worlds: &["Hallo, Wält!"],
             },
             Dialect {
-                label: "Bavarian",
-                script: Some("Latin"),
-                hello_world: "Servus, Wöd!",
+                label: DialectName::Bavarian,
+                script: &[ScriptName::Latin],
+                hello_worlds: &["Servus, Wöd!"],
             },
         ],
     },
     HumanLanguage {
-        name: "French",
+        name: HumanLanguageName::French,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[
             Dialect {
-                label: "Metropolitan French",
-                script: Some("Latin"),
-                hello_world: "Bonjour le monde!",
+                label: DialectName::MetropolitanFrench,
+                script: &[ScriptName::Latin],
+                hello_worlds: &["Bonjour le monde!"],
             },
             Dialect {
-                label: "Québécois French",
-                script: Some("Latin"),
-                hello_world: "Bonjour le monde!",
+                label: DialectName::QuebecoisFrench,
+                script: &[ScriptName::Latin],
+                hello_worlds: &["Bonjour le monde!"],
             },
         ],
     },
     HumanLanguage {
-        name: "Italian",
+        name: HumanLanguageName::Italian,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
-            label: "Standard Italian",
-            script: Some("Latin"),
-            hello_world: "Ciao, mondo!",
+            label: DialectName::StandardItalian,
+            script: &[ScriptName::Latin],
+            hello_worlds: &["Ciao, mondo!"],
         }],
     },
     HumanLanguage {
-        name: "Korean",
+        name: HumanLanguageName::Korean,
         categories: &[Natural],
-        scripts: &["Hangul"],
+        scripts: &[ScriptName::Hangul],
         dialects: &[
             Dialect {
-                label: "South Korean",
-                script: Some("Hangul"),
-                hello_world: "안녕하세요, 세계!",
+                label: DialectName::SouthKorean,
+                script: &[ScriptName::Hangul],
+                hello_worlds: &["안녕하세요, 세계!"],
             },
             Dialect {
-                label: "North Korean",
-                script: Some("Hangul"),
-                hello_world: "안녕하세요, 세계!",
+                label: DialectName::NorthKorean,
+                script: &[ScriptName::Hangul],
+                hello_worlds: &["안녕하세요, 세계!"],
             },
         ],
     },
     HumanLanguage {
-        name: "Turkish",
+        name: HumanLanguageName::Turkish,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
-            label: "Istanbul Turkish",
-            script: Some("Latin"),
-            hello_world: "Merhaba, Dünya!",
+            label: DialectName::IstanbulTurkish,
+            script: &[ScriptName::Latin],
+            hello_worlds: &["Merhaba, Dünya!"],
         }],
     },
     HumanLanguage {
-        name: "Vietnamese",
+        name: HumanLanguageName::Vietnamese,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
-            label: "Standard Vietnamese",
-            script: Some("Latin"),
-            hello_world: "Xin chào, thế giới!",
+            label: DialectName::StandardVietnamese,
+            script: &[ScriptName::Latin],
+            hello_worlds: &["Xin chào, thế giới!"],
         }],
     },
     HumanLanguage {
-        name: "Polish",
+        name: HumanLanguageName::Polish,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
-            label: "Standard Polish",
-            script: Some("Latin"),
-            hello_world: "Witaj, świecie!",
+            label: DialectName::StandardPolish,
+            script: &[ScriptName::Latin],
+            hello_worlds: &["Witaj, świecie!"],
         }],
     },
     HumanLanguage {
-        name: "Ukrainian",
+        name: HumanLanguageName::Ukrainian,
         categories: &[Natural],
-        scripts: &["Cyrillic"],
+        scripts: &[ScriptName::Cyrillic],
         dialects: &[Dialect {
-            label: "Standard Ukrainian",
-            script: Some("Cyrillic"),
-            hello_world: "Привіт, світе!",
+            label: DialectName::StandardUkrainian,
+            script: &[ScriptName::Cyrillic],
+            hello_worlds: &["Привіт, світе!"],
         }],
     },
     HumanLanguage {
-        name: "Dutch",
+        name: HumanLanguageName::Dutch,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
-            label: "Standard Dutch",
-            script: Some("Latin"),
-            hello_world: "Hallo, wereld!",
+            label: DialectName::StandardDutch,
+            script: &[ScriptName::Latin],
+            hello_worlds: &["Hallo, wereld!"],
         }],
     },
     HumanLanguage {
-        name: "Thai",
+        name: HumanLanguageName::Thai,
         categories: &[Natural],
-        scripts: &["Thai"],
+        scripts: &[ScriptName::Thai],
         dialects: &[Dialect {
-            label: "Central Thai",
-            script: Some("Thai"),
-            hello_world: "สวัสดีชาวโลก!",
+            label: DialectName::CentralThai,
+            script: &[ScriptName::Thai],
+            hello_worlds: &["สวัสดีชาวโลก!"],
         }],
     },
     HumanLanguage {
-        name: "Greek",
+        name: HumanLanguageName::Greek,
         categories: &[Natural],
-        scripts: &["Greek"],
+        scripts: &[ScriptName::Greek],
         dialects: &[Dialect {
-            label: "Modern Greek",
-            script: Some("Greek"),
-            hello_world: "Γεια σου, Κόσμε!",
+            label: DialectName::ModernGreek,
+            script: &[ScriptName::Greek],
+            hello_worlds: &["Γεια σου, Κόσμε!"],
         }],
     },
     HumanLanguage {
-        name: "Hebrew",
+        name: HumanLanguageName::Hebrew,
         categories: &[Natural],
-        scripts: &["Hebrew"],
+        scripts: &[ScriptName::Hebrew],
         dialects: &[Dialect {
-            label: "Modern Hebrew",
-            script: Some("Hebrew"),
-            hello_world: "שלום, עולם!",
+            label: DialectName::ModernHebrew,
+            script: &[ScriptName::Hebrew],
+            hello_worlds: &["שלום, עולם!"],
         }],
     },
     HumanLanguage {
-        name: "Swedish",
+        name: HumanLanguageName::Swedish,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
-            label: "Standard Swedish",
-            script: Some("Latin"),
-            hello_world: "Hej, världen!",
+            label: DialectName::StandardSwedish,
+            script: &[ScriptName::Latin],
+            hello_worlds: &["Hej, världen!"],
         }],
     },
     HumanLanguage {
-        name: "Indonesian",
+        name: HumanLanguageName::Indonesian,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
-            label: "Standard Indonesian",
-            script: Some("Latin"),
-            hello_world: "Halo, Dunia!",
+            label: DialectName::StandardIndonesian,
+            script: &[ScriptName::Latin],
+            hello_worlds: &["Halo, Dunia!"],
         }],
     },
     HumanLanguage {
-        name: "Czech",
+        name: HumanLanguageName::Czech,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
-            label: "Standard Czech",
-            script: Some("Latin"),
-            hello_world: "Ahoj, světe!",
+            label: DialectName::StandardCzech,
+            script: &[ScriptName::Latin],
+            hello_worlds: &["Ahoj, světe!"],
         }],
     },
     HumanLanguage {
-        name: "Finnish",
+        name: HumanLanguageName::Finnish,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
-            label: "Standard Finnish",
-            script: Some("Latin"),
-            hello_world: "Hei, maailma!",
+            label: DialectName::StandardFinnish,
+            script: &[ScriptName::Latin],
+            hello_worlds: &["Hei, maailma!"],
         }],
     },
     HumanLanguage {
-        name: "Danish",
+        name: HumanLanguageName::Danish,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
-            label: "Standard Danish",
-            script: Some("Latin"),
-            hello_world: "Hej, verden!",
+            label: DialectName::StandardDanish,
+            script: &[ScriptName::Latin],
+            hello_worlds: &["Hej, verden!"],
         }],
     },
     HumanLanguage {
-        name: "Norwegian",
+        name: HumanLanguageName::Norwegian,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[
             Dialect {
-                label: "Bokmål",
-                script: Some("Latin"),
-                hello_world: "Hei, verden!",
+                label: DialectName::Bokmal,
+                script: &[ScriptName::Latin],
+                hello_worlds: &["Hei, verden!"],
             },
             Dialect {
-                label: "Nynorsk",
-                script: Some("Latin"),
-                hello_world: "Hei, verda!",
+                label: DialectName::Nynorsk,
+                script: &[ScriptName::Latin],
+                hello_worlds: &["Hei, verda!"],
             },
         ],
     },
     HumanLanguage {
-        name: "Hungarian",
+        name: HumanLanguageName::Hungarian,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
-            label: "Standard Hungarian",
-            script: Some("Latin"),
-            hello_world: "Helló, világ!",
+            label: DialectName::StandardHungarian,
+            script: &[ScriptName::Latin],
+            hello_worlds: &["Helló, világ!"],
         }],
     },
     HumanLanguage {
-        name: "Persian",
+        name: HumanLanguageName::Persian,
         categories: &[Natural],
-        scripts: &["Perso-Arabic"],
+        scripts: &[ScriptName::PersoArabic],
         dialects: &[Dialect {
-            label: "Iranian Persian",
-            script: Some("Perso-Arabic"),
-            hello_world: "سلام دنیا!",
+            label: DialectName::IranianPersian,
+            script: &[ScriptName::PersoArabic],
+            hello_worlds: &["سلام دنیا!"],
         }],
     },
     HumanLanguage {
-        name: "Swahili",
+        name: HumanLanguageName::Swahili,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
-            label: "Standard Swahili",
-            script: Some("Latin"),
-            hello_world: "Habari, Dunia!",
+            label: DialectName::StandardSwahili,
+            script: &[ScriptName::Latin],
+            hello_worlds: &["Habari, Dunia!"],
         }],
     },
     HumanLanguage {
-        name: "Romanian",
+        name: HumanLanguageName::Romanian,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
-            label: "Standard Romanian",
-            script: Some("Latin"),
-            hello_world: "Salut, lume!",
+            label: DialectName::StandardRomanian,
+            script: &[ScriptName::Latin],
+            hello_worlds: &["Salut, lume!"],
         }],
     },
     HumanLanguage {
-        name: "Tamil",
+        name: HumanLanguageName::Tamil,
         categories: &[Natural],
-        scripts: &["Tamil"],
+        scripts: &[ScriptName::Tamil],
         dialects: &[Dialect {
-            label: "Standard Tamil",
-            script: Some("Tamil"),
-            hello_world: "வணக்கம், உலகம்!",
+            label: DialectName::StandardTamil,
+            script: &[ScriptName::Tamil],
+            hello_worlds: &["வணக்கம், உலகம்!"],
         }],
     },
     HumanLanguage {
-        name: "Telugu",
+        name: HumanLanguageName::Telugu,
         categories: &[Natural],
-        scripts: &["Telugu"],
+        scripts: &[ScriptName::Telugu],
         dialects: &[Dialect {
-            label: "Standard Telugu",
-            script: Some("Telugu"),
-            hello_world: "హలో, ప్రపంచం!",
+            label: DialectName::StandardTelugu,
+            script: &[ScriptName::Telugu],
+            hello_worlds: &["హలో, ప్రపంచం!"],
         }],
     },
     HumanLanguage {
-        name: "Armenian",
+        name: HumanLanguageName::Armenian,
         categories: &[Natural],
-        scripts: &["Armenian"],
+        scripts: &[ScriptName::Armenian],
         dialects: &[
             Dialect {
-                label: "Eastern Armenian",
-                script: Some("Armenian"),
-                hello_world: "Բարեւ, աշխարհ!",
+                label: DialectName::EasternArmenian,
+                script: &[ScriptName::Armenian],
+                hello_worlds: &["Բարեւ, աշխարհ!"],
             },
             Dialect {
-                label: "Western Armenian",
-                script: Some("Armenian"),
-                hello_world: "Բարեւ աշխարհ!",
+                label: DialectName::WesternArmenian,
+                script: &[ScriptName::Armenian],
+                hello_worlds: &["Բարեւ աշխարհ!"],
             },
         ],
     },
     HumanLanguage {
-        name: "Georgian",
+        name: HumanLanguageName::Georgian,
         categories: &[Natural],
-        scripts: &["Georgian"],
+        scripts: &[ScriptName::Georgian],
         dialects: &[Dialect {
-            label: "Standard Georgian",
-            script: Some("Georgian"),
-            hello_world: "გამარჯობა, მსოფლიო!",
+            label: DialectName::StandardGeorgian,
+            script: &[ScriptName::Georgian],
+            hello_worlds: &["გამარჯობა, მსოფლიო!"],
         }],
     },
     HumanLanguage {
-        name: "Yoruba",
+        name: HumanLanguageName::Yoruba,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
-            label: "Standard Yoruba",
-            script: Some("Latin"),
-            hello_world: "Ẹ n lẹ, Ayé!",
+            label: DialectName::StandardYoruba,
+            script: &[ScriptName::Latin],
+            hello_worlds: &["Ẹ n lẹ, Ayé!"],
         }],
     },
     HumanLanguage {
-        name: "Zulu",
+        name: HumanLanguageName::Zulu,
         categories: &[Natural],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
-            label: "Standard Zulu",
-            script: Some("Latin"),
-            hello_world: "Sawubona, Mhlaba!",
+            label: DialectName::StandardZulu,
+            script: &[ScriptName::Latin],
+            hello_worlds: &["Sawubona, Mhlaba!"],
         }],
     },
     HumanLanguage {
-        name: "Esperanto",
+        name: HumanLanguageName::Esperanto,
         categories: &[Constructed],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
-            label: "Standard Esperanto",
-            script: Some("Latin"),
-            hello_world: "Saluton, mondo!",
+            label: DialectName::StandardEsperanto,
+            script: &[ScriptName::Latin],
+            hello_worlds: &["Saluton, mondo!"],
         }],
     },
     HumanLanguage {
-        name: "Lojban",
+        name: HumanLanguageName::Lojban,
         categories: &[Constructed],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
-            label: "Standard Lojban",
-            script: Some("Latin"),
-            hello_world: "coi munje",
+            label: DialectName::StandardLojban,
+            script: &[ScriptName::Latin],
+            hello_worlds: &["coi munje"],
         }],
     },
     HumanLanguage {
-        name: "Klingon",
+        name: HumanLanguageName::Klingon,
         categories: &[Constructed],
-        scripts: &["Latin", "pIqaD"],
+        scripts: &[ScriptName::Latin, ScriptName::Piqad],
         dialects: &[Dialect {
-            label: "Standard Klingon",
-            script: Some("Latin"),
-            hello_world: "nuqneH, qo'!",
+            label: DialectName::StandardKlingon,
+            script: &[ScriptName::Latin],
+            hello_worlds: &["nuqneH, qo'!"],
         }],
     },
     HumanLanguage {
-        name: "Latin",
+        name: HumanLanguageName::Latin,
         categories: &[Extinct],
-        scripts: &["Latin"],
+        scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
-            label: "Classical Latin",
-            script: Some("Latin"),
-            hello_world: "Salve, munde!",
+            label: DialectName::ClassicalLatin,
+            script: &[ScriptName::Latin],
+            hello_worlds: &["Salve, munde!"],
         }],
     },
     HumanLanguage {
-        name: "Sanskrit",
+        name: HumanLanguageName::Sanskrit,
         categories: &[Natural],
-        scripts: &["Devanagari"],
+        scripts: &[ScriptName::Devanagari],
         dialects: &[Dialect {
-            label: "Classical Sanskrit",
-            script: Some("Devanagari"),
-            hello_world: "नमस्ते विश्व!",
+            label: DialectName::ClassicalSanskrit,
+            script: &[ScriptName::Devanagari],
+            hello_worlds: &["नमस्ते विश्व!"],
         }],
     },
     HumanLanguage {
-        name: "Ancient Greek",
+        name: HumanLanguageName::AncientGreek,
         categories: &[Extinct],
-        scripts: &["Greek"],
+        scripts: &[ScriptName::Greek],
         dialects: &[Dialect {
-            label: "Attic Greek",
-            script: Some("Greek"),
-            hello_world: "Χαῖρε, κόσμε!",
+            label: DialectName::AtticGreek,
+            script: &[ScriptName::Greek],
+            hello_worlds: &["Χαῖρε, κόσμε!"],
         }],
     },
     HumanLanguage {
-        name: "American Sign Language",
+        name: HumanLanguageName::AmericanSignLanguage,
         categories: &[Signed],
         scripts: &[],
         dialects: &[Dialect {
-            label: "ASL",
-            script: None,
-            hello_world: "HELLO WORLD",
+            label: DialectName::Asl,
+            script: &[],
+            hello_worlds: &["HELLO WORLD"],
         }],
     },
     HumanLanguage {
-        name: "British Sign Language",
+        name: HumanLanguageName::BritishSignLanguage,
         categories: &[Signed],
         scripts: &[],
         dialects: &[Dialect {
-            label: "BSL",
-            script: None,
-            hello_world: "HELLO WORLD",
+            label: DialectName::Bsl,
+            script: &[],
+            hello_worlds: &["HELLO WORLD"],
         }],
     },
 ];
+
+/// Errors that can occur while looking up localized greetings.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Error)]
+pub enum HumanLanguageError {
+    /// The language is not recorded in the dataset.
+    #[error("no greetings found for language {0}: not a recorded language")]
+    UnknownLanguage(HumanLanguageName),
+
+    /// The language is recorded, but the requested dialect does not belong to it.
+    #[error(
+        "no greetings found for {language}: dialect {dialect} is not recorded for this language"
+    )]
+    UnknownDialect {
+        /// The requested language.
+        language: HumanLanguageName,
+        /// The requested dialect.
+        dialect: DialectName,
+    },
+
+    /// The dialect has no recorded greetings.
+    #[error("no greeting recorded for {language} ({dialect})")]
+    NoGreeting {
+        /// The requested language.
+        language: HumanLanguageName,
+        /// The requested dialect.
+        dialect: DialectName,
+    },
+}
+
+/// Look up the canonical (first) localized greeting for a language and dialect.
+///
+/// # Errors
+///
+/// Returns a [`HumanLanguageError`] if the language is not recorded, if the
+/// dialect is not one of the language's dialects, or if the dialect has no
+/// recorded greeting.
+pub fn greeting_for(
+    language: HumanLanguageName,
+    dialect: DialectName,
+) -> Result<&'static str, HumanLanguageError> {
+    let lang = HUMAN_LANGUAGES
+        .iter()
+        .find(|lang| lang.name == language)
+        .ok_or(HumanLanguageError::UnknownLanguage(language))?;
+    let lang_dialect = lang
+        .dialects
+        .iter()
+        .find(|d| d.label == dialect)
+        .ok_or(HumanLanguageError::UnknownDialect { language, dialect })?;
+    lang_dialect
+        .hello_worlds
+        .first()
+        .copied()
+        .ok_or(HumanLanguageError::NoGreeting { language, dialect })
+}
+
+/// Look up all localized greetings for a language and dialect.
+///
+/// # Errors
+///
+/// Returns a [`HumanLanguageError`] if the language is not recorded, or if the
+/// dialect is not one of the language's dialects.
+pub fn greetings_for(
+    language: HumanLanguageName,
+    dialect: DialectName,
+) -> Result<&'static [&'static str], HumanLanguageError> {
+    let lang = HUMAN_LANGUAGES
+        .iter()
+        .find(|lang| lang.name == language)
+        .ok_or(HumanLanguageError::UnknownLanguage(language))?;
+    lang.dialects
+        .iter()
+        .find(|d| d.label == dialect)
+        .map(|d| d.hello_worlds)
+        .ok_or(HumanLanguageError::UnknownDialect { language, dialect })
+}

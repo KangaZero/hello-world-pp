@@ -1,9 +1,144 @@
 use super::common::ProgrammingLanguageCategory;
 use ProgrammingLanguageCategory::{Compiled, Esolang, Historical, Markup, Scripting};
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
+pub enum ProgrammingLanguageName {
+    #[default]
+    C,
+    Cpp,
+    CSharp,
+    Java,
+    Python,
+    JavaScript,
+    TypeScript,
+    Rust,
+    Go,
+    Ruby,
+    Php,
+    Swift,
+    Kotlin,
+    Scala,
+    Perl,
+    Lua,
+    R,
+    Dart,
+    Elixir,
+    Erlang,
+    Haskell,
+    Clojure,
+    FSharp,
+    OCaml,
+    Zig,
+    Nim,
+    Julia,
+    Bash,
+    PowerShell,
+    Assembly,
+    Fortran,
+    Cobol,
+    Ada,
+    Pascal,
+    Basic,
+    VisualBasic,
+    Groovy,
+    ObjectiveC,
+    D,
+    Crystal,
+    Elm,
+    Racket,
+    CommonLisp,
+    Scheme,
+    Prolog,
+    Sql,
+    Matlab,
+    Solidity,
+    Html,
+    Css,
+    Xml,
+    Markdown,
+    Latex,
+    Brainfuck,
+    Lolcode,
+    Befunge,
+    Apl,
+    Algol,
+}
+
+impl ProgrammingLanguageName {
+    #[must_use]
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::C => "C",
+            Self::Cpp => "C++",
+            Self::CSharp => "C#",
+            Self::Java => "Java",
+            Self::Python => "Python",
+            Self::JavaScript => "JavaScript",
+            Self::TypeScript => "TypeScript",
+            Self::Rust => "Rust",
+            Self::Go => "Go",
+            Self::Ruby => "Ruby",
+            Self::Php => "PHP",
+            Self::Swift => "Swift",
+            Self::Kotlin => "Kotlin",
+            Self::Scala => "Scala",
+            Self::Perl => "Perl",
+            Self::Lua => "Lua",
+            Self::R => "R",
+            Self::Dart => "Dart",
+            Self::Elixir => "Elixir",
+            Self::Erlang => "Erlang",
+            Self::Haskell => "Haskell",
+            Self::Clojure => "Clojure",
+            Self::FSharp => "F#",
+            Self::OCaml => "OCaml",
+            Self::Zig => "Zig",
+            Self::Nim => "Nim",
+            Self::Julia => "Julia",
+            Self::Bash => "Bash",
+            Self::PowerShell => "PowerShell",
+            Self::Assembly => "Assembly",
+            Self::Fortran => "Fortran",
+            Self::Cobol => "COBOL",
+            Self::Ada => "Ada",
+            Self::Pascal => "Pascal",
+            Self::Basic => "BASIC",
+            Self::VisualBasic => "Visual Basic",
+            Self::Groovy => "Groovy",
+            Self::ObjectiveC => "Objective-C",
+            Self::D => "D",
+            Self::Crystal => "Crystal",
+            Self::Elm => "Elm",
+            Self::Racket => "Racket",
+            Self::CommonLisp => "Common Lisp",
+            Self::Scheme => "Scheme",
+            Self::Prolog => "Prolog",
+            Self::Sql => "SQL",
+            Self::Matlab => "MATLAB",
+            Self::Solidity => "Solidity",
+            Self::Html => "HTML",
+            Self::Css => "CSS",
+            Self::Xml => "XML",
+            Self::Markdown => "Markdown",
+            Self::Latex => "LaTeX",
+            Self::Brainfuck => "Brainfuck",
+            Self::Lolcode => "LOLCODE",
+            Self::Befunge => "Befunge",
+            Self::Apl => "APL",
+            Self::Algol => "ALGOL",
+        }
+    }
+}
+
+impl core::fmt::Display for ProgrammingLanguageName {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        f.write_str(self.as_str())
+    }
+}
+
 #[derive(Debug, Clone, Copy)]
 pub struct ProgrammingLanguage {
-    pub name: &'static str,
+    pub name: ProgrammingLanguageName,
     pub extensions: &'static [&'static str],
     pub categories: &'static [ProgrammingLanguageCategory],
     pub versions: &'static [LanguageVersion],
@@ -17,7 +152,7 @@ pub struct LanguageVersion {
 
 pub static PROGRAMMING_LANGUAGES: &[ProgrammingLanguage] = &[
     ProgrammingLanguage {
-        name: "C",
+        name: ProgrammingLanguageName::C,
         extensions: &["c", "h"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -31,7 +166,7 @@ int main(void) {
         }],
     },
     ProgrammingLanguage {
-        name: "C++",
+        name: ProgrammingLanguageName::Cpp,
         extensions: &["cpp", "cc", "cxx", "hpp"],
         categories: &[Compiled],
         versions: &[
@@ -55,7 +190,7 @@ int main() {
         ],
     },
     ProgrammingLanguage {
-        name: "C#",
+        name: ProgrammingLanguageName::CSharp,
         extensions: &["cs"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -64,7 +199,7 @@ int main() {
         }],
     },
     ProgrammingLanguage {
-        name: "Java",
+        name: ProgrammingLanguageName::Java,
         extensions: &["java"],
         categories: &[Compiled],
         versions: &[
@@ -85,7 +220,7 @@ int main() {
         ],
     },
     ProgrammingLanguage {
-        name: "Python",
+        name: ProgrammingLanguageName::Python,
         extensions: &["py"],
         categories: &[Scripting],
         versions: &[
@@ -100,7 +235,7 @@ int main() {
         ],
     },
     ProgrammingLanguage {
-        name: "JavaScript",
+        name: ProgrammingLanguageName::JavaScript,
         extensions: &["js", "mjs", "cjs"],
         categories: &[Scripting],
         versions: &[LanguageVersion {
@@ -109,7 +244,7 @@ int main() {
         }],
     },
     ProgrammingLanguage {
-        name: "TypeScript",
+        name: ProgrammingLanguageName::TypeScript,
         extensions: &["ts"],
         categories: &[Scripting, Compiled],
         versions: &[LanguageVersion {
@@ -119,7 +254,7 @@ console.log(greeting);"#,
         }],
     },
     ProgrammingLanguage {
-        name: "Rust",
+        name: ProgrammingLanguageName::Rust,
         extensions: &["rs"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -130,7 +265,7 @@ console.log(greeting);"#,
         }],
     },
     ProgrammingLanguage {
-        name: "Go",
+        name: ProgrammingLanguageName::Go,
         extensions: &["go"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -145,7 +280,7 @@ func main() {
         }],
     },
     ProgrammingLanguage {
-        name: "Ruby",
+        name: ProgrammingLanguageName::Ruby,
         extensions: &["rb"],
         categories: &[Scripting],
         versions: &[LanguageVersion {
@@ -154,7 +289,7 @@ func main() {
         }],
     },
     ProgrammingLanguage {
-        name: "PHP",
+        name: ProgrammingLanguageName::Php,
         extensions: &["php"],
         categories: &[Scripting],
         versions: &[LanguageVersion {
@@ -164,7 +299,7 @@ echo "Hello, World!\n";"#,
         }],
     },
     ProgrammingLanguage {
-        name: "Swift",
+        name: ProgrammingLanguageName::Swift,
         extensions: &["swift"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -173,7 +308,7 @@ echo "Hello, World!\n";"#,
         }],
     },
     ProgrammingLanguage {
-        name: "Kotlin",
+        name: ProgrammingLanguageName::Kotlin,
         extensions: &["kt", "kts"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -184,7 +319,7 @@ echo "Hello, World!\n";"#,
         }],
     },
     ProgrammingLanguage {
-        name: "Scala",
+        name: ProgrammingLanguageName::Scala,
         extensions: &["scala", "sc"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -194,7 +329,7 @@ echo "Hello, World!\n";"#,
         }],
     },
     ProgrammingLanguage {
-        name: "Perl",
+        name: ProgrammingLanguageName::Perl,
         extensions: &["pl", "pm"],
         categories: &[Scripting],
         versions: &[LanguageVersion {
@@ -203,7 +338,7 @@ echo "Hello, World!\n";"#,
         }],
     },
     ProgrammingLanguage {
-        name: "Lua",
+        name: ProgrammingLanguageName::Lua,
         extensions: &["lua"],
         categories: &[Scripting],
         versions: &[LanguageVersion {
@@ -212,7 +347,7 @@ echo "Hello, World!\n";"#,
         }],
     },
     ProgrammingLanguage {
-        name: "R",
+        name: ProgrammingLanguageName::R,
         extensions: &["r", "R"],
         categories: &[Scripting],
         versions: &[LanguageVersion {
@@ -221,7 +356,7 @@ echo "Hello, World!\n";"#,
         }],
     },
     ProgrammingLanguage {
-        name: "Dart",
+        name: ProgrammingLanguageName::Dart,
         extensions: &["dart"],
         categories: &[Compiled, Scripting],
         versions: &[LanguageVersion {
@@ -232,7 +367,7 @@ echo "Hello, World!\n";"#,
         }],
     },
     ProgrammingLanguage {
-        name: "Elixir",
+        name: ProgrammingLanguageName::Elixir,
         extensions: &["ex", "exs"],
         categories: &[Compiled, Scripting],
         versions: &[LanguageVersion {
@@ -241,7 +376,7 @@ echo "Hello, World!\n";"#,
         }],
     },
     ProgrammingLanguage {
-        name: "Erlang",
+        name: ProgrammingLanguageName::Erlang,
         extensions: &["erl", "hrl"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -254,7 +389,7 @@ main() ->
         }],
     },
     ProgrammingLanguage {
-        name: "Haskell",
+        name: ProgrammingLanguageName::Haskell,
         extensions: &["hs", "lhs"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -264,7 +399,7 @@ main = putStrLn "Hello, World!""#,
         }],
     },
     ProgrammingLanguage {
-        name: "Clojure",
+        name: ProgrammingLanguageName::Clojure,
         extensions: &["clj", "cljs", "cljc"],
         categories: &[Compiled, Scripting],
         versions: &[LanguageVersion {
@@ -273,7 +408,7 @@ main = putStrLn "Hello, World!""#,
         }],
     },
     ProgrammingLanguage {
-        name: "F#",
+        name: ProgrammingLanguageName::FSharp,
         extensions: &["fs", "fsx"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -282,7 +417,7 @@ main = putStrLn "Hello, World!""#,
         }],
     },
     ProgrammingLanguage {
-        name: "OCaml",
+        name: ProgrammingLanguageName::OCaml,
         extensions: &["ml", "mli"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -291,7 +426,7 @@ main = putStrLn "Hello, World!""#,
         }],
     },
     ProgrammingLanguage {
-        name: "Zig",
+        name: ProgrammingLanguageName::Zig,
         extensions: &["zig"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -304,7 +439,7 @@ pub fn main() !void {
         }],
     },
     ProgrammingLanguage {
-        name: "Nim",
+        name: ProgrammingLanguageName::Nim,
         extensions: &["nim"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -313,7 +448,7 @@ pub fn main() !void {
         }],
     },
     ProgrammingLanguage {
-        name: "Julia",
+        name: ProgrammingLanguageName::Julia,
         extensions: &["jl"],
         categories: &[Compiled, Scripting],
         versions: &[LanguageVersion {
@@ -322,7 +457,7 @@ pub fn main() !void {
         }],
     },
     ProgrammingLanguage {
-        name: "Bash",
+        name: ProgrammingLanguageName::Bash,
         extensions: &["sh", "bash"],
         categories: &[Scripting],
         versions: &[LanguageVersion {
@@ -331,7 +466,7 @@ pub fn main() !void {
         }],
     },
     ProgrammingLanguage {
-        name: "PowerShell",
+        name: ProgrammingLanguageName::PowerShell,
         extensions: &["ps1", "psm1"],
         categories: &[Scripting],
         versions: &[LanguageVersion {
@@ -340,7 +475,7 @@ pub fn main() !void {
         }],
     },
     ProgrammingLanguage {
-        name: "Assembly",
+        name: ProgrammingLanguageName::Assembly,
         extensions: &["asm", "s"],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
@@ -364,7 +499,7 @@ _start:
         }],
     },
     ProgrammingLanguage {
-        name: "Fortran",
+        name: ProgrammingLanguageName::Fortran,
         extensions: &["f", "f90", "f95"],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
@@ -375,7 +510,7 @@ end program hello"#,
         }],
     },
     ProgrammingLanguage {
-        name: "COBOL",
+        name: ProgrammingLanguageName::Cobol,
         extensions: &["cob", "cbl"],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
@@ -388,7 +523,7 @@ end program hello"#,
         }],
     },
     ProgrammingLanguage {
-        name: "Ada",
+        name: ProgrammingLanguageName::Ada,
         extensions: &["adb", "ads"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -402,7 +537,7 @@ end Hello;"#,
         }],
     },
     ProgrammingLanguage {
-        name: "Pascal",
+        name: ProgrammingLanguageName::Pascal,
         extensions: &["pas"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -414,7 +549,7 @@ end.",
         }],
     },
     ProgrammingLanguage {
-        name: "BASIC",
+        name: ProgrammingLanguageName::Basic,
         extensions: &["bas"],
         categories: &[Scripting, Historical],
         versions: &[LanguageVersion {
@@ -424,7 +559,7 @@ end.",
         }],
     },
     ProgrammingLanguage {
-        name: "Visual Basic",
+        name: ProgrammingLanguageName::VisualBasic,
         extensions: &["vb"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -437,7 +572,7 @@ End Module"#,
         }],
     },
     ProgrammingLanguage {
-        name: "Groovy",
+        name: ProgrammingLanguageName::Groovy,
         extensions: &["groovy", "gvy"],
         categories: &[Scripting, Compiled],
         versions: &[LanguageVersion {
@@ -446,7 +581,7 @@ End Module"#,
         }],
     },
     ProgrammingLanguage {
-        name: "Objective-C",
+        name: ProgrammingLanguageName::ObjectiveC,
         extensions: &["m", "mm"],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
@@ -460,7 +595,7 @@ int main() {
         }],
     },
     ProgrammingLanguage {
-        name: "D",
+        name: ProgrammingLanguageName::D,
         extensions: &["d"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -473,7 +608,7 @@ void main() {
         }],
     },
     ProgrammingLanguage {
-        name: "Crystal",
+        name: ProgrammingLanguageName::Crystal,
         extensions: &["cr"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -482,7 +617,7 @@ void main() {
         }],
     },
     ProgrammingLanguage {
-        name: "Elm",
+        name: ProgrammingLanguageName::Elm,
         extensions: &["elm"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -496,7 +631,7 @@ main =
         }],
     },
     ProgrammingLanguage {
-        name: "Racket",
+        name: ProgrammingLanguageName::Racket,
         extensions: &["rkt"],
         categories: &[Compiled, Scripting],
         versions: &[LanguageVersion {
@@ -506,7 +641,7 @@ main =
         }],
     },
     ProgrammingLanguage {
-        name: "Common Lisp",
+        name: ProgrammingLanguageName::CommonLisp,
         extensions: &["lisp", "lsp", "cl"],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
@@ -515,7 +650,7 @@ main =
         }],
     },
     ProgrammingLanguage {
-        name: "Scheme",
+        name: ProgrammingLanguageName::Scheme,
         extensions: &["scm", "ss"],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
@@ -525,7 +660,7 @@ main =
         }],
     },
     ProgrammingLanguage {
-        name: "Prolog",
+        name: ProgrammingLanguageName::Prolog,
         extensions: &["pl", "pro"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -536,7 +671,7 @@ main :- write('Hello, World!'), nl, halt.",
         }],
     },
     ProgrammingLanguage {
-        name: "SQL",
+        name: ProgrammingLanguageName::Sql,
         extensions: &["sql"],
         categories: &[Scripting],
         versions: &[LanguageVersion {
@@ -545,7 +680,7 @@ main :- write('Hello, World!'), nl, halt.",
         }],
     },
     ProgrammingLanguage {
-        name: "MATLAB",
+        name: ProgrammingLanguageName::Matlab,
         extensions: &["m"],
         categories: &[Scripting],
         versions: &[LanguageVersion {
@@ -554,7 +689,7 @@ main :- write('Hello, World!'), nl, halt.",
         }],
     },
     ProgrammingLanguage {
-        name: "Solidity",
+        name: ProgrammingLanguageName::Solidity,
         extensions: &["sol"],
         categories: &[Compiled],
         versions: &[LanguageVersion {
@@ -570,7 +705,7 @@ contract Hello {
         }],
     },
     ProgrammingLanguage {
-        name: "HTML",
+        name: ProgrammingLanguageName::Html,
         extensions: &["html", "htm"],
         categories: &[Markup],
         versions: &[LanguageVersion {
@@ -584,7 +719,7 @@ contract Hello {
         }],
     },
     ProgrammingLanguage {
-        name: "CSS",
+        name: ProgrammingLanguageName::Css,
         extensions: &["css"],
         categories: &[Markup],
         versions: &[LanguageVersion {
@@ -595,7 +730,7 @@ contract Hello {
         }],
     },
     ProgrammingLanguage {
-        name: "XML",
+        name: ProgrammingLanguageName::Xml,
         extensions: &["xml"],
         categories: &[Markup],
         versions: &[LanguageVersion {
@@ -605,7 +740,7 @@ contract Hello {
         }],
     },
     ProgrammingLanguage {
-        name: "Markdown",
+        name: ProgrammingLanguageName::Markdown,
         extensions: &["md", "markdown"],
         categories: &[Markup],
         versions: &[LanguageVersion {
@@ -614,7 +749,7 @@ contract Hello {
         }],
     },
     ProgrammingLanguage {
-        name: "LaTeX",
+        name: ProgrammingLanguageName::Latex,
         extensions: &["tex"],
         categories: &[Markup],
         versions: &[LanguageVersion {
@@ -626,7 +761,7 @@ Hello, World!
         }],
     },
     ProgrammingLanguage {
-        name: "Brainfuck",
+        name: ProgrammingLanguageName::Brainfuck,
         extensions: &["bf"],
         categories: &[Esolang],
         versions: &[LanguageVersion {
@@ -636,7 +771,7 @@ Hello, World!
         }],
     },
     ProgrammingLanguage {
-        name: "LOLCODE",
+        name: ProgrammingLanguageName::Lolcode,
         extensions: &["lol"],
         categories: &[Esolang],
         versions: &[LanguageVersion {
@@ -647,7 +782,7 @@ KTHXBYE"#,
         }],
     },
     ProgrammingLanguage {
-        name: "Befunge",
+        name: ProgrammingLanguageName::Befunge,
         extensions: &["bf"],
         categories: &[Esolang],
         versions: &[LanguageVersion {
@@ -656,7 +791,7 @@ KTHXBYE"#,
         }],
     },
     ProgrammingLanguage {
-        name: "APL",
+        name: ProgrammingLanguageName::Apl,
         extensions: &["apl"],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
@@ -665,7 +800,7 @@ KTHXBYE"#,
         }],
     },
     ProgrammingLanguage {
-        name: "ALGOL",
+        name: ProgrammingLanguageName::Algol,
         extensions: &["alg"],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
