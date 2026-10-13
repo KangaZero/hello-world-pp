@@ -7,6 +7,9 @@
 # nix git-hook
 /.pre-commit-config.yaml
 
+# direnv cache (vendored flake inputs; statix only honours this repo's .gitignore)
+/.direnv/
+
 # OS
 .DS_Store
 Thumbs.db

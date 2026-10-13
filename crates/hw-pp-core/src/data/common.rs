@@ -44,3 +44,18 @@ pub fn get_default_programming_language_hello_world() -> &'static str {
     get_hello_world_syntax_for(Some(DEFAULT_PROGRAMMING_LANGUAGE), None, None)
         .expect("default programming language must resolve to a snippet")
 }
+
+/// Punctuation marks that appear in the recorded human-language greetings.
+///
+/// Deliberately excludes:
+/// - the apostrophe `'`, which is a letter in Klingon (`qo'`) and part of
+///   contractions like `G'day`;
+/// - braille cells such as `⠂` (comma) and `⠖` (exclamation mark), whose
+///   meaning depends on the braille code and their position in a word.
+pub const HELLO_WORLD_PUNCTUATION: &[char] = &[',', '!', '¡', '，', '！', '、'];
+
+/// Removes [`HELLO_WORLD_PUNCTUATION`] from a greeting.
+#[must_use]
+pub fn remove_punctuation_from_hello_world(hello_world: &str) -> String {
+    hello_world.replace(HELLO_WORLD_PUNCTUATION, "")
+}

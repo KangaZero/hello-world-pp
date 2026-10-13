@@ -1,6 +1,6 @@
 [package]
 name = "hw-pp-cli"
-description = "Command-line interface for hw-pp (hello world plusplus)"
+description = "Command-line interface for hw-pp (hello world++)"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -16,6 +16,8 @@ path = "src/main.rs"
 anyhow.workspace = true
 clap.workspace = true
 hw-pp-core.workspace = true
+anstream.workspace = true
+anstyle.workspace = true
 
 [dev-dependencies]
 assert_cmd.workspace = true

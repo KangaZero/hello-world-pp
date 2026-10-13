@@ -1,4 +1,6 @@
-use crate::constants::cli_info;
+use crate::constants::cli_info::{self, BANNER};
+use crate::tools::helpers::hello_world_output_with_options;
+use anstream::println;
 use anyhow::Context;
 use clap::{ArgGroup, Parser};
 use hw_pp_core::data::{
@@ -12,10 +14,12 @@ use hw_pp_core::data::{
 };
 
 mod constants;
+mod tools;
 
 /// Group IDs for the two mutually exclusive sets of options.
 const HUMAN: &str = "human";
 const PROGRAMMING: &str = "programming";
+const LOGO: &str = "logo";
 
 #[derive(Parser, Debug)]
 #[command(
@@ -25,8 +29,10 @@ const PROGRAMMING: &str = "programming";
     long_about = cli_info::long_about(),
     group(ArgGroup::new(HUMAN).multiple(true)),
     group(ArgGroup::new(PROGRAMMING).multiple(true).conflicts_with(HUMAN)),
+    // May be multiple set to true in the future if format opts are added
+    group(ArgGroup::new(LOGO).multiple(false).conflicts_with_all([HUMAN, PROGRAMMING])),
 )]
-struct Args {
+pub struct Args {
     /// Human language to greet in (e.g. "English", "Ancient Greek")
     #[arg(short = 'l', long, visible_alias = "hl", group = HUMAN)]
     human_language: Option<HumanLanguageName>,
@@ -36,7 +42,7 @@ struct Args {
     human_dialect: Option<DialectName>,
 
     /// Script to write the greeting in (e.g. "Katakana", "Braille")
-    #[arg(short = 's', long, visible_alias = "sn", group = HUMAN)]
+    #[arg(short = 's', long, visible_alias = "scr", group = HUMAN)]
     script: Option<ScriptName>,
 
     /// Programming language to print a hello-world program in (e.g. "Rust", "C++")
@@ -48,8 +54,16 @@ struct Args {
     programming_dialect: Option<ProgrammingLanguageDialect>,
 
     /// Source file extension, used to pick the programming language (e.g. "rs")
-    #[arg(short, long, visible_alias = "ext", group = PROGRAMMING)]
+    #[arg(short = 'e', long, visible_alias = "ext", group = PROGRAMMING)]
     extension: Option<FileExtension>,
+
+    /// Strip punctuation from the output
+    #[arg(short = 'n', long, visible_alias = "np")]
+    no_punctuation: bool,
+
+    /// Outputs only the banner/logo
+    #[arg(short = 'b', long, visible_alias = "logo", group = LOGO)]
+    banner: bool,
 }
 
 impl Args {
@@ -68,6 +82,11 @@ fn main() -> anyhow::Result<()> {
     // clap has already rejected human + programming options together (exit code 2).
     let args = Args::parse();
 
+    if args.banner {
+        println!("{}", BANNER);
+        return Ok(());
+    }
+
     match (args.has_human_options(), args.has_programming_options()) {
         (false, true) => {
             let hello_world_syntax = get_hello_world_syntax_for(
@@ -76,7 +95,12 @@ fn main() -> anyhow::Result<()> {
                 args.extension,
             )
             .context("failed to look up a 'hello-world' program")?;
-            println!("{hello_world_syntax}");
+            println!(
+                "{}",
+                hello_world_syntax // TODO: Modify to only target the "Hello, world!" string argument, rn it will
+                                   // target the whole syntax code removing critical syntax like semicolons!!
+                                   // hello_world_output_with_options(&args, hello_world_syntax)
+            );
         }
         // Human options only, or none at all (the default greeting).
         (_, false) => {
@@ -86,7 +110,7 @@ fn main() -> anyhow::Result<()> {
                 args.script,
             )
             .context("failed to look up a 'hello-world'")?;
-            println!("{hello_world}");
+            println!("{}", hello_world_output_with_options(&args, hello_world));
         }
         (true, true) => unreachable!("clap's `{PROGRAMMING}` group conflicts with `{HUMAN}`"),
     }

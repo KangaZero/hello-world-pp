@@ -1,6 +1,6 @@
 [package]
 name = "hw-pp-core"
-description = "Core library for hw-pp (hello world plusplus)"
+description = "Core library for hw-pp (hello world++)"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true

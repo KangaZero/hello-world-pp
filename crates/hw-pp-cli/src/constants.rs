@@ -1,11 +1,11 @@
 pub mod cli_info {
-    use clap::builder::styling::{AnsiColor, Style};
+    use anstyle::{AnsiColor, Style};
 
     /// Binary name from `[[bin]] name` in Cargo.toml (not the package name `hw-pp-cli`).
     pub const APP_NAME: &str = env!("CARGO_BIN_NAME");
 
     // Raw string starts with a newline only so the art lines up in source.
-    const BANNER: &str = r"
+    pub const BANNER: &str = r"
  _   _ _____ _     _     ___    __        _____  ____  _     ____  _
 | | | | ____| |   | |   / _ \   \ \      / / _ \|  _ \| |   |  _ \| |    _     _
 | |_| |  _| | |   | |  | | | |   \ \ /\ / / | | | |_) | |   | | | | |  _| |_ _| |_

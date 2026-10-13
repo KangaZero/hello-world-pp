@@ -22,7 +22,7 @@ rustPlatform.buildRustPackage {
   cargoLock.lockFile = ./Cargo.lock;
 
   meta = {
-    description = "Hello world plusplus";
+    description = "Hello world++";
     homepage = manifest.repository;
     license = lib.licenses.mit;
     mainProgram = "hw-pp";

@@ -1,5 +1,5 @@
 {
-  description = "hw-pp: hello world plusplus (lib + CLI)";
+  description = "hw-pp: hello world++ (lib + CLI)";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
