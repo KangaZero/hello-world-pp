@@ -1,309 +1,270 @@
+use crate::data::common::DEFAULT_PROGRAMMING_LANGUAGE;
+
 use super::common::ProgrammingLanguageCategory;
+use super::lookup::LookupError;
+use super::macros::name_enum;
 use ProgrammingLanguageCategory::{Compiled, Esolang, Historical, Markup, Scripting};
 use thiserror::Error;
 
+/// Language/version resolution errors for the programming-language catalog.
+pub type ProgrammingLookupError = LookupError<ProgrammingLanguageName, LanguageVersionDialect>;
+
+/// Errors that can occur while looking up hello-world source snippets.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Error)]
 pub enum ProgrammingLanguageError {
-    #[error("no greetings found for language {0}: not a recorded language")]
-    UnknownLanguage(ProgrammingLanguageName),
+    #[error(transparent)]
+    Lookup(#[from] ProgrammingLookupError),
 
-    #[error(
-        "no greetings found for {language}: dialect {dialect} is not recorded for this language"
-    )]
-    UnknownDialect {
+    /// No recorded language uses the extension.
+    #[error("no recorded language has extension {0}")]
+    UnknownExtension(FileExtension),
+
+    /// The language is recorded but lists no file extensions.
+    #[error("{0} has no recorded file extensions")]
+    NoExtensions(ProgrammingLanguageName),
+
+    /// The extension was given alongside a language that does not use it.
+    #[error("{extension} is not an extension of {language}")]
+    ExtensionMismatch {
         language: ProgrammingLanguageName,
-        dialect: LanguageVersionDialect,
+        extension: FileExtension,
     },
 
-    /// The dialect has no recorded greetings.
-    #[error("no greeting recorded for {language} ({dialect})")]
-    NoGreeting {
-        /// The requested language.
-        language: ProgrammingLanguageName,
-        /// The requested dialect.
-        dialect: LanguageVersionDialect,
-    },
+    /// Should never happen but just in case a langauge has no extension(s)
+    #[error("no recorded extension for language: {0}")]
+    MissingExtension(ProgrammingLanguageName),
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
-pub enum ProgrammingLanguageName {
-    #[default]
-    C,
-    Cpp,
-    CSharp,
-    Java,
-    Python,
-    JavaScript,
-    TypeScript,
-    Rust,
-    Go,
-    Ruby,
-    Php,
-    Swift,
-    Kotlin,
-    Scala,
-    Perl,
-    Lua,
-    R,
-    Dart,
-    Elixir,
-    Erlang,
-    Haskell,
-    Clojure,
-    FSharp,
-    OCaml,
-    Zig,
-    Nim,
-    Julia,
-    Bash,
-    PowerShell,
-    Assembly,
-    Fortran,
-    Cobol,
-    Ada,
-    Pascal,
-    Basic,
-    VisualBasic,
-    Groovy,
-    ObjectiveC,
-    D,
-    Crystal,
-    Elm,
-    Racket,
-    CommonLisp,
-    Scheme,
-    Prolog,
-    Sql,
-    Matlab,
-    Solidity,
-    Html,
-    Css,
-    Xml,
-    Markdown,
-    Latex,
-    Brainfuck,
-    Lolcode,
-    Befunge,
-    Apl,
-    Algol,
-}
-
-impl ProgrammingLanguageName {
-    #[must_use]
-    pub const fn as_str(self) -> &'static str {
-        match self {
-            Self::C => "C",
-            Self::Cpp => "C++",
-            Self::CSharp => "C#",
-            Self::Java => "Java",
-            Self::Python => "Python",
-            Self::JavaScript => "JavaScript",
-            Self::TypeScript => "TypeScript",
-            Self::Rust => "Rust",
-            Self::Go => "Go",
-            Self::Ruby => "Ruby",
-            Self::Php => "PHP",
-            Self::Swift => "Swift",
-            Self::Kotlin => "Kotlin",
-            Self::Scala => "Scala",
-            Self::Perl => "Perl",
-            Self::Lua => "Lua",
-            Self::R => "R",
-            Self::Dart => "Dart",
-            Self::Elixir => "Elixir",
-            Self::Erlang => "Erlang",
-            Self::Haskell => "Haskell",
-            Self::Clojure => "Clojure",
-            Self::FSharp => "F#",
-            Self::OCaml => "OCaml",
-            Self::Zig => "Zig",
-            Self::Nim => "Nim",
-            Self::Julia => "Julia",
-            Self::Bash => "Bash",
-            Self::PowerShell => "PowerShell",
-            Self::Assembly => "Assembly",
-            Self::Fortran => "Fortran",
-            Self::Cobol => "COBOL",
-            Self::Ada => "Ada",
-            Self::Pascal => "Pascal",
-            Self::Basic => "BASIC",
-            Self::VisualBasic => "Visual Basic",
-            Self::Groovy => "Groovy",
-            Self::ObjectiveC => "Objective-C",
-            Self::D => "D",
-            Self::Crystal => "Crystal",
-            Self::Elm => "Elm",
-            Self::Racket => "Racket",
-            Self::CommonLisp => "Common Lisp",
-            Self::Scheme => "Scheme",
-            Self::Prolog => "Prolog",
-            Self::Sql => "SQL",
-            Self::Matlab => "MATLAB",
-            Self::Solidity => "Solidity",
-            Self::Html => "HTML",
-            Self::Css => "CSS",
-            Self::Xml => "XML",
-            Self::Markdown => "Markdown",
-            Self::Latex => "LaTeX",
-            Self::Brainfuck => "Brainfuck",
-            Self::Lolcode => "LOLCODE",
-            Self::Befunge => "Befunge",
-            Self::Apl => "APL",
-            Self::Algol => "ALGOL",
-        }
+name_enum! {
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
+    pub enum ProgrammingLanguageName: ParseProgrammingLanguageNameError("programming language") {
+        #[default]
+        C => "C",
+        Cpp => "C++",
+        CSharp => "C#",
+        Java => "Java",
+        Python => "Python",
+        JavaScript => "JavaScript",
+        TypeScript => "TypeScript",
+        Rust => "Rust",
+        Go => "Go",
+        Ruby => "Ruby",
+        Php => "PHP",
+        Swift => "Swift",
+        Kotlin => "Kotlin",
+        Scala => "Scala",
+        Perl => "Perl",
+        Lua => "Lua",
+        R => "R",
+        Dart => "Dart",
+        Elixir => "Elixir",
+        Erlang => "Erlang",
+        Haskell => "Haskell",
+        Clojure => "Clojure",
+        FSharp => "F#",
+        OCaml => "OCaml",
+        Zig => "Zig",
+        Nim => "Nim",
+        Julia => "Julia",
+        Bash => "Bash",
+        PowerShell => "PowerShell",
+        Assembly => "Assembly",
+        Fortran => "Fortran",
+        Cobol => "COBOL",
+        Ada => "Ada",
+        Pascal => "Pascal",
+        Basic => "BASIC",
+        VisualBasic => "Visual Basic",
+        Groovy => "Groovy",
+        ObjectiveC => "Objective-C",
+        D => "D",
+        Crystal => "Crystal",
+        Elm => "Elm",
+        Racket => "Racket",
+        CommonLisp => "Common Lisp",
+        Scheme => "Scheme",
+        Prolog => "Prolog",
+        Sql => "SQL",
+        Matlab => "MATLAB",
+        Solidity => "Solidity",
+        Html => "HTML",
+        Css => "CSS",
+        Xml => "XML",
+        Markdown => "Markdown",
+        Latex => "LaTeX",
+        Brainfuck => "Brainfuck",
+        Lolcode => "LOLCODE",
+        Befunge => "Befunge",
+        Apl => "APL",
+        Algol => "ALGOL",
     }
 }
 
-impl core::fmt::Display for ProgrammingLanguageName {
-    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-        f.write_str(self.as_str())
+name_enum! {
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+    pub enum LanguageVersionDialect: ParseLanguageVersionDialectError("language version") {
+        C99 => "C99",
+        Cpp98 => "C++98",
+        Cpp20 => "C++20",
+        CSharp10 => "C# 10",
+        Java17 => "Java 17",
+        Java25CompactSourceFile => "Java 25 (compact source file)",
+        Python2 => "Python 2",
+        Python3 => "Python 3",
+        JavaScriptEs2020 => "ES2020",
+        TypeScript5 => "TypeScript 5",
+        Rust2021 => "Rust 2021",
+        Go1 => "Go 1",
+        Ruby3 => "Ruby 3",
+        Php8 => "PHP 8",
+        Swift5 => "Swift 5",
+        Kotlin19 => "Kotlin 1.9",
+        Scala3 => "Scala 3",
+        Perl5 => "Perl 5",
+        Lua54 => "Lua 5.4",
+        R4 => "R 4",
+        Dart3 => "Dart 3",
+        Elixir1 => "Elixir 1",
+        ErlangOtp => "Erlang/OTP",
+        Haskell2010 => "Haskell 2010",
+        Clojure111 => "Clojure 1.11",
+        FSharp8 => "F# 8",
+        OCaml5 => "OCaml 5",
+        Zig013 => "Zig 0.13",
+        Nim2 => "Nim 2",
+        Julia110 => "Julia 1.10",
+        PosixShell => "POSIX shell",
+        PowerShell7 => "PowerShell 7",
+        X8664LinuxSyscalls => "x86-64 (Linux syscalls)",
+        Fortran90 => "Fortran 90",
+        Cobol85 => "COBOL 85",
+        Ada2012 => "Ada 2012",
+        Pascal => "Pascal",
+        ClassicBasic => "Classic BASIC",
+        VbNet => "VB.NET",
+        Groovy4 => "Groovy 4",
+        ObjectiveC2 => "Objective-C 2.0",
+        D2 => "D 2",
+        Crystal1 => "Crystal 1",
+        Elm019 => "Elm 0.19",
+        Racket8 => "Racket 8",
+        AnsiCommonLisp => "ANSI Common Lisp",
+        R7rs => "R7RS",
+        IsoProlog => "ISO Prolog",
+        Sql2016 => "SQL:2016",
+        Matlab => "MATLAB",
+        Solidity08 => "Solidity 0.8",
+        Html5 => "HTML5",
+        Css3 => "CSS3",
+        Xml10 => "XML 1.0",
+        CommonMark => "CommonMark",
+        Latex2e => "LaTeX2e",
+        Brainfuck => "Brainfuck",
+        Lolcode12 => "LOLCODE 1.2",
+        Befunge93 => "Befunge-93",
+        Apl => "APL",
+        Algol60 => "ALGOL 60",
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-pub enum LanguageVersionDialect {
-    C99,
-    Cpp98,
-    Cpp20,
-    CSharp10,
-    Java17,
-    Java25CompactSourceFile,
-    Python2,
-    Python3,
-    JavaScriptEs2020,
-    TypeScript5,
-    Rust2021,
-    Go1,
-    Ruby3,
-    Php8,
-    Swift5,
-    Kotlin19,
-    Scala3,
-    Perl5,
-    Lua54,
-    R4,
-    Dart3,
-    Elixir1,
-    ErlangOtp,
-    Haskell2010,
-    Clojure111,
-    FSharp8,
-    OCaml5,
-    Zig013,
-    Nim2,
-    Julia110,
-    PosixShell,
-    PowerShell7,
-    X8664LinuxSyscalls,
-    Fortran90,
-    Cobol85,
-    Ada2012,
-    Pascal,
-    ClassicBasic,
-    VbNet,
-    Groovy4,
-    ObjectiveC2,
-    D2,
-    Crystal1,
-    Elm019,
-    Racket8,
-    AnsiCommonLisp,
-    R7rs,
-    IsoProlog,
-    Sql2016,
-    Matlab,
-    Solidity08,
-    Html5,
-    Css3,
-    Xml10,
-    CommonMark,
-    Latex2e,
-    Brainfuck,
-    Lolcode12,
-    Befunge93,
-    Apl,
-    Algol60,
-}
-
-impl LanguageVersionDialect {
-    #[must_use]
-    pub const fn as_str(self) -> &'static str {
-        match self {
-            Self::C99 => "C99",
-            Self::Cpp98 => "C++98",
-            Self::Cpp20 => "C++20",
-            Self::CSharp10 => "C# 10",
-            Self::Java17 => "Java 17",
-            Self::Java25CompactSourceFile => "Java 25 (compact source file)",
-            Self::Python2 => "Python 2",
-            Self::Python3 => "Python 3",
-            Self::JavaScriptEs2020 => "ES2020",
-            Self::TypeScript5 => "TypeScript 5",
-            Self::Rust2021 => "Rust 2021",
-            Self::Go1 => "Go 1",
-            Self::Ruby3 => "Ruby 3",
-            Self::Php8 => "PHP 8",
-            Self::Swift5 => "Swift 5",
-            Self::Kotlin19 => "Kotlin 1.9",
-            Self::Scala3 => "Scala 3",
-            Self::Perl5 => "Perl 5",
-            Self::Lua54 => "Lua 5.4",
-            Self::R4 => "R 4",
-            Self::Dart3 => "Dart 3",
-            Self::Elixir1 => "Elixir 1",
-            Self::ErlangOtp => "Erlang/OTP",
-            Self::Haskell2010 => "Haskell 2010",
-            Self::Clojure111 => "Clojure 1.11",
-            Self::FSharp8 => "F# 8",
-            Self::OCaml5 => "OCaml 5",
-            Self::Zig013 => "Zig 0.13",
-            Self::Nim2 => "Nim 2",
-            Self::Julia110 => "Julia 1.10",
-            Self::PosixShell => "POSIX shell",
-            Self::PowerShell7 => "PowerShell 7",
-            Self::X8664LinuxSyscalls => "x86-64 (Linux syscalls)",
-            Self::Fortran90 => "Fortran 90",
-            Self::Cobol85 => "COBOL 85",
-            Self::Ada2012 => "Ada 2012",
-            Self::Pascal => "Pascal",
-            Self::ClassicBasic => "Classic BASIC",
-            Self::VbNet => "VB.NET",
-            Self::Groovy4 => "Groovy 4",
-            Self::ObjectiveC2 => "Objective-C 2.0",
-            Self::D2 => "D 2",
-            Self::Crystal1 => "Crystal 1",
-            Self::Elm019 => "Elm 0.19",
-            Self::Racket8 => "Racket 8",
-            Self::AnsiCommonLisp => "ANSI Common Lisp",
-            Self::R7rs => "R7RS",
-            Self::IsoProlog => "ISO Prolog",
-            Self::Sql2016 => "SQL:2016",
-            Self::Matlab => "MATLAB",
-            Self::Solidity08 => "Solidity 0.8",
-            Self::Html5 => "HTML5",
-            Self::Css3 => "CSS3",
-            Self::Xml10 => "XML 1.0",
-            Self::CommonMark => "CommonMark",
-            Self::Latex2e => "LaTeX2e",
-            Self::Brainfuck => "Brainfuck",
-            Self::Lolcode12 => "LOLCODE 1.2",
-            Self::Befunge93 => "Befunge-93",
-            Self::Apl => "APL",
-            Self::Algol60 => "ALGOL 60",
-        }
-    }
-}
-
-impl core::fmt::Display for LanguageVersionDialect {
-    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-        f.write_str(self.as_str())
+name_enum! {
+    /// A source file extension, without the leading dot. Several languages may
+    /// share one (e.g. `m` is both Objective-C and MATLAB).
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+    pub enum FileExtension: ParseFileExtensionError("file extension") {
+        C => "c",
+        H => "h",
+        Cpp => "cpp",
+        Cc => "cc",
+        Cxx => "cxx",
+        Hpp => "hpp",
+        Cs => "cs",
+        Java => "java",
+        Py => "py",
+        Js => "js",
+        Mjs => "mjs",
+        Cjs => "cjs",
+        Ts => "ts",
+        Rs => "rs",
+        Go => "go",
+        Rb => "rb",
+        Php => "php",
+        Swift => "swift",
+        Kt => "kt",
+        Kts => "kts",
+        Scala => "scala",
+        Sc => "sc",
+        Pl => "pl",
+        Pm => "pm",
+        Lua => "lua",
+        R => "r",
+        Dart => "dart",
+        Ex => "ex",
+        Exs => "exs",
+        Erl => "erl",
+        Hrl => "hrl",
+        Hs => "hs",
+        Lhs => "lhs",
+        Clj => "clj",
+        Cljs => "cljs",
+        Cljc => "cljc",
+        Fs => "fs",
+        Fsx => "fsx",
+        Ml => "ml",
+        Mli => "mli",
+        Zig => "zig",
+        Nim => "nim",
+        Jl => "jl",
+        Sh => "sh",
+        Bash => "bash",
+        Ps1 => "ps1",
+        Psm1 => "psm1",
+        Asm => "asm",
+        S => "s",
+        F => "f",
+        F90 => "f90",
+        F95 => "f95",
+        Cob => "cob",
+        Cbl => "cbl",
+        Adb => "adb",
+        Ads => "ads",
+        Pas => "pas",
+        Bas => "bas",
+        Vb => "vb",
+        Groovy => "groovy",
+        Gvy => "gvy",
+        M => "m",
+        Mm => "mm",
+        D => "d",
+        Cr => "cr",
+        Elm => "elm",
+        Rkt => "rkt",
+        Lisp => "lisp",
+        Lsp => "lsp",
+        Cl => "cl",
+        Scm => "scm",
+        Ss => "ss",
+        Pro => "pro",
+        Sql => "sql",
+        Sol => "sol",
+        Html => "html",
+        Htm => "htm",
+        Css => "css",
+        Xml => "xml",
+        Md => "md",
+        Markdown => "markdown",
+        Tex => "tex",
+        Bf => "bf",
+        Lol => "lol",
+        Apl => "apl",
+        Alg => "alg",
     }
 }
 
 #[derive(Debug, Clone, Copy)]
 pub struct ProgrammingLanguage {
     pub name: ProgrammingLanguageName,
-    pub extensions: &'static [&'static str],
+    pub extensions: &'static [FileExtension],
     pub categories: &'static [ProgrammingLanguageCategory],
     pub versions: &'static [LanguageVersion],
 }
@@ -317,7 +278,7 @@ pub struct LanguageVersion {
 pub static PROGRAMMING_LANGUAGES: &[ProgrammingLanguage] = &[
     ProgrammingLanguage {
         name: ProgrammingLanguageName::C,
-        extensions: &["c", "h"],
+        extensions: &[FileExtension::C, FileExtension::H],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::C99,
@@ -331,7 +292,12 @@ int main(void) {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Cpp,
-        extensions: &["cpp", "cc", "cxx", "hpp"],
+        extensions: &[
+            FileExtension::Cpp,
+            FileExtension::Cc,
+            FileExtension::Cxx,
+            FileExtension::Hpp,
+        ],
         categories: &[Compiled],
         versions: &[
             LanguageVersion {
@@ -355,7 +321,7 @@ int main() {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::CSharp,
-        extensions: &["cs"],
+        extensions: &[FileExtension::Cs],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::CSharp10,
@@ -364,7 +330,7 @@ int main() {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Java,
-        extensions: &["java"],
+        extensions: &[FileExtension::Java],
         categories: &[Compiled],
         versions: &[
             LanguageVersion {
@@ -385,7 +351,7 @@ int main() {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Python,
-        extensions: &["py"],
+        extensions: &[FileExtension::Py],
         categories: &[Scripting],
         versions: &[
             LanguageVersion {
@@ -400,7 +366,7 @@ int main() {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::JavaScript,
-        extensions: &["js", "mjs", "cjs"],
+        extensions: &[FileExtension::Js, FileExtension::Mjs, FileExtension::Cjs],
         categories: &[Scripting],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::JavaScriptEs2020,
@@ -409,7 +375,7 @@ int main() {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::TypeScript,
-        extensions: &["ts"],
+        extensions: &[FileExtension::Ts],
         categories: &[Scripting, Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::TypeScript5,
@@ -419,7 +385,7 @@ console.log(greeting);"#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Rust,
-        extensions: &["rs"],
+        extensions: &[FileExtension::Rs],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Rust2021,
@@ -430,7 +396,7 @@ console.log(greeting);"#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Go,
-        extensions: &["go"],
+        extensions: &[FileExtension::Go],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Go1,
@@ -445,7 +411,7 @@ func main() {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Ruby,
-        extensions: &["rb"],
+        extensions: &[FileExtension::Rb],
         categories: &[Scripting],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Ruby3,
@@ -454,7 +420,7 @@ func main() {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Php,
-        extensions: &["php"],
+        extensions: &[FileExtension::Php],
         categories: &[Scripting],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Php8,
@@ -464,7 +430,7 @@ echo "Hello, World!\n";"#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Swift,
-        extensions: &["swift"],
+        extensions: &[FileExtension::Swift],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Swift5,
@@ -473,7 +439,7 @@ echo "Hello, World!\n";"#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Kotlin,
-        extensions: &["kt", "kts"],
+        extensions: &[FileExtension::Kt, FileExtension::Kts],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Kotlin19,
@@ -484,7 +450,7 @@ echo "Hello, World!\n";"#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Scala,
-        extensions: &["scala", "sc"],
+        extensions: &[FileExtension::Scala, FileExtension::Sc],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Scala3,
@@ -494,7 +460,7 @@ echo "Hello, World!\n";"#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Perl,
-        extensions: &["pl", "pm"],
+        extensions: &[FileExtension::Pl, FileExtension::Pm],
         categories: &[Scripting],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Perl5,
@@ -503,7 +469,7 @@ echo "Hello, World!\n";"#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Lua,
-        extensions: &["lua"],
+        extensions: &[FileExtension::Lua],
         categories: &[Scripting],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Lua54,
@@ -512,7 +478,7 @@ echo "Hello, World!\n";"#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::R,
-        extensions: &["r", "R"],
+        extensions: &[FileExtension::R],
         categories: &[Scripting],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::R4,
@@ -521,7 +487,7 @@ echo "Hello, World!\n";"#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Dart,
-        extensions: &["dart"],
+        extensions: &[FileExtension::Dart],
         categories: &[Compiled, Scripting],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Dart3,
@@ -532,7 +498,7 @@ echo "Hello, World!\n";"#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Elixir,
-        extensions: &["ex", "exs"],
+        extensions: &[FileExtension::Ex, FileExtension::Exs],
         categories: &[Compiled, Scripting],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Elixir1,
@@ -541,7 +507,7 @@ echo "Hello, World!\n";"#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Erlang,
-        extensions: &["erl", "hrl"],
+        extensions: &[FileExtension::Erl, FileExtension::Hrl],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::ErlangOtp,
@@ -554,7 +520,7 @@ main() ->
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Haskell,
-        extensions: &["hs", "lhs"],
+        extensions: &[FileExtension::Hs, FileExtension::Lhs],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Haskell2010,
@@ -564,7 +530,7 @@ main = putStrLn "Hello, World!""#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Clojure,
-        extensions: &["clj", "cljs", "cljc"],
+        extensions: &[FileExtension::Clj, FileExtension::Cljs, FileExtension::Cljc],
         categories: &[Compiled, Scripting],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Clojure111,
@@ -573,7 +539,7 @@ main = putStrLn "Hello, World!""#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::FSharp,
-        extensions: &["fs", "fsx"],
+        extensions: &[FileExtension::Fs, FileExtension::Fsx],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::FSharp8,
@@ -582,7 +548,7 @@ main = putStrLn "Hello, World!""#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::OCaml,
-        extensions: &["ml", "mli"],
+        extensions: &[FileExtension::Ml, FileExtension::Mli],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::OCaml5,
@@ -591,7 +557,7 @@ main = putStrLn "Hello, World!""#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Zig,
-        extensions: &["zig"],
+        extensions: &[FileExtension::Zig],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Zig013,
@@ -604,7 +570,7 @@ pub fn main() !void {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Nim,
-        extensions: &["nim"],
+        extensions: &[FileExtension::Nim],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Nim2,
@@ -613,7 +579,7 @@ pub fn main() !void {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Julia,
-        extensions: &["jl"],
+        extensions: &[FileExtension::Jl],
         categories: &[Compiled, Scripting],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Julia110,
@@ -622,7 +588,7 @@ pub fn main() !void {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Bash,
-        extensions: &["sh", "bash"],
+        extensions: &[FileExtension::Sh, FileExtension::Bash],
         categories: &[Scripting],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::PosixShell,
@@ -631,7 +597,7 @@ pub fn main() !void {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::PowerShell,
-        extensions: &["ps1", "psm1"],
+        extensions: &[FileExtension::Ps1, FileExtension::Psm1],
         categories: &[Scripting],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::PowerShell7,
@@ -640,7 +606,7 @@ pub fn main() !void {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Assembly,
-        extensions: &["asm", "s"],
+        extensions: &[FileExtension::Asm, FileExtension::S],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::X8664LinuxSyscalls,
@@ -664,7 +630,7 @@ _start:
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Fortran,
-        extensions: &["f", "f90", "f95"],
+        extensions: &[FileExtension::F, FileExtension::F90, FileExtension::F95],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Fortran90,
@@ -675,7 +641,7 @@ end program hello"#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Cobol,
-        extensions: &["cob", "cbl"],
+        extensions: &[FileExtension::Cob, FileExtension::Cbl],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Cobol85,
@@ -688,7 +654,7 @@ end program hello"#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Ada,
-        extensions: &["adb", "ads"],
+        extensions: &[FileExtension::Adb, FileExtension::Ads],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Ada2012,
@@ -702,7 +668,7 @@ end Hello;"#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Pascal,
-        extensions: &["pas"],
+        extensions: &[FileExtension::Pas],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Pascal,
@@ -714,7 +680,7 @@ end.",
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Basic,
-        extensions: &["bas"],
+        extensions: &[FileExtension::Bas],
         categories: &[Scripting, Historical],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::ClassicBasic,
@@ -724,7 +690,7 @@ end.",
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::VisualBasic,
-        extensions: &["vb"],
+        extensions: &[FileExtension::Vb],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::VbNet,
@@ -737,7 +703,7 @@ End Module"#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Groovy,
-        extensions: &["groovy", "gvy"],
+        extensions: &[FileExtension::Groovy, FileExtension::Gvy],
         categories: &[Scripting, Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Groovy4,
@@ -746,7 +712,7 @@ End Module"#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::ObjectiveC,
-        extensions: &["m", "mm"],
+        extensions: &[FileExtension::M, FileExtension::Mm],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::ObjectiveC2,
@@ -760,7 +726,7 @@ int main() {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::D,
-        extensions: &["d"],
+        extensions: &[FileExtension::D],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::D2,
@@ -773,7 +739,7 @@ void main() {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Crystal,
-        extensions: &["cr"],
+        extensions: &[FileExtension::Cr],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Crystal1,
@@ -782,7 +748,7 @@ void main() {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Elm,
-        extensions: &["elm"],
+        extensions: &[FileExtension::Elm],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Elm019,
@@ -796,7 +762,7 @@ main =
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Racket,
-        extensions: &["rkt"],
+        extensions: &[FileExtension::Rkt],
         categories: &[Compiled, Scripting],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Racket8,
@@ -806,7 +772,7 @@ main =
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::CommonLisp,
-        extensions: &["lisp", "lsp", "cl"],
+        extensions: &[FileExtension::Lisp, FileExtension::Lsp, FileExtension::Cl],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::AnsiCommonLisp,
@@ -815,7 +781,7 @@ main =
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Scheme,
-        extensions: &["scm", "ss"],
+        extensions: &[FileExtension::Scm, FileExtension::Ss],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::R7rs,
@@ -825,7 +791,7 @@ main =
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Prolog,
-        extensions: &["pl", "pro"],
+        extensions: &[FileExtension::Pl, FileExtension::Pro],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::IsoProlog,
@@ -836,7 +802,7 @@ main :- write('Hello, World!'), nl, halt.",
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Sql,
-        extensions: &["sql"],
+        extensions: &[FileExtension::Sql],
         categories: &[Scripting],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Sql2016,
@@ -845,7 +811,7 @@ main :- write('Hello, World!'), nl, halt.",
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Matlab,
-        extensions: &["m"],
+        extensions: &[FileExtension::M],
         categories: &[Scripting],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Matlab,
@@ -854,7 +820,7 @@ main :- write('Hello, World!'), nl, halt.",
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Solidity,
-        extensions: &["sol"],
+        extensions: &[FileExtension::Sol],
         categories: &[Compiled],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Solidity08,
@@ -870,7 +836,7 @@ contract Hello {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Html,
-        extensions: &["html", "htm"],
+        extensions: &[FileExtension::Html, FileExtension::Htm],
         categories: &[Markup],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Html5,
@@ -884,7 +850,7 @@ contract Hello {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Css,
-        extensions: &["css"],
+        extensions: &[FileExtension::Css],
         categories: &[Markup],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Css3,
@@ -895,7 +861,7 @@ contract Hello {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Xml,
-        extensions: &["xml"],
+        extensions: &[FileExtension::Xml],
         categories: &[Markup],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Xml10,
@@ -905,7 +871,7 @@ contract Hello {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Markdown,
-        extensions: &["md", "markdown"],
+        extensions: &[FileExtension::Md, FileExtension::Markdown],
         categories: &[Markup],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::CommonMark,
@@ -914,7 +880,7 @@ contract Hello {
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Latex,
-        extensions: &["tex"],
+        extensions: &[FileExtension::Tex],
         categories: &[Markup],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Latex2e,
@@ -926,7 +892,7 @@ Hello, World!
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Brainfuck,
-        extensions: &["bf"],
+        extensions: &[FileExtension::Bf],
         categories: &[Esolang],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Brainfuck,
@@ -936,7 +902,7 @@ Hello, World!
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Lolcode,
-        extensions: &["lol"],
+        extensions: &[FileExtension::Lol],
         categories: &[Esolang],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Lolcode12,
@@ -947,7 +913,7 @@ KTHXBYE"#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Befunge,
-        extensions: &["bf"],
+        extensions: &[FileExtension::Bf],
         categories: &[Esolang],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Befunge93,
@@ -956,7 +922,7 @@ KTHXBYE"#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Apl,
-        extensions: &["apl"],
+        extensions: &[FileExtension::Apl],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Apl,
@@ -965,7 +931,7 @@ KTHXBYE"#,
     },
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Algol,
-        extensions: &["alg"],
+        extensions: &[FileExtension::Alg],
         categories: &[Compiled, Historical],
         versions: &[LanguageVersion {
             label: LanguageVersionDialect::Algol60,
@@ -976,10 +942,131 @@ end"#,
     },
 ];
 
-pub fn hello_world_syntax_for(
-    _language: Option<ProgrammingLanguage>,
-    _dialect: Option<LanguageVersionDialect>,
-) {
+/// Look up the hello-world snippet for a programming language.
+///
+/// The language is the explicit `language`, else inferred from `dialect`, else
+/// from `extension`, else the default as the C programming language. `extension` only identifies or checks the
+/// language; it does not change the snippet. If `dialect` is `None`, the
+/// language's first recorded version is used.
+///
+/// Ambiguous extensions (e.g. `pl` for Perl and Prolog) resolve to the first
+/// recorded language that uses them.
+///
+/// # Errors
+///
+/// Returns a [`ProgrammingLanguageError`] if the language, version or
+/// extension is not recorded, or if `extension` does not belong to the language.
+pub fn get_hello_world_syntax_for(
+    language: Option<ProgrammingLanguageName>,
+    dialect: Option<LanguageVersionDialect>,
+    extension: Option<FileExtension>,
+) -> Result<&'static str, ProgrammingLanguageError> {
+    let resolved_language = match (language, dialect, extension) {
+        (Some(existing_language), _, _) => existing_language,
+        (None, Some(existing_dialect), _) => {
+            get_programming_language_from_dialect(existing_dialect)?
+        }
+        (None, None, Some(existing_extension)) => {
+            get_programming_language_from_extension(existing_extension)?
+        }
+        (None, None, None) => DEFAULT_PROGRAMMING_LANGUAGE,
+    };
+    let lang = PROGRAMMING_LANGUAGES
+        .iter()
+        .find(|lang| lang.name == resolved_language)
+        .ok_or(LookupError::UnknownLanguage(resolved_language))?;
+
+    if let Some(mismatched) = extension.filter(|ext| !lang.extensions.contains(ext)) {
+        return Err(ProgrammingLanguageError::ExtensionMismatch {
+            language: resolved_language,
+            extension: mismatched,
+        });
+    }
+
+    let version = match dialect {
+        Some(wanted) => lang
+            .versions
+            .iter()
+            .find(|version| version.label == wanted)
+            .ok_or(LookupError::UnknownVariant {
+                language: resolved_language,
+                variant: wanted,
+            })?,
+        None => lang
+            .versions
+            .first()
+            .ok_or(LookupError::NoVariants(resolved_language))?,
+    };
+    Ok(version.syntax)
+}
+
+/// Finds the first language that uses `extension`.
+///
+/// # Errors
+///
+/// Returns [`ProgrammingLanguageError::UnknownExtension`] if no recorded
+/// language uses the extension.
+pub fn get_programming_language_from_extension(
+    extension: FileExtension,
+) -> Result<ProgrammingLanguageName, ProgrammingLanguageError> {
+    PROGRAMMING_LANGUAGES
+        .iter()
+        .find(|lang| lang.extensions.contains(&extension))
+        .map(|lang| lang.name)
+        .ok_or(ProgrammingLanguageError::UnknownExtension(extension))
+}
+
+/// Finds the language that records the version `dialect`.
+///
+/// # Errors
+///
+/// Returns [`LookupError::NoOwner`] if no recorded language has the version.
+pub fn get_programming_language_from_dialect(
+    dialect: LanguageVersionDialect,
+) -> Result<ProgrammingLanguageName, ProgrammingLookupError> {
+    PROGRAMMING_LANGUAGES
+        .iter()
+        .find(|lang| lang.versions.iter().any(|d| d.label == dialect))
+        .map(|lang| lang.name)
+        .ok_or(LookupError::NoOwner(dialect))
+}
+
+/// Defaults to the first recorded extension of `language`.
+///
+/// # Errors
+///
+/// Returns [`LookupError::UnknownLanguage`] (wrapped) if the language is not
+/// recorded, or [`ProgrammingLanguageError::NoExtensions`] if it has none.
+pub fn get_default_extension_from_programming_language_name(
+    language: ProgrammingLanguageName,
+) -> Result<FileExtension, ProgrammingLanguageError> {
+    let lang = PROGRAMMING_LANGUAGES
+        .iter()
+        .find(|lang| lang.name == language)
+        .ok_or(LookupError::UnknownLanguage(language))?;
+    lang.extensions
+        .first()
+        .copied()
+        .ok_or(ProgrammingLanguageError::NoExtensions(language))
+}
+
+/// Defaults to the first recorded version of `language`.
+///
+/// # Errors
+///
+/// Returns [`LookupError::UnknownLanguage`] if the language is not recorded,
+/// or [`LookupError::NoVariants`] if it has no versions.
+pub fn get_default_programming_language_dialect_from_language_name(
+    language: ProgrammingLanguageName,
+) -> Result<LanguageVersionDialect, ProgrammingLookupError> {
+    let lang = PROGRAMMING_LANGUAGES
+        .iter()
+        .find(|lang| lang.name == language)
+        .ok_or(LookupError::UnknownLanguage(language))?;
+    lang.versions
+        .first()
+        .map(|version| version.label)
+        .ok_or(LookupError::NoVariants(language))
 }
 
 #[must_use]

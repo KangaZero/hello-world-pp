@@ -1,4 +1,9 @@
-use hw_pp_core::data::programming_languages::PROGRAMMING_LANGUAGES;
+use hw_pp_core::data::lookup::LookupError;
+use hw_pp_core::data::programming_languages::{
+    FileExtension, LanguageVersionDialect, PROGRAMMING_LANGUAGES, ProgrammingLanguageError,
+    ProgrammingLanguageName, get_default_programming_language_dialect_from_language_name,
+    get_hello_world_syntax_for, get_programming_language_from_extension,
+};
 
 #[test]
 fn every_language_has_a_version_and_extension() {
@@ -14,4 +19,116 @@ fn every_language_has_a_version_and_extension() {
             language.name
         );
     }
+}
+
+#[test]
+fn programming_name_enums_round_trip_through_display_and_from_str() {
+    for &name in ProgrammingLanguageName::ALL {
+        assert_eq!(name.to_string().parse(), Ok(name));
+    }
+    for &version in LanguageVersionDialect::ALL {
+        assert_eq!(version.to_string().parse(), Ok(version));
+    }
+    assert_eq!("c++".parse(), Ok(ProgrammingLanguageName::Cpp));
+    assert_eq!("cobol".parse(), Ok(ProgrammingLanguageName::Cobol));
+}
+
+#[test]
+fn every_programming_variant_is_used_in_the_data() {
+    for name in ProgrammingLanguageName::ALL {
+        assert!(
+            PROGRAMMING_LANGUAGES.iter().any(|l| l.name == *name),
+            "{name} has no entry"
+        );
+    }
+    for version in LanguageVersionDialect::ALL {
+        assert!(
+            PROGRAMMING_LANGUAGES
+                .iter()
+                .any(|l| l.versions.iter().any(|v| v.label == *version)),
+            "{version} has no entry"
+        );
+    }
+}
+
+#[test]
+fn extensions_round_trip_and_ignore_case() {
+    for &ext in FileExtension::ALL {
+        assert_eq!(ext.to_string().parse(), Ok(ext));
+    }
+    assert_eq!("R".parse(), Ok(FileExtension::R));
+}
+
+#[test]
+fn programming_lookup_helpers_use_shared_errors() {
+    assert_eq!(
+        get_default_programming_language_dialect_from_language_name(ProgrammingLanguageName::Cpp),
+        Ok(LanguageVersionDialect::Cpp98)
+    );
+    assert_eq!(
+        get_programming_language_from_extension(FileExtension::Rs),
+        Ok(ProgrammingLanguageName::Rust)
+    );
+}
+
+#[test]
+fn syntax_defaults_to_c99() {
+    assert!(
+        get_hello_world_syntax_for(None, None, None)
+            .expect("default resolves")
+            .contains("printf(\"Hello, World!\\n\")")
+    );
+}
+
+#[test]
+fn syntax_infers_language_from_extension_or_version() {
+    assert_eq!(
+        get_hello_world_syntax_for(None, None, Some(FileExtension::Py)),
+        get_hello_world_syntax_for(Some(ProgrammingLanguageName::Python), None, None)
+    );
+    assert_eq!(
+        get_hello_world_syntax_for(None, Some(LanguageVersionDialect::Python2), None),
+        Ok(r#"print "Hello, World!""#)
+    );
+}
+
+#[test]
+fn syntax_rejects_extension_from_another_language() {
+    assert_eq!(
+        get_hello_world_syntax_for(
+            Some(ProgrammingLanguageName::Python),
+            None,
+            Some(FileExtension::Rs)
+        ),
+        Err(ProgrammingLanguageError::ExtensionMismatch {
+            language: ProgrammingLanguageName::Python,
+            extension: FileExtension::Rs,
+        })
+    );
+    assert_eq!(
+        get_hello_world_syntax_for(
+            None,
+            Some(LanguageVersionDialect::Cpp20),
+            Some(FileExtension::Py)
+        )
+        .map_err(|err| err.to_string()),
+        Err("py is not an extension of C++".to_owned())
+    );
+}
+
+#[test]
+fn syntax_rejects_version_from_another_language() {
+    assert_eq!(
+        get_hello_world_syntax_for(
+            Some(ProgrammingLanguageName::Rust),
+            Some(LanguageVersionDialect::Python3),
+            None
+        ),
+        Err(ProgrammingLanguageError::Lookup(
+            LookupError::UnknownVariant {
+                language: ProgrammingLanguageName::Rust,
+                variant: LanguageVersionDialect::Python3,
+            }
+        ))
+    );
 }

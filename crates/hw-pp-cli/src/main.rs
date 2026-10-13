@@ -1,7 +1,9 @@
 use crate::constants::cli_info;
 use anyhow::Context;
 use clap::Parser;
-use hw_pp_core::data::human_languages::hello_world_for;
+use hw_pp_core::data::human_languages::{
+    DialectName, HumanLanguageName, get_human_language_hello_world_for,
+};
 
 mod constants;
 
@@ -13,28 +15,27 @@ mod constants;
     long_about = cli_info::long_about()
 )]
 struct Args {
-    /// TODO:
-    #[arg(short, long)]
-    name: String,
+    /// Human language to greet in (e.g. "English", "Ancient Greek")
+    #[arg(short = 'l', long, visible_alias = "hl")]
+    human_language: Option<HumanLanguageName>,
 
-    /// Number of times to greet
-    #[arg(short, long, default_value_t = 1)]
-    count: u8,
+    #[arg(short = 'd', long, visible_alias = "d")]
+    dialect: Option<DialectName>,
 }
 
 fn main() -> anyhow::Result<()> {
-    let args = Args::parse();
-
-    if args.count == 0 {
-        let greeting =
-            hello_world_for(None, None).context("failed to look up a hello-world greeting")?;
-        println!("{greeting}");
+    // argv[0] is the program name, so a length of 1 means no args were passed.
+    if std::env::args_os().len() == 1 {
+        let hello_world = get_human_language_hello_world_for(None, None, None)
+            .context("failed to look up a 'hello-world'")?;
+        println!("{hello_world}");
         return Ok(());
     }
 
-    for _ in 0..args.count {
-        println!("Hello {}!", args.name);
-    }
+    let args = Args::parse();
+    let hello_world = get_human_language_hello_world_for(args.human_language, args.dialect, None)
+        .context("failed to look up a 'hello-world'")?;
+    println!("{hello_world}");
 
     Ok(())
 }

@@ -1,321 +1,175 @@
-use super::common::HumanLanguageCategory;
-use HumanLanguageCategory::{Constructed, Extinct, Natural, Signed};
+use crate::data::common::{DEFAULT_HUMAN_LANGUAGE, DEFAULT_HUMAN_LANGUAGE_DIALECT};
+use crate::data::lookup::LookupError;
+use crate::data::macros::name_enum;
+
+use HumanLanguageCategory::{Constructed, Dead, Extinct, Natural, Signed};
 use thiserror::Error;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
-pub enum ScriptName {
-    #[default]
-    Latin,
-    Arabic,
-    Armenian,
-    Bengali,
-    Cyrillic,
-    Devanagari,
-    Georgian,
-    Greek,
-    Han,
-    SimplifiedChinese,
-    TraditionalChinese,
-    Hangul,
-    Hebrew,
-    Kanji,
-    Hiragana,
-    Katakana,
-    Piqad,
-    PersoArabic,
-    Tamil,
-    Telugu,
-    Thai,
-}
-
-impl ScriptName {
-    #[must_use]
-    pub const fn as_str(self) -> &'static str {
-        match self {
-            Self::Arabic => "Arabic",
-            Self::Armenian => "Armenian",
-            Self::Bengali => "Bengali",
-            Self::Cyrillic => "Cyrillic",
-            Self::Devanagari => "Devanagari",
-            Self::Georgian => "Georgian",
-            Self::Greek => "Greek",
-            Self::Han => "Han",
-            Self::SimplifiedChinese => "Simplified Chinese",
-            Self::TraditionalChinese => "Traditional Chinese",
-            Self::Hangul => "Hangul",
-            Self::Hebrew => "Hebrew",
-            Self::Kanji => "Kanji",
-            Self::Hiragana => "Hiragana",
-            Self::Katakana => "Katakana",
-            Self::Latin => "Latin",
-            Self::Piqad => "pIqaD",
-            Self::PersoArabic => "Perso-Arabic",
-            Self::Tamil => "Tamil",
-            Self::Telugu => "Telugu",
-            Self::Thai => "Thai",
-        }
+name_enum! {
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+    pub enum HumanLanguageCategory: ParseHumanLanguageCategoryError("category") {
+        Natural => "Natural",
+        Constructed => "Constructed",
+        Signed => "Signed",
+        /// See <https://www.globallanguageservices.co.uk/difference-extinct-language-dead-language/>
+        Dead => "Dead",
+        Extinct => "Extinct",
     }
 }
 
-impl core::fmt::Display for ScriptName {
-    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-        f.write_str(self.as_str())
+name_enum! {
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash )]
+    pub enum ScriptName: ParseScriptNameError("script") {
+        Latin => "Latin",
+        Arabic => "Arabic",
+        Armenian => "Armenian",
+        Bengali => "Bengali",
+        Braille => "Braille",
+        BrailleContracted => "Braille (Contracted)",
+        Cuneiform => "Cuneiform",
+        Cyrillic => "Cyrillic",
+        Devanagari => "Devanagari",
+        Georgian => "Georgian",
+        Greek => "Greek",
+        Han => "Han",
+        Pinyin => "Pinyin",
+        SimplifiedChinese => "Simplified Chinese",
+        TraditionalChinese => "Traditional Chinese",
+        Hangul => "Hangul",
+        Hebrew => "Hebrew",
+        /// Hepburn style
+        Romaji => "Romaji",
+        Kanji => "Kanji",
+        Hiragana => "Hiragana",
+        Katakana => "Katakana",
+        Kana => "Kana",
+        Piqad => "pIqaD",
+        PersoArabic => "Perso-Arabic",
+        Tamil => "Tamil",
+        Telugu => "Telugu",
+        Thai => "Thai",
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
-pub enum HumanLanguageName {
-    #[default]
-    English,
-    Chinese,
-    Spanish,
-    Hindi,
-    Arabic,
-    Bengali,
-    Portuguese,
-    Russian,
-    Japanese,
-    German,
-    French,
-    Italian,
-    Korean,
-    Turkish,
-    Vietnamese,
-    Polish,
-    Ukrainian,
-    Dutch,
-    Thai,
-    Greek,
-    Hebrew,
-    Swedish,
-    Indonesian,
-    Czech,
-    Finnish,
-    Danish,
-    Norwegian,
-    Hungarian,
-    Persian,
-    Swahili,
-    Romanian,
-    Tamil,
-    Telugu,
-    Armenian,
-    Georgian,
-    Yoruba,
-    Zulu,
-    Esperanto,
-    Lojban,
-    Klingon,
-    Latin,
-    Sanskrit,
-    AncientGreek,
-    AmericanSignLanguage,
-    BritishSignLanguage,
-}
-
-impl HumanLanguageName {
-    #[must_use]
-    pub const fn as_str(self) -> &'static str {
-        match self {
-            Self::English => "English",
-            Self::Chinese => "Chinese",
-            Self::Spanish => "Spanish",
-            Self::Hindi => "Hindi",
-            Self::Arabic => "Arabic",
-            Self::Bengali => "Bengali",
-            Self::Portuguese => "Portuguese",
-            Self::Russian => "Russian",
-            Self::Japanese => "Japanese",
-            Self::German => "German",
-            Self::French => "French",
-            Self::Italian => "Italian",
-            Self::Korean => "Korean",
-            Self::Turkish => "Turkish",
-            Self::Vietnamese => "Vietnamese",
-            Self::Polish => "Polish",
-            Self::Ukrainian => "Ukrainian",
-            Self::Dutch => "Dutch",
-            Self::Thai => "Thai",
-            Self::Greek => "Greek",
-            Self::Hebrew => "Hebrew",
-            Self::Swedish => "Swedish",
-            Self::Indonesian => "Indonesian",
-            Self::Czech => "Czech",
-            Self::Finnish => "Finnish",
-            Self::Danish => "Danish",
-            Self::Norwegian => "Norwegian",
-            Self::Hungarian => "Hungarian",
-            Self::Persian => "Persian",
-            Self::Swahili => "Swahili",
-            Self::Romanian => "Romanian",
-            Self::Tamil => "Tamil",
-            Self::Telugu => "Telugu",
-            Self::Armenian => "Armenian",
-            Self::Georgian => "Georgian",
-            Self::Yoruba => "Yoruba",
-            Self::Zulu => "Zulu",
-            Self::Esperanto => "Esperanto",
-            Self::Lojban => "Lojban",
-            Self::Klingon => "Klingon",
-            Self::Latin => "Latin",
-            Self::Sanskrit => "Sanskrit",
-            Self::AncientGreek => "Ancient Greek",
-            Self::AmericanSignLanguage => "American Sign Language",
-            Self::BritishSignLanguage => "British Sign Language",
-        }
+name_enum! {
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
+    pub enum HumanLanguageName: ParseHumanLanguageNameError("language") {
+        #[default]
+        English => "English",
+        Chinese => "Chinese",
+        Spanish => "Spanish",
+        Hindi => "Hindi",
+        Arabic => "Arabic",
+        Bengali => "Bengali",
+        Portuguese => "Portuguese",
+        Russian => "Russian",
+        Japanese => "Japanese",
+        German => "German",
+        French => "French",
+        Italian => "Italian",
+        Korean => "Korean",
+        Turkish => "Turkish",
+        Vietnamese => "Vietnamese",
+        Polish => "Polish",
+        Ukrainian => "Ukrainian",
+        Dutch => "Dutch",
+        Thai => "Thai",
+        Greek => "Greek",
+        Hebrew => "Hebrew",
+        Swedish => "Swedish",
+        Indonesian => "Indonesian",
+        Czech => "Czech",
+        Finnish => "Finnish",
+        Danish => "Danish",
+        Norwegian => "Norwegian",
+        Hungarian => "Hungarian",
+        Persian => "Persian",
+        Swahili => "Swahili",
+        Romanian => "Romanian",
+        Tamil => "Tamil",
+        Telugu => "Telugu",
+        Armenian => "Armenian",
+        Georgian => "Georgian",
+        Yoruba => "Yoruba",
+        Zulu => "Zulu",
+        Esperanto => "Esperanto",
+        Lojban => "Lojban",
+        Klingon => "Klingon",
+        Latin => "Latin",
+        Sanskrit => "Sanskrit",
+        AncientGreek => "Ancient Greek",
+        Sumerian => "Sumerian",
+        AmericanSignLanguage => "American Sign Language",
+        BritishSignLanguage => "British Sign Language",
     }
 }
 
-impl core::fmt::Display for HumanLanguageName {
-    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-        f.write_str(self.as_str())
-    }
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
-pub enum DialectName {
-    #[default]
-    AmericanEnglish,
-    BritishEnglish,
-    AustralianEnglish,
-    EnglishKatakana,
-    EnglishCyrillic,
-    EnglishHangul,
-    Mandarin,
-    Cantonese,
-    Hokkien,
-    CastilianSpanish,
-    MexicanSpanish,
-    RioplatenseSpanish,
-    ModernStandardHindi,
-    ModernStandardArabic,
-    EgyptianArabic,
-    LevantineArabic,
-    StandardBengali,
-    BrazilianPortuguese,
-    EuropeanPortuguese,
-    StandardRussian,
-    StandardJapanese,
-    KansaiJapanese,
-    StandardGerman,
-    SwissGerman,
-    Bavarian,
-    MetropolitanFrench,
-    QuebecoisFrench,
-    StandardItalian,
-    SouthKorean,
-    NorthKorean,
-    IstanbulTurkish,
-    StandardVietnamese,
-    StandardPolish,
-    StandardUkrainian,
-    StandardDutch,
-    CentralThai,
-    ModernGreek,
-    ModernHebrew,
-    StandardSwedish,
-    StandardIndonesian,
-    StandardCzech,
-    StandardFinnish,
-    StandardDanish,
-    Bokmal,
-    Nynorsk,
-    StandardHungarian,
-    IranianPersian,
-    StandardSwahili,
-    StandardRomanian,
-    StandardTamil,
-    StandardTelugu,
-    EasternArmenian,
-    WesternArmenian,
-    StandardGeorgian,
-    StandardYoruba,
-    StandardZulu,
-    StandardEsperanto,
-    StandardLojban,
-    StandardKlingon,
-    ClassicalLatin,
-    ClassicalSanskrit,
-    AtticGreek,
-    Asl,
-    Bsl,
-}
-
-impl DialectName {
-    #[must_use]
-    pub const fn as_str(self) -> &'static str {
-        match self {
-            Self::AmericanEnglish => "American English",
-            Self::BritishEnglish => "British English",
-            Self::AustralianEnglish => "Australian English",
-            Self::EnglishKatakana => "English (Katakana)",
-            Self::EnglishCyrillic => "English (Cyrillic)",
-            Self::EnglishHangul => "English (Hangul)",
-            Self::Mandarin => "Mandarin",
-            Self::Cantonese => "Cantonese",
-            Self::Hokkien => "Hokkien",
-            Self::CastilianSpanish => "Castilian Spanish",
-            Self::MexicanSpanish => "Mexican Spanish",
-            Self::RioplatenseSpanish => "Rioplatense Spanish",
-            Self::ModernStandardHindi => "Modern Standard Hindi",
-            Self::ModernStandardArabic => "Modern Standard Arabic",
-            Self::EgyptianArabic => "Egyptian Arabic",
-            Self::LevantineArabic => "Levantine Arabic",
-            Self::StandardBengali => "Standard Bengali",
-            Self::BrazilianPortuguese => "Brazilian Portuguese",
-            Self::EuropeanPortuguese => "European Portuguese",
-            Self::StandardRussian => "Standard Russian",
-            Self::StandardJapanese => "Standard Japanese",
-            Self::KansaiJapanese => "Kansai Japanese",
-            Self::StandardGerman => "Standard German",
-            Self::SwissGerman => "Swiss German",
-            Self::Bavarian => "Bavarian",
-            Self::MetropolitanFrench => "Metropolitan French",
-            Self::QuebecoisFrench => "Québécois French",
-            Self::StandardItalian => "Standard Italian",
-            Self::SouthKorean => "South Korean",
-            Self::NorthKorean => "North Korean",
-            Self::IstanbulTurkish => "Istanbul Turkish",
-            Self::StandardVietnamese => "Standard Vietnamese",
-            Self::StandardPolish => "Standard Polish",
-            Self::StandardUkrainian => "Standard Ukrainian",
-            Self::StandardDutch => "Standard Dutch",
-            Self::CentralThai => "Central Thai",
-            Self::ModernGreek => "Modern Greek",
-            Self::ModernHebrew => "Modern Hebrew",
-            Self::StandardSwedish => "Standard Swedish",
-            Self::StandardIndonesian => "Standard Indonesian",
-            Self::StandardCzech => "Standard Czech",
-            Self::StandardFinnish => "Standard Finnish",
-            Self::StandardDanish => "Standard Danish",
-            Self::Bokmal => "Bokmål",
-            Self::Nynorsk => "Nynorsk",
-            Self::StandardHungarian => "Standard Hungarian",
-            Self::IranianPersian => "Iranian Persian",
-            Self::StandardSwahili => "Standard Swahili",
-            Self::StandardRomanian => "Standard Romanian",
-            Self::StandardTamil => "Standard Tamil",
-            Self::StandardTelugu => "Standard Telugu",
-            Self::EasternArmenian => "Eastern Armenian",
-            Self::WesternArmenian => "Western Armenian",
-            Self::StandardGeorgian => "Standard Georgian",
-            Self::StandardYoruba => "Standard Yoruba",
-            Self::StandardZulu => "Standard Zulu",
-            Self::StandardEsperanto => "Standard Esperanto",
-            Self::StandardLojban => "Standard Lojban",
-            Self::StandardKlingon => "Standard Klingon",
-            Self::ClassicalLatin => "Classical Latin",
-            Self::ClassicalSanskrit => "Classical Sanskrit",
-            Self::AtticGreek => "Attic Greek",
-            Self::Asl => "ASL",
-            Self::Bsl => "BSL",
-        }
-    }
-}
-
-impl core::fmt::Display for DialectName {
-    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-        f.write_str(self.as_str())
+name_enum! {
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
+    pub enum DialectName: ParseDialectNameError("dialect") {
+        #[default]
+        AmericanEnglish => "American English",
+        BritishEnglish => "British English",
+        AustralianEnglish => "Australian English",
+        Mandarin => "Mandarin",
+        Cantonese => "Cantonese",
+        Hokkien => "Hokkien",
+        CastilianSpanish => "Castilian Spanish",
+        MexicanSpanish => "Mexican Spanish",
+        RioplatenseSpanish => "Rioplatense Spanish",
+        ModernStandardHindi => "Modern Standard Hindi",
+        ModernStandardArabic => "Modern Standard Arabic",
+        EgyptianArabic => "Egyptian Arabic",
+        LevantineArabic => "Levantine Arabic",
+        StandardBengali => "Standard Bengali",
+        BrazilianPortuguese => "Brazilian Portuguese",
+        EuropeanPortuguese => "European Portuguese",
+        StandardRussian => "Standard Russian",
+        StandardJapanese => "Standard Japanese",
+        KansaiJapanese => "Kansai Japanese",
+        StandardGerman => "Standard German",
+        SwissGerman => "Swiss German",
+        Bavarian => "Bavarian",
+        MetropolitanFrench => "Metropolitan French",
+        QuebecoisFrench => "Québécois French",
+        StandardItalian => "Standard Italian",
+        SouthKorean => "South Korean",
+        NorthKorean => "North Korean",
+        IstanbulTurkish => "Istanbul Turkish",
+        StandardVietnamese => "Standard Vietnamese",
+        StandardPolish => "Standard Polish",
+        StandardUkrainian => "Standard Ukrainian",
+        StandardDutch => "Standard Dutch",
+        CentralThai => "Central Thai",
+        ModernGreek => "Modern Greek",
+        ModernHebrew => "Modern Hebrew",
+        StandardSwedish => "Standard Swedish",
+        StandardIndonesian => "Standard Indonesian",
+        StandardCzech => "Standard Czech",
+        StandardFinnish => "Standard Finnish",
+        StandardDanish => "Standard Danish",
+        Bokmal => "Bokmål",
+        Nynorsk => "Nynorsk",
+        StandardHungarian => "Standard Hungarian",
+        IranianPersian => "Iranian Persian",
+        StandardSwahili => "Standard Swahili",
+        StandardRomanian => "Standard Romanian",
+        StandardTamil => "Standard Tamil",
+        StandardTelugu => "Standard Telugu",
+        EasternArmenian => "Eastern Armenian",
+        WesternArmenian => "Western Armenian",
+        StandardGeorgian => "Standard Georgian",
+        StandardYoruba => "Standard Yoruba",
+        StandardZulu => "Standard Zulu",
+        StandardEsperanto => "Standard Esperanto",
+        StandardLojban => "Standard Lojban",
+        StandardKlingon => "Standard Klingon",
+        ClassicalLatin => "Classical Latin",
+        ClassicalSanskrit => "Classical Sanskrit",
+        AtticGreek => "Attic Greek",
+        Emegir => "Emegir",
+        Asl => "ASL",
+        Bsl => "BSL",
     }
 }
 
@@ -327,11 +181,21 @@ pub struct HumanLanguage {
     pub dialects: &'static [Dialect],
 }
 
+/// A spoken variety of a language (how it sounds), e.g. "Mandarin" vs "Cantonese".
 #[derive(Debug, Clone, Copy)]
 pub struct Dialect {
-    pub label: DialectName,            // "Mandarin", "Cantonese", "ASL" vs "BSL"
-    pub script: &'static [ScriptName], // this dialect's scripts; empty if no written form
-    pub hello_world: &'static str,
+    pub label: DialectName,
+    /// The same greeting written in different scripts. The first entry is the default.
+    pub greetings: &'static [Greeting],
+}
+
+/// One written form of a dialect's greeting.
+#[derive(Debug, Clone, Copy)]
+pub struct Greeting {
+    /// Scripts used by `text`; may hold several (Japanese mixes Kanji and Hiragana),
+    /// or none for languages with no written form.
+    pub scripts: &'static [ScriptName],
+    pub text: &'static str,
 }
 
 pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
@@ -343,37 +207,54 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
             ScriptName::Katakana,
             ScriptName::Cyrillic,
             ScriptName::Hangul,
+            ScriptName::Braille,
+            ScriptName::BrailleContracted,
         ],
         dialects: &[
             Dialect {
                 label: DialectName::AmericanEnglish,
-                script: &[ScriptName::Latin],
-                hello_world: "Hello, World!",
+                greetings: &[
+                    Greeting {
+                        scripts: &[ScriptName::Latin],
+                        text: "Hello, World!",
+                    },
+                    Greeting {
+                        scripts: &[ScriptName::Katakana],
+                        text: "ハローワールド",
+                    },
+                    Greeting {
+                        scripts: &[ScriptName::Cyrillic],
+                        text: "Хелло, Ворлд",
+                    },
+                    Greeting {
+                        scripts: &[ScriptName::Hangul],
+                        text: "헬로, 월드!",
+                    },
+                    // Unified English Braille, uncontracted (Grade 1); ⠠ = capital indicator
+                    Greeting {
+                        scripts: &[ScriptName::Braille],
+                        text: "⠠⠓⠑⠇⠇⠕⠂ ⠠⠺⠕⠗⠇⠙⠖",
+                    },
+                    // Unified English Braille, contracted (Grade 2); ⠸⠺ = "world"
+                    Greeting {
+                        scripts: &[ScriptName::BrailleContracted],
+                        text: "⠠⠓⠑⠇⠇⠕⠂ ⠠⠸⠺⠖",
+                    },
+                ],
             },
             Dialect {
                 label: DialectName::BritishEnglish,
-                script: &[ScriptName::Latin],
-                hello_world: "Hello, World!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Latin],
+                    text: "Hello, World!",
+                }],
             },
             Dialect {
                 label: DialectName::AustralianEnglish,
-                script: &[ScriptName::Latin],
-                hello_world: "G'day, World!",
-            },
-            Dialect {
-                label: DialectName::EnglishKatakana,
-                script: &[ScriptName::Katakana],
-                hello_world: "ハローワールド",
-            },
-            Dialect {
-                label: DialectName::EnglishCyrillic,
-                script: &[ScriptName::Cyrillic],
-                hello_world: "Хелло, Ворлд",
-            },
-            Dialect {
-                label: DialectName::EnglishHangul,
-                script: &[ScriptName::Hangul],
-                hello_world: "헬로, 월드!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Latin],
+                    text: "G'day, World!",
+                }],
             },
         ],
     },
@@ -384,22 +265,36 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
             ScriptName::Han,
             ScriptName::SimplifiedChinese,
             ScriptName::TraditionalChinese,
+            ScriptName::Latin,
+            ScriptName::Pinyin,
         ],
         dialects: &[
             Dialect {
                 label: DialectName::Mandarin,
-                script: &[ScriptName::SimplifiedChinese],
-                hello_world: "你好，世界！",
+                greetings: &[
+                    Greeting {
+                        scripts: &[ScriptName::SimplifiedChinese],
+                        text: "你好，世界！",
+                    },
+                    Greeting {
+                        scripts: &[ScriptName::Latin, ScriptName::Pinyin],
+                        text: "Nǐ hǎo, shìjiè!",
+                    },
+                ],
             },
             Dialect {
                 label: DialectName::Cantonese,
-                script: &[ScriptName::TraditionalChinese],
-                hello_world: "哈囉，世界！",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::TraditionalChinese],
+                    text: "哈囉，世界！",
+                }],
             },
             Dialect {
                 label: DialectName::Hokkien,
-                script: &[ScriptName::TraditionalChinese],
-                hello_world: "汝好，世界！",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::TraditionalChinese],
+                    text: "汝好，世界！",
+                }],
             },
         ],
     },
@@ -410,18 +305,24 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         dialects: &[
             Dialect {
                 label: DialectName::CastilianSpanish,
-                script: &[ScriptName::Latin],
-                hello_world: "¡Hola, Mundo!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Latin],
+                    text: "¡Hola, Mundo!",
+                }],
             },
             Dialect {
                 label: DialectName::MexicanSpanish,
-                script: &[ScriptName::Latin],
-                hello_world: "¡Hola, Mundo!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Latin],
+                    text: "¡Hola, Mundo!",
+                }],
             },
             Dialect {
                 label: DialectName::RioplatenseSpanish,
-                script: &[ScriptName::Latin],
-                hello_world: "¡Hola, Mundo!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Latin],
+                    text: "¡Hola, Mundo!",
+                }],
             },
         ],
     },
@@ -431,8 +332,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Devanagari],
         dialects: &[Dialect {
             label: DialectName::ModernStandardHindi,
-            script: &[ScriptName::Devanagari],
-            hello_world: "नमस्ते दुनिया!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Devanagari],
+                text: "नमस्ते दुनिया!",
+            }],
         }],
     },
     HumanLanguage {
@@ -442,18 +345,24 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         dialects: &[
             Dialect {
                 label: DialectName::ModernStandardArabic,
-                script: &[ScriptName::Arabic],
-                hello_world: "مرحبا بالعالم!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Arabic],
+                    text: "مرحبا بالعالم!",
+                }],
             },
             Dialect {
                 label: DialectName::EgyptianArabic,
-                script: &[ScriptName::Arabic],
-                hello_world: "أهلاً بالعالم!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Arabic],
+                    text: "أهلاً بالعالم!",
+                }],
             },
             Dialect {
                 label: DialectName::LevantineArabic,
-                script: &[ScriptName::Arabic],
-                hello_world: "مرحبا بالعالم!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Arabic],
+                    text: "مرحبا بالعالم!",
+                }],
             },
         ],
     },
@@ -463,8 +372,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Bengali],
         dialects: &[Dialect {
             label: DialectName::StandardBengali,
-            script: &[ScriptName::Bengali],
-            hello_world: "হ্যালো, বিশ্ব!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Bengali],
+                text: "হ্যালো, বিশ্ব!",
+            }],
         }],
     },
     HumanLanguage {
@@ -474,13 +385,17 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         dialects: &[
             Dialect {
                 label: DialectName::BrazilianPortuguese,
-                script: &[ScriptName::Latin],
-                hello_world: "Olá, Mundo!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Latin],
+                    text: "Olá, Mundo!",
+                }],
             },
             Dialect {
                 label: DialectName::EuropeanPortuguese,
-                script: &[ScriptName::Latin],
-                hello_world: "Olá, Mundo!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Latin],
+                    text: "Olá, Mundo!",
+                }],
             },
         ],
     },
@@ -490,8 +405,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Cyrillic],
         dialects: &[Dialect {
             label: DialectName::StandardRussian,
-            script: &[ScriptName::Cyrillic],
-            hello_world: "Привет, мир!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Cyrillic],
+                text: "Привет, мир!",
+            }],
         }],
     },
     HumanLanguage {
@@ -501,17 +418,36 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
             ScriptName::Kanji,
             ScriptName::Hiragana,
             ScriptName::Katakana,
+            ScriptName::Kana,
+            ScriptName::Latin,
+            ScriptName::Romaji,
         ],
         dialects: &[
             Dialect {
                 label: DialectName::StandardJapanese,
-                script: &[ScriptName::Kanji, ScriptName::Hiragana],
-                hello_world: "こんにちは世界！",
+                greetings: &[
+                    Greeting {
+                        scripts: &[ScriptName::Kana, ScriptName::Kanji, ScriptName::Hiragana],
+                        text: "こんにちは世界！",
+                    },
+                    Greeting {
+                        scripts: &[ScriptName::Romaji, ScriptName::Latin],
+                        text: "konnichiwa sekai!",
+                    },
+                ],
             },
             Dialect {
                 label: DialectName::KansaiJapanese,
-                script: &[ScriptName::Kanji, ScriptName::Hiragana],
-                hello_world: "まいど、世界！",
+                greetings: &[
+                    Greeting {
+                        scripts: &[ScriptName::Kana, ScriptName::Kanji, ScriptName::Hiragana],
+                        text: "まいど、世界！",
+                    },
+                    Greeting {
+                        scripts: &[ScriptName::Romaji, ScriptName::Latin],
+                        text: "maido, sekai!",
+                    },
+                ],
             },
         ],
     },
@@ -522,18 +458,24 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         dialects: &[
             Dialect {
                 label: DialectName::StandardGerman,
-                script: &[ScriptName::Latin],
-                hello_world: "Hallo, Welt!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Latin],
+                    text: "Hallo, Welt!",
+                }],
             },
             Dialect {
                 label: DialectName::SwissGerman,
-                script: &[ScriptName::Latin],
-                hello_world: "Hallo, Wält!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Latin],
+                    text: "Hallo, Wält!",
+                }],
             },
             Dialect {
                 label: DialectName::Bavarian,
-                script: &[ScriptName::Latin],
-                hello_world: "Servus, Wöd!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Latin],
+                    text: "Servus, Wöd!",
+                }],
             },
         ],
     },
@@ -544,13 +486,17 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         dialects: &[
             Dialect {
                 label: DialectName::MetropolitanFrench,
-                script: &[ScriptName::Latin],
-                hello_world: "Bonjour le monde!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Latin],
+                    text: "Bonjour le monde!",
+                }],
             },
             Dialect {
                 label: DialectName::QuebecoisFrench,
-                script: &[ScriptName::Latin],
-                hello_world: "Bonjour le monde!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Latin],
+                    text: "Bonjour le monde!",
+                }],
             },
         ],
     },
@@ -560,8 +506,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
             label: DialectName::StandardItalian,
-            script: &[ScriptName::Latin],
-            hello_world: "Ciao, mondo!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Ciao, mondo!",
+            }],
         }],
     },
     HumanLanguage {
@@ -571,13 +519,17 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         dialects: &[
             Dialect {
                 label: DialectName::SouthKorean,
-                script: &[ScriptName::Hangul],
-                hello_world: "안녕하세요, 세계!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Hangul],
+                    text: "안녕하세요, 세계!",
+                }],
             },
             Dialect {
                 label: DialectName::NorthKorean,
-                script: &[ScriptName::Hangul],
-                hello_world: "안녕하세요, 세계!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Hangul],
+                    text: "안녕하세요, 세계!",
+                }],
             },
         ],
     },
@@ -587,8 +539,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
             label: DialectName::IstanbulTurkish,
-            script: &[ScriptName::Latin],
-            hello_world: "Merhaba, Dünya!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Merhaba, Dünya!",
+            }],
         }],
     },
     HumanLanguage {
@@ -597,8 +551,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
             label: DialectName::StandardVietnamese,
-            script: &[ScriptName::Latin],
-            hello_world: "Xin chào, thế giới!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Xin chào, thế giới!",
+            }],
         }],
     },
     HumanLanguage {
@@ -607,8 +563,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
             label: DialectName::StandardPolish,
-            script: &[ScriptName::Latin],
-            hello_world: "Witaj, świecie!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Witaj, świecie!",
+            }],
         }],
     },
     HumanLanguage {
@@ -617,8 +575,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Cyrillic],
         dialects: &[Dialect {
             label: DialectName::StandardUkrainian,
-            script: &[ScriptName::Cyrillic],
-            hello_world: "Привіт, світе!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Cyrillic],
+                text: "Привіт, світе!",
+            }],
         }],
     },
     HumanLanguage {
@@ -627,8 +587,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
             label: DialectName::StandardDutch,
-            script: &[ScriptName::Latin],
-            hello_world: "Hallo, wereld!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Hallo, wereld!",
+            }],
         }],
     },
     HumanLanguage {
@@ -637,8 +599,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Thai],
         dialects: &[Dialect {
             label: DialectName::CentralThai,
-            script: &[ScriptName::Thai],
-            hello_world: "สวัสดีชาวโลก!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Thai],
+                text: "สวัสดีชาวโลก!",
+            }],
         }],
     },
     HumanLanguage {
@@ -647,8 +611,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Greek],
         dialects: &[Dialect {
             label: DialectName::ModernGreek,
-            script: &[ScriptName::Greek],
-            hello_world: "Γεια σου, Κόσμε!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Greek],
+                text: "Γεια σου, Κόσμε!",
+            }],
         }],
     },
     HumanLanguage {
@@ -657,8 +623,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Hebrew],
         dialects: &[Dialect {
             label: DialectName::ModernHebrew,
-            script: &[ScriptName::Hebrew],
-            hello_world: "שלום, עולם!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Hebrew],
+                text: "שלום, עולם!",
+            }],
         }],
     },
     HumanLanguage {
@@ -667,8 +635,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
             label: DialectName::StandardSwedish,
-            script: &[ScriptName::Latin],
-            hello_world: "Hej, världen!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Hej, världen!",
+            }],
         }],
     },
     HumanLanguage {
@@ -677,8 +647,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
             label: DialectName::StandardIndonesian,
-            script: &[ScriptName::Latin],
-            hello_world: "Halo, Dunia!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Halo, Dunia!",
+            }],
         }],
     },
     HumanLanguage {
@@ -687,8 +659,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
             label: DialectName::StandardCzech,
-            script: &[ScriptName::Latin],
-            hello_world: "Ahoj, světe!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Ahoj, světe!",
+            }],
         }],
     },
     HumanLanguage {
@@ -697,8 +671,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
             label: DialectName::StandardFinnish,
-            script: &[ScriptName::Latin],
-            hello_world: "Hei, maailma!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Hei, maailma!",
+            }],
         }],
     },
     HumanLanguage {
@@ -707,8 +683,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
             label: DialectName::StandardDanish,
-            script: &[ScriptName::Latin],
-            hello_world: "Hej, verden!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Hej, verden!",
+            }],
         }],
     },
     HumanLanguage {
@@ -718,13 +696,17 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         dialects: &[
             Dialect {
                 label: DialectName::Bokmal,
-                script: &[ScriptName::Latin],
-                hello_world: "Hei, verden!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Latin],
+                    text: "Hei, verden!",
+                }],
             },
             Dialect {
                 label: DialectName::Nynorsk,
-                script: &[ScriptName::Latin],
-                hello_world: "Hei, verda!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Latin],
+                    text: "Hei, verda!",
+                }],
             },
         ],
     },
@@ -734,8 +716,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
             label: DialectName::StandardHungarian,
-            script: &[ScriptName::Latin],
-            hello_world: "Helló, világ!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Helló, világ!",
+            }],
         }],
     },
     HumanLanguage {
@@ -744,8 +728,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::PersoArabic],
         dialects: &[Dialect {
             label: DialectName::IranianPersian,
-            script: &[ScriptName::PersoArabic],
-            hello_world: "سلام دنیا!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::PersoArabic],
+                text: "سلام دنیا!",
+            }],
         }],
     },
     HumanLanguage {
@@ -754,8 +740,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
             label: DialectName::StandardSwahili,
-            script: &[ScriptName::Latin],
-            hello_world: "Habari, Dunia!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Habari, Dunia!",
+            }],
         }],
     },
     HumanLanguage {
@@ -764,8 +752,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
             label: DialectName::StandardRomanian,
-            script: &[ScriptName::Latin],
-            hello_world: "Salut, lume!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Salut, lume!",
+            }],
         }],
     },
     HumanLanguage {
@@ -774,8 +764,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Tamil],
         dialects: &[Dialect {
             label: DialectName::StandardTamil,
-            script: &[ScriptName::Tamil],
-            hello_world: "வணக்கம், உலகம்!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Tamil],
+                text: "வணக்கம், உலகம்!",
+            }],
         }],
     },
     HumanLanguage {
@@ -784,8 +776,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Telugu],
         dialects: &[Dialect {
             label: DialectName::StandardTelugu,
-            script: &[ScriptName::Telugu],
-            hello_world: "హలో, ప్రపంచం!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Telugu],
+                text: "హలో, ప్రపంచం!",
+            }],
         }],
     },
     HumanLanguage {
@@ -795,13 +789,17 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         dialects: &[
             Dialect {
                 label: DialectName::EasternArmenian,
-                script: &[ScriptName::Armenian],
-                hello_world: "Բարեւ, աշխարհ!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Armenian],
+                    text: "Բարեւ, աշխարհ!",
+                }],
             },
             Dialect {
                 label: DialectName::WesternArmenian,
-                script: &[ScriptName::Armenian],
-                hello_world: "Բարեւ աշխարհ!",
+                greetings: &[Greeting {
+                    scripts: &[ScriptName::Armenian],
+                    text: "Բարեւ աշխարհ!",
+                }],
             },
         ],
     },
@@ -811,8 +809,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Georgian],
         dialects: &[Dialect {
             label: DialectName::StandardGeorgian,
-            script: &[ScriptName::Georgian],
-            hello_world: "გამარჯობა, მსოფლიო!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Georgian],
+                text: "გამარჯობა, მსოფლიო!",
+            }],
         }],
     },
     HumanLanguage {
@@ -821,8 +821,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
             label: DialectName::StandardYoruba,
-            script: &[ScriptName::Latin],
-            hello_world: "Ẹ n lẹ, Ayé!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Ẹ n lẹ, Ayé!",
+            }],
         }],
     },
     HumanLanguage {
@@ -831,8 +833,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
             label: DialectName::StandardZulu,
-            script: &[ScriptName::Latin],
-            hello_world: "Sawubona, Mhlaba!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Sawubona, Mhlaba!",
+            }],
         }],
     },
     HumanLanguage {
@@ -841,8 +845,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
             label: DialectName::StandardEsperanto,
-            script: &[ScriptName::Latin],
-            hello_world: "Saluton, mondo!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Saluton, mondo!",
+            }],
         }],
     },
     HumanLanguage {
@@ -851,8 +857,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
             label: DialectName::StandardLojban,
-            script: &[ScriptName::Latin],
-            hello_world: "coi munje",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "coi munje",
+            }],
         }],
     },
     HumanLanguage {
@@ -861,18 +869,22 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Latin, ScriptName::Piqad],
         dialects: &[Dialect {
             label: DialectName::StandardKlingon,
-            script: &[ScriptName::Latin],
-            hello_world: "nuqneH, qo'!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "nuqneH, qo'!",
+            }],
         }],
     },
     HumanLanguage {
         name: HumanLanguageName::Latin,
-        categories: &[Extinct],
+        categories: &[Dead],
         scripts: &[ScriptName::Latin],
         dialects: &[Dialect {
             label: DialectName::ClassicalLatin,
-            script: &[ScriptName::Latin],
-            hello_world: "Salve, munde!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Salve, munde!",
+            }],
         }],
     },
     HumanLanguage {
@@ -881,18 +893,37 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[ScriptName::Devanagari],
         dialects: &[Dialect {
             label: DialectName::ClassicalSanskrit,
-            script: &[ScriptName::Devanagari],
-            hello_world: "नमस्ते विश्व!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Devanagari],
+                text: "नमस्ते विश्व!",
+            }],
         }],
     },
     HumanLanguage {
         name: HumanLanguageName::AncientGreek,
-        categories: &[Extinct],
+        categories: &[Dead],
         scripts: &[ScriptName::Greek],
         dialects: &[Dialect {
             label: DialectName::AtticGreek,
-            script: &[ScriptName::Greek],
-            hello_world: "Χαῖρε, κόσμε!",
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Greek],
+                text: "Χαῖρε, κόσμε!",
+            }],
+        }],
+    },
+    HumanLanguage {
+        name: HumanLanguageName::Sumerian,
+        categories: &[Extinct],
+        scripts: &[ScriptName::Cuneiform],
+        dialects: &[Dialect {
+            label: DialectName::Emegir,
+            greetings: &[
+                // silim an-ki: "well-being, heaven-earth"; a reconstruction, not attested
+                Greeting {
+                    scripts: &[ScriptName::Cuneiform],
+                    text: "𒁲 𒀭𒆠",
+                },
+            ],
         }],
     },
     HumanLanguage {
@@ -901,8 +932,10 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[],
         dialects: &[Dialect {
             label: DialectName::Asl,
-            script: &[],
-            hello_world: "HELLO WORLD",
+            greetings: &[Greeting {
+                scripts: &[],
+                text: "HELLO WORLD",
+            }],
         }],
     },
     HumanLanguage {
@@ -911,87 +944,157 @@ pub static HUMAN_LANGUAGES: &[HumanLanguage] = &[
         scripts: &[],
         dialects: &[Dialect {
             label: DialectName::Bsl,
-            script: &[],
-            hello_world: "HELLO WORLD",
+            greetings: &[Greeting {
+                scripts: &[],
+                text: "HELLO WORLD",
+            }],
         }],
     },
 ];
 
+/// Language/dialect resolution errors for the human-language catalog.
+pub type HumanLookupError = LookupError<HumanLanguageName, DialectName>;
+
 /// Errors that can occur while looking up localized greetings.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Error)]
 pub enum HumanLanguageError {
-    #[error("no 'hello world' found for language {0}: not a recorded language")]
-    UnknownLanguage(HumanLanguageName),
+    #[error(transparent)]
+    Lookup(#[from] HumanLookupError),
 
-    #[error(
-        "no 'hello world' found for {language}: dialect {dialect} is not recorded for this language"
-    )]
-    UnknownDialect {
+    #[error("no 'hello world' found for {language} ({dialect}) written in {script}")]
+    UnknownScript {
+        language: HumanLanguageName,
+        dialect: DialectName,
+        script: ScriptName,
+    },
+
+    #[error("no 'hello world' recorded for {language} ({dialect})")]
+    MissingGreeting {
         language: HumanLanguageName,
         dialect: DialectName,
     },
-    #[error("Could not infer a default dialect for language: {0}")]
-    DialectInferenceFailed(HumanLanguageName),
-    #[error("Missing language for dialect: {0}")]
-    MissingLanguage(DialectName),
 }
 
 /// Look up the localized greeting for a language and dialect.
 ///
+/// If both `language` and `dialect` are `None`, returns the default greeting.
+/// If only `language` is given, its first dialect is used.
+/// If only `dialect` is given, the language is inferred from whichever
+/// language records that dialect.
+/// If `script` is `None`, the dialect's first greeting is used; otherwise the
+/// first greeting written in that script.
+///
 /// # Errors
 ///
-/// Returns a [`HumanLanguageError`] if the language is not recorded or if the
-/// dialect is not one of the language's dialects.
-pub fn hello_world_for(
+/// Returns a [`HumanLanguageError`] if the language is not recorded, if the
+/// dialect is not one of the language's dialects, if a dialect given on its
+/// own belongs to no recorded language, or if no greeting is written in `script`.
+pub fn get_human_language_hello_world_for(
     language: Option<HumanLanguageName>,
     dialect: Option<DialectName>,
+    script: Option<ScriptName>,
 ) -> Result<&'static str, HumanLanguageError> {
-    let default_language = language.unwrap_or(HumanLanguageName::English);
-    let default_dialect_result: Result<DialectName, HumanLanguageError> = match (language, dialect)
-    {
-        (None, None) => Ok(DialectName::AmericanEnglish),
-        (None, Some(existing_dialect)) => {
-            Err(HumanLanguageError::MissingLanguage(existing_dialect))
-        }
-        (Some(existing_lang), None) => get_default_dialect_for_language(existing_lang),
-        (Some(_), Some(existing_dialect)) => Ok(existing_dialect),
-    };
-
-    let Ok(default_dialect) = default_dialect_result else {
-        return Err(HumanLanguageError::DialectInferenceFailed(default_language));
+    let (resolved_language, resolved_dialect) = match (language, dialect) {
+        (None, None) => (DEFAULT_HUMAN_LANGUAGE, DEFAULT_HUMAN_LANGUAGE_DIALECT),
+        (None, Some(existing_dialect)) => (
+            get_human_language_from_dialect(existing_dialect)?,
+            existing_dialect,
+        ),
+        (Some(existing_lang), None) => (
+            existing_lang,
+            get_default_human_language_dialect_from_language(existing_lang)?,
+        ),
+        (Some(existing_lang), Some(existing_dialect)) => (existing_lang, existing_dialect),
     };
 
     let lang = HUMAN_LANGUAGES
         .iter()
-        .find(|lang| lang.name == default_language)
-        .ok_or(HumanLanguageError::UnknownLanguage(default_language))?;
+        .find(|lang| lang.name == resolved_language)
+        .ok_or(LookupError::UnknownLanguage(resolved_language))?;
     let lang_dialect = lang
         .dialects
         .iter()
-        .find(|d| d.label == default_dialect)
-        .ok_or(HumanLanguageError::UnknownDialect {
-            language: default_language,
-            dialect: default_dialect,
+        .find(|d| d.label == resolved_dialect)
+        .ok_or(LookupError::UnknownVariant {
+            language: resolved_language,
+            variant: resolved_dialect,
         })?;
-    Ok(lang_dialect.hello_world)
+
+    let greeting = match script {
+        None => lang_dialect
+            .greetings
+            .first()
+            .ok_or(HumanLanguageError::MissingGreeting {
+                language: resolved_language,
+                dialect: resolved_dialect,
+            })?,
+        Some(wanted) => lang_dialect
+            .greetings
+            .iter()
+            .find(|greeting| greeting.scripts.contains(&wanted))
+            .ok_or(HumanLanguageError::UnknownScript {
+                language: resolved_language,
+                dialect: resolved_dialect,
+                script: wanted,
+            })?,
+    };
+    Ok(greeting.text)
+}
+
+/// Finds the language that records `dialect`.
+///
+/// # Errors
+///
+/// Returns [`LookupError::NoOwner`] if no recorded language has
+/// the dialect.
+pub fn get_human_language_from_dialect(
+    dialect: DialectName,
+) -> Result<HumanLanguageName, HumanLookupError> {
+    HUMAN_LANGUAGES
+        .iter()
+        .find(|lang| lang.dialects.iter().any(|d| d.label == dialect))
+        .map(|lang| lang.name)
+        .ok_or(LookupError::NoOwner(dialect))
 }
 
 /// Defaults to the 1st in the array of the set `language` parameter
 ///
 /// # Errors
 ///
-/// Returns a [`HumanLanguageError::UnknownLanguage`]
-pub fn get_default_dialect_for_language(
+/// Returns [`LookupError::UnknownLanguage`] if the language is not recorded,
+/// or [`LookupError::NoVariants`] if it has no dialects.
+pub fn get_default_human_language_dialect_from_language(
     language: HumanLanguageName,
-) -> Result<DialectName, HumanLanguageError> {
-    let lang = HUMAN_LANGUAGES.iter().find(|lang| lang.name == language);
-    match lang {
-        Some(existing_lang) => Ok(existing_lang.dialects[0].label),
-        None => Err(HumanLanguageError::UnknownLanguage(language)),
-    }
+) -> Result<DialectName, HumanLookupError> {
+    let lang = HUMAN_LANGUAGES
+        .iter()
+        .find(|lang| lang.name == language)
+        .ok_or(LookupError::UnknownLanguage(language))?;
+    lang.dialects
+        .first()
+        .map(|dialect| dialect.label)
+        .ok_or(LookupError::NoVariants(language))
 }
 
 #[must_use]
 pub fn get_all_human_language_names() -> Vec<HumanLanguageName> {
     HUMAN_LANGUAGES.iter().map(|lang| lang.name).collect()
+}
+
+#[must_use]
+pub fn get_all_human_languages_by_category(
+    category: HumanLanguageCategory,
+) -> Vec<&'static HumanLanguage> {
+    HUMAN_LANGUAGES
+        .iter()
+        .filter(|lang| lang.categories.contains(&category))
+        .collect()
+}
+
+#[must_use]
+pub fn get_all_human_languages_by_script(script: ScriptName) -> Vec<&'static HumanLanguage> {
+    HUMAN_LANGUAGES
+        .iter()
+        .filter(|lang| lang.scripts.contains(&script))
+        .collect()
 }
