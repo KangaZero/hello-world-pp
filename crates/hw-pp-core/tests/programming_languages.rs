@@ -1,6 +1,6 @@
 use hw_pp_core::data::lookup::LookupError;
 use hw_pp_core::data::programming_languages::{
-    FileExtension, LanguageVersionDialect, PROGRAMMING_LANGUAGES, ProgrammingLanguageError,
+    FileExtension, PROGRAMMING_LANGUAGES, ProgrammingLanguageDialect, ProgrammingLanguageError,
     ProgrammingLanguageName, get_default_programming_language_dialect_from_language_name,
     get_hello_world_syntax_for, get_programming_language_from_extension,
 };
@@ -26,7 +26,7 @@ fn programming_name_enums_round_trip_through_display_and_from_str() {
     for &name in ProgrammingLanguageName::ALL {
         assert_eq!(name.to_string().parse(), Ok(name));
     }
-    for &version in LanguageVersionDialect::ALL {
+    for &version in ProgrammingLanguageDialect::ALL {
         assert_eq!(version.to_string().parse(), Ok(version));
     }
     assert_eq!("c++".parse(), Ok(ProgrammingLanguageName::Cpp));
@@ -41,7 +41,7 @@ fn every_programming_variant_is_used_in_the_data() {
             "{name} has no entry"
         );
     }
-    for version in LanguageVersionDialect::ALL {
+    for version in ProgrammingLanguageDialect::ALL {
         assert!(
             PROGRAMMING_LANGUAGES
                 .iter()
@@ -63,7 +63,7 @@ fn extensions_round_trip_and_ignore_case() {
 fn programming_lookup_helpers_use_shared_errors() {
     assert_eq!(
         get_default_programming_language_dialect_from_language_name(ProgrammingLanguageName::Cpp),
-        Ok(LanguageVersionDialect::Cpp98)
+        Ok(ProgrammingLanguageDialect::Cpp98)
     );
     assert_eq!(
         get_programming_language_from_extension(FileExtension::Rs),
@@ -87,7 +87,7 @@ fn syntax_infers_language_from_extension_or_version() {
         get_hello_world_syntax_for(Some(ProgrammingLanguageName::Python), None, None)
     );
     assert_eq!(
-        get_hello_world_syntax_for(None, Some(LanguageVersionDialect::Python2), None),
+        get_hello_world_syntax_for(None, Some(ProgrammingLanguageDialect::Python2), None),
         Ok(r#"print "Hello, World!""#)
     );
 }
@@ -108,7 +108,7 @@ fn syntax_rejects_extension_from_another_language() {
     assert_eq!(
         get_hello_world_syntax_for(
             None,
-            Some(LanguageVersionDialect::Cpp20),
+            Some(ProgrammingLanguageDialect::Cpp20),
             Some(FileExtension::Py)
         )
         .map_err(|err| err.to_string()),
@@ -121,13 +121,13 @@ fn syntax_rejects_version_from_another_language() {
     assert_eq!(
         get_hello_world_syntax_for(
             Some(ProgrammingLanguageName::Rust),
-            Some(LanguageVersionDialect::Python3),
+            Some(ProgrammingLanguageDialect::Python3),
             None
         ),
         Err(ProgrammingLanguageError::Lookup(
             LookupError::UnknownVariant {
                 language: ProgrammingLanguageName::Rust,
-                variant: LanguageVersionDialect::Python3,
+                variant: ProgrammingLanguageDialect::Python3,
             }
         ))
     );
