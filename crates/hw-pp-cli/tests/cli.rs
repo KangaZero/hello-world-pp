@@ -125,3 +125,21 @@ fn all_options_in_one_group_combine_without_conflict() {
         .success()
         .stdout("print \"Hello, World!\"\n");
 }
+
+#[test]
+fn no_punctuation_only_strips_string_literals_in_code() {
+    hw_pp()
+        .args(["-p", "rust", "-n"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains(r#"println!("Hello World");"#));
+}
+
+#[test]
+fn piped_programming_output_has_no_ansi_codes() {
+    hw_pp()
+        .args(["-p", "rust"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains('\u{1b}').not());
+}

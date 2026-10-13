@@ -5,20 +5,10 @@ use super::human_languages::{
 };
 use super::programming_languages::ProgrammingLanguageName;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum ProgrammingLanguageCategory {
-    Esolang,
-    Scripting,
-    Compiled,
-    Markup,
-    Historical,
-}
-
 pub const DEFAULT_HUMAN_LANGUAGE: HumanLanguageName = HumanLanguageName::English;
 pub const DEFAULT_HUMAN_LANGUAGE_DIALECT: DialectName = DialectName::AmericanEnglish;
 pub const DEFAULT_SCRIPT: ScriptName = ScriptName::Latin;
 pub const DEFAULT_PROGRAMMING_LANGUAGE: ProgrammingLanguageName = ProgrammingLanguageName::C;
-
 /// Greeting for the default human language/dialect/script.
 ///
 /// # Panics

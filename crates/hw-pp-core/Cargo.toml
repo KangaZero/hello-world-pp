@@ -9,6 +9,7 @@ repository.workspace = true
 
 [dependencies]
 thiserror.workspace = true
+anstyle.workspace = true
 
 [lints]
 workspace = true

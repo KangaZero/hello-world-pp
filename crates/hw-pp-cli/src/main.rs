@@ -1,5 +1,6 @@
 use crate::constants::cli_info::{self, BANNER};
 use crate::tools::helpers::hello_world_output_with_options;
+use crate::tools::highlight::render_highlighted;
 use anstream::println;
 use anyhow::Context;
 use clap::{ArgGroup, Parser};
@@ -9,7 +10,7 @@ use hw_pp_core::data::{
     },
     programming_languages::{
         FileExtension, ProgrammingLanguageDialect, ProgrammingLanguageName,
-        get_hello_world_syntax_for,
+        get_hello_world_version_for,
     },
 };
 
@@ -89,17 +90,16 @@ fn main() -> anyhow::Result<()> {
 
     match (args.has_human_options(), args.has_programming_options()) {
         (false, true) => {
-            let hello_world_syntax = get_hello_world_syntax_for(
+            let hello_world_version = get_hello_world_version_for(
                 args.programming_language,
                 args.programming_dialect,
                 args.extension,
             )
             .context("failed to look up a 'hello-world' program")?;
+            // `--no-punctuation` only touches string literals, so the code stays valid.
             println!(
                 "{}",
-                hello_world_syntax // TODO: Modify to only target the "Hello, world!" string argument, rn it will
-                                   // target the whole syntax code removing critical syntax like semicolons!!
-                                   // hello_world_output_with_options(&args, hello_world_syntax)
+                render_highlighted(hello_world_version, args.no_punctuation)
             );
         }
         // Human options only, or none at all (the default greeting).

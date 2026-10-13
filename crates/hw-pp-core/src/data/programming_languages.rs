@@ -1,11 +1,18 @@
 use crate::data::common::DEFAULT_PROGRAMMING_LANGUAGE;
 
-use super::common::ProgrammingLanguageCategory;
 use super::lookup::LookupError;
 use super::macros::name_enum;
 use ProgrammingLanguageCategory::{Compiled, Esolang, Historical, Markup, Scripting};
 use thiserror::Error;
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ProgrammingLanguageCategory {
+    Esolang,
+    Scripting,
+    Compiled,
+    Markup,
+    Historical,
+}
 /// Language/version resolution errors for the programming-language catalog.
 pub type ProgrammingLookupError = LookupError<ProgrammingLanguageName, ProgrammingLanguageDialect>;
 
@@ -961,6 +968,21 @@ pub fn get_hello_world_syntax_for(
     dialect: Option<ProgrammingLanguageDialect>,
     extension: Option<FileExtension>,
 ) -> Result<&'static str, ProgrammingLanguageError> {
+    get_hello_world_version_for(language, dialect, extension).map(|version| version.syntax)
+}
+
+/// Like [`get_hello_world_syntax_for`], but returns the whole resolved
+/// [`LanguageVersion`], so callers also know which version was picked
+/// (e.g. to look up its syntax-highlighting tokens).
+///
+/// # Errors
+///
+/// Same as [`get_hello_world_syntax_for`].
+pub fn get_hello_world_version_for(
+    language: Option<ProgrammingLanguageName>,
+    dialect: Option<ProgrammingLanguageDialect>,
+    extension: Option<FileExtension>,
+) -> Result<&'static LanguageVersion, ProgrammingLanguageError> {
     let resolved_language = match (language, dialect, extension) {
         (Some(existing_language), _, _) => existing_language,
         (None, Some(existing_dialect), _) => {
@@ -997,7 +1019,7 @@ pub fn get_hello_world_syntax_for(
             .first()
             .ok_or(LookupError::NoVariants(resolved_language))?,
     };
-    Ok(version.syntax)
+    Ok(version)
 }
 
 /// Finds the first language that uses `extension`.
