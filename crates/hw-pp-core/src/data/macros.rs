@@ -82,4 +82,25 @@ macro_rules! name_enum {
     };
 }
 
+/// Expands to the hello-world message as a string literal: `"Hello, World!"` by
+/// default, or the literal passed in.
+///
+/// A macro rather than a `const` because it is used inside [`concat!`], which
+/// only accepts literals; a `const &str` cannot be concatenated at compile time.
+///
+/// ```ignore
+/// const C_PRINTF_ARG: &str = concat!("\"", output_for_hello_world!(), r#"\n""#);
+/// assert_eq!(C_PRINTF_ARG, r#""Hello, World!\n""#);
+/// assert_eq!(output_for_hello_world!("Hi!"), "Hi!");
+/// ```
+macro_rules! output_for_hello_world {
+    () => {
+        "Hello, World!"
+    };
+    ($hello_world:literal) => {
+        $hello_world
+    };
+}
+
 pub(crate) use name_enum;
+pub(crate) use output_for_hello_world;

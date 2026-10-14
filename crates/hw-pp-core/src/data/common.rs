@@ -3,7 +3,9 @@ use crate::data::programming_languages::get_hello_world_syntax_for;
 use super::human_languages::{
     DialectName, HumanLanguageName, ScriptName, get_human_language_hello_world_for,
 };
+use super::macros::output_for_hello_world;
 use super::programming_languages::ProgrammingLanguageName;
+use thiserror::Error;
 
 pub const DEFAULT_HUMAN_LANGUAGE: HumanLanguageName = HumanLanguageName::English;
 pub const DEFAULT_HUMAN_LANGUAGE_DIALECT: DialectName = DialectName::AmericanEnglish;
@@ -48,4 +50,43 @@ pub const HELLO_WORLD_PUNCTUATION: &[char] = &[',', '!', '¡', '，', '！', '�
 #[must_use]
 pub fn remove_punctuation_from_hello_world(hello_world: &str) -> String {
     hello_world.replace(HELLO_WORLD_PUNCTUATION, "")
+}
+/// Error returned when a snippet has no hello-world message to replace.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Error)]
+#[error("snippet does not contain {:?}", output_for_hello_world!())]
+pub struct HelloWorldNotFoundError;
+
+/// Replaces every hello-world message in a programming-language snippet with a
+/// human-language greeting, e.g. `print("Hello, World!")` becomes
+/// `print("こんにちは世界！")`.
+///
+/// The greeting is inserted as-is and is **not** escaped for the target
+/// language: a greeting containing that language's quote character (such as
+/// `G'day, World!` inside Dart's single-quoted `print('...')`) produces invalid
+/// code. The snippet's `tokenized_syntax` is not updated either.
+///
+/// ```
+/// use hw_pp_core::data::common::replace_default_hello_world_string_with;
+///
+/// let python = r#"print("Hello, World!")"#;
+/// assert_eq!(
+///     replace_default_hello_world_string_with(python, "こんにちは世界！"),
+///     Ok(r#"print("こんにちは世界！")"#.to_owned())
+/// );
+/// ```
+///
+/// # Errors
+///
+/// Returns [`HelloWorldNotFoundError`] if `syntax` does not contain the
+/// hello-world message, as with the Brainfuck and Befunge snippets, which
+/// encode it differently.
+pub fn replace_default_hello_world_string_with(
+    syntax: &str,
+    hello_world_to_replace_with: &str,
+) -> Result<String, HelloWorldNotFoundError> {
+    let hello_world = output_for_hello_world!();
+    if !syntax.contains(hello_world) {
+        return Err(HelloWorldNotFoundError);
+    }
+    Ok(syntax.replace(hello_world, hello_world_to_replace_with))
 }

@@ -20,9 +20,7 @@ anstream.workspace = true
 anstyle.workspace = true
 
 [build-dependencies]
-# build.rs reads PROGRAMMING_LANGUAGES and tokenizes each snippet with syntect.
 hw-pp-core.workspace = true
-syntect.workspace = true
 
 [dev-dependencies]
 assert_cmd.workspace = true

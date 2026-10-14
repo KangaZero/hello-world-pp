@@ -2,7 +2,7 @@ use hw_pp_core::data::lookup::LookupError;
 use hw_pp_core::data::programming_languages::{
     FileExtension, PROGRAMMING_LANGUAGES, ProgrammingLanguageDialect, ProgrammingLanguageError,
     ProgrammingLanguageName, get_default_programming_language_dialect_from_language_name,
-    get_hello_world_syntax_for, get_programming_language_from_extension,
+    get_hello_world_syntax_for, get_programming_language_name_from_extension,
 };
 
 #[test]
@@ -66,7 +66,7 @@ fn programming_lookup_helpers_use_shared_errors() {
         Ok(ProgrammingLanguageDialect::Cpp98)
     );
     assert_eq!(
-        get_programming_language_from_extension(FileExtension::Rs),
+        get_programming_language_name_from_extension(FileExtension::Rs),
         Ok(ProgrammingLanguageName::Rust)
     );
 }
@@ -131,4 +131,38 @@ fn syntax_rejects_version_from_another_language() {
             }
         ))
     );
+}
+
+#[test]
+fn tokenized_syntax_len_matches_syntax() {
+    for version in PROGRAMMING_LANGUAGES.iter().flat_map(|lang| lang.versions) {
+        assert_eq!(
+            version.tokenized_syntax.len(),
+            version.syntax.len(),
+            "tokenized_syntax length: {} matches syntax length: {}",
+            version.tokenized_syntax.len(),
+            version.syntax.len()
+        );
+    }
+}
+
+#[test]
+fn tokenized_syntax_rebuilds_every_snippet_exactly() {
+    for version in PROGRAMMING_LANGUAGES.iter().flat_map(|lang| lang.versions) {
+        let rebuilt: String = version
+            .tokenized_syntax
+            .iter()
+            .map(|(_, text)| *text)
+            .collect();
+        assert_eq!(
+            rebuilt, version.syntax,
+            "{} tokens do not match its syntax",
+            version.label
+        );
+        assert!(
+            !version.tokenized_syntax.is_empty(),
+            "{} has no tokens",
+            version.label
+        );
+    }
 }

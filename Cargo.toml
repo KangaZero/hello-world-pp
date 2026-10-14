@@ -24,13 +24,6 @@ clap = { version = "4.6.7", features = ["derive"] }
 anstream = "1.0.0"
 anstyle = "1.0.14"
 
-# Build-time syntax highlighting (build-dependency only; never in the binary).
-# Last release 2025-09; repo still actively merging as of 2026-04.
-syntect = { version = "5.3.0", default-features = false, features = [
-    "default-syntaxes",
-    "regex-fancy",
-] }
-
 # Testing
 assert_cmd = "2.2.2"
 predicates = "3.1.4"

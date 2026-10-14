@@ -1,10 +1,12 @@
 use hw_pp_core::data::common::{
     DEFAULT_HUMAN_LANGUAGE, DEFAULT_HUMAN_LANGUAGE_DIALECT, DEFAULT_PROGRAMMING_LANGUAGE,
-    HELLO_WORLD_PUNCTUATION, get_default_human_language_hello_world,
-    remove_punctuation_from_hello_world,
+    HELLO_WORLD_PUNCTUATION, HelloWorldNotFoundError, get_default_human_language_hello_world,
+    remove_punctuation_from_hello_world, replace_default_hello_world_string_with,
 };
 use hw_pp_core::data::human_languages::{DialectName, HUMAN_LANGUAGES, HumanLanguageName};
-use hw_pp_core::data::programming_languages::ProgrammingLanguageName;
+use hw_pp_core::data::programming_languages::{
+    ProgrammingLanguageName, get_hello_world_syntax_for,
+};
 
 #[test]
 fn defaults_are_english_c_and_latin() {
@@ -69,4 +71,27 @@ fn hello_world_punctuation_covers_every_greeting() {
         })
         .collect();
     assert!(uncovered.is_empty(), "uncovered characters: {uncovered:#?}");
+}
+
+#[test]
+fn replace_hello_world_swaps_in_a_human_greeting() {
+    let rust = get_hello_world_syntax_for(Some(ProgrammingLanguageName::Rust), None, None)
+        .expect("Rust snippet exists");
+    let replaced = replace_default_hello_world_string_with(rust, "Hallo, Welt!")
+        .expect("Rust snippet contains the message");
+    assert!(replaced.contains(r#"println!("Hallo, Welt!");"#));
+    assert!(!replaced.contains("Hello, World!"));
+}
+
+#[test]
+fn replace_hello_world_errors_when_message_is_absent() {
+    let brainfuck =
+        get_hello_world_syntax_for(Some(ProgrammingLanguageName::Brainfuck), None, None)
+            .expect("Brainfuck snippet exists");
+    let err = replace_default_hello_world_string_with(brainfuck, "Hallo, Welt!").unwrap_err();
+    assert_eq!(err, HelloWorldNotFoundError);
+    assert_eq!(
+        err.to_string(),
+        r#"snippet does not contain "Hello, World!""#
+    );
 }

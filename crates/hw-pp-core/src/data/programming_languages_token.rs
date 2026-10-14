@@ -1,6 +1,7 @@
 use anstyle::{RgbColor, Style};
+use std::fmt::Write;
 
-use crate::data::macros::name_enum;
+use crate::data::{macros::name_enum, programming_languages::ProgrammingLanguageVersion};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum TokenKind {
@@ -28,7 +29,8 @@ name_enum! {
     }
 }
 
-const fn rgb(r: u8, g: u8, b: u8) -> Style {
+#[must_use]
+pub const fn rgb(r: u8, g: u8, b: u8) -> Style {
     RgbColor(r, g, b).on_default()
 }
 
@@ -81,4 +83,31 @@ impl TokenKind {
             },
         }
     }
+}
+
+/// Renders a version's [`ProgrammingLanguageVersion::tokenized_syntax`] as one ANSI-styled
+/// string, colouring each token by its [`TokenKind`] in the given theme.
+///
+/// `theme` defaults to [`Themes::Default`] (Catppuccin Mocha) when `None`.
+///
+/// The result always contains escape codes. Print it with `anstream::println!`
+/// (or another ANSI-aware writer) so the colours are stripped when stdout is
+/// not a terminal or `NO_COLOR` is set. With the styles removed, the text is
+/// exactly [`ProgrammingLanguageVersion::syntax`].
+#[must_use]
+pub fn collect_tokenized_syntax(
+    language_version: &ProgrammingLanguageVersion,
+    theme: Option<Themes>,
+) -> String {
+    let mut collected = String::with_capacity(language_version.syntax.len());
+    let resolved_theme = match theme {
+        Some(existing_theme) => existing_theme,
+        None => Themes::Default,
+    };
+    for &(token_kind, text) in language_version.tokenized_syntax {
+        let style = token_kind.style(resolved_theme);
+        // Same as write!(collected, "{}{}{}", style.render(), text, style.render_reset());
+        let _ = write!(collected, "{style}{text}{style:#}");
+    }
+    collected
 }
