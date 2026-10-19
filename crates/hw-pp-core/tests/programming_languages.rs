@@ -141,11 +141,16 @@ fn syntax_rejects_version_from_another_language() {
 #[test]
 fn tokenized_syntax_len_matches_syntax() {
     for version in PROGRAMMING_LANGUAGES.iter().flat_map(|lang| lang.versions) {
+        let tokens_len: usize = version
+            .tokenized_syntax
+            .iter()
+            .map(|(_, text)| text.len())
+            .sum();
         assert_eq!(
-            version.tokenized_syntax.len(),
+            tokens_len,
             version.syntax.len(),
-            "tokenized_syntax length: {} matches syntax length: {}",
-            version.tokenized_syntax.len(),
+            "{} tokens cover {tokens_len} bytes, but its syntax has {}",
+            version.label,
             version.syntax.len()
         );
     }

@@ -1,5 +1,7 @@
 use crate::constants::cli_info::{self, BANNER};
-use crate::tools::helpers::{hello_world_output_with_options, output_as_compact_list_or_not};
+use crate::tools::helpers::{
+    hello_world_output_with_options, output_as_compact_list_or_not, snippet_output_with_options,
+};
 use anstream::println;
 use anyhow::Context;
 use clap::{ArgGroup, Parser, Subcommand, ValueEnum};
@@ -222,25 +224,18 @@ fn main() -> anyhow::Result<()> {
 
     match (args.has_human_options(), args.has_programming_options()) {
         (false, true) => {
-            if args.has_color_on() {
-                let language_version = get_hello_world_version_for(
-                    args.programming_language,
-                    args.programming_dialect,
-                    args.extension,
-                )
-                .context("failed to look up a 'hello-world' programming language version")?;
-                let tokenized_hello_world_syntax =
-                    collect_tokenized_syntax(language_version, Some(args.theme));
-                println!("{tokenized_hello_world_syntax}");
+            let language_version = get_hello_world_version_for(
+                args.programming_language,
+                args.programming_dialect,
+                args.extension,
+            )
+            .context("failed to look up a 'hello-world' programming language version")?;
+            let snippet = if args.has_color_on() {
+                collect_tokenized_syntax(language_version, Some(args.theme))
             } else {
-                let hello_world = get_hello_world_syntax_for(
-                    args.programming_language,
-                    args.programming_dialect,
-                    args.extension,
-                )
-                .context("failed to look up a 'hello-world' syntax for programming language")?;
-                println!("{hello_world}");
-            }
+                language_version.syntax.to_owned()
+            };
+            println!("{}", snippet_output_with_options(&args, snippet));
         }
         // Human options only, or none at all (the default greeting).
         (_, false) => {
@@ -265,11 +260,10 @@ fn main() -> anyhow::Result<()> {
                 args.script,
             )
             .context("failed to look up a 'hello-world' for human language")?;
-            let result = replace_default_hello_world_string_with(
-                hello_world_syntax,
-                hello_world_in_human_language,
-            )?;
-            println!("{}", hello_world_output_with_options(&args, &result));
+            // `-n` strips the greeting before it goes in, so the code stays valid.
+            let greeting = hello_world_output_with_options(&args, hello_world_in_human_language);
+            let result = replace_default_hello_world_string_with(hello_world_syntax, &greeting)?;
+            println!("{result}");
         }
     }
 

@@ -68,7 +68,7 @@ fn programming_options_print_hello_world_syntax() {
 }
 
 #[test]
-fn every_human_option_conflicts_with_every_programming_option() {
+fn every_human_option_combines_with_every_programming_option() {
     for (human_flag, human_value) in HUMAN_OPTIONS {
         for (programming_flag, programming_value) in PROGRAMMING_OPTIONS {
             let human = [human_flag, human_value];
@@ -77,32 +77,47 @@ fn every_human_option_conflicts_with_every_programming_option() {
                 hw_pp()
                     .args(&args)
                     .assert()
-                    .code(2)
-                    .stdout(predicate::str::is_empty())
-                    .stderr(
-                        predicate::str::contains("cannot be used with")
-                            .and(predicate::str::contains(human_flag))
-                            .and(predicate::str::contains(programming_flag)),
-                    );
+                    .success()
+                    .stdout(predicate::str::contains(r#"println!("Hello, World!");"#));
             }
         }
     }
 }
 
 #[test]
-fn short_flags_and_aliases_also_conflict() {
+fn short_flags_and_aliases_also_combine() {
     for args in [
-        ["-l", "english", "-p", "rust"],
-        ["--hl", "english", "--pl", "rust"],
-        ["-s", "latin", "-e", "rs"],
-        ["--hd", "american english", "--pd", "rust 2021"],
+        ["-l", "german", "-p", "rust"],
+        ["--hl", "german", "--pl", "rust"],
+        ["--hd", "standard german", "-e", "rs"],
+        ["-l", "german", "--pd", "rust 2021"],
     ] {
         hw_pp()
             .args(args)
             .assert()
-            .code(2)
-            .stderr(predicate::str::contains("cannot be used with"));
+            .success()
+            .stdout(predicate::str::contains(r#"println!("Hallo, Welt!");"#));
     }
+}
+
+#[test]
+fn no_punctuation_strips_only_the_inserted_greeting() {
+    hw_pp()
+        .args(["-l", "german", "-p", "rust", "-n"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains(r#"println!("Hallo Welt");"#));
+}
+
+#[test]
+fn inserting_into_a_snippet_without_the_message_fails() {
+    hw_pp()
+        .args(["-l", "german", "-p", "brainfuck"])
+        .assert()
+        .failure()
+        .stderr(predicate::str::contains(
+            r#"snippet does not contain "Hello, World!""#,
+        ));
 }
 
 #[test]

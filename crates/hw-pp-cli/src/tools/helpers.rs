@@ -1,5 +1,8 @@
 use crate::Args;
-use hw_pp_core::data::common::remove_punctuation_from_hello_world;
+use hw_pp_core::data::common::{
+    get_default_human_language_hello_world, remove_punctuation_from_hello_world,
+    replace_default_hello_world_string_with,
+};
 
 use std::borrow::Cow;
 
@@ -19,6 +22,21 @@ pub fn hello_world_output_with_options<'output>(
     } else {
         Cow::Borrowed(output)
     }
+}
+
+/// Applies `args`' output options to a programming-language `snippet`.
+///
+/// With `-n`, only the hello-world message loses its punctuation, so the code
+/// stays valid: `println!("Hello, World!");` becomes `println!("Hello World");`.
+/// Snippets that encode the message (Brainfuck, Befunge) are returned unchanged.
+#[must_use]
+pub fn snippet_output_with_options(args: &Args, snippet: String) -> String {
+    if !args.no_punctuation {
+        return snippet;
+    }
+    let message = get_default_human_language_hello_world();
+    replace_default_hello_world_string_with(&snippet, &remove_punctuation_from_hello_world(message))
+        .unwrap_or(snippet)
 }
 
 /// Prints `stringified_list` space-separated when `compact`, otherwise one per line.
