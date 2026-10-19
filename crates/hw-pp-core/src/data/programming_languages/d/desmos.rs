@@ -1,0 +1,63 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Desmos`.
+//!
+//! Imported from leachim6/hello-world (`d/Desmos.desmos` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+
+language_names! {
+    language: Desmos => "Desmos",
+    versions: [Desmos => "Desmos"],
+    extensions: [Desmos => "desmos"],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Desmos,
+        extensions: &[FileExtension::Desmos],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Desmos,
+            syntax: r"x=0{0<y<4}
+x^2+y^2=4{0<x}{0<y}
+(x-3.5)^2+(y-1)^2=1^2{1<y}
+(x-3.5)^2+(y-1)^2=1^2{0<y<1}{2.5<x<3.5}
+y=1{2.5<x<4.5}
+x=5{0<y<4}
+x=5.5{0<y<4}
+(x-7)^2+(y-1)^2=1^2
+x=-0.25y+11{0<y<2}
+x=0.5y+11{0<y<1}
+x=-0.5y+12{0<y<1}
+x=0.25y+12{0<y<2}
+(x-14)^2+(y-1)^2=1^2
+(x-17.5)^2+(y)^2=2^2{0<y}{x<17.5}
+x=18{0<y<4}
+(x-20.5)^2+(y)^2=2^2{0<y}{x<20.5}
+x=20.5{0<y<4}",
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                r"x=0{0<y<4}
+x^2+y^2=4{0<x}{0<y}
+(x-3.5)^2+(y-1)^2=1^2{1<y}
+(x-3.5)^2+(y-1)^2=1^2{0<y<1}{2.5<x<3.5}
+y=1{2.5<x<4.5}
+x=5{0<y<4}
+x=5.5{0<y<4}
+(x-7)^2+(y-1)^2=1^2
+x=-0.25y+11{0<y<2}
+x=0.5y+11{0<y<1}
+x=-0.5y+12{0<y<1}
+x=0.25y+12{0<y<2}
+(x-14)^2+(y-1)^2=1^2
+(x-17.5)^2+(y)^2=2^2{0<y}{x<17.5}
+x=18{0<y<4}
+(x-20.5)^2+(y)^2=2^2{0<y}{x<20.5}
+x=20.5{0<y<4}",
+            )],
+        }],
+    };

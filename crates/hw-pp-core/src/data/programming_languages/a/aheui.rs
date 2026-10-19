@@ -1,0 +1,45 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Aheui`.
+//!
+//! Imported from leachim6/hello-world (`a/Aheui.aheui` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+
+language_names! {
+    language: Aheui => "Aheui",
+    versions: [Aheui => "Aheui"],
+    extensions: [Aheui => "aheui"],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Aheui,
+        extensions: &[FileExtension::Aheui],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Aheui,
+            syntax: r"밤밣따빠밣밟따뿌
+빠맣파빨받밤뚜뭏
+돋밬탕빠맣붏두붇
+볻뫃박발뚷투뭏붖
+뫃도뫃희멓뭏뭏붘
+뫃봌토범더벌뿌뚜
+뽑뽀멓멓더벓뻐뚠
+뽀덩벐멓뻐덕더벅",
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                r"밤밣따빠밣밟따뿌
+빠맣파빨받밤뚜뭏
+돋밬탕빠맣붏두붇
+볻뫃박발뚷투뭏붖
+뫃도뫃희멓뭏뭏붘
+뫃봌토범더벌뿌뚜
+뽑뽀멓멓더벓뻐뚠
+뽀덩벐멓뻐덕더벅",
+            )],
+        }],
+    };

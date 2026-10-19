@@ -1,0 +1,52 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Aiml`.
+//!
+//! Imported from leachim6/hello-world (`a/Aiml.aiml` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Aiml => "Aiml",
+    versions: [Aiml => "Aiml"],
+    extensions: [Aiml => "aiml"],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Aiml,
+        extensions: &[FileExtension::Aiml],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Aiml,
+            syntax: concat!(
+                r"<aiml>
+    <category>
+        <pattern>*</pattern>
+        <template>",
+                output_for_hello_world!(),
+                r"</template>
+    </category>
+</aiml>"
+            ),
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                concat!(
+                    r"<aiml>
+    <category>
+        <pattern>*</pattern>
+        <template>",
+                    output_for_hello_world!(),
+                    r"</template>
+    </category>
+</aiml>"
+                ),
+            )],
+        }],
+    };

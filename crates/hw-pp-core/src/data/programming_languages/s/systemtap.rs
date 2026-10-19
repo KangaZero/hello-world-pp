@@ -1,0 +1,42 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Systemtap`.
+//!
+//! Imported from leachim6/hello-world (`s/SystemTap.stp` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Systemtap => "SystemTap",
+    versions: [Systemtap => "SystemTap"],
+    extensions: [Stp => "stp"],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Systemtap,
+        extensions: &[FileExtension::Stp],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Systemtap,
+            syntax: concat!(
+                r#"probe oneshot { println(""#,
+                output_for_hello_world!(),
+                r#"") }"#
+            ),
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                concat!(
+                    r#"probe oneshot { println(""#,
+                    output_for_hello_world!(),
+                    r#"") }"#
+                ),
+            )],
+        }],
+    };

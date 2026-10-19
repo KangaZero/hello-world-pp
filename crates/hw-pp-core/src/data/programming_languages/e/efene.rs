@@ -1,0 +1,48 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Efene`.
+//!
+//! Imported from leachim6/hello-world (`e/Efene.efene` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Efene => "Efene",
+    versions: [Efene => "Efene"],
+    extensions: [Efene => "efene"],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Efene,
+        extensions: &[FileExtension::Efene],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Efene,
+            syntax: concat!(
+                r#"@public
+run = fn () {
+    io.format(""#,
+                output_for_hello_world!(),
+                r#"~n")
+}"#
+            ),
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                concat!(
+                    r#"@public
+run = fn () {
+    io.format(""#,
+                    output_for_hello_world!(),
+                    r#"~n")
+}"#
+                ),
+            )],
+        }],
+    };

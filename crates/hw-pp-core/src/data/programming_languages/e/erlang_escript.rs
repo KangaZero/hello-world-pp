@@ -1,0 +1,71 @@
+//! Hello-world snippet for `ProgrammingLanguageName::ErlangEscript`.
+//!
+//! Imported from leachim6/hello-world (`e/Erlang EScript.erl` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: ErlangEscript => "Erlang EScript",
+    versions: [ErlangEscript => "Erlang EScript"],
+    extensions: [],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::ErlangEscript,
+        extensions: &[],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::ErlangEscript,
+            syntax: concat!(
+                r#"#!/usr/bin/env escript
+
+main(_) ->
+    io:format(""#,
+                output_for_hello_world!(),
+                r#"~n")."#
+            ),
+            tokenized_syntax: &[
+                (TokenKind::Plain, r"#"),
+                (TokenKind::Keyword, r"!/"),
+                (TokenKind::Plain, r"usr"),
+                (TokenKind::Keyword, r"/"),
+                (TokenKind::Plain, r"bin"),
+                (TokenKind::Keyword, r"/"),
+                (
+                    TokenKind::Plain,
+                    r"env escript
+
+",
+                ),
+                (TokenKind::Function, r"main"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"_"),
+                (TokenKind::Punctuation, r")"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"->"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Type, r"io"),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Function, r"format"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"~n""#),
+                ),
+                (TokenKind::Punctuation, r")."),
+            ],
+        }],
+    };

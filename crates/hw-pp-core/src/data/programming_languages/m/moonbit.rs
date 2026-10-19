@@ -1,0 +1,46 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Moonbit`.
+//!
+//! Imported from leachim6/hello-world (PR #1683 `m/MoonBit.mbt`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Moonbit => "MoonBit",
+    versions: [Moonbit => "MoonBit"],
+    extensions: [Mbt => "mbt"],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Moonbit,
+        extensions: &[FileExtension::Mbt],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Moonbit,
+            syntax: concat!(
+                r#"fn main {
+  println(""#,
+                output_for_hello_world!(),
+                r#"");
+}"#
+            ),
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                concat!(
+                    r#"fn main {
+  println(""#,
+                    output_for_hello_world!(),
+                    r#"");
+}"#
+                ),
+            )],
+        }],
+    };

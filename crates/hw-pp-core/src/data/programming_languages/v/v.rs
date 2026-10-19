@@ -1,0 +1,41 @@
+//! Hello-world snippet for `ProgrammingLanguageName::V`.
+//!
+//! Imported from leachim6/hello-world (`v/V` at `a152253`, `v/V.v` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: V => "V",
+    versions: [V1 => "V (1)", VV => "V (.v)"],
+    extensions: [],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::V,
+        extensions: &[],
+        categories: &[],
+        versions: &[
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::V1,
+                syntax: concat!(r"i", output_for_hello_world!()),
+                tokenized_syntax: &[(TokenKind::Plain, concat!(r"i", output_for_hello_world!()))],
+            },
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::VV,
+                syntax: concat!(r#"println(""#, output_for_hello_world!(), r#"")"#),
+                tokenized_syntax: &[(
+                    TokenKind::Plain,
+                    concat!(r#"println(""#, output_for_hello_world!(), r#"")"#),
+                )],
+            },
+        ],
+    };

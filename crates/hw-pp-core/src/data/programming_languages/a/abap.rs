@@ -1,0 +1,52 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Abap`.
+//!
+//! Imported from leachim6/hello-world (`a/ABAP.abap` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Abap => "ABAP",
+    versions: [Abap => "ABAP"],
+    extensions: [Abap => "abap"],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Abap,
+        extensions: &[FileExtension::Abap],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Abap,
+            syntax: concat!(
+                r"REPORT ZHELLO_WORLD.
+
+START-OF-SELECTION.
+    WRITE: '",
+                output_for_hello_world!(),
+                r"'.
+
+"
+            ),
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                concat!(
+                    r"REPORT ZHELLO_WORLD.
+
+START-OF-SELECTION.
+    WRITE: '",
+                    output_for_hello_world!(),
+                    r"'.
+
+"
+                ),
+            )],
+        }],
+    };

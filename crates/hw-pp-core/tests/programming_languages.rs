@@ -7,16 +7,12 @@ use hw_pp_core::data::programming_languages::{
 };
 
 #[test]
-fn every_language_has_a_version_and_extension() {
+fn every_language_has_a_version() {
+    // Extensions are optional: many esoteric languages have no conventional one.
     for language in PROGRAMMING_LANGUAGES {
         assert!(
             !language.versions.is_empty(),
             "{} has no recorded versions",
-            language.name
-        );
-        assert!(
-            !language.extensions.is_empty(),
-            "{} has no recorded extensions",
             language.name
         );
     }

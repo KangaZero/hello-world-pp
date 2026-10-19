@@ -1,0 +1,44 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Rebol`.
+//!
+//! Imported from leachim6/hello-world (`r/Rebol.r` at `a152253`, `r/Rebol.reb` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Rebol => "Rebol",
+    versions: [RebolR => "Rebol (.r)", RebolReb => "Rebol (.reb)"],
+    extensions: [],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Rebol,
+        extensions: &[],
+        categories: &[],
+        versions: &[
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::RebolR,
+                syntax: concat!(r#"print ""#, output_for_hello_world!(), r#"""#),
+                tokenized_syntax: &[(
+                    TokenKind::Plain,
+                    concat!(r#"print ""#, output_for_hello_world!(), r#"""#),
+                )],
+            },
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::RebolReb,
+                syntax: concat!(r#"print ""#, output_for_hello_world!(), r#"""#),
+                tokenized_syntax: &[(
+                    TokenKind::Plain,
+                    concat!(r#"print ""#, output_for_hello_world!(), r#"""#),
+                )],
+            },
+        ],
+    };

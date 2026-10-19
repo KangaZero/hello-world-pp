@@ -1,0 +1,70 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Easm`.
+//!
+//! Imported from leachim6/hello-world (PR #1824 `e/easm.easm`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Easm => "easm",
+    versions: [Easm => "easm"],
+    extensions: [Easm => "easm"],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Easm,
+        extensions: &[FileExtension::Easm],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Easm,
+            syntax: concat!(
+                r#"subsystem cui
+
+section imports
+
+    from msvcr70.dll import printf
+    from kernel32.dll import ExitProcess
+
+section data
+
+    string pszOutput = ""#,
+                output_for_hello_world!(),
+                r#""
+
+section code
+
+    call printf (&pszOutput)
+    call ExitProcess (00h)"#
+            ),
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                concat!(
+                    r#"subsystem cui
+
+section imports
+
+    from msvcr70.dll import printf
+    from kernel32.dll import ExitProcess
+
+section data
+
+    string pszOutput = ""#,
+                    output_for_hello_world!(),
+                    r#""
+
+section code
+
+    call printf (&pszOutput)
+    call ExitProcess (00h)"#
+                ),
+            )],
+        }],
+    };

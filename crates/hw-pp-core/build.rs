@@ -13,6 +13,15 @@ use normalize::normalize_text;
 
 const MARKER: &str = "language_names!";
 
+/// Rust keywords (strict, reserved and edition-2024), which cannot name a module or variant.
+const RUST_KEYWORDS: &[&str] = &[
+    "abstract", "as", "async", "await", "become", "box", "break", "const", "continue", "crate",
+    "do", "dyn", "else", "enum", "extern", "false", "final", "fn", "for", "gen", "if", "impl",
+    "in", "let", "loop", "macro", "match", "mod", "move", "mut", "override", "priv", "pub", "ref",
+    "return", "self", "Self", "static", "struct", "super", "trait", "true", "try", "type",
+    "typeof", "unsafe", "unsized", "use", "virtual", "where", "while", "yield",
+];
+
 /// One enum generated from a `language_names!` key.
 struct EnumSpec {
     /// Key in `language_names!` that lists this enum's variants.
@@ -64,7 +73,8 @@ const CATALOGS: [Catalog; 2] = [
                       /// share one (e.g. `m` is both Objective-C and MATLAB).",
                 header: "FileExtension: ParseFileExtensionError(\"file extension\")",
                 shared: true,
-                allow_empty: false,
+                // Many languages have no conventional extension.
+                allow_empty: true,
             },
         ],
         table_doc: "/// Every recorded programming language, in alphabetical order of file name.",
@@ -188,6 +198,15 @@ fn read_language_file(catalog: &Catalog, path: &Path) -> Result<LanguageFile, St
                 "`language:` must be a single `Variant => \"Name\"`".to_owned()
             ));
         }
+        if let Some(keyword) = pairs
+            .iter()
+            .find(|p| RUST_KEYWORDS.contains(&p.variant.as_str()))
+        {
+            return Err(at(format!(
+                "`{}: {}` is a Rust keyword; use e.g. `{}Lang`",
+                spec.key, keyword.variant, keyword.variant
+            )));
+        }
         if pairs.is_empty() && !spec.allow_empty {
             return Err(at(format!("`{}:` needs at least one entry", spec.key)));
         }
@@ -218,6 +237,11 @@ fn module_name(path: &Path) -> Result<String, String> {
             .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '_')
     {
         return Err(format!("`{module}` must be a snake_case module name"));
+    }
+    if RUST_KEYWORDS.contains(&module.as_str()) {
+        return Err(format!(
+            "`{module}` is a Rust keyword; rename the file to `{module}_lang.rs`"
+        ));
     }
     let shard = path
         .parent()

@@ -1,0 +1,64 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Asm2bf`.
+//!
+//! Imported from leachim6/hello-world (`a/Asm2bf.asm` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Asm2bf => "Asm2bf",
+    versions: [Asm2bf => "Asm2bf"],
+    extensions: [],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Asm2bf,
+        extensions: &[],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Asm2bf,
+            syntax: concat!(
+                r#"STK 2
+ORG 0
+
+TXT ""#,
+                output_for_hello_world!(),
+                r#""
+DB_ 0
+
+@LOOP
+	RCL R2, R1
+	JZ_ R2, 0
+	OUT R2
+	INC R1
+	JMP %LOOPs"#
+            ),
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                concat!(
+                    r#"STK 2
+ORG 0
+
+TXT ""#,
+                    output_for_hello_world!(),
+                    r#""
+DB_ 0
+
+@LOOP
+	RCL R2, R1
+	JZ_ R2, 0
+	OUT R2
+	INC R1
+	JMP %LOOPs"#
+                ),
+            )],
+        }],
+    };

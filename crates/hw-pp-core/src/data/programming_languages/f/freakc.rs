@@ -1,0 +1,34 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Freakc`.
+//!
+//! Imported from leachim6/hello-world (`f/FreakC.fclang` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Freakc => "FreakC",
+    versions: [Freakc => "FreakC"],
+    extensions: [Fclang => "fclang"],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Freakc,
+        extensions: &[FileExtension::Fclang],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Freakc,
+            syntax: concat!(r"print[] ", output_for_hello_world!()),
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                concat!(r"print[] ", output_for_hello_world!()),
+            )],
+        }],
+    };

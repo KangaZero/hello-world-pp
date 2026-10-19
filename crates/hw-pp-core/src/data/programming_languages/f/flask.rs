@@ -1,0 +1,111 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Flask`.
+//!
+//! Imported from leachim6/hello-world (`f/Flask.py` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Flask => "Flask",
+    versions: [Flask => "Flask"],
+    extensions: [],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Flask,
+        extensions: &[],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Flask,
+            syntax: concat!(
+                r#"from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return ""#,
+                output_for_hello_world!(),
+                r#""
+
+if __name__ == "__main__":
+    app.run()"#
+            ),
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"from"),
+                (TokenKind::Plain, r" flask "),
+                (TokenKind::Keyword, r"import"),
+                (
+                    TokenKind::Plain,
+                    r" Flask
+app ",
+                ),
+                (TokenKind::Keyword, r"="),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"Flask"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"__name__"),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Punctuation, r"@"),
+                (TokenKind::Plain, r"app"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"route"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::String, r#""/""#),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"def"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"hello"),
+                (TokenKind::Punctuation, r"():"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Keyword, r"return"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"if"),
+                (TokenKind::Plain, r" __name__ "),
+                (TokenKind::Keyword, r"=="),
+                (TokenKind::Plain, r" "),
+                (TokenKind::String, r#""__main__""#),
+                (TokenKind::Punctuation, r":"),
+                (
+                    TokenKind::Plain,
+                    r"
+    app",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"run"),
+                (TokenKind::Punctuation, r"()"),
+            ],
+        }],
+    };

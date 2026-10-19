@@ -1,0 +1,56 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Gui4cli`.
+//!
+//! Imported from leachim6/hello-world (`g/Gui4Cli` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Gui4cli => "Gui4Cli",
+    versions: [Gui4cli => "Gui4Cli"],
+    extensions: [],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Gui4cli,
+        extensions: &[],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Gui4cli,
+            syntax: concat!(
+                r#"G4C MyGui
+Window 10 10 200 300 "My window"
+
+xOnLoad
+   GuiOpen MyGui
+
+xButton 10 10 100 20 ""#,
+                output_for_hello_world!(),
+                r#""
+   GuiQuit MyGui"#
+            ),
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                concat!(
+                    r#"G4C MyGui
+Window 10 10 200 300 "My window"
+
+xOnLoad
+   GuiOpen MyGui
+
+xButton 10 10 100 20 ""#,
+                    output_for_hello_world!(),
+                    r#""
+   GuiQuit MyGui"#
+                ),
+            )],
+        }],
+    };

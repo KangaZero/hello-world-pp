@@ -1,0 +1,31 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Spoon`.
+//!
+//! Imported from leachim6/hello-world (`s/Spoon.spoon` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+
+language_names! {
+    language: Spoon => "Spoon",
+    versions: [Spoon => "Spoon"],
+    extensions: [Spoon => "spoon"],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Spoon,
+        extensions: &[FileExtension::Spoon],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Spoon,
+            syntax: r"11111111110010001011111110101111111111010111010101101101101100000110101100101001010010101111111001010001010111001010010110010100110111111111111111110010100100010101110010100000000000000000000010100000000000000000000000000010100101001010010001010",
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                r"11111111110010001011111110101111111111010111010101101101101100000110101100101001010010101111111001010001010111001010010110010100110111111111111111110010100100010101110010100000000000000000000010100000000000000000000000000010100101001010010001010",
+            )],
+        }],
+    };

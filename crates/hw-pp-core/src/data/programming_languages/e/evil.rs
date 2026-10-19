@@ -1,0 +1,55 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Evil`.
+//!
+//! Imported from leachim6/hello-world (`e/Evil` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+
+language_names! {
+    language: Evil => "Evil",
+    versions: [Evil => "Evil"],
+    extensions: [],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Evil,
+        extensions: &[],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Evil,
+            syntax: r"zaeeeaeeew   (H)
+zaeeaeeaeaw  (e)
+zuueeueueaw  (l)
+zuueeueueaw  (l)
+zuueeueew    (o)
+zaeeeeew     ( )
+zaeeeeeue    (W)
+zuueeueew    (o)
+zuueeueeaaaw (r)
+zuueeueueaw  (l)
+zaeeaeeaew   (d)
+zaeeuuuw     (\r)
+zaeaaaaaaw   (\n)",
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                r"zaeeeaeeew   (H)
+zaeeaeeaeaw  (e)
+zuueeueueaw  (l)
+zuueeueueaw  (l)
+zuueeueew    (o)
+zaeeeeew     ( )
+zaeeeeeue    (W)
+zuueeueew    (o)
+zuueeueeaaaw (r)
+zuueeueueaw  (l)
+zaeeaeeaew   (d)
+zaeeuuuw     (\r)
+zaeaaaaaaw   (\n)",
+            )],
+        }],
+    };

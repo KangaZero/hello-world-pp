@@ -1,0 +1,75 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Lola`.
+//!
+//! Imported from leachim6/hello-world (`l/LOLA.lola` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+
+language_names! {
+    language: Lola => "LOLA",
+    versions: [Lola => "LOLA"],
+    extensions: [Lola => "lola"],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Lola,
+        extensions: &[FileExtension::Lola],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Lola,
+            syntax: r":H,:e,2:l,,:o,:',:_,:w,:o,:r,:l,:d,:!,:%,:\\b,\\a,,,,,,,,,,,,,,
+
++\\\cb,ba,,
+*\\ba+,,\\a,
+:\\\a\c,c,
+
+H*+8,,8,
+e+d,
+l8+,d,
+o3+,l,
+'_+,^,
+w8+,o,
+r+^,+,e,
+d2%,
+_52,
+!+_,
+
+2\\bba,,
+3+2,
+5+22,,
+832,
+%*2,5,
+^2*2,,3,",
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                r":H,:e,2:l,,:o,:',:_,:w,:o,:r,:l,:d,:!,:%,:\\b,\\a,,,,,,,,,,,,,,
+
++\\\cb,ba,,
+*\\ba+,,\\a,
+:\\\a\c,c,
+
+H*+8,,8,
+e+d,
+l8+,d,
+o3+,l,
+'_+,^,
+w8+,o,
+r+^,+,e,
+d2%,
+_52,
+!+_,
+
+2\\bba,,
+3+2,
+5+22,,
+832,
+%*2,5,
+^2*2,,3,",
+            )],
+        }],
+    };

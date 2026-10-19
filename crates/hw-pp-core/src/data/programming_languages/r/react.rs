@@ -1,0 +1,65 @@
+//! Hello-world snippet for `ProgrammingLanguageName::React`.
+//!
+//! Imported from leachim6/hello-world (`r/React.js` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: React => "React",
+    versions: [React => "React"],
+    extensions: [],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::React,
+        extensions: &[],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::React,
+            syntax: concat!(
+                r"function Hello() {
+  return <h1>",
+                output_for_hello_world!(),
+                r"</h1>;
+}
+
+React.render(<Hello />, document.body);"
+            ),
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"function"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"Hello"),
+                (TokenKind::Punctuation, r"()"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+  ",
+                ),
+                (TokenKind::Keyword, r"return"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"<"),
+                (TokenKind::Plain, r"h1"),
+                (TokenKind::Keyword, r">"),
+                (TokenKind::Plain, output_for_hello_world!()),
+                (TokenKind::Keyword, r"<"),
+                (
+                    TokenKind::String,
+                    r"/h1>;
+}
+
+React.render(<Hello />, document.body);",
+                ),
+            ],
+        }],
+    };

@@ -1,0 +1,149 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Mmmm`.
+//!
+//! Imported from leachim6/hello-world (`m/Mmmm().mmmm` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+
+language_names! {
+    language: Mmmm => "Mmmm()",
+    versions: [Mmmm => "Mmmm()"],
+    extensions: [Mmmm => "mmmm"],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Mmmm,
+        extensions: &[FileExtension::Mmmm],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Mmmm,
+            syntax: r"Mmm=m[m.m()].m(m.m());
+Mmmm=m[mm].m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();Mmmmm=mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();m[mmmm].m(mmm.m());
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();Mmmmmm=mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+Mmmmmmmmm=mmm.m();
+m[mmmm].m(mmm.m());
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();Mmmmmmm=mmm.m();
+m[mmmm].m(mmmmmm);m[mmmm].m(mmmmmm);
+mmm.m();mmm.m();
+Mmmmmmmm=mmm.m();
+m[mmmm].m(mmmmmmm);
+mmm.m();mmm.m();
+Mmmmmmmmmm=mmm.m();
+Mmmm=m[mm].m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();
+Mmmmmmmmmmm=mmm.m();
+Mmmmmmmmmmmm=mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();
+m[mmmm].m(mmm.m());
+m[mmmm].m(mmmmmmmmmm);
+m[mmmm].m(mmmmm);
+m[mmmm].m(mmmmmmm);
+m[mmmm].m(mmmmmmmmm);
+m[mmmm].m(mmmmmm);
+m[mmmm].m(mmmmmmmm);
+m[mmmm].m(mmmmmmmmmmm);",
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                r"Mmm=m[m.m()].m(m.m());
+Mmmm=m[mm].m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();Mmmmm=mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();m[mmmm].m(mmm.m());
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();Mmmmmm=mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+Mmmmmmmmm=mmm.m();
+m[mmmm].m(mmm.m());
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();Mmmmmmm=mmm.m();
+m[mmmm].m(mmmmmm);m[mmmm].m(mmmmmm);
+mmm.m();mmm.m();
+Mmmmmmmm=mmm.m();
+m[mmmm].m(mmmmmmm);
+mmm.m();mmm.m();
+Mmmmmmmmmm=mmm.m();
+Mmmm=m[mm].m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();
+Mmmmmmmmmmm=mmm.m();
+Mmmmmmmmmmmm=mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();mmm.m();mmm.m();
+mmm.m();mmm.m();
+m[mmmm].m(mmm.m());
+m[mmmm].m(mmmmmmmmmm);
+m[mmmm].m(mmmmm);
+m[mmmm].m(mmmmmmm);
+m[mmmm].m(mmmmmmmmm);
+m[mmmm].m(mmmmmm);
+m[mmmm].m(mmmmmmmm);
+m[mmmm].m(mmmmmmmmmmm);",
+            )],
+        }],
+    };

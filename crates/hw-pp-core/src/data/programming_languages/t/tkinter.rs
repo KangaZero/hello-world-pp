@@ -1,0 +1,86 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Tkinter`.
+//!
+//! Imported from leachim6/hello-world (`t/Tkinter.py` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Tkinter => "Tkinter",
+    versions: [Tkinter => "Tkinter"],
+    extensions: [],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Tkinter,
+        extensions: &[],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Tkinter,
+            syntax: concat!(
+                r#"import tkinter as tk
+root = tk.Tk()
+greeting = tk.Label(text=""#,
+                output_for_hello_world!(),
+                r#"")
+greeting.pack()
+root.mainloop()"#
+            ),
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"import"),
+                (TokenKind::Plain, r" tkinter "),
+                (TokenKind::Keyword, r"as"),
+                (
+                    TokenKind::Plain,
+                    r" tk
+root ",
+                ),
+                (TokenKind::Keyword, r"="),
+                (TokenKind::Plain, r" tk"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"Tk"),
+                (TokenKind::Punctuation, r"()"),
+                (
+                    TokenKind::Plain,
+                    r"
+greeting ",
+                ),
+                (TokenKind::Keyword, r"="),
+                (TokenKind::Plain, r" tk"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"Label"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"text"),
+                (TokenKind::Keyword, r"="),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+greeting",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"pack"),
+                (TokenKind::Punctuation, r"()"),
+                (
+                    TokenKind::Plain,
+                    r"
+root",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"mainloop"),
+                (TokenKind::Punctuation, r"()"),
+            ],
+        }],
+    };

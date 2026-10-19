@@ -1,0 +1,44 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Cantonese`.
+//!
+//! Imported from leachim6/hello-world (`c/Cantonese.cantonese` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Cantonese => "Cantonese",
+    versions: [Cantonese => "Cantonese"],
+    extensions: [Cantonese => "cantonese"],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Cantonese,
+        extensions: &[FileExtension::Cantonese],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Cantonese,
+            syntax: concat!(
+                r#"畀我睇下 " "#,
+                output_for_hello_world!(),
+                r#" " 点样先?
+收工"#
+            ),
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                concat!(
+                    r#"畀我睇下 " "#,
+                    output_for_hello_world!(),
+                    r#" " 点样先?
+收工"#
+                ),
+            )],
+        }],
+    };

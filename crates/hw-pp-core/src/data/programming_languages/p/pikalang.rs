@@ -1,0 +1,43 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Pikalang`.
+//!
+//! Imported from leachim6/hello-world (`p/PikaLang.pokeball` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+
+language_names! {
+    language: Pikalang => "PikaLang",
+    versions: [Pikalang => "PikaLang"],
+    extensions: [Pokeball => "pokeball"],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Pikalang,
+        extensions: &[FileExtension::Pokeball],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Pikalang,
+            syntax: r"pi pi pi pi pi pi pi pi pi pi pika pipi pi pi pi pi pi pi pi pipi pi pi
+pi pi pi pi pi pi pi pi pipi pi pi pi pipi pi pichu pichu pichu pichu ka
+chu pipi pi pi pikachu pipi pi pikachu pi pi pi pi pi pi pi pikachu
+pikachu pi pi pi pikachu pipi pi pi pikachu pichu pichu pi pi pi pi pi
+pi pi pi pi pi pi pi pi pi pi pikachu pipi pikachu pi pi pi pikachu ka
+ka ka ka ka ka pikachu ka ka ka ka ka ka ka ka pikachu pipi pi pikachu
+pipi pikachu ",
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                r"pi pi pi pi pi pi pi pi pi pi pika pipi pi pi pi pi pi pi pi pipi pi pi
+pi pi pi pi pi pi pi pi pipi pi pi pi pipi pi pichu pichu pichu pichu ka
+chu pipi pi pi pikachu pipi pi pikachu pi pi pi pi pi pi pi pikachu
+pikachu pi pi pi pikachu pipi pi pi pikachu pichu pichu pi pi pi pi pi
+pi pi pi pi pi pi pi pi pi pi pikachu pipi pikachu pi pi pi pikachu ka
+ka ka ka ka ka pikachu ka ka ka ka ka ka ka ka pikachu pipi pi pikachu
+pipi pikachu ",
+            )],
+        }],
+    };

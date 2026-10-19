@@ -1,0 +1,48 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Flascript`.
+//!
+//! Imported from leachim6/hello-world (`f/FlaScript.fls` at `a152253`),
+//! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+
+use crate::data::programming_languages::{
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Flascript => "FlaScript",
+    versions: [Flascript => "FlaScript"],
+    extensions: [Fls => "fls"],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Flascript,
+        extensions: &[FileExtension::Fls],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Flascript,
+            syntax: concat!(
+                r#"main() -> main {
+	print(string) -> ""#,
+                output_for_hello_world!(),
+                r#""
+	print(newline)
+} main;"#
+            ),
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                concat!(
+                    r#"main() -> main {
+	print(string) -> ""#,
+                    output_for_hello_world!(),
+                    r#""
+	print(newline)
+} main;"#
+                ),
+            )],
+        }],
+    };
