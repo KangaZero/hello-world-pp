@@ -1,4 +1,12 @@
 //! Hello-world greetings for `HumanLanguageName::Vietnamese`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/xin#Vietnamese>
+//! - <https://en.wiktionary.org/wiki/ch%C3%A0o#Vietnamese>
+//! - <https://en.wiktionary.org/wiki/th%E1%BA%BF#Vietnamese>
+//! - <https://en.wiktionary.org/wiki/gi%E1%BB%9Bi#Vietnamese>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

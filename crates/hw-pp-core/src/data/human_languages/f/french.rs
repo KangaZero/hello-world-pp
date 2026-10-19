@@ -1,4 +1,11 @@
 //! Hello-world greetings for `HumanLanguageName::French`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/bonjour#French>
+//! - <https://en.wiktionary.org/wiki/le#French>
+//! - <https://en.wiktionary.org/wiki/monde#French>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

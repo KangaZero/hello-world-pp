@@ -1,4 +1,10 @@
 //! Hello-world greetings for `HumanLanguageName::Yoruba`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/%E1%BA%B8#Yoruba>
+//! - <https://en.wiktionary.org/wiki/n#Yoruba>
+//! - <https://en.wiktionary.org/wiki/l%E1%BA%B9#Yoruba>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

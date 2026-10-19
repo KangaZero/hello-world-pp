@@ -1,4 +1,10 @@
 //! Hello-world greetings for `HumanLanguageName::Danish`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/hej#Danish>
+//! - <https://en.wiktionary.org/wiki/verden#Danish>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

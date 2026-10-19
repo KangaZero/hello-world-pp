@@ -1,4 +1,10 @@
 //! Hello-world greetings for `HumanLanguageName::Hungarian`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/hell%C3%B3#Hungarian>
+//! - <https://en.wiktionary.org/wiki/vil%C3%A1g#Hungarian>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

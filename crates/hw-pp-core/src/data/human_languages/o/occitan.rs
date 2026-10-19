@@ -1,0 +1,31 @@
+//! Hello-world greetings for `HumanLanguageName::Occitan`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/mond#Occitan>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
+
+use crate::data::human_languages::{
+    Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,
+    HumanLanguageName, ScriptName,
+};
+use crate::data::macros::language_names;
+
+language_names! {
+    language: Occitan => "Occitan",
+    dialects: [Languedocien => "Languedocien" | "lengadocian"],
+    scripts: [Latin => "Latin"],
+}
+
+pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
+    name: HumanLanguageName::Occitan,
+    categories: &[Natural],
+    scripts: &[ScriptName::Latin],
+    dialects: &[Dialect {
+        label: DialectName::Languedocien,
+        greetings: &[Greeting {
+            scripts: &[ScriptName::Latin],
+            text: "Bonjorn, mond!",
+        }],
+    }],
+};

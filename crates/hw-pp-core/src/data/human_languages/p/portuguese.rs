@@ -1,4 +1,10 @@
 //! Hello-world greetings for `HumanLanguageName::Portuguese`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/ol%C3%A1#Portuguese>
+//! - <https://en.wiktionary.org/wiki/mundo#Portuguese>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

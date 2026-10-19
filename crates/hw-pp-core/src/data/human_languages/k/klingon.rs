@@ -1,7 +1,12 @@
 //! Hello-world greetings for `HumanLanguageName::Klingon`.
+//!
+//! Sources:
+//! - <https://www.kli.org/about-klingon/klingon-phrases/>
+//! - <https://en.wikipedia.org/wiki/Klingon_language>
 
 use crate::data::human_languages::{
-    Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Constructed,
+    Dialect, DialectName, Greeting, HumanLanguage,
+    HumanLanguageCategory::{Constructed, Fictional},
     HumanLanguageName, ScriptName,
 };
 use crate::data::macros::language_names;
@@ -14,7 +19,7 @@ language_names! {
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Klingon,
-    categories: &[Constructed],
+    categories: &[Constructed, Fictional],
     scripts: &[ScriptName::Latin, ScriptName::Piqad],
     dialects: &[Dialect {
         label: DialectName::StandardKlingon,

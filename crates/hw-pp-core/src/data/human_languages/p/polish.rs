@@ -1,4 +1,10 @@
 //! Hello-world greetings for `HumanLanguageName::Polish`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/witaj#Polish>
+//! - <https://en.wiktionary.org/wiki/%C5%9Bwiecie#Polish>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

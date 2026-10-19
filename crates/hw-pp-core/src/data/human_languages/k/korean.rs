@@ -1,4 +1,10 @@
 //! Hello-world greetings for `HumanLanguageName::Korean`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/%EC%95%88%EB%85%95%ED%95%98%EC%84%B8%EC%9A%94#Korean>
+//! - <https://en.wiktionary.org/wiki/%EC%84%B8%EA%B3%84#Korean>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

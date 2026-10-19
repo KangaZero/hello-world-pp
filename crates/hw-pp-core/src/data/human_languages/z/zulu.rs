@@ -1,4 +1,9 @@
 //! Hello-world greetings for `HumanLanguageName::Zulu`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/sawubona#Zulu>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

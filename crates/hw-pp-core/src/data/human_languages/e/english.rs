@@ -1,4 +1,9 @@
 //! Hello-world greetings for `HumanLanguageName::English`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/hello#English>
+//! - <https://en.wiktionary.org/wiki/g%27day#English>
+//! - <https://en.wiktionary.org/wiki/world#English>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

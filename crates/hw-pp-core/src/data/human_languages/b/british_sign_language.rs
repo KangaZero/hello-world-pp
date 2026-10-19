@@ -1,4 +1,8 @@
 //! Hello-world greetings for `HumanLanguageName::BritishSignLanguage`.
+//!
+//! Sources:
+//! - <https://www.signbsl.com/sign/hello>
+//! - <https://www.signbsl.com/sign/world>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Signed, HumanLanguageName,

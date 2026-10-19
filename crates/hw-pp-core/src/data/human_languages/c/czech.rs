@@ -1,4 +1,9 @@
 //! Hello-world greetings for `HumanLanguageName::Czech`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/ahoj#Czech>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

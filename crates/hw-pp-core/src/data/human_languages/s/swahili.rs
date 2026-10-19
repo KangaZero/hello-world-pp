@@ -1,4 +1,10 @@
 //! Hello-world greetings for `HumanLanguageName::Swahili`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/habari#Swahili>
+//! - <https://en.wiktionary.org/wiki/dunia#Swahili>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

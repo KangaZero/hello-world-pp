@@ -37,14 +37,17 @@ pub fn get_default_programming_language_hello_world() -> &'static str {
         .expect("default programming language must resolve to a snippet")
 }
 
-/// Punctuation marks that appear in the recorded human-language greetings.
+/// Punctuation marks that appear in the recorded human-language greetings:
+/// Latin, CJK (`，！、`), the Arabic comma `،`, the Tibetan shad `།` and the
+/// Javanese pada lingsa `꧈`.
 ///
 /// Deliberately excludes:
 /// - the apostrophe `'`, which is a letter in Klingon (`qo'`) and part of
 ///   contractions like `G'day`;
 /// - braille cells such as `⠂` (comma) and `⠖` (exclamation mark), whose
-///   meaning depends on the braille code and their position in a word.
-pub const HELLO_WORLD_PUNCTUATION: &[char] = &[',', '!', '¡', '，', '！', '、'];
+///   meaning depends on the braille code and their position in a word;
+/// - the Tibetan tsheg `་`, which separates syllables inside a word.
+pub const HELLO_WORLD_PUNCTUATION: &[char] = &[',', '!', '¡', '，', '！', '、', '،', '།', '꧈'];
 
 /// Removes [`HELLO_WORLD_PUNCTUATION`] from a greeting.
 #[must_use]

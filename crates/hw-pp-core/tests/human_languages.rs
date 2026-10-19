@@ -211,13 +211,13 @@ fn every_variant_is_used_in_the_data() {
 
 #[test]
 fn script_and_category_parse_errors_name_their_kind() {
-    let err = "Tengwar".parse::<ScriptName>().unwrap_err();
-    assert_eq!(err.to_string(), r#"unrecognized script name: "Tengwar""#);
-    assert_eq!(err.input(), "Tengwar");
-    let err = "Fictional".parse::<HumanLanguageCategory>().unwrap_err();
+    let err = "Moonrunes".parse::<ScriptName>().unwrap_err();
+    assert_eq!(err.to_string(), r#"unrecognized script name: "Moonrunes""#);
+    assert_eq!(err.input(), "Moonrunes");
+    let err = "Telepathic".parse::<HumanLanguageCategory>().unwrap_err();
     assert_eq!(
         err.to_string(),
-        r#"unrecognized category name: "Fictional""#
+        r#"unrecognized category name: "Telepathic""#
     );
 }
 

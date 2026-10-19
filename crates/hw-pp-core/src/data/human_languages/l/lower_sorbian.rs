@@ -1,0 +1,33 @@
+//! Hello-world greetings for `HumanLanguageName::LowerSorbian`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/dobry#Lower_Sorbian>
+//! - <https://en.wiktionary.org/wiki/%C5%BAe%C5%84#Lower_Sorbian>
+//! - <https://en.wiktionary.org/wiki/sw%C4%9Bt#Lower_Sorbian>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
+
+use crate::data::human_languages::{
+    Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,
+    HumanLanguageName, ScriptName,
+};
+use crate::data::macros::language_names;
+
+language_names! {
+    language: LowerSorbian => "Lower Sorbian" | "dolnoserbšćina",
+    dialects: [StandardLowerSorbian => "Standard Lower Sorbian"],
+    scripts: [Latin => "Latin"],
+}
+
+pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
+    name: HumanLanguageName::LowerSorbian,
+    categories: &[Natural],
+    scripts: &[ScriptName::Latin],
+    dialects: &[Dialect {
+        label: DialectName::StandardLowerSorbian,
+        greetings: &[Greeting {
+            scripts: &[ScriptName::Latin],
+            text: "Dobry źeń, swět!",
+        }],
+    }],
+};

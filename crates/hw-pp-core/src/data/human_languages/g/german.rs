@@ -1,4 +1,12 @@
 //! Hello-world greetings for `HumanLanguageName::German`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/hallo#German>
+//! - <https://en.wiktionary.org/wiki/servus#Bavarian>
+//! - <https://en.wiktionary.org/wiki/Welt#German>
+//! - <https://en.wiktionary.org/wiki/W%C3%B6d#Bavarian>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

@@ -1,4 +1,10 @@
 //! Hello-world greetings for `HumanLanguageName::Dutch`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/hallo#Dutch>
+//! - <https://en.wiktionary.org/wiki/wereld#Dutch>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

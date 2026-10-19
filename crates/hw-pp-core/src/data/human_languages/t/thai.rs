@@ -1,4 +1,11 @@
 //! Hello-world greetings for `HumanLanguageName::Thai`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/%E0%B8%AA%E0%B8%A7%E0%B8%B1%E0%B8%AA%E0%B8%94%E0%B8%B5#Thai>
+//! - <https://en.wiktionary.org/wiki/%E0%B8%8A%E0%B8%B2%E0%B8%A7#Thai>
+//! - <https://en.wiktionary.org/wiki/%E0%B9%82%E0%B8%A5%E0%B8%81#Thai>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

@@ -1,4 +1,10 @@
 //! Hello-world greetings for `HumanLanguageName::Persian`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/%D8%B3%D9%84%D8%A7%D9%85#Persian>
+//! - <https://en.wiktionary.org/wiki/%D8%AF%D9%86%DB%8C%D8%A7#Persian>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,
@@ -20,7 +26,7 @@ pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLangua
         label: DialectName::IranianPersian,
         greetings: &[Greeting {
             scripts: &[ScriptName::PersoArabic],
-            text: "سلام دنیا!",
+            text: "سلام، دنیا!",
         }],
     }],
 };

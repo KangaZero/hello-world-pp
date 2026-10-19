@@ -1,4 +1,10 @@
 //! Hello-world greetings for `HumanLanguageName::Swedish`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/hej#Swedish>
+//! - <https://en.wiktionary.org/wiki/v%C3%A4rlden#Swedish>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

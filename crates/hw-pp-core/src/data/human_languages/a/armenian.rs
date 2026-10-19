@@ -1,4 +1,9 @@
 //! Hello-world greetings for `HumanLanguageName::Armenian`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/%D5%A1%D5%B7%D5%AD%D5%A1%D6%80%D5%B0#Armenian>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

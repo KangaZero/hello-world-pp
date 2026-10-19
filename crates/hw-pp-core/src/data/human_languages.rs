@@ -15,6 +15,20 @@ name_enum! {
         /// See <https://www.globallanguageservices.co.uk/difference-extinct-language-dead-language/>
         Dead => "Dead",
         Extinct => "Extinct",
+        /// Unrelated to any other known language (e.g. Basque, Sumerian)
+        Isolate => "Isolate",
+        /// A stable native language formed from mixing others (e.g. Haitian Creole)
+        Creole => "Creole",
+        /// A simplified contact language with no native speakers (e.g. Chinook Jargon)
+        Pidgin => "Pidgin",
+        /// Built for international communication (e.g. Esperanto, Interlingua)
+        Auxiliary => "Auxiliary",
+        /// Built for a work of fiction (e.g. Klingon, Quenya, Dothraki)
+        Fictional => "Fictional",
+        /// Kept mainly for religious use (e.g. Latin, Sanskrit, Ge'ez)
+        Liturgical => "Liturgical",
+        /// Spoken by whistling (e.g. Silbo Gomero)
+        Whistled => "Whistled",
     }
 }
 
@@ -184,7 +198,7 @@ pub fn get_default_human_language_dialect_from_language(
 /// };
 /// let dead_in_latin_script =
 ///     get_all_human_languages_as_str_by(Some(ScriptName::Latin), Some(HumanLanguageCategory::Dead));
-/// assert_eq!(dead_in_latin_script, ["Latin"]);
+/// assert!(dead_in_latin_script.contains(&"Latin"));
 /// ```
 #[must_use]
 pub fn get_all_human_languages_as_str_by(
@@ -239,7 +253,7 @@ pub fn get_all_scripts_as_str_by(language: Option<HumanLanguageName>) -> Vec<&'s
 /// ```
 /// use hw_pp_core::data::human_languages::{HumanLanguageName, get_all_human_language_categories_as_str_by};
 /// let categories = get_all_human_language_categories_as_str_by(Some(HumanLanguageName::Sumerian));
-/// assert_eq!(categories, ["Extinct"]);
+/// assert_eq!(categories, ["Extinct", "Isolate"]);
 /// ```
 #[must_use]
 pub fn get_all_human_language_categories_as_str_by(

@@ -1,4 +1,10 @@
 //! Hello-world greetings for `HumanLanguageName::Turkish`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/merhaba#Turkish>
+//! - <https://en.wiktionary.org/wiki/d%C3%BCnya#Turkish>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

@@ -1,7 +1,14 @@
 //! Hello-world greetings for `HumanLanguageName::Esperanto`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/saluton#Esperanto>
+//! - <https://en.wiktionary.org/wiki/mondo#Esperanto>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
-    Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Constructed,
+    Dialect, DialectName, Greeting, HumanLanguage,
+    HumanLanguageCategory::{Auxiliary, Constructed},
     HumanLanguageName, ScriptName,
 };
 use crate::data::macros::language_names;
@@ -14,7 +21,7 @@ language_names! {
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Esperanto,
-    categories: &[Constructed],
+    categories: &[Auxiliary, Constructed],
     scripts: &[ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::StandardEsperanto,

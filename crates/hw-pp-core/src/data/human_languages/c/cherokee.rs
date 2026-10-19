@@ -1,0 +1,38 @@
+//! Hello-world greetings for `HumanLanguageName::Cherokee`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/%E1%8E%A3%E1%8F%8F%E1%8F%B2#Cherokee>
+//! - <https://en.wiktionary.org/wiki/%E1%8E%A1%E1%8E%B6%E1%8E%AF#Cherokee>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
+
+use crate::data::human_languages::{
+    Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,
+    HumanLanguageName, ScriptName,
+};
+use crate::data::macros::language_names;
+
+language_names! {
+    language: Cherokee => "Cherokee" | "ᏣᎳᎩ",
+    dialects: [WesternCherokee => "Western Cherokee"],
+    scripts: [Cherokee => "Cherokee", Latin => "Latin"],
+}
+
+pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
+    name: HumanLanguageName::Cherokee,
+    categories: &[Natural],
+    scripts: &[ScriptName::Cherokee, ScriptName::Latin],
+    dialects: &[Dialect {
+        label: DialectName::WesternCherokee,
+        greetings: &[
+            Greeting {
+                scripts: &[ScriptName::Cherokee],
+                text: "ᎣᏏᏲ ᎡᎶᎯ!",
+            },
+            Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Osiyo, elohi!",
+            },
+        ],
+    }],
+};

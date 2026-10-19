@@ -1,4 +1,8 @@
 //! Hello-world greetings for `HumanLanguageName::Lojban`.
+//!
+//! Sources:
+//! - <https://jbovlaste.lojban.org/dict/coi>
+//! - <https://jbovlaste.lojban.org/dict/munje>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Constructed,

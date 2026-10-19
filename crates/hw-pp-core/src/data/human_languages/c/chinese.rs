@@ -1,4 +1,15 @@
 //! Hello-world greetings for `HumanLanguageName::Chinese`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/%E6%B1%9D%E5%A5%BD#Chinese>
+//! - <https://en.wiktionary.org/wiki/n%C7%90#Mandarin>
+//! - <https://en.wiktionary.org/wiki/%E5%93%88%E5%9B%89#Cantonese>
+//! - <https://en.wiktionary.org/wiki/%E4%BD%A0%E5%A5%BD#Cantonese>
+//! - <https://en.wiktionary.org/wiki/h%C7%8Eo#Mandarin>
+//! - <https://en.wiktionary.org/wiki/%E4%B8%96%E7%95%8C#Cantonese>
+//! - <https://en.wiktionary.org/wiki/sh%C3%ACji%C3%A8#Mandarin>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

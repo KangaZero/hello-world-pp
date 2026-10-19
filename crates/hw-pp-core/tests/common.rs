@@ -7,6 +7,7 @@ use hw_pp_core::data::human_languages::{DialectName, HUMAN_LANGUAGES, HumanLangu
 use hw_pp_core::data::programming_languages::{
     ProgrammingLanguageName, get_hello_world_syntax_for,
 };
+use unicode_normalization::char::is_combining_mark;
 
 #[test]
 fn defaults_are_english_c_and_latin() {
@@ -52,8 +53,8 @@ fn remove_punctuation_keeps_apostrophes_and_braille() {
 #[test]
 fn hello_world_punctuation_covers_every_greeting() {
     const BRAILLE: core::ops::RangeInclusive<char> = '\u{2800}'..='\u{28FF}';
-    /// Signs that are neither letters to `char::is_alphanumeric` nor punctuation.
-    const VIRAMAS: &[char] = &['\u{094D}', '\u{09CD}', '\u{0BCD}', '\u{0C4D}'];
+    /// Word-internal marks: the apostrophe and the Tibetan syllable separator (tsheg).
+    const WORD_MARKS: &[char] = &['\'', '\u{0F0B}'];
 
     let uncovered: Vec<String> = HUMAN_LANGUAGES
         .iter()
@@ -64,7 +65,10 @@ fn hello_world_punctuation_covers_every_greeting() {
                 .text
                 .chars()
                 .filter(|c| !c.is_alphanumeric() && !c.is_whitespace())
-                .filter(|c| *c != '\'' && !BRAILLE.contains(c) && !VIRAMAS.contains(c))
+                // Combining marks (viramas, vowel signs) are part of the letters around them.
+                .filter(|c| {
+                    !is_combining_mark(*c) && !WORD_MARKS.contains(c) && !BRAILLE.contains(c)
+                })
                 .filter(|c| !HELLO_WORLD_PUNCTUATION.contains(c))
                 .collect();
             (!chars.is_empty()).then(|| format!("{chars:?} in {:?}", greeting.text))

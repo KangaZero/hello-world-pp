@@ -1,7 +1,12 @@
 //! Hello-world greetings for `HumanLanguageName::Sumerian`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/%F0%92%81%B2#Sumerian>
+//! - <https://en.wiktionary.org/wiki/%F0%92%80%AD%F0%92%86%A0#Sumerian>
 
 use crate::data::human_languages::{
-    Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Extinct,
+    Dialect, DialectName, Greeting, HumanLanguage,
+    HumanLanguageCategory::{Extinct, Isolate},
     HumanLanguageName, ScriptName,
 };
 use crate::data::macros::language_names;
@@ -14,7 +19,7 @@ language_names! {
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Sumerian,
-    categories: &[Extinct],
+    categories: &[Extinct, Isolate],
     scripts: &[ScriptName::Cuneiform],
     dialects: &[Dialect {
         label: DialectName::Emegir,

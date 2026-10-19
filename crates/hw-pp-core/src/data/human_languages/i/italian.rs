@@ -1,4 +1,10 @@
 //! Hello-world greetings for `HumanLanguageName::Italian`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/ciao#Italian>
+//! - <https://en.wiktionary.org/wiki/mondo#Italian>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

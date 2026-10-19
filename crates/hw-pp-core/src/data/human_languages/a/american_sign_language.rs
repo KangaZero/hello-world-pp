@@ -1,4 +1,9 @@
 //! Hello-world greetings for `HumanLanguageName::AmericanSignLanguage`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://www.lifeprint.com/asl101/pages-signs/h/hello.htm>
+//! - <https://www.lifeprint.com/asl101/pages-signs/w/world.htm>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Signed, HumanLanguageName,

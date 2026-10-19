@@ -1,4 +1,13 @@
 //! Hello-world greetings for `HumanLanguageName::Japanese`.
+//!
+//! Sources:
+//! - <https://en.wiktionary.org/wiki/konnichiwa#Japanese>
+//! - <https://en.wiktionary.org/wiki/%E3%81%BE%E3%81%84%E3%81%A9#Japanese>
+//! - <https://en.wiktionary.org/wiki/%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF#Japanese>
+//! - <https://en.wiktionary.org/wiki/%E4%B8%96%E7%95%8C#Japanese>
+//! - <https://en.wiktionary.org/wiki/sekai#Japanese>
+//! - <https://en.wiktionary.org/wiki/hello#Translations>
+//! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,
