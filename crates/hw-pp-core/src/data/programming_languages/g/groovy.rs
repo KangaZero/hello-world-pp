@@ -1,4 +1,9 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Groovy`.
+//!
+//! Sources:
+//! - <https://groovy-lang.org/semantics.html>
+//! - <https://groovy-lang.org/differences.html>
+//! - <https://groovy-lang.org/releasenotes/groovy-4.0.html>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,

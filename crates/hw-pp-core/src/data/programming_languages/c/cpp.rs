@@ -1,4 +1,9 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Cpp`.
+//!
+//! Sources:
+//! - <https://en.cppreference.com/cpp/io/cout>
+//! - <https://en.cppreference.com/cpp/language/main_function>
+//! - <https://en.cppreference.com/cpp/20>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

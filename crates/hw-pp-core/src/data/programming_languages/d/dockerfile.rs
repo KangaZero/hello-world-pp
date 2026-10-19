@@ -2,10 +2,13 @@
 //!
 //! Imported from leachim6/hello-world (PR #1681 `d/dockerfile`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+//!
+//! Sources:
+//! - <https://github.com/leachim6/hello-world/pull/1681>
 
 use crate::data::programming_languages::{
-    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    ProgrammingLanguage, ProgrammingLanguageCategory::Configuration, ProgrammingLanguageDialect,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -22,7 +25,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Dockerfile,
         extensions: &[],
-        categories: &[],
+        categories: &[Configuration],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Dockerfile,
             syntax: concat!(

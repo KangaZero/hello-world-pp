@@ -1,4 +1,9 @@
 //! Hello-world snippets for `ProgrammingLanguageName::JavaScript`.
+//!
+//! Sources:
+//! - <https://developer.mozilla.org/en-US/docs/Web/API/console/log_static>
+//! - <https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/What_is_JavaScript>
+//! - <https://262.ecma-international.org/11.0/>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,

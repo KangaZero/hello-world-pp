@@ -2,10 +2,13 @@
 //!
 //! Imported from leachim6/hello-world (PR #1737 `a/Algobox.alg`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+//!
+//! Sources:
+//! - <https://github.com/leachim6/hello-world/pull/1737>
 
 use crate::data::programming_languages::{
-    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    ProgrammingLanguage, ProgrammingLanguageCategory::Educational, ProgrammingLanguageDialect,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -22,7 +25,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Algobox,
         extensions: &[],
-        categories: &[],
+        categories: &[Educational],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Algobox,
             syntax: concat!(

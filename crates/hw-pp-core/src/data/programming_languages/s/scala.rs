@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Scala`.
+//!
+//! Sources:
+//! - <https://docs.scala-lang.org/scala3/book/taste-hello-world.html>
+//! - <https://docs.scala-lang.org/scala3/book/methods-main-methods.html>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

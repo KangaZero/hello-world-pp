@@ -1,4 +1,9 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Elm`.
+//!
+//! Sources:
+//! - <https://guide.elm-lang.org/>
+//! - <https://package.elm-lang.org/packages/elm/html/latest/Html#text>
+//! - <https://elm-lang.org/examples/hello>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

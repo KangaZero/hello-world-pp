@@ -2,10 +2,13 @@
 //!
 //! Imported from leachim6/hello-world (`l/Logtalk.lgt` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+//!
+//! Sources:
+//! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/l/Logtalk.lgt>
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
+    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -22,7 +25,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Logtalk,
         extensions: &[FileExtension::Lgt],
-        categories: &[],
+        categories: &[Scripting],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Logtalk,
             syntax: concat!(r"write('", output_for_hello_world!(), r"')"),

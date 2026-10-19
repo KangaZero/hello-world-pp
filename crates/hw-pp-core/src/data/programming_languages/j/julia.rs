@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Julia`.
+//!
+//! Sources:
+//! - <https://docs.julialang.org/en/v1/manual/getting-started/>
+//! - <https://docs.julialang.org/en/v1/base/io-network/#Base.println>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,

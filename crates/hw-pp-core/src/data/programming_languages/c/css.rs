@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Css`.
+//!
+//! Sources:
+//! - <https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::before>
+//! - <https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/content>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Markup,

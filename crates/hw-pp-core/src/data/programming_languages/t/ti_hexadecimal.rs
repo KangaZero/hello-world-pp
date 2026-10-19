@@ -2,10 +2,13 @@
 //!
 //! Imported from leachim6/hello-world (`t/TI Hexadecimal.hex` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+//!
+//! Sources:
+//! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/t/TI%20Hexadecimal.hex>
 
 use crate::data::programming_languages::{
-    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    ProgrammingLanguage, ProgrammingLanguageCategory::Assembly, ProgrammingLanguageDialect,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{macros::language_names, programming_languages_token::TokenKind};
 
@@ -19,7 +22,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::TiHexadecimal,
         extensions: &[],
-        categories: &[],
+        categories: &[Assembly],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::TiHexadecimal,
             syntax: r"AsmPrgm

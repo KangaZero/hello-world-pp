@@ -1,4 +1,9 @@
 //! Hello-world snippets for `ProgrammingLanguageName::CSharp`.
+//!
+//! Sources:
+//! - <https://learn.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/tutorials/hello-world>
+//! - <https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/top-level-statements>
+//! - <https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

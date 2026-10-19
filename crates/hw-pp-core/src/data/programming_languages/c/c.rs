@@ -1,4 +1,9 @@
 //! Hello-world snippets for `ProgrammingLanguageName::C`.
+//!
+//! Sources:
+//! - <https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1256.pdf>
+//! - <https://en.wikipedia.org/wiki/C99>
+//! - <https://en.cppreference.com/c/io/printf>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

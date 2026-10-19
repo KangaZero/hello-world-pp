@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::D`.
+//!
+//! Sources:
+//! - <https://tour.dlang.org/tour/en/welcome/welcome-to-d>
+//! - <https://dlang.org/spec/spec.html>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

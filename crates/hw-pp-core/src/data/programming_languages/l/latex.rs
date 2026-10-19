@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Latex`.
+//!
+//! Sources:
+//! - <https://www.latex-project.org/help/documentation/usrguide.pdf>
+//! - <https://www.learnlatex.org/en/lesson-01>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Markup,

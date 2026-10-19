@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Bash`.
+//!
+//! Sources:
+//! - <https://pubs.opengroup.org/onlinepubs/9799919799/utilities/echo.html>
+//! - <https://pubs.opengroup.org/onlinepubs/9799919799/utilities/V3_chap02.html>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,

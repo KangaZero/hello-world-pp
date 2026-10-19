@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::FSharp`.
+//!
+//! Sources:
+//! - <https://learn.microsoft.com/en-us/dotnet/fsharp/get-started/get-started-command-line>
+//! - <https://learn.microsoft.com/en-us/dotnet/fsharp/whats-new/fsharp-8>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

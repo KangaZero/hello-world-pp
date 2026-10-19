@@ -1,4 +1,9 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Html`.
+//!
+//! Sources:
+//! - <https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Your_first_website/Creating_the_content>
+//! - <https://developer.mozilla.org/en-US/docs/Web/HTML>
+//! - <https://html.spec.whatwg.org/multipage/>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Markup,

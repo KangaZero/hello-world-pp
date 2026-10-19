@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Brainfuck`.
+//!
+//! Sources:
+//! - <https://esolangs.org/wiki/Brainfuck>
+//! - <https://en.wikipedia.org/wiki/Brainfuck>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,

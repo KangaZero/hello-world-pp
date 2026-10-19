@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Basic`.
+//!
+//! Sources:
+//! - <https://en.wikipedia.org/wiki/Dartmouth_BASIC>
+//! - <https://en.wikipedia.org/wiki/BASIC>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,

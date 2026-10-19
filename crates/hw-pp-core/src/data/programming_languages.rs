@@ -14,6 +14,24 @@ name_enum! {
         Compiled => "Compiled",
         Markup => "Markup",
         Historical => "Historical",
+        /// Assembly languages and bytecode (e.g. 6502, Smali, LLVM IR)
+        Assembly => "Assembly",
+        /// Frameworks, libraries and runtimes (e.g. React, Django, Node.js)
+        Framework => "Framework",
+        /// Database and query languages (e.g. SQL dialects, GraphQL, SPARQL)
+        Query => "Query",
+        /// Configuration and build languages (e.g. Dockerfile, Terraform, `CMake`)
+        Configuration => "Configuration",
+        /// Hardware description languages (e.g. VHDL, Verilog)
+        HardwareDescription => "Hardware Description",
+        /// Languages designed for teaching (e.g. Logo, Karel, Scratch)
+        Educational => "Educational",
+        /// Mathematics and science (e.g. Mathematica, Octave, Maxima)
+        Scientific => "Scientific",
+        /// Theorem provers and proof assistants (e.g. Coq, Agda, Lean)
+        ProofAssistant => "Proof Assistant",
+        /// Music composition and sound synthesis (e.g. `LilyPond`, `SuperCollider`)
+        Music => "Music",
     }
 }
 

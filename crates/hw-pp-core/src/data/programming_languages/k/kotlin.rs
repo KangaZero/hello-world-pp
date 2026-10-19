@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Kotlin`.
+//!
+//! Sources:
+//! - <https://kotlinlang.org/docs/kotlin-tour-hello-world.html>
+//! - <https://kotlinlang.org/docs/whatsnew19.html>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

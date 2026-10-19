@@ -2,10 +2,13 @@
 //!
 //! Imported from leachim6/hello-world (PR #1853 `t/TIS-100.tis`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+//!
+//! Sources:
+//! - <https://github.com/leachim6/hello-world/pull/1853>
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Assembly,
+    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{macros::language_names, programming_languages_token::TokenKind};
 
@@ -19,7 +22,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Tis100,
         extensions: &[FileExtension::Tis],
-        categories: &[],
+        categories: &[Assembly],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Tis100,
             syntax: r"@0 

@@ -2,10 +2,13 @@
 //!
 //! Imported from leachim6/hello-world (PR #1542 `s/SAKO.sako`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+//!
+//! Sources:
+//! - <https://github.com/leachim6/hello-world/pull/1542>
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Historical,
+    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -22,7 +25,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Sako,
         extensions: &[FileExtension::Sako],
-        categories: &[],
+        categories: &[Historical],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sako,
             syntax: concat!(

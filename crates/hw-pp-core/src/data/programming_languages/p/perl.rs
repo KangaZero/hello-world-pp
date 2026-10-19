@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Perl`.
+//!
+//! Sources:
+//! - <https://perldoc.perl.org/perlintro>
+//! - <https://perldoc.perl.org/functions/print>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,

@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Elixir`.
+//!
+//! Sources:
+//! - <https://elixir.hexdocs.pm/introduction.html>
+//! - <https://elixir.hexdocs.pm/IO.html>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,

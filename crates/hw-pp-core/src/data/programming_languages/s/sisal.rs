@@ -2,10 +2,14 @@
 //!
 //! Imported from leachim6/hello-world (PR #1490 `s/Sisal.sis`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+//!
+//! Sources:
+//! - <https://github.com/leachim6/hello-world/pull/1490>
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage,
+    ProgrammingLanguageCategory::{Compiled, Historical},
+    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -22,7 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Sisal,
         extensions: &[FileExtension::Sis],
-        categories: &[],
+        categories: &[Compiled, Historical],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sisal,
             syntax: concat!(

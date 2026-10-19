@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::OCaml`.
+//!
+//! Sources:
+//! - <https://ocaml.org/docs/tour-of-ocaml>
+//! - <https://ocaml.org/docs/your-first-program>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Algol`.
+//!
+//! Sources:
+//! - <https://en.wikipedia.org/wiki/ALGOL_60>
+//! - <https://www.masswerk.at/algol60/report.htm>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,

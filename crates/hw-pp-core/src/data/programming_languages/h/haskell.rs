@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Haskell`.
+//!
+//! Sources:
+//! - <https://www.haskell.org/onlinereport/haskell2010/>
+//! - <https://www.haskell.org/tutorial/io.html>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

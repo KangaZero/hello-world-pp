@@ -2,10 +2,13 @@
 //!
 //! Imported from leachim6/hello-world (`b/Brainfuck 2D.bf2d` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+//!
+//! Sources:
+//! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/b/Brainfuck%202D.bf2d>
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
+    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -22,7 +25,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Brainfuck2d,
         extensions: &[FileExtension::Bf2d],
-        categories: &[],
+        categories: &[Esolang],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Brainfuck2d,
             syntax: concat!(

@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Erlang`.
+//!
+//! Sources:
+//! - <https://www.erlang.org/doc/system/seq_prog.html>
+//! - <https://www.erlang.org/doc/apps/stdlib/io.html>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

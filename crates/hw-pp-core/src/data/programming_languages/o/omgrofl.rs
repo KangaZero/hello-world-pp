@@ -2,10 +2,13 @@
 //!
 //! Imported from leachim6/hello-world (`o/Omgrofl.omgrofl` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+//!
+//! Sources:
+//! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/o/Omgrofl.omgrofl>
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
+    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{macros::language_names, programming_languages_token::TokenKind};
 
@@ -19,7 +22,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Omgrofl,
         extensions: &[FileExtension::Omgrofl],
-        categories: &[],
+        categories: &[Esolang],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Omgrofl,
             syntax: r"lol iz 72

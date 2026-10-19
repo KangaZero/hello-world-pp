@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Lolcode`.
+//!
+//! Sources:
+//! - <https://esolangs.org/wiki/LOLCODE>
+//! - <https://github.com/justinmeza/lolcode-spec/blob/master/v1.2/lolcode-spec-v1.2.md>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,

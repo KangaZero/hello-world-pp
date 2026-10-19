@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Ruby`.
+//!
+//! Sources:
+//! - <https://www.ruby-lang.org/en/documentation/quickstart/>
+//! - <https://docs.ruby-lang.org/en/master/Kernel.html#method-i-puts>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,

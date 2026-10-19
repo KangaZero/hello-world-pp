@@ -1,4 +1,7 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Matlab`.
+//!
+//! Sources:
+//! - <https://en.wikipedia.org/wiki/MATLAB>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,

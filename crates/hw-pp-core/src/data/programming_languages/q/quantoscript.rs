@@ -2,6 +2,9 @@
 //!
 //! Imported from leachim6/hello-world (PR #1832 `q/QuantoScript.qs`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+//!
+//! Sources:
+//! - <https://github.com/leachim6/hello-world/pull/1832>
 
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,

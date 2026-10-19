@@ -2,10 +2,13 @@
 //!
 //! Imported from leachim6/hello-world (`n/Nu.nu` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+//!
+//! Sources:
+//! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/n/Nu.nu>
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
+    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -22,7 +25,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Nu,
         extensions: &[FileExtension::Nu],
-        categories: &[],
+        categories: &[Scripting],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Nu,
             syntax: concat!(r#"(puts ""#, output_for_hello_world!(), r#"")"#),

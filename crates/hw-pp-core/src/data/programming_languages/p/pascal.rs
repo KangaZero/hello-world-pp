@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Pascal`.
+//!
+//! Sources:
+//! - <https://en.wikipedia.org/wiki/Pascal_(programming_language)>
+//! - <https://www.freepascal.org/docs-html/current/ref/ref.html>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::PowerShell`.
+//!
+//! Sources:
+//! - <https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/write-host>
+//! - <https://learn.microsoft.com/en-us/powershell/scripting/overview>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,

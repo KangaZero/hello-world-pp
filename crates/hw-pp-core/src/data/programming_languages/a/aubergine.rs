@@ -1,0 +1,37 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Aubergine`.
+//!
+//! Imported from the Esolang wiki (`Hello world program in esoteric languages (nonalphabetic and A)`),
+//! public domain (CC0); see <https://esolangs.org/wiki/Esolang:Copyrights>.
+//!
+//! Sources:
+//! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(nonalphabetic_and_A)#Aubergine>
+//! - <https://esolangs.org/wiki/Aubergine>
+
+use crate::data::programming_languages::{
+    ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
+};
+use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+
+language_names! {
+    language: Aubergine => "Aubergine",
+    versions: [Aubergine => "Aubergine"],
+    extensions: [],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Aubergine,
+        extensions: &[],
+        categories: &[Esolang],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Aubergine,
+            syntax: r"=aA-a1=oA=bi+b1-Ab-bb:bA+B1=iBGolf by Quintopia
+!dlroW ,olleH",
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                r"=aA-a1=oA=bi+b1-Ab-bb:bA+B1=iBGolf by Quintopia
+!dlroW ,olleH",
+            )],
+        }],
+    };

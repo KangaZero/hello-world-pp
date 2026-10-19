@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::TypeScript`.
+//!
+//! Sources:
+//! - <https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html>
+//! - <https://www.typescriptlang.org/docs/handbook/2/basic-types.html>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,

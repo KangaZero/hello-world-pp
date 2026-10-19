@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Java`.
+//!
+//! Sources:
+//! - <https://openjdk.org/jeps/512>
+//! - <https://docs.oracle.com/javase/tutorial/getStarted/application/index.html>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

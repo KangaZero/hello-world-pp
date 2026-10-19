@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::VisualBasic`.
+//!
+//! Sources:
+//! - <https://learn.microsoft.com/en-us/dotnet/visual-basic/getting-started/>
+//! - <https://learn.microsoft.com/en-us/dotnet/visual-basic/programming-guide/program-structure/structure-of-a-visual-basic-program>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

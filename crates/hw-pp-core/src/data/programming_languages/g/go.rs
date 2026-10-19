@@ -1,4 +1,9 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Go`.
+//!
+//! Sources:
+//! - <https://go.dev/tour/welcome/1>
+//! - <https://go.dev/doc/tutorial/getting-started>
+//! - <https://go.dev/ref/spec>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

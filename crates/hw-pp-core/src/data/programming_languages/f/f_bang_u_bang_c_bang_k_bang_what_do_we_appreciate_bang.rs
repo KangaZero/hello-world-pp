@@ -1,0 +1,49 @@
+//! Hello-world snippet for `ProgrammingLanguageName::FBangUBangCBangKBangWhatDoWeAppreciateBang`.
+//!
+//! Imported from the Esolang wiki (`Hello world program in esoteric languages (D-G)`),
+//! public domain (CC0); see <https://esolangs.org/wiki/Esolang:Copyrights>.
+//!
+//! Sources:
+//! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(D-G)#F!_U!_C!_K!_What_do_we_appreciate!>
+//! - <https://esolangs.org/wiki/F!_U!_C!_K!_What_do_we_appreciate!>
+
+use crate::data::programming_languages::{
+    ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
+};
+use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+
+language_names! {
+    language: FBangUBangCBangKBangWhatDoWeAppreciateBang => "F! U! C! K! What do we appreciate!",
+    versions: [FBangUBangCBangKBangWhatDoWeAppreciateBang => "F! U! C! K! What do we appreciate!"],
+    extensions: [],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::FBangUBangCBangKBangWhatDoWeAppreciateBang,
+        extensions: &[],
+        categories: &[Esolang],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::FBangUBangCBangKBangWhatDoWeAppreciateBang,
+            syntax: r"F! F! F! F! F! F! F! F! Brain! What do we appreciate! F! F! F! F! Brain! 
+What do we appreciate! F! F! What do we appreciate! F! F! F! What do we appreciate! 
+F! F! F! What do we appreciate! F! Fuck! Fuck! Fuck! Fuck! U! Brainfuck! What do we appreciate! 
+F! What do we appreciate! F! What do we appreciate! U! What do we appreciate! What do we appreciate!
+ F! Brain! Fuck! Brainfuck! Fuck! U! Brainfuck! What do we appreciate! What do we appreciate! 
+K! What do we appreciate! U! U! U! K! F! F! F! F! F! F! F! K! K! F! F! F! K! What do we appreciate! 
+What do we appreciate! K! Fuck! U! K! Fuck! K! F! F! F! K! U! U! U! U! U! U! K! U! U! U! U! U! U! U! U! K! 
+What do we appreciate! What do we appreciate! F! K! What do we appreciate! F! F! K!",
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                r"F! F! F! F! F! F! F! F! Brain! What do we appreciate! F! F! F! F! Brain! 
+What do we appreciate! F! F! What do we appreciate! F! F! F! What do we appreciate! 
+F! F! F! What do we appreciate! F! Fuck! Fuck! Fuck! Fuck! U! Brainfuck! What do we appreciate! 
+F! What do we appreciate! F! What do we appreciate! U! What do we appreciate! What do we appreciate!
+ F! Brain! Fuck! Brainfuck! Fuck! U! Brainfuck! What do we appreciate! What do we appreciate! 
+K! What do we appreciate! U! U! U! K! F! F! F! F! F! F! F! K! K! F! F! F! K! What do we appreciate! 
+What do we appreciate! K! Fuck! U! K! Fuck! K! F! F! F! K! U! U! U! U! U! U! K! U! U! U! U! U! U! U! U! K! 
+What do we appreciate! What do we appreciate! F! K! What do we appreciate! F! F! K!",
+            )],
+        }],
+    };

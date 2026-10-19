@@ -1,4 +1,9 @@
 //! Hello-world snippets for `ProgrammingLanguageName::ObjectiveC`.
+//!
+//! Sources:
+//! - <https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Introduction/Introduction.html>
+//! - <https://en.wikipedia.org/wiki/Objective-C>
+//! - <https://developer.apple.com/documentation/foundation/nslog>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,

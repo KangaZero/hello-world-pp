@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Php`.
+//!
+//! Sources:
+//! - <https://www.php.net/manual/en/tutorial.firstpage.php>
+//! - <https://www.php.net/manual/en/function.echo.php>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,

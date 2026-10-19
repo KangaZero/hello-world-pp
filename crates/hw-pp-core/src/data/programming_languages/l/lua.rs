@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Lua`.
+//!
+//! Sources:
+//! - <https://www.lua.org/pil/1.html>
+//! - <https://www.lua.org/manual/5.4/manual.html#pdf-print>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,

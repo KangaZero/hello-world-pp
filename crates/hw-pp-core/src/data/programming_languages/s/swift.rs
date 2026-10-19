@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Swift`.
+//!
+//! Sources:
+//! - <https://docs.swift.org/swift-book/documentation/the-swift-programming-language/guidedtour/>
+//! - <https://www.swift.org/getting-started/cli-swiftpm/>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

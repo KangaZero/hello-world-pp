@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Fortran`.
+//!
+//! Sources:
+//! - <https://fortran-lang.org/learn/quickstart/hello_world/>
+//! - <https://en.wikipedia.org/wiki/Fortran>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,

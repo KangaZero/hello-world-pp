@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Solidity`.
+//!
+//! Sources:
+//! - <https://docs.soliditylang.org/en/latest/introduction-to-smart-contracts.html>
+//! - <https://docs.soliditylang.org/en/latest/layout-of-source-files.html>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

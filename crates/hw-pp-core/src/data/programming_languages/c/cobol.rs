@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Cobol`.
+//!
+//! Sources:
+//! - <https://en.wikipedia.org/wiki/COBOL>
+//! - <https://gnucobol.sourceforge.io/>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,

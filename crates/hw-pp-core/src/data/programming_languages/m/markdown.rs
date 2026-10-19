@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Markdown`.
+//!
+//! Sources:
+//! - <https://spec.commonmark.org/>
+//! - <https://commonmark.org/help/>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Markup,

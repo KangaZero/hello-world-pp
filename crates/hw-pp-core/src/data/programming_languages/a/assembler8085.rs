@@ -2,10 +2,13 @@
 //!
 //! Imported from leachim6/hello-world (PR #1585 `a/Assembler_8085.asm`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+//!
+//! Sources:
+//! - <https://github.com/leachim6/hello-world/pull/1585>
 
 use crate::data::programming_languages::{
-    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    ProgrammingLanguage, ProgrammingLanguageCategory::Assembly, ProgrammingLanguageDialect,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -22,7 +25,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Assembler8085,
         extensions: &[],
-        categories: &[],
+        categories: &[Assembly],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Assembler8085,
             syntax: concat!(

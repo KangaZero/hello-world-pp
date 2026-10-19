@@ -1,4 +1,9 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Ada`.
+//!
+//! Sources:
+//! - <https://learn.adacore.com/courses/intro-to-ada/chapters/imperative_language.html>
+//! - <http://www.ada-auth.org/standards/12rm/html/RM-TOC.html>
+//! - <https://en.wikipedia.org/wiki/Ada_(programming_language)>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

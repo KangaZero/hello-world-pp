@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Xml`.
+//!
+//! Sources:
+//! - <https://www.w3.org/TR/xml/>
+//! - <https://developer.mozilla.org/en-US/docs/Web/XML/Guides/XML_introduction>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Markup,

@@ -2,10 +2,13 @@
 //!
 //! Imported from leachim6/hello-world (PR #1633 `m/MariaDB.sql`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+//!
+//! Sources:
+//! - <https://github.com/leachim6/hello-world/pull/1633>
 
 use crate::data::programming_languages::{
-    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    ProgrammingLanguage, ProgrammingLanguageCategory::Query, ProgrammingLanguageDialect,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -22,7 +25,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Mariadb,
         extensions: &[],
-        categories: &[],
+        categories: &[Query],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Mariadb,
             syntax: concat!(r#"SELECT ""#, output_for_hello_world!(), r#"";"#),

@@ -2,10 +2,13 @@
 //!
 //! Imported from leachim6/hello-world (PR #1805 `n/Next.js`, PR #1805 `n/Next.tsx`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+//!
+//! Sources:
+//! - <https://github.com/leachim6/hello-world/pull/1805>
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Framework,
+    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -22,7 +25,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::NextJs,
         extensions: &[FileExtension::Tsx],
-        categories: &[],
+        categories: &[Framework],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::NextJsJs,

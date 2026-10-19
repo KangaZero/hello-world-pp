@@ -2,10 +2,13 @@
 //!
 //! Imported from leachim6/hello-world (`n/Nelua.nelua` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+//!
+//! Sources:
+//! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/n/Nelua.nelua>
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
+    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -22,7 +25,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Nelua,
         extensions: &[FileExtension::Nelua],
-        categories: &[],
+        categories: &[Compiled],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Nelua,
             syntax: concat!(r"print '", output_for_hello_world!(), r"'"),

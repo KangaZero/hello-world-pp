@@ -1,4 +1,9 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Clojure`.
+//!
+//! Sources:
+//! - <https://clojure.org/guides/learn/clojure>
+//! - <https://clojure.org/releases/devchangelog>
+//! - <https://clojure.org/news/2022/03/22/clojure-1-11-0>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,

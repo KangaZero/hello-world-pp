@@ -2,10 +2,13 @@
 //!
 //! Imported from leachim6/hello-world (PR #1572 `c/c++2.cpp2`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+//!
+//! Sources:
+//! - <https://github.com/leachim6/hello-world/pull/1572>
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
+    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -22,7 +25,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Cpp2,
         extensions: &[FileExtension::Cpp2],
-        categories: &[],
+        categories: &[Compiled],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cpp2,
             syntax: concat!(

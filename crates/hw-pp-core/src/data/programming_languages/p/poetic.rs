@@ -1,0 +1,85 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Poetic`.
+//!
+//! Imported from the Esolang wiki (`Hello world program in esoteric languages (N-S)`),
+//! public domain (CC0); see <https://esolangs.org/wiki/Esolang:Copyrights>.
+//!
+//! Sources:
+//! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(N-S)#Poetic>
+//! - <https://esolangs.org/wiki/Poetic>
+
+use crate::data::programming_languages::{
+    ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
+};
+use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+
+language_names! {
+    language: Poetic => "Poetic",
+    versions: [Poetic => "Poetic"],
+    extensions: [],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Poetic,
+        extensions: &[],
+        categories: &[Esolang],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Poetic,
+            syntax: r#"the proverbial "unconsciousness"
+
+i was already aware
+i had understood fully
+
+i saw the devil
+i was perfectly still
+involuntarily i paused
+
+there said i:
+my sheer consciousness
+of certain given circumstances
+i noticed
+it's nothing
+     nothing
+     nothing any man wouldn't learn
+
+a way of finding these
+i know not
+
+nothing common or typical
+and yet (somehow)
+very little thought
+will normally resolve every contradiction
+
+a foolish heart -> an eternal misfortune"#,
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                r#"the proverbial "unconsciousness"
+
+i was already aware
+i had understood fully
+
+i saw the devil
+i was perfectly still
+involuntarily i paused
+
+there said i:
+my sheer consciousness
+of certain given circumstances
+i noticed
+it's nothing
+     nothing
+     nothing any man wouldn't learn
+
+a way of finding these
+i know not
+
+nothing common or typical
+and yet (somehow)
+very little thought
+will normally resolve every contradiction
+
+a foolish heart -> an eternal misfortune"#,
+            )],
+        }],
+    };

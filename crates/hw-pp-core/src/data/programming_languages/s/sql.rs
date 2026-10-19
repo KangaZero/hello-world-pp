@@ -1,7 +1,12 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Sql`.
+//!
+//! Sources:
+//! - <https://en.wikipedia.org/wiki/SQL:2016>
+//! - <https://www.postgresql.org/docs/current/sql-select.html>
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
+    FileExtension, ProgrammingLanguage,
+    ProgrammingLanguageCategory::{Query, Scripting},
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
@@ -19,7 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Sql,
         extensions: &[FileExtension::Sql],
-        categories: &[Scripting],
+        categories: &[Query, Scripting],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sql2016,
             syntax: concat!(r"SELECT '", output_for_hello_world!(), r"' AS greeting;"),

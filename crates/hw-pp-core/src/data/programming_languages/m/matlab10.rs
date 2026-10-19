@@ -2,10 +2,14 @@
 //!
 //! Imported from leachim6/hello-world (`m/MATLAB 1.0.m` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+//!
+//! Sources:
+//! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/m/MATLAB%201.0.m>
 
 use crate::data::programming_languages::{
-    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    ProgrammingLanguage,
+    ProgrammingLanguageCategory::{Historical, Scientific},
+    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -22,7 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Matlab10,
         extensions: &[],
-        categories: &[],
+        categories: &[Scientific, Historical],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Matlab10,
             syntax: concat!(r"fprintf('", output_for_hello_world!(), r"\n')"),

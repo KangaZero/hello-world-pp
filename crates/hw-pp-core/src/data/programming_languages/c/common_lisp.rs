@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::CommonLisp`.
+//!
+//! Sources:
+//! - <https://lisp-lang.org/learn/getting-started/>
+//! - <https://www.lispworks.com/documentation/HyperSpec/Body/f_format.htm>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,

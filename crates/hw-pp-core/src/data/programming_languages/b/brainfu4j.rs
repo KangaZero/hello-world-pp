@@ -2,10 +2,13 @@
 //!
 //! Imported from leachim6/hello-world (PR #1529 `b/helloworld.bfj`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+//!
+//! Sources:
+//! - <https://github.com/leachim6/hello-world/pull/1529>
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
+    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{macros::language_names, programming_languages_token::TokenKind};
 
@@ -19,7 +22,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Brainfu4j,
         extensions: &[FileExtension::Bfj],
-        categories: &[],
+        categories: &[Esolang],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Brainfu4j,
             syntax: r"interface static static static static static static static static public class static static static static static static static static static interface final private class println 

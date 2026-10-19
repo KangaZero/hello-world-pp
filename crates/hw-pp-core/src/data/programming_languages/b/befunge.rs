@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Befunge`.
+//!
+//! Sources:
+//! - <https://esolangs.org/wiki/Befunge>
+//! - <https://catseye.tc/view/Befunge-93/doc/Befunge-93.markdown>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,

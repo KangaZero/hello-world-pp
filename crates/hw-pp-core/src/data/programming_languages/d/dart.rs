@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Dart`.
+//!
+//! Sources:
+//! - <https://dart.dev/language>
+//! - <https://dart.dev/overview>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,

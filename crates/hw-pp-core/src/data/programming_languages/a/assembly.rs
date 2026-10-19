@@ -1,8 +1,13 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Assembly`.
+//!
+//! Sources:
+//! - <https://www.nasm.us/doc/>
+//! - <https://man7.org/linux/man-pages/man2/write.2.html>
+//! - <https://man7.org/linux/man-pages/man2/exit.2.html>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
-    ProgrammingLanguageCategory::{Compiled, Historical},
+    ProgrammingLanguageCategory::{Assembly, Compiled, Historical},
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
@@ -20,7 +25,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Assembly,
         extensions: &[FileExtension::Asm, FileExtension::S],
-        categories: &[Compiled, Historical],
+        categories: &[Assembly, Compiled, Historical],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::X8664LinuxSyscalls,
             syntax: concat!(

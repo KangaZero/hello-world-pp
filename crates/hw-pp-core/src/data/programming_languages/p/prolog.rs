@@ -1,4 +1,9 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Prolog`.
+//!
+//! Sources:
+//! - <https://www.swi-prolog.org/pldoc/man?section=consulting>
+//! - <https://www.swi-prolog.org/pldoc/man?section=initgoal>
+//! - <https://en.wikipedia.org/wiki/Prolog>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::R`.
+//!
+//! Sources:
+//! - <https://cran.r-project.org/doc/manuals/r-release/R-intro.html>
+//! - <https://stat.ethz.ch/R-manual/R-devel/library/base/html/cat.html>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,

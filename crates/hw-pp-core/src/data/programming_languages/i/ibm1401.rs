@@ -2,10 +2,14 @@
 //!
 //! Imported from leachim6/hello-world (`i/IBM1401` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
+//!
+//! Sources:
+//! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/i/IBM1401>
 
 use crate::data::programming_languages::{
-    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    ProgrammingLanguage,
+    ProgrammingLanguageCategory::{Assembly, Historical},
+    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{macros::language_names, programming_languages_token::TokenKind};
 
@@ -19,7 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Ibm1401,
         extensions: &[],
-        categories: &[],
+        categories: &[Assembly, Historical],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ibm1401,
             syntax: r",008015,022029,036043,050054,055062,063065,066077/333/M0762502F1.HELLO

@@ -1,8 +1,9 @@
 //! Generates each catalog's enums, `mod`s and table from its language files
-//! (`src/data/<catalog>/<letter>/<name>.rs`, read via their `language_names!`
-//! block), so adding a language means adding one file.
+//! (`src/data/<catalog>/<shard>/<name>.rs`, read via their `language_names!`
+//! block), so adding a language means adding one file. The shard is the first
+//! letter of the display name, or `#` when that is not a letter (`0587`, `μλ`).
 
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::fmt::Write as _;
 use std::path::{Path, PathBuf};
 
@@ -148,6 +149,14 @@ fn run() -> Result<(), String> {
             .iter()
             .map(|path| read_language_file(catalog, path))
             .collect::<Result<Vec<_>, _>>()?;
+        let mut modules = HashSet::new();
+        if let Some(file) = languages.iter().find(|f| !modules.insert(&f.module)) {
+            return Err(format!(
+                "{}: another folder already has a `{}.rs`; module names must be unique",
+                file.path.display(),
+                file.module
+            ));
+        }
         let out = out_dir.join(catalog.output);
         std::fs::write(&out, generate(catalog, &languages)?)
             .map_err(|e| format!("writing {}: {e}", out.display()))?;
@@ -160,7 +169,7 @@ fn env(name: &str) -> Result<String, String> {
     std::env::var(name).map_err(|e| format!("{name}: {e}"))
 }
 
-/// `<dir>/<letter>/<name>.rs`, sorted by file name.
+/// `<dir>/<shard>/<name>.rs`, sorted by file name.
 fn language_files(dir: &Path) -> Result<Vec<PathBuf>, String> {
     let read_dir = |path: &Path| {
         std::fs::read_dir(path)
@@ -211,6 +220,13 @@ fn read_language_file(catalog: &Catalog, path: &Path) -> Result<LanguageFile, St
             return Err(at(format!("`{}:` needs at least one entry", spec.key)));
         }
     }
+    let display = &fields["language"][0].display;
+    let expected = shard_for(display);
+    if path.parent().and_then(Path::file_name) != Some(expected.as_ref()) {
+        return Err(at(format!(
+            "{display} must live in the `{expected}` folder"
+        )));
+    }
     if let Some(key) = fields
         .keys()
         .find(|key| catalog.enums.iter().all(|spec| spec.key != key.as_str()))
@@ -224,7 +240,7 @@ fn read_language_file(catalog: &Catalog, path: &Path) -> Result<LanguageFile, St
     })
 }
 
-/// The file's stem, checked to be a `snake_case` module in its first-letter folder.
+/// The file's stem, checked to be a `snake_case` module name.
 fn module_name(path: &Path) -> Result<String, String> {
     let module = path
         .file_stem()
@@ -243,15 +259,16 @@ fn module_name(path: &Path) -> Result<String, String> {
             "`{module}` is a Rust keyword; rename the file to `{module}_lang.rs`"
         ));
     }
-    let shard = path
-        .parent()
-        .and_then(Path::file_name)
-        .and_then(|name| name.to_str())
-        .unwrap_or_default();
-    if shard.len() != 1 || !module.starts_with(shard) {
-        return Err(format!("must live in the `{}` folder", &module[..1]));
-    }
     Ok(module)
+}
+
+/// The folder for a quoted display name: its first letter once folded (`Ölang` -> `o`),
+/// or `#` for names starting with anything else (`"0587"`, `"μλ"`, `"!"`).
+fn shard_for(quoted: &str) -> String {
+    match fold(quoted).chars().next() {
+        Some(first) if first.is_ascii_alphabetic() => first.to_string(),
+        _ => "#".to_owned(),
+    }
 }
 
 /// The text between the braces of the `language_names! { ... }` block.

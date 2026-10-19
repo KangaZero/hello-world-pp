@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Nim`.
+//!
+//! Sources:
+//! - <https://nim-lang.org/docs/tut1.html>
+//! - <https://nim-lang.org/blog/2023/08/01/nim-v20-released.html>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

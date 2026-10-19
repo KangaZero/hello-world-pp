@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Zig`.
+//!
+//! Sources:
+//! - <https://ziglang.org/documentation/0.13.0/#Hello-World>
+//! - <https://ziglang.org/learn/getting-started/>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

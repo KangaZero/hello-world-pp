@@ -1,4 +1,9 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Rust`.
+//!
+//! Sources:
+//! - <https://doc.rust-lang.org/book/ch01-02-hello-world.html>
+//! - <https://doc.rust-lang.org/rust-by-example/hello.html>
+//! - <https://doc.rust-lang.org/edition-guide/rust-2021/index.html>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

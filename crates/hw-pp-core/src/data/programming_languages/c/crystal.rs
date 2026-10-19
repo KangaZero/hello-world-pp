@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Crystal`.
+//!
+//! Sources:
+//! - <https://crystal-lang.org/reference/latest/getting_started/>
+//! - <https://crystal-lang.org/reference/latest/tutorials/basics/10_hello_world.html>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,

@@ -1,4 +1,9 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Scheme`.
+//!
+//! Sources:
+//! - <https://small.r7rs.org/attachment/r7rs.pdf>
+//! - <https://r7rs.org/>
+//! - <https://en.wikipedia.org/wiki/Scheme_(programming_language)>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,

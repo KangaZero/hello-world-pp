@@ -1,0 +1,60 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Maze`.
+//!
+//! Imported from the Esolang wiki (`Hello world program in esoteric languages (H-M)`),
+//! public domain (CC0); see <https://esolangs.org/wiki/Esolang:Copyrights>.
+//!
+//! Sources:
+//! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(H-M)#Maze>
+//! - <https://esolangs.org/wiki/Maze>
+
+use crate::data::programming_languages::{
+    ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Maze => "Maze",
+    versions: [Maze => "Maze"],
+    extensions: [],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Maze,
+        extensions: &[],
+        categories: &[Esolang],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Maze,
+            syntax: concat!(
+                r#"##,##,##
+##,^^,## //Car Starts
+##,AA,## //Do AA to Car
+##,>>,## //Print Car
+##,(),## //Destroy Car
+##,##,##
+
+AA-> =""#,
+                output_for_hello_world!(),
+                r#"""#
+            ),
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                concat!(
+                    r#"##,##,##
+##,^^,## //Car Starts
+##,AA,## //Do AA to Car
+##,>>,## //Print Car
+##,(),## //Destroy Car
+##,##,##
+
+AA-> =""#,
+                    output_for_hello_world!(),
+                    r#"""#
+                ),
+            )],
+        }],
+    };

@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Racket`.
+//!
+//! Sources:
+//! - <https://docs.racket-lang.org/guide/intro.html>
+//! - <https://docs.racket-lang.org/quick/>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,

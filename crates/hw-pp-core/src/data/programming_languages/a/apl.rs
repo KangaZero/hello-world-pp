@@ -1,4 +1,8 @@
 //! Hello-world snippets for `ProgrammingLanguageName::Apl`.
+//!
+//! Sources:
+//! - <https://en.wikipedia.org/wiki/APL_(programming_language)>
+//! - <https://tryapl.org/>
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
