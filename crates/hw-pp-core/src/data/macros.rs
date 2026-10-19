@@ -10,12 +10,15 @@
 /// assert_eq!(Color::DarkRed.to_string(), "Dark Red");
 /// ```
 macro_rules! name_enum {
+       // Optional endonym Option<&'static str>
+       (@endonym) => { None };
+       (@endonym $endonym:literal) => { Some($endonym)};
     (
         $(#[$meta:meta])*
         $vis:vis enum $name:ident : $error:ident($kind:literal) {
             $(
                 $(#[$variant_meta:meta])*
-                $variant:ident => $text:literal
+                $variant:ident => $text:literal $(| $endonym:literal)?
             ),+ $(,)?
         }
     ) => {
@@ -36,6 +39,13 @@ macro_rules! name_enum {
             pub const fn as_str(self) -> &'static str {
                 match self {
                     $(Self::$variant => $text,)+
+                }
+            }
+
+            #[must_use]
+            pub const fn endonym(self) -> Option<&'static str> {
+                match self {
+                                $(Self::$variant => name_enum!(@endonym $($endonym)?),)+
                 }
             }
         }
@@ -63,13 +73,22 @@ macro_rules! name_enum {
             type Err = $error;
 
             fn from_str(s: &str) -> Result<Self, Self::Err> {
-                let needle = s.trim();
-                Self::ALL
-                    .iter()
-                    .copied()
-                    .find(|variant| variant.as_str().eq_ignore_ascii_case(needle))
-                    .ok_or_else(|| $error(s.to_owned()))
-            }
+                let trimmed = s.trim();
+                // Each variant's display name, plus its endonym if it has one.
+                let names = |variant: Self| ::core::iter::once(variant.as_str()).chain(variant.endonym());
+Self::ALL
+        .iter()
+        .copied()
+        .find(|&variant| names(variant).any(|name| name.eq_ignore_ascii_case(trimmed)))
+        .or_else(|| {
+            let normalized = $crate::data::common::normalize_text(trimmed);
+            Self::ALL
+                .iter()
+                .copied()
+                .find(|&variant| names(variant).any(|name| $crate::data::common::normalize_text(name) == normalized))
+        })
+        .ok_or_else(|| $error(s.to_owned()))
+           }
         }
     };
 }

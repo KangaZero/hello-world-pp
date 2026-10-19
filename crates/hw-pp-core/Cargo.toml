@@ -10,6 +10,11 @@ repository.workspace = true
 [dependencies]
 thiserror.workspace = true
 anstyle.workspace = true
+unicode-normalization.workspace = true
+
+[build-dependencies]
+# build.rs shares src/data/normalize.rs to check names for collisions
+unicode-normalization.workspace = true
 
 [lints]
 workspace = true

@@ -7,7 +7,7 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: Ukrainian => "Ukrainian",
+    language: Ukrainian => "Ukrainian" | "Українська",
     dialects: [StandardUkrainian => "Standard Ukrainian"],
     scripts: [Cyrillic => "Cyrillic"],
 }

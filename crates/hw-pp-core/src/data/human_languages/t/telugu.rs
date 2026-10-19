@@ -7,7 +7,7 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: Telugu => "Telugu",
+    language: Telugu => "Telugu" | "తెలుగు",
     dialects: [StandardTelugu => "Standard Telugu"],
     scripts: [Telugu => "Telugu"],
 }

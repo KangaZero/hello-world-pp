@@ -7,8 +7,8 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: Korean => "Korean",
-    dialects: [SouthKorean => "South Korean", NorthKorean => "North Korean"],
+    language: Korean => "Korean" | "한국어",
+    dialects: [SouthKorean => "South Korean" | "표준어", NorthKorean => "North Korean" | "문화어"],
     scripts: [Hangul => "Hangul"],
 }
 

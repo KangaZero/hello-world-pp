@@ -6,6 +6,11 @@ use std::collections::HashMap;
 use std::fmt::Write as _;
 use std::path::{Path, PathBuf};
 
+// Shared with the library, so names are folded exactly as `FromStr` folds them.
+#[path = "src/data/normalize.rs"]
+mod normalize;
+use normalize::normalize_text;
+
 const MARKER: &str = "language_names!";
 
 /// One enum generated from a `language_names!` key.
@@ -102,6 +107,7 @@ struct Named {
     variant: String,
     /// The display name as written in the source, including its quotes.
     display: String,
+    endonym: Option<String>,
 }
 
 /// The declarations read from one language file.
@@ -276,7 +282,7 @@ fn tokenize(text: &str) -> Result<Vec<Token>, String> {
                 chars.next();
                 tokens.push(Token::Arrow);
             }
-            '[' | ']' | ',' | ':' => tokens.push(Token::Punct(c)),
+            '[' | ']' | ',' | ':' | '|' => tokens.push(Token::Punct(c)),
             '"' => {
                 let mut escaped = false;
                 let end = chars
@@ -319,13 +325,12 @@ fn parse_fields(tokens: &[Token]) -> Result<HashMap<String, Vec<Named>>, String>
                 .ok_or_else(|| format!("`{key}:` is missing `]`"))?;
             (parse_pairs(&inner[..close])?, &inner[close + 1..])
         } else {
-            let [ident, arrow, display, after @ ..] = after else {
-                return Err(format!("`{key}:` expects `Variant => \"Name\"`"));
-            };
-            (
-                parse_pairs(&[ident.clone(), arrow.clone(), display.clone()])?,
-                after,
-            )
+            // A single `Variant => "Name"` or `Variant => "Name" | "Endonym"`, up to the next `,`.
+            let end = after
+                .iter()
+                .position(|t| *t == Token::Punct(','))
+                .unwrap_or(after.len());
+            (parse_pairs(&after[..end])?, &after[end..])
         };
         if fields.insert(key.clone(), values).is_some() {
             return Err(format!("`{key}:` appears twice"));
@@ -339,7 +344,7 @@ fn parse_fields(tokens: &[Token]) -> Result<HashMap<String, Vec<Named>>, String>
     }
 }
 
-/// Parses `A => "a", B => "b"` (trailing comma allowed) into pairs.
+/// Parses `A => "a", B => "b", C => "c" | "see"` (trailing comma allowed) into pairs.
 fn parse_pairs(tokens: &[Token]) -> Result<Vec<Named>, String> {
     tokens
         .split(|t| *t == Token::Punct(','))
@@ -348,47 +353,90 @@ fn parse_pairs(tokens: &[Token]) -> Result<Vec<Named>, String> {
             [Token::Ident(variant), Token::Arrow, Token::Str(display)] => Ok(Named {
                 variant: variant.clone(),
                 display: display.clone(),
+                endonym: None,
+            }),
+            [
+                Token::Ident(variant),
+                Token::Arrow,
+                Token::Str(display),
+                Token::Punct('|'),
+                Token::Str(endonym),
+            ] => Ok(Named {
+                variant: variant.clone(),
+                display: display.clone(),
+                endonym: Some(endonym.clone()),
             }),
             other => Err(format!("expected `Variant => \"Name\"`, found {other:?}")),
         })
         .collect()
 }
 
-/// Collects one enum's variants across all files, rejecting conflicts.
-/// A shared variant (e.g. a script used by several languages) may repeat if its
-/// display name matches; two variants with the same display name would make
-/// parsing ambiguous.
+/// Collects one enum's variants across all files, rejecting conflicts:
+/// - a variant declared twice, unless the enum is `shared` and both
+///   declarations have the same display name and endonym;
+/// - an endonym that folds to its own display name;
+/// - two names (display names or endonyms) that fold to the same text, since
+///   `FromStr` could not tell them apart.
 fn merge_variants(spec: &EnumSpec, languages: &[LanguageFile]) -> Result<Vec<Named>, String> {
     let mut variants: Vec<Named> = Vec::new();
     let mut owners: HashMap<&str, &Path> = HashMap::new();
+    // folded name -> (variant, name as written)
+    let mut taken: HashMap<String, (&str, &str)> = HashMap::new();
     for file in languages {
         for named in &file.fields[spec.key] {
+            let declared =
+                |owner: &Path| format!("`{}: {}` in {}", spec.key, named.variant, owner.display());
             if let Some(existing) = variants.iter().find(|v| v.variant == named.variant) {
-                if spec.shared && existing.display == named.display {
+                let same = existing.display == named.display && existing.endonym == named.endonym;
+                if spec.shared && same {
                     continue;
                 }
-                return Err(format!(
-                    "`{}: {}` is declared in both {} and {}",
-                    spec.key,
-                    named.variant,
-                    owners[named.variant.as_str()].display(),
-                    file.path.display()
-                ));
+                let owner = owners[named.variant.as_str()];
+                return Err(if spec.shared {
+                    format!(
+                        "{} and {} give it different names",
+                        declared(owner),
+                        file.path.display()
+                    )
+                } else {
+                    format!(
+                        "{} is declared again in {}",
+                        declared(owner),
+                        file.path.display()
+                    )
+                });
             }
-            if let Some(clash) = variants
-                .iter()
-                .find(|v| v.display.eq_ignore_ascii_case(&named.display))
+            if let Some(endonym) = &named.endonym
+                && fold(endonym) == fold(&named.display)
             {
                 return Err(format!(
-                    "`{}: {}` and `{}` both display as {}",
-                    spec.key, clash.variant, named.variant, named.display
+                    "{}: endonym {endonym} is just its display name {}",
+                    declared(&file.path),
+                    named.display
                 ));
+            }
+            for name in std::iter::once(&named.display).chain(&named.endonym) {
+                if let Some((other, other_name)) = taken.get(&fold(name)) {
+                    return Err(format!(
+                        "{}: {name} and `{other}`'s {other_name} are the same once case and \
+                         accents are ignored, so parsing would be ambiguous",
+                        declared(&file.path)
+                    ));
+                }
+            }
+            for name in std::iter::once(&named.display).chain(&named.endonym) {
+                taken.insert(fold(name), (&named.variant, name));
             }
             owners.insert(&named.variant, &file.path);
             variants.push(named.clone());
         }
     }
     Ok(variants)
+}
+
+/// A quoted name from the source (`"Bokmål"`) folded like `FromStr` folds input.
+fn fold(quoted: &str) -> String {
+    normalize_text(quoted.trim_matches('"'))
 }
 
 /// Builds `catalog`'s registry source: one `mod` per file, the enums, then the table.
@@ -433,8 +481,17 @@ fn write_enum(out: &mut String, doc: &str, header: &str, variants: &[Named]) -> 
         "\nname_enum! {{\n    {doc}\n    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]\n    pub enum {header} {{"
     )
     .map_err(|e| e.to_string())?;
-    for Named { variant, display } in variants {
-        writeln!(out, "        {variant} => {display},").map_err(|e| e.to_string())?;
+    for Named {
+        variant,
+        display,
+        endonym,
+    } in variants
+    {
+        let endonym = endonym
+            .as_ref()
+            .map(|endo| format!(" | {endo}"))
+            .unwrap_or_default();
+        writeln!(out, "        {variant} => {display}{endonym},").map_err(|e| e.to_string())?;
     }
     out.push_str("    }\n}\n");
     Ok(())

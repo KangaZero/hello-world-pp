@@ -7,7 +7,7 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: AncientGreek => "Ancient Greek",
+    language: AncientGreek => "Ancient Greek" | "Ἑλληνική",
     dialects: [AtticGreek => "Attic Greek"],
     scripts: [Greek => "Greek"],
 }

@@ -1,7 +1,7 @@
 use hw_pp_core::data::common::{
     DEFAULT_HUMAN_LANGUAGE, DEFAULT_HUMAN_LANGUAGE_DIALECT, DEFAULT_PROGRAMMING_LANGUAGE,
     HELLO_WORLD_PUNCTUATION, HelloWorldNotFoundError, get_default_human_language_hello_world,
-    remove_punctuation_from_hello_world, replace_default_hello_world_string_with,
+    normalize_text, remove_punctuation_from_hello_world, replace_default_hello_world_string_with,
 };
 use hw_pp_core::data::human_languages::{DialectName, HUMAN_LANGUAGES, HumanLanguageName};
 use hw_pp_core::data::programming_languages::{
@@ -94,4 +94,49 @@ fn replace_hello_world_errors_when_message_is_absent() {
         err.to_string(),
         r#"snippet does not contain "Hello, World!""#
     );
+}
+
+#[test]
+fn normalize_text_strips_accents_and_lowercases() {
+    for (input, expected) in [
+        ("Québécois French", "quebecois french"), // acute
+        ("Bokmål", "bokmal"),                     // ring above
+        ("Čeština", "cestina"),                   // caron
+        ("Română", "romana"),                     // breve
+        ("Türkçe", "turkce"),                     // diaeresis + cedilla
+        ("Ñandú", "nandu"),                       // tilde + acute
+        ("ÉCOLE", "ecole"),                       // uppercase, non-ASCII
+        ("Tiếng Việt", "tieng viet"),             // two stacked marks on one letter
+        ("Ẹ n lẹ, Ayé!", "e n le, aye!"),         // dot below; punctuation kept
+        ("Ἑλληνική", "ελληνικη"),                 // Greek breathing + accent
+    ] {
+        assert_eq!(normalize_text(input), expected, "{input:?}");
+    }
+}
+
+#[test]
+fn normalize_text_treats_precomposed_and_decomposed_input_alike() {
+    // "é" as one code point vs "e" followed by a combining acute accent
+    assert_eq!(
+        normalize_text("Qu\u{e9}bec"),
+        normalize_text("Que\u{301}bec")
+    );
+    assert_eq!(normalize_text("Que\u{301}bec"), "quebec");
+}
+
+#[test]
+fn normalize_text_keeps_letters_that_are_not_letter_plus_accent() {
+    // These are distinct letters, not base letter + mark, so NFD leaves them alone.
+    assert_eq!(normalize_text("Søren"), "søren");
+    assert_eq!(normalize_text("Đà Nẵng"), "đa nang");
+    assert_eq!(normalize_text("日本語"), "日本語");
+}
+
+#[test]
+fn normalize_text_is_lossy_for_non_latin_combining_marks() {
+    // Documented limitation: vowel signs and voicing marks are combining marks
+    // too, so they are stripped. Matching stays symmetric (both sides fold the
+    // same way), but different words can fold to the same text.
+    assert_eq!(normalize_text("हिन्दी"), "हनद");
+    assert_eq!(normalize_text("が"), "か");
 }

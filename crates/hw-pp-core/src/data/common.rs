@@ -79,3 +79,5 @@ pub fn replace_default_hello_world_string_with(
     }
     Ok(syntax.replace(hello_world, hello_world_to_replace_with))
 }
+
+pub use super::normalize::normalize_text;

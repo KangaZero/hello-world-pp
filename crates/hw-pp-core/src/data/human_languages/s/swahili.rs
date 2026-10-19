@@ -7,8 +7,8 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: Swahili => "Swahili",
-    dialects: [StandardSwahili => "Standard Swahili"],
+    language: Swahili => "Swahili" | "Kiswahili",
+    dialects: [StandardSwahili => "Standard Swahili" | "Kiswahili sanifu"],
     scripts: [Latin => "Latin"],
 }
 

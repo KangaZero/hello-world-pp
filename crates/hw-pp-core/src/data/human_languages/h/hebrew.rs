@@ -7,7 +7,7 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: Hebrew => "Hebrew",
+    language: Hebrew => "Hebrew" | "עברית",
     dialects: [ModernHebrew => "Modern Hebrew"],
     scripts: [Hebrew => "Hebrew"],
 }

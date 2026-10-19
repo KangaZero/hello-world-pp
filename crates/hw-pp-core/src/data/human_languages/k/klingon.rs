@@ -7,7 +7,7 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: Klingon => "Klingon",
+    language: Klingon => "Klingon" | "tlhIngan Hol",
     dialects: [StandardKlingon => "Standard Klingon"],
     scripts: [Latin => "Latin", Piqad => "pIqaD"],
 }

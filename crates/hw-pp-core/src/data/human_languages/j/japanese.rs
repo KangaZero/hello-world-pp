@@ -7,8 +7,8 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: Japanese => "Japanese",
-    dialects: [StandardJapanese => "Standard Japanese", KansaiJapanese => "Kansai Japanese"],
+    language: Japanese => "Japanese" | "日本語",
+    dialects: [StandardJapanese => "Standard Japanese" | "標準語", KansaiJapanese => "Kansai Japanese" | "関西弁"],
     scripts: [Kanji => "Kanji", Hiragana => "Hiragana", Katakana => "Katakana", Kana => "Kana", Latin => "Latin", Romaji => "Romaji"],
 }
 

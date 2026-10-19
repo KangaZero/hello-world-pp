@@ -7,7 +7,7 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: Yoruba => "Yoruba",
+    language: Yoruba => "Yoruba" | "Èdè Yorùbá",
     dialects: [StandardYoruba => "Standard Yoruba"],
     scripts: [Latin => "Latin"],
 }

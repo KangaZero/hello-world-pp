@@ -7,8 +7,8 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: Chinese => "Chinese",
-    dialects: [Mandarin => "Mandarin", Cantonese => "Cantonese", Hokkien => "Hokkien"],
+    language: Chinese => "Chinese" | "中文",
+    dialects: [Mandarin => "Mandarin" | "普通话", Cantonese => "Cantonese" | "粵語", Hokkien => "Hokkien" | "閩南語"],
     scripts: [Han => "Han", SimplifiedChinese => "Simplified Chinese", TraditionalChinese => "Traditional Chinese", Latin => "Latin", Pinyin => "Pinyin"],
 }
 

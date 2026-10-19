@@ -7,7 +7,7 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: Bengali => "Bengali",
+    language: Bengali => "Bengali" | "বাংলা",
     dialects: [StandardBengali => "Standard Bengali"],
     scripts: [Bengali => "Bengali"],
 }

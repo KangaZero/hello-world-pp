@@ -7,8 +7,8 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: Arabic => "Arabic",
-    dialects: [ModernStandardArabic => "Modern Standard Arabic", EgyptianArabic => "Egyptian Arabic", LevantineArabic => "Levantine Arabic"],
+    language: Arabic => "Arabic" | "العربية",
+    dialects: [ModernStandardArabic => "Modern Standard Arabic" | "العربية الفصحى", EgyptianArabic => "Egyptian Arabic" | "مصري", LevantineArabic => "Levantine Arabic" | "شامي"],
     scripts: [Arabic => "Arabic"],
 }
 

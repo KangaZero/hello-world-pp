@@ -7,8 +7,8 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: Turkish => "Turkish",
-    dialects: [IstanbulTurkish => "Istanbul Turkish"],
+    language: Turkish => "Turkish" | "Türkçe",
+    dialects: [IstanbulTurkish => "Istanbul Turkish" | "İstanbul Türkçesi"],
     scripts: [Latin => "Latin"],
 }
 

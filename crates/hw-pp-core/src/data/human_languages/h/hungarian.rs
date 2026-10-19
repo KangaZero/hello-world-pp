@@ -7,7 +7,7 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: Hungarian => "Hungarian",
+    language: Hungarian => "Hungarian" | "Magyar",
     dialects: [StandardHungarian => "Standard Hungarian"],
     scripts: [Latin => "Latin"],
 }

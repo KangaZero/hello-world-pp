@@ -7,8 +7,8 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: Armenian => "Armenian",
-    dialects: [EasternArmenian => "Eastern Armenian", WesternArmenian => "Western Armenian"],
+    language: Armenian => "Armenian" | "Հայերեն",
+    dialects: [EasternArmenian => "Eastern Armenian" | "Արևելահայերեն", WesternArmenian => "Western Armenian" | "Արեւմտահայերէն"],
     scripts: [Armenian => "Armenian"],
 }
 

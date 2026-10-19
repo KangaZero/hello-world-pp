@@ -7,8 +7,8 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: Portuguese => "Portuguese",
-    dialects: [BrazilianPortuguese => "Brazilian Portuguese", EuropeanPortuguese => "European Portuguese"],
+    language: Portuguese => "Portuguese" | "Português",
+    dialects: [BrazilianPortuguese => "Brazilian Portuguese" | "português brasileiro", EuropeanPortuguese => "European Portuguese" | "português europeu"],
     scripts: [Latin => "Latin"],
 }
 

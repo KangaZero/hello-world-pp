@@ -7,8 +7,8 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: Sumerian => "Sumerian",
-    dialects: [Emegir => "Emegir"],
+    language: Sumerian => "Sumerian" | "𒅴𒂠",
+    dialects: [Emegir => "Emegir" | "𒅴𒂠"],
     scripts: [Cuneiform => "Cuneiform"],
 }
 

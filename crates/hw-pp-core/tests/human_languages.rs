@@ -231,3 +231,68 @@ fn lookup_errors_have_readable_messages() {
     .unwrap_err();
     assert_eq!(err.to_string(), "Mandarin is not recorded for Spanish");
 }
+
+#[test]
+fn names_parse_without_accents() {
+    for input in [
+        "Québécois French",               // exact
+        "quebecois french",               // accents dropped
+        "QUEBECOIS FRENCH",               // and uppercase
+        "  Quebécois french ",            // mixed, with surrounding spaces
+        "Que\u{301}be\u{301}cois French", // decomposed accents
+        "QUÉBÉCOIS FRENCH",               // uppercase non-ASCII letters
+    ] {
+        assert_eq!(input.parse(), Ok(DialectName::QuebecoisFrench), "{input:?}");
+    }
+    for input in ["Bokmål", "bokmal", "BOKMÅL", "Bokmal"] {
+        assert_eq!(input.parse(), Ok(DialectName::Bokmal), "{input:?}");
+    }
+}
+
+#[test]
+fn accent_folding_does_not_loosen_matching_otherwise() {
+    for input in ["quebec french", "quebecoisfrench", "bokma", "bokmål!"] {
+        assert!(
+            input.parse::<DialectName>().is_err(),
+            "{input:?} should not parse"
+        );
+    }
+}
+
+#[test]
+fn endonyms_parse_like_display_names() {
+    for (input, expected) in [
+        ("日本語", HumanLanguageName::Japanese),
+        ("Deutsch", HumanLanguageName::German),
+        ("español", HumanLanguageName::Spanish),
+        ("espanol", HumanLanguageName::Spanish), // accent-free fallback
+        ("TIENG VIET", HumanLanguageName::Vietnamese), // stacked marks, upper case
+        ("  Čeština ", HumanLanguageName::Czech),
+    ] {
+        assert_eq!(input.parse(), Ok(expected), "{input:?}");
+    }
+    assert_eq!("関西弁".parse(), Ok(DialectName::KansaiJapanese));
+    assert_eq!("hochdeutsch".parse(), Ok(DialectName::StandardGerman));
+}
+
+#[test]
+fn endonym_is_separate_from_display() {
+    assert_eq!(HumanLanguageName::Japanese.endonym(), Some("日本語"));
+    assert_eq!(HumanLanguageName::Japanese.to_string(), "Japanese");
+    assert_eq!(HumanLanguageName::English.endonym(), None);
+    assert_eq!(HumanLanguageName::AmericanSignLanguage.endonym(), None);
+}
+
+#[test]
+fn every_endonym_round_trips() {
+    for &language in HumanLanguageName::ALL {
+        if let Some(endonym) = language.endonym() {
+            assert_eq!(endonym.parse(), Ok(language), "{endonym:?}");
+        }
+    }
+    for &dialect in DialectName::ALL {
+        if let Some(endonym) = dialect.endonym() {
+            assert_eq!(endonym.parse(), Ok(dialect), "{endonym:?}");
+        }
+    }
+}

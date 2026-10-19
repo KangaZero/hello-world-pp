@@ -7,7 +7,7 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: Vietnamese => "Vietnamese",
+    language: Vietnamese => "Vietnamese" | "Tiếng Việt",
     dialects: [StandardVietnamese => "Standard Vietnamese"],
     scripts: [Latin => "Latin"],
 }

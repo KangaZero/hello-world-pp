@@ -1,4 +1,5 @@
 mod macros;
+mod normalize;
 
 pub mod common;
 pub mod human_languages;

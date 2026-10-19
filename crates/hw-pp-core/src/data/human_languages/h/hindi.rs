@@ -7,7 +7,7 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: Hindi => "Hindi",
+    language: Hindi => "Hindi" | "हिन्दी",
     dialects: [ModernStandardHindi => "Modern Standard Hindi"],
     scripts: [Devanagari => "Devanagari"],
 }

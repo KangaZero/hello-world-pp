@@ -7,7 +7,7 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: Norwegian => "Norwegian",
+    language: Norwegian => "Norwegian" | "Norsk",
     dialects: [Bokmal => "Bokmål", Nynorsk => "Nynorsk"],
     scripts: [Latin => "Latin"],
 }

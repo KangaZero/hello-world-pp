@@ -7,8 +7,8 @@ use crate::data::human_languages::{
 use crate::data::macros::language_names;
 
 language_names! {
-    language: German => "German",
-    dialects: [StandardGerman => "Standard German", SwissGerman => "Swiss German", Bavarian => "Bavarian"],
+    language: German => "German" | "Deutsch",
+    dialects: [StandardGerman => "Standard German" | "Hochdeutsch", SwissGerman => "Swiss German" | "Schwiizerdütsch", Bavarian => "Bavarian" | "Boarisch"],
     scripts: [Latin => "Latin"],
 }
 
