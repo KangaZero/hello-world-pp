@@ -37,7 +37,7 @@ fn script_selects_greeting_within_dialect() {
             None,
             Some(ScriptName::Katakana)
         ),
-        Ok("ハローワールド")
+        Ok("ハローワールド！")
     );
     assert_eq!(
         get_human_language_hello_world_for(

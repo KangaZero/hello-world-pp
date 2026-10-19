@@ -7,6 +7,8 @@
 //! - <https://en.wiktionary.org/wiki/%E0%A8%A6%E0%A9%81%E0%A8%A8%E0%A9%80%E0%A8%86#Punjabi>
 //! - <https://en.wiktionary.org/wiki/hello#Translations>
 //! - <https://en.wiktionary.org/wiki/world#Translations>
+//! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Human.htm>
+//! - <http://helloworldcollection.de/#Human>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

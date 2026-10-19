@@ -4,6 +4,8 @@
 //! - <https://en.wiktionary.org/wiki/%E0%B4%A8%E0%B4%AE%E0%B4%B8%E0%B5%8D%E0%B4%95%E0%B4%BE%E0%B4%B0%E0%B4%82#Malayalam>
 //! - <https://en.wiktionary.org/wiki/hello#Translations>
 //! - <https://en.wiktionary.org/wiki/world#Translations>
+//! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Human.htm>
+//! - <http://helloworldcollection.de/#Human>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,

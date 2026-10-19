@@ -1,7 +1,7 @@
 //! Hello-world greetings for `HumanLanguageName::Yiddish`.
 //!
 //! Sources:
-//! - <https://en.wiktionary.org/wiki/%D7%A9%D7%9C%D7%95%D7%9D#Yiddish>
+//! - <https://en.wiktionary.org/wiki/%D7%A9%D7%9C%D7%95%D7%9D%D6%BE%D7%A2%D7%9C%D7%99%D7%9B%D7%9D#Yiddish>
 //! - <https://en.wiktionary.org/wiki/%D7%95%D7%95%D7%A2%D7%9C%D7%98#Yiddish>
 //! - <https://en.wiktionary.org/wiki/hello#Translations>
 //! - <https://en.wiktionary.org/wiki/world#Translations>
@@ -27,11 +27,11 @@ pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLangua
         greetings: &[
             Greeting {
                 scripts: &[ScriptName::Hebrew],
-                text: "שלום עליכם, וועלט!",
+                text: "שלום־עליכם, וועלט!",
             },
             Greeting {
                 scripts: &[ScriptName::Latin],
-                text: "sholem aleykhem, velt!",
+                text: "sholem-aleykhem, velt!",
             },
         ],
     }],

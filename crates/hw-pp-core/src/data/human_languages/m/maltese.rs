@@ -1,7 +1,7 @@
 //! Hello-world greetings for `HumanLanguageName::Maltese`.
 //!
 //! Sources:
-//! - <https://en.wiktionary.org/wiki/bon%C4%A1u#Maltese>
+//! - <https://en.wiktionary.org/wiki/%C4%A7elow#Maltese>
 //! - <https://en.wiktionary.org/wiki/dinja#Maltese>
 //! - <https://en.wiktionary.org/wiki/hello#Translations>
 //! - <https://en.wiktionary.org/wiki/world#Translations>
@@ -26,7 +26,7 @@ pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLangua
         label: DialectName::StandardMaltese,
         greetings: &[Greeting {
             scripts: &[ScriptName::Latin],
-            text: "Bonġu, dinja!",
+            text: "Ħelow, dinja!",
         }],
     }],
 };

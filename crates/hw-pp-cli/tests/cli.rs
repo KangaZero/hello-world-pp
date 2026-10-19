@@ -133,7 +133,7 @@ fn all_options_in_one_group_combine_without_conflict() {
         ])
         .assert()
         .success()
-        .stdout("ハローワールド\n");
+        .stdout("ハローワールド！\n");
     hw_pp()
         .args(["-p", "python", "--pd", "python 2", "-e", "py"])
         .assert()

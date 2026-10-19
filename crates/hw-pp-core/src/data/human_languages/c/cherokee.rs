@@ -5,6 +5,8 @@
 //! - <https://en.wiktionary.org/wiki/%E1%8E%A1%E1%8E%B6%E1%8E%AF#Cherokee>
 //! - <https://en.wiktionary.org/wiki/hello#Translations>
 //! - <https://en.wiktionary.org/wiki/world#Translations>
+//! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Human.htm>
+//! - <http://helloworldcollection.de/#Human>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,
