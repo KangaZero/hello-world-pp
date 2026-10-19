@@ -1,8 +1,9 @@
 use hw_pp_core::data::lookup::LookupError;
 use hw_pp_core::data::programming_languages::{
-    FileExtension, PROGRAMMING_LANGUAGES, ProgrammingLanguageDialect, ProgrammingLanguageError,
-    ProgrammingLanguageName, get_default_programming_language_dialect_from_language_name,
-    get_hello_world_syntax_for, get_programming_language_name_from_extension,
+    FileExtension, PROGRAMMING_LANGUAGES, ProgrammingLanguageCategory, ProgrammingLanguageDialect,
+    ProgrammingLanguageError, ProgrammingLanguageName,
+    get_default_programming_language_dialect_from_language_name, get_hello_world_syntax_for,
+    get_programming_language_name_from_extension,
 };
 
 #[test]
@@ -29,6 +30,10 @@ fn programming_name_enums_round_trip_through_display_and_from_str() {
     for &version in ProgrammingLanguageDialect::ALL {
         assert_eq!(version.to_string().parse(), Ok(version));
     }
+    for &category in ProgrammingLanguageCategory::ALL {
+        assert_eq!(category.to_string().parse(), Ok(category));
+    }
+    assert_eq!("esolang".parse(), Ok(ProgrammingLanguageCategory::Esolang));
     assert_eq!("c++".parse(), Ok(ProgrammingLanguageName::Cpp));
     assert_eq!("cobol".parse(), Ok(ProgrammingLanguageName::Cobol));
 }

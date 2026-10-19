@@ -1,6 +1,6 @@
 use hw_pp_core::data::human_languages::{
     DialectName, HUMAN_LANGUAGES, HumanLanguageCategory, HumanLanguageError, HumanLanguageName,
-    ScriptName, get_all_human_language_names, get_human_language_from_dialect,
+    ScriptName, get_all_human_languages_as_str_by, get_human_language_from_dialect,
     get_human_language_hello_world_for,
 };
 use hw_pp_core::data::lookup::LookupError;
@@ -106,14 +106,14 @@ fn dialect_mismatch_for_language_errors() {
 
 #[test]
 fn all_human_language_names() {
-    let result = get_all_human_language_names();
-    assert!(result.contains(&HumanLanguageName::English));
-    assert!(result.len() > 20);
+    let result = get_all_human_languages_as_str_by(None, None);
+    assert!(result.contains(&"English"));
+    assert_eq!(result.len(), HumanLanguageName::ALL.len());
 }
 
 #[test]
 fn every_language_name_round_trips_through_from_str() {
-    for name in get_all_human_language_names() {
+    for &name in HumanLanguageName::ALL {
         assert_eq!(name.as_str().parse::<HumanLanguageName>(), Ok(name));
     }
 }

@@ -1077,24 +1077,47 @@ pub fn get_default_human_language_dialect_from_language(
 }
 
 #[must_use]
-pub fn get_all_human_language_names() -> Vec<HumanLanguageName> {
-    HUMAN_LANGUAGES.iter().map(|lang| lang.name).collect()
-}
-
-#[must_use]
-pub fn get_all_human_languages_by_category(
-    category: HumanLanguageCategory,
-) -> Vec<&'static HumanLanguage> {
+pub fn get_all_human_languages_as_str_by(
+    script: Option<ScriptName>,
+    category: Option<HumanLanguageCategory>,
+) -> Vec<&'static str> {
     HUMAN_LANGUAGES
         .iter()
-        .filter(|lang| lang.categories.contains(&category))
+        .filter(|lang| {
+            category.is_none_or(|c| lang.categories.contains(&c))
+                && script.is_none_or(|s| lang.scripts.contains(&s))
+        })
+        .map(|lang| lang.name.as_str())
         .collect()
 }
 
 #[must_use]
-pub fn get_all_human_languages_by_script(script: ScriptName) -> Vec<&'static HumanLanguage> {
+pub fn get_all_human_language_dialects_as_str_by(
+    language: Option<HumanLanguageName>,
+) -> Vec<&'static str> {
     HUMAN_LANGUAGES
         .iter()
-        .filter(|lang| lang.scripts.contains(&script))
+        .filter(|lang| language.is_none_or(|l| lang.name == l))
+        .flat_map(|lang| lang.dialects.iter().map(|d| d.label.as_str()))
+        .collect()
+}
+
+#[must_use]
+pub fn get_all_scripts_as_str_by(language: Option<HumanLanguageName>) -> Vec<&'static str> {
+    HUMAN_LANGUAGES
+        .iter()
+        .filter(|lang| language.is_none_or(|l| lang.name == l))
+        .flat_map(|lang| lang.scripts.iter().map(|s| s.as_str()))
+        .collect()
+}
+
+#[must_use]
+pub fn get_all_human_language_categories_as_str_by(
+    language: Option<HumanLanguageName>,
+) -> Vec<&'static str> {
+    HUMAN_LANGUAGES
+        .iter()
+        .filter(|lang| language.is_none_or(|l| lang.name == l))
+        .flat_map(|lang| lang.categories.iter().map(|c| c.as_str()))
         .collect()
 }

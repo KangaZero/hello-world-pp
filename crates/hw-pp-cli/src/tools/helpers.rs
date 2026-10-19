@@ -14,3 +14,9 @@ pub fn hello_world_output_with_options<'output>(
         Cow::Borrowed(output)
     }
 }
+
+/// Prints `stringified_list` space-separated when `compact`, otherwise one per line.
+pub fn output_as_compact_list_or_not(stringified_list: &[&str], compact: bool) {
+    let separator = if compact { " " } else { "\n" };
+    println!("{}", stringified_list.join(separator));
+}

@@ -5,14 +5,17 @@ use super::macros::{name_enum, output_for_hello_world};
 use ProgrammingLanguageCategory::{Compiled, Esolang, Historical, Markup, Scripting};
 use thiserror::Error;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum ProgrammingLanguageCategory {
-    Esolang,
-    Scripting,
-    Compiled,
-    Markup,
-    Historical,
+name_enum! {
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+    pub enum ProgrammingLanguageCategory: ParseProgrammingLanguageCategoryError("programming language category") {
+        Esolang => "Esolang",
+        Scripting => "Scripting",
+        Compiled => "Compiled",
+        Markup => "Markup",
+        Historical => "Historical",
+    }
 }
+
 /// Language/version resolution errors for the programming-language catalog.
 pub type ProgrammingLookupError = LookupError<ProgrammingLanguageName, ProgrammingLanguageDialect>;
 
@@ -109,7 +112,7 @@ name_enum! {
 
 name_enum! {
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-    pub enum ProgrammingLanguageDialect: ParseLanguageVersionDialectError("language version") {
+    pub enum ProgrammingLanguageDialect: ParseLanguageDialectError("language version") {
         C99 => "C99",
         Cpp98 => "C++98",
         Cpp20 => "C++20",
@@ -2303,6 +2306,34 @@ pub fn get_default_programming_language_dialect_from_language_name(
 }
 
 #[must_use]
-pub fn get_all_programming_language_names() -> Vec<ProgrammingLanguageName> {
-    PROGRAMMING_LANGUAGES.iter().map(|lang| lang.name).collect()
+pub fn get_all_programming_languages_as_str_by(
+    extension: Option<FileExtension>,
+) -> Vec<&'static str> {
+    PROGRAMMING_LANGUAGES
+        .iter()
+        .filter(|lang| extension.is_none_or(|e| lang.extensions.contains(&e)))
+        .map(|lang| lang.name.as_str())
+        .collect()
+}
+
+#[must_use]
+pub fn get_all_programming_versions_as_str_by(
+    language: Option<ProgrammingLanguageName>,
+) -> Vec<&'static str> {
+    PROGRAMMING_LANGUAGES
+        .iter()
+        .filter(|lang| language.is_none_or(|l| lang.name == l))
+        .flat_map(|lang| lang.versions.iter().map(|v| v.label.as_str()))
+        .collect()
+}
+
+#[must_use]
+pub fn get_all_programming_language_categories_as_str_by(
+    language: Option<ProgrammingLanguageName>,
+) -> Vec<&'static str> {
+    PROGRAMMING_LANGUAGES
+        .iter()
+        .filter(|lang| language.is_none_or(|l| lang.name == l))
+        .flat_map(|lang| lang.categories.iter().map(|c| c.as_str()))
+        .collect()
 }

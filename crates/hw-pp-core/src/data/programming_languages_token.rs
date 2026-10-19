@@ -111,3 +111,8 @@ pub fn collect_tokenized_syntax(
     }
     collected
 }
+
+#[must_use]
+pub fn get_all_themes_as_str() -> Vec<&'static str> {
+    Themes::ALL.iter().map(|theme| theme.as_str()).collect()
+}

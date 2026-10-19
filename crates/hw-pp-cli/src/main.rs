@@ -1,14 +1,22 @@
 use crate::constants::cli_info::{self, BANNER};
-use crate::tools::helpers::hello_world_output_with_options;
+use crate::tools::helpers::{hello_world_output_with_options, output_as_compact_list_or_not};
 use anstream::println;
 use anyhow::Context;
 use clap::{ArgGroup, Parser, Subcommand, ValueEnum};
 use hw_pp_core::data::common::replace_default_hello_world_string_with;
-use hw_pp_core::data::human_languages::get_all_human_language_names;
-use hw_pp_core::data::programming_languages::{
-    get_hello_world_syntax_for, get_hello_world_version_for,
+use hw_pp_core::data::human_languages::{
+    HumanLanguageCategory, get_all_human_language_categories_as_str_by,
+    get_all_human_language_dialects_as_str_by, get_all_human_languages_as_str_by,
+    get_all_scripts_as_str_by,
 };
-use hw_pp_core::data::programming_languages_token::{Themes, collect_tokenized_syntax};
+use hw_pp_core::data::programming_languages::{
+    get_all_programming_language_categories_as_str_by, get_all_programming_languages_as_str_by,
+    get_all_programming_versions_as_str_by, get_hello_world_syntax_for,
+    get_hello_world_version_for,
+};
+use hw_pp_core::data::programming_languages_token::{
+    Themes, collect_tokenized_syntax, get_all_themes_as_str,
+};
 use hw_pp_core::data::{
     human_languages::{
         DialectName, HumanLanguageName, ScriptName, get_human_language_hello_world_for,
@@ -34,12 +42,47 @@ enum ColorWhen {
     // Never,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
+#[derive(Subcommand, Debug)]
 enum ListCategory {
-    Languages,
-    Dialects,
-    Scripts,
-    ProgrammingLanguages,
+    /// Human languages
+    #[command(visible_alias = "hl")]
+    HumanLanguages {
+        /// e.g. "Latin", "Cyrillic"
+        #[arg(short = 's', long)]
+        script: Option<ScriptName>,
+        /// e.g. "Latin", "Cyrillic"
+        #[arg(short = 'c', long)]
+        category: Option<HumanLanguageCategory>,
+    },
+    /// Human language dialects
+    #[command(visible_alias = "hd")]
+    HumanDialects {
+        /// e.g. "Japanese"
+        language: Option<HumanLanguageName>,
+    },
+    #[command(visible_alias = "s")]
+    Scripts { language: Option<HumanLanguageName> },
+    #[command(visible_alias = "pl")]
+    ProgrammingLanguages {
+        /// e.g. "m" (Objective-C and MATLAB)
+        extension: Option<FileExtension>,
+    },
+    /// Programming Language dialects/versions
+    #[command(visible_alias = "pd")]
+    ProgrammingDialects {
+        language: Option<ProgrammingLanguageName>,
+    },
+    #[command(visible_alias = "hc")]
+    HumanLanguageCategory {
+        /// e.g. "Japanese"
+        language: Option<HumanLanguageName>,
+    },
+    #[command(visible_alias = "pc")]
+    ProgrammingLanguageCategory {
+        language: Option<ProgrammingLanguageName>,
+    },
+    /// Syntax-highlighting themes
+    #[command(visible_alias = "t")]
     Themes,
 }
 
@@ -47,8 +90,11 @@ enum ListCategory {
 enum Command {
     /// List the available values for an option
     List {
-        #[arg(value_enum)]
+        #[command(subcommand)]
         category: ListCategory,
+
+        #[arg(visible_alias = "com", long, default_value_t = false)]
+        compact: bool,
     },
 }
 
@@ -134,25 +180,38 @@ impl Args {
 
 fn main() -> anyhow::Result<()> {
     let args = Args::parse();
-
-    if let Some(Command::List { category }) = args.command {
-        match category {
-            ListCategory::Languages => {
-                let human_language_names_list = get_all_human_language_names();
-                let list_as_str: Vec<&'static str> = human_language_names_list
-                    .iter()
-                    .map(|lang| lang.as_str())
-                    .collect();
-                println!("{}", list_as_str.join("\n"));
-                return Ok(());
+    if let Some(Command::List {
+        ref category,
+        compact,
+    }) = args.command
+    {
+        let list_as_str: Vec<&'static str> = match category {
+            ListCategory::HumanLanguages { script, category } => {
+                get_all_human_languages_as_str_by(*script, *category)
             }
-            ListCategory::Dialects => todo!(),
-            ListCategory::Scripts => todo!(),
-            ListCategory::ProgrammingLanguages => todo!(),
-            ListCategory::Themes => todo!(),
-        }
-    }
+            ListCategory::HumanDialects { language } => {
+                get_all_human_language_dialects_as_str_by(*language)
+            }
+            ListCategory::Scripts { language } => get_all_scripts_as_str_by(*language),
+            //TODO: Able to filter by dark/light in the future
+            ListCategory::Themes => get_all_themes_as_str(),
+            ListCategory::ProgrammingLanguages { extension } => {
+                get_all_programming_languages_as_str_by(*extension)
+            }
+            ListCategory::ProgrammingDialects { language } => {
+                get_all_programming_versions_as_str_by(*language)
+            }
+            ListCategory::HumanLanguageCategory { language } => {
+                get_all_human_language_categories_as_str_by(*language)
+            }
+            ListCategory::ProgrammingLanguageCategory { language } => {
+                get_all_programming_language_categories_as_str_by(*language)
+            }
+        };
 
+        output_as_compact_list_or_not(&list_as_str, compact);
+        return Ok(());
+    }
     if args.banner {
         println!("{}", BANNER);
         return Ok(());
