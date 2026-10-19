@@ -1,0 +1,88 @@
+//! Hello-world snippet for `ProgrammingLanguageName::AssemblerArmAndroid`.
+//!
+//! Imported from the Hello World Collection (`files/Assembler&nbsp;(ARM,&nbsp;Android).htm` at `8e4c095`),
+//! MIT licensed; see `programming_languages/LICENSE-helloworldcollection`.
+//!
+//! Sources:
+//! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Assembler%26nbsp%3B%28ARM%2C%26nbsp%3BAndroid%29.htm>
+//! - <http://helloworldcollection.de/#Assembler%C2%A0(ARM,%C2%A0Android)>
+
+use crate::data::programming_languages::{
+    ProgrammingLanguage, ProgrammingLanguageCategory::Assembly, ProgrammingLanguageDialect,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: AssemblerArmAndroid => "Assembler (ARM, Android)",
+    versions: [AssemblerArmAndroid => "Assembler (ARM, Android)"],
+    extensions: [],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::AssemblerArmAndroid,
+        extensions: &[],
+        categories: &[Assembly],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::AssemblerArmAndroid,
+            syntax: concat!(
+                r"/* ",
+                output_for_hello_world!(),
+                r#" in ARM assembly (Android devices) */
+
+.data
+
+msg:
+    .ascii      ""#,
+                output_for_hello_world!(),
+                r#"\n"
+len = . - msg
+
+.text
+
+.globl _start
+_start:
+    mov     %r0, $1
+    ldr     %r1, =msg
+    ldr     %r2, =len
+    mov     %r7, $4
+    swi     $0
+    mov     %r0, $0
+    mov     %r7, $1
+    swi     $0"#
+            ),
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                concat!(
+                    r"/* ",
+                    output_for_hello_world!(),
+                    r#" in ARM assembly (Android devices) */
+
+.data
+
+msg:
+    .ascii      ""#,
+                    output_for_hello_world!(),
+                    r#"\n"
+len = . - msg
+
+.text
+
+.globl _start
+_start:
+    mov     %r0, $1
+    ldr     %r1, =msg
+    ldr     %r2, =len
+    mov     %r7, $4
+    swi     $0
+    mov     %r0, $0
+    mov     %r7, $1
+    swi     $0"#
+                ),
+            )],
+        }],
+    };

@@ -1,6 +1,6 @@
 //! Hello-world snippet for `ProgrammingLanguageName::Turing`.
 //!
-//! Imported from leachim6/hello-world (`t/Turing.oot` at `a152253`, `t/Turing.t` at `a152253`),
+//! Imported from leachim6/hello-world (`t/Turing.oot`, `t/Turing.t` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
 //!
 //! Sources:

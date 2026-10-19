@@ -1,6 +1,6 @@
 //! Hello-world snippet for `ProgrammingLanguageName::Rebol`.
 //!
-//! Imported from leachim6/hello-world (`r/Rebol.r` at `a152253`, `r/Rebol.reb` at `a152253`),
+//! Imported from leachim6/hello-world (`r/Rebol.r`, `r/Rebol.reb` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
 //!
 //! Sources:

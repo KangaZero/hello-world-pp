@@ -1,0 +1,56 @@
+//! Hello-world snippet for `ProgrammingLanguageName::JavaServerPages`.
+//!
+//! Imported from the Hello World Collection (`files/Java&nbsp;Server&nbsp;Pages.txt` at `8e4c095`),
+//! MIT licensed; see `programming_languages/LICENSE-helloworldcollection`.
+//!
+//! Sources:
+//! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Java%26nbsp%3BServer%26nbsp%3BPages.txt>
+//! - <http://helloworldcollection.de/#Java%C2%A0Server%C2%A0Pages>
+
+use crate::data::programming_languages::{
+    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: JavaServerPages => "Java Server Pages",
+    versions: [JavaServerPages => "Java Server Pages"],
+    extensions: [],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::JavaServerPages,
+        extensions: &[],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::JavaServerPages,
+            syntax: concat!(
+                r"<!-- ",
+                output_for_hello_world!(),
+                r#" for Java Server Pages -->
+
+<%@ page language='java' %>
+<%=""#,
+                output_for_hello_world!(),
+                r#"" %>"#
+            ),
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                concat!(
+                    r"<!-- ",
+                    output_for_hello_world!(),
+                    r#" for Java Server Pages -->
+
+<%@ page language='java' %>
+<%=""#,
+                    output_for_hello_world!(),
+                    r#"" %>"#
+                ),
+            )],
+        }],
+    };

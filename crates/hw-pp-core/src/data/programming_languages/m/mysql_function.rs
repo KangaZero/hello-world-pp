@@ -1,0 +1,74 @@
+//! Hello-world snippet for `ProgrammingLanguageName::MysqlFunction`.
+//!
+//! Imported from the Hello World Collection (`files/MySQL&nbsp;FUNCTION.htm` at `8e4c095`),
+//! MIT licensed; see `programming_languages/LICENSE-helloworldcollection`.
+//!
+//! Sources:
+//! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/MySQL%26nbsp%3BFUNCTION.htm>
+//! - <http://helloworldcollection.de/#MySQL%C2%A0FUNCTION>
+
+use crate::data::programming_languages::{
+    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: MysqlFunction => "MySQL FUNCTION",
+    versions: [MysqlFunction => "MySQL FUNCTION"],
+    extensions: [],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::MysqlFunction,
+        extensions: &[],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::MysqlFunction,
+            syntax: concat!(
+                r"-- ",
+                output_for_hello_world!(),
+                r" in MySQL FUNCTION
+
+DELIMITER $$
+CREATE FUNCTION hello_world() RETURNS TEXT COMMENT '",
+                output_for_hello_world!(),
+                r"'
+BEGIN
+  RETURN '",
+                output_for_hello_world!(),
+                r"';
+END;
+$$
+DELIMITER ;
+ 
+SELECT hello_world();"
+            ),
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                concat!(
+                    r"-- ",
+                    output_for_hello_world!(),
+                    r" in MySQL FUNCTION
+
+DELIMITER $$
+CREATE FUNCTION hello_world() RETURNS TEXT COMMENT '",
+                    output_for_hello_world!(),
+                    r"'
+BEGIN
+  RETURN '",
+                    output_for_hello_world!(),
+                    r"';
+END;
+$$
+DELIMITER ;
+ 
+SELECT hello_world();"
+                ),
+            )],
+        }],
+    };

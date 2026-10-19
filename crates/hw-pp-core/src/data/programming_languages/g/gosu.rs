@@ -1,6 +1,6 @@
 //! Hello-world snippet for `ProgrammingLanguageName::Gosu`.
 //!
-//! Imported from leachim6/hello-world (`g/Gosu.gosu` at `a152253`, `g/Gosu.gs` at `a152253`),
+//! Imported from leachim6/hello-world (`g/Gosu.gosu`, `g/Gosu.gs` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
 //!
 //! Sources:

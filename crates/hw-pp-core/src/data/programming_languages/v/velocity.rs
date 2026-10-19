@@ -1,0 +1,62 @@
+//! Hello-world snippet for `ProgrammingLanguageName::Velocity`.
+//!
+//! Imported from the Hello World Collection (`files/Velocity.txt` at `8e4c095`),
+//! MIT licensed; see `programming_languages/LICENSE-helloworldcollection`.
+//!
+//! Sources:
+//! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Velocity.txt>
+//! - <http://helloworldcollection.de/#Velocity>
+
+use crate::data::programming_languages::{
+    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Velocity => "Velocity",
+    versions: [Velocity => "Velocity"],
+    extensions: [],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Velocity,
+        extensions: &[],
+        categories: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Velocity,
+            syntax: concat!(
+                r"<HTML>
+<!-- ",
+                output_for_hello_world!(),
+                r#" in Velocity -->
+<BODY>
+  #set( $foo = ""#,
+                output_for_hello_world!(),
+                r#"" )
+  $foo
+</BODY>
+</HTML>"#
+            ),
+            tokenized_syntax: &[(
+                TokenKind::Plain,
+                concat!(
+                    r"<HTML>
+<!-- ",
+                    output_for_hello_world!(),
+                    r#" in Velocity -->
+<BODY>
+  #set( $foo = ""#,
+                    output_for_hello_world!(),
+                    r#"" )
+  $foo
+</BODY>
+</HTML>"#
+                ),
+            )],
+        }],
+    };
