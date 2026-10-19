@@ -1,0 +1,45 @@
+//! Hello-world snippets for `ProgrammingLanguageName::Racket`.
+
+use crate::data::programming_languages::{
+    FileExtension, ProgrammingLanguage,
+    ProgrammingLanguageCategory::{Compiled, Scripting},
+    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Racket => "Racket",
+    versions: [Racket8 => "Racket 8"],
+    extensions: [Rkt => "rkt"],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Racket,
+        extensions: &[FileExtension::Rkt],
+        categories: &[Compiled, Scripting],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Racket8,
+            syntax: concat!(
+                r#"#lang racket
+(displayln ""#,
+                output_for_hello_world!(),
+                r#"")"#
+            ),
+            tokenized_syntax: &[
+                (TokenKind::Keyword, "#lang"),
+                (TokenKind::Plain, " racket\n"),
+                (TokenKind::Punctuation, "("),
+                (TokenKind::Function, "displayln"),
+                (TokenKind::Plain, " "),
+                (
+                    TokenKind::String,
+                    concat!("\"", output_for_hello_world!(), "\""),
+                ),
+                (TokenKind::Punctuation, ")"),
+            ],
+        }],
+    };

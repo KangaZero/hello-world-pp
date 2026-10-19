@@ -1,0 +1,60 @@
+//! Hello-world snippets for `ProgrammingLanguageName::Cobol`.
+
+use crate::data::programming_languages::{
+    FileExtension, ProgrammingLanguage,
+    ProgrammingLanguageCategory::{Compiled, Historical},
+    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Cobol => "COBOL",
+    versions: [Cobol85 => "COBOL 85"],
+    extensions: [Cob => "cob", Cbl => "cbl"],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Cobol,
+        extensions: &[FileExtension::Cob, FileExtension::Cbl],
+        categories: &[Compiled, Historical],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Cobol85,
+            syntax: concat!(
+                r#"       IDENTIFICATION DIVISION.
+       PROGRAM-ID. HELLO.
+       PROCEDURE DIVISION.
+           DISPLAY ""#,
+                output_for_hello_world!(),
+                r#"".
+           STOP RUN."#
+            ),
+            tokenized_syntax: &[
+                (TokenKind::Plain, "       "),
+                (TokenKind::Keyword, "IDENTIFICATION DIVISION"),
+                (TokenKind::Punctuation, "."),
+                (TokenKind::Plain, "\n       "),
+                (TokenKind::Keyword, "PROGRAM-ID"),
+                (TokenKind::Punctuation, "."),
+                (TokenKind::Plain, " HELLO"),
+                (TokenKind::Punctuation, "."),
+                (TokenKind::Plain, "\n       "),
+                (TokenKind::Keyword, "PROCEDURE DIVISION"),
+                (TokenKind::Punctuation, "."),
+                (TokenKind::Plain, "\n           "),
+                (TokenKind::Keyword, "DISPLAY"),
+                (TokenKind::Plain, " "),
+                (
+                    TokenKind::String,
+                    concat!("\"", output_for_hello_world!(), "\""),
+                ),
+                (TokenKind::Punctuation, "."),
+                (TokenKind::Plain, "\n           "),
+                (TokenKind::Keyword, "STOP RUN"),
+                (TokenKind::Punctuation, "."),
+            ],
+        }],
+    };

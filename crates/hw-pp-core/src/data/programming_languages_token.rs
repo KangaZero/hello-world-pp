@@ -29,12 +29,14 @@ name_enum! {
     }
 }
 
+/// A foreground colour from red, green and blue (0–255), on the default background.
 #[must_use]
 pub const fn rgb(r: u8, g: u8, b: u8) -> Style {
     RgbColor(r, g, b).on_default()
 }
 
 impl TokenKind {
+    /// This token kind's colour and weight in `theme`.
     const fn style(self, theme: Themes) -> Style {
         match theme {
             Themes::CatppuccinLatte => match self {
@@ -85,15 +87,10 @@ impl TokenKind {
     }
 }
 
-/// Renders a version's [`ProgrammingLanguageVersion::tokenized_syntax`] as one ANSI-styled
-/// string, colouring each token by its [`TokenKind`] in the given theme.
+/// Renders `language_version`'s tokens as ANSI-coloured text in `theme`
+/// (`None` → Catppuccin Mocha).
 ///
-/// `theme` defaults to [`Themes::Default`] (Catppuccin Mocha) when `None`.
-///
-/// The result always contains escape codes. Print it with `anstream::println!`
-/// (or another ANSI-aware writer) so the colours are stripped when stdout is
-/// not a terminal or `NO_COLOR` is set. With the styles removed, the text is
-/// exactly [`ProgrammingLanguageVersion::syntax`].
+/// Print it with `anstream::println!` so colours are dropped when piped or `NO_COLOR` is set.
 #[must_use]
 pub fn collect_tokenized_syntax(
     language_version: &ProgrammingLanguageVersion,
@@ -112,6 +109,7 @@ pub fn collect_tokenized_syntax(
     collected
 }
 
+/// Display names of every theme, e.g. `"Catppuccin Mocha"`.
 #[must_use]
 pub fn get_all_themes_as_str() -> Vec<&'static str> {
     Themes::ALL.iter().map(|theme| theme.as_str()).collect()

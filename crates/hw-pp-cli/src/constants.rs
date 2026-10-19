@@ -18,6 +18,7 @@ pub mod cli_info {
     const BOLD: Style = Style::new().bold();
     const ITALIC: Style = Style::new().italic();
 
+    /// Prefixes `text` with the cyan, bold ASCII banner.
     fn with_banner(text: &str) -> String {
         let banner = BANNER.trim_start_matches('\n');
         format!("{BANNER_STYLE}{banner}{BANNER_STYLE:#}\n{text}")

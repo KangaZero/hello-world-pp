@@ -1,0 +1,46 @@
+//! Hello-world snippets for `ProgrammingLanguageName::Scheme`.
+
+use crate::data::programming_languages::{
+    FileExtension, ProgrammingLanguage,
+    ProgrammingLanguageCategory::{Compiled, Historical},
+    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Scheme => "Scheme",
+    versions: [R7rs => "R7RS"],
+    extensions: [Scm => "scm", Ss => "ss"],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Scheme,
+        extensions: &[FileExtension::Scm, FileExtension::Ss],
+        categories: &[Compiled, Historical],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::R7rs,
+            syntax: concat!(
+                r#"(display ""#,
+                output_for_hello_world!(),
+                r#"")
+(newline)"#
+            ),
+            tokenized_syntax: &[
+                (TokenKind::Punctuation, "("),
+                (TokenKind::Plain, "display "),
+                (
+                    TokenKind::String,
+                    concat!("\"", output_for_hello_world!(), "\""),
+                ),
+                (TokenKind::Punctuation, ")"),
+                (TokenKind::Plain, "\n"),
+                (TokenKind::Punctuation, "("),
+                (TokenKind::Plain, "newline"),
+                (TokenKind::Punctuation, ")"),
+            ],
+        }],
+    };

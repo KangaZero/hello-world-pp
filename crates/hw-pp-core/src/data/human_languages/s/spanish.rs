@@ -1,0 +1,42 @@
+//! Hello-world greetings for `HumanLanguageName::Spanish`.
+
+use crate::data::human_languages::{
+    Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,
+    HumanLanguageName, ScriptName,
+};
+use crate::data::macros::language_names;
+
+language_names! {
+    language: Spanish => "Spanish",
+    dialects: [CastilianSpanish => "Castilian Spanish", MexicanSpanish => "Mexican Spanish", RioplatenseSpanish => "Rioplatense Spanish"],
+    scripts: [Latin => "Latin"],
+}
+
+pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
+    name: HumanLanguageName::Spanish,
+    categories: &[Natural],
+    scripts: &[ScriptName::Latin],
+    dialects: &[
+        Dialect {
+            label: DialectName::CastilianSpanish,
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "¡Hola, Mundo!",
+            }],
+        },
+        Dialect {
+            label: DialectName::MexicanSpanish,
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "¡Hola, Mundo!",
+            }],
+        },
+        Dialect {
+            label: DialectName::RioplatenseSpanish,
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "¡Hola, Mundo!",
+            }],
+        },
+    ],
+};

@@ -162,10 +162,12 @@ pub struct Args {
 }
 
 impl Args {
+    /// Whether `--human-language`, `--human-dialect` or `--script` was given.
     fn has_human_options(&self) -> bool {
         self.human_language.is_some() || self.human_dialect.is_some() || self.script.is_some()
     }
 
+    /// Whether `--programming-language`, `--programming-dialect` or `--extension` was given.
     fn has_programming_options(&self) -> bool {
         self.programming_language.is_some()
             || self.programming_dialect.is_some()
@@ -173,6 +175,7 @@ impl Args {
     }
 
     //TODO: Add more logic when config toml and ColorWhen::Always & ColorWhen::Never is added
+    /// Whether `--color` allows coloured output (`yes`, the default).
     fn has_color_on(&self) -> bool {
         self.color == ColorWhen::Yes
     }

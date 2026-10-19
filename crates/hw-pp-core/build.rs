@@ -1,0 +1,441 @@
+//! Generates each catalog's enums, `mod`s and table from its language files
+//! (`src/data/<catalog>/<letter>/<name>.rs`, read via their `language_names!`
+//! block), so adding a language means adding one file.
+
+use std::collections::HashMap;
+use std::fmt::Write as _;
+use std::path::{Path, PathBuf};
+
+const MARKER: &str = "language_names!";
+
+/// One enum generated from a `language_names!` key.
+struct EnumSpec {
+    /// Key in `language_names!` that lists this enum's variants.
+    key: &'static str,
+    doc: &'static str,
+    /// `Name: ParseError("kind")`, as `name_enum!` expects.
+    header: &'static str,
+    /// Whether several files may declare the same variant (e.g. shared scripts).
+    shared: bool,
+    /// Whether a file may leave the list empty (e.g. sign languages have no script).
+    allow_empty: bool,
+}
+
+/// One catalog: a folder of language files and what to generate from it.
+struct Catalog {
+    /// Folder under the crate root, e.g. `src/data/programming_languages`.
+    dir: &'static str,
+    /// Output file name in `OUT_DIR`.
+    output: &'static str,
+    /// `language:` (a single pair) comes first, then the list keys.
+    enums: [EnumSpec; 3],
+    table_doc: &'static str,
+    /// `NAME: &[Type]`.
+    table: &'static str,
+}
+
+const CATALOGS: [Catalog; 2] = [
+    Catalog {
+        dir: "src/data/programming_languages",
+        output: "programming_languages_registry.rs",
+        enums: [
+            EnumSpec {
+                key: "language",
+                doc: "/// A recorded programming language.",
+                header: "ProgrammingLanguageName: ParseProgrammingLanguageNameError(\"programming language\")",
+                shared: false,
+                allow_empty: false,
+            },
+            EnumSpec {
+                key: "versions",
+                doc: "/// A recorded version or standard of a programming language.",
+                header: "ProgrammingLanguageDialect: ParseLanguageDialectError(\"language version\")",
+                shared: false,
+                allow_empty: false,
+            },
+            EnumSpec {
+                key: "extensions",
+                doc: "/// A source file extension, without the leading dot. Several languages may\n    \
+                      /// share one (e.g. `m` is both Objective-C and MATLAB).",
+                header: "FileExtension: ParseFileExtensionError(\"file extension\")",
+                shared: true,
+                allow_empty: false,
+            },
+        ],
+        table_doc: "/// Every recorded programming language, in alphabetical order of file name.",
+        table: "PROGRAMMING_LANGUAGES: &[ProgrammingLanguage]",
+    },
+    Catalog {
+        dir: "src/data/human_languages",
+        output: "human_languages_registry.rs",
+        enums: [
+            EnumSpec {
+                key: "language",
+                doc: "/// A recorded human language.",
+                header: "HumanLanguageName: ParseHumanLanguageNameError(\"language\")",
+                shared: false,
+                allow_empty: false,
+            },
+            EnumSpec {
+                key: "dialects",
+                doc: "/// A spoken variety of a recorded human language.",
+                header: "DialectName: ParseDialectNameError(\"dialect\")",
+                shared: false,
+                allow_empty: false,
+            },
+            EnumSpec {
+                key: "scripts",
+                doc: "/// A writing system used by at least one recorded human language.",
+                header: "ScriptName: ParseScriptNameError(\"script\")",
+                shared: true,
+                allow_empty: true,
+            },
+        ],
+        table_doc: "/// Every recorded human language, in alphabetical order of file name.",
+        table: "HUMAN_LANGUAGES: &[HumanLanguage]",
+    },
+];
+
+/// One `Variant => "Display Name"` pair.
+#[derive(Debug, Clone, PartialEq, Eq)]
+struct Named {
+    variant: String,
+    /// The display name as written in the source, including its quotes.
+    display: String,
+}
+
+/// The declarations read from one language file.
+#[derive(Debug)]
+struct LanguageFile {
+    module: String,
+    path: PathBuf,
+    /// `language_names!` key -> its pairs (`language` has exactly one).
+    fields: HashMap<String, Vec<Named>>,
+}
+
+fn main() {
+    if let Err(error) = run() {
+        eprintln!("error: {error}");
+        std::process::exit(1);
+    }
+}
+
+/// Writes each catalog's registry to `OUT_DIR`.
+fn run() -> Result<(), String> {
+    println!("cargo::rerun-if-changed=build.rs");
+    let manifest_dir = PathBuf::from(env("CARGO_MANIFEST_DIR")?);
+    let out_dir = PathBuf::from(env("OUT_DIR")?);
+    for catalog in &CATALOGS {
+        // A directory path makes Cargo rescan it recursively, so new files count too.
+        println!("cargo::rerun-if-changed={}", catalog.dir);
+        let languages = language_files(&manifest_dir.join(catalog.dir))?
+            .iter()
+            .map(|path| read_language_file(catalog, path))
+            .collect::<Result<Vec<_>, _>>()?;
+        let out = out_dir.join(catalog.output);
+        std::fs::write(&out, generate(catalog, &languages)?)
+            .map_err(|e| format!("writing {}: {e}", out.display()))?;
+    }
+    Ok(())
+}
+
+/// Reads the environment variable `name`, naming it in the error.
+fn env(name: &str) -> Result<String, String> {
+    std::env::var(name).map_err(|e| format!("{name}: {e}"))
+}
+
+/// `<dir>/<letter>/<name>.rs`, sorted by file name.
+fn language_files(dir: &Path) -> Result<Vec<PathBuf>, String> {
+    let read_dir = |path: &Path| {
+        std::fs::read_dir(path)
+            .map_err(|e| format!("reading {}: {e}", path.display()))?
+            .map(|entry| entry.map(|e| e.path()).map_err(|e| e.to_string()))
+            .collect::<Result<Vec<_>, String>>()
+    };
+    let mut files = Vec::new();
+    for shard in read_dir(dir)?.into_iter().filter(|p| p.is_dir()) {
+        files.extend(
+            read_dir(&shard)?
+                .into_iter()
+                .filter(|p| p.extension().is_some_and(|ext| ext == "rs")),
+        );
+    }
+    files.sort_by_key(|path| path.file_name().map(ToOwned::to_owned));
+    Ok(files)
+}
+
+/// Reads one language file and checks its `language_names!` block against `catalog`.
+fn read_language_file(catalog: &Catalog, path: &Path) -> Result<LanguageFile, String> {
+    let at = |message: String| format!("{}: {message}", path.display());
+    let module = module_name(path).map_err(at)?;
+    let source = std::fs::read_to_string(path).map_err(|e| at(e.to_string()))?;
+    let block =
+        marker_block(&source).ok_or_else(|| at(format!("no `{MARKER} {{ ... }}` block")))?;
+    let fields = parse_fields(&tokenize(block).map_err(at)?).map_err(at)?;
+
+    for spec in &catalog.enums {
+        let pairs = fields
+            .get(spec.key)
+            .ok_or_else(|| at(format!("`{MARKER}` is missing `{}:`", spec.key)))?;
+        if spec.key == "language" && pairs.len() != 1 {
+            return Err(at(
+                "`language:` must be a single `Variant => \"Name\"`".to_owned()
+            ));
+        }
+        if pairs.is_empty() && !spec.allow_empty {
+            return Err(at(format!("`{}:` needs at least one entry", spec.key)));
+        }
+    }
+    if let Some(key) = fields
+        .keys()
+        .find(|key| catalog.enums.iter().all(|spec| spec.key != key.as_str()))
+    {
+        return Err(at(format!("`{MARKER}` has unknown key `{key}:`")));
+    }
+    Ok(LanguageFile {
+        module,
+        path: path.to_owned(),
+        fields,
+    })
+}
+
+/// The file's stem, checked to be a `snake_case` module in its first-letter folder.
+fn module_name(path: &Path) -> Result<String, String> {
+    let module = path
+        .file_stem()
+        .and_then(|stem| stem.to_str())
+        .ok_or("file name is not valid UTF-8")?
+        .to_owned();
+    if !module.starts_with(|c: char| c.is_ascii_lowercase())
+        || !module
+            .chars()
+            .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '_')
+    {
+        return Err(format!("`{module}` must be a snake_case module name"));
+    }
+    let shard = path
+        .parent()
+        .and_then(Path::file_name)
+        .and_then(|name| name.to_str())
+        .unwrap_or_default();
+    if shard.len() != 1 || !module.starts_with(shard) {
+        return Err(format!("must live in the `{}` folder", &module[..1]));
+    }
+    Ok(module)
+}
+
+/// The text between the braces of the `language_names! { ... }` block.
+fn marker_block(source: &str) -> Option<&str> {
+    let start = source.find(MARKER)?;
+    let open = start + source[start..].find('{')?;
+    let mut depth = 0;
+    let mut in_string = false;
+    let mut escaped = false;
+    for (offset, c) in source[open..].char_indices() {
+        if in_string {
+            match (escaped, c) {
+                (true, _) => escaped = false,
+                (false, '\\') => escaped = true,
+                (false, '"') => in_string = false,
+                _ => {}
+            }
+            continue;
+        }
+        match c {
+            '"' => in_string = true,
+            '{' => depth += 1,
+            '}' => {
+                depth -= 1;
+                if depth == 0 {
+                    return Some(&source[open + 1..open + offset]);
+                }
+            }
+            _ => {}
+        }
+    }
+    None
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+enum Token {
+    Ident(String),
+    /// A string literal, kept with its quotes and escapes.
+    Str(String),
+    Arrow,
+    Punct(char),
+}
+
+/// Splits a `language_names!` body into identifiers, string literals, `=>` and `[ ] , :`.
+fn tokenize(text: &str) -> Result<Vec<Token>, String> {
+    let mut tokens = Vec::new();
+    let mut chars = text.char_indices().peekable();
+    while let Some((start, c)) = chars.next() {
+        match c {
+            c if c.is_whitespace() => {}
+            '=' if chars.peek().is_some_and(|&(_, next)| next == '>') => {
+                chars.next();
+                tokens.push(Token::Arrow);
+            }
+            '[' | ']' | ',' | ':' => tokens.push(Token::Punct(c)),
+            '"' => {
+                let mut escaped = false;
+                let end = chars
+                    .by_ref()
+                    .find(|&(_, c)| {
+                        let closes = !escaped && c == '"';
+                        escaped = !escaped && c == '\\';
+                        closes
+                    })
+                    .map(|(i, _)| i)
+                    .ok_or("unterminated string literal")?;
+                tokens.push(Token::Str(text[start..=end].to_owned()));
+            }
+            c if c.is_ascii_alphabetic() || c == '_' => {
+                let mut end = start + c.len_utf8();
+                while let Some(&(i, next)) = chars.peek() {
+                    if !(next.is_ascii_alphanumeric() || next == '_') {
+                        break;
+                    }
+                    end = i + next.len_utf8();
+                    chars.next();
+                }
+                tokens.push(Token::Ident(text[start..end].to_owned()));
+            }
+            other => return Err(format!("unexpected `{other}` in `{MARKER}`")),
+        }
+    }
+    Ok(tokens)
+}
+
+/// `key: Variant => "Name"` or `key: [Variant => "Name", ...]`, comma-separated.
+fn parse_fields(tokens: &[Token]) -> Result<HashMap<String, Vec<Named>>, String> {
+    let mut fields = HashMap::new();
+    let mut rest = tokens;
+    while let [Token::Ident(key), Token::Punct(':'), after @ ..] = rest {
+        let (values, after) = if let [Token::Punct('['), inner @ ..] = after {
+            let close = inner
+                .iter()
+                .position(|t| *t == Token::Punct(']'))
+                .ok_or_else(|| format!("`{key}:` is missing `]`"))?;
+            (parse_pairs(&inner[..close])?, &inner[close + 1..])
+        } else {
+            let [ident, arrow, display, after @ ..] = after else {
+                return Err(format!("`{key}:` expects `Variant => \"Name\"`"));
+            };
+            (
+                parse_pairs(&[ident.clone(), arrow.clone(), display.clone()])?,
+                after,
+            )
+        };
+        if fields.insert(key.clone(), values).is_some() {
+            return Err(format!("`{key}:` appears twice"));
+        }
+        rest = after.strip_prefix(&[Token::Punct(',')]).unwrap_or(after);
+    }
+    if rest.is_empty() {
+        Ok(fields)
+    } else {
+        Err(format!("unexpected {:?} in `{MARKER}`", rest[0]))
+    }
+}
+
+/// Parses `A => "a", B => "b"` (trailing comma allowed) into pairs.
+fn parse_pairs(tokens: &[Token]) -> Result<Vec<Named>, String> {
+    tokens
+        .split(|t| *t == Token::Punct(','))
+        .filter(|pair| !pair.is_empty())
+        .map(|pair| match pair {
+            [Token::Ident(variant), Token::Arrow, Token::Str(display)] => Ok(Named {
+                variant: variant.clone(),
+                display: display.clone(),
+            }),
+            other => Err(format!("expected `Variant => \"Name\"`, found {other:?}")),
+        })
+        .collect()
+}
+
+/// Collects one enum's variants across all files, rejecting conflicts.
+/// A shared variant (e.g. a script used by several languages) may repeat if its
+/// display name matches; two variants with the same display name would make
+/// parsing ambiguous.
+fn merge_variants(spec: &EnumSpec, languages: &[LanguageFile]) -> Result<Vec<Named>, String> {
+    let mut variants: Vec<Named> = Vec::new();
+    let mut owners: HashMap<&str, &Path> = HashMap::new();
+    for file in languages {
+        for named in &file.fields[spec.key] {
+            if let Some(existing) = variants.iter().find(|v| v.variant == named.variant) {
+                if spec.shared && existing.display == named.display {
+                    continue;
+                }
+                return Err(format!(
+                    "`{}: {}` is declared in both {} and {}",
+                    spec.key,
+                    named.variant,
+                    owners[named.variant.as_str()].display(),
+                    file.path.display()
+                ));
+            }
+            if let Some(clash) = variants
+                .iter()
+                .find(|v| v.display.eq_ignore_ascii_case(&named.display))
+            {
+                return Err(format!(
+                    "`{}: {}` and `{}` both display as {}",
+                    spec.key, clash.variant, named.variant, named.display
+                ));
+            }
+            owners.insert(&named.variant, &file.path);
+            variants.push(named.clone());
+        }
+    }
+    Ok(variants)
+}
+
+/// Builds `catalog`'s registry source: one `mod` per file, the enums, then the table.
+fn generate(catalog: &Catalog, languages: &[LanguageFile]) -> Result<String, String> {
+    let mut out = format!(
+        "// @generated by hw-pp-core/build.rs from {}/ - do not edit.\n\n",
+        catalog.dir
+    );
+    for language in languages {
+        let path = language.path.to_str().ok_or("non-UTF-8 path")?;
+        writeln!(out, "#[path = {path:?}]\nmod {};", language.module).map_err(|e| e.to_string())?;
+    }
+    for spec in &catalog.enums {
+        write_enum(
+            &mut out,
+            spec.doc,
+            spec.header,
+            &merge_variants(spec, languages)?,
+        )?;
+    }
+    writeln!(
+        out,
+        "\n{}\npub static {} = &[",
+        catalog.table_doc, catalog.table
+    )
+    .map_err(|e| e.to_string())?;
+    for language in languages {
+        writeln!(out, "    {}::LANGUAGE,", language.module).map_err(|e| e.to_string())?;
+    }
+    out.push_str("];\n");
+    Ok(out)
+}
+
+/// Appends a `name_enum!` call to `out`.
+///
+/// - `doc`: the enum's doc comment lines.
+/// - `header`: `Name: ParseError("kind")`.
+/// - `variants`: the `Variant => "Display Name"` pairs, in order.
+fn write_enum(out: &mut String, doc: &str, header: &str, variants: &[Named]) -> Result<(), String> {
+    writeln!(
+        out,
+        "\nname_enum! {{\n    {doc}\n    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]\n    pub enum {header} {{"
+    )
+    .map_err(|e| e.to_string())?;
+    for Named { variant, display } in variants {
+        writeln!(out, "        {variant} => {display},").map_err(|e| e.to_string())?;
+    }
+    out.push_str("    }\n}\n");
+    Ok(())
+}

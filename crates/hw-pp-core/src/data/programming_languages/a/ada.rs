@@ -1,0 +1,71 @@
+//! Hello-world snippets for `ProgrammingLanguageName::Ada`.
+
+use crate::data::programming_languages::{
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
+    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Ada => "Ada",
+    versions: [Ada2012 => "Ada 2012"],
+    extensions: [Adb => "adb", Ads => "ads"],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Ada,
+        extensions: &[FileExtension::Adb, FileExtension::Ads],
+        categories: &[Compiled],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Ada2012,
+            syntax: concat!(
+                r#"with Ada.Text_IO; use Ada.Text_IO;
+
+procedure Hello is
+begin
+    Put_Line (""#,
+                output_for_hello_world!(),
+                r#"");
+end Hello;"#
+            ),
+            tokenized_syntax: &[
+                (TokenKind::Keyword, "with"),
+                (TokenKind::Plain, " Ada"),
+                (TokenKind::Punctuation, "."),
+                (TokenKind::Plain, "Text_IO"),
+                (TokenKind::Punctuation, ";"),
+                (TokenKind::Plain, " "),
+                (TokenKind::Keyword, "use"),
+                (TokenKind::Plain, " Ada"),
+                (TokenKind::Punctuation, "."),
+                (TokenKind::Plain, "Text_IO"),
+                (TokenKind::Punctuation, ";"),
+                (TokenKind::Plain, "\n\n"),
+                (TokenKind::Keyword, "procedure"),
+                (TokenKind::Plain, " "),
+                (TokenKind::Function, "Hello"),
+                (TokenKind::Plain, " "),
+                (TokenKind::Keyword, "is"),
+                (TokenKind::Plain, "\n"),
+                (TokenKind::Keyword, "begin"),
+                (TokenKind::Plain, "\n    "),
+                (TokenKind::Function, "Put_Line"),
+                (TokenKind::Plain, " "),
+                (TokenKind::Punctuation, "("),
+                (
+                    TokenKind::String,
+                    concat!("\"", output_for_hello_world!(), "\""),
+                ),
+                (TokenKind::Punctuation, ");"),
+                (TokenKind::Plain, "\n"),
+                (TokenKind::Keyword, "end"),
+                (TokenKind::Plain, " "),
+                (TokenKind::Function, "Hello"),
+                (TokenKind::Punctuation, ";"),
+            ],
+        }],
+    };

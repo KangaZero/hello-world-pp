@@ -1,0 +1,51 @@
+//! Hello-world snippets for `ProgrammingLanguageName::Kotlin`.
+
+use crate::data::programming_languages::{
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
+    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+};
+use crate::data::{
+    macros::{language_names, output_for_hello_world},
+    programming_languages_token::TokenKind,
+};
+
+language_names! {
+    language: Kotlin => "Kotlin",
+    versions: [Kotlin19 => "Kotlin 1.9"],
+    extensions: [Kt => "kt", Kts => "kts"],
+}
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Kotlin,
+        extensions: &[FileExtension::Kt, FileExtension::Kts],
+        categories: &[Compiled],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Kotlin19,
+            syntax: concat!(
+                r#"fun main() {
+    println(""#,
+                output_for_hello_world!(),
+                r#"")
+}"#
+            ),
+            tokenized_syntax: &[
+                (TokenKind::Keyword, "fun"),
+                (TokenKind::Plain, " "),
+                (TokenKind::Function, "main"),
+                (TokenKind::Punctuation, "()"),
+                (TokenKind::Plain, " "),
+                (TokenKind::Punctuation, "{"),
+                (TokenKind::Plain, "\n    "),
+                (TokenKind::Function, "println"),
+                (TokenKind::Punctuation, "("),
+                (
+                    TokenKind::String,
+                    concat!("\"", output_for_hello_world!(), "\""),
+                ),
+                (TokenKind::Punctuation, ")"),
+                (TokenKind::Plain, "\n"),
+                (TokenKind::Punctuation, "}"),
+            ],
+        }],
+    };

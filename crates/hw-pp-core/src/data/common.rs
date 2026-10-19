@@ -56,30 +56,19 @@ pub fn remove_punctuation_from_hello_world(hello_world: &str) -> String {
 #[error("snippet does not contain {:?}", output_for_hello_world!())]
 pub struct HelloWorldNotFoundError;
 
-/// Replaces every hello-world message in a programming-language snippet with a
-/// human-language greeting, e.g. `print("Hello, World!")` becomes
-/// `print("こんにちは世界！")`.
+/// Replaces every `"Hello, World!"` in `syntax` with `hello_world_to_replace_with`.
 ///
-/// The greeting is inserted as-is and is **not** escaped for the target
-/// language: a greeting containing that language's quote character (such as
-/// `G'day, World!` inside Dart's single-quoted `print('...')`) produces invalid
-/// code. The snippet's `tokenized_syntax` is not updated either.
+/// The greeting is not escaped for the target language (`G'day` breaks `print('...')`).
 ///
 /// ```
 /// use hw_pp_core::data::common::replace_default_hello_world_string_with;
-///
-/// let python = r#"print("Hello, World!")"#;
-/// assert_eq!(
-///     replace_default_hello_world_string_with(python, "こんにちは世界！"),
-///     Ok(r#"print("こんにちは世界！")"#.to_owned())
-/// );
+/// let german = replace_default_hello_world_string_with(r#"print("Hello, World!")"#, "Hallo, Welt!");
+/// assert_eq!(german, Ok(r#"print("Hallo, Welt!")"#.to_owned()));
 /// ```
 ///
 /// # Errors
 ///
-/// Returns [`HelloWorldNotFoundError`] if `syntax` does not contain the
-/// hello-world message, as with the Brainfuck and Befunge snippets, which
-/// encode it differently.
+/// [`HelloWorldNotFoundError`] if `syntax` does not contain it (e.g. Brainfuck).
 pub fn replace_default_hello_world_string_with(
     syntax: &str,
     hello_world_to_replace_with: &str,

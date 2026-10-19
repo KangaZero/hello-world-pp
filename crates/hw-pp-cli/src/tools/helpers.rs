@@ -3,6 +3,12 @@ use hw_pp_core::data::common::remove_punctuation_from_hello_world;
 
 use std::borrow::Cow;
 
+/// Applies `args`' output options to `output`, borrowing it when nothing changes.
+///
+/// - `args`: parsed CLI options; only `no_punctuation` is read.
+/// - `output`: the greeting to print.
+///
+/// With `-n`, `"¡Hola, Mundo!"` becomes `"Hola Mundo"`.
 #[must_use]
 pub fn hello_world_output_with_options<'output>(
     args: &Args,
