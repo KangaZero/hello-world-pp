@@ -39,19 +39,69 @@ library HelloWorld {
 }
 //! endzinc"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"//! zinc
-library HelloWorld {
-    private function onInit() {
-        DisplayTimedTextToPlayer(GetLocalPlayer(), 0, 0, 0, ""#,
-                    output_for_hello_world!(),
-                    r#"");
-    }
-}
-//! endzinc"#
+            tokenized_syntax: &[
+                (TokenKind::Comment, r"//! zinc"),
+                (
+                    TokenKind::Plain,
+                    r"
+library HelloWorld ",
                 ),
-            )],
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Keyword, r"private"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"function"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"onInit"),
+                (TokenKind::Punctuation, r"()"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Function, r"DisplayTimedTextToPlayer"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Function, r"GetLocalPlayer"),
+                (TokenKind::Punctuation, r"(),"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"0"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"0"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"0"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Punctuation, r"}"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Comment, r"//! endzinc"),
+            ],
         }],
     };

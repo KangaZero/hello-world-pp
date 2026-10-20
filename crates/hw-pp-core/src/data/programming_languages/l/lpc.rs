@@ -41,20 +41,49 @@ void create()
                 r#"",this_user());
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in LPC
-
-void create()
-{
-       message("info",""#,
-                    output_for_hello_world!(),
-                    r#"",this_user());
-}"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(r"// ", output_for_hello_world!(), r" in LPC"),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"void"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"create"),
+                (TokenKind::Punctuation, r"()"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+       ",
+                ),
+                (TokenKind::Function, r"message"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::String, r#""info""#),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Function, r"this_user"),
+                (TokenKind::Punctuation, r"());"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

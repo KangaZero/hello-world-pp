@@ -37,17 +37,61 @@ text(""#,
                 output_for_hello_world!(),
                 r#"", width / 2, height / 2);"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"size(128, 128);
-background(0);
-textAlign(CENTER, CENTER);
-fill(255);
-text(""#,
-                    output_for_hello_world!(),
-                    r#"", width / 2, height / 2);"#
+            tokenized_syntax: &[
+                (TokenKind::Function, r"size"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Number, r"128"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"128"),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Function, r"background"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Number, r"0"),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Function, r"textAlign"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"CENTER"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" CENTER"),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Function, r"fill"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Number, r"255"),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Function, r"text"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" width / "),
+                (TokenKind::Number, r"2"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" height / "),
+                (TokenKind::Number, r"2"),
+                (TokenKind::Punctuation, r");"),
+            ],
         }],
     };

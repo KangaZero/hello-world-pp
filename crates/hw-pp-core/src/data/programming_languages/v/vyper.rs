@@ -35,15 +35,33 @@ def hello() -> String[13]:
                 output_for_hello_world!(),
                 r#"""#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"@external
-def hello() -> String[13]:
-    return ""#,
-                    output_for_hello_world!(),
-                    r#"""#
+            tokenized_syntax: &[
+                (TokenKind::Macro, r"@external"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"def"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"hello"),
+                (TokenKind::Punctuation, r"()"),
+                (TokenKind::Plain, r" -> "),
+                (TokenKind::Function, r"String"),
+                (TokenKind::Punctuation, r"["),
+                (TokenKind::Number, r"13"),
+                (TokenKind::Punctuation, r"]:"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Keyword, r"return"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+            ],
         }],
     };

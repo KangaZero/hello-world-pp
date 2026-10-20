@@ -37,17 +37,46 @@ int main() {
  return 0;
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"#include <stdio.h>
-int main() {
- printf(""#,
-                    output_for_hello_world!(),
-                    r#"\n");
- return 0;
-}"#
+            tokenized_syntax: &[
+                (TokenKind::Macro, r"#include <stdio.h>"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Type, r"int"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"main"),
+                (TokenKind::Punctuation, r"()"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+ ",
+                ),
+                (TokenKind::Function, r"printf"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+ ",
+                ),
+                (TokenKind::Keyword, r"return"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"0"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

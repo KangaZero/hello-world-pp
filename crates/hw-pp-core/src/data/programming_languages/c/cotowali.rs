@@ -37,17 +37,40 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 
 helloworld()"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"fn helloworld(): string {
-  return ""#,
-                    output_for_hello_world!(),
-                    r#""
-}
-
-helloworld()"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"fn"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"helloworld"),
+                (TokenKind::Punctuation, r"():"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Type, r"string"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+  ",
                 ),
-            )],
+                (TokenKind::Keyword, r"return"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Function, r"helloworld"),
+                (TokenKind::Punctuation, r"()"),
+            ],
         }],
     };

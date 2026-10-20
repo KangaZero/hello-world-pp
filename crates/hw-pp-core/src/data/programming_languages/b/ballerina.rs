@@ -37,17 +37,43 @@ public function main() {
                 r#"");
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"import ballerina/io;
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"import"),
+                (TokenKind::Plain, r" ballerina/io"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-public function main() {
-    io:println(""#,
-                    output_for_hello_world!(),
-                    r#"");
-}"#
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"public"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"function"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"main"),
+                (TokenKind::Punctuation, r"()"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+    io",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Function, r"println"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

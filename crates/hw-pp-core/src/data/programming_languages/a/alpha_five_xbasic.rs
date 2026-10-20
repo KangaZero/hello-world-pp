@@ -40,19 +40,32 @@ ui_msg_box("The '"#,
                 output_for_hello_world!(),
                 r#"", UI_ATTENTION_SYMBOL)"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"' ",
-                    output_for_hello_world!(),
-                    r#" in Alpha Five Xbasic
-
-ui_msg_box("The '"#,
-                    output_for_hello_world!(),
-                    r#"' Collection", ""#,
-                    output_for_hello_world!(),
-                    r#"", UI_ATTENTION_SYMBOL)"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(r"' ", output_for_hello_world!(), r" in Alpha Five Xbasic"),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Function, r"ui_msg_box"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#""The '"#, output_for_hello_world!(), r#"' Collection""#),
+                ),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" UI_ATTENTION_SYMBOL"),
+                (TokenKind::Punctuation, r")"),
+            ],
         }],
     };

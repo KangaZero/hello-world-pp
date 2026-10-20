@@ -37,17 +37,45 @@ method main(ascii::string[] args):
                 output_for_hello_world!(),
                 r#"")"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"import std::ascii
-import std::io
-
-method main(ascii::string[] args):
-    io::println(""#,
-                    output_for_hello_world!(),
-                    r#"")"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"import"),
+                (TokenKind::Plain, r" std"),
+                (TokenKind::Punctuation, r"::"),
+                (
+                    TokenKind::Plain,
+                    r"ascii
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"import"),
+                (TokenKind::Plain, r" std"),
+                (TokenKind::Punctuation, r"::"),
+                (
+                    TokenKind::Plain,
+                    r"io
+
+method ",
+                ),
+                (TokenKind::Function, r"main"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"ascii"),
+                (TokenKind::Punctuation, r"::"),
+                (TokenKind::Type, r"string"),
+                (TokenKind::Punctuation, r"[]"),
+                (TokenKind::Plain, r" args"),
+                (TokenKind::Punctuation, r"):"),
+                (
+                    TokenKind::Plain,
+                    r"
+    io",
+                ),
+                (TokenKind::Punctuation, r"::"),
+                (TokenKind::Function, r"println"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+            ],
         }],
     };

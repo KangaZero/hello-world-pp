@@ -42,22 +42,95 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     }
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"access(all) contract HelloWorld {
-    access(all) let greeting: String
-    init() {
-        self.greeting = ""#,
-                    output_for_hello_world!(),
-                    r#""
-    }
-
-    access(all) fun hello(): String {
-        return self.greeting
-    }
-}"#
+            tokenized_syntax: &[
+                (TokenKind::Function, r"access"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"all"),
+                (TokenKind::Punctuation, r")"),
+                (TokenKind::Plain, r" contract HelloWorld "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
                 ),
-            )],
+                (TokenKind::Function, r"access"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"all"),
+                (TokenKind::Punctuation, r")"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"let"),
+                (TokenKind::Plain, r" greeting"),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"String"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Keyword, r"init"),
+                (TokenKind::Punctuation, r"()"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"self"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"greeting = "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Punctuation, r"}"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+    ",
+                ),
+                (TokenKind::Function, r"access"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"all"),
+                (TokenKind::Punctuation, r")"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"fun"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"hello"),
+                (TokenKind::Punctuation, r"():"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"String"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"return"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"self"),
+                (TokenKind::Punctuation, r"."),
+                (
+                    TokenKind::Plain,
+                    r"greeting
+    ",
+                ),
+                (TokenKind::Punctuation, r"}"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

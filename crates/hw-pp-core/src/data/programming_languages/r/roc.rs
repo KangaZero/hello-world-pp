@@ -39,19 +39,52 @@ main =
                 output_for_hello_world!(),
                 r#"""#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"app [main] { pf: platform "https://github.com/roc-lang/basic-cli/releases/download/0.12.0/Lb8EgiejTUzbggO2HVVuPJFkwvvsfW6LojkLR20kTVE.tar.br" }
+            tokenized_syntax: &[
+                (TokenKind::Plain, r"app "),
+                (TokenKind::Punctuation, r"["),
+                (TokenKind::Plain, r"main"),
+                (TokenKind::Punctuation, r"]"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (TokenKind::Plain, r" pf"),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r" platform "),
+                (
+                    TokenKind::String,
+                    r#""https://github.com/roc-lang/basic-cli/releases/download/0.12.0/Lb8EgiejTUzbggO2HVVuPJFkwvvsfW6LojkLR20kTVE.tar.br""#,
+                ),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"}"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-import pf.Stdout
-import pf.Task
+",
+                ),
+                (TokenKind::Keyword, r"import"),
+                (TokenKind::Plain, r" pf"),
+                (TokenKind::Punctuation, r"."),
+                (
+                    TokenKind::Plain,
+                    r"Stdout
+",
+                ),
+                (TokenKind::Keyword, r"import"),
+                (TokenKind::Plain, r" pf"),
+                (TokenKind::Punctuation, r"."),
+                (
+                    TokenKind::Plain,
+                    r"Task
 
 main =
-    Stdout.line! ""#,
-                    output_for_hello_world!(),
-                    r#"""#
+    Stdout",
                 ),
-            )],
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"line! "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+            ],
         }],
     };

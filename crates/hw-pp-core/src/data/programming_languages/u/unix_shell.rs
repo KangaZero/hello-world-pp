@@ -37,16 +37,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 echo ",
                 output_for_hello_world!()
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"# ",
-                    output_for_hello_world!(),
-                    r" for the Unix shells (sh, ksh, csh, zsh, bash, fish, xonsh, ...)
-
-echo ",
-                    output_for_hello_world!()
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r"# ",
+                        output_for_hello_world!(),
+                        r" for the Unix shells (sh, ksh, csh, zsh, bash, fish, xonsh, ...)"
+                    ),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"echo"),
+                (TokenKind::Plain, concat!(r" ", output_for_hello_world!())),
+            ],
         }],
     };

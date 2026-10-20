@@ -37,17 +37,37 @@ function main = |args| {
                 r#"")
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"module hello.world
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"module"),
+                (TokenKind::Plain, r" hello"),
+                (TokenKind::Punctuation, r"."),
+                (
+                    TokenKind::Plain,
+                    r"world
 
-function main = |args| {
-  println(""#,
-                    output_for_hello_world!(),
-                    r#"")
-}"#
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"function"),
+                (TokenKind::Plain, r" main = |args| "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+  ",
+                ),
+                (TokenKind::Function, r"println"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

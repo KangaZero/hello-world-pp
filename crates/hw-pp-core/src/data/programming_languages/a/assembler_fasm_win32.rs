@@ -58,38 +58,172 @@ import kernel,\
 import msvcrt,\
 	printf, 'printf'"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"format PE CONSOLE
-entry start
-include 'win32a.inc'
-section '.data' data readable writable
-	helo db ""#,
-                    output_for_hello_world!(),
-                    r#"", 0
-
-section '.text' code readable executable
-start:	xor ecx, ecx
-	push helo
-	call [printf]
-	add esp, 4
-	
-	
-	push ecx
-	call [ExitProcess]
-
-
-
-section '.idata'  import data readable
-library kernel 	, 'kernel32.dll',\
-	msvcrt , 'msvcrt.dll '
-
-import kernel,\
-	ExitProcess, 'ExitProcess'
-import msvcrt,\
-	printf, 'printf'"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"format"),
+                (
+                    TokenKind::Plain,
+                    r" PE CONSOLE
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"entry"),
+                (
+                    TokenKind::Plain,
+                    r" start
+",
+                ),
+                (TokenKind::Keyword, r"include"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::String, r"'win32a.inc'"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"section"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::String, r"'.data'"),
+                (
+                    TokenKind::Plain,
+                    r" data readable writable
+	helo ",
+                ),
+                (TokenKind::Keyword, r"db"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"0"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"section"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::String, r"'.text'"),
+                (
+                    TokenKind::Plain,
+                    r" code readable executable
+start",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"	xor ecx"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" ecx
+	",
+                ),
+                (TokenKind::Keyword, r"push"),
+                (
+                    TokenKind::Plain,
+                    r" helo
+	",
+                ),
+                (TokenKind::Keyword, r"call"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"["),
+                (TokenKind::Function, r"printf"),
+                (TokenKind::Punctuation, r"]"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Keyword, r"add"),
+                (TokenKind::Plain, r" esp"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"4"),
+                (
+                    TokenKind::Plain,
+                    r"
+	
+	
+	",
+                ),
+                (TokenKind::Keyword, r"push"),
+                (
+                    TokenKind::Plain,
+                    r" ecx
+	",
+                ),
+                (TokenKind::Keyword, r"call"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"["),
+                (TokenKind::Plain, r"ExitProcess"),
+                (TokenKind::Punctuation, r"]"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+
+
+",
+                ),
+                (TokenKind::Keyword, r"section"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::String, r"'.idata'"),
+                (
+                    TokenKind::Plain,
+                    r"  import data readable
+",
+                ),
+                (TokenKind::Keyword, r"library"),
+                (TokenKind::Plain, r" kernel 	"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::String, r"'kernel32.dll'"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"\
+	",
+                ),
+                (TokenKind::Keyword, r"msvcrt"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::String, r"'msvcrt.dll '"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"import"),
+                (TokenKind::Plain, r" kernel"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"\
+	",
+                ),
+                (TokenKind::Keyword, r"ExitProcess"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::String, r"'ExitProcess'"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"import"),
+                (TokenKind::Plain, r" msvcrt"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"\
+	",
+                ),
+                (TokenKind::Keyword, r"printf"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::String, r"'printf'"),
+            ],
         }],
     };

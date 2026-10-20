@@ -45,25 +45,103 @@ begin
     end process;
 end behaviour;"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"use std.textio.all;
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"use"),
+                (TokenKind::Plain, r" std"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"textio"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Keyword, r"all"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-entity hello_world is
-end hello_world;
-
-architecture behaviour of hello_world is
-begin
-	process
-    begin
-       write (output, String'(""#,
-                    output_for_hello_world!(),
-                    r#""));
-       wait;
-    end process;
-end behaviour;"#
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"entity"),
+                (TokenKind::Plain, r" hello_world "),
+                (TokenKind::Keyword, r"is"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"end"),
+                (TokenKind::Plain, r" hello_world"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"architecture"),
+                (TokenKind::Plain, r" behaviour "),
+                (TokenKind::Keyword, r"of"),
+                (TokenKind::Plain, r" hello_world "),
+                (TokenKind::Keyword, r"is"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"begin"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Keyword, r"process"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Keyword, r"begin"),
+                (
+                    TokenKind::Plain,
+                    r"
+       ",
+                ),
+                (TokenKind::Function, r"write"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Keyword, r"output"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"String"),
+                (TokenKind::Plain, r"'"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r"));"),
+                (
+                    TokenKind::Plain,
+                    r"
+       ",
+                ),
+                (TokenKind::Keyword, r"wait"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Keyword, r"end"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"process"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"end"),
+                (TokenKind::Plain, r" behaviour"),
+                (TokenKind::Punctuation, r";"),
+            ],
         }],
     };

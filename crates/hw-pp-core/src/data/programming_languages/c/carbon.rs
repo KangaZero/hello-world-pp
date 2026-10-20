@@ -38,18 +38,51 @@ fn Main() -> i32 {
   return 0;
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"package HelloWorld api;
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"package"),
+                (TokenKind::Plain, r" HelloWorld api"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-fn Main() -> i32 {
-  Print(""#,
-                    output_for_hello_world!(),
-                    r#"");
-  return 0;
-}"#
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"fn"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"Main"),
+                (TokenKind::Punctuation, r"()"),
+                (TokenKind::Plain, r" -> "),
+                (TokenKind::Type, r"i32"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+  ",
+                ),
+                (TokenKind::Function, r"Print"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+  ",
+                ),
+                (TokenKind::Keyword, r"return"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"0"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

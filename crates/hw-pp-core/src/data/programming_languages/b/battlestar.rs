@@ -35,15 +35,28 @@ const hello = ""#,
                 r#"\n"
 print(hello)"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"#!/usr/bin/bts
-const hello = ""#,
-                    output_for_hello_world!(),
-                    r#"\n"
-print(hello)"#
+            tokenized_syntax: &[
+                (TokenKind::Macro, r"#!/usr/bin/bts"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"const"),
+                (TokenKind::Plain, r" hello = "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Function, r"print"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"hello"),
+                (TokenKind::Punctuation, r")"),
+            ],
         }],
     };

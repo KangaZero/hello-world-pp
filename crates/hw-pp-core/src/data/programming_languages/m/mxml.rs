@@ -36,16 +36,41 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                 r#""/>
 </mx:Application>"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"<?xml version="1.0" encoding="utf-8"?>
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml">
-<mx:Label text=""#,
-                    output_for_hello_world!(),
-                    r#""/>
-</mx:Application>"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"<"),
+                (TokenKind::Plain, r"?xml version="),
+                (TokenKind::String, r#""1.0""#),
+                (TokenKind::Plain, r" encoding="),
+                (TokenKind::String, r#""utf-8""#),
+                (TokenKind::Plain, r"?"),
+                (TokenKind::Keyword, r">"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"<mx:Application"),
+                (TokenKind::Plain, r" xmlns:mx="),
+                (TokenKind::String, r#""http://www.adobe.com/2006/mxml""#),
+                (TokenKind::Keyword, r">"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"<mx:Label"),
+                (TokenKind::Plain, r" text="),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Keyword, r"/>"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"</mx:Application>"),
+            ],
         }],
     };

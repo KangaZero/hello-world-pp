@@ -36,15 +36,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 
 (print 'Hello\,\ world\!)"
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"; ",
-                    output_for_hello_world!(),
-                    r" in MuLisp
-
-(print 'Hello\,\ world\!)"
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(r"; ", output_for_hello_world!(), r" in MuLisp"),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Function, r"print"),
+                (TokenKind::Plain, r" 'Hello\"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"\ world\!"),
+                (TokenKind::Punctuation, r")"),
+            ],
         }],
     };

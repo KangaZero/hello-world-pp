@@ -39,14 +39,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                     output_for_hello_world!(),
                     r#"")"#
                 ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r#"MsgBox(0, "Message Box", ""#,
-                        output_for_hello_world!(),
-                        r#"")"#
+                tokenized_syntax: &[
+                    (TokenKind::Keyword, r"MsgBox"),
+                    (TokenKind::Punctuation, r"("),
+                    (TokenKind::Number, r"0"),
+                    (TokenKind::Punctuation, r","),
+                    (TokenKind::Plain, r" "),
+                    (TokenKind::String, r#""Message Box""#),
+                    (TokenKind::Punctuation, r","),
+                    (TokenKind::Plain, r" "),
+                    (
+                        TokenKind::String,
+                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
                     ),
-                )],
+                    (TokenKind::Punctuation, r")"),
+                ],
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Autoit3,
@@ -59,18 +66,33 @@ msgbox(0,""#,
                     output_for_hello_world!(),
                     r#"",0)"#
                 ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r";",
-                        output_for_hello_world!(),
-                        r#" for AutoIT3  http://www.autoitscript.com
-
-msgbox(0,""#,
-                        output_for_hello_world!(),
-                        r#"",0)"#
+                tokenized_syntax: &[
+                    (
+                        TokenKind::Comment,
+                        concat!(
+                            r";",
+                            output_for_hello_world!(),
+                            r" for AutoIT3  http://www.autoitscript.com"
+                        ),
                     ),
-                )],
+                    (
+                        TokenKind::Plain,
+                        r"
+
+",
+                    ),
+                    (TokenKind::Keyword, r"msgbox"),
+                    (TokenKind::Punctuation, r"("),
+                    (TokenKind::Number, r"0"),
+                    (TokenKind::Punctuation, r","),
+                    (
+                        TokenKind::String,
+                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                    ),
+                    (TokenKind::Punctuation, r","),
+                    (TokenKind::Number, r"0"),
+                    (TokenKind::Punctuation, r")"),
+                ],
             },
         ],
     };

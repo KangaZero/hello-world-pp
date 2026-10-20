@@ -42,21 +42,51 @@ func hello <main>
    getch()
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in Gentee
-
-func hello <main>
-{
-   print( ""#,
-                    output_for_hello_world!(),
-                    r#"" )
-   getch()
-}"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(r"// ", output_for_hello_world!(), r" in Gentee"),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"func"),
+                (
+                    TokenKind::Plain,
+                    r" hello <main>
+",
+                ),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+   ",
+                ),
+                (TokenKind::Function, r"print"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+   ",
+                ),
+                (TokenKind::Function, r"getch"),
+                (TokenKind::Punctuation, r"()"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

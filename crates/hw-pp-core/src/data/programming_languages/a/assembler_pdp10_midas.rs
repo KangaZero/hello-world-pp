@@ -51,31 +51,125 @@ HELLO:	ASCIZ /",
 
 	END START"
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"	TITLE ",
-                    output_for_hello_world!(),
+            tokenized_syntax: &[
+                (TokenKind::Plain, r"	"),
+                (TokenKind::Keyword, r"TITLE"),
+                (
+                    TokenKind::Plain,
+                    concat!(
+                        r" ",
+                        output_for_hello_world!(),
+                        r"
+
+"
+                    ),
+                ),
+                (TokenKind::Keyword, r"A"),
+                (TokenKind::Plain, r"=="),
+                (TokenKind::Number, r"1"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"B"),
+                (TokenKind::Plain, r"=="),
+                (TokenKind::Number, r"2"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"TYO"),
+                (TokenKind::Plain, r"=="),
+                (TokenKind::Number, r"1"),
+                (
+                    TokenKind::Plain,
                     r"
 
-A==1
-B==2
-TYO==1
-
-START:	.OPEN TYO,[.UAO,,'TTY]
-	 .LOSE
-	MOVE A,[440700,,HELLO]
-LOOP:	ILDB B,A
-	JUMPE B,[.LOGOUT 1,]
-	.IOT TYO,B
-	JRST LOOP
-
-HELLO:	ASCIZ /",
-                    output_for_hello_world!(),
-                    r"/
-
-	END START"
+START",
                 ),
-            )],
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"	"),
+                (TokenKind::Macro, r".OPEN"),
+                (TokenKind::Plain, r" TYO"),
+                (TokenKind::Punctuation, r",["),
+                (TokenKind::Macro, r".UAO"),
+                (TokenKind::Punctuation, r",,"),
+                (TokenKind::String, r"'TTY]"),
+                (
+                    TokenKind::Plain,
+                    r"
+	 ",
+                ),
+                (TokenKind::Macro, r".LOSE"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Keyword, r"MOVE"),
+                (TokenKind::Plain, r" A"),
+                (TokenKind::Punctuation, r",["),
+                (TokenKind::Number, r"440700"),
+                (TokenKind::Punctuation, r",,"),
+                (TokenKind::Plain, r"HELLO"),
+                (TokenKind::Punctuation, r"]"),
+                (
+                    TokenKind::Plain,
+                    r"
+LOOP",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"	ILDB B"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"A
+	",
+                ),
+                (TokenKind::Keyword, r"JUMPE"),
+                (TokenKind::Plain, r" B"),
+                (TokenKind::Punctuation, r",["),
+                (TokenKind::Macro, r".LOGOUT"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"1"),
+                (TokenKind::Punctuation, r",]"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Macro, r".IOT"),
+                (TokenKind::Plain, r" TYO"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"B
+	",
+                ),
+                (TokenKind::Keyword, r"JRST"),
+                (
+                    TokenKind::Plain,
+                    r" LOOP
+
+HELLO",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"	"),
+                (TokenKind::Keyword, r"ASCIZ"),
+                (
+                    TokenKind::Plain,
+                    concat!(
+                        r" /",
+                        output_for_hello_world!(),
+                        r"/
+
+	"
+                    ),
+                ),
+                (TokenKind::Keyword, r"END"),
+                (TokenKind::Plain, r" START"),
+            ],
         }],
     };

@@ -34,14 +34,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                 r#""
 run"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"10 print ""#,
-                    output_for_hello_world!(),
-                    r#""
-run"#
+            tokenized_syntax: &[
+                (TokenKind::Number, r"10"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"print"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+run",
+                ),
+            ],
         }],
     };

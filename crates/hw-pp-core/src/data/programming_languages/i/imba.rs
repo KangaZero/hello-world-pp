@@ -42,21 +42,39 @@ $$(body).append <h1> ""#,
                 output_for_hello_world!(),
                 r#"""#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in Imba
-
-console.log ""#,
-                    output_for_hello_world!(),
-                    r#""
-
-$$(body).append <h1> ""#,
-                    output_for_hello_world!(),
-                    r#"""#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Plain,
+                    concat!(r"// ", output_for_hello_world!(), r" "),
                 ),
-            )],
+                (TokenKind::Keyword, r"in"),
+                (
+                    TokenKind::Plain,
+                    r" Imba
+
+console",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"log"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+
+$$",
+                ),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"body"),
+                (TokenKind::Punctuation, r")."),
+                (TokenKind::Plain, r"append <h1> "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+            ],
         }],
     };

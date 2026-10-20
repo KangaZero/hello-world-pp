@@ -42,22 +42,82 @@ section	.data
                 output_for_hello_world!(),
                 r#"",0Ah,0"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"BITS	32
-global	_main
-extern	_printf
-section	.text
-	push	msg
-	call	_printf
-	add		esp,4
-	ret
-section	.data
-	msg:	db	""#,
-                    output_for_hello_world!(),
-                    r#"",0Ah,0"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"BITS"),
+                (TokenKind::Plain, r"	"),
+                (TokenKind::Number, r"32"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"global"),
+                (
+                    TokenKind::Plain,
+                    r"	_main
+",
+                ),
+                (TokenKind::Keyword, r"extern"),
+                (
+                    TokenKind::Plain,
+                    r"	_printf
+",
+                ),
+                (TokenKind::Keyword, r"section"),
+                (TokenKind::Plain, r"	"),
+                (TokenKind::Macro, r".text"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Keyword, r"push"),
+                (
+                    TokenKind::Plain,
+                    r"	msg
+	",
+                ),
+                (TokenKind::Keyword, r"call"),
+                (
+                    TokenKind::Plain,
+                    r"	_printf
+	",
+                ),
+                (TokenKind::Keyword, r"add"),
+                (TokenKind::Plain, r"		esp"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Number, r"4"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Keyword, r"ret"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"section"),
+                (TokenKind::Plain, r"	"),
+                (TokenKind::Macro, r".data"),
+                (
+                    TokenKind::Plain,
+                    r"
+	msg",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"	"),
+                (TokenKind::Keyword, r"db"),
+                (TokenKind::Plain, r"	"),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"0Ah"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Number, r"0"),
+            ],
         }],
     };

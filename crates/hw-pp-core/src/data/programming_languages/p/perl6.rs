@@ -38,18 +38,33 @@ say ""#,
                 r#"";
 "#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"#!/usr/bin/env perl6
+            tokenized_syntax: &[
+                (TokenKind::Comment, r"#!/usr/bin/env perl6"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-v6;
-
-say ""#,
-                    output_for_hello_world!(),
-                    r#"";
-"#
+v6",
                 ),
-            )],
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"say"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+            ],
         }],
     };

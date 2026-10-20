@@ -47,26 +47,85 @@ sHello  db      '",
                 output_for_hello_world!(),
                 r"$'"
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"; ",
-                    output_for_hello_world!(),
-                    r" in Z80 Assembly for CP/M
-
-BDOS    equ     05h
-WRTLINE equ     09h
-;
-        org     0100h
-        lxi     d,sHello
-        mvi     c,WRTLINE
-        call    BDOS
-        ret
-;
-sHello  db      '",
-                    output_for_hello_world!(),
-                    r"$'"
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r"; ",
+                        output_for_hello_world!(),
+                        r" in Z80 Assembly for CP/M"
+                    ),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+BDOS    ",
+                ),
+                (TokenKind::Keyword, r"equ"),
+                (
+                    TokenKind::Plain,
+                    r"     05h
+WRTLINE ",
+                ),
+                (TokenKind::Keyword, r"equ"),
+                (
+                    TokenKind::Plain,
+                    r"     09h
+",
+                ),
+                (TokenKind::Comment, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"org"),
+                (
+                    TokenKind::Plain,
+                    r"     0100h
+        ",
+                ),
+                (TokenKind::Keyword, r"lxi"),
+                (TokenKind::Plain, r"     d"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"sHello
+        ",
+                ),
+                (TokenKind::Keyword, r"mvi"),
+                (TokenKind::Plain, r"     c"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"WRTLINE
+        ",
+                ),
+                (TokenKind::Keyword, r"call"),
+                (
+                    TokenKind::Plain,
+                    r"    BDOS
+        ",
+                ),
+                (TokenKind::Keyword, r"ret"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Comment, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+sHello  ",
+                ),
+                (TokenKind::Keyword, r"db"),
+                (TokenKind::Plain, r"      "),
+                (
+                    TokenKind::String,
+                    concat!(r"'", output_for_hello_world!(), r"$'"),
+                ),
+            ],
         }],
     };

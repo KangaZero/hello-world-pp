@@ -40,19 +40,33 @@ PRINT ""#,
 SHOWSCREEN
 MOUSEWAIT"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in GLBasic
+            tokenized_syntax: &[
+                (
+                    TokenKind::Plain,
+                    concat!(
+                        r"// ",
+                        output_for_hello_world!(),
+                        r" in GLBasic
 
-PRINT ""#,
-                    output_for_hello_world!(),
-                    r#"",1,1
-SHOWSCREEN
-MOUSEWAIT"#
+"
+                    ),
                 ),
-            )],
+                (TokenKind::Keyword, r"PRINT"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Number, r"1"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Number, r"1"),
+                (
+                    TokenKind::Plain,
+                    r"
+SHOWSCREEN
+MOUSEWAIT",
+                ),
+            ],
         }],
     };

@@ -41,21 +41,74 @@ main:
     li $v0, 10  
     syscall    "#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#".data
-    hw:        .asciiz        ""#,
-                    output_for_hello_world!(),
-                    r#""
-.text
-main:
-    la $a0, hw  
-    li $v0, 4      
-    syscall
-    li $v0, 10  
-    syscall    "#
+            tokenized_syntax: &[
+                (TokenKind::Macro, r".data"),
+                (
+                    TokenKind::Plain,
+                    r"
+    hw",
                 ),
-            )],
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"        "),
+                (TokenKind::Macro, r".asciiz"),
+                (TokenKind::Plain, r"        "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Macro, r".text"),
+                (
+                    TokenKind::Plain,
+                    r"
+main",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Keyword, r"la"),
+                (TokenKind::Plain, r" $a0"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" hw  
+    ",
+                ),
+                (TokenKind::Keyword, r"li"),
+                (TokenKind::Plain, r" $v0"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"4"),
+                (
+                    TokenKind::Plain,
+                    r"      
+    ",
+                ),
+                (TokenKind::Keyword, r"syscall"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Keyword, r"li"),
+                (TokenKind::Plain, r" $v0"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"10"),
+                (
+                    TokenKind::Plain,
+                    r"  
+    ",
+                ),
+                (TokenKind::Keyword, r"syscall"),
+                (TokenKind::Plain, r"    "),
+            ],
         }],
     };

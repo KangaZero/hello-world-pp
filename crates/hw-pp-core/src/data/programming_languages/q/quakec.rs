@@ -29,9 +29,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Quakec,
             syntax: concat!(r#"bprint(""#, output_for_hello_world!(), r#"\n");"#),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r#"bprint(""#, output_for_hello_world!(), r#"\n");"#),
-            )],
+            tokenized_syntax: &[
+                (TokenKind::Function, r"bprint"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+            ],
         }],
     };

@@ -24,7 +24,7 @@ use crate::data::{
 
 language_names! {
     language: Java => "Java",
-    versions: [Java17 => "Java17", Java25 => "Java25", JavaMobile => "Java Mobile", JavaServlet => "Java Servlet", JavaSwing => "Java Swing"],
+    versions: [Java17 => "Java17", Java25 => "Java25", JavaMobile => "Java (Mobile)", JavaServlet => "Java (Servlet)", JavaSwing => "Java (Swing)"],
     extensions: [Java => "java"],
 }
 

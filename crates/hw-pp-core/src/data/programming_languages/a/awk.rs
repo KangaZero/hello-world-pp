@@ -34,14 +34,25 @@ BEGIN { print ""#,
                 output_for_hello_world!(),
                 r#"" }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"# awk -f awk.awk
-BEGIN { print ""#,
-                    output_for_hello_world!(),
-                    r#"" }"#
+            tokenized_syntax: &[
+                (TokenKind::Comment, r"# awk -f awk.awk"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"BEGIN"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"print"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

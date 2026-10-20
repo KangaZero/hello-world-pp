@@ -38,18 +38,41 @@ message(""#,
 
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"extern void object::New()
-{
-
-message(""#,
-                    output_for_hello_world!(),
-                    r#"");
-
-}"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"extern"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"void"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"object"),
+                (TokenKind::Punctuation, r"::"),
+                (TokenKind::Function, r"New"),
+                (TokenKind::Punctuation, r"()"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Function, r"message"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

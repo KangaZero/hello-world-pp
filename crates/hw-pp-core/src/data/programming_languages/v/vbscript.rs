@@ -37,16 +37,26 @@ msgbox ""#,
                 output_for_hello_world!(),
                 r#"""#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"' ",
-                    output_for_hello_world!(),
-                    r#" in VBScript (Windows Scripting Host)
-msgbox ""#,
-                    output_for_hello_world!(),
-                    r#"""#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r"' ",
+                        output_for_hello_world!(),
+                        r" in VBScript (Windows Scripting Host)"
+                    ),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"msgbox"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+            ],
         }],
     };

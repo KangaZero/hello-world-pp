@@ -36,16 +36,39 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                 r#"");
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"task main()
-{
-    TextOut(0, LCD_LINE1, ""#,
-                    output_for_hello_world!(),
-                    r#"");
-}"#
+            tokenized_syntax: &[
+                (TokenKind::Plain, r"task "),
+                (TokenKind::Function, r"main"),
+                (TokenKind::Punctuation, r"()"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Function, r"TextOut"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Number, r"0"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" LCD_LINE1"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

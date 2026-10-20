@@ -41,7 +41,7 @@ FrameWindow new
    open"
             ),
             tokenized_syntax: &[(
-                TokenKind::Plain,
+                TokenKind::Comment,
                 concat!(
                     r#"""#,
                     output_for_hello_world!(),

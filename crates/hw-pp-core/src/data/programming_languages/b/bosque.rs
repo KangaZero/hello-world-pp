@@ -37,17 +37,42 @@ entrypoint function main(): String {
                 r#"";
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"namespace NSMain;
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"namespace"),
+                (TokenKind::Plain, r" NSMain"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-entrypoint function main(): String {  
-    return ""#,
-                    output_for_hello_world!(),
-                    r#"";
-}"#
+entrypoint ",
                 ),
-            )],
+                (TokenKind::Keyword, r"function"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"main"),
+                (TokenKind::Punctuation, r"():"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"String"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"  
+    ",
+                ),
+                (TokenKind::Keyword, r"return"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

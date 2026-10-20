@@ -41,21 +41,51 @@ HELLOWORLD	.STRINGZ ""#,
 
 			.END"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"			.ORIG x3000
+            tokenized_syntax: &[
+                (TokenKind::Plain, r"			"),
+                (TokenKind::Macro, r".ORIG"),
+                (
+                    TokenKind::Plain,
+                    r" x3000
 
-			LEA R0, HELLOWORLD
-			PUTS
-			HALT
-	
-HELLOWORLD	.STRINGZ ""#,
-                    output_for_hello_world!(),
-                    r#"\n"
-
-			.END"#
+			",
                 ),
-            )],
+                (TokenKind::Keyword, r"LEA"),
+                (TokenKind::Plain, r" R0"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" HELLOWORLD
+			",
+                ),
+                (TokenKind::Keyword, r"PUTS"),
+                (
+                    TokenKind::Plain,
+                    r"
+			",
+                ),
+                (TokenKind::Keyword, r"HALT"),
+                (
+                    TokenKind::Plain,
+                    r"
+	
+",
+                ),
+                (TokenKind::Keyword, r"HELLOWORLD"),
+                (TokenKind::Plain, r"	"),
+                (TokenKind::Macro, r".STRINGZ"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+
+			",
+                ),
+                (TokenKind::Macro, r".END"),
+            ],
         }],
     };

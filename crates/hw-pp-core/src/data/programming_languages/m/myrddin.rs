@@ -38,18 +38,41 @@ const main = {
 }
 "#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"use std
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"use"),
+                (
+                    TokenKind::Plain,
+                    r" std
 
-const main = {
-    std.put(""#,
-                    output_for_hello_world!(),
-                    r#"\n")
-}
-"#
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"const"),
+                (TokenKind::Plain, r" main = "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+    std",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"put"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+            ],
         }],
     };

@@ -35,15 +35,27 @@ let main = FStar.IO.print_string ""#,
                 output_for_hello_world!(),
                 r#"\n""#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"module Hello
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"module"),
+                (
+                    TokenKind::Plain,
+                    r" Hello
 
-let main = FStar.IO.print_string ""#,
-                    output_for_hello_world!(),
-                    r#"\n""#
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"let"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"main"),
+                (TokenKind::Plain, r" = FStar"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Keyword, r"IO"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"print_string"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                ),
+            ],
         }],
     };

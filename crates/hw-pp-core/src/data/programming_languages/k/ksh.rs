@@ -34,14 +34,19 @@ echo ""#,
                 output_for_hello_world!(),
                 r#"""#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"#!/bin/ksh
-echo ""#,
-                    output_for_hello_world!(),
-                    r#"""#
+            tokenized_syntax: &[
+                (TokenKind::Comment, r"#!/bin/ksh"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"echo"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+            ],
         }],
     };

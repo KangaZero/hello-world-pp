@@ -36,16 +36,38 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                 r#"");
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"// Place in the OnClientEnter event of the module's properties
-{
-    SendMessageToPC(GetEnteringObject(), ""#,
-                    output_for_hello_world!(),
-                    r#"");
-}"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    r"// Place in the OnClientEnter event of the module's properties",
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Function, r"SendMessageToPC"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Function, r"GetEnteringObject"),
+                (TokenKind::Punctuation, r"(),"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

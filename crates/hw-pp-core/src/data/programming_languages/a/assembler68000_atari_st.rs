@@ -45,24 +45,105 @@ helloworld:
                 output_for_hello_world!(),
                 r#"",$0d,$0a,0"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"; ",
-                    output_for_hello_world!(),
-                    r#" in 68000 Assembler (Atari ST)
-
-     move.l #helloworld,-(A7)
-     move   #9,-(A7)
-     trap   #1
-     addq.l #6,A7
-     move   #0,-(A7)
-     trap   #1
-helloworld:
-     dc.b ""#,
-                    output_for_hello_world!(),
-                    r#"",$0d,$0a,0"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r"; ",
+                        output_for_hello_world!(),
+                        r" in 68000 Assembler (Atari ST)"
+                    ),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+     ",
+                ),
+                (TokenKind::Keyword, r"move"),
+                (TokenKind::Macro, r".l"),
+                (TokenKind::Plain, r" #helloworld"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"-"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"A7"),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+     ",
+                ),
+                (TokenKind::Keyword, r"move"),
+                (TokenKind::Plain, r"   #"),
+                (TokenKind::Number, r"9"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"-"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"A7"),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+     ",
+                ),
+                (TokenKind::Keyword, r"trap"),
+                (TokenKind::Plain, r"   #"),
+                (TokenKind::Number, r"1"),
+                (
+                    TokenKind::Plain,
+                    r"
+     ",
+                ),
+                (TokenKind::Keyword, r"addq"),
+                (TokenKind::Macro, r".l"),
+                (TokenKind::Plain, r" #"),
+                (TokenKind::Number, r"6"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"A7
+     ",
+                ),
+                (TokenKind::Keyword, r"move"),
+                (TokenKind::Plain, r"   #"),
+                (TokenKind::Number, r"0"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"-"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"A7"),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+     ",
+                ),
+                (TokenKind::Keyword, r"trap"),
+                (TokenKind::Plain, r"   #"),
+                (TokenKind::Number, r"1"),
+                (
+                    TokenKind::Plain,
+                    r"
+helloworld",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (
+                    TokenKind::Plain,
+                    r"
+     ",
+                ),
+                (TokenKind::Keyword, r"dc"),
+                (TokenKind::Macro, r".b"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"$0d"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"$0a"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Number, r"0"),
+            ],
         }],
     };

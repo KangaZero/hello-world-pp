@@ -34,14 +34,22 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                 r#"">
 <cfoutput> #message#</cfoutput>"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"<cfset message = ""#,
-                    output_for_hello_world!(),
-                    r#"">
-<cfoutput> #message#</cfoutput>"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"<cfset"),
+                (TokenKind::Plain, r" message = "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
                 ),
-            )],
+                (TokenKind::Keyword, r">"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"<cfoutput>"),
+                (TokenKind::Plain, r" #message#"),
+                (TokenKind::Keyword, r"</cfoutput>"),
+            ],
         }],
     };

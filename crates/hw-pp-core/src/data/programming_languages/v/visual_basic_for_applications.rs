@@ -35,15 +35,33 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                 r#"")
 End Sub"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"Sub HelloWorld()
-    Call MsgBox(""#,
-                    output_for_hello_world!(),
-                    r#"")
-End Sub"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"Sub"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"HelloWorld"),
+                (TokenKind::Punctuation, r"()"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
                 ),
-            )],
+                (TokenKind::Keyword, r"Call"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"MsgBox"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"End"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"Sub"),
+            ],
         }],
     };

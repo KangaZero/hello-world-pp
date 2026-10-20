@@ -51,30 +51,71 @@ helloWorld resps = [AppendChan stdout ""#,
                 output_for_hello_world!(),
                 r#""]"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"-- ",
-                    output_for_hello_world!(),
-                    r#" in Gofer
--- Simple version
-
-helloWorld:: String
-helloWorld = ""#,
-                    output_for_hello_world!(),
-                    r#"\n"
-
-
--- "#,
-                    output_for_hello_world!(),
-                    r#" in Gofer
--- Dialog version
-
-helloWorld :: Dialogue
-helloWorld resps = [AppendChan stdout ""#,
-                    output_for_hello_world!(),
-                    r#""]"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(r"-- ", output_for_hello_world!(), r" in Gofer"),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Comment, r"-- Simple version"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+helloWorld",
+                ),
+                (TokenKind::Punctuation, r"::"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"String"),
+                (
+                    TokenKind::Plain,
+                    r"
+helloWorld = ",
+                ),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+
+
+",
+                ),
+                (
+                    TokenKind::Comment,
+                    concat!(r"-- ", output_for_hello_world!(), r" in Gofer"),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Comment, r"-- Dialog version"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+helloWorld ",
+                ),
+                (TokenKind::Punctuation, r"::"),
+                (
+                    TokenKind::Plain,
+                    r" Dialogue
+helloWorld resps = ",
+                ),
+                (TokenKind::Punctuation, r"["),
+                (TokenKind::Plain, r"AppendChan stdout "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r"]"),
+            ],
         }],
     };

@@ -29,9 +29,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Qi,
             syntax: concat!(r#"系统。打印行（""#, output_for_hello_world!(), r#""）"#),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r#"系统。打印行（""#, output_for_hello_world!(), r#""）"#),
-            )],
+            tokenized_syntax: &[
+                (TokenKind::Plain, r"系统。打印行（"),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Plain, r"）"),
+            ],
         }],
     };

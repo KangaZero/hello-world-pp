@@ -39,19 +39,48 @@ main :: proc() {
                 r#"");
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"package main
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"package"),
+                (
+                    TokenKind::Plain,
+                    r" main
 
-import "core:fmt"
-
-main :: proc() {
-  fmt.println(""#,
-                    output_for_hello_world!(),
-                    r#"");
-}"#
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"import"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::String, r#""core:fmt""#),
+                (
+                    TokenKind::Plain,
+                    r"
+
+main ",
+                ),
+                (TokenKind::Punctuation, r"::"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"proc"),
+                (TokenKind::Punctuation, r"()"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+  fmt",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"println"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

@@ -45,24 +45,72 @@ module HelloWorld
         }
     }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in Ecstasy
-
-module HelloWorld
-    {
-    void run()
-        {
-        @Inject Console console;
-        console.println(""#,
-                    output_for_hello_world!(),
-                    r#"");
-        }
-    }"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(r"// ", output_for_hello_world!(), r" in Ecstasy"),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"module"),
+                (
+                    TokenKind::Plain,
+                    r" HelloWorld
+    ",
+                ),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Keyword, r"void"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"run"),
+                (TokenKind::Punctuation, r"()"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Macro, r"@Inject"),
+                (TokenKind::Plain, r" Console console"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+        console",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"println"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Punctuation, r"}"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

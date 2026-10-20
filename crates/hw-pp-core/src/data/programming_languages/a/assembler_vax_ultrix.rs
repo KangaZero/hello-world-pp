@@ -45,25 +45,96 @@ _main:
 	calls $3,_write
 	ret"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#".data
-hw:
-	.ascii ""#,
-                    output_for_hello_world!(),
-                    r#"\12"
-.text
-	.align 1
-.globl _main
-_main:
-	.word 0
-	pushl $13
-	pushab hw
-	pushl $1
-	calls $3,_write
-	ret"#
+            tokenized_syntax: &[
+                (TokenKind::Macro, r".data"),
+                (
+                    TokenKind::Plain,
+                    r"
+hw",
                 ),
-            )],
+                (TokenKind::Punctuation, r":"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Macro, r".ascii"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"\12""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Macro, r".text"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Macro, r".align"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"1"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Macro, r".globl"),
+                (
+                    TokenKind::Plain,
+                    r" _main
+_main",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Macro, r".word"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"0"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Keyword, r"pushl"),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"13"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Keyword, r"pushab"),
+                (
+                    TokenKind::Plain,
+                    r" hw
+	",
+                ),
+                (TokenKind::Keyword, r"pushl"),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"1"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Keyword, r"calls"),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"3"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"_write
+	",
+                ),
+                (TokenKind::Keyword, r"ret"),
+            ],
         }],
     };

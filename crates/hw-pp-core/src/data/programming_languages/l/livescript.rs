@@ -29,9 +29,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Livescript,
             syntax: concat!(r#"console.log ""#, output_for_hello_world!(), r#"""#),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r#"console.log ""#, output_for_hello_world!(), r#"""#),
-            )],
+            tokenized_syntax: &[
+                (TokenKind::Plain, r"console"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"log"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+            ],
         }],
     };

@@ -29,9 +29,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Blitzmax,
             syntax: concat!(r#"Print ""#, output_for_hello_world!(), r#"""#),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r#"Print ""#, output_for_hello_world!(), r#"""#),
-            )],
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"Print"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+            ],
         }],
     };

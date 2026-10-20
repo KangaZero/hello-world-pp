@@ -52,32 +52,124 @@ begin
    HelloWorld.Free;
 end."
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"program ObjectPascalExample;
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"program"),
+                (TokenKind::Plain, r" ObjectPascalExample"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-type
-   THelloWorld = class
-      procedure Put;
-   end;
-
-procedure THelloWorld.Put;
-begin
-   Writeln('",
-                    output_for_hello_world!(),
-                    r"');
-end;
-
-var
-   HelloWorld: THelloWorld;
-
-begin
-   HelloWorld := THelloWorld.Create;
-   HelloWorld.Put;
-   HelloWorld.Free;
-end."
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"type"),
+                (
+                    TokenKind::Plain,
+                    r"
+   THelloWorld = class
+      ",
+                ),
+                (TokenKind::Keyword, r"procedure"),
+                (TokenKind::Plain, r" Put"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+   ",
+                ),
+                (TokenKind::Keyword, r"end"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"procedure"),
+                (TokenKind::Plain, r" THelloWorld"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"Put"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"begin"),
+                (
+                    TokenKind::Plain,
+                    r"
+   ",
+                ),
+                (TokenKind::Function, r"Writeln"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r"'", output_for_hello_world!(), r"'"),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"end"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"var"),
+                (
+                    TokenKind::Plain,
+                    r"
+   HelloWorld",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r" THelloWorld"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"begin"),
+                (
+                    TokenKind::Plain,
+                    r"
+   HelloWorld ",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"= THelloWorld"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"Create"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+   HelloWorld",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"Put"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+   HelloWorld",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"Free"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"end"),
+                (TokenKind::Punctuation, r"."),
+            ],
         }],
     };

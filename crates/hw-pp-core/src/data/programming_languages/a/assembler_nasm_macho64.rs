@@ -49,29 +49,129 @@ msg:    db      ""#,
                 r#"", 10
 .len:   equ     $ - msg"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"global start
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"global"),
+                (
+                    TokenKind::Plain,
+                    r" start
 
-section .text
-start:
-    mov         rax, 0x2000004 
-    mov         rdi, 1         
-    mov         rsi, msg
-    mov         rdx, msg.len
-    syscall
-
-    mov         rax, 0x2000001 
-    mov         rdi, 0
-    syscall
-
-section .data
-msg:    db      ""#,
-                    output_for_hello_world!(),
-                    r#"", 10
-.len:   equ     $ - msg"#
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"section"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Macro, r".text"),
+                (
+                    TokenKind::Plain,
+                    r"
+start",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Keyword, r"mov"),
+                (TokenKind::Plain, r"         rax"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"0x2000004"),
+                (
+                    TokenKind::Plain,
+                    r" 
+    ",
+                ),
+                (TokenKind::Keyword, r"mov"),
+                (TokenKind::Plain, r"         rdi"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"1"),
+                (
+                    TokenKind::Plain,
+                    r"         
+    ",
+                ),
+                (TokenKind::Keyword, r"mov"),
+                (TokenKind::Plain, r"         rsi"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" msg
+    ",
+                ),
+                (TokenKind::Keyword, r"mov"),
+                (TokenKind::Plain, r"         rdx"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" msg"),
+                (TokenKind::Macro, r".len"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Keyword, r"syscall"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+    ",
+                ),
+                (TokenKind::Keyword, r"mov"),
+                (TokenKind::Plain, r"         rax"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"0x2000001"),
+                (
+                    TokenKind::Plain,
+                    r" 
+    ",
+                ),
+                (TokenKind::Keyword, r"mov"),
+                (TokenKind::Plain, r"         rdi"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"0"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Keyword, r"syscall"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"section"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Macro, r".data"),
+                (
+                    TokenKind::Plain,
+                    r"
+msg",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"    "),
+                (TokenKind::Keyword, r"db"),
+                (TokenKind::Plain, r"      "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"10"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Macro, r".len"),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"   "),
+                (TokenKind::Keyword, r"equ"),
+                (TokenKind::Plain, r"     $ - msg"),
+            ],
         }],
     };

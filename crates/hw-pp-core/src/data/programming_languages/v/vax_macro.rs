@@ -60,39 +60,145 @@ message
         ret                             ; GTFOH
         .end    helloworld              ;"
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    output_for_hello_world!(),
-                    r" in VAX Macro.
+            tokenized_syntax: &[
+                (
+                    TokenKind::Keyword,
+                    concat!(output_for_hello_world!(), r" in VAX Macro"),
+                ),
+                (TokenKind::Punctuation, r"."),
+                (
+                    TokenKind::Plain,
+                    r"
 
-        .title  helloworld
-        .ident  /",
-                    output_for_hello_world!(),
-                    r"/
-;
-        .library        /sys$library:lib/
+        ",
+                ),
+                (TokenKind::Macro, r".title"),
+                (
+                    TokenKind::Plain,
+                    r"  helloworld
+        ",
+                ),
+                (TokenKind::Macro, r".ident"),
+                (
+                    TokenKind::Plain,
+                    concat!(
+                        r"  /",
+                        output_for_hello_world!(),
+                        r"/
+"
+                    ),
+                ),
+                (TokenKind::Comment, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Macro, r".library"),
+                (TokenKind::Plain, r"        /sys$library"),
+                (TokenKind::Punctuation, r":"),
+                (
+                    TokenKind::Plain,
+                    r"lib/
         $libdef
         $lib$routinesdef
 
 
-        .psect  $data,wrt,noshr,noexe,long
-
-hello:  .ascid  /",
-                    output_for_hello_world!(),
-                    r"/
-
-        .psect  $code,nowrt,shr,exe,long
-
-        .entry  helloworld,^m<r9,r10,r11>
-
-        pushaq  hello                   ; output the
-message
-        calls   #1,g^lib$put_output     ;
-
-        ret                             ; GTFOH
-        .end    helloworld              ;"
+        ",
                 ),
-            )],
+                (TokenKind::Macro, r".psect"),
+                (TokenKind::Plain, r"  $data"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"wrt"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"noshr"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"noexe"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"long
+
+hello",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"  "),
+                (TokenKind::Macro, r".ascid"),
+                (
+                    TokenKind::Plain,
+                    concat!(
+                        r"  /",
+                        output_for_hello_world!(),
+                        r"/
+
+        "
+                    ),
+                ),
+                (TokenKind::Macro, r".psect"),
+                (TokenKind::Plain, r"  $code"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"nowrt"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"shr"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"exe"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"long
+
+        ",
+                ),
+                (TokenKind::Macro, r".entry"),
+                (TokenKind::Plain, r"  helloworld"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"^m<r9"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"r10"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"r11>
+
+        ",
+                ),
+                (TokenKind::Keyword, r"pushaq"),
+                (TokenKind::Plain, r"  hello                   "),
+                (TokenKind::Comment, r"; output the"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"message"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"calls"),
+                (TokenKind::Plain, r"   #"),
+                (TokenKind::Number, r"1"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"g^lib$put_output     "),
+                (TokenKind::Comment, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+        ",
+                ),
+                (TokenKind::Keyword, r"ret"),
+                (TokenKind::Plain, r"                             "),
+                (TokenKind::Comment, r"; GTFOH"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Macro, r".end"),
+                (TokenKind::Plain, r"    helloworld              "),
+                (TokenKind::Comment, r";"),
+            ],
         }],
     };

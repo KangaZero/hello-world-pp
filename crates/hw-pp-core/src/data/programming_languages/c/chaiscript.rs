@@ -49,28 +49,126 @@ int main() {
   )");
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in ChaiScript
-
-#include <chaiscript/chaiscript.hpp>
-
-std::string helloWorld(const std::string &t_name) {
-  return "Hello " + t_name + "!";
-}
-
-int main() {
-  chaiscript::ChaiScript chai;
-  chai.add(chaiscript::fun(&helloWorld), "helloWorld");
-
-  chai.eval(R"(
-    puts(helloWorld("World"));
-  )");
-}"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(r"// ", output_for_hello_world!(), r" in ChaiScript"),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Macro, r"#include <chaiscript/chaiscript.hpp>"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+std",
+                ),
+                (TokenKind::Punctuation, r"::"),
+                (TokenKind::Type, r"string"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"helloWorld"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Keyword, r"const"),
+                (TokenKind::Plain, r" std"),
+                (TokenKind::Punctuation, r"::"),
+                (TokenKind::Type, r"string"),
+                (TokenKind::Plain, r" &t_name"),
+                (TokenKind::Punctuation, r")"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+  ",
+                ),
+                (TokenKind::Keyword, r"return"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::String, r#""Hello ""#),
+                (TokenKind::Plain, r" + t_name + "),
+                (TokenKind::String, r#""!""#),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Type, r"int"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"main"),
+                (TokenKind::Punctuation, r"()"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+  chaiscript",
+                ),
+                (TokenKind::Punctuation, r"::"),
+                (TokenKind::Plain, r"ChaiScript chai"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+  chai",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"add"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"chaiscript"),
+                (TokenKind::Punctuation, r"::"),
+                (TokenKind::Keyword, r"fun"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"&helloWorld"),
+                (TokenKind::Punctuation, r"),"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::String, r#""helloWorld""#),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+  chai",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"eval"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"R"),
+                (TokenKind::String, r#""("#),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Function, r"puts"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Function, r"helloWorld"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::String, r#""World""#),
+                (TokenKind::Punctuation, r"));"),
+                (
+                    TokenKind::Plain,
+                    r"
+  ",
+                ),
+                (TokenKind::Punctuation, r")"),
+                (TokenKind::String, r#"");"#),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

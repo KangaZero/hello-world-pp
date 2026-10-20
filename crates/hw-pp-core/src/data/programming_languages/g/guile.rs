@@ -38,17 +38,39 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                 output_for_hello_world!(),
                 r#".") (newline)))"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"; ",
-                    output_for_hello_world!(),
-                    r#" in Guile
-
-(define do-hello (lambda () (display ""#,
-                    output_for_hello_world!(),
-                    r#".") (newline)))"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(r"; ", output_for_hello_world!(), r" in Guile"),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Keyword, r"define"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"do-hello"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Keyword, r"lambda"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"()"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Function, r"display"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#".""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Function, r"newline"),
+                (TokenKind::Punctuation, r")))"),
+            ],
         }],
     };

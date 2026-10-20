@@ -42,21 +42,62 @@ $1:     .ASCIZ  /"#,
                 r"/
         .END    START"
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#";       ""#,
-                    output_for_hello_world!(),
-                    r#"" in MACRO-11 for RT-11
-
-        .MCALL  .EXIT,.PRINT
-START:  .PRINT  #$1
-        .EXIT
-$1:     .ASCIZ  /"#,
-                    output_for_hello_world!(),
-                    r"/
-        .END    START"
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r#";       ""#,
+                        output_for_hello_world!(),
+                        r#"" in MACRO-11 for RT-11"#
+                    ),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+        ",
+                ),
+                (TokenKind::Macro, r".MCALL"),
+                (TokenKind::Plain, r"  "),
+                (TokenKind::Macro, r".EXIT"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Macro, r".PRINT"),
+                (
+                    TokenKind::Plain,
+                    r"
+START",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"  "),
+                (TokenKind::Macro, r".PRINT"),
+                (TokenKind::Plain, r"  #$"),
+                (TokenKind::Number, r"1"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Macro, r".EXIT"),
+                (
+                    TokenKind::Plain,
+                    r"
+$",
+                ),
+                (TokenKind::Number, r"1"),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"     "),
+                (TokenKind::Macro, r".ASCIZ"),
+                (
+                    TokenKind::Plain,
+                    concat!(
+                        r"  /",
+                        output_for_hello_world!(),
+                        r"/
+        "
+                    ),
+                ),
+                (TokenKind::Macro, r".END"),
+                (TokenKind::Plain, r"    START"),
+            ],
         }],
     };

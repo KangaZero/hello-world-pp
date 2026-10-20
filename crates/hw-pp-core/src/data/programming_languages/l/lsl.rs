@@ -39,19 +39,54 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     }
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"default
-{
-    state_entry()
-    {
-        llSay(0, ""#,
-                    output_for_hello_world!(),
-                    r#"");
-    }
-}"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"default"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Function, r"state_entry"),
+                (TokenKind::Punctuation, r"()"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Function, r"llSay"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Number, r"0"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Punctuation, r"}"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

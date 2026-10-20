@@ -53,32 +53,140 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 BEGIN Texts.OpenWriter(W)
 END HelloWorld."#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"MODULE HelloWorld;
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"MODULE"),
+                (TokenKind::Plain, r" HelloWorld"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-(* ",
-                    output_for_hello_world!(),
-                    r#" in Oberon for the Oberon System *)
-
-  IMPORT Oberon, Texts;
-
-  VAR
-      W: Texts.Writer;
-
-  PROCEDURE Do*;
-    BEGIN
-        Texts.WriteString(W,""#,
-                    output_for_hello_world!(),
-                    r#"");
-            Texts.WriteLn(W);
-                Texts.Append(Oberon.Log,W.buf)
-                  END Do;
-
-BEGIN Texts.OpenWriter(W)
-END HelloWorld."#
+",
                 ),
-            )],
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r"(* ",
+                        output_for_hello_world!(),
+                        r" in Oberon for the Oberon System *)"
+                    ),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+
+  ",
+                ),
+                (TokenKind::Keyword, r"IMPORT"),
+                (TokenKind::Plain, r" Oberon"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" Texts"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+  ",
+                ),
+                (TokenKind::Keyword, r"VAR"),
+                (
+                    TokenKind::Plain,
+                    r"
+      W",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r" Texts"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"Writer"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+  ",
+                ),
+                (TokenKind::Keyword, r"PROCEDURE"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"Do"),
+                (TokenKind::Plain, r"*"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Keyword, r"BEGIN"),
+                (
+                    TokenKind::Plain,
+                    r"
+        Texts",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"WriteString"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"W"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+            Texts",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"WriteLn"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"W"),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+                Texts",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"Append"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"Oberon"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"Log"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"W"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"buf"),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+                  ",
+                ),
+                (TokenKind::Keyword, r"END"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"Do"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"BEGIN"),
+                (TokenKind::Plain, r" Texts"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"OpenWriter"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"W"),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"END"),
+                (TokenKind::Plain, r" HelloWorld"),
+                (TokenKind::Punctuation, r"."),
+            ],
         }],
     };

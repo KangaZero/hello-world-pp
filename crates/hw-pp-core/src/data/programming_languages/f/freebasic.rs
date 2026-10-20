@@ -38,17 +38,23 @@ print ""#,
                 output_for_hello_world!(),
                 r#"""#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"'",
-                    output_for_hello_world!(),
-                    r#" in FreeBASIC
-
-print ""#,
-                    output_for_hello_world!(),
-                    r#"""#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(r"'", output_for_hello_world!(), r" in FreeBASIC"),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"print"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+            ],
         }],
     };

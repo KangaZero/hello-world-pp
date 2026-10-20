@@ -38,18 +38,49 @@ fn void main()
                 r#"");
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"import std::io;
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"import"),
+                (TokenKind::Plain, r" std"),
+                (TokenKind::Punctuation, r"::"),
+                (TokenKind::Plain, r"io"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-fn void main()
-{
-    io::printn(""#,
-                    output_for_hello_world!(),
-                    r#"");
-}"#
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"fn"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"void"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"main"),
+                (TokenKind::Punctuation, r"()"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+    io",
+                ),
+                (TokenKind::Punctuation, r"::"),
+                (TokenKind::Function, r"printn"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

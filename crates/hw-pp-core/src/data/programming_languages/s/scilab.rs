@@ -29,9 +29,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Scilab,
             syntax: concat!(r#"disp(""#, output_for_hello_world!(), r#"")"#),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r#"disp(""#, output_for_hello_world!(), r#"")"#),
-            )],
+            tokenized_syntax: &[
+                (TokenKind::Function, r"disp"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+            ],
         }],
     };

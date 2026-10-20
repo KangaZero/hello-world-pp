@@ -29,9 +29,17 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Euphoria,
             syntax: concat!(r#"puts(1, ""#, output_for_hello_world!(), r#"")"#),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r#"puts(1, ""#, output_for_hello_world!(), r#"")"#),
-            )],
+            tokenized_syntax: &[
+                (TokenKind::Function, r"puts"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Number, r"1"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+            ],
         }],
     };

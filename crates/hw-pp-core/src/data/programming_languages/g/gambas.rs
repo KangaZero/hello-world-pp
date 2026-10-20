@@ -43,22 +43,53 @@ PUBLIC SUB Main()
 
 END"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"'************************************
-' ",
-                    output_for_hello_world!(),
-                    r#" in Gambas
-'************************************
-PUBLIC SUB Main()
-
-   PRINT ""#,
-                    output_for_hello_world!(),
-                    r#""
-
-END"#
+            tokenized_syntax: &[
+                (TokenKind::Comment, r"'************************************"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (
+                    TokenKind::Comment,
+                    concat!(r"' ", output_for_hello_world!(), r" in Gambas"),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Comment, r"'************************************"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"PUBLIC"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"SUB"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"Main"),
+                (TokenKind::Punctuation, r"()"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+   ",
+                ),
+                (TokenKind::Keyword, r"PRINT"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"END"),
+            ],
         }],
     };

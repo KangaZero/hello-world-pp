@@ -50,30 +50,108 @@ text:
                 output_for_hello_world!(),
                 r#"", a_cr, 0"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"a_cr	= $0d		
-bsout	= $ffd2		
- 
-	.code
- 
-	ldx #0		
-printnext:
-	lda text,x	
-	beq done	
-	jsr bsout	
-	inx		
-	bne printnext	
-done:
-	rts		
-	.rodata
- 
-text:
-	.byte	""#,
-                    output_for_hello_world!(),
-                    r#"", a_cr, 0"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"a_cr"),
+                (
+                    TokenKind::Plain,
+                    r"	= $0d		
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"bsout"),
+                (
+                    TokenKind::Plain,
+                    r"	= $ffd2		
+ 
+	",
+                ),
+                (TokenKind::Macro, r".code"),
+                (
+                    TokenKind::Plain,
+                    r"
+ 
+	",
+                ),
+                (TokenKind::Keyword, r"ldx"),
+                (TokenKind::Plain, r" #"),
+                (TokenKind::Number, r"0"),
+                (
+                    TokenKind::Plain,
+                    r"		
+printnext",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (
+                    TokenKind::Plain,
+                    r"
+	lda ",
+                ),
+                (TokenKind::Keyword, r"text"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"x	
+	",
+                ),
+                (TokenKind::Keyword, r"beq"),
+                (
+                    TokenKind::Plain,
+                    r" done	
+	",
+                ),
+                (TokenKind::Keyword, r"jsr"),
+                (
+                    TokenKind::Plain,
+                    r" bsout	
+	",
+                ),
+                (TokenKind::Keyword, r"inx"),
+                (
+                    TokenKind::Plain,
+                    r"		
+	",
+                ),
+                (TokenKind::Keyword, r"bne"),
+                (
+                    TokenKind::Plain,
+                    r" printnext	
+done",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Keyword, r"rts"),
+                (
+                    TokenKind::Plain,
+                    r"		
+	",
+                ),
+                (TokenKind::Macro, r".rodata"),
+                (
+                    TokenKind::Plain,
+                    r"
+ 
+text",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Macro, r".byte"),
+                (TokenKind::Plain, r"	"),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" a_cr"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"0"),
+            ],
         }],
     };

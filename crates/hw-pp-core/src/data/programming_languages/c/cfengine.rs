@@ -43,23 +43,65 @@ bundle agent run
                 r#"";
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"body common control
-{
-  bundlesequence => { "run" };
-}
+            tokenized_syntax: &[
+                (
+                    TokenKind::Plain,
+                    r"body common control
+",
+                ),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+  bundlesequence => ",
+                ),
+                (TokenKind::Punctuation, r"{"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::String, r#""run""#),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"};"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+                (
+                    TokenKind::Plain,
+                    r"
 
 bundle agent run
-{
-  reports:
-    cfengine::
-      ""#,
-                    output_for_hello_world!(),
-                    r#"";
-}"#
+",
                 ),
-            )],
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+  reports",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (
+                    TokenKind::Plain,
+                    r"
+    cfengine",
+                ),
+                (TokenKind::Punctuation, r"::"),
+                (
+                    TokenKind::Plain,
+                    r"
+      ",
+                ),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

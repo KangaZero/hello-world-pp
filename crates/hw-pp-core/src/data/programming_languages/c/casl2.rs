@@ -38,18 +38,47 @@ MSG     DC      '",
 LEN     DC      18
         END"
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"MAIN    START
-        OUT     MSG,LEN
-        RET
-MSG     DC      '",
-                    output_for_hello_world!(),
-                    r"'
-LEN     DC      18
-        END"
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"MAIN"),
+                (
+                    TokenKind::Plain,
+                    r"    START
+        ",
                 ),
-            )],
+                (TokenKind::Keyword, r"OUT"),
+                (TokenKind::Plain, r"     MSG"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"LEN
+        ",
+                ),
+                (TokenKind::Keyword, r"RET"),
+                (
+                    TokenKind::Plain,
+                    r"
+MSG     ",
+                ),
+                (TokenKind::Keyword, r"DC"),
+                (TokenKind::Plain, r"      "),
+                (
+                    TokenKind::String,
+                    concat!(r"'", output_for_hello_world!(), r"'"),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+LEN     ",
+                ),
+                (TokenKind::Keyword, r"DC"),
+                (TokenKind::Plain, r"      "),
+                (TokenKind::Number, r"18"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"END"),
+            ],
         }],
     };

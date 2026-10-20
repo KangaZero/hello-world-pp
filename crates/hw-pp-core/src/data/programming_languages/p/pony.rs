@@ -35,15 +35,35 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                 output_for_hello_world!(),
                 r#"")"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"actor Main
-  new create(env: Env) =>
-    env.out.print(""#,
-                    output_for_hello_world!(),
-                    r#"")"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Plain,
+                    r"actor Main
+  ",
                 ),
-            )],
+                (TokenKind::Keyword, r"new"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"create"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"env"),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r" Env"),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r" =>
+    env",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Keyword, r"out"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"print"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+            ],
         }],
     };

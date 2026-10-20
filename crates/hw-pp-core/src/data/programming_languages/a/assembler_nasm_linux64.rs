@@ -48,28 +48,117 @@ _start:
 	xor	edi, edi              
 	syscall              "#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"section .rodata
-    msg db ""#,
-                    output_for_hello_world!(),
-                    r#"", 0xA     
-    len equ $- msg           
-section	.text
-    global _start            
-
-_start:
-	mov	eax, 1        
-	mov	edi, eax             
-	mov	esi, msg           
-    mov edx, len
-	syscall                  
-
-    mov eax, 60                 
-	xor	edi, edi              
-	syscall              "#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"section"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Macro, r".rodata"),
+                (
+                    TokenKind::Plain,
+                    r"
+    msg ",
                 ),
-            )],
+                (TokenKind::Keyword, r"db"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"0xA"),
+                (
+                    TokenKind::Plain,
+                    r"     
+    len ",
+                ),
+                (TokenKind::Keyword, r"equ"),
+                (
+                    TokenKind::Plain,
+                    r" $- msg           
+",
+                ),
+                (TokenKind::Keyword, r"section"),
+                (TokenKind::Plain, r"	"),
+                (TokenKind::Macro, r".text"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Keyword, r"global"),
+                (
+                    TokenKind::Plain,
+                    r" _start            
+
+_start",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Keyword, r"mov"),
+                (TokenKind::Plain, r"	eax"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"1"),
+                (
+                    TokenKind::Plain,
+                    r"        
+	",
+                ),
+                (TokenKind::Keyword, r"mov"),
+                (TokenKind::Plain, r"	edi"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" eax             
+	",
+                ),
+                (TokenKind::Keyword, r"mov"),
+                (TokenKind::Plain, r"	esi"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" msg           
+    ",
+                ),
+                (TokenKind::Keyword, r"mov"),
+                (TokenKind::Plain, r" edx"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" len
+	",
+                ),
+                (TokenKind::Keyword, r"syscall"),
+                (
+                    TokenKind::Plain,
+                    r"                  
+
+    ",
+                ),
+                (TokenKind::Keyword, r"mov"),
+                (TokenKind::Plain, r" eax"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"60"),
+                (
+                    TokenKind::Plain,
+                    r"                 
+	",
+                ),
+                (TokenKind::Keyword, r"xor"),
+                (TokenKind::Plain, r"	edi"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" edi              
+	",
+                ),
+                (TokenKind::Keyword, r"syscall"),
+                (TokenKind::Plain, r"              "),
+            ],
         }],
     };

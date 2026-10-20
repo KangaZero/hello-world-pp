@@ -38,17 +38,29 @@ func hello<main> : @""#,
                 output_for_hello_world!(),
                 r#"""#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in Gentee (simple version)
-
-func hello<main> : @""#,
-                    output_for_hello_world!(),
-                    r#"""#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r"// ",
+                        output_for_hello_world!(),
+                        r" in Gentee (simple version)"
+                    ),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"func"),
+                (TokenKind::Plain, r" hello<main> "),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r" @"),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+            ],
         }],
     };

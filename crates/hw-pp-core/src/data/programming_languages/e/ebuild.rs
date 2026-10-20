@@ -53,33 +53,110 @@ src_compile() {
                 r#""
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"# Copyright 1999-2008 Gentoo Foundation
-# Distributed under the terms of the GNU General Public License v2
-# $Header: $
-
-DESCRIPTION=""#,
-                    output_for_hello_world!(),
-                    r#""
-HOMEPAGE="http://hello-world.org/"
-SRC_URI="http://hello-world.org/"
-
-LICENSE="GPL"
-SLOT="0"
-KEYWORDS="~x86"
-IUSE=""
-
-DEPEND=""
-RDEPEND=""
-
-src_compile() {
-	einfo ""#,
-                    output_for_hello_world!(),
-                    r#""
-}"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    r"# Copyright 1999-2008 Gentoo Foundation",
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (
+                    TokenKind::Comment,
+                    r"# Distributed under the terms of the GNU General Public License v2",
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Comment, r"# $Header: $"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+DESCRIPTION=",
+                ),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+HOMEPAGE=",
+                ),
+                (TokenKind::String, r#""http://hello-world.org/""#),
+                (
+                    TokenKind::Plain,
+                    r"
+SRC_URI=",
+                ),
+                (TokenKind::String, r#""http://hello-world.org/""#),
+                (
+                    TokenKind::Plain,
+                    r"
+
+LICENSE=",
+                ),
+                (TokenKind::String, r#""GPL""#),
+                (
+                    TokenKind::Plain,
+                    r"
+SLOT=",
+                ),
+                (TokenKind::String, r#""0""#),
+                (
+                    TokenKind::Plain,
+                    r"
+KEYWORDS=",
+                ),
+                (TokenKind::String, r#""~x86""#),
+                (
+                    TokenKind::Plain,
+                    r"
+IUSE=",
+                ),
+                (TokenKind::String, r#""""#),
+                (
+                    TokenKind::Plain,
+                    r"
+
+DEPEND=",
+                ),
+                (TokenKind::String, r#""""#),
+                (
+                    TokenKind::Plain,
+                    r"
+RDEPEND=",
+                ),
+                (TokenKind::String, r#""""#),
+                (
+                    TokenKind::Plain,
+                    r"
+
+src_compile",
+                ),
+                (TokenKind::Punctuation, r"()"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+	einfo ",
+                ),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

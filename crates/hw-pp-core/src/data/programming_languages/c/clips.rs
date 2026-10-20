@@ -40,20 +40,54 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 
 (run)"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"(defrule hw
-    (f ?x)
-=>
-    (printout t ?x crlf))
-
-(assert (f ""#,
-                    output_for_hello_world!(),
-                    r#""))
-
-(run)"#
+            tokenized_syntax: &[
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Keyword, r"defrule"),
+                (
+                    TokenKind::Plain,
+                    r" hw
+    ",
                 ),
-            )],
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Function, r"f"),
+                (TokenKind::Plain, r" ?x"),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+=>
+    ",
+                ),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Keyword, r"printout"),
+                (TokenKind::Plain, r" t ?x crlf"),
+                (TokenKind::Punctuation, r"))"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Function, r"assert"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Function, r"f"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r"))"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Function, r"run"),
+                (TokenKind::Punctuation, r")"),
+            ],
         }],
     };

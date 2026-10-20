@@ -38,18 +38,41 @@ HELLO	ASC	""#,
                 output_for_hello_world!(),
                 r#"",00"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"STROUT 	EQU	$DB3A
-	LDY	#>HELLO
-	LDA	#<HELLO
-	JMP	STROUT
-
-HELLO	ASC	""#,
-                    output_for_hello_world!(),
-                    r#"",00"#
+            tokenized_syntax: &[
+                (TokenKind::Plain, r"STROUT 	"),
+                (TokenKind::Keyword, r"EQU"),
+                (
+                    TokenKind::Plain,
+                    r"	$DB3A
+	",
                 ),
-            )],
+                (TokenKind::Keyword, r"LDY"),
+                (
+                    TokenKind::Plain,
+                    r"	#>HELLO
+	",
+                ),
+                (TokenKind::Keyword, r"LDA"),
+                (
+                    TokenKind::Plain,
+                    r"	#<HELLO
+	",
+                ),
+                (TokenKind::Keyword, r"JMP"),
+                (
+                    TokenKind::Plain,
+                    r"	STROUT
+
+",
+                ),
+                (TokenKind::Keyword, r"HELLO"),
+                (TokenKind::Plain, r"	ASC	"),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Number, r"00"),
+            ],
         }],
     };

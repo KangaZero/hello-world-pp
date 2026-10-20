@@ -45,24 +45,59 @@ program Hello_World;
                 r"');
  end."
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"{",
-                    output_for_hello_world!(),
-                    r" in Kylix} 
-
-program Hello_World;
- 
- uses
-    QDialogs;
- 
- begin
-   ShowMessage('",
-                    output_for_hello_world!(),
-                    r"');
- end."
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(r"{", output_for_hello_world!(), r" in Kylix}"),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r" 
+
+",
+                ),
+                (TokenKind::Keyword, r"program"),
+                (TokenKind::Plain, r" Hello_World"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+ 
+ ",
+                ),
+                (TokenKind::Keyword, r"uses"),
+                (
+                    TokenKind::Plain,
+                    r"
+    QDialogs",
+                ),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+ 
+ ",
+                ),
+                (TokenKind::Keyword, r"begin"),
+                (
+                    TokenKind::Plain,
+                    r"
+   ",
+                ),
+                (TokenKind::Function, r"ShowMessage"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r"'", output_for_hello_world!(), r"'"),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+ ",
+                ),
+                (TokenKind::Keyword, r"end"),
+                (TokenKind::Punctuation, r"."),
+            ],
         }],
     };

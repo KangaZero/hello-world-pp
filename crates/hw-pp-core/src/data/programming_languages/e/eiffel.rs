@@ -52,32 +52,109 @@ feature
 		end; -- run
 end; -- class HELLO"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"indexing ""#,
-                    output_for_hello_world!(),
-                    r#" in Eiffel , from http://roesler-ac.de/wolfram/hello.htm#Eiffel"
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"indexing"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(
+                        r#"""#,
+                        output_for_hello_world!(),
+                        r#" in Eiffel , from http://roesler-ac.de/wolfram/hello.htm#Eiffel""#
+                    ),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
 
-class HELLO
+",
+                ),
+                (TokenKind::Keyword, r"class"),
+                (
+                    TokenKind::Plain,
+                    r" HELLO
 
-creation
+",
+                ),
+                (TokenKind::Keyword, r"creation"),
+                (
+                    TokenKind::Plain,
+                    r"
 	run
 
-feature
-
-	run is
-		local
-			io : BASIC_IO;
-		do
-			!!io;
-			io.put_string(""#,
-                    output_for_hello_world!(),
-                    r#"");
-			io.put_newline
-		end; -- run
-end; -- class HELLO"#
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"feature"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+	run ",
+                ),
+                (TokenKind::Keyword, r"is"),
+                (
+                    TokenKind::Plain,
+                    r"
+		",
+                ),
+                (TokenKind::Keyword, r"local"),
+                (
+                    TokenKind::Plain,
+                    r"
+			io ",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r" BASIC_IO"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+		",
+                ),
+                (TokenKind::Keyword, r"do"),
+                (
+                    TokenKind::Plain,
+                    r"
+			!!io",
+                ),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+			io",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"put_string"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+			io",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (
+                    TokenKind::Plain,
+                    r"put_newline
+		",
+                ),
+                (TokenKind::Keyword, r"end"),
+                (TokenKind::Punctuation, r";"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Comment, r"-- run"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"end"),
+                (TokenKind::Punctuation, r";"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Comment, r"-- class HELLO"),
+            ],
         }],
     };

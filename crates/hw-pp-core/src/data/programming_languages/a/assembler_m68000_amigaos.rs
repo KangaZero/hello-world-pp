@@ -62,42 +62,198 @@ msg	dc.b	""#,
                 output_for_hello_world!(),
                 r#"\n", 0"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"
+            tokenized_syntax: &[
+                (
+                    TokenKind::Plain,
+                    r"
 
-ExecBase     = 4
-OpenLibrary  = -552
-CloseLibrary = -414
-PutStr       = -948
-
-	section "main", code
-
-
-	move.l	ExecBase, a6
-	lea	lib, a1
-	moveq	#0, d0
-	jsr	(OpenLibrary, a6)
-	move.l	d0, a6
-
-
-	move.l	#msg, d1
-	jsr	(PutStr, a6)
-
-
-	move.l	a6, a1
-	move.l	ExecBase, a6
-	jsr	(CloseLibrary, a6)
-
-	moveq	#0, d0
-	rts
-
-lib	dc.b	"dos.library", 0
-msg	dc.b	""#,
-                    output_for_hello_world!(),
-                    r#"\n", 0"#
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"ExecBase"),
+                (TokenKind::Plain, r"     = "),
+                (TokenKind::Number, r"4"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"OpenLibrary"),
+                (TokenKind::Plain, r"  = -"),
+                (TokenKind::Number, r"552"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"CloseLibrary"),
+                (TokenKind::Plain, r" = -"),
+                (TokenKind::Number, r"414"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"PutStr"),
+                (TokenKind::Plain, r"       = -"),
+                (TokenKind::Number, r"948"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+	",
+                ),
+                (TokenKind::Keyword, r"section"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::String, r#""main""#),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" code
+
+
+	",
+                ),
+                (TokenKind::Keyword, r"move"),
+                (TokenKind::Macro, r".l"),
+                (TokenKind::Plain, r"	ExecBase"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" a6
+	",
+                ),
+                (TokenKind::Keyword, r"lea"),
+                (TokenKind::Plain, r"	lib"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" a1
+	",
+                ),
+                (TokenKind::Keyword, r"moveq"),
+                (TokenKind::Plain, r"	#"),
+                (TokenKind::Number, r"0"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" d0
+	",
+                ),
+                (TokenKind::Keyword, r"jsr"),
+                (TokenKind::Plain, r"	"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"OpenLibrary"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" a6"),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Keyword, r"move"),
+                (TokenKind::Macro, r".l"),
+                (TokenKind::Plain, r"	d0"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" a6
+
+
+	",
+                ),
+                (TokenKind::Keyword, r"move"),
+                (TokenKind::Macro, r".l"),
+                (TokenKind::Plain, r"	#msg"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" d1
+	",
+                ),
+                (TokenKind::Keyword, r"jsr"),
+                (TokenKind::Plain, r"	"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"PutStr"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" a6"),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+
+	",
+                ),
+                (TokenKind::Keyword, r"move"),
+                (TokenKind::Macro, r".l"),
+                (TokenKind::Plain, r"	a6"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" a1
+	",
+                ),
+                (TokenKind::Keyword, r"move"),
+                (TokenKind::Macro, r".l"),
+                (TokenKind::Plain, r"	ExecBase"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" a6
+	",
+                ),
+                (TokenKind::Keyword, r"jsr"),
+                (TokenKind::Plain, r"	"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"CloseLibrary"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" a6"),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+	",
+                ),
+                (TokenKind::Keyword, r"moveq"),
+                (TokenKind::Plain, r"	#"),
+                (TokenKind::Number, r"0"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" d0
+	",
+                ),
+                (TokenKind::Keyword, r"rts"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+lib	",
+                ),
+                (TokenKind::Keyword, r"dc"),
+                (TokenKind::Macro, r".b"),
+                (TokenKind::Plain, r"	"),
+                (TokenKind::String, r#""dos.library""#),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"0"),
+                (
+                    TokenKind::Plain,
+                    r"
+msg	",
+                ),
+                (TokenKind::Keyword, r"dc"),
+                (TokenKind::Macro, r".b"),
+                (TokenKind::Plain, r"	"),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                ),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"0"),
+            ],
         }],
     };

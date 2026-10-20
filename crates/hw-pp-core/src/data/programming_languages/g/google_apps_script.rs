@@ -35,15 +35,32 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                 r#"");
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"function helloWorld() {
-  Logger.log(""#,
-                    output_for_hello_world!(),
-                    r#"");
-}"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"function"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"helloWorld"),
+                (TokenKind::Punctuation, r"()"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+  Logger",
                 ),
-            )],
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"log"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

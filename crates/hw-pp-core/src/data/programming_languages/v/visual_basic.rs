@@ -83,20 +83,30 @@ Print ""#,
                     r#""
 End Sub"#
                 ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r"' ",
-                        output_for_hello_world!(),
-                        r#" in Visual Basic 6
-
-Private Sub Form_Load()
-Print ""#,
-                        output_for_hello_world!(),
-                        r#""
-End Sub"#
+                tokenized_syntax: &[
+                    (
+                        TokenKind::Comment,
+                        concat!("' ", output_for_hello_world!(), " in Visual Basic 6"),
                     ),
-                )],
+                    (TokenKind::Plain, "\n\n"),
+                    (TokenKind::Keyword, "Private"),
+                    (TokenKind::Plain, " "),
+                    (TokenKind::Keyword, "Sub"),
+                    (TokenKind::Plain, " "),
+                    (TokenKind::Function, "Form_Load"),
+                    (TokenKind::Punctuation, "()"),
+                    (TokenKind::Plain, "\n"),
+                    (TokenKind::Keyword, "Print"),
+                    (TokenKind::Plain, " "),
+                    (
+                        TokenKind::String,
+                        concat!("\"", output_for_hello_world!(), "\""),
+                    ),
+                    (TokenKind::Plain, "\n"),
+                    (TokenKind::Keyword, "End"),
+                    (TokenKind::Plain, " "),
+                    (TokenKind::Keyword, "Sub"),
+                ],
             },
         ],
     };

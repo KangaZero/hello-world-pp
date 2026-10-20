@@ -42,22 +42,69 @@ main:   la      a1, hello_world
         li      a0, 10
         ecall"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#".data
-hello_world: .asciiz ""#,
-                    output_for_hello_world!(),
-                    r#""
-
-.text
-main:   la      a1, hello_world
-        li      a0, 4
-        ecall
-
-        li      a0, 10
-        ecall"#
+            tokenized_syntax: &[
+                (TokenKind::Macro, r".data"),
+                (
+                    TokenKind::Plain,
+                    r"
+hello_world",
                 ),
-            )],
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Macro, r".asciiz"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Macro, r".text"),
+                (
+                    TokenKind::Plain,
+                    r"
+main",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"   la      a1"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" hello_world
+        ",
+                ),
+                (TokenKind::Keyword, r"li"),
+                (TokenKind::Plain, r"      a0"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"4"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"ecall"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+        ",
+                ),
+                (TokenKind::Keyword, r"li"),
+                (TokenKind::Plain, r"      a0"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"10"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"ecall"),
+            ],
         }],
     };

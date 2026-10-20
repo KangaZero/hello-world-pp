@@ -29,9 +29,12 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Pharo,
             syntax: concat!(r"'", output_for_hello_world!(), r"' crLog"),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r"'", output_for_hello_world!(), r"' crLog"),
-            )],
+            tokenized_syntax: &[
+                (
+                    TokenKind::String,
+                    concat!(r"'", output_for_hello_world!(), r"'"),
+                ),
+                (TokenKind::Plain, r" crLog"),
+            ],
         }],
     };

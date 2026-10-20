@@ -37,17 +37,40 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
   }
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"component Main {
-  fun render : Html {
-    <div>""#,
-                    output_for_hello_world!(),
-                    r#""</div>
-  }
-}"#
+            tokenized_syntax: &[
+                (TokenKind::Plain, r"component Main "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+  ",
                 ),
-            )],
+                (TokenKind::Keyword, r"fun"),
+                (TokenKind::Plain, r" render "),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r" Html "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+    <div>",
+                ),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"</div>
+  ",
+                ),
+                (TokenKind::Punctuation, r"}"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

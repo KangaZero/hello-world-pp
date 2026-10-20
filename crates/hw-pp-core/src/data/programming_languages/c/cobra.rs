@@ -36,16 +36,26 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                 output_for_hello_world!(),
                 r"'"
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"class Hello
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"class"),
+                (
+                    TokenKind::Plain,
+                    r" Hello
 
-    def main
-        print '",
-                    output_for_hello_world!(),
-                    r"'"
+    ",
                 ),
-            )],
+                (TokenKind::Keyword, r"def"),
+                (
+                    TokenKind::Plain,
+                    r" main
+        ",
+                ),
+                (TokenKind::Function, r"print"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r"'", output_for_hello_world!(), r"'"),
+                ),
+            ],
         }],
     };

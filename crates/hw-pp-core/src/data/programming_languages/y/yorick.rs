@@ -34,14 +34,21 @@ print, ""#,
                 output_for_hello_world!(),
                 r#"";"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"#!/usr/bin/yorick -batch
-print, ""#,
-                    output_for_hello_world!(),
-                    r#"";"#
+            tokenized_syntax: &[
+                (TokenKind::Macro, r"#!/usr/bin/yorick -batch"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Function, r"print"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r";"),
+            ],
         }],
     };

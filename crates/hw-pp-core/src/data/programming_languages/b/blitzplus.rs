@@ -40,19 +40,55 @@ Text 790, 600, ""#,
                 r#""
 WaitKey"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"; ",
-                    output_for_hello_world!(),
-                    r#" in Blitz Plus (graphical mode)
-
-Graphics 800,600,0,1
-Text 790, 600, ""#,
-                    output_for_hello_world!(),
-                    r#""
-WaitKey"#
+            tokenized_syntax: &[
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    concat!(r" ", output_for_hello_world!(), r" in Blitz "),
                 ),
-            )],
+                (TokenKind::Function, r"Plus"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"graphical mode"),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"Graphics"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"800"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Number, r"600"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Number, r"0"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Number, r"1"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"Text"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"790"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"600"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"WaitKey"),
+            ],
         }],
     };

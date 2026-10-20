@@ -37,16 +37,30 @@ main = putStrLn ""#,
                 output_for_hello_world!(),
                 r#"""#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"module Main
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"module"),
+                (
+                    TokenKind::Plain,
+                    r" Main
 
-main : IO ()
-main = putStrLn ""#,
-                    output_for_hello_world!(),
-                    r#"""#
+main ",
                 ),
-            )],
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Type, r"IO"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"()"),
+                (
+                    TokenKind::Plain,
+                    r"
+main = ",
+                ),
+                (TokenKind::Function, r"putStrLn"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+            ],
         }],
     };

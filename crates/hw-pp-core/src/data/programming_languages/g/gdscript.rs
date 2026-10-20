@@ -36,16 +36,30 @@ func _ready():
                 output_for_hello_world!(),
                 r#"")"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"extends Node2D
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"extends"),
+                (
+                    TokenKind::Plain,
+                    r" Node2D
 
-func _ready():
-	print(""#,
-                    output_for_hello_world!(),
-                    r#"")"#
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"func"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"_ready"),
+                (TokenKind::Punctuation, r"():"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Function, r"print"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+            ],
         }],
     };

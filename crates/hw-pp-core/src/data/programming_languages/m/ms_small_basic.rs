@@ -38,17 +38,30 @@ TextWindow.WriteLine(""#,
                 output_for_hello_world!(),
                 r#"")"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"' ",
-                    output_for_hello_world!(),
-                    r#" in Microsoft Small Basic
-
-TextWindow.WriteLine(""#,
-                    output_for_hello_world!(),
-                    r#"")"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r"' ",
+                        output_for_hello_world!(),
+                        r" in Microsoft Small Basic"
+                    ),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"TextWindow"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Keyword, r"WriteLine"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+            ],
         }],
     };

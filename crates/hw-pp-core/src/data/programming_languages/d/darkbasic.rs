@@ -39,18 +39,30 @@ print ""#,
                 r#""
 wait key"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"` ",
-                    output_for_hello_world!(),
-                    r#" in Darkbasic
+            tokenized_syntax: &[
+                (
+                    TokenKind::Plain,
+                    concat!(
+                        r"` ",
+                        output_for_hello_world!(),
+                        r" in Darkbasic
 
-print ""#,
-                    output_for_hello_world!(),
-                    r#""
-wait key"#
+"
+                    ),
                 ),
-            )],
+                (TokenKind::Keyword, r"print"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"wait"),
+                (TokenKind::Plain, r" key"),
+            ],
         }],
     };

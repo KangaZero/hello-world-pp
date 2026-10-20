@@ -47,26 +47,75 @@ OUTPUT: OUTSTR LAB              ; OUTPUT MESSAGE
         MONRT.                  ; RETURN TO MONITOR          
         END OUTPUT"
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"TITLE ",
-                    output_for_hello_world!(),
-                    r"
-; ",
-                    output_for_hello_world!(),
-                    r" IN MACRO 10 FOR TOPS-10
-ENTRY OUTPUT
-SEARCH UUOSYM
-
-LAB:    ASCIZ /",
-                    output_for_hello_world!(),
-                    r"
-/
-OUTPUT: OUTSTR LAB              ; OUTPUT MESSAGE
-        MONRT.                  ; RETURN TO MONITOR          
-        END OUTPUT"
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"TITLE"),
+                (
+                    TokenKind::Plain,
+                    concat!(
+                        r" ",
+                        output_for_hello_world!(),
+                        r"
+"
+                    ),
                 ),
-            )],
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r"; ",
+                        output_for_hello_world!(),
+                        r" IN MACRO 10 FOR TOPS-10"
+                    ),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"ENTRY"),
+                (
+                    TokenKind::Plain,
+                    r" OUTPUT
+",
+                ),
+                (TokenKind::Keyword, r"SEARCH"),
+                (
+                    TokenKind::Plain,
+                    r" UUOSYM
+
+LAB",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"    "),
+                (TokenKind::Keyword, r"ASCIZ"),
+                (
+                    TokenKind::Plain,
+                    concat!(
+                        r" /",
+                        output_for_hello_world!(),
+                        r"
+/
+OUTPUT"
+                    ),
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r" OUTSTR LAB              "),
+                (TokenKind::Comment, r"; OUTPUT MESSAGE"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"MONRT"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"                  "),
+                (TokenKind::Comment, r"; RETURN TO MONITOR          "),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"END"),
+                (TokenKind::Plain, r" OUTPUT"),
+            ],
         }],
     };

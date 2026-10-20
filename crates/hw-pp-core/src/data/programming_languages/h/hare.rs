@@ -37,17 +37,47 @@ export fn main() void = {
                 r#"")!;
 };"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"use fmt;
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"use"),
+                (TokenKind::Plain, r" fmt"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-export fn main() void = {
-	fmt::println(""#,
-                    output_for_hello_world!(),
-                    r#"")!;
-};"#
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"export"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"fn"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"main"),
+                (TokenKind::Punctuation, r"()"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"void"),
+                (TokenKind::Plain, r" = "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+	fmt",
+                ),
+                (TokenKind::Punctuation, r"::"),
+                (TokenKind::Function, r"println"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+                (TokenKind::Plain, r"!"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"};"),
+            ],
         }],
     };

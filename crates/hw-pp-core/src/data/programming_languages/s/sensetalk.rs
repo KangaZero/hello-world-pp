@@ -37,16 +37,28 @@ on run put ""#,
                 output_for_hello_world!(),
                 r#"" end run "#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    output_for_hello_world!(),
-                    r#" in SenseTalk.
+            tokenized_syntax: &[
+                (TokenKind::Plain, concat!(output_for_hello_world!(), r" ")),
+                (TokenKind::Keyword, r"in"),
+                (TokenKind::Plain, r" SenseTalk"),
+                (TokenKind::Punctuation, r"."),
+                (
+                    TokenKind::Plain,
+                    r"
 
-on run put ""#,
-                    output_for_hello_world!(),
-                    r#"" end run "#
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"on"),
+                (TokenKind::Plain, r" run "),
+                (TokenKind::Keyword, r"put"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"end"),
+                (TokenKind::Plain, r" run "),
+            ],
         }],
     };

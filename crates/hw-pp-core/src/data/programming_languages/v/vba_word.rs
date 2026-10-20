@@ -40,19 +40,46 @@ Private Sub Document_Open()
                 r#""
 End Sub"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"' ",
-                    output_for_hello_world!(),
-                    r#" in Visual Basic for Applications, Word version
-
-Private Sub Document_Open()
-    MsgBox ""#,
-                    output_for_hello_world!(),
-                    r#""
-End Sub"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r"' ",
+                        output_for_hello_world!(),
+                        r" in Visual Basic for Applications, Word version"
+                    ),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"Private"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"Sub"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"Document_Open"),
+                (TokenKind::Punctuation, r"()"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Keyword, r"MsgBox"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"End"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"Sub"),
+            ],
         }],
     };

@@ -45,24 +45,89 @@ mess dc.w   12
                 r"',10
      end"
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"; ",
-                    output_for_hello_world!(),
-                    r" in 68008 Assembler (Sinclar QL)
-
-     move.l #0,a0
-     lea.l  mess,a1
-     move.w $d0,a2
-     jsr    (a2)
-     rts
-mess dc.w   12
-     dc.b   '",
-                    output_for_hello_world!(),
-                    r"',10
-     end"
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r"; ",
+                        output_for_hello_world!(),
+                        r" in 68008 Assembler (Sinclar QL)"
+                    ),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+     ",
+                ),
+                (TokenKind::Keyword, r"move"),
+                (TokenKind::Macro, r".l"),
+                (TokenKind::Plain, r" #"),
+                (TokenKind::Number, r"0"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"a0
+     ",
+                ),
+                (TokenKind::Keyword, r"lea"),
+                (TokenKind::Macro, r".l"),
+                (TokenKind::Plain, r"  mess"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"a1
+     ",
+                ),
+                (TokenKind::Keyword, r"move"),
+                (TokenKind::Macro, r".w"),
+                (TokenKind::Plain, r" $d0"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"a2
+     ",
+                ),
+                (TokenKind::Keyword, r"jsr"),
+                (TokenKind::Plain, r"    "),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"a2"),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+     ",
+                ),
+                (TokenKind::Keyword, r"rts"),
+                (
+                    TokenKind::Plain,
+                    r"
+mess ",
+                ),
+                (TokenKind::Keyword, r"dc"),
+                (TokenKind::Macro, r".w"),
+                (TokenKind::Plain, r"   "),
+                (TokenKind::Number, r"12"),
+                (
+                    TokenKind::Plain,
+                    r"
+     ",
+                ),
+                (TokenKind::Keyword, r"dc"),
+                (TokenKind::Macro, r".b"),
+                (TokenKind::Plain, r"   "),
+                (
+                    TokenKind::String,
+                    concat!(r"'", output_for_hello_world!(), r"'"),
+                ),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Number, r"10"),
+                (
+                    TokenKind::Plain,
+                    r"
+     ",
+                ),
+                (TokenKind::Keyword, r"end"),
+            ],
         }],
     };

@@ -35,15 +35,35 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                 r#"";
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"export function hello(): string {
-  return ""#,
-                    output_for_hello_world!(),
-                    r#"";
-}"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"export"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"function"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"hello"),
+                (TokenKind::Punctuation, r"():"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Type, r"string"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+  ",
                 ),
-            )],
+                (TokenKind::Keyword, r"return"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

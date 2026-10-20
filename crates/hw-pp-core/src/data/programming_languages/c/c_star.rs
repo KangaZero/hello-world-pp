@@ -38,18 +38,40 @@ main()
                 r#"\n");
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"#include <stdio.h>
+            tokenized_syntax: &[
+                (TokenKind::Macro, r"#include <stdio.h>"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-main()
-{
-    printf(""#,
-                    output_for_hello_world!(),
-                    r#"\n");
-}"#
+",
                 ),
-            )],
+                (TokenKind::Function, r"main"),
+                (TokenKind::Punctuation, r"()"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Function, r"printf"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

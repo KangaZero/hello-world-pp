@@ -85,68 +85,430 @@ START
         WRR             ; Write to ROM output port
 END
         JUN END",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"; H  e  l  l  o     W  o  r  l  d
-; 48 65 6C 6C 6F 20 57 6F 72 6C 64
-START
-        LDM $4          ; High nibble of letter 'H'
-        WRR             ; Write to ROM output port
-        LDM $8          ; Low nibble of letter 'H'
-        WRR             ; Write to ROM output port
+            tokenized_syntax: &[
+                (TokenKind::Comment, r"; H  e  l  l  o     W  o  r  l  d"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Comment, r"; 48 65 6C 6C 6F 20 57 6F 72 6C 64"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"START"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"4"),
+                (TokenKind::Plain, r"          "),
+                (TokenKind::Comment, r"; High nibble of letter 'H'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"8"),
+                (TokenKind::Plain, r"          "),
+                (TokenKind::Comment, r"; Low nibble of letter 'H'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-        LDM $6          ; High nibble of letter 'e'
-        WRR             ; Write to ROM output port
-        LDM $5          ; Low nibble of letter 'e'
-        WRR             ; Write to ROM output port
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"6"),
+                (TokenKind::Plain, r"          "),
+                (TokenKind::Comment, r"; High nibble of letter 'e'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"5"),
+                (TokenKind::Plain, r"          "),
+                (TokenKind::Comment, r"; Low nibble of letter 'e'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-        LDM $6          ; High nibble of letter 'l'
-        WRR             ; Write to ROM output port
-        LDM $C          ; Low nibble of letter 'l'
-        WRR             ; Write to ROM output port
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"6"),
+                (TokenKind::Plain, r"          "),
+                (TokenKind::Comment, r"; High nibble of letter 'l'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $C          "),
+                (TokenKind::Comment, r"; Low nibble of letter 'l'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-        LDM $6          ; High nibble of letter 'l'
-        WRR             ; Write to ROM output port
-        LDM $C          ; Low nibble of letter 'l'
-        WRR             ; Write to ROM output port
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"6"),
+                (TokenKind::Plain, r"          "),
+                (TokenKind::Comment, r"; High nibble of letter 'l'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $C          "),
+                (TokenKind::Comment, r"; Low nibble of letter 'l'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-        LDM $6          ; High nibble of letter 'o'
-        WRR             ; Write to ROM output port
-        LDM $F          ; Low nibble of letter 'o'
-        WRR             ; Write to ROM output port
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"6"),
+                (TokenKind::Plain, r"          "),
+                (TokenKind::Comment, r"; High nibble of letter 'o'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $F          "),
+                (TokenKind::Comment, r"; Low nibble of letter 'o'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-        LDM $2          ; High nibble of 'space'
-        WRR             ; Write to ROM output port
-        LDM $0          ; Low nibble of 'space'
-        WRR             ; Write to ROM output port
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"2"),
+                (TokenKind::Plain, r"          "),
+                (TokenKind::Comment, r"; High nibble of 'space'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"0"),
+                (TokenKind::Plain, r"          "),
+                (TokenKind::Comment, r"; Low nibble of 'space'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
 
 
-        LDM $5          ; High nibble of letter 'W'
-        WRR             ; Write to ROM output port
-        LDM $7          ; Low nibble of letter 'W'
-        WRR             ; Write to ROM output port
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"5"),
+                (TokenKind::Plain, r"          "),
+                (TokenKind::Comment, r"; High nibble of letter 'W'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"7"),
+                (TokenKind::Plain, r"          "),
+                (TokenKind::Comment, r"; Low nibble of letter 'W'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-        LDM $6          ; High nibble of letter 'o'
-        WRR             ; Write to ROM output port
-        LDM $F          ; Low nibble of letter 'o'
-        WRR             ; Write to ROM output port
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"6"),
+                (TokenKind::Plain, r"          "),
+                (TokenKind::Comment, r"; High nibble of letter 'o'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $F          "),
+                (TokenKind::Comment, r"; Low nibble of letter 'o'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-        LDM $7          ; High nibble of letter 'r'
-        WRR             ; Write to ROM output port
-        LDM $2          ; Low nibble of letter 'r'
-        WRR             ; Write to ROM output port
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"7"),
+                (TokenKind::Plain, r"          "),
+                (TokenKind::Comment, r"; High nibble of letter 'r'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"2"),
+                (TokenKind::Plain, r"          "),
+                (TokenKind::Comment, r"; Low nibble of letter 'r'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-        LDM $6          ; High nibble of letter 'l'
-        WRR             ; Write to ROM output port
-        LDM $C          ; Low nibble of letter 'l'
-        WRR             ; Write to ROM output port
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"6"),
+                (TokenKind::Plain, r"          "),
+                (TokenKind::Comment, r"; High nibble of letter 'l'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $C          "),
+                (TokenKind::Comment, r"; Low nibble of letter 'l'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-        LDM $6          ; High nibble of letter 'd'
-        WRR             ; Write to ROM output port
-        LDM $4          ; Low nibble of letter 'd'
-        WRR             ; Write to ROM output port
-END
-        JUN END",
-            )],
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"6"),
+                (TokenKind::Plain, r"          "),
+                (TokenKind::Comment, r"; High nibble of letter 'd'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"LDM"),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"4"),
+                (TokenKind::Plain, r"          "),
+                (TokenKind::Comment, r"; Low nibble of letter 'd'"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WRR"),
+                (TokenKind::Plain, r"             "),
+                (TokenKind::Comment, r"; Write to ROM output port"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"END"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"JUN"),
+                (TokenKind::Plain, r" END"),
+            ],
         }],
     };

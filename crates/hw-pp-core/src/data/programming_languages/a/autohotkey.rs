@@ -29,9 +29,10 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Autohotkey,
             syntax: concat!(r"MsgBox, ", output_for_hello_world!()),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r"MsgBox, ", output_for_hello_world!()),
-            )],
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"MsgBox"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, concat!(r" ", output_for_hello_world!())),
+            ],
         }],
     };

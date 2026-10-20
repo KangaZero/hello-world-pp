@@ -38,18 +38,42 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     </category>
 </aiml>"
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"<aiml>
-    <category>
-        <pattern>*</pattern>
-        <template>",
-                    output_for_hello_world!(),
-                    r"</template>
-    </category>
-</aiml>"
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"<aiml>"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
                 ),
-            )],
+                (TokenKind::Keyword, r"<category>"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"<pattern>"),
+                (TokenKind::Plain, r"*"),
+                (TokenKind::Keyword, r"</pattern>"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"<template>"),
+                (TokenKind::Plain, output_for_hello_world!()),
+                (TokenKind::Keyword, r"</template>"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Keyword, r"</category>"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"</aiml>"),
+            ],
         }],
     };

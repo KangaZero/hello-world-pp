@@ -42,21 +42,51 @@ FUNCTION PBMAIN () AS LONG
 
 END FUNCTION"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"' ",
-                    output_for_hello_world!(),
-                    r#" in Powerbasic Console Compiler
-
-FUNCTION PBMAIN () AS LONG
-
-    PRINT ""#,
-                    output_for_hello_world!(),
-                    r#""
-
-END FUNCTION"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r"' ",
+                        output_for_hello_world!(),
+                        r" in Powerbasic Console Compiler"
+                    ),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"FUNCTION"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"PBMAIN"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"()"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"AS"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Type, r"LONG"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+    ",
+                ),
+                (TokenKind::Keyword, r"PRINT"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"END"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"FUNCTION"),
+            ],
         }],
     };

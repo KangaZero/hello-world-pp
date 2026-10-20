@@ -36,16 +36,37 @@ begin
                 r#"");
 end HelloWorld.    "#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"module HelloWorld;
-begin
-    writeln(""#,
-                    output_for_hello_world!(),
-                    r#"");
-end HelloWorld.    "#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"module"),
+                (TokenKind::Plain, r" HelloWorld"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"begin"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Function, r"writeln"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"end"),
+                (TokenKind::Plain, r" HelloWorld"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"    "),
+            ],
         }],
     };

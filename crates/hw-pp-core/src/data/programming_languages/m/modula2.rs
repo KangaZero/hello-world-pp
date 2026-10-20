@@ -43,22 +43,61 @@ BEGIN
     
 END HelloWorld."#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"MODULE HelloWorld;
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"MODULE"),
+                (TokenKind::Plain, r" HelloWorld"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-FROM Terminal2 IMPORT WriteString, WriteLn;
-
-BEGIN
-
-    WriteString(""#,
-                    output_for_hello_world!(),
-                    r#"");
-    WriteLn;
-    
-END HelloWorld."#
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"FROM"),
+                (TokenKind::Plain, r" Terminal2 "),
+                (TokenKind::Keyword, r"IMPORT"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"WriteString"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"WriteLn"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"BEGIN"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+    ",
+                ),
+                (TokenKind::Function, r"WriteString"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Function, r"WriteLn"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+    
+",
+                ),
+                (TokenKind::Keyword, r"END"),
+                (TokenKind::Plain, r" HelloWorld"),
+                (TokenKind::Punctuation, r"."),
+            ],
         }],
     };

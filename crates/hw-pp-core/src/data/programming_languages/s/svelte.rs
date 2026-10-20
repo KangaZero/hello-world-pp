@@ -37,17 +37,28 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 
 <p>{ message }</p>"
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"<script>
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"<script>"),
+                (
+                    TokenKind::Plain,
+                    concat!(
+                        r"
   let message = '",
-                    output_for_hello_world!(),
-                    r"';
-</script>
-
-<p>{ message }</p>"
+                        output_for_hello_world!(),
+                        r"';
+"
+                    ),
                 ),
-            )],
+                (TokenKind::Keyword, r"</script>"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"<p>"),
+                (TokenKind::Plain, r"{ message }"),
+                (TokenKind::Keyword, r"</p>"),
+            ],
         }],
     };

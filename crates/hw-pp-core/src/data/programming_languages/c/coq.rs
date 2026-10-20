@@ -45,25 +45,111 @@ Definition hello_world (argv : list LString.t) : C.t System.effect unit :=
                 output_for_hello_world!(),
                 r#"")."#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"Require Import Coq.Lists.List.
-Require Import Io.All.
-Require Import Io.System.All.
-Require Import ListString.All.
-
-Import ListNotations.
-Import C.Notations.
-
-(** The classic ",
-                    output_for_hello_world!(),
-                    r#" program. *)
-Definition hello_world (argv : list LString.t) : C.t System.effect unit :=
-  System.log (LString.s ""#,
-                    output_for_hello_world!(),
-                    r#"")."#
+            tokenized_syntax: &[
+                (TokenKind::Plain, r"Require Import Coq"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"Lists"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"List"),
+                (TokenKind::Punctuation, r"."),
+                (
+                    TokenKind::Plain,
+                    r"
+Require Import Io",
                 ),
-            )],
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"All"),
+                (TokenKind::Punctuation, r"."),
+                (
+                    TokenKind::Plain,
+                    r"
+Require Import Io",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"System"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"All"),
+                (TokenKind::Punctuation, r"."),
+                (
+                    TokenKind::Plain,
+                    r"
+Require Import ListString",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"All"),
+                (TokenKind::Punctuation, r"."),
+                (
+                    TokenKind::Plain,
+                    r"
+
+Import ListNotations",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (
+                    TokenKind::Plain,
+                    r"
+Import C",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"Notations"),
+                (TokenKind::Punctuation, r"."),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r"(** The classic ",
+                        output_for_hello_world!(),
+                        r" program. *)"
+                    ),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"Definition"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"hello_world"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"argv "),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r" list LString"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"t"),
+                (TokenKind::Punctuation, r")"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r" C"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"t System"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"effect "),
+                (TokenKind::Type, r"unit"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r":"),
+                (
+                    TokenKind::Plain,
+                    r"=
+  System",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"log"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"LString"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"s "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r")."),
+            ],
         }],
     };

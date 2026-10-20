@@ -41,20 +41,55 @@ BEGIN
                 r"');
 END HelloWorld."
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"MODULE HelloWorld;
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"MODULE"),
+                (TokenKind::Plain, r" HelloWorld"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-IMPORT Out;
-
-BEGIN
-   Out.Open;
-   Out.String('",
-                    output_for_hello_world!(),
-                    r"');
-END HelloWorld."
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"IMPORT"),
+                (TokenKind::Plain, r" Out"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"BEGIN"),
+                (
+                    TokenKind::Plain,
+                    r"
+   Out",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"Open"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+   Out",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"String"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r"'", output_for_hello_world!(), r"'"),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"END"),
+                (TokenKind::Plain, r" HelloWorld"),
+                (TokenKind::Punctuation, r"."),
+            ],
         }],
     };

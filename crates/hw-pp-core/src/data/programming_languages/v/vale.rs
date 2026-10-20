@@ -37,17 +37,42 @@ exported func main() {
                 r#"");
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"import stdlib.*;
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"import"),
+                (TokenKind::Plain, r" stdlib"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"*"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-exported func main() {
-  println(""#,
-                    output_for_hello_world!(),
-                    r#"");
-}"#
+exported ",
                 ),
-            )],
+                (TokenKind::Keyword, r"func"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"main"),
+                (TokenKind::Punctuation, r"()"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+  ",
+                ),
+                (TokenKind::Function, r"println"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

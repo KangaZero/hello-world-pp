@@ -34,14 +34,23 @@ CMD echo ""#,
                 output_for_hello_world!(),
                 r#"""#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"FROM alpine:latest
-CMD echo ""#,
-                    output_for_hello_world!(),
-                    r#"""#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"FROM"),
+                (TokenKind::Plain, r" alpine"),
+                (TokenKind::Punctuation, r":"),
+                (
+                    TokenKind::Plain,
+                    r"latest
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"CMD"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"echo"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+            ],
         }],
     };

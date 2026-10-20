@@ -41,21 +41,56 @@ main = runWidget "Hello"
                 r#""],
                      TkButton tkExit [TkText "Stop"]])"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"-- ""#,
-                    output_for_hello_world!(),
-                    r#"" demo for the Tcl/Tk library
-
-import Tk
-
-main = runWidget "Hello"
-          (TkCol [] [TkLabel [TkText ""#,
-                    output_for_hello_world!(),
-                    r#""],
-                     TkButton tkExit [TkText "Stop"]])"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r#"-- ""#,
+                        output_for_hello_world!(),
+                        r#"" demo for the Tcl/Tk library"#
+                    ),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"import"),
+                (
+                    TokenKind::Plain,
+                    r" Tk
+
+main = runWidget ",
+                ),
+                (TokenKind::String, r#""Hello""#),
+                (
+                    TokenKind::Plain,
+                    r"
+          ",
+                ),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"TkCol "),
+                (TokenKind::Punctuation, r"[]"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"["),
+                (TokenKind::Plain, r"TkLabel "),
+                (TokenKind::Punctuation, r"["),
+                (TokenKind::Plain, r"TkText "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r"],"),
+                (
+                    TokenKind::Plain,
+                    r"
+                     TkButton tkExit ",
+                ),
+                (TokenKind::Punctuation, r"["),
+                (TokenKind::Plain, r"TkText "),
+                (TokenKind::String, r#""Stop""#),
+                (TokenKind::Punctuation, r"]])"),
+            ],
         }],
     };

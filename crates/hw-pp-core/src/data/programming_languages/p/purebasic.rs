@@ -45,16 +45,30 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                     r#"")
 EndIf"#
                 ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r#"If OpenConsole()
-  PrintN(""#,
-                        output_for_hello_world!(),
-                        r#"")
-EndIf"#
+                tokenized_syntax: &[
+                    (TokenKind::Keyword, r"If"),
+                    (TokenKind::Plain, r" "),
+                    (TokenKind::Keyword, r"OpenConsole"),
+                    (TokenKind::Punctuation, r"()"),
+                    (
+                        TokenKind::Plain,
+                        r"
+  ",
                     ),
-                )],
+                    (TokenKind::Keyword, r"PrintN"),
+                    (TokenKind::Punctuation, r"("),
+                    (
+                        TokenKind::String,
+                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                    ),
+                    (TokenKind::Punctuation, r")"),
+                    (
+                        TokenKind::Plain,
+                        r"
+",
+                    ),
+                    (TokenKind::Keyword, r"EndIf"),
+                ],
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::PurebasicConsole,
@@ -72,23 +86,57 @@ OpenConsole()
                     r#"")
 CloseConsole()"#
                 ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r"; ",
-                        output_for_hello_world!(),
-                        r#" in PureBasic (console program)
-
-OpenConsole()
-   ConsoleTitle (""#,
-                        output_for_hello_world!(),
-                        r#"")
-   PrintN (""#,
-                        output_for_hello_world!(),
-                        r#"")
-CloseConsole()"#
+                tokenized_syntax: &[
+                    (
+                        TokenKind::Comment,
+                        concat!(
+                            r"; ",
+                            output_for_hello_world!(),
+                            r" in PureBasic (console program)"
+                        ),
                     ),
-                )],
+                    (
+                        TokenKind::Plain,
+                        r"
+
+",
+                    ),
+                    (TokenKind::Keyword, r"OpenConsole"),
+                    (TokenKind::Punctuation, r"()"),
+                    (
+                        TokenKind::Plain,
+                        r"
+   ",
+                    ),
+                    (TokenKind::Function, r"ConsoleTitle"),
+                    (TokenKind::Plain, r" "),
+                    (TokenKind::Punctuation, r"("),
+                    (
+                        TokenKind::String,
+                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                    ),
+                    (TokenKind::Punctuation, r")"),
+                    (
+                        TokenKind::Plain,
+                        r"
+   ",
+                    ),
+                    (TokenKind::Keyword, r"PrintN"),
+                    (TokenKind::Plain, r" "),
+                    (TokenKind::Punctuation, r"("),
+                    (
+                        TokenKind::String,
+                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                    ),
+                    (TokenKind::Punctuation, r")"),
+                    (
+                        TokenKind::Plain,
+                        r"
+",
+                    ),
+                    (TokenKind::Keyword, r"CloseConsole"),
+                    (TokenKind::Punctuation, r"()"),
+                ],
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::PurebasicMessagebox,
@@ -103,20 +151,34 @@ MessageRequester(""#,
                     output_for_hello_world!(),
                     r#"")"#
                 ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r"; ",
-                        output_for_hello_world!(),
-                        r#" in PureBasic (message box)
-
-MessageRequester(""#,
-                        output_for_hello_world!(),
-                        r#" Messagebox",""#,
-                        output_for_hello_world!(),
-                        r#"")"#
+                tokenized_syntax: &[
+                    (
+                        TokenKind::Comment,
+                        concat!(
+                            r"; ",
+                            output_for_hello_world!(),
+                            r" in PureBasic (message box)"
+                        ),
                     ),
-                )],
+                    (
+                        TokenKind::Plain,
+                        r"
+
+",
+                    ),
+                    (TokenKind::Keyword, r"MessageRequester"),
+                    (TokenKind::Punctuation, r"("),
+                    (
+                        TokenKind::String,
+                        concat!(r#"""#, output_for_hello_world!(), r#" Messagebox""#),
+                    ),
+                    (TokenKind::Punctuation, r","),
+                    (
+                        TokenKind::String,
+                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                    ),
+                    (TokenKind::Punctuation, r")"),
+                ],
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::PurebasicWindow,
@@ -138,27 +200,112 @@ EndIf
 Repeat    ; Message Loop
 Until WaitWindowEvent() = #PB_EventCloseWindow"#
                 ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r"; ",
-                        output_for_hello_world!(),
-                        r#" in PureBasic (Window)
-
-If OpenWindow(0, 216, 0, 268, 133,  #PB_Window_SystemMenu | #PB_Window_TitleBar | #PB_Window_ScreenCentered , ""#,
-                        output_for_hello_world!(),
-                        r#" Window")
- If CreateGadgetList(WindowID())
-   TextGadget(1, 100, 60, 60, 20, ""#,
-                        output_for_hello_world!(),
-                        r#"")
- EndIf
-EndIf
-
-Repeat    ; Message Loop
-Until WaitWindowEvent() = #PB_EventCloseWindow"#
+                tokenized_syntax: &[
+                    (
+                        TokenKind::Comment,
+                        concat!(r"; ", output_for_hello_world!(), r" in PureBasic (Window)"),
                     ),
-                )],
+                    (
+                        TokenKind::Plain,
+                        r"
+
+",
+                    ),
+                    (TokenKind::Keyword, r"If"),
+                    (TokenKind::Plain, r" "),
+                    (TokenKind::Function, r"OpenWindow"),
+                    (TokenKind::Punctuation, r"("),
+                    (TokenKind::Number, r"0"),
+                    (TokenKind::Punctuation, r","),
+                    (TokenKind::Plain, r" "),
+                    (TokenKind::Number, r"216"),
+                    (TokenKind::Punctuation, r","),
+                    (TokenKind::Plain, r" "),
+                    (TokenKind::Number, r"0"),
+                    (TokenKind::Punctuation, r","),
+                    (TokenKind::Plain, r" "),
+                    (TokenKind::Number, r"268"),
+                    (TokenKind::Punctuation, r","),
+                    (TokenKind::Plain, r" "),
+                    (TokenKind::Number, r"133"),
+                    (TokenKind::Punctuation, r","),
+                    (
+                        TokenKind::Plain,
+                        r"  #PB_Window_SystemMenu | #PB_Window_TitleBar | #PB_Window_ScreenCentered ",
+                    ),
+                    (TokenKind::Punctuation, r","),
+                    (TokenKind::Plain, r" "),
+                    (
+                        TokenKind::String,
+                        concat!(r#"""#, output_for_hello_world!(), r#" Window""#),
+                    ),
+                    (TokenKind::Punctuation, r")"),
+                    (
+                        TokenKind::Plain,
+                        r"
+ ",
+                    ),
+                    (TokenKind::Keyword, r"If"),
+                    (TokenKind::Plain, r" "),
+                    (TokenKind::Function, r"CreateGadgetList"),
+                    (TokenKind::Punctuation, r"("),
+                    (TokenKind::Function, r"WindowID"),
+                    (TokenKind::Punctuation, r"())"),
+                    (
+                        TokenKind::Plain,
+                        r"
+   ",
+                    ),
+                    (TokenKind::Function, r"TextGadget"),
+                    (TokenKind::Punctuation, r"("),
+                    (TokenKind::Number, r"1"),
+                    (TokenKind::Punctuation, r","),
+                    (TokenKind::Plain, r" "),
+                    (TokenKind::Number, r"100"),
+                    (TokenKind::Punctuation, r","),
+                    (TokenKind::Plain, r" "),
+                    (TokenKind::Number, r"60"),
+                    (TokenKind::Punctuation, r","),
+                    (TokenKind::Plain, r" "),
+                    (TokenKind::Number, r"60"),
+                    (TokenKind::Punctuation, r","),
+                    (TokenKind::Plain, r" "),
+                    (TokenKind::Number, r"20"),
+                    (TokenKind::Punctuation, r","),
+                    (TokenKind::Plain, r" "),
+                    (
+                        TokenKind::String,
+                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                    ),
+                    (TokenKind::Punctuation, r")"),
+                    (
+                        TokenKind::Plain,
+                        r"
+ ",
+                    ),
+                    (TokenKind::Keyword, r"EndIf"),
+                    (
+                        TokenKind::Plain,
+                        r"
+",
+                    ),
+                    (TokenKind::Keyword, r"EndIf"),
+                    (
+                        TokenKind::Plain,
+                        r"
+
+Repeat    ",
+                    ),
+                    (TokenKind::Comment, r"; Message Loop"),
+                    (
+                        TokenKind::Plain,
+                        r"
+Until ",
+                    ),
+                    (TokenKind::Function, r"WaitWindowEvent"),
+                    (TokenKind::Punctuation, r"()"),
+                    (TokenKind::Plain, r" = #PB_EventCloseWindow"),
+                ],
             },
         ],
     };

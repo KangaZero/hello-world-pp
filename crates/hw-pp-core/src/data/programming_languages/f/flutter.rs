@@ -42,22 +42,75 @@ void main() {
   );
 }"
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"import 'package:flutter/widgets.dart';
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"import"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::String, r"'package:flutter/widgets.dart'"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-void main() {
-  runApp(
-    Text(
-      '",
-                    output_for_hello_world!(),
-                    r"',
-      textDirection: TextDirection.ltr,
-    ),
-  );
-}"
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"void"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"main"),
+                (TokenKind::Punctuation, r"()"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+  ",
+                ),
+                (TokenKind::Function, r"runApp"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Function, r"Text"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::Plain,
+                    r"
+      ",
+                ),
+                (
+                    TokenKind::String,
+                    concat!(r"'", output_for_hello_world!(), r"'"),
+                ),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"
+      textDirection",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r" TextDirection"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"ltr"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Punctuation, r"),"),
+                (
+                    TokenKind::Plain,
+                    r"
+  ",
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

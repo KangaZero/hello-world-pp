@@ -44,19 +44,24 @@ START-OF-SELECTION.
 
 "
                 ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r"REPORT ZHELLO_WORLD.
-
-START-OF-SELECTION.
-    WRITE: '",
-                        output_for_hello_world!(),
-                        r"'.
-
-"
+                tokenized_syntax: &[
+                    (TokenKind::Keyword, "REPORT"),
+                    (TokenKind::Plain, " ZHELLO_WORLD"),
+                    (TokenKind::Punctuation, "."),
+                    (TokenKind::Plain, "\n\n"),
+                    (TokenKind::Keyword, "START-OF-SELECTION"),
+                    (TokenKind::Punctuation, "."),
+                    (TokenKind::Plain, "\n    "),
+                    (TokenKind::Keyword, "WRITE"),
+                    (TokenKind::Punctuation, ":"),
+                    (TokenKind::Plain, " "),
+                    (
+                        TokenKind::String,
+                        concat!("'", output_for_hello_world!(), "'"),
                     ),
-                )],
+                    (TokenKind::Punctuation, "."),
+                    (TokenKind::Plain, "\n\n"),
+                ],
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Abap4,
@@ -69,18 +74,26 @@ WRITE: '",
                     output_for_hello_world!(),
                     r"'."
                 ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r"REPORT ZHB00001.
-*",
-                        output_for_hello_world!(),
-                        r" in ABAP/4 *
-WRITE: '",
-                        output_for_hello_world!(),
-                        r"'."
+                tokenized_syntax: &[
+                    (TokenKind::Keyword, "REPORT"),
+                    (TokenKind::Plain, " ZHB00001"),
+                    (TokenKind::Punctuation, "."),
+                    (TokenKind::Plain, "\n"),
+                    // A `*` in the first column makes the whole line a comment.
+                    (
+                        TokenKind::Comment,
+                        concat!("*", output_for_hello_world!(), " in ABAP/4 *"),
                     ),
-                )],
+                    (TokenKind::Plain, "\n"),
+                    (TokenKind::Keyword, "WRITE"),
+                    (TokenKind::Punctuation, ":"),
+                    (TokenKind::Plain, " "),
+                    (
+                        TokenKind::String,
+                        concat!("'", output_for_hello_world!(), "'"),
+                    ),
+                    (TokenKind::Punctuation, "."),
+                ],
             },
         ],
     };

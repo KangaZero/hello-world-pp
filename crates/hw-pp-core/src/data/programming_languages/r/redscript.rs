@@ -37,17 +37,49 @@ func OnRestored() -> Void {
                 r#"");
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"@wrapMethod(EquipmentSystemPlayerData)
-func OnRestored() -> Void {
-  wrappedMethod();
-  Log(""#,
-                    output_for_hello_world!(),
-                    r#"");
-}"#
+            tokenized_syntax: &[
+                (TokenKind::Macro, r"@wrapMethod"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"EquipmentSystemPlayerData"),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"func"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"OnRestored"),
+                (TokenKind::Punctuation, r"()"),
+                (TokenKind::Plain, r" -> "),
+                (TokenKind::Type, r"Void"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+  ",
+                ),
+                (TokenKind::Function, r"wrappedMethod"),
+                (TokenKind::Punctuation, r"();"),
+                (
+                    TokenKind::Plain,
+                    r"
+  ",
+                ),
+                (TokenKind::Function, r"Log"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

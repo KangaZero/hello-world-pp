@@ -57,36 +57,141 @@ caption	db "Hi",0
 start_data Ends
 End begin"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"; ",
-                    output_for_hello_world!(),
-                    r" in Assembler for the Win32 architecture
-
-TITLE ",
-                    output_for_hello_world!(),
-                    r" in win32. Tasm
-
-VERSION T310
-Model use32 Flat,StdCall
-
-start_code segment byte public 'code' use32
-begin:
- Call MessageBox, 0, offset sHallo, offset caption, 0
- Call ExitProcess, 0
-start_code Ends
-
-start_data segment byte public 'data' use32
-
-sHallo  db '",
-                    output_for_hello_world!(),
-                    r#"',0
-caption	db "Hi",0
-
-start_data Ends
-End begin"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r"; ",
+                        output_for_hello_world!(),
+                        r" in Assembler for the Win32 architecture"
+                    ),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"TITLE"),
+                (
+                    TokenKind::Plain,
+                    concat!(r" ", output_for_hello_world!(), r" in win32"),
+                ),
+                (TokenKind::Punctuation, r"."),
+                (
+                    TokenKind::Plain,
+                    r" Tasm
+
+",
+                ),
+                (TokenKind::Keyword, r"VERSION"),
+                (
+                    TokenKind::Plain,
+                    r" T310
+",
+                ),
+                (TokenKind::Keyword, r"Model"),
+                (TokenKind::Plain, r" use32 Flat"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"StdCall
+
+",
+                ),
+                (TokenKind::Keyword, r"start_code"),
+                (TokenKind::Plain, r" segment "),
+                (TokenKind::Keyword, r"byte"),
+                (TokenKind::Plain, r" public "),
+                (TokenKind::String, r"'code'"),
+                (
+                    TokenKind::Plain,
+                    r" use32
+begin",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (
+                    TokenKind::Plain,
+                    r"
+ ",
+                ),
+                (TokenKind::Keyword, r"Call"),
+                (TokenKind::Plain, r" MessageBox"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"0"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" offset sHallo"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" offset caption"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"0"),
+                (
+                    TokenKind::Plain,
+                    r"
+ ",
+                ),
+                (TokenKind::Keyword, r"Call"),
+                (TokenKind::Plain, r" ExitProcess"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"0"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"start_code"),
+                (
+                    TokenKind::Plain,
+                    r" Ends
+
+",
+                ),
+                (TokenKind::Keyword, r"start_data"),
+                (TokenKind::Plain, r" segment "),
+                (TokenKind::Keyword, r"byte"),
+                (TokenKind::Plain, r" public "),
+                (TokenKind::String, r"'data'"),
+                (
+                    TokenKind::Plain,
+                    r" use32
+
+sHallo  ",
+                ),
+                (TokenKind::Keyword, r"db"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r"'", output_for_hello_world!(), r"'"),
+                ),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Number, r"0"),
+                (
+                    TokenKind::Plain,
+                    r"
+caption	",
+                ),
+                (TokenKind::Keyword, r"db"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::String, r#""Hi""#),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Number, r"0"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"start_data"),
+                (
+                    TokenKind::Plain,
+                    r" Ends
+",
+                ),
+                (TokenKind::Keyword, r"End"),
+                (TokenKind::Plain, r" begin"),
+            ],
         }],
     };

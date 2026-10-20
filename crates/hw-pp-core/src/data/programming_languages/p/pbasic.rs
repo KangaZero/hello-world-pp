@@ -43,22 +43,47 @@ DEBUG ""#,
 
 END"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"' ",
-                    output_for_hello_world!(),
-                    r#" in PBASIC (for the Boe-Bot Robot)
-
-' {$STAMP BS2}
-' {$PBASIC 2.5}
-
-DEBUG ""#,
-                    output_for_hello_world!(),
-                    r#""
-
-END"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r"' ",
+                        output_for_hello_world!(),
+                        r" in PBASIC (for the Boe-Bot Robot)"
+                    ),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Comment, r"' {$STAMP BS2}"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Comment, r"' {$PBASIC 2.5}"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"DEBUG"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"END"),
+            ],
         }],
     };

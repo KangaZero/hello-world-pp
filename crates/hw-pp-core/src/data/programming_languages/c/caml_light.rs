@@ -40,19 +40,36 @@ let hello =
                 r#"";
 ;;"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"(* ",
-                    output_for_hello_world!(),
-                    r#" in CAML Light *)
-
-let hello =
-   print_string ""#,
-                    output_for_hello_world!(),
-                    r#"";
-;;"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(r"(* ", output_for_hello_world!(), r" in CAML Light *)"),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"let"),
+                (
+                    TokenKind::Plain,
+                    r" hello =
+   ",
+                ),
+                (TokenKind::Function, r"print_string"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r";;"),
+            ],
         }],
     };

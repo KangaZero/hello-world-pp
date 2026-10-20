@@ -34,14 +34,27 @@ fmt.print(""#,
                 output_for_hello_world!(),
                 r#"")"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"fmt := import("fmt")
-fmt.print(""#,
-                    output_for_hello_world!(),
-                    r#"")"#
+            tokenized_syntax: &[
+                (TokenKind::Plain, r"fmt "),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"= "),
+                (TokenKind::Keyword, r"import"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::String, r#""fmt""#),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+fmt",
                 ),
-            )],
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"print"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+            ],
         }],
     };

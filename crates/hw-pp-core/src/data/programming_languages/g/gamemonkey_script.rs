@@ -39,19 +39,48 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 // Execute the function
 HelloWorld();"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"global HelloWorld = function()
-{
-    print(""#,
-                    output_for_hello_world!(),
-                    r#"");
-};
-
-// Execute the function
-HelloWorld();"#
+            tokenized_syntax: &[
+                (TokenKind::Plain, r"global HelloWorld = "),
+                (TokenKind::Keyword, r"function"),
+                (TokenKind::Punctuation, r"()"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Function, r"print"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"};"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Comment, r"// Execute the function"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Function, r"HelloWorld"),
+                (TokenKind::Punctuation, r"();"),
+            ],
         }],
     };

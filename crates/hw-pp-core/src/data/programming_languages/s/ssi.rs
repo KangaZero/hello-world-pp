@@ -40,19 +40,46 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 <!--#echo var="hello" -->
 </p></body></html>"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"<html><body><p>
-<!-- ",
-                    output_for_hello_world!(),
-                    r#" as Server Side Includes, embedded in HTML. -->
-<!--#set var="hello" value=""#,
-                    output_for_hello_world!(),
-                    r#"" -->
-<!--#echo var="hello" -->
-</p></body></html>"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"<html><body><p>"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r"<!-- ",
+                        output_for_hello_world!(),
+                        r" as Server Side Includes, embedded in HTML. -->"
+                    ),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r#"<!--#set var="hello" value=""#,
+                        output_for_hello_world!(),
+                        r#"" -->"#
+                    ),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Comment, r#"<!--#echo var="hello" -->"#),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"</p></body></html>"),
+            ],
         }],
     };

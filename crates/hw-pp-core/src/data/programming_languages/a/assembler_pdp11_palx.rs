@@ -57,37 +57,145 @@ HELLO:	.ASCIZ /",
 
 	.END START"
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"	.TITLE ",
-                    output_for_hello_world!(),
+            tokenized_syntax: &[
+                (TokenKind::Plain, r"	"),
+                (TokenKind::Macro, r".TITLE"),
+                (
+                    TokenKind::Plain,
+                    concat!(
+                        r" ",
+                        output_for_hello_world!(),
+                        r"
+
+"
+                    ),
+                ),
+                (TokenKind::Keyword, r"R0"),
+                (TokenKind::Plain, r"=%"),
+                (TokenKind::Number, r"0"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"R1"),
+                (TokenKind::Plain, r"=%"),
+                (TokenKind::Number, r"1"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"TPS"),
+                (TokenKind::Plain, r"=="),
+                (TokenKind::Number, r"177564"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"TPB"),
+                (TokenKind::Plain, r"=="),
+                (TokenKind::Number, r"177566"),
+                (
+                    TokenKind::Plain,
                     r"
 
-R0=%0
-R1=%1
-TPS==177564
-TPB==177566
-
-	.=400
-
-START:	MOV #1,@#TPS
-	MOV #HELLO,R0
-LOOP:	TSTB @#TPS
-	BPL LOOP
-	MOVB (R0)+,R1
-	BEQ STOP
-	MOVB R1,@#TPB
-	BR LOOP
-
-STOP:	HALT
-
-HELLO:	.ASCIZ /",
-                    output_for_hello_world!(),
-                    r"/
-
-	.END START"
+	",
                 ),
-            )],
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"="),
+                (TokenKind::Number, r"400"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+START",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"	MOV #"),
+                (TokenKind::Number, r"1"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"@#TPS
+	",
+                ),
+                (TokenKind::Keyword, r"MOV"),
+                (TokenKind::Plain, r" #HELLO"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"R0
+LOOP",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (
+                    TokenKind::Plain,
+                    r"	TSTB @#TPS
+	",
+                ),
+                (TokenKind::Keyword, r"BPL"),
+                (
+                    TokenKind::Plain,
+                    r" LOOP
+	",
+                ),
+                (TokenKind::Keyword, r"MOVB"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"R0"),
+                (TokenKind::Punctuation, r")"),
+                (TokenKind::Plain, r"+"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"R1
+	",
+                ),
+                (TokenKind::Keyword, r"BEQ"),
+                (
+                    TokenKind::Plain,
+                    r" STOP
+	",
+                ),
+                (TokenKind::Keyword, r"MOVB"),
+                (TokenKind::Plain, r" R1"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"@#TPB
+	",
+                ),
+                (TokenKind::Keyword, r"BR"),
+                (
+                    TokenKind::Plain,
+                    r" LOOP
+
+STOP",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (
+                    TokenKind::Plain,
+                    r"	HALT
+
+HELLO",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"	"),
+                (TokenKind::Macro, r".ASCIZ"),
+                (
+                    TokenKind::Plain,
+                    concat!(
+                        r" /",
+                        output_for_hello_world!(),
+                        r"/
+
+	"
+                    ),
+                ),
+                (TokenKind::Macro, r".END"),
+                (TokenKind::Plain, r" START"),
+            ],
         }],
     };

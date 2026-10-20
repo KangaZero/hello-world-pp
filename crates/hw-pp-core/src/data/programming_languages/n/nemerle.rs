@@ -39,19 +39,62 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     }
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"class Hello
-{
-    static Main () : void
-    {
-        System.Console.WriteLine (""#,
-                    output_for_hello_world!(),
-                    r#"");
-    }
-}"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"class"),
+                (
+                    TokenKind::Plain,
+                    r" Hello
+",
                 ),
-            )],
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Keyword, r"static"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"Main"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"()"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"void"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+        System",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"Console"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"WriteLine"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Punctuation, r"}"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

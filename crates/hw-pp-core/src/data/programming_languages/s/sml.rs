@@ -29,9 +29,17 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sml,
             syntax: concat!(r#"val () = print ""#, output_for_hello_world!(), r#"\n""#),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r#"val () = print ""#, output_for_hello_world!(), r#"\n""#),
-            )],
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"val"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"()"),
+                (TokenKind::Plain, r" = "),
+                (TokenKind::Keyword, r"print"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                ),
+            ],
         }],
     };

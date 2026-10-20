@@ -36,16 +36,33 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 END;
 /"
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"BEGIN
-  dbms_output.put_line('",
-                    output_for_hello_world!(),
-                    r"');
-END;
-/"
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"BEGIN"),
+                (
+                    TokenKind::Plain,
+                    r"
+  dbms_output",
                 ),
-            )],
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Keyword, r"put_line"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r"'", output_for_hello_world!(), r"'"),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"END"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+/",
+                ),
+            ],
         }],
     };

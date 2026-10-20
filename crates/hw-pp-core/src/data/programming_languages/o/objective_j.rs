@@ -29,9 +29,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::ObjectiveJ,
             syntax: concat!(r#"document.write(""#, output_for_hello_world!(), r#"");"#),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r#"document.write(""#, output_for_hello_world!(), r#"");"#),
-            )],
+            tokenized_syntax: &[
+                (TokenKind::Plain, r"document"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"write"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+            ],
         }],
     };

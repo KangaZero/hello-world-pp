@@ -37,17 +37,33 @@ init
                 output_for_hello_world!(),
                 r#"")"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"package HelloWurst
-import Printing
-
-init
-	print(""#,
-                    output_for_hello_world!(),
-                    r#"")"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"package"),
+                (
+                    TokenKind::Plain,
+                    r" HelloWurst
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"import"),
+                (
+                    TokenKind::Plain,
+                    r" Printing
+
+",
+                ),
+                (TokenKind::Keyword, r"init"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Function, r"print"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+            ],
         }],
     };

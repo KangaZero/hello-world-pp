@@ -36,16 +36,42 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
   Quit
 End Function"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"Function Run(args() as String) As Integer
-  Print ""#,
-                    output_for_hello_world!(),
-                    r#""
-  Quit
-End Function"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"Function"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"Run"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Function, r"args"),
+                (TokenKind::Punctuation, r"()"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"as"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"String"),
+                (TokenKind::Punctuation, r")"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"As"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Type, r"Integer"),
+                (
+                    TokenKind::Plain,
+                    r"
+  ",
                 ),
-            )],
+                (TokenKind::Keyword, r"Print"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+  Quit
+",
+                ),
+                (TokenKind::Keyword, r"End"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"Function"),
+            ],
         }],
     };

@@ -38,17 +38,26 @@ Transcript show: '"#,
                 output_for_hello_world!(),
                 r"'"
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"""#,
-                    output_for_hello_world!(),
-                    r#" in Squeak"
-
-Transcript show: '"#,
-                    output_for_hello_world!(),
-                    r"'"
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(r#"""#, output_for_hello_world!(), r#" in Squeak""#),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"Transcript"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"show"),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r"'", output_for_hello_world!(), r"'"),
+                ),
+            ],
         }],
     };

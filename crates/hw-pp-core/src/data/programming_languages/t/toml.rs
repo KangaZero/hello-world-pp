@@ -26,6 +26,9 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Toml,
             syntax: r#"Hello = "World""#,
-            tokenized_syntax: &[(TokenKind::Plain, r#"Hello = "World""#)],
+            tokenized_syntax: &[
+                (TokenKind::Plain, r"Hello = "),
+                (TokenKind::String, r#""World""#),
+            ],
         }],
     };

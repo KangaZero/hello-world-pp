@@ -37,16 +37,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 prompt ",
                 output_for_hello_world!()
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"-- ",
-                    output_for_hello_world!(),
-                    r" in Oracle SQL*Plus
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(r"-- ", output_for_hello_world!(), r" in Oracle SQL*Plus"),
+                ),
+                (
+                    TokenKind::Plain,
+                    concat!(
+                        r"
 
 prompt ",
-                    output_for_hello_world!()
+                        output_for_hello_world!()
+                    ),
                 ),
-            )],
+            ],
         }],
     };

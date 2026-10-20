@@ -35,15 +35,18 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                 output_for_hello_world!(),
                 r#"""#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"#!/usr/bin/env falcon
+            tokenized_syntax: &[
+                (TokenKind::Macro, r"#!/usr/bin/env falcon"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-> ""#,
-                    output_for_hello_world!(),
-                    r#"""#
+> ",
                 ),
-            )],
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+            ],
         }],
     };

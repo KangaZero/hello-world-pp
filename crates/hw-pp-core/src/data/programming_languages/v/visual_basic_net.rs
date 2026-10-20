@@ -46,25 +46,71 @@ Class HelloWorld
 
 End Class"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"'",
-                    output_for_hello_world!(),
-                    r#" in Visual Basic .NET (VB.NET)
-
-Imports System.Console
-
-Class HelloWorld
-
-    Public Shared Sub Main()
-        WriteLine(""#,
-                    output_for_hello_world!(),
-                    r#"")
-    End Sub
-
-End Class"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r"'",
+                        output_for_hello_world!(),
+                        r" in Visual Basic .NET (VB.NET)"
+                    ),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+Imports System",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Keyword, r"Console"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"Class"),
+                (
+                    TokenKind::Plain,
+                    r" HelloWorld
+
+    ",
+                ),
+                (TokenKind::Keyword, r"Public"),
+                (TokenKind::Plain, r" Shared "),
+                (TokenKind::Keyword, r"Sub"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"Main"),
+                (TokenKind::Punctuation, r"()"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Keyword, r"WriteLine"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Keyword, r"End"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"Sub"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"End"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"Class"),
+            ],
         }],
     };

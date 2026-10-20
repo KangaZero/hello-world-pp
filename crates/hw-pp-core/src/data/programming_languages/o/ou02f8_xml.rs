@@ -34,14 +34,25 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                 output_for_hello_world!(),
                 r"]]></text>"
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"<?xml version="1.0" encoding="UTF-8"?>
-<text><![CDATA["#,
-                    output_for_hello_world!(),
-                    r"]]></text>"
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"<"),
+                (TokenKind::Plain, r"?xml version="),
+                (TokenKind::String, r#""1.0""#),
+                (TokenKind::Plain, r" encoding="),
+                (TokenKind::String, r#""UTF-8""#),
+                (TokenKind::Plain, r"?"),
+                (TokenKind::Keyword, r">"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"<text><"),
+                (
+                    TokenKind::Plain,
+                    concat!(r"![CDATA[", output_for_hello_world!(), r"]]"),
+                ),
+                (TokenKind::Keyword, r"></text>"),
+            ],
         }],
     };

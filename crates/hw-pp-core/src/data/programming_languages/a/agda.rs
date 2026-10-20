@@ -36,16 +36,34 @@ main = run (putStrLn ""#,
                 output_for_hello_world!(),
                 r#"")"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"module agda where
-open import IO
-
-main = run (putStrLn ""#,
-                    output_for_hello_world!(),
-                    r#"")"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"module"),
+                (TokenKind::Plain, r" agda "),
+                (TokenKind::Keyword, r"where"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"open"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"import"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Type, r"IO"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+main = run ",
+                ),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Function, r"putStrLn"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+            ],
         }],
     };

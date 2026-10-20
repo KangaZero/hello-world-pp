@@ -29,9 +29,9 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Es,
             syntax: concat!(r"echo ", output_for_hello_world!()),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r"echo ", output_for_hello_world!()),
-            )],
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"echo"),
+                (TokenKind::Plain, concat!(r" ", output_for_hello_world!())),
+            ],
         }],
     };

@@ -33,13 +33,17 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                 output_for_hello_world!(),
                 r#"" "color:blue")"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"(display ""#,
-                    output_for_hello_world!(),
-                    r#"" "color:blue")"#
+            tokenized_syntax: &[
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Function, r"display"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
                 ),
-            )],
+                (TokenKind::Plain, r" "),
+                (TokenKind::String, r#""color:blue""#),
+                (TokenKind::Punctuation, r")"),
+            ],
         }],
     };

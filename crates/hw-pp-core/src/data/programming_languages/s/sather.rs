@@ -39,19 +39,44 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
    end
 end"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"class MAIN is
-   main is 
-      loop 
-         #OUT + ""#,
-                    output_for_hello_world!(),
-                    r#"\n" 
-      end 
-   end
-end"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"class"),
+                (TokenKind::Plain, r" MAIN "),
+                (TokenKind::Keyword, r"is"),
+                (
+                    TokenKind::Plain,
+                    r"
+   main ",
                 ),
-            )],
+                (TokenKind::Keyword, r"is"),
+                (
+                    TokenKind::Plain,
+                    r" 
+      loop 
+         #OUT + ",
+                ),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r" 
+      ",
+                ),
+                (TokenKind::Keyword, r"end"),
+                (
+                    TokenKind::Plain,
+                    r" 
+   ",
+                ),
+                (TokenKind::Keyword, r"end"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"end"),
+            ],
         }],
     };

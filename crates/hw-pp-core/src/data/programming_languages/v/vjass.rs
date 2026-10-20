@@ -37,17 +37,48 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     endmethod
 endstruct"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"struct HelloWorld extends array
-    private static method onInit takes nothing returns nothing
-        call DisplayTimedTextToPlayer(GetLocalPlayer(), 0, 0, 0, ""#,
-                    output_for_hello_world!(),
-                    r#"")
-    endmethod
-endstruct"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"struct"),
+                (TokenKind::Plain, r" HelloWorld "),
+                (TokenKind::Keyword, r"extends"),
+                (
+                    TokenKind::Plain,
+                    r" array
+    ",
                 ),
-            )],
+                (TokenKind::Keyword, r"private"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"static"),
+                (
+                    TokenKind::Plain,
+                    r" method onInit takes nothing returns nothing
+        call ",
+                ),
+                (TokenKind::Function, r"DisplayTimedTextToPlayer"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Function, r"GetLocalPlayer"),
+                (TokenKind::Punctuation, r"(),"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"0"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"0"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"0"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+    endmethod
+endstruct",
+                ),
+            ],
         }],
     };

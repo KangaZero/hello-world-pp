@@ -48,27 +48,118 @@ str:    .ascii / ",
         len=.-str
         .end start"
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r";       ",
-                    output_for_hello_world!(),
-                    r" in Assembler for the DEC PDP-11 with the
-;	RSX-11M-PLUS operating system
-;
-        .title Hello
-        .ident /V0001A/
-        .mcall qiow$s, exit$s
-        .psect $code,ro,i
-start:  qiow$s #5,#5,,,,<#str, #len, #40>
-        exit$s
-        .psect $data,ro,d
-str:    .ascii / ",
-                    output_for_hello_world!(),
-                    r"/
-        len=.-str
-        .end start"
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r";       ",
+                        output_for_hello_world!(),
+                        r" in Assembler for the DEC PDP-11 with the"
+                    ),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Comment, r";	RSX-11M-PLUS operating system"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Comment, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+        ",
+                ),
+                (TokenKind::Macro, r".title"),
+                (
+                    TokenKind::Plain,
+                    r" Hello
+        ",
+                ),
+                (TokenKind::Macro, r".ident"),
+                (
+                    TokenKind::Plain,
+                    r" /V0001A/
+        ",
+                ),
+                (TokenKind::Macro, r".mcall"),
+                (TokenKind::Plain, r" qiow$s"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" exit$s
+        ",
+                ),
+                (TokenKind::Macro, r".psect"),
+                (TokenKind::Plain, r" $code"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"ro"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"i
+start",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"  qiow$s #"),
+                (TokenKind::Number, r"5"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"#"),
+                (TokenKind::Number, r"5"),
+                (TokenKind::Punctuation, r",,,,"),
+                (TokenKind::Plain, r"<#str"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" #len"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" #"),
+                (TokenKind::Number, r"40"),
+                (
+                    TokenKind::Plain,
+                    r">
+        ",
+                ),
+                (TokenKind::Keyword, r"exit"),
+                (
+                    TokenKind::Plain,
+                    r"$s
+        ",
+                ),
+                (TokenKind::Macro, r".psect"),
+                (TokenKind::Plain, r" $data"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"ro"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"d
+str",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"    "),
+                (TokenKind::Macro, r".ascii"),
+                (
+                    TokenKind::Plain,
+                    concat!(
+                        r" / ",
+                        output_for_hello_world!(),
+                        r"/
+        "
+                    ),
+                ),
+                (TokenKind::Keyword, r"len"),
+                (TokenKind::Plain, r"="),
+                (TokenKind::Punctuation, r"."),
+                (
+                    TokenKind::Plain,
+                    r"-str
+        ",
+                ),
+                (TokenKind::Macro, r".end"),
+                (TokenKind::Plain, r" start"),
+            ],
         }],
     };

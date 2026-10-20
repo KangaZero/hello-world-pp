@@ -39,18 +39,55 @@ BEGIN
   Out.Ln;
 END HelloWorld."#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"MODULE HelloWorld;                     
-IMPORT Out;
-BEGIN
-  Out.String( ""#,
-                    output_for_hello_world!(),
-                    r#"" );
-  Out.Ln;
-END HelloWorld."#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"MODULE"),
+                (TokenKind::Plain, r" HelloWorld"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"                     
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"IMPORT"),
+                (TokenKind::Plain, r" Out"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"BEGIN"),
+                (
+                    TokenKind::Plain,
+                    r"
+  Out",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"String"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+  Out",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"Ln"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"END"),
+                (TokenKind::Plain, r" HelloWorld"),
+                (TokenKind::Punctuation, r"."),
+            ],
         }],
     };

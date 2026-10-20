@@ -68,48 +68,181 @@ helloworld:     db      '"#,
                 r"',$80
 "
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
+            tokenized_syntax: &[
+                (
+                    TokenKind::Plain,
                     r"
-; ",
-                    output_for_hello_world!(),
-                    r#" for Vectrex computer with 6809 CPU
-; by Frog ( http://frog.enlight.ru )
-; 24 March 2016
-
-;***************************************************************************
-                org     0
-
-
-                db      "g GCE 2016", $80
-                dw      $F600       
-                db      $FC, $30, 33, -$2a
-                db      ""#,
-                    output_for_hello_world!(),
-                    r#"", $80 
-                db      0
-
-
-loop:
-
-                jsr     $f192
-
-                ldu     #helloworld
-                lda     #10
-                ldb     #-45    
-
-                jsr     $f37a  
-
-                bra     loop
-
-
-
-helloworld:     db      '"#,
-                    output_for_hello_world!(),
-                    r"',$80
-"
+",
                 ),
-            )],
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r"; ",
+                        output_for_hello_world!(),
+                        r" for Vectrex computer with 6809 CPU"
+                    ),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Comment, r"; by Frog ( http://frog.enlight.ru )"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Comment, r"; 24 March 2016"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (
+                    TokenKind::Comment,
+                    r";***************************************************************************",
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+                ",
+                ),
+                (TokenKind::Keyword, r"org"),
+                (TokenKind::Plain, r"     "),
+                (TokenKind::Number, r"0"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+
+                ",
+                ),
+                (TokenKind::Keyword, r"db"),
+                (TokenKind::Plain, r"      "),
+                (TokenKind::String, r#""g GCE 2016""#),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"80"),
+                (
+                    TokenKind::Plain,
+                    r"
+                ",
+                ),
+                (TokenKind::Keyword, r"dw"),
+                (
+                    TokenKind::Plain,
+                    r"      $F600       
+                ",
+                ),
+                (TokenKind::Keyword, r"db"),
+                (TokenKind::Plain, r"      $FC"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"30"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"33"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" -$2a
+                ",
+                ),
+                (TokenKind::Keyword, r"db"),
+                (TokenKind::Plain, r"      "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" $"),
+                (TokenKind::Number, r"80"),
+                (
+                    TokenKind::Plain,
+                    r" 
+                ",
+                ),
+                (TokenKind::Keyword, r"db"),
+                (TokenKind::Plain, r"      "),
+                (TokenKind::Number, r"0"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+
+loop",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+                ",
+                ),
+                (TokenKind::Keyword, r"jsr"),
+                (
+                    TokenKind::Plain,
+                    r"     $f192
+
+                ",
+                ),
+                (TokenKind::Keyword, r"ldu"),
+                (
+                    TokenKind::Plain,
+                    r"     #helloworld
+                ",
+                ),
+                (TokenKind::Keyword, r"lda"),
+                (TokenKind::Plain, r"     #"),
+                (TokenKind::Number, r"10"),
+                (
+                    TokenKind::Plain,
+                    r"
+                ",
+                ),
+                (TokenKind::Keyword, r"ldb"),
+                (TokenKind::Plain, r"     #-"),
+                (TokenKind::Number, r"45"),
+                (
+                    TokenKind::Plain,
+                    r"    
+
+                ",
+                ),
+                (TokenKind::Keyword, r"jsr"),
+                (
+                    TokenKind::Plain,
+                    r"     $f37a  
+
+                ",
+                ),
+                (TokenKind::Keyword, r"bra"),
+                (
+                    TokenKind::Plain,
+                    r"     loop
+
+
+
+helloworld",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"     "),
+                (TokenKind::Keyword, r"db"),
+                (TokenKind::Plain, r"      "),
+                (
+                    TokenKind::String,
+                    concat!(r"'", output_for_hello_world!(), r"'"),
+                ),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r"$"),
+                (TokenKind::Number, r"80"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+            ],
         }],
     };

@@ -42,22 +42,81 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 	return	
 .end method"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#".class public Jasmin
-.super java/lang/Object
-
-.method public static main([Ljava/lang/String;)V
-	.limit stack 2
-	getstatic java/lang/System/out Ljava/io/PrintStream;
-	ldc ""#,
-                    output_for_hello_world!(),
-                    r#""
-	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
-	return	
-.end method"#
+            tokenized_syntax: &[
+                (TokenKind::Macro, r".class"),
+                (
+                    TokenKind::Plain,
+                    r" public Jasmin
+",
                 ),
-            )],
+                (TokenKind::Macro, r".super"),
+                (
+                    TokenKind::Plain,
+                    r" java/lang/Object
+
+",
+                ),
+                (TokenKind::Macro, r".method"),
+                (TokenKind::Plain, r" public static main"),
+                (TokenKind::Punctuation, r"(["),
+                (TokenKind::Plain, r"Ljava/lang/"),
+                (TokenKind::Keyword, r"String"),
+                (TokenKind::Comment, r";)V"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Macro, r".limit"),
+                (TokenKind::Plain, r" stack "),
+                (TokenKind::Number, r"2"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Keyword, r"getstatic"),
+                (
+                    TokenKind::Plain,
+                    r" java/lang/System/out Ljava/io/PrintStream",
+                ),
+                (TokenKind::Comment, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Keyword, r"ldc"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Keyword, r"invokevirtual"),
+                (TokenKind::Plain, r" java/io/PrintStream/"),
+                (TokenKind::Function, r"println"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"Ljava/lang/"),
+                (TokenKind::Keyword, r"String"),
+                (TokenKind::Comment, r";)V"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Keyword, r"return"),
+                (
+                    TokenKind::Plain,
+                    r"	
+",
+                ),
+                (TokenKind::Macro, r".end"),
+                (TokenKind::Plain, r" method"),
+            ],
         }],
     };

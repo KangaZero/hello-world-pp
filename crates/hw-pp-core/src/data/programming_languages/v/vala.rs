@@ -37,17 +37,49 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 }
 "#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"static void main (string[] args)
-{
-	stdout.printf (""#,
-                    output_for_hello_world!(),
-                    r#"\n");
-}
-"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"static"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"void"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"main"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Type, r"string"),
+                (TokenKind::Punctuation, r"[]"),
+                (TokenKind::Plain, r" args"),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+	stdout",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"printf"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                ),
+                (TokenKind::Punctuation, r");"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+            ],
         }],
     };

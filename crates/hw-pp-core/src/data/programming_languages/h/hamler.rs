@@ -35,15 +35,27 @@ main = print ""#,
                 output_for_hello_world!(),
                 r#"""#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"module Main where
-import Prelude
-main = print ""#,
-                    output_for_hello_world!(),
-                    r#"""#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"module"),
+                (TokenKind::Plain, r" Main "),
+                (TokenKind::Keyword, r"where"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"import"),
+                (
+                    TokenKind::Plain,
+                    r" Prelude
+main = ",
+                ),
+                (TokenKind::Function, r"print"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+            ],
         }],
     };

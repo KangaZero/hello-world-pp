@@ -37,16 +37,23 @@ cat(""#,
                 output_for_hello_world!(),
                 r#"\n")"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"# ",
-                    output_for_hello_world!(),
-                    r#" for S-Plus
-cat(""#,
-                    output_for_hello_world!(),
-                    r#"\n")"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(r"# ", output_for_hello_world!(), r" for S-Plus"),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Function, r"cat"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+            ],
         }],
     };

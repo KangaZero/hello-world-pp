@@ -37,16 +37,27 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                 output_for_hello_world!(),
                 r#"""#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"10 REM ",
-                    output_for_hello_world!(),
-                    r#" in Sinclair BASIC
-20 PRINT ""#,
-                    output_for_hello_world!(),
-                    r#"""#
+            tokenized_syntax: &[
+                (TokenKind::Number, r"10"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"REM"),
+                (
+                    TokenKind::Plain,
+                    concat!(
+                        r" ",
+                        output_for_hello_world!(),
+                        r" in Sinclair BASIC
+"
+                    ),
                 ),
-            )],
+                (TokenKind::Number, r"20"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"PRINT"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+            ],
         }],
     };

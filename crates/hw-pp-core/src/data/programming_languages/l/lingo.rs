@@ -35,15 +35,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                 r#""
 end"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"on startmovie
-  alert ""#,
-                    output_for_hello_world!(),
-                    r#""
-end"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"on"),
+                (
+                    TokenKind::Plain,
+                    r" startmovie
+  alert ",
                 ),
-            )],
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"end"),
+            ],
         }],
     };

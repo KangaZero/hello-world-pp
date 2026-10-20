@@ -43,22 +43,56 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                 output_for_hello_world!(),
                 r#""))"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r";;; ",
-                    output_for_hello_world!(),
-                    r#" in Emacs Lisp.
-
-(defun hello-world()
-  "Display the string "#,
-                    output_for_hello_world!(),
-                    r#"."
-  (interactive)
-  (message ""#,
-                    output_for_hello_world!(),
-                    r#""))"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(r";;; ", output_for_hello_world!(), r" in Emacs Lisp."),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Keyword, r"defun"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"hello-world"),
+                (TokenKind::Punctuation, r"()"),
+                (
+                    TokenKind::Plain,
+                    r"
+  ",
+                ),
+                (
+                    TokenKind::String,
+                    concat!(
+                        r#""Display the string "#,
+                        output_for_hello_world!(),
+                        r#".""#
+                    ),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+  ",
+                ),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Function, r"interactive"),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+  ",
+                ),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Keyword, r"message"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r"))"),
+            ],
         }],
     };

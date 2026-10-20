@@ -39,18 +39,30 @@ print ""#,
                 r#""
 wait key"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"' ",
-                    output_for_hello_world!(),
-                    r#" in CoolBasic
-
-print ""#,
-                    output_for_hello_world!(),
-                    r#""
-wait key"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(r"' ", output_for_hello_world!(), r" in CoolBasic"),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Keyword, r"print"),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"wait"),
+                (TokenKind::Plain, r" key"),
+            ],
         }],
     };

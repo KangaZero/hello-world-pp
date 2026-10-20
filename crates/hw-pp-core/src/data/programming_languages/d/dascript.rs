@@ -35,15 +35,28 @@ def main
                 output_for_hello_world!(),
                 r#"\n")"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"[export]
-def main
-	print(""#,
-                    output_for_hello_world!(),
-                    r#"\n")"#
+            tokenized_syntax: &[
+                (TokenKind::Punctuation, r"["),
+                (TokenKind::Keyword, r"export"),
+                (TokenKind::Punctuation, r"]"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"def"),
+                (
+                    TokenKind::Plain,
+                    r" main
+	",
+                ),
+                (TokenKind::Function, r"print"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+            ],
         }],
     };

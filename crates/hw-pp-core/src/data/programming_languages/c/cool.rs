@@ -38,17 +38,43 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
    };
 };"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"class Main inherits IO {
-   main(): Object {
-	out_string(""#,
-                    output_for_hello_world!(),
-                    r#".\n")
-   };
-};"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"class"),
+                (TokenKind::Plain, r" Main inherits IO "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+   ",
                 ),
-            )],
+                (TokenKind::Function, r"main"),
+                (TokenKind::Punctuation, r"():"),
+                (TokenKind::Plain, r" Object "),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Function, r"out_string"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#".\n""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+   ",
+                ),
+                (TokenKind::Punctuation, r"};"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"};"),
+            ],
         }],
     };

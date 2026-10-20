@@ -37,17 +37,29 @@ main = trace ""#,
                 output_for_hello_world!(),
                 r#"""#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"module Main where
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"module"),
+                (TokenKind::Plain, r" Main "),
+                (TokenKind::Keyword, r"where"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-import Debug.Trace
-
-main = trace ""#,
-                    output_for_hello_world!(),
-                    r#"""#
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"import"),
+                (TokenKind::Plain, r" Debug"),
+                (TokenKind::Punctuation, r"."),
+                (
+                    TokenKind::Plain,
+                    r"Trace
+
+main = trace ",
+                ),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+            ],
         }],
     };

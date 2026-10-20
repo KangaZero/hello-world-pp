@@ -37,17 +37,35 @@ main {
                 r#"")()
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"include "console.iol"
+            tokenized_syntax: &[
+                (TokenKind::Plain, r"include "),
+                (TokenKind::String, r#""console.iol""#),
+                (
+                    TokenKind::Plain,
+                    r"
 
-main {
-	println@Console(""#,
-                    output_for_hello_world!(),
-                    r#"")()
-}"#
+main ",
                 ),
-            )],
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Function, r"println"),
+                (TokenKind::Macro, r"@Console"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r")()"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

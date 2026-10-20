@@ -44,23 +44,55 @@ Begin
                     r"');
 End."
                 ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r"// ",
-                        output_for_hello_world!(),
-                        r" in Delphi
-Program Hello_World;
-
-($APPTYPE CONSOLE)
-
-Begin
-  WriteLn('",
-                        output_for_hello_world!(),
-                        r"');
-End."
+                tokenized_syntax: &[
+                    (
+                        TokenKind::Comment,
+                        concat!(r"// ", output_for_hello_world!(), r" in Delphi"),
                     ),
-                )],
+                    (
+                        TokenKind::Plain,
+                        r"
+",
+                    ),
+                    (TokenKind::Keyword, r"Program"),
+                    (TokenKind::Plain, r" Hello_World"),
+                    (TokenKind::Punctuation, r";"),
+                    (
+                        TokenKind::Plain,
+                        r"
+
+",
+                    ),
+                    (TokenKind::Punctuation, r"("),
+                    (TokenKind::Plain, r"$APPTYPE CONSOLE"),
+                    (TokenKind::Punctuation, r")"),
+                    (
+                        TokenKind::Plain,
+                        r"
+
+",
+                    ),
+                    (TokenKind::Keyword, r"Begin"),
+                    (
+                        TokenKind::Plain,
+                        r"
+  ",
+                    ),
+                    (TokenKind::Function, r"WriteLn"),
+                    (TokenKind::Punctuation, r"("),
+                    (
+                        TokenKind::String,
+                        concat!(r"'", output_for_hello_world!(), r"'"),
+                    ),
+                    (TokenKind::Punctuation, r");"),
+                    (
+                        TokenKind::Plain,
+                        r"
+",
+                    ),
+                    (TokenKind::Keyword, r"End"),
+                    (TokenKind::Punctuation, r"."),
+                ],
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::DelphiPas,

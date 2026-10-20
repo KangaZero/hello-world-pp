@@ -29,9 +29,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Amber,
             syntax: concat!(r#"puts(""#, output_for_hello_world!(), r#"")"#),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r#"puts(""#, output_for_hello_world!(), r#"")"#),
-            )],
+            tokenized_syntax: &[
+                (TokenKind::Function, r"puts"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::Comment,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+            ],
         }],
     };

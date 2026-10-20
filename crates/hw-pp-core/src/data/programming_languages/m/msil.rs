@@ -48,27 +48,102 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
  }
 }"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"//",
-                    output_for_hello_world!(),
-                    r#" in MSIL (.NET assembler)
-
-.assembly helloworld {}
-.class helloworld
-{
- .method static void Main() cil managed
- {
-  .entrypoint
-  ldstr ""#,
-                    output_for_hello_world!(),
-                    r#""
-  call void [mscorlib]System.Console::WriteLine(string)
-  ret
- }
-}"#
+            tokenized_syntax: &[
+                (
+                    TokenKind::Comment,
+                    concat!(
+                        r"//",
+                        output_for_hello_world!(),
+                        r" in MSIL (.NET assembler)"
+                    ),
                 ),
-            )],
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"assembly helloworld "),
+                (TokenKind::Punctuation, r"{}"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Keyword, r"class"),
+                (
+                    TokenKind::Plain,
+                    r" helloworld
+",
+                ),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+ ",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"method "),
+                (TokenKind::Keyword, r"static"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"void"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Function, r"Main"),
+                (TokenKind::Punctuation, r"()"),
+                (
+                    TokenKind::Plain,
+                    r" cil managed
+ ",
+                ),
+                (TokenKind::Punctuation, r"{"),
+                (
+                    TokenKind::Plain,
+                    r"
+  ",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (
+                    TokenKind::Plain,
+                    r"entrypoint
+  ldstr ",
+                ),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+  call ",
+                ),
+                (TokenKind::Keyword, r"void"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"["),
+                (TokenKind::Plain, r"mscorlib"),
+                (TokenKind::Punctuation, r"]"),
+                (TokenKind::Plain, r"System"),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Plain, r"Console"),
+                (TokenKind::Punctuation, r"::"),
+                (TokenKind::Function, r"WriteLine"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Type, r"string"),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+  ret
+ ",
+                ),
+                (TokenKind::Punctuation, r"}"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Punctuation, r"}"),
+            ],
         }],
     };

@@ -47,27 +47,103 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     return-void
 .end method"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#".class public LHelloWorld;
+            tokenized_syntax: &[
+                (TokenKind::Macro, r".class"),
+                (TokenKind::Plain, r" public LHelloWorld"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
 
-.super Ljava/lang/Object;
-
-.method public static main([Ljava/lang/String;)V
-    .registers 2
-
-    sget-object v0, Ljava/lang/System;->out:Ljava/io/PrintStream;
-
-    const-string	v1, ""#,
-                    output_for_hello_world!(),
-                    r#""
-
-    invoke-virtual {v0, v1}, Ljava/io/PrintStream;->println(Ljava/lang/String;)V
-
-    return-void
-.end method"#
+",
                 ),
-            )],
+                (TokenKind::Macro, r".super"),
+                (TokenKind::Plain, r" Ljava/lang/Object"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+",
+                ),
+                (TokenKind::Macro, r".method"),
+                (TokenKind::Plain, r" public static main"),
+                (TokenKind::Punctuation, r"(["),
+                (TokenKind::Plain, r"Ljava/lang/"),
+                (TokenKind::Keyword, r"String"),
+                (TokenKind::Punctuation, r";)"),
+                (
+                    TokenKind::Plain,
+                    r"V
+    ",
+                ),
+                (TokenKind::Macro, r".registers"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Number, r"2"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+    ",
+                ),
+                (TokenKind::Keyword, r"sget-object"),
+                (TokenKind::Plain, r" v0"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" Ljava/lang/System"),
+                (TokenKind::Punctuation, r";"),
+                (TokenKind::Plain, r"->out"),
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"Ljava/io/PrintStream"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+    ",
+                ),
+                (TokenKind::Keyword, r"const-string"),
+                (TokenKind::Plain, r"	v1"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (
+                    TokenKind::Plain,
+                    r"
+
+    ",
+                ),
+                (TokenKind::Keyword, r"invoke-virtual"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"{"),
+                (TokenKind::Plain, r"v0"),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Plain, r" v1"),
+                (TokenKind::Punctuation, r"},"),
+                (TokenKind::Plain, r" Ljava/io/PrintStream"),
+                (TokenKind::Punctuation, r";"),
+                (TokenKind::Plain, r"->"),
+                (TokenKind::Function, r"println"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Plain, r"Ljava/lang/"),
+                (TokenKind::Keyword, r"String"),
+                (TokenKind::Punctuation, r";)"),
+                (
+                    TokenKind::Plain,
+                    r"V
+
+    ",
+                ),
+                (TokenKind::Keyword, r"return-void"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Macro, r".end"),
+                (TokenKind::Plain, r" method"),
+            ],
         }],
     };

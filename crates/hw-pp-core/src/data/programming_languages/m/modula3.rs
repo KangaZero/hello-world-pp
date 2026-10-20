@@ -38,17 +38,46 @@ BEGIN
                 r#"\n")
 END HelloWorld."#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"MODULE HelloWorld;
-IMPORT Io;
-BEGIN
-    IO.Put (""#,
-                    output_for_hello_world!(),
-                    r#"\n")
-END HelloWorld."#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"MODULE"),
+                (TokenKind::Plain, r" HelloWorld"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"IMPORT"),
+                (TokenKind::Plain, r" Io"),
+                (TokenKind::Punctuation, r";"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"BEGIN"),
+                (
+                    TokenKind::Plain,
+                    r"
+    IO",
+                ),
+                (TokenKind::Punctuation, r"."),
+                (TokenKind::Function, r"Put"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                ),
+                (TokenKind::Punctuation, r")"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"END"),
+                (TokenKind::Plain, r" HelloWorld"),
+                (TokenKind::Punctuation, r"."),
+            ],
         }],
     };

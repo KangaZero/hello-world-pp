@@ -31,18 +31,28 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::GosuGosu,
                 syntax: concat!(r#"print(""#, output_for_hello_world!(), r#" from Gosu!!")"#),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(r#"print(""#, output_for_hello_world!(), r#" from Gosu!!")"#),
-                )],
+                tokenized_syntax: &[
+                    (TokenKind::Function, r"print"),
+                    (TokenKind::Punctuation, r"("),
+                    (
+                        TokenKind::String,
+                        concat!(r#"""#, output_for_hello_world!(), r#" from Gosu!!""#),
+                    ),
+                    (TokenKind::Punctuation, r")"),
+                ],
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::GosuGs,
                 syntax: concat!(r#"print(""#, output_for_hello_world!(), r#"")"#),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(r#"print(""#, output_for_hello_world!(), r#"")"#),
-                )],
+                tokenized_syntax: &[
+                    (TokenKind::Function, r"print"),
+                    (TokenKind::Punctuation, r"("),
+                    (
+                        TokenKind::String,
+                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                    ),
+                    (TokenKind::Punctuation, r")"),
+                ],
             },
         ],
     };

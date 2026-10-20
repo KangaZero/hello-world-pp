@@ -52,32 +52,128 @@ msg	db	'",
                 r"',0xa
 len	equ	$ - msg"
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"section	.text
-    global _start		
-
-_start:			
-
-	xor	ebx,ebx 
-	mov	ecx,msg	
-	lea	edx,[ebx+len]
-	lea	eax,[ebx+4]
-	inc	ebx
-	int	0x80	
-
-	xor	eax, eax
-	inc	eax	
-	int	0x80	
-
-section	.rodata
-
-msg	db	'",
-                    output_for_hello_world!(),
-                    r"',0xa
-len	equ	$ - msg"
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"section"),
+                (TokenKind::Plain, r"	"),
+                (TokenKind::Macro, r".text"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
                 ),
-            )],
+                (TokenKind::Keyword, r"global"),
+                (
+                    TokenKind::Plain,
+                    r" _start		
+
+_start",
+                ),
+                (TokenKind::Punctuation, r":"),
+                (
+                    TokenKind::Plain,
+                    r"			
+
+	",
+                ),
+                (TokenKind::Keyword, r"xor"),
+                (TokenKind::Plain, r"	ebx"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"ebx 
+	",
+                ),
+                (TokenKind::Keyword, r"mov"),
+                (TokenKind::Plain, r"	ecx"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r"msg	
+	",
+                ),
+                (TokenKind::Keyword, r"lea"),
+                (TokenKind::Plain, r"	edx"),
+                (TokenKind::Punctuation, r",["),
+                (TokenKind::Plain, r"ebx+len"),
+                (TokenKind::Punctuation, r"]"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Keyword, r"lea"),
+                (TokenKind::Plain, r"	eax"),
+                (TokenKind::Punctuation, r",["),
+                (TokenKind::Plain, r"ebx+"),
+                (TokenKind::Number, r"4"),
+                (TokenKind::Punctuation, r"]"),
+                (
+                    TokenKind::Plain,
+                    r"
+	",
+                ),
+                (TokenKind::Keyword, r"inc"),
+                (
+                    TokenKind::Plain,
+                    r"	ebx
+	",
+                ),
+                (TokenKind::Keyword, r"int"),
+                (TokenKind::Plain, r"	"),
+                (TokenKind::Number, r"0x80"),
+                (
+                    TokenKind::Plain,
+                    r"	
+
+	",
+                ),
+                (TokenKind::Keyword, r"xor"),
+                (TokenKind::Plain, r"	eax"),
+                (TokenKind::Punctuation, r","),
+                (
+                    TokenKind::Plain,
+                    r" eax
+	",
+                ),
+                (TokenKind::Keyword, r"inc"),
+                (
+                    TokenKind::Plain,
+                    r"	eax	
+	",
+                ),
+                (TokenKind::Keyword, r"int"),
+                (TokenKind::Plain, r"	"),
+                (TokenKind::Number, r"0x80"),
+                (
+                    TokenKind::Plain,
+                    r"	
+
+",
+                ),
+                (TokenKind::Keyword, r"section"),
+                (TokenKind::Plain, r"	"),
+                (TokenKind::Macro, r".rodata"),
+                (
+                    TokenKind::Plain,
+                    r"
+
+msg	",
+                ),
+                (TokenKind::Keyword, r"db"),
+                (TokenKind::Plain, r"	"),
+                (
+                    TokenKind::String,
+                    concat!(r"'", output_for_hello_world!(), r"'"),
+                ),
+                (TokenKind::Punctuation, r","),
+                (TokenKind::Number, r"0xa"),
+                (
+                    TokenKind::Plain,
+                    r"
+len	",
+                ),
+                (TokenKind::Keyword, r"equ"),
+                (TokenKind::Plain, r"	$ - msg"),
+            ],
         }],
     };

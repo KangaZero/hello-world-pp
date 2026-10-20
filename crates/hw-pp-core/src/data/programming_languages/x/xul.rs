@@ -36,16 +36,42 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                 r#""/>
 </window>"#
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"<?xml version="1.0"?>
-<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-    <label value=""#,
-                    output_for_hello_world!(),
-                    r#""/>
-</window>"#
+            tokenized_syntax: &[
+                (TokenKind::Keyword, r"<"),
+                (TokenKind::Plain, r"?xml version="),
+                (TokenKind::String, r#""1.0""#),
+                (TokenKind::Plain, r"?"),
+                (TokenKind::Keyword, r">"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"<window"),
+                (TokenKind::Plain, r" xmlns="),
+                (
+                    TokenKind::String,
+                    r#""http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul""#,
+                ),
+                (TokenKind::Keyword, r">"),
+                (
+                    TokenKind::Plain,
+                    r"
+    ",
+                ),
+                (TokenKind::Keyword, r"<label"),
+                (TokenKind::Plain, r" value="),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+                (TokenKind::Keyword, r"/>"),
+                (
+                    TokenKind::Plain,
+                    r"
+",
+                ),
+                (TokenKind::Keyword, r"</window>"),
+            ],
         }],
     };

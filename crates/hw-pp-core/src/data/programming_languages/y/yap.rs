@@ -36,16 +36,37 @@ main :-
                 output_for_hello_world!(),
                 r"'), nl."
             ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r":- initialization(main).
+            tokenized_syntax: &[
+                (TokenKind::Punctuation, r":"),
+                (TokenKind::Plain, r"- "),
+                (TokenKind::Keyword, r"initialization"),
+                (TokenKind::Punctuation, r"("),
+                (TokenKind::Keyword, r"main"),
+                (TokenKind::Punctuation, r")."),
+                (
+                    TokenKind::Plain,
+                    r"
 
-main :-
-    write('",
-                    output_for_hello_world!(),
-                    r"'), nl."
+",
                 ),
-            )],
+                (TokenKind::Keyword, r"main"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Punctuation, r":"),
+                (
+                    TokenKind::Plain,
+                    r"-
+    ",
+                ),
+                (TokenKind::Keyword, r"write"),
+                (TokenKind::Punctuation, r"("),
+                (
+                    TokenKind::String,
+                    concat!(r"'", output_for_hello_world!(), r"'"),
+                ),
+                (TokenKind::Punctuation, r"),"),
+                (TokenKind::Plain, r" "),
+                (TokenKind::Keyword, r"nl"),
+                (TokenKind::Punctuation, r"."),
+            ],
         }],
     };

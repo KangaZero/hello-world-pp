@@ -29,9 +29,12 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Coffeescript,
             syntax: concat!(r#"alert ""#, output_for_hello_world!(), r#"""#),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r#"alert ""#, output_for_hello_world!(), r#"""#),
-            )],
+            tokenized_syntax: &[
+                (TokenKind::Plain, r"alert "),
+                (
+                    TokenKind::String,
+                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                ),
+            ],
         }],
     };
