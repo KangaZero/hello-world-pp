@@ -14,12 +14,16 @@ pub enum TokenKind {
     Number,
     Comment,
     Punctuation,
+    Invalid,
 }
 
 name_enum! {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
     pub enum Themes: ParseThemeNameError("theme") {
-        Default => "Default", // Same as CatppuccinMocha
+        /// Same as [`Themes::Kanga`].
+        Default => "Default",
+        /// Tokyo Night Moon with a Dracula-purple accent.
+        Kanga => "Kanga",
         CatppuccinLatte => "Catppuccin Latte",
         CatppuccinFrappe => "Catppuccin Frappe",
         CatppuccinMacchiato => "Catppuccin Macchiato",
@@ -27,16 +31,27 @@ name_enum! {
     }
 }
 
-/// A foreground colour from red, green and blue (0–255), on the default background.
 #[must_use]
 pub const fn rgb(r: u8, g: u8, b: u8) -> Style {
     RgbColor(r, g, b).on_default()
 }
 
 impl TokenKind {
-    /// This token kind's colour and weight in `theme`.
-    const fn style(self, theme: Themes) -> Style {
+    #[must_use]
+    pub const fn style(self, theme: Themes) -> Style {
         match theme {
+            Themes::Default | Themes::Kanga => match self {
+                Self::Plain => rgb(200, 211, 245),
+                Self::Punctuation => rgb(130, 139, 184),
+                Self::Keyword => rgb(189, 147, 249).bold(),
+                Self::Type => rgb(79, 214, 190),
+                Self::Function => rgb(130, 170, 255),
+                Self::Macro => rgb(252, 167, 234),
+                Self::String => rgb(195, 232, 141),
+                Self::Number => rgb(255, 150, 108),
+                Self::Comment => rgb(99, 109, 166).italic(),
+                Self::Invalid => rgb(255, 92, 87),
+            },
             Themes::CatppuccinLatte => match self {
                 Self::Plain => rgb(76, 79, 105),
                 Self::Punctuation => rgb(124, 127, 147),
@@ -47,6 +62,7 @@ impl TokenKind {
                 Self::String => rgb(64, 160, 43),
                 Self::Number => rgb(254, 100, 11),
                 Self::Comment => rgb(124, 127, 147).italic(),
+                Self::Invalid => rgb(210, 15, 57),
             },
             Themes::CatppuccinFrappe => match self {
                 Self::Plain => rgb(198, 208, 245),
@@ -58,6 +74,7 @@ impl TokenKind {
                 Self::String => rgb(166, 209, 137),
                 Self::Number => rgb(239, 159, 118),
                 Self::Comment => rgb(148, 156, 187).italic(),
+                Self::Invalid => rgb(231, 130, 132),
             },
             Themes::CatppuccinMacchiato => match self {
                 Self::Plain => rgb(202, 211, 245),
@@ -69,8 +86,9 @@ impl TokenKind {
                 Self::String => rgb(166, 218, 149),
                 Self::Number => rgb(245, 169, 127),
                 Self::Comment => rgb(147, 154, 183).italic(),
+                Self::Invalid => rgb(237, 135, 150),
             },
-            Themes::Default | Themes::CatppuccinMocha => match self {
+            Themes::CatppuccinMocha => match self {
                 Self::Plain => rgb(205, 214, 244),
                 Self::Punctuation => rgb(147, 153, 178),
                 Self::Keyword => rgb(203, 166, 247).bold(),
@@ -80,13 +98,14 @@ impl TokenKind {
                 Self::String => rgb(166, 227, 161),
                 Self::Number => rgb(250, 179, 135),
                 Self::Comment => rgb(147, 153, 178).italic(),
+                Self::Invalid => rgb(243, 139, 168),
             },
         }
     }
 }
 
 /// Renders `language_version`'s tokens as ANSI-coloured text in `theme`
-/// (`None` → Catppuccin Mocha).
+/// (`None` → [`Themes::Default`], i.e. Kanga).
 ///
 /// Print it with `anstream::println!` so colours are dropped when piped or `NO_COLOR` is set.
 #[must_use]
@@ -107,7 +126,7 @@ pub fn collect_tokenized_syntax(
     collected
 }
 
-/// Display names of every theme, e.g. `"Catppuccin Mocha"`.
+/// Display names of every theme, e.g. `"Kanga"`.
 #[must_use]
 pub fn get_all_themes_as_str() -> Vec<&'static str> {
     Themes::ALL.iter().map(|theme| theme.as_str()).collect()

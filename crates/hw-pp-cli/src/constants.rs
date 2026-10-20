@@ -1,5 +1,6 @@
 pub mod cli_info {
-    use anstyle::{AnsiColor, Style};
+    use anstyle::Style;
+    use hw_pp_core::data::programming_languages_token::{Themes, TokenKind};
 
     /// Binary name from `[[bin]] name` in Cargo.toml (not the package name `hw-pp-cli`).
     pub const APP_NAME: &str = env!("CARGO_BIN_NAME");
@@ -14,11 +15,22 @@ pub mod cli_info {
                             |/
 ";
 
-    const BANNER_STYLE: Style = AnsiColor::Cyan.on_default().bold();
+    /// Colours for `-h`/`--help` and parse errors, taken from the default snippet theme so
+    /// help and code look alike. Each setter styles a role (what the text *is*), so new
+    /// flags and subcommands pick it up.
+    pub const STYLES: clap::builder::Styles = clap::builder::Styles::styled()
+        .header(TokenKind::Keyword.style(Themes::Default)) // `Options:`, `Commands:` (bold)
+        .usage(TokenKind::Keyword.style(Themes::Default)) // `Usage:`
+        .literal(TokenKind::Function.style(Themes::Default).bold()) // `--color`, `list`
+        .placeholder(TokenKind::Type.style(Themes::Default)) // `<LANGUAGE>`
+        .error(TokenKind::Invalid.style(Themes::Default).bold()) // `error:`
+        .valid(TokenKind::String.style(Themes::Default)) // suggestions in errors
+        .invalid(TokenKind::Number.style(Themes::Default).bold()); // the bad input in errors
+
+    const BANNER_STYLE: Style = TokenKind::Keyword.style(Themes::Kanga);
     const BOLD: Style = Style::new().bold();
     const ITALIC: Style = Style::new().italic();
 
-    /// Prefixes `text` with the cyan, bold ASCII banner.
     fn with_banner(text: &str) -> String {
         let banner = BANNER.trim_start_matches('\n');
         format!("{BANNER_STYLE}{banner}{BANNER_STYLE:#}\n{text}")

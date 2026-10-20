@@ -110,6 +110,7 @@ enum Command {
 #[command(
     name = cli_info::APP_NAME,
     version,
+    styles = cli_info::STYLES,
     about = cli_info::about(),
     long_about = cli_info::long_about(),
     group(ArgGroup::new(HUMAN).multiple(true)),
@@ -158,7 +159,7 @@ pub struct Args {
     color: ColorWhen,
 
     /// Colour theme for syntax highlighting (e.g. "Catppuccin Latte")
-    #[arg(short = 't', long, group = STYLING, default_value_t = Themes::CatppuccinMocha)]
+    #[arg(short = 't', long, group = STYLING, default_value_t = Themes::Kanga)]
     theme: Themes,
 
     /// Outputs only the banner/logo
