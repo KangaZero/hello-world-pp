@@ -12,8 +12,6 @@ pub enum TokenKind {
     Macro,
     String,
     Number,
-    /// No current snippet with a bundled grammar contains a comment.
-    #[allow(dead_code)]
     Comment,
     Punctuation,
 }
