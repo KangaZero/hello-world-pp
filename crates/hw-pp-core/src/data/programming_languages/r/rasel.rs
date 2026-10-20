@@ -16,7 +16,7 @@ use crate::data::{macros::language_names, programming_languages_token::TokenKind
 language_names! {
     language: Rasel => "RASEL",
     versions: [Rasel => "RASEL"],
-    extensions: [],
+    extensions: [Rasel => "rasel", Rasela => "rasela"],
 }
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =

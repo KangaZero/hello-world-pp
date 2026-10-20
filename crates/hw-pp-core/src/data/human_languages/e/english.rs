@@ -75,67 +75,54 @@ pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLangua
                     scripts: &[ScriptName::Hangul],
                     text: "헬로, 월드!",
                 },
-                // Iraqi Arabic هلو (from English); "world" transcribed (cf. ديزني وورلد)
                 Greeting {
                     scripts: &[ScriptName::Arabic],
                     text: "هلو، وورلد!",
                 },
-                // Persian (Dari) هلو (from English); "world" transcribed (cf. دیزنی ورلد)
                 Greeting {
                     scripts: &[ScriptName::PersoArabic],
                     text: "هلو، ورلد!",
                 },
-                // Hebrew הלו; "world" transcribed (cf. דיסני וורלד)
                 Greeting {
                     scripts: &[ScriptName::Hebrew],
                     text: "הלו, וורלד!",
                 },
-                // Hindi हेलो (from English); "world" transcribed (cf. वर्ल्ड कप)
                 Greeting {
                     scripts: &[ScriptName::Devanagari],
                     text: "हेलो, वर्ल्ड!",
                 },
-                // Bengali হ্যালো (from English); "world" transcribed (cf. ওয়ার্ল্ড কাপ)
                 Greeting {
                     scripts: &[ScriptName::Bengali],
                     text: "হ্যালো, ওয়ার্ল্ড!",
                 },
-                // Punjabi transcription of English, no dictionary entry; cf. ਵਰਲਡ ਕੱਪ
                 Greeting {
                     scripts: &[ScriptName::Gurmukhi],
                     text: "ਹੈਲੋ, ਵਰਲਡ!",
                 },
-                // Gujarati હેલો (from English); "world" transcribed (cf. વર્લ્ડ કપ)
                 Greeting {
                     scripts: &[ScriptName::Gujarati],
                     text: "હેલો, વર્લ્ડ!",
                 },
-                // Odia transcription of English ("hello" as in Wiktionary's translation table); "world" transcribed
                 Greeting {
                     scripts: &[ScriptName::Odia],
                     text: "ହ୍ୟାଲୋ, ୱାର୍ଲ୍ଡ!",
                 },
-                // Tamil transcription of English, no dictionary entry; cf. வேர்ல்ட் கப்
                 Greeting {
                     scripts: &[ScriptName::Tamil],
                     text: "ஹலோ, வேர்ல்ட்!",
                 },
-                // Telugu transcription from the Hello World Collection
                 Greeting {
                     scripts: &[ScriptName::Telugu],
                     text: "హలో, వరల్డ్!",
                 },
-                // Kannada transcription from the Hello World Collection
                 Greeting {
                     scripts: &[ScriptName::Kannada],
                     text: "ಹಲೋ, ವರ್ಲ್ಡ್!",
                 },
-                // Malayalam ഹലോ (from English); "world" transcribed (cf. വേൾഡ് ബാങ്ക്)
                 Greeting {
                     scripts: &[ScriptName::Malayalam],
                     text: "ഹലോ, വേൾഡ്!",
                 },
-                // Sinhala transcription of English ("hello" as in Wiktionary's translation table); "world" transcribed
                 Greeting {
                     scripts: &[ScriptName::Sinhala],
                     text: "හලෝ, වර්ල්ඩ්!",

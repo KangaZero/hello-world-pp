@@ -24,7 +24,7 @@ use crate::data::{
 
 language_names! {
     language: Java => "Java",
-    versions: [Java17 => "Java 17", Java25CompactSourceFile => "Java 25 (compact source file)", JavaMobile => "Java (Mobile)", JavaServlet => "Java (Servlet)", JavaSwing => "Java (Swing)"],
+    versions: [Java17 => "Java17", Java25 => "Java25", JavaMobile => "Java Mobile", JavaServlet => "Java Servlet", JavaSwing => "Java Swing"],
     extensions: [Java => "java"],
 }
 
@@ -82,7 +82,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
                 ],
             },
             ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::Java25CompactSourceFile,
+                label: ProgrammingLanguageDialect::Java25,
                 syntax: concat!(
                     r#"void main() {
     IO.println(""#,
