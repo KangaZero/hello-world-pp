@@ -15,6 +15,7 @@ hw-pp-core = { path = "crates/hw-pp-core", version = "0.1.0" }
 
 # Normalize accents/diacritics etc for endonyms
 unicode-normalization = "0.1.26"
+unicode-segmentation = "1.13.3"      # This crate provides Grapheme Cluster, Word and Sentence boundaries according to unicode statndards
 
 # Errors
 anyhow = "1.0.104"

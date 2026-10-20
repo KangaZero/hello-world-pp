@@ -110,14 +110,34 @@ fn no_punctuation_strips_only_the_inserted_greeting() {
 }
 
 #[test]
-fn inserting_into_a_snippet_without_the_message_fails() {
+fn inserting_into_an_encoded_snippet_warns_and_prints_it_unchanged() {
     hw_pp()
-        .args(["-l", "german", "-p", "brainfuck"])
+        .args(["-l", "german", "-p", "brainfuck", "--color", "no"])
         .assert()
-        .failure()
+        .success()
+        .stdout(predicate::str::starts_with("++++++++"))
         .stderr(predicate::str::contains(
-            r#"snippet does not contain "Hello, World!""#,
+            r#"warning: this snippet encodes its message, so "Hallo, Welt!" could not be inserted"#,
         ));
+}
+
+#[test]
+fn inserting_into_a_reversed_message_reverses_the_greeting() {
+    hw_pp()
+        .args(["-l", "german", "-p", "befunge", "--color", "no"])
+        .assert()
+        .success()
+        .stdout("\"!tleW ,ollaH\">:#,_@\n")
+        .stderr("");
+}
+
+#[test]
+fn inserting_the_default_greeting_does_not_warn() {
+    hw_pp()
+        .args(["-l", "english", "-p", "rust"])
+        .assert()
+        .success()
+        .stderr("");
 }
 
 #[test]

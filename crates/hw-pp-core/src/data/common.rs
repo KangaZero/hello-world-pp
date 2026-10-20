@@ -5,7 +5,7 @@ use super::human_languages::{
 };
 use super::macros::output_for_hello_world;
 use super::programming_languages::ProgrammingLanguageName;
-use thiserror::Error;
+use unicode_segmentation::UnicodeSegmentation;
 
 pub const DEFAULT_HUMAN_LANGUAGE: HumanLanguageName = HumanLanguageName::English;
 pub const DEFAULT_HUMAN_LANGUAGE_DIALECT: DialectName = DialectName::AmericanEnglish;
@@ -49,38 +49,62 @@ pub fn get_default_programming_language_hello_world() -> &'static str {
 /// - the Tibetan tsheg `་`, which separates syllables inside a word.
 pub const HELLO_WORLD_PUNCTUATION: &[char] = &[',', '!', '¡', '，', '！', '、', '،', '།', '꧈'];
 
-/// Removes [`HELLO_WORLD_PUNCTUATION`] from a greeting.
+/// `text` without any [`HELLO_WORLD_PUNCTUATION`].
+///
+/// ```
+/// use hw_pp_core::data::common::remove_punctuation_from_str;
+/// assert_eq!(remove_punctuation_from_str("¡Hola, Mundo!"), "Hola Mundo");
+/// ```
 #[must_use]
-pub fn remove_punctuation_from_hello_world(hello_world: &str) -> String {
-    hello_world.replace(HELLO_WORLD_PUNCTUATION, "")
+pub fn remove_punctuation_from_str(text: &str) -> String {
+    text.replace(HELLO_WORLD_PUNCTUATION, "")
 }
-/// Error returned when a snippet has no hello-world message to replace.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Error)]
-#[error("snippet does not contain {:?}", output_for_hello_world!())]
-pub struct HelloWorldNotFoundError;
 
-/// Replaces every `"Hello, World!"` in `syntax` with `hello_world_to_replace_with`.
+/// `text` reversed by grapheme cluster, so accents stay on their letters.
+///
+/// ```
+/// use hw_pp_core::data::common::reverse_str;
+/// assert_eq!(reverse_str("Hello, World!"), "!dlroW ,olleH");
+/// assert_eq!(reverse_str("Olá"), "álO"); // `á` stays one character, even when decomposed
+/// ```
+#[must_use]
+pub fn reverse_str(text: &str) -> String {
+    text.graphemes(true).rev().collect()
+}
+
+/// `syntax` with its `"Hello, World!"` swapped for `hello_world_to_replace_with`.
+///
+/// - Forwards message: replaced as is.
+/// - Reversed message (`"!dlroW ,olleH"`, e.g. Befunge-93): replaced with the greeting reversed.
+/// - Neither, or both (which is ambiguous): `syntax` is returned unchanged, because the
+///   message is encoded (e.g. Brainfuck) and cannot be replaced.
 ///
 /// The greeting is not escaped for the target language (`G'day` breaks `print('...')`).
 ///
 /// ```
 /// use hw_pp_core::data::common::replace_default_hello_world_string_with;
 /// let german = replace_default_hello_world_string_with(r#"print("Hello, World!")"#, "Hallo, Welt!");
-/// assert_eq!(german, Ok(r#"print("Hallo, Welt!")"#.to_owned()));
+/// assert_eq!(german, r#"print("Hallo, Welt!")"#);
+/// let befunge = replace_default_hello_world_string_with(r#""!dlroW ,olleH">:#,_@"#, "Hallo, Welt!");
+/// assert_eq!(befunge, r#""!tleW ,ollaH">:#,_@"#);
 /// ```
-///
-/// # Errors
-///
-/// [`HelloWorldNotFoundError`] if `syntax` does not contain it (e.g. Brainfuck).
+#[must_use]
 pub fn replace_default_hello_world_string_with(
     syntax: &str,
     hello_world_to_replace_with: &str,
-) -> Result<String, HelloWorldNotFoundError> {
+) -> String {
     let hello_world = output_for_hello_world!();
-    if !syntax.contains(hello_world) {
-        return Err(HelloWorldNotFoundError);
-    }
-    Ok(syntax.replace(hello_world, hello_world_to_replace_with))
-}
+    let hello_world_reversed = reverse_str(hello_world);
 
-pub use super::normalize::normalize_text;
+    match (
+        syntax.contains(hello_world),
+        syntax.contains(&hello_world_reversed),
+    ) {
+        (true, false) => syntax.replace(hello_world, hello_world_to_replace_with),
+        (false, true) => syntax.replace(
+            &hello_world_reversed,
+            &reverse_str(hello_world_to_replace_with),
+        ),
+        (false, false) | (true, true) => syntax.to_owned(),
+    }
+}

@@ -2,10 +2,12 @@ use crate::constants::cli_info::{self, BANNER};
 use crate::tools::helpers::{
     hello_world_output_with_options, output_as_compact_list_or_not, snippet_output_with_options,
 };
-use anstream::println;
+use anstream::{eprintln, println};
 use anyhow::Context;
 use clap::{ArgGroup, Parser, Subcommand, ValueEnum};
-use hw_pp_core::data::common::replace_default_hello_world_string_with;
+use hw_pp_core::data::common::{
+    get_default_human_language_hello_world, replace_default_hello_world_string_with,
+};
 use hw_pp_core::data::human_languages::{
     HumanLanguageCategory, get_all_human_language_categories_as_str_by,
     get_all_human_language_dialects_as_str_by, get_all_human_languages_as_str_by,
@@ -13,8 +15,7 @@ use hw_pp_core::data::human_languages::{
 };
 use hw_pp_core::data::programming_languages::{
     get_all_programming_language_categories_as_str_by, get_all_programming_languages_as_str_by,
-    get_all_programming_versions_as_str_by, get_hello_world_syntax_for,
-    get_hello_world_version_for,
+    get_all_programming_versions_as_str_by, get_hello_world_version_for,
 };
 use hw_pp_core::data::programming_languages_token::{
     Themes, collect_tokenized_syntax, get_all_themes_as_str,
@@ -248,12 +249,18 @@ fn main() -> anyhow::Result<()> {
             println!("{}", hello_world_output_with_options(&args, hello_world));
         }
         (true, true) => {
-            let hello_world_syntax = get_hello_world_syntax_for(
+            let language_version = get_hello_world_version_for(
                 args.programming_language,
                 args.programming_dialect,
                 args.extension,
             )
-            .context("failed to look up a 'hello-world' syntax for programming language")?;
+            .context("failed to look up a 'hello-world' programming language version")?;
+            let snippet = if args.has_color_on() {
+                collect_tokenized_syntax(language_version, Some(args.theme))
+            } else {
+                language_version.syntax.to_owned()
+            };
+
             let hello_world_in_human_language = get_human_language_hello_world_for(
                 args.human_language,
                 args.human_dialect,
@@ -261,8 +268,20 @@ fn main() -> anyhow::Result<()> {
             )
             .context("failed to look up a 'hello-world' for human language")?;
             // `-n` strips the greeting before it goes in, so the code stays valid.
-            let greeting = hello_world_output_with_options(&args, hello_world_in_human_language);
-            let result = replace_default_hello_world_string_with(hello_world_syntax, &greeting)?;
+            let hello_world_options_applied =
+                hello_world_output_with_options(&args, hello_world_in_human_language);
+            let result =
+                replace_default_hello_world_string_with(&snippet, &hello_world_options_applied);
+            // An unchanged snippet (for a greeting other than the default) means the message is
+            // encoded (e.g. Brainfuck): say why the greeting is missing; the snippet is still valid.
+            if result == snippet
+                && hello_world_options_applied != get_default_human_language_hello_world()
+            {
+                eprintln!(
+                    "warning: this snippet encodes its message, so {hello_world_in_human_language:?} \
+                     could not be inserted"
+                );
+            }
             println!("{result}");
         }
     }

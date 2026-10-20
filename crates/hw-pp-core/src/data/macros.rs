@@ -81,11 +81,11 @@ Self::ALL
         .copied()
         .find(|&variant| names(variant).any(|name| name.eq_ignore_ascii_case(trimmed)))
         .or_else(|| {
-            let normalized = $crate::data::common::normalize_text(trimmed);
+            let normalized = super::normalize::normalize_text(trimmed);
             Self::ALL
                 .iter()
                 .copied()
-                .find(|&variant| names(variant).any(|name| $crate::data::common::normalize_text(name) == normalized))
+                .find(|&variant| names(variant).any(|name| super::normalize::normalize_text(name) == normalized))
         })
         .ok_or_else(|| $error(s.to_owned()))
            }

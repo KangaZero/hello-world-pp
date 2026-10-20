@@ -11,6 +11,7 @@ repository.workspace = true
 thiserror.workspace = true
 anstyle.workspace = true
 unicode-normalization.workspace = true
+unicode-segmentation.workspace = true
 
 [build-dependencies]
 # build.rs shares src/data/normalize.rs to check names for collisions
