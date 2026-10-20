@@ -5,6 +5,7 @@
 //! - <https://doc.rust-lang.org/rust-by-example/hello.html>
 //! - <https://doc.rust-lang.org/edition-guide/rust-2021/index.html>
 
+use crate::data::programming_languages::ProgrammingLanguageFamily::{C, OCaml};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -25,7 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Rust,
         extensions: &[FileExtension::Rs],
         categories: &[Compiled],
-        families: &[],
+        families: &[C, OCaml],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rust2021,
             syntax: concat!(
