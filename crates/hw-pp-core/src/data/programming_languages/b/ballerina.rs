@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Ballerina,
         extensions: &[FileExtension::Bal],
         categories: &[Compiled],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ballerina,
             syntax: concat!(

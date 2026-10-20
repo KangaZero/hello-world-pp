@@ -27,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::IngresAbf,
         extensions: &[],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::IngresAbf,
             syntax: concat!(

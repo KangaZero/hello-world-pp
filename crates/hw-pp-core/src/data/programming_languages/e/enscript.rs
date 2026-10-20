@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Enscript,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Enscript,
             syntax: r"LDA A, 72

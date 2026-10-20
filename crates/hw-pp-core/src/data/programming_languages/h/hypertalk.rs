@@ -27,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Hypertalk,
         extensions: &[FileExtension::Ht],
         categories: &[Scripting, Historical],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hypertalk,
             syntax: concat!(r#"put ""#, output_for_hello_world!(), r#"""#),

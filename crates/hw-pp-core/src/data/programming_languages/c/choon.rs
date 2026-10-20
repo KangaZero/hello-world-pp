@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Choon,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Choon,
             syntax: r"AGb-A#A#+A+%A#DF-AC#",

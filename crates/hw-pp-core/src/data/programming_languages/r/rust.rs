@@ -25,6 +25,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Rust,
         extensions: &[FileExtension::Rs],
         categories: &[Compiled],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rust2021,
             syntax: concat!(

@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Minusintplus,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Minusintplus,
             syntax: r"-184+-228+-250+-+-254+-68+-13+-202+-233+-254+-7+-9+-68+",

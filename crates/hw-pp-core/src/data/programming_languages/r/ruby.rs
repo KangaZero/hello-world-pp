@@ -6,7 +6,8 @@
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect, ProgrammingLanguageFamily::Ruby, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -24,6 +25,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Ruby,
         extensions: &[FileExtension::Rb],
         categories: &[Scripting],
+        families: &[Ruby],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ruby3,
             syntax: concat!(r#"puts ""#, output_for_hello_world!(), r#"""#),

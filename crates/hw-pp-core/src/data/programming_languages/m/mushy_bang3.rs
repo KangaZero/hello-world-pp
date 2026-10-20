@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::MushyBang3,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::MushyBang3,
             syntax: r" tsspssspt

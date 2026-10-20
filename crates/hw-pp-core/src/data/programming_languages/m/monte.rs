@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Monte,
         extensions: &[FileExtension::Mt],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Monte,
             syntax: concat!(r#"traceln(""#, output_for_hello_world!(), r#"")"#),

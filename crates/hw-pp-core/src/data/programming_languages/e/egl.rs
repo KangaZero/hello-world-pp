@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Egl,
         extensions: &[FileExtension::Egl],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Egl,
             syntax: concat!(

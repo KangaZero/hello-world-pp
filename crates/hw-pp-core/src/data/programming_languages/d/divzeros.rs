@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Divzeros,
         extensions: &[FileExtension::Dz],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Divzeros,
             syntax: r"(?'H+?'e+?'l+?'l+?'o+?',+?' +?'W+?'o+?'r+?'l+?'d+?'!)/0",

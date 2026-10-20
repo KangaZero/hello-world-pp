@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Wikitext,
         extensions: &[FileExtension::Wiki],
         categories: &[Markup],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Wikitext,
             syntax: output_for_hello_world!(),

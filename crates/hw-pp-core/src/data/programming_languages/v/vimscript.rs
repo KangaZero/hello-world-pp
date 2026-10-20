@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Vimscript,
         extensions: &[],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Vimscript,
             syntax: concat!(r#"echo ""#, output_for_hello_world!(), r#"""#),

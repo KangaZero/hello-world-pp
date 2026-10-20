@@ -27,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::VarAq,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::VarAq,
             syntax: concat!(r#"""#, output_for_hello_world!(), r#"" cha'"#),

@@ -12,8 +12,11 @@
 //! - <http://helloworldcollection.de/#Logo%C2%A0(graphical)>
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Educational,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage,
+    ProgrammingLanguageCategory::Educational,
+    ProgrammingLanguageDialect,
+    ProgrammingLanguageFamily::{Lisp, Logo},
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -31,6 +34,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Logo,
         extensions: &[FileExtension::Lg],
         categories: &[Educational],
+        families: &[Lisp, Logo],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Logo,

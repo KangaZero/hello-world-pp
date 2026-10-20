@@ -27,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Simula,
         extensions: &[FileExtension::Sim],
         categories: &[Compiled, Historical],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Simula,
             syntax: concat!(

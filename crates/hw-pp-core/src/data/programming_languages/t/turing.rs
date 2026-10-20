@@ -9,7 +9,8 @@
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Educational,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect, ProgrammingLanguageFamily::Algol, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -27,6 +28,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Turing,
         extensions: &[FileExtension::Oot],
         categories: &[Educational],
+        families: &[Algol],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::TuringOot,

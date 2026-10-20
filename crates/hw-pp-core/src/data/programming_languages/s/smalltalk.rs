@@ -15,7 +15,8 @@
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect, ProgrammingLanguageFamily::Smalltalk, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -33,6 +34,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Smalltalk,
         extensions: &[FileExtension::Sm],
         categories: &[Scripting],
+        families: &[Smalltalk],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Smalltalk,

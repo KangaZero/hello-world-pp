@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Plankalkul,
         extensions: &[],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Plankalkul,
             syntax: r"R1.1(V0[:sig]) => R0

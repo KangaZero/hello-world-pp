@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Erlang,
         extensions: &[FileExtension::Erl, FileExtension::Hrl],
         categories: &[Compiled],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::ErlangOtp,
             syntax: concat!(

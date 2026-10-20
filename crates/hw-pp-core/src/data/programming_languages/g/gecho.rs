@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Gecho,
         extensions: &[FileExtension::Gecho],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Gecho,
             syntax: r"print 'hello '<> 'world",

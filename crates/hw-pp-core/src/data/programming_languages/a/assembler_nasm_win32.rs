@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::AssemblerNasmWin32,
         extensions: &[],
         categories: &[Assembly],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblerNasmWin32,
             syntax: concat!(

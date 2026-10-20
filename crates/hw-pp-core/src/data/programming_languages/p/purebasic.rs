@@ -17,7 +17,8 @@
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect, ProgrammingLanguageFamily::Basic, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -35,6 +36,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Purebasic,
         extensions: &[FileExtension::Pb],
         categories: &[Compiled],
+        families: &[Basic],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Purebasic,

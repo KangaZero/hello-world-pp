@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::CacheObjectscript,
         extensions: &[FileExtension::Mac],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::CacheObjectscript,
             syntax: concat!(

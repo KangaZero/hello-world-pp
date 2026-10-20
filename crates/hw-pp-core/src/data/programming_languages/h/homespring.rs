@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Homespring,
         extensions: &[FileExtension::Homespring],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Homespring,
             syntax: r"Universe bear hatchery powers world.

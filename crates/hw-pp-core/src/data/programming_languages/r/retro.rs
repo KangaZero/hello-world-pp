@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Retro,
         extensions: &[FileExtension::Retro],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Retro,
             syntax: concat!(r#"""#, output_for_hello_world!(), r#"" puts"#),

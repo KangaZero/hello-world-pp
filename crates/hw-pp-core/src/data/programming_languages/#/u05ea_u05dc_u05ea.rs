@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::U05eaU05dcU05ea,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::U05eaU05dcU05ea,
             syntax: r"אכטב  יטא  יכטב לאטר לוטאר ילטר סאכף וסאכאף אכלט ק יכלט אסוכף אסיכף יליטאר כאטאב אסמח א יסמח אכוטאב וסיכף עב קא קח קח קיא לב קיט קיא קיד קח ק לג י",

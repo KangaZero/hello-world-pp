@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Clisp,
         extensions: &[],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Clisp,
             syntax: concat!(r#"(write-line ""#, output_for_hello_world!(), r#"")"#),

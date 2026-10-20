@@ -27,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Macsyma,
         extensions: &[],
         categories: &[Scientific, Historical],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Macsyma,
             syntax: concat!(r#"print(""#, output_for_hello_world!(), r#"");"#),

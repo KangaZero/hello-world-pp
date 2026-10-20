@@ -27,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::SuicidLtSupGtELtSlashSupGt,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::SuicidLtSupGtELtSlashSupGt,
             syntax: concat!(r#"<*vAA:""#, output_for_hello_world!(), r#"""#),

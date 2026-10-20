@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::N0815,
         extensions: &[FileExtension::E0815],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::N0815,
             syntax: r"<:48:x<:65:=<:6C:$=$=$$~<:03:+

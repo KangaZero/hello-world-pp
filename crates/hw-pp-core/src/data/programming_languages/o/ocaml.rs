@@ -5,8 +5,11 @@
 //! - <https://ocaml.org/docs/your-first-program>
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage,
+    ProgrammingLanguageCategory::Compiled,
+    ProgrammingLanguageDialect,
+    ProgrammingLanguageFamily::{Ml, OCaml},
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -24,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::OCaml,
         extensions: &[FileExtension::Ml, FileExtension::Mli],
         categories: &[Compiled],
+        families: &[Ml, OCaml],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::OCaml5,
             syntax: concat!(

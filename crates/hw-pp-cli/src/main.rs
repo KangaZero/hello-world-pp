@@ -1,6 +1,6 @@
 use crate::constants::cli_info::{self, BANNER};
 use crate::tools::helpers::{
-    hello_world_output_with_options, output_as_compact_list_or_not, snippet_output_with_options,
+    hello_world_output_with_options, output_list_command_with, snippet_output_with_options,
 };
 use anstream::{eprintln, println};
 use anyhow::Context;
@@ -14,7 +14,9 @@ use hw_pp_core::data::human_languages::{
     get_all_scripts_as_str_by,
 };
 use hw_pp_core::data::programming_languages::{
-    get_all_programming_language_categories_as_str_by, get_all_programming_languages_as_str_by,
+    ProgrammingLanguageCategory, ProgrammingLanguageFamily,
+    get_all_programming_language_categories_as_str_by,
+    get_all_programming_language_families_as_str_by, get_all_programming_languages_as_str_by,
     get_all_programming_versions_as_str_by, get_hello_world_version_for,
 };
 use hw_pp_core::data::programming_languages_token::{
@@ -47,43 +49,43 @@ enum ColorWhen {
 
 #[derive(Subcommand, Debug)]
 enum ListCategory {
-    /// Human languages
     #[command(visible_alias = "hl")]
     HumanLanguages {
-        /// e.g. "Latin", "Cyrillic"
         #[arg(short = 's', long)]
         script: Option<ScriptName>,
-        /// e.g. "Latin", "Cyrillic"
+
         #[arg(short = 'c', long)]
         category: Option<HumanLanguageCategory>,
     },
-    /// Human language dialects
-    #[command(visible_alias = "hd")]
-    HumanDialects {
-        /// e.g. "Japanese"
-        language: Option<HumanLanguageName>,
-    },
-    #[command(visible_alias = "s")]
+    #[command(visible_alias = "hd", alias = "human-dialect")]
+    HumanDialects { language: Option<HumanLanguageName> },
+    #[command(visible_alias = "s", alias = "script")]
     Scripts { language: Option<HumanLanguageName> },
-    #[command(visible_alias = "pl")]
+    #[command(visible_alias = "pl", alias = "programming-language")]
     ProgrammingLanguages {
-        /// e.g. "m" (Objective-C and MATLAB)
+        #[arg(short, long)]
         extension: Option<FileExtension>,
+        #[arg(short, long)]
+        family: Option<ProgrammingLanguageFamily>,
+        #[arg(short, long)]
+        category: Option<ProgrammingLanguageCategory>,
     },
     /// Programming Language dialects/versions
-    #[command(visible_alias = "pd")]
+    #[command(visible_alias = "pd", alias = "programming-dialect")]
     ProgrammingDialects {
         language: Option<ProgrammingLanguageName>,
     },
-    #[command(visible_alias = "hc")]
-    HumanLanguageCategory {
-        /// e.g. "Japanese"
-        language: Option<HumanLanguageName>,
-    },
-    #[command(visible_alias = "pc")]
-    ProgrammingLanguageCategory {
+    #[command(visible_alias = "hc", alias = "human-language-category")]
+    HumanLanguageCategories { language: Option<HumanLanguageName> },
+    #[command(visible_alias = "pc", alias = "programming-language-category")]
+    ProgrammingLanguageCategories {
         language: Option<ProgrammingLanguageName>,
     },
+    #[command(visible_alias = "pf", alias = "programming-language-family")]
+    ProgrammingLanguageFamilies {
+        language: Option<ProgrammingLanguageName>,
+    },
+
     /// Syntax-highlighting themes
     #[command(visible_alias = "t")]
     Themes,
@@ -98,6 +100,9 @@ enum Command {
 
         #[arg(visible_alias = "com", long, default_value_t = false)]
         compact: bool,
+
+        #[arg(visible_alias = "cnt", long, default_value_t = false)]
+        count: bool,
     },
 }
 
@@ -189,6 +194,7 @@ fn main() -> anyhow::Result<()> {
     if let Some(Command::List {
         ref category,
         compact,
+        count,
     }) = args.command
     {
         let list_as_str: Vec<&'static str> = match category {
@@ -201,21 +207,26 @@ fn main() -> anyhow::Result<()> {
             ListCategory::Scripts { language } => get_all_scripts_as_str_by(*language),
             //TODO: Able to filter by dark/light in the future
             ListCategory::Themes => get_all_themes_as_str(),
-            ListCategory::ProgrammingLanguages { extension } => {
-                get_all_programming_languages_as_str_by(*extension)
-            }
+            ListCategory::ProgrammingLanguages {
+                extension,
+                family,
+                category,
+            } => get_all_programming_languages_as_str_by(*extension, *family, *category),
             ListCategory::ProgrammingDialects { language } => {
                 get_all_programming_versions_as_str_by(*language)
             }
-            ListCategory::HumanLanguageCategory { language } => {
+            ListCategory::HumanLanguageCategories { language } => {
                 get_all_human_language_categories_as_str_by(*language)
             }
-            ListCategory::ProgrammingLanguageCategory { language } => {
+            ListCategory::ProgrammingLanguageCategories { language } => {
                 get_all_programming_language_categories_as_str_by(*language)
+            }
+            ListCategory::ProgrammingLanguageFamilies { language } => {
+                get_all_programming_language_families_as_str_by(*language)
             }
         };
 
-        output_as_compact_list_or_not(&list_as_str, compact);
+        output_list_command_with(&list_as_str, compact, count);
         return Ok(());
     }
     if args.banner {

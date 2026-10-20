@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Desmos,
         extensions: &[FileExtension::Desmos],
         categories: &[Scientific],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Desmos,
             syntax: r"x=0{0<y<4}

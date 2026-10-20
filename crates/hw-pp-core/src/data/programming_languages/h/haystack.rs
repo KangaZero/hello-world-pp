@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Haystack,
         extensions: &[FileExtension::Hstk],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Haystack,
             syntax: concat!(r#"""#, output_for_hello_world!(), r#""o|"#),

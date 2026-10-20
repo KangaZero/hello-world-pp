@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Seeker,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Seeker,
             syntax: r"!chr.@chr:72.$chr.@chr:101.$chr.@chr:108.$chr.@chr:111.$chr.@chr:32.$chr.@chr:119.$chr.@chr:114.$chr.@chr:100.$chr.@chr:33.$chr._",

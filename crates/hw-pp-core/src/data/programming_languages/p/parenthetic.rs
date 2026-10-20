@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Parenthetic,
         extensions: &[FileExtension::P],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Parenthetic,
             syntax: r"Parenthetic - https://github.com/cammckinnon/Parenthetic

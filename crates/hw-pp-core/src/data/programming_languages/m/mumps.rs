@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Mumps,
         extensions: &[],
         categories: &[Historical],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Mumps,
             syntax: concat!(r#" w ""#, output_for_hello_world!(), r#"",!"#),

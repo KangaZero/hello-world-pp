@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Cratefuck,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cratefuck,
             syntax: r#"*[>*<*>>*<<*>>>*<<<*>>>>*<<<<*] Make 4 stacks of 64 in rooms 1, 2, 3, & 4; (0, 64, 64, 64, 64

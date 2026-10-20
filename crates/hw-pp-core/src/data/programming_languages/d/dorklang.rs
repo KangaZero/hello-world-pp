@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Dorklang,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Dorklang,
             syntax: r#"<pre class="rectwrap">''(')![+*+$:]!(+ +^*)-! !(+*+):!~++^$$:[++*][++/]!;:/!;:++[++/]!$;!+(+)+!--+!''/+!</pre>"#,

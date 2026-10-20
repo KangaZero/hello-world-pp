@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Rubic,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rubic,
             syntax: r".ww ( +ww ) ! +ww +ww +ww +ww r -wg ! +oo b -og ! ! +wo' ! b' .wg *oo +oo ! *wg -oo b -og ! b' +oo +oo +oo ! +wg ! l' -wg ! -oo ! .wg *wg r -wg ! .oo +ww !",

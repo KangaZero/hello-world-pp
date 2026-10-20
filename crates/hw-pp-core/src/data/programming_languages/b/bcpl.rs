@@ -27,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Bcpl,
         extensions: &[FileExtension::Bcl],
         categories: &[Compiled, Historical],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Bcpl,
             syntax: concat!(

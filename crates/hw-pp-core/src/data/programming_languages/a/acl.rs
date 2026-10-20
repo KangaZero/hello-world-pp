@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Acl,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Acl,
             syntax: r"34344343444C3443443434343C34434344344C34434344344C34434344443C34344444C3434343434443C34434344443C34443443434C34434344344C34434434344C3434444343CC",

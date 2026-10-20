@@ -8,7 +8,8 @@
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Markup,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect, ProgrammingLanguageFamily::Algol, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -26,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Jade,
         extensions: &[FileExtension::Jade],
         categories: &[Markup],
+        families: &[Algol],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Jade,
             syntax: concat!(

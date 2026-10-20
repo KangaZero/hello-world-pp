@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Aewnn,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Aewnn,
             syntax: r"[8+]cpar2[5+]cpa[7+]cpacpa+++cpa [8+]cpar2[15+]cpa+++cpar2[12+]cpar2++++cpa",

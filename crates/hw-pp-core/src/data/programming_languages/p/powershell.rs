@@ -6,7 +6,8 @@
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect, ProgrammingLanguageFamily::DotNet, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -24,6 +25,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::PowerShell,
         extensions: &[FileExtension::Ps1, FileExtension::Psm1],
         categories: &[Scripting],
+        families: &[DotNet],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PowerShell7,
             syntax: concat!(r#"Write-Host ""#, output_for_hello_world!(), r#"""#),

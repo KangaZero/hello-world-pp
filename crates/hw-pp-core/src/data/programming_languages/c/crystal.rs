@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Crystal,
         extensions: &[FileExtension::Cr],
         categories: &[Compiled],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Crystal1,
             syntax: concat!(r#"puts ""#, output_for_hello_world!(), r#"""#),

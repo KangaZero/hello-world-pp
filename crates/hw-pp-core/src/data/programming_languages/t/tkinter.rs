@@ -8,7 +8,7 @@
 
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Framework, ProgrammingLanguageDialect,
-    ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageFamily::Python, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Tkinter,
         extensions: &[],
         categories: &[Framework],
+        families: &[Python],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Tkinter,
             syntax: concat!(

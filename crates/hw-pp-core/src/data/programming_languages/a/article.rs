@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Article,
         extensions: &[FileExtension::Artl],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Article,
             syntax: r"add w2 w3 w4 w5 w6 w7 w8 w9 w10 w11. w1 w2 w3 w4 w5 n1 n2 n3 n4. w1 w2 w3 w4 w5 n1 n2 n3 n4 n5 n6 n7 n8.

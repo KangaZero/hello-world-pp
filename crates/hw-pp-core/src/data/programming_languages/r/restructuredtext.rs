@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Restructuredtext,
         extensions: &[FileExtension::Rst],
         categories: &[Markup],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Restructuredtext,
             syntax: concat!(

@@ -27,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Assembler68000Amiga,
         extensions: &[],
         categories: &[Assembly],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Assembler68000Amiga,
             syntax: concat!(

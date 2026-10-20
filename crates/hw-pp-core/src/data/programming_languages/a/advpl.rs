@@ -7,8 +7,8 @@
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/a/Advpl>
 
 use crate::data::programming_languages::{
-    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageFamily::XBase,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Advpl,
         extensions: &[],
         categories: &[],
+        families: &[XBase],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Advpl,
             syntax: concat!(

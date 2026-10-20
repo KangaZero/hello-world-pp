@@ -8,7 +8,7 @@
 
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Historical, ProgrammingLanguageDialect,
-    ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageFamily::Basic, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::LocomotiveBasic,
         extensions: &[],
         categories: &[Historical],
+        families: &[Basic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::LocomotiveBasic,
             syntax: concat!(

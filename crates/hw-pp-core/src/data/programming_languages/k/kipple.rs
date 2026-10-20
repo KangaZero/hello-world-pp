@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Kipple,
         extensions: &[FileExtension::Kipple],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Kipple,
             syntax: r"33>o<100 108>o<114 111>o<87 32>o<111 108>o<108 101>o<72",

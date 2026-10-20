@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Codd,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Codd,
             syntax: r"λrx.r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[r[x]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]] 

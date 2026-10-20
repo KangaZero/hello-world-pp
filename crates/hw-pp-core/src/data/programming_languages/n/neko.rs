@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Neko,
         extensions: &[FileExtension::Neko],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Neko,
             syntax: concat!(r#"$print(""#, output_for_hello_world!(), r#"\n");"#),

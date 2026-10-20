@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Qi,
         extensions: &[FileExtension::Qi],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Qi,
             syntax: concat!(r#"系统。打印行（""#, output_for_hello_world!(), r#""）"#),

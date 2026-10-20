@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Brainz,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Brainz,
             syntax: r" FF 09 F0 9C F3 CC 44 45 04 CC A4 C2 20 8A 09 20 4A A0 7F 81 03 C0 92 04 50 22 07 81 55 50 2A AA A0 49 81 38 10",

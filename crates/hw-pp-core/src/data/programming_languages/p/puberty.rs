@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Puberty,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Puberty,
             syntax: r"It is June 12, 2018, 03:02:04 PM. Izu is in his bed, bored. His secret kinks are vore, fatfurs, inflation, growth and kitsunes. 

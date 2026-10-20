@@ -8,7 +8,8 @@
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect, ProgrammingLanguageFamily::Java, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -26,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Beanshell,
         extensions: &[FileExtension::Bsh],
         categories: &[Scripting],
+        families: &[Java],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Beanshell,
             syntax: concat!(r#"print (""#, output_for_hello_world!(), r#"");"#),

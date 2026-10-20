@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Gocaml,
         extensions: &[],
         categories: &[Compiled],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Gocaml,
             syntax: concat!(r#"println_str ""#, output_for_hello_world!(), r#"""#),

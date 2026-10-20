@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Quakec,
         extensions: &[FileExtension::Qc],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Quakec,
             syntax: concat!(r#"bprint(""#, output_for_hello_world!(), r#"\n");"#),

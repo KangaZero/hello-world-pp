@@ -6,7 +6,8 @@
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect, ProgrammingLanguageFamily::Haskell, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -24,6 +25,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Haskell,
         extensions: &[FileExtension::Hs, FileExtension::Lhs],
         categories: &[Compiled],
+        families: &[Haskell],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Haskell2010,
             syntax: concat!(

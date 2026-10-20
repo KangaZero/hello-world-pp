@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Uff1fDollar51Eq,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Uff1fDollar51Eq,
             syntax: concat!(r"$? 5 ", output_for_hello_world!(), r" 5"),

@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Mokkosu,
         extensions: &[FileExtension::Mok],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Mokkosu,
             syntax: concat!(r#"do println ""#, output_for_hello_world!(), r#"";"#),

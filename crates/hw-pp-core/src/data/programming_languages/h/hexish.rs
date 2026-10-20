@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Hexish,
         extensions: &[FileExtension::Hexish],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hexish,
             syntax: r"0902160E48656C6C6F20776F726C6421001001161508",

@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Tsharp,
         extensions: &[FileExtension::Tsp],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Tsharp,
             syntax: concat!(r#"push ""#, output_for_hello_world!(), r#"" print"#),

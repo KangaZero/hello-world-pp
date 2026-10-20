@@ -14,8 +14,11 @@
 //! Collection, MIT licensed; see `programming_languages/LICENSE-helloworldcollection`.
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage,
+    ProgrammingLanguageCategory::Compiled,
+    ProgrammingLanguageDialect,
+    ProgrammingLanguageFamily::{C, Java},
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -33,6 +36,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Java,
         extensions: &[FileExtension::Java],
         categories: &[Compiled],
+        families: &[C, Java],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Java17,

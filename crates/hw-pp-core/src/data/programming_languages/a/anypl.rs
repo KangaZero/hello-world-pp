@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Anypl,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Anypl,
             syntax: r"HelloWor 0001 .2.. S1.. .3.. .3.. Tr.. .1.c ---- ........ [ Put the strings to the tape. ]

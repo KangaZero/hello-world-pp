@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Assembler8048Videopac,
         extensions: &[],
         categories: &[Assembly],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Assembler8048Videopac,
             syntax: concat!(

@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::UclangStar,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::UclangStar,
             syntax: r"A0 48 A1 A0 65 A1 A0 6C A1 A0 6C A1 A0 6F A1 A0 20 A1 A0 77 A1 A0 6F A1

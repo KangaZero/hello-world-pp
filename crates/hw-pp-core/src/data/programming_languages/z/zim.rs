@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Zim,
         extensions: &[FileExtension::Zim],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Zim,
             syntax: concat!(r#"output ""#, output_for_hello_world!(), r#"""#),

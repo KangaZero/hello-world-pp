@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Prelude,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Prelude,
             syntax: r"...8+.!v...4+.1+!..v!..vvv...4+.!vvv.....9+.3-!###!..v6-!..vv..v

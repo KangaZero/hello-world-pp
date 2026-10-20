@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Rhai,
         extensions: &[FileExtension::Rhai],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rhai,
             syntax: concat!(r#"print(""#, output_for_hello_world!(), r#"");"#),

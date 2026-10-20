@@ -9,7 +9,7 @@
 
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Compiled, ProgrammingLanguageDialect,
-    ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageFamily::C, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -27,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::V,
         extensions: &[],
         categories: &[Compiled],
+        families: &[C],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::V1,

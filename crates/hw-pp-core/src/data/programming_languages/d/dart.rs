@@ -7,7 +7,9 @@
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Scripting},
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect,
+    ProgrammingLanguageFamily::{C, JavaScript},
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -25,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Dart,
         extensions: &[FileExtension::Dart],
         categories: &[Compiled, Scripting],
+        families: &[C, JavaScript],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Dart3,
             syntax: concat!(

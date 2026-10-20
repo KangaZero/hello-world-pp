@@ -8,7 +8,8 @@
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Educational,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect, ProgrammingLanguageFamily::Pascal, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -26,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Rapira,
         extensions: &[FileExtension::Rap],
         categories: &[Educational],
+        families: &[Pascal],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rapira,
             syntax: concat!(r#"output: ""#, output_for_hello_world!(), r#"";"#),

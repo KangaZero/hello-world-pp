@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::ControlLanguage,
         extensions: &[FileExtension::Cllc],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::ControlLanguage,
             syntax: concat!(r#"SNDPGMMSG MSG(""#, output_for_hello_world!(), r#"")"#),

@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Mysql,
         extensions: &[],
         categories: &[Query],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Mysql,
             syntax: concat!(r#"SELECT ""#, output_for_hello_world!(), r#"";"#),

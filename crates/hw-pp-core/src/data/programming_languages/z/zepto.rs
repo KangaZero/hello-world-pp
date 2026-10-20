@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Zepto,
         extensions: &[FileExtension::Zp],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Zepto,
             syntax: concat!(r#"(write ""#, output_for_hello_world!(), r#"")"#),

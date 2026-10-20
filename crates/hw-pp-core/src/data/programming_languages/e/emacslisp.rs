@@ -8,7 +8,8 @@
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect, ProgrammingLanguageFamily::Lisp, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -26,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Emacslisp,
         extensions: &[FileExtension::El],
         categories: &[Scripting],
+        families: &[Lisp],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Emacslisp,
             syntax: concat!(r#"(message ""#, output_for_hello_world!(), r#"")"#),

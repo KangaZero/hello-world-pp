@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Lola,
         extensions: &[FileExtension::Lola],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Lola,
             syntax: r":H,:e,2:l,,:o,:',:_,:w,:o,:r,:l,:d,:!,:%,:\\b,\\a,,,,,,,,,,,,,,

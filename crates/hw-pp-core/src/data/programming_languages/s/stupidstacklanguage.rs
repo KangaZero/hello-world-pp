@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Stupidstacklanguage,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Stupidstacklanguage,
             syntax: r"avqmimcfdddfviiffvddfavdegmfavdmcwfwdddfvddfwdfwdddf",

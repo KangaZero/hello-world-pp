@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::TurtleScript,
         extensions: &[FileExtension::Turtle],
         categories: &[Educational],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::TurtleScript,
             syntax: concat!(

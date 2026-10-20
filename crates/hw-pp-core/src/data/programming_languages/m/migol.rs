@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Migol,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Migol,
             syntax: r"'H>,'e>,'l>,'l>,'o>,',>,' >,'w>,'o>,'r>,'l>,'d>,'!>,10>",

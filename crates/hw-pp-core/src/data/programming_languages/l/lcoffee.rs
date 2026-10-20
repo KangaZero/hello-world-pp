@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Lcoffee,
         extensions: &[FileExtension::Lcoff],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Lcoffee,
             syntax: concat!(r#"print ""#, output_for_hello_world!(), r#"""#),

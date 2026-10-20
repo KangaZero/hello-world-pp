@@ -34,6 +34,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Sql,
         extensions: &[FileExtension::Sql],
         categories: &[Query, Scripting],
+        families: &[],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Sql2016,

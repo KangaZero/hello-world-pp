@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Rescript,
         extensions: &[FileExtension::Res],
         categories: &[Compiled],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rescript,
             syntax: concat!(r#"Js.log(""#, output_for_hello_world!(), r#"")"#),

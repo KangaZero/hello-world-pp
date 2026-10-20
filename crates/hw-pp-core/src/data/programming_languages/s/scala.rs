@@ -6,7 +6,8 @@
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect, ProgrammingLanguageFamily::Java, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -24,6 +25,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Scala,
         extensions: &[FileExtension::Scala, FileExtension::Sc],
         categories: &[Compiled],
+        families: &[Java],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Scala3,
             syntax: concat!(

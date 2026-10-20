@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Avisynth,
         extensions: &[FileExtension::Avs],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Avisynth,
             syntax: concat!(r#"MessageClip(""#, output_for_hello_world!(), r#"")"#),

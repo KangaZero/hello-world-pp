@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Verbosefuck,
         extensions: &[FileExtension::Vbfk],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Verbosefuck,
             syntax: r"~!comment!~VerboseFuck, a BrainFuck derivative focussing on verbosity. see more at <http://esolangs.org/wiki/VerboseFuck>~!uncomment!~

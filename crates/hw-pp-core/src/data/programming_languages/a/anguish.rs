@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Anguish,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Anguish,
             syntax: "\u{200c}\u{feff}\u{2063}\u{200c}\u{2063}\u{200d}\u{feff}\u{2063}\u{2063}\u{feff}\u{feff}\u{feff}\u{2061}\u{feff}\u{2062}\u{feff}\u{200b}\u{2060}\u{feff}\u{200c}\u{200d}\u{2063}\u{2063}\u{200d}\u{2061}\u{2061}\u{2061}\u{2061}\u{2061}\u{2061}\u{2061}\u{2061}\u{200c}\u{2060}\u{2061}\u{2061}\u{2061}\u{2061}\u{200c}\u{2060}\u{2061}\u{2061}\u{2060}\u{2061}\u{2061}\u{2061}\u{2060}\u{2061}\u{2061}\u{2061}\u{2060}\u{2061}\u{200b}\u{200b}\u{200b}\u{200b}\u{2062}\u{200d}\u{2060}\u{2061}\u{2060}\u{2061}\u{2060}\u{2062}\u{2060}\u{2060}\u{2061}\u{200c}\u{200b}\u{200d}\u{200b}\u{2062}\u{200d}\u{2060}\u{2060}\u{2063}\u{2060}\u{2062}\u{2062}\u{2062}\u{2063}\u{2061}\u{2061}\u{2061}\u{2061}\u{2061}\u{2061}\u{2061}\u{2063}\u{2063}\u{2061}\u{2061}\u{2061}\u{2063}\u{2060}\u{2060}\u{2063}\u{200b}\u{2062}\u{2063}\u{200b}\u{2063}\u{2061}\u{2061}\u{2061}\u{2063}\u{2062}\u{2062}\u{2062}\u{2062}\u{2062}\u{2062}\u{2063}\u{2062}\u{2062}\u{2062}\u{2062}\u{2062}\u{2062}\u{2062}\u{2062}\u{2063}\u{2060}\u{2060}\u{2061}\u{2063}\u{2060}\u{2061}\u{2061}\u{2063}",

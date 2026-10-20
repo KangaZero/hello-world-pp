@@ -8,7 +8,7 @@
 
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Scripting, ProgrammingLanguageDialect,
-    ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageFamily::JavaScript, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Jscript,
         extensions: &[],
         categories: &[Scripting],
+        families: &[JavaScript],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Jscript,
             syntax: concat!(r#"WScript.Echo(""#, output_for_hello_world!(), r#"");"#),

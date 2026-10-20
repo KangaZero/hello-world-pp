@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::OrgMode,
         extensions: &[FileExtension::Org],
         categories: &[Markup],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::OrgMode,
             syntax: output_for_hello_world!(),

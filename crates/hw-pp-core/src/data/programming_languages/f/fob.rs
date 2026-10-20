@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Fob,
         extensions: &[FileExtension::Fob],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Fob,
             syntax: concat!(r" $", output_for_hello_world!(), r"#<>"),

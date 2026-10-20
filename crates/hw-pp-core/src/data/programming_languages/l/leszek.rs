@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Leszek,
         extensions: &[FileExtension::Leszek],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Leszek,
             syntax: concat!(r"\O\C\.1.", output_for_hello_world!()),

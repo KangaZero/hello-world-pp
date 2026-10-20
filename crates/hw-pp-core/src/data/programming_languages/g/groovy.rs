@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Groovy,
         extensions: &[FileExtension::Groovy, FileExtension::Gvy],
         categories: &[Scripting, Compiled],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Groovy4,
             syntax: concat!(r#"println ""#, output_for_hello_world!(), r#"""#),

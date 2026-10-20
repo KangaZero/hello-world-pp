@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Labyrinth,
         extensions: &[FileExtension::Labyrinth],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Labyrinth,
             syntax: r"33_100_108:}_114_111:}_87_32_44{{:_101_72.......

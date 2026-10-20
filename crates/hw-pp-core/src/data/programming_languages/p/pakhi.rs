@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Pakhi,
         extensions: &[FileExtension::Pakhi],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Pakhi,
             syntax: concat!(r#"দেখাও ""#, output_for_hello_world!(), r#"";"#),

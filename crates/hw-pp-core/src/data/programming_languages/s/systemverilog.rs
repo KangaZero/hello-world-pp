@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Systemverilog,
         extensions: &[FileExtension::Sv],
         categories: &[HardwareDescription],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Systemverilog,
             syntax: concat!(

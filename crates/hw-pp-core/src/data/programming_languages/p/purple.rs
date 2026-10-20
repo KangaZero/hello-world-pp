@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Purple,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Purple,
             syntax: r"aA1aa1oA0bi0b0bb1bbbAiB0 Purple is the awesomest, so why haven't you tried it yet?

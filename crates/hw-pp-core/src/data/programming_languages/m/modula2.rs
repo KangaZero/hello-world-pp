@@ -9,7 +9,9 @@
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect,
+    ProgrammingLanguageFamily::Modula,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -27,6 +29,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Modula2,
         extensions: &[FileExtension::Mod],
         categories: &[Compiled, Historical],
+        families: &[Modula],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Modula2,
             syntax: concat!(

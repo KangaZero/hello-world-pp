@@ -27,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Matlab10,
         extensions: &[],
         categories: &[Scientific, Historical],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Matlab10,
             syntax: concat!(r"fprintf('", output_for_hello_world!(), r"\n')"),

@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Reversefuck,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Reversefuck,
             syntax: r"--------]<----]<--<---<---<->>>>+[<-<-<+<<-]>[>+[<<,<+++,-------,,---,<<,>+,>,---,++++++,++++++++,<<-,<--,",

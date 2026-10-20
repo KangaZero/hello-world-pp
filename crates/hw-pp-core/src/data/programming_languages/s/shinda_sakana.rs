@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::ShindaSakana,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::ShindaSakana,
             syntax: r"増増増乗減乗増増増増増増増増書増増増増増増増増増増増増増増増増増増増増増増増増増増増増増書増増増増増増増書書

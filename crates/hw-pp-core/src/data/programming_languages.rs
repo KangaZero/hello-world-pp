@@ -26,6 +26,51 @@ name_enum! {
     }
 }
 
+name_enum! {
+    /// A family of related programming languages, as grouped by Wikipedia's
+    /// [Programming language families](https://en.wikipedia.org/wiki/Category:Programming_language_families).
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+    pub enum ProgrammingLanguageFamily: ParseProgrammingLanguageFamilyError("programming language family") {
+        Ada => "Ada",
+        Algol => "ALGOL",
+        Apl => "APL",
+        Basic => "BASIC",
+        C => "C",
+        Cpp => "C++",
+        /// Languages targeting the .NET runtime (C#, F#, Visual Basic .NET), a platform rather
+        /// than a lineage; listed because Wikipedia groups them here.
+        DotNet => ".NET",
+        Forth => "Forth",
+        Fortran => "Fortran",
+        Haskell => "Haskell",
+        /// Languages from International Computers Limited (e.g. SCL), grouped by maker.
+        Icl => "ICL",
+        Icon => "Icon",
+        Java => "Java",
+        JavaScript => "JavaScript",
+        Joss => "JOSS",
+        Lisp => "Lisp",
+        Logo => "Logo",
+        Ml => "ML",
+        Modula => "Modula",
+        Oberon => "Oberon",
+        OCaml => "OCaml",
+        Pascal => "Pascal",
+        Perl => "Perl",
+        PlI => "PL/I",
+        Prolog => "Prolog",
+        Python => "Python",
+        R => "R",
+        Rexx => "Rexx",
+        Ruby => "Ruby",
+        Smalltalk => "Smalltalk",
+        Snobol => "SNOBOL",
+        Sr => "SR",
+        Tcl => "Tcl",
+        XBase => "xBase",
+    }
+}
+
 /// Language/version resolution errors for the programming-language catalog.
 pub type ProgrammingLookupError = LookupError<ProgrammingLanguageName, ProgrammingLanguageDialect>;
 
@@ -67,6 +112,7 @@ pub struct ProgrammingLanguage {
     pub name: ProgrammingLanguageName,
     pub extensions: &'static [FileExtension],
     pub categories: &'static [ProgrammingLanguageCategory],
+    pub families: &'static [ProgrammingLanguageFamily],
     pub versions: &'static [ProgrammingLanguageVersion],
 }
 
@@ -221,20 +267,34 @@ pub fn get_default_programming_language_dialect_from_language_name(
         .ok_or(LookupError::NoVariants(language))
 }
 
-/// Display names of the programming languages using `extension`, or all if `None`.
+/// Display names of the programming languages matching every given filter; `None` matches all.
+///
+/// - `extension`: languages using it.
+/// - `family`: languages in it (e.g. [`ProgrammingLanguageFamily::Ml`]).
+/// - `category`: languages in it (e.g. [`ProgrammingLanguageCategory::Esolang`]).
 ///
 /// ```
-/// use hw_pp_core::data::programming_languages::{FileExtension, get_all_programming_languages_as_str_by};
-/// let users_of_m = get_all_programming_languages_as_str_by(Some(FileExtension::M));
+/// use hw_pp_core::data::programming_languages::{
+///     FileExtension, ProgrammingLanguageFamily, get_all_programming_languages_as_str_by,
+/// };
+/// let users_of_m = get_all_programming_languages_as_str_by(Some(FileExtension::M), None, None);
 /// assert_eq!(users_of_m, ["MATLAB", "Objective-C"]);
+/// let ml = get_all_programming_languages_as_str_by(None, Some(ProgrammingLanguageFamily::OCaml), None);
+/// assert!(ml.contains(&"F#") && ml.contains(&"OCaml"));
 /// ```
 #[must_use]
 pub fn get_all_programming_languages_as_str_by(
     extension: Option<FileExtension>,
+    family: Option<ProgrammingLanguageFamily>,
+    category: Option<ProgrammingLanguageCategory>,
 ) -> Vec<&'static str> {
     PROGRAMMING_LANGUAGES
         .iter()
-        .filter(|lang| extension.is_none_or(|e| lang.extensions.contains(&e)))
+        .filter(|lang| {
+            extension.is_none_or(|e| lang.extensions.contains(&e))
+                && family.is_none_or(|f| lang.families.contains(&f))
+                && category.is_none_or(|c| lang.categories.contains(&c))
+        })
         .map(|lang| lang.name.as_str())
         .collect()
 }
@@ -275,6 +335,19 @@ pub fn get_all_programming_language_categories_as_str_by(
         .iter()
         .filter(|lang| language.is_none_or(|l| lang.name == l))
         .flat_map(|lang| lang.categories.iter().map(|c| c.as_str()))
+        .collect::<BTreeSet<_>>()
+        .into_iter()
+        .collect()
+}
+
+#[must_use]
+pub fn get_all_programming_language_families_as_str_by(
+    language: Option<ProgrammingLanguageName>,
+) -> Vec<&'static str> {
+    PROGRAMMING_LANGUAGES
+        .iter()
+        .filter(|lang| language.is_none_or(|l| lang.name == l))
+        .flat_map(|lang| lang.families.iter().map(|f| f.as_str()))
         .collect::<BTreeSet<_>>()
         .into_iter()
         .collect()

@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Autohotkey,
         extensions: &[FileExtension::Ahk],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Autohotkey,
             syntax: concat!(r"MsgBox, ", output_for_hello_world!()),

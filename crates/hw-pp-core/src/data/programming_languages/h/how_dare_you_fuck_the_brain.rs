@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::HowDareYouFuckTheBrain,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::HowDareYouFuckTheBrain,
             syntax: r"IIII=+=+=+=+IIIIIIIIP=DDDP^IIIIPPIIIP^IIII=+=+=+^IIII=+=+DDDDv+P

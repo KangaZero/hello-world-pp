@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Logicode,
         extensions: &[FileExtension::Lgc],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Logicode,
             syntax: r"out @1001000+@1100101+@1101100+@1101100+@1101111+@100000+@1010111+@1101111+@1110010+@1101100+@1100100",

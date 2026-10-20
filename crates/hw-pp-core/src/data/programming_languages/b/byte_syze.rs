@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::ByteSyze,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::ByteSyze,
             syntax: r"000000: c7 3c 2a 3c 2a 2b 2a 5c  3c 29 5c 2a 2b 2a 5c 3c  .<*<*+*\<)\*+*\<

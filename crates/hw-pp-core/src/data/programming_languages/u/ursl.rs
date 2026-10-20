@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Ursl,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ursl,
             syntax: r"v072-w0v0101-w0v0108-w0w0v0111-w0v044-w0v032-w0v0119-w0v0111-w0v0114-w0v0108-w0v0100-w0v033-w0",

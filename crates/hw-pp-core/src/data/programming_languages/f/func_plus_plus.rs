@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::FuncPlusPlus,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::FuncPlusPlus,
             syntax: r"do(do(do(do(do(do(do(do(do(do(do(H(),e()),l()),l()),o()), ()),W()),o()),r()),l()),d()),!())",

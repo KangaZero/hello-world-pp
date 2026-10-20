@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Ttsneo,
         extensions: &[FileExtension::Ttsneo],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ttsneo,
             syntax: concat!(r"「", output_for_hello_world!(), r"」と出力する"),

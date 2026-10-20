@@ -7,8 +7,8 @@
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/c/C%E2%88%97>
 
 use crate::data::programming_languages::{
-    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageFamily::C,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::CStar,
         extensions: &[],
         categories: &[],
+        families: &[C],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::CStar,
             syntax: concat!(

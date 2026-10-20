@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Blitzmax,
         extensions: &[FileExtension::Bmx],
         categories: &[Compiled],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Blitzmax,
             syntax: concat!(r#"Print ""#, output_for_hello_world!(), r#"""#),

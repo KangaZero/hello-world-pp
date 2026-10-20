@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Shen,
         extensions: &[FileExtension::Shen],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Shen,
             syntax: concat!(r#"(pr ""#, output_for_hello_world!(), r#"")"#),

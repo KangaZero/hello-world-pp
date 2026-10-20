@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Gri,
         extensions: &[FileExtension::Gri],
         categories: &[Scientific],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Gri,
             syntax: concat!(r#"show ""#, output_for_hello_world!(), r#"""#),

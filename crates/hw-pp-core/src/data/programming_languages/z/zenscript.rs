@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Zenscript,
         extensions: &[FileExtension::Zs],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Zenscript,
             syntax: concat!(r#"println(""#, output_for_hello_world!(), r#"");"#),

@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Pig,
         extensions: &[FileExtension::Pig],
         categories: &[Query],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Pig,
             syntax: concat!(output_for_hello_world!(), r"PIG", output_for_hello_world!()),

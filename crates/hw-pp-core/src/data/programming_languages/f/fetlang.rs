@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Fetlang,
         extensions: &[FileExtension::Fet],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Fetlang,
             syntax: concat!(r#"Make slave scream ""#, output_for_hello_world!(), r#"""#),

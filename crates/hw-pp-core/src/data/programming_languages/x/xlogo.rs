@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Xlogo,
         extensions: &[FileExtension::Lgo],
         categories: &[Educational],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Xlogo,
             syntax: r"to HelloWorld

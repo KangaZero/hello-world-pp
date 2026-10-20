@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Emoticon,
         extensions: &[FileExtension::Emoticon],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Emoticon,
             syntax: concat!(output_for_hello_world!(), r" :Q S::P :P"),

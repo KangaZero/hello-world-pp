@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Brzrk,
         extensions: &[FileExtension::Brzrk],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Brzrk,
             syntax: concat!(r#"$""#, output_for_hello_world!(), r#"""#),

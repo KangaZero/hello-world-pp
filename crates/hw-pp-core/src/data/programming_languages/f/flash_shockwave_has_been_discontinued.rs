@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::FlashShockwaveHasBeenDiscontinued,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::FlashShockwaveHasBeenDiscontinued,
             syntax: r"aueI90ds¢£³m%#oiDijij@¨!&#&#IO21(()=§§ªD@@",

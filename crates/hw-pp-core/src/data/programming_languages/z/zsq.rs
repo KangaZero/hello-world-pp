@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Zsq,
         extensions: &[FileExtension::Zsq],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Zsq,
             syntax: concat!(r#"print(""#, output_for_hello_world!(), r#"")"#),

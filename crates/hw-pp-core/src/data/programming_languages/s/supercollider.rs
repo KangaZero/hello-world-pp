@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Supercollider,
         extensions: &[],
         categories: &[Music],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Supercollider,
             syntax: concat!(r#"""#, output_for_hello_world!(), r#"".postln;"#),

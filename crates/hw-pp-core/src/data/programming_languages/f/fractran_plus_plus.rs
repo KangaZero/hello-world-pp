@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::FractranPlusPlus,
         extensions: &[FileExtension::Fpp],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::FractranPlusPlus,
             syntax: r"3,-1/2,(2*37)/3,0/0,<71 101 108 108 111 32 87 111 114 108 100 0>/37,4/0",

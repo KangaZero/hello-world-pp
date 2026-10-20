@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Maude,
         extensions: &[FileExtension::Maude],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Maude,
             syntax: concat!(r#"red ""#, output_for_hello_world!(), r#"" ."#),

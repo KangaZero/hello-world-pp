@@ -7,7 +7,7 @@
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/a/Alice.alice>
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Educational,
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{macros::language_names, programming_languages_token::TokenKind};
@@ -22,7 +22,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Alice,
         extensions: &[FileExtension::Alice],
-        categories: &[Educational],
+        categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Alice,
             syntax: r#""dlroW olleH"d&O`@"#,

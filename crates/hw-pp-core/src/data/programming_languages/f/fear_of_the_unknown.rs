@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::FearOfTheUnknown,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::FearOfTheUnknown,
             syntax: r"$IO=$IO; $IO+72; $IO=$IO; $IO+101; $IO=$IO; $IO+108;

@@ -33,6 +33,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Elena,
         extensions: &[FileExtension::Elena],
         categories: &[Compiled],
+        families: &[],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Elena,

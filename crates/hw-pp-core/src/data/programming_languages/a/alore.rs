@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Alore,
         extensions: &[FileExtension::Alore],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Alore,
             syntax: concat!(r"Print('", output_for_hello_world!(), r"')"),

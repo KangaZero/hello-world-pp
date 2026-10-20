@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Rebmu,
         extensions: &[FileExtension::Reb],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rebmu,
             syntax: concat!(r#"rebmu [p""#, output_for_hello_world!(), r#""]"#),

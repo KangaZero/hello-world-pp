@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::PleasePorigeHot,
         extensions: &[FileExtension::Pph],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PleasePorigeHot,
             syntax: concat!(r"1 Please porige hot or cold ", output_for_hello_world!()),

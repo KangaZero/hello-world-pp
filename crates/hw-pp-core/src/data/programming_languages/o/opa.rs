@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Opa,
         extensions: &[FileExtension::Opa],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Opa,
             syntax: concat!(r#"jlog(""#, output_for_hello_world!(), r#"")"#),

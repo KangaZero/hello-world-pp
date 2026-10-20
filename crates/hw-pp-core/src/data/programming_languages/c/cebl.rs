@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Cebl,
         extensions: &[FileExtension::Ceb],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cebl,
             syntax: concat!(r#"OUT ""#, output_for_hello_world!(), r#"",0"#),

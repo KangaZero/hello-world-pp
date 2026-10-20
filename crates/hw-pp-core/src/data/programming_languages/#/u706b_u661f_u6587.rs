@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::U706bU661fU6587,
         extensions: &[FileExtension::Martian],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::U706bU661fU6587,
             syntax: r"姠屛募潑鎹牸苻賗：【沵恏，迣鎅】。

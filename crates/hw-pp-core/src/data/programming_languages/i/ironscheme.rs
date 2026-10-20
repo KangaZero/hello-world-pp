@@ -8,7 +8,7 @@
 
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Scripting, ProgrammingLanguageDialect,
-    ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageFamily::DotNet, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Ironscheme,
         extensions: &[],
         categories: &[Scripting],
+        families: &[DotNet],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ironscheme,
             syntax: concat!(

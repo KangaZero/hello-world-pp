@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::TranslatedU4e2dU6587,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::TranslatedU4e2dU6587,
             syntax: r"T[UNK]kikik сиңa һ UNK]r character[UNK]chenbarder.1(0,0,72)1(0,0,101)1(0,0,108)1(0,0,108)1(0,0,111)1(0,0,44)1(0,0,32)1(0,0,119)1(0,0,111)1(0,0,114)1(0,0,108)1(0,0,100)*

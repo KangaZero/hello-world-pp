@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Freakc,
         extensions: &[FileExtension::Fclang],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Freakc,
             syntax: concat!(r"print[] ", output_for_hello_world!()),

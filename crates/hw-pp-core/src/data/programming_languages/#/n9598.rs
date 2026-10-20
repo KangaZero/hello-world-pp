@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::N9598,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::N9598,
             syntax: r"103-105 100-102 107-109 107-109 110-112 43-45 31-33 118-120 110-112 113-115 107-109 99-101 32-34 0-1",

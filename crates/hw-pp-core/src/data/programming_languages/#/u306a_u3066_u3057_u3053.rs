@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::U306aU3066U3057U3053,
         extensions: &[FileExtension::Nako],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::U306aU3066U3057U3053,
             syntax: concat!(r"「", output_for_hello_world!(), r"」と表示"),

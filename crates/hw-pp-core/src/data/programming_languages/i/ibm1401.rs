@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Ibm1401,
         extensions: &[],
         categories: &[Assembly, Historical],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ibm1401,
             syntax: r",008015,022029,036043,050054,055062,063065,066077/333/M0762502F1.HELLO

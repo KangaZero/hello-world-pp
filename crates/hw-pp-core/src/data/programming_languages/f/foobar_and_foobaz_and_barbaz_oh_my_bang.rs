@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::FoobarAndFoobazAndBarbazOhMyBang,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::FoobarAndFoobazAndBarbazOhMyBang,
             syntax: r"72 and 27 and 27, oh my.

@@ -8,8 +8,8 @@
 //! - <http://helloworldcollection.de/#xblite>
 
 use crate::data::programming_languages::{
-    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageFamily::Basic,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -27,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Xblite,
         extensions: &[],
         categories: &[],
+        families: &[Basic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Xblite,
             syntax: concat!(

@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::GithubActions,
         extensions: &[FileExtension::Yaml],
         categories: &[Configuration],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::GithubActions,
             syntax: concat!(

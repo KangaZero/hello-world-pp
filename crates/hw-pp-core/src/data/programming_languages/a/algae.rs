@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Algae,
         extensions: &[FileExtension::Algae],
         categories: &[Scientific],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Algae,
             syntax: concat!(r#"printf(""#, output_for_hello_world!(), r#"\n");"#),

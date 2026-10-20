@@ -8,7 +8,8 @@
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect, ProgrammingLanguageFamily::Rexx, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -26,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Netrexx,
         extensions: &[FileExtension::Nrx],
         categories: &[Compiled],
+        families: &[Rexx],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Netrexx,
             syntax: concat!(r"say '", output_for_hello_world!(), r"'"),

@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::ThrowThisToThat,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::ThrowThisToThat,
             syntax: concat!(r#"   THROW ""#, output_for_hello_world!(), r#"" TO OUT"#),

@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::LookBang,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::LookBang,
             syntax: r"C D# C C D# D# D# D# B G D# D# C D# F# G# C C G D# C C G C C C G# C A A A A D C# G# C G# D# G# D G G C B A C# A D C# G G F G D D D F C C D# D# C D# C F F C C D# F G# G F A D F A F C C D# F D D D D D D F D D D D D D D D F G# G D# F G D# D# F",

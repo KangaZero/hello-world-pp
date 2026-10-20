@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Tri,
         extensions: &[FileExtension::Tri],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Tri,
             syntax: r"inc inc psh psh psh mul sto nxt sto psh mul lst psh add 

@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Flix,
         extensions: &[FileExtension::Flix],
         categories: &[Compiled],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Flix,
             syntax: concat!(r#"print(""#, output_for_hello_world!(), r#"")"#),

@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Gammaplex,
         extensions: &[FileExtension::Gammaplex],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Gammaplex,
             syntax: concat!(r#"X""#, output_for_hello_world!(), r#""XXSXrRE"#),

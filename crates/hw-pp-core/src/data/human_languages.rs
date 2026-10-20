@@ -245,6 +245,8 @@ pub fn get_all_scripts_as_str_by(language: Option<HumanLanguageName>) -> Vec<&'s
         .iter()
         .filter(|lang| language.is_none_or(|l| lang.name == l))
         .flat_map(|lang| lang.scripts.iter().map(|s| s.as_str()))
+        .collect::<BTreeSet<_>>()
+        .into_iter()
         .collect()
 }
 

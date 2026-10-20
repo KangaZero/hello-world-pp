@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Verbose,
         extensions: &[FileExtension::Verbose],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Verbose,
             syntax: r"PUT THE NUMBER LXXII ONTO THE TOP OF THE PROGRAM STACK

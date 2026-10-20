@@ -8,8 +8,8 @@
 //! - <http://helloworldcollection.de/#POP-11>
 
 use crate::data::programming_languages::{
-    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageFamily::Lisp,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -27,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Pop11,
         extensions: &[],
         categories: &[],
+        families: &[Lisp],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Pop11,
             syntax: concat!(

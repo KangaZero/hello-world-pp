@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Factors,
         extensions: &[FileExtension::Fact],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Factors,
             syntax: r"1240479476546339573634662660744997483390159825927257577642211238764859751532647897788588745690462747

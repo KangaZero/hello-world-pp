@@ -8,7 +8,7 @@
 
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Educational, ProgrammingLanguageDialect,
-    ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageFamily::Smalltalk, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::SnapBang,
         extensions: &[],
         categories: &[Educational],
+        families: &[Smalltalk],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::SnapBang,
             syntax: concat!(

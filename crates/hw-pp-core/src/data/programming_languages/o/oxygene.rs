@@ -7,7 +7,10 @@
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/o/Oxygene.pas>
 
 use crate::data::programming_languages::{
-    ProgrammingLanguage, ProgrammingLanguageCategory::Compiled, ProgrammingLanguageDialect,
+    ProgrammingLanguage,
+    ProgrammingLanguageCategory::Compiled,
+    ProgrammingLanguageDialect,
+    ProgrammingLanguageFamily::{DotNet, Pascal},
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
@@ -26,6 +29,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Oxygene,
         extensions: &[],
         categories: &[Compiled],
+        families: &[DotNet, Pascal],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Oxygene,
             syntax: concat!(

@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Cell,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cell,
             syntax: r"j0 a72 . a101 . a108 . . a111 . a44 . a32 . a87 . a111 . a114 . a108 . a100 . a33 .",

@@ -5,8 +5,11 @@
 //! - <https://perldoc.perl.org/functions/print>
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage,
+    ProgrammingLanguageCategory::Scripting,
+    ProgrammingLanguageDialect,
+    ProgrammingLanguageFamily::{C, Perl},
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -24,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Perl,
         extensions: &[FileExtension::Pl, FileExtension::Pm],
         categories: &[Scripting],
+        families: &[C, Perl],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Perl5,
             syntax: concat!(r#"print ""#, output_for_hello_world!(), r#"\n";"#),

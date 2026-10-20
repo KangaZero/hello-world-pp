@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Leekscript,
         extensions: &[FileExtension::Leek],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Leekscript,
             syntax: concat!(r#"say(""#, output_for_hello_world!(), r#"")"#),

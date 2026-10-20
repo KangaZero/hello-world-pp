@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Baik,
         extensions: &[FileExtension::Ina],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Baik,
             syntax: concat!(r#"tulis ""#, output_for_hello_world!(), r#"""#),

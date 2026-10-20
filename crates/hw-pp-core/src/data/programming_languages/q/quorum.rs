@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Quorum,
         extensions: &[FileExtension::Quorum],
         categories: &[Educational],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Quorum,
             syntax: concat!(r#"output ""#, output_for_hello_world!(), r#"""#),

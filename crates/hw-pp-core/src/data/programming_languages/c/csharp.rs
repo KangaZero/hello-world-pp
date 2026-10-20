@@ -10,8 +10,11 @@
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage,
+    ProgrammingLanguageCategory::Compiled,
+    ProgrammingLanguageDialect,
+    ProgrammingLanguageFamily::{C, DotNet},
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -29,6 +32,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::CSharp,
         extensions: &[FileExtension::Cs],
         categories: &[Compiled],
+        families: &[C, DotNet],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::CSharp10,

@@ -8,7 +8,8 @@
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect, ProgrammingLanguageFamily::Prolog, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -26,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Logtalk,
         extensions: &[FileExtension::Lgt],
         categories: &[Scripting],
+        families: &[Prolog],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Logtalk,
             syntax: concat!(r"write('", output_for_hello_world!(), r"')"),

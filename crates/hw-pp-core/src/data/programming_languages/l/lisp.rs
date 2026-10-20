@@ -9,7 +9,9 @@
 use crate::data::programming_languages::{
     ProgrammingLanguage,
     ProgrammingLanguageCategory::{Historical, Scripting},
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect,
+    ProgrammingLanguageFamily::Lisp,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{macros::language_names, programming_languages_token::TokenKind};
 
@@ -24,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Lisp,
         extensions: &[],
         categories: &[Scripting, Historical],
+        families: &[Lisp],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Lisp,
             syntax: r"; LISP

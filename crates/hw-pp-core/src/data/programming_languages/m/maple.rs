@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Maple,
         extensions: &[FileExtension::Mpl],
         categories: &[Scientific],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Maple,
             syntax: concat!(r#"printf(""#, output_for_hello_world!(), r#"");"#),

@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Cmake,
         extensions: &[FileExtension::Cmake],
         categories: &[Configuration],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cmake,
             syntax: concat!(r#"message(""#, output_for_hello_world!(), r#"")"#),

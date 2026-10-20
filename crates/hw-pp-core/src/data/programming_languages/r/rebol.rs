@@ -27,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Rebol,
         extensions: &[],
         categories: &[Scripting],
+        families: &[],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::RebolR,

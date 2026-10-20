@@ -8,7 +8,8 @@
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Historical,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect, ProgrammingLanguageFamily::Basic, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -26,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::BbcBasic,
         extensions: &[FileExtension::Bbc],
         categories: &[Historical],
+        families: &[Basic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::BbcBasic,
             syntax: concat!(r#"PRINT ""#, output_for_hello_world!(), r#"""#),

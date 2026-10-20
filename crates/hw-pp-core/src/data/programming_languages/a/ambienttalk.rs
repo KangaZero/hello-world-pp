@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Ambienttalk,
         extensions: &[FileExtension::At],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ambienttalk,
             syntax: concat!(r#"system.println(""#, output_for_hello_world!(), r#"");"#),

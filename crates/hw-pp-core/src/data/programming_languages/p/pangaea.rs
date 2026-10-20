@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Pangaea,
         extensions: &[FileExtension::Pangaea],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Pangaea,
             syntax: concat!(r#"""#, output_for_hello_world!(), r#"".p"#),

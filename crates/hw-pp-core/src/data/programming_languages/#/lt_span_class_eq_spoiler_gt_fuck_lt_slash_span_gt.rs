@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::LtSpanClassEqSpoilerGtFuckLtSlashSpanGt,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::LtSpanClassEqSpoilerGtFuckLtSlashSpanGt,
             syntax: r#" ++++++++<span class="spoiler">>++++<span class="spoiler">>++>+++>+++>+<<<<-</span>>+>+>->>+<span class="spoiler"><</span><-</span>>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."#,

@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Mariadb,
         extensions: &[],
         categories: &[Query],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Mariadb,
             syntax: concat!(r#"SELECT ""#, output_for_hello_world!(), r#"";"#),

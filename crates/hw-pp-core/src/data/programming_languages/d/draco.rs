@@ -9,7 +9,9 @@
 use crate::data::programming_languages::{
     ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect,
+    ProgrammingLanguageFamily::Algol,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -27,6 +29,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Draco,
         extensions: &[],
         categories: &[Compiled, Historical],
+        families: &[Algol],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Draco,
             syntax: concat!(

@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Batsh,
         extensions: &[FileExtension::Batsh],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Batsh,
             syntax: concat!(r#"println(""#, output_for_hello_world!(), r#"");"#),

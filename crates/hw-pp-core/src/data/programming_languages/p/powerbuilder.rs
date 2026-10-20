@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Powerbuilder,
         extensions: &[FileExtension::Psr],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Powerbuilder,
             syntax: concat!(r#"MessageBox(""#, output_for_hello_world!(), r#"")"#),

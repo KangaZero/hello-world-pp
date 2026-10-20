@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Verve,
         extensions: &[FileExtension::Vrv],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Verve,
             syntax: concat!(r#"print(""#, output_for_hello_world!(), r#"")"#),

@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Fourier,
         extensions: &[FileExtension::Fourier],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Fourier,
             syntax: r"72a101a108aa111a44a32a119a111a114a108a100a33a10a",

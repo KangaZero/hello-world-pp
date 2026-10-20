@@ -8,8 +8,8 @@
 //! - <http://helloworldcollection.de/#C%2FAL>
 
 use crate::data::programming_languages::{
-    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageFamily::Pascal,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -27,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::CSlashAl,
         extensions: &[],
         categories: &[],
+        families: &[Pascal],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::CSlashAl,
             syntax: concat!(

@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::E,
         extensions: &[FileExtension::E],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::E,
             syntax: concat!(r#"println(""#, output_for_hello_world!(), r#"")"#),

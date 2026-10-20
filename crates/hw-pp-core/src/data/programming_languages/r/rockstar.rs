@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Rockstar,
         extensions: &[FileExtension::Rock],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rockstar,
             syntax: concat!(r#"Scream ""#, output_for_hello_world!(), r#"""#),

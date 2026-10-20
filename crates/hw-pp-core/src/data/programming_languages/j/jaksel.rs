@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Jaksel,
         extensions: &[FileExtension::Jaksel],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Jaksel,
             syntax: concat!(r#"spill ""#, output_for_hello_world!(), r#"""#),

@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Sacred,
         extensions: &[FileExtension::Sacred],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sacred,
             syntax: r")( )( (( )( (( (( () ( () ( (( () )) )( )( )( )) )( )) )( )) )( (( (( (( ) )) ) (( (( )( )( ((( (( () () () () () () ((( (( (( )( ((( ((( (( (( ((( (( () ((( )) )) ((( )) )) ((( (( (( (( ((( () () () ((( )) )) ((( )) )) )( ((( (( (( (( () (((",

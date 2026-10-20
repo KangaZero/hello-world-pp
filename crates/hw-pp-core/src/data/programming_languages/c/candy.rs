@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Candy,
         extensions: &[FileExtension::Candy],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Candy,
             syntax: concat!(r#"""#, output_for_hello_world!(), r#""(;)"#),

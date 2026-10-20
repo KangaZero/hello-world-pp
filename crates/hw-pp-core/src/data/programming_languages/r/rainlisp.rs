@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Rainlisp,
         extensions: &[FileExtension::Rl],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rainlisp,
             syntax: concat!(r#"(display ""#, output_for_hello_world!(), r#"")"#),

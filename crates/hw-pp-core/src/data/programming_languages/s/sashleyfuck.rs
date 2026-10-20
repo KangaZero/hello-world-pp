@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Sashleyfuck,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sashleyfuck,
             syntax: r"shhhhhhhh[ahhhhhhhhsl]ahhhhhhhheshhhhh[ahhhhhsl]ahhhhehhhhhhheehhheshhhhhhhhh[alllllllllsl]ahheshhhhhhh[ahhhhhhhsl]ahhhhhheshhhhh[ahhhhhsl]alehhhellllllelllllllleshhhhhhhh[allllllllsl]alllele",

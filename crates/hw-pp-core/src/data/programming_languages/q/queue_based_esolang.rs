@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::QueueBasedEsolang,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::QueueBasedEsolang,
             syntax: r"pHpeplplpop,p pWpoprplpdp!QQQQQQQQQQQQQ",

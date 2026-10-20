@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Brainfu4j,
         extensions: &[FileExtension::Bfj],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Brainfu4j,
             syntax: r"interface static static static static static static static static public class static static static static static static static static static interface final private class println 

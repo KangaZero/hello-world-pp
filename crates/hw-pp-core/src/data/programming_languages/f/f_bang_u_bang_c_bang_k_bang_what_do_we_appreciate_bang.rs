@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::FBangUBangCBangKBangWhatDoWeAppreciateBang,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::FBangUBangCBangKBangWhatDoWeAppreciateBang,
             syntax: r"F! F! F! F! F! F! F! F! Brain! What do we appreciate! F! F! F! F! Brain! 

@@ -8,8 +8,8 @@
 //! - <http://helloworldcollection.de/#MPD>
 
 use crate::data::programming_languages::{
-    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageFamily::Sr,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -27,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Mpd,
         extensions: &[],
         categories: &[],
+        families: &[Sr],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Mpd,
             syntax: concat!(

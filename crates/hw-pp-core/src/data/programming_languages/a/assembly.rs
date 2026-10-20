@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Assembly,
         extensions: &[FileExtension::Asm, FileExtension::S],
         categories: &[Assembly, Compiled, Historical],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::X8664LinuxSyscalls,
             syntax: concat!(

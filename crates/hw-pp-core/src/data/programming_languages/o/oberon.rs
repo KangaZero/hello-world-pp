@@ -9,7 +9,9 @@
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect,
+    ProgrammingLanguageFamily::{Modula, Oberon},
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -27,6 +29,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Oberon,
         extensions: &[FileExtension::O],
         categories: &[Compiled, Historical],
+        families: &[Modula, Oberon],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Oberon,
             syntax: concat!(

@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Stackint,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Stackint,
             syntax: r"98*99*54*+99*93*+99*93*+99*65*+84*99*6+99*65*+99*93*+6+99*93*+91+91+*",

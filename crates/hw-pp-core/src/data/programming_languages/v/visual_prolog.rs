@@ -8,8 +8,8 @@
 //! - <http://helloworldcollection.de/#Visual%C2%A0Prolog>
 
 use crate::data::programming_languages::{
-    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageFamily::Prolog,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -27,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::VisualProlog,
         extensions: &[],
         categories: &[],
+        families: &[Prolog],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::VisualProlog,
             syntax: concat!(

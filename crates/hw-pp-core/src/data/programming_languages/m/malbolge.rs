@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Malbolge,
         extensions: &[FileExtension::Mb],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Malbolge,
             syntax: r#"(=<`#9]~6ZY32Vx/4Rs+0No-&Jk)"Fh}|Bcy?,vNz]KZ%oG4UUS0/@-eMc(:'8"#,

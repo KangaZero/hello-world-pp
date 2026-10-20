@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Starlark,
         extensions: &[FileExtension::Star],
         categories: &[Configuration],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Starlark,
             syntax: concat!(r#"print(""#, output_for_hello_world!(), r#"")"#),

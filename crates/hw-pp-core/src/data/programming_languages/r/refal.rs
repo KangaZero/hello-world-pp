@@ -31,6 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Refal,
         extensions: &[FileExtension::Ref],
         categories: &[],
+        families: &[],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Refal,

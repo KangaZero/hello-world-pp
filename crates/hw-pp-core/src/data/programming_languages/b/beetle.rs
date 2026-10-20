@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Beetle,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Beetle,
             syntax: r"{><}/{><}></{><}/{><}/{><}></{><}/{><}/{><}/|{><}/{><}></{><}></{><}/{><}/{><}></{><}/{><}></|{><}/{><}></{><}></{><}/{><}></{><}></{><}/{><}/|{><}/{><}></{><}></{><}/{><}></{><}></{><}/{><}/|{><}/{><}></{><}></{><}/{><}></{> 

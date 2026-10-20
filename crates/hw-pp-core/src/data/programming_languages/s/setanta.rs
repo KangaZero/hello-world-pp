@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Setanta,
         extensions: &[FileExtension::Set],
         categories: &[Educational],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Setanta,
             syntax: concat!(r#"scríobh(""#, output_for_hello_world!(), r#"")"#),

@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Swift,
         extensions: &[FileExtension::Swift],
         categories: &[Compiled],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Swift5,
             syntax: concat!(r#"print(""#, output_for_hello_world!(), r#"")"#),

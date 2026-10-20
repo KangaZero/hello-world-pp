@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Ni,
         extensions: &[FileExtension::Nic],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ni,
             syntax: r"#48!#65!#6c!#6c!#6f!#20!#57!#6f!#72!#6c!#64!",

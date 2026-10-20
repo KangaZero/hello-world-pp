@@ -7,7 +7,8 @@
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect, ProgrammingLanguageFamily::Prolog, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -25,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Prolog,
         extensions: &[FileExtension::Pl, FileExtension::Pro],
         categories: &[Compiled],
+        families: &[Prolog],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::IsoProlog,
             syntax: concat!(

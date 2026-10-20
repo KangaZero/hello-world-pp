@@ -7,8 +7,11 @@
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/r/Reason.re>
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage,
+    ProgrammingLanguageCategory::Compiled,
+    ProgrammingLanguageDialect,
+    ProgrammingLanguageFamily::{Ml, OCaml},
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -26,6 +29,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Reason,
         extensions: &[FileExtension::Re],
         categories: &[Compiled],
+        families: &[Ml, OCaml],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Reason,
             syntax: concat!(r#"print_string ""#, output_for_hello_world!(), r#"""#),

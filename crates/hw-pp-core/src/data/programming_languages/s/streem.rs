@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Streem,
         extensions: &[FileExtension::Strm],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Streem,
             syntax: concat!(r#"[""#, output_for_hello_world!(), r#""] | stdout"#),

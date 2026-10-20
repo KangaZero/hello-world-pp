@@ -9,7 +9,9 @@
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, ProofAssistant},
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect,
+    ProgrammingLanguageFamily::Haskell,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -27,6 +29,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Idris,
         extensions: &[FileExtension::Idr],
         categories: &[Compiled, ProofAssistant],
+        families: &[Haskell],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Idris,
             syntax: concat!(

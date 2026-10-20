@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Memeassembly,
         extensions: &[FileExtension::Memeasm],
         categories: &[Assembly],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Memeassembly,
             syntax: r"I like to have fun, fun, fun, fun, fun, fun, fun, fun, fun, fun main

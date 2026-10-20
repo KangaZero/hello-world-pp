@@ -7,7 +7,8 @@
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect, ProgrammingLanguageFamily::JavaScript, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -25,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::JavaScript,
         extensions: &[FileExtension::Js, FileExtension::Mjs, FileExtension::Cjs],
         categories: &[Scripting],
+        families: &[JavaScript],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::JavaScriptEs2020,
             syntax: concat!(r#"console.log(""#, output_for_hello_world!(), r#"");"#),

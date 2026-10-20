@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Tokay,
         extensions: &[FileExtension::Tok],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Tokay,
             syntax: concat!(r#"print(""#, output_for_hello_world!(), r#"")"#),

@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Lccbed,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Lccbed,
             syntax: r"p(72)ofp(101)ofp(108)ofp(108)ofp(111)ofp(44)ofp(32)ofp(87)ofp(111)ofp(114)ofp(108)ofp(100)ofp(33)o",

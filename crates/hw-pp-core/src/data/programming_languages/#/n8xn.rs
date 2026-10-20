@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::N8xn,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::N8xn,
             syntax: r"8x1111111131111111119>6311311111831111111111433393111111111191>611111116611164333388311111111111311119>63311111111311119>6433333331192>64

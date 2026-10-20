@@ -8,7 +8,8 @@
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect, ProgrammingLanguageFamily::JavaScript, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -26,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Livescript,
         extensions: &[FileExtension::Ls],
         categories: &[Scripting],
+        families: &[JavaScript],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Livescript,
             syntax: concat!(r#"console.log ""#, output_for_hello_world!(), r#"""#),

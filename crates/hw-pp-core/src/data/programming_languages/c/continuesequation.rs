@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Continuesequation,
         extensions: &[FileExtension::Ce],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Continuesequation,
             syntax: r"0 0 o'H'e'l'l'o' 'W'o'r'l'd",

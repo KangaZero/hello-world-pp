@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::SmallworldMagik,
         extensions: &[FileExtension::Magik],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::SmallworldMagik,
             syntax: concat!(r#"write(""#, output_for_hello_world!(), r#"")"#),

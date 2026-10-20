@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Burlesque,
         extensions: &[FileExtension::Burlesque],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Burlesque,
             syntax: concat!(r#"""#, output_for_hello_world!(), r#""Q"#),

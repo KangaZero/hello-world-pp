@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::None,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::None,
             syntax: r"+x----^pc+vp+v++++pp++++++p_+v++++++^p-v------p++++++p-v--pc+v--ps(++++)",

@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Ruota,
         extensions: &[FileExtension::Ruo],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ruota,
             syntax: concat!(r#"printl(""#, output_for_hello_world!(), r#"")"#),

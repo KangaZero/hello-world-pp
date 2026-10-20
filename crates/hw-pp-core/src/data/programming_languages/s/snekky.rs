@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Snekky,
         extensions: &[FileExtension::Snek],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Snekky,
             syntax: concat!(r#"Sys.println(""#, output_for_hello_world!(), r#"");"#),

@@ -8,8 +8,9 @@
 //! - <http://helloworldcollection.de/#ProC>
 
 use crate::data::programming_languages::{
-    ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    ProgrammingLanguage, ProgrammingLanguageDialect,
+    ProgrammingLanguageFamily::{C, Cpp},
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -27,6 +28,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Proc,
         extensions: &[],
         categories: &[],
+        families: &[C, Cpp],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Proc,
             syntax: concat!(

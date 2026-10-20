@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Icedcoffeescript,
         extensions: &[FileExtension::Ics],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Icedcoffeescript,
             syntax: concat!(r#"console.log ""#, output_for_hello_world!(), r#"""#),

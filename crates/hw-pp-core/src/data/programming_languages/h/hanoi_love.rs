@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::HanoiLove,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::HanoiLove,
             syntax: r#".'...,;';';;';';';'.,...;"'.'...,;;';;';';;'.,...;"';;;;;;;"'"';;;

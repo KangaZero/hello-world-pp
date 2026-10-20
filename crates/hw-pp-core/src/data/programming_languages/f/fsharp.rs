@@ -5,8 +5,11 @@
 //! - <https://learn.microsoft.com/en-us/dotnet/fsharp/whats-new/fsharp-8>
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage,
+    ProgrammingLanguageCategory::Compiled,
+    ProgrammingLanguageDialect,
+    ProgrammingLanguageFamily::{DotNet, Ml, OCaml},
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -24,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::FSharp,
         extensions: &[FileExtension::Fs, FileExtension::Fsx],
         categories: &[Compiled],
+        families: &[DotNet, Ml, OCaml],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::FSharp8,
             syntax: concat!(r#"printfn ""#, output_for_hello_world!(), r#"""#),

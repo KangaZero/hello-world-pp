@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Xtal,
         extensions: &[FileExtension::Xtal],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Xtal,
             syntax: concat!(r#"""#, output_for_hello_world!(), r#"".p;"#),

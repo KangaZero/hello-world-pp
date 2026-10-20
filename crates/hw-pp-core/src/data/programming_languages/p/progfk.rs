@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Progfk,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Progfk,
             syntax: r"14 11 14 11 11 14 14 11 14 11 41 14 14 11 41 41 11 14 14 11 41 41 11 14 14 11 41 41 41 41 11 41 14 14 11 11

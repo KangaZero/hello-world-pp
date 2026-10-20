@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Applescript,
         extensions: &[FileExtension::Scpt],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Applescript,
             syntax: concat!(r#"display dialog ""#, output_for_hello_world!(), r#""  "#),

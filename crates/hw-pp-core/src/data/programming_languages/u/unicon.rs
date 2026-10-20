@@ -7,7 +7,10 @@
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/u/Unicon.icn>
 
 use crate::data::programming_languages::{
-    ProgrammingLanguage, ProgrammingLanguageCategory::Scripting, ProgrammingLanguageDialect,
+    ProgrammingLanguage,
+    ProgrammingLanguageCategory::Scripting,
+    ProgrammingLanguageDialect,
+    ProgrammingLanguageFamily::{Icon, Snobol},
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
@@ -26,6 +29,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Unicon,
         extensions: &[],
         categories: &[Scripting],
+        families: &[Icon, Snobol],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Unicon,
             syntax: concat!(

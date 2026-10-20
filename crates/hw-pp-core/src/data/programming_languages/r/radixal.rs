@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Radixal,
         extensions: &[FileExtension::Radixal],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Radixal,
             syntax: r"1 3 2 44 15 27 15 4 2 34 15 34 15 4 4 121 15 4 2 8 15

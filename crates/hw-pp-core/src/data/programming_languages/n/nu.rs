@@ -8,7 +8,8 @@
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect, ProgrammingLanguageFamily::Lisp, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -26,12 +27,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Nu,
         extensions: &[FileExtension::Nu],
         categories: &[Scripting],
+        families: &[Lisp],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Nu,
             syntax: concat!(r#"(puts ""#, output_for_hello_world!(), r#"")"#),
             tokenized_syntax: &[
                 (TokenKind::Punctuation, r"("),
-                (TokenKind::Keyword, r"puts"),
+                (TokenKind::Function, r"puts"),
                 (TokenKind::Plain, r" "),
                 (
                     TokenKind::String,

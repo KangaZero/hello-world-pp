@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Tapebagel,
         extensions: &[FileExtension::Tb],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Tapebagel,
             syntax: r"%% %++ %++ %++ %++ %++ %++ %++ %++ @* ## %++ %++ %++ %++ %++ @* ## %++

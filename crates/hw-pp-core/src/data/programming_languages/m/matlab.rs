@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Matlab,
         extensions: &[FileExtension::M],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Matlab,
             syntax: concat!(r"disp('", output_for_hello_world!(), r"')"),

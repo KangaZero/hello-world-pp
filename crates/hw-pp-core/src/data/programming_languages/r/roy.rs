@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Roy,
         extensions: &[FileExtension::Roy],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Roy,
             syntax: concat!(r#"console.log ""#, output_for_hello_world!(), r#"""#),

@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::NsBang,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::NsBang,
             syntax: r"98*#AA*1+#AB*2-#AB*2-#AB*1+#4A*4+#48*#A9*3-#AB*1+#AB*4+#AB*2-#AA*#3A*3+#",

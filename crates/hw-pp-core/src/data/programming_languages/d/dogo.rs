@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Dogo,
         extensions: &[FileExtension::Dogo],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Dogo,
             syntax: r"roll-over roll-over heel roll-over roll-over roll-over roll-over heel heel heel 

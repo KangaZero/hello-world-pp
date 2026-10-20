@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Hollow,
         extensions: &[FileExtension::Hollow],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hollow,
             syntax: concat!(r"{", output_for_hello_world!(), r".9}:?"),

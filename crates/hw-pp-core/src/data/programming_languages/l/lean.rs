@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Lean,
         extensions: &[FileExtension::Lean],
         categories: &[ProofAssistant],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Lean,
             syntax: concat!(r#"#print ""#, output_for_hello_world!(), r#"""#),

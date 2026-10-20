@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Wolframlanguage,
         extensions: &[FileExtension::Wl],
         categories: &[Scientific],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Wolframlanguage,
             syntax: concat!(r#"Print[""#, output_for_hello_world!(), r#""];"#),

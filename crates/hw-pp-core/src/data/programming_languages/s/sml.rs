@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Sml,
         extensions: &[FileExtension::Sml],
         categories: &[Compiled],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sml,
             syntax: concat!(r#"val () = print ""#, output_for_hello_world!(), r#"\n""#),

@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::WordBangCpu,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::WordBangCpu,
             syntax: r"40 0A 88 02 40 01 68 02 E0 00 48 65 6C 6C 6F 2C 

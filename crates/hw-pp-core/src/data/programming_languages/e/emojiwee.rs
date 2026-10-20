@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Emojiwee,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Emojiwee,
             syntax: r"☣️🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧🤧

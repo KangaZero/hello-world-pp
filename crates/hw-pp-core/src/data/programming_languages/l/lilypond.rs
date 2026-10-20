@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Lilypond,
         extensions: &[FileExtension::Ly],
         categories: &[Music],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Lilypond,
             syntax: concat!(r"\markup { ", output_for_hello_world!(), r" }"),

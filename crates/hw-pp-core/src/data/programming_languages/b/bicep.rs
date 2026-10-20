@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Bicep,
         extensions: &[FileExtension::Bicep],
         categories: &[Configuration],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Bicep,
             syntax: concat!(r"output msg string = '", output_for_hello_world!(), r"'"),

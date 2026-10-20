@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Blackrum,
         extensions: &[FileExtension::Br],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Blackrum,
             syntax: concat!(r#"slur ""#, output_for_hello_world!(), r#"""#),

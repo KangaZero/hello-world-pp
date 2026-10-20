@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Acronym,
         extensions: &[FileExtension::Acronym],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Acronym,
             syntax: r"{{>>{~~~~{-<}~~~~~~~~~{-<-<}}<<}

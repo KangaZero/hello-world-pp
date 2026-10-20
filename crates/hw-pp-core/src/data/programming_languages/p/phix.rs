@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Phix,
         extensions: &[FileExtension::Exw],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Phix,
             syntax: concat!(r#"puts(1,""#, output_for_hello_world!(), r#"")"#),

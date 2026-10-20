@@ -42,8 +42,12 @@ pub fn snippet_output_with_options(args: &Args, snippet: String) -> String {
     )
 }
 
-/// Prints `stringified_list` space-separated when `compact`, otherwise one per line.
-pub fn output_as_compact_list_or_not(stringified_list: &[&str], compact: bool) {
+/// Prints `stringified_list` space-separated when `compact`, otherwise one per line. adds count:
+/// {count} at the end as a new line when `count`
+pub fn output_list_command_with(stringified_list: &[&str], compact: bool, count: bool) {
     let separator = if compact { " " } else { "\n" };
     println!("{}", stringified_list.join(separator));
+    if count {
+        println!("Count: {}", stringified_list.len());
+    }
 }

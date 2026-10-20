@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Mcfunction,
         extensions: &[FileExtension::Mcfunction],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Mcfunction,
             syntax: concat!(r"say ", output_for_hello_world!()),

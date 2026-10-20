@@ -9,7 +9,9 @@
 use crate::data::programming_languages::{
     ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect,
+    ProgrammingLanguageFamily::Ml,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -27,6 +29,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Caml,
         extensions: &[],
         categories: &[Compiled, Historical],
+        families: &[Ml],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Caml,
             syntax: concat!(r#"print_endline ""#, output_for_hello_world!(), r#"";;"#),

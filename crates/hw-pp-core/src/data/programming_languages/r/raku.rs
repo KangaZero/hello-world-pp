@@ -8,7 +8,8 @@
 
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect, ProgrammingLanguageFamily::Perl, ProgrammingLanguageName,
+    ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -26,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Raku,
         extensions: &[FileExtension::Raku],
         categories: &[Scripting],
+        families: &[Perl],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Raku,
             syntax: concat!(r#"say ""#, output_for_hello_world!(), r#"";"#),

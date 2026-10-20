@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Wren,
         extensions: &[FileExtension::Wren],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Wren,
             syntax: concat!(r#"IO.print(""#, output_for_hello_world!(), r#"")"#),

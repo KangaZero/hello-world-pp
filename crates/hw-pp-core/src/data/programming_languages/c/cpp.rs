@@ -24,8 +24,11 @@
 //! `programming_languages/LICENSE-helloworldcollection`.
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage,
+    ProgrammingLanguageCategory::Compiled,
+    ProgrammingLanguageDialect,
+    ProgrammingLanguageFamily::{Algol, C, Cpp},
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -48,6 +51,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
             FileExtension::Hpp,
         ],
         categories: &[Compiled],
+        families: &[Algol, C, Cpp],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Cpp98,

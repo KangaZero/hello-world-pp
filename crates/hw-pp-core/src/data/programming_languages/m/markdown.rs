@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Markdown,
         extensions: &[FileExtension::Md, FileExtension::Markdown],
         categories: &[Markup],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::CommonMark,
             syntax: concat!(r"# ", output_for_hello_world!()),

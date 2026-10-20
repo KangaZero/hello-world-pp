@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Noflo,
         extensions: &[FileExtension::Fbp],
         categories: &[Framework],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Noflo,
             syntax: concat!(r"'", output_for_hello_world!(), r"' -> IN Display(Output)"),

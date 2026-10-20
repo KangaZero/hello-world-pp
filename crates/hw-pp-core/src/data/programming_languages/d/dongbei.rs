@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Dongbei,
         extensions: &[FileExtension::Dongbei],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Dongbei,
             syntax: concat!(r"唠唠：“", output_for_hello_world!(), r"”。 "),

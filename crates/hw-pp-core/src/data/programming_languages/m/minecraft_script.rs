@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::MinecraftScript,
         extensions: &[FileExtension::Mcscript],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::MinecraftScript,
             syntax: concat!(r#"log(""#, output_for_hello_world!(), r#"")"#),

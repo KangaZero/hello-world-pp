@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Yolang,
         extensions: &[FileExtension::Yo],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Yolang,
             syntax: r"Yo!Yo!Yo!Yo!Yo!Yo!Yo!Yo!Yo!Yo!yo!yoYo!Yo!Yo!Yo!Yo!Yo!Yo!yoYo!Yo!Yo!Yo!Yo!Yo!Yo!Yo!Yo!Yo!yoYo!Yo!Yo!yoYo!YOYOYOYOYo?YO?yoYo!Yo!YO!yoYo!YO!Yo!Yo!Yo!Yo!Yo!Yo!Yo!YO!YO!Yo!Yo!Yo!YO!yoYo!Yo!YO!YOYOYo!Yo!Yo!Yo!Yo!Yo!Yo!Yo!Yo!Yo!Yo!Yo!Yo!Yo!Yo!YO!yoYO!Yo!Yo!Yo!YO!Yo?Yo?Yo?Yo?Yo?Yo?YO!Yo?Yo?Yo?Yo?Yo?Yo?Yo?Yo?YO!yoYo!YO!yoYO!",

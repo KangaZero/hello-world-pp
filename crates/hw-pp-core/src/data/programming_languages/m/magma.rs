@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Magma,
         extensions: &[FileExtension::Mag],
         categories: &[Scientific],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Magma,
             syntax: concat!(r#"print ""#, output_for_hello_world!(), r#"";"#),

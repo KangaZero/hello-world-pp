@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Scilab,
         extensions: &[FileExtension::Scilab],
         categories: &[Scientific],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Scilab,
             syntax: concat!(r#"disp(""#, output_for_hello_world!(), r#"")"#),

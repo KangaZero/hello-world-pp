@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Unlambda,
         extensions: &[FileExtension::Unl],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Unlambda,
             syntax: r"`r```````````.H.e.l.l.o. .w.o.r.l.di",

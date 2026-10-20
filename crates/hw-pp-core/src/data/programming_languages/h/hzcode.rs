@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Hzcode,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hzcode,
             syntax: r"十十十十十十十一一加加加加加加加加写百一加写百一一一一一一一一加加加加加加加加写百一一一一一一一一加加加加加加加加写百 十一加加写十十十十一一一一加加加加加加加写十十十一一加加加加写十十十十十十十十一一一一一一一加加加加加加加加加加加加加加写百十一加加写百十一一一一加加加加加写百一一一一一一一一加加加加加加加加写百写十十十一一一加加加加加写停",

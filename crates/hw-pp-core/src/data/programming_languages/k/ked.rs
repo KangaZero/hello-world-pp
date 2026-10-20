@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Ked,
         extensions: &[FileExtension::Ked],
         categories: &[],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ked,
             syntax: concat!(r"saysI '", output_for_hello_world!(), r"' like"),

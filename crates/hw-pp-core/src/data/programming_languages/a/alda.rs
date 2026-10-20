@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Alda,
         extensions: &[FileExtension::Alda],
         categories: &[Music],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Alda,
             syntax: r"piano: c8 d e f g f e d c2.",

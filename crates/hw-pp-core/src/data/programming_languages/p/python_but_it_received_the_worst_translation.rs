@@ -27,6 +27,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::PythonButItReceivedTheWorstTranslation,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PythonButItReceivedTheWorstTranslation,
             syntax: concat!(r#"version(""#, output_for_hello_world!(), r#"")"#),

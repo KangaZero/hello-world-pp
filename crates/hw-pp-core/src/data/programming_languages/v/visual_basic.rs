@@ -10,8 +10,11 @@
 //! `programming_languages/LICENSE-helloworldcollection`.
 
 use crate::data::programming_languages::{
-    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage,
+    ProgrammingLanguageCategory::Compiled,
+    ProgrammingLanguageDialect,
+    ProgrammingLanguageFamily::{Basic, DotNet},
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -29,6 +32,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::VisualBasic,
         extensions: &[FileExtension::Vb],
         categories: &[Compiled],
+        families: &[Basic, DotNet],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::VbNet,

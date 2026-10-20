@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::PowerFx,
         extensions: &[FileExtension::Pfx],
         categories: &[Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PowerFx,
             syntax: concat!(r#"Text(""#, output_for_hello_world!(), r#"")"#),

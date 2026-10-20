@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::PizzaDelivery,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PizzaDelivery,
             syntax: r"21d64d72d57d20d2Cd6Fd6Cd65d48`a`a``a`a`a`a`ddd`aaaa`ddddd`aaaaaa`a`.",

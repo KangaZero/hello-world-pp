@@ -25,6 +25,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Elixir,
         extensions: &[FileExtension::Ex, FileExtension::Exs],
         categories: &[Compiled, Scripting],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Elixir1,
             syntax: concat!(r#"IO.puts(""#, output_for_hello_world!(), r#"")"#),

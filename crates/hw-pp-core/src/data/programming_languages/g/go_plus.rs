@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::GoPlus,
         extensions: &[FileExtension::Gop],
         categories: &[Compiled],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::GoPlus,
             syntax: concat!(r#"println ""#, output_for_hello_world!(), r#"""#),

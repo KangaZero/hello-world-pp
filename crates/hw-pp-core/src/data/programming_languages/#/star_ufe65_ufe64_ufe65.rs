@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::StarUfe65Ufe64Ufe65,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::StarUfe65Ufe64Ufe65,
             syntax: concat!(r#"""#, output_for_hello_world!(), r#""r>Ool?u!|;"#),

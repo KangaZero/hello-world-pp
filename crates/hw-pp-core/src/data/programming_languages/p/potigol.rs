@@ -26,6 +26,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Potigol,
         extensions: &[FileExtension::Poti],
         categories: &[Educational],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Potigol,
             syntax: concat!(r#"escreva ""#, output_for_hello_world!(), r#"""#),

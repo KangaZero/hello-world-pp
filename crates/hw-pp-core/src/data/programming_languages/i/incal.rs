@@ -23,6 +23,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Incal,
         extensions: &[FileExtension::Incal],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Incal,
             syntax: r"send,66#111#102#<101#42#93#101#120#102#110#43#

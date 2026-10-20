@@ -24,6 +24,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Surtic,
         extensions: &[],
         categories: &[Esolang],
+        families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Surtic,
             syntax: r"c0++++++++fc0[c1++++fc1[c1‑c2++c3+++c4+++c5+]c0‑c2+c3+c4‑c6+]oc2c3---oc3c3+++++++oc3oc3c3+++oc3oc5c4‑oc4oc3c3+++oc3c3------oc3fc6[c3-]oc3c5+oc5c6++oc6",

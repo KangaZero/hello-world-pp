@@ -9,7 +9,9 @@
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
-    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingLanguageDialect,
+    ProgrammingLanguageFamily::XBase,
+    ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
@@ -27,6 +29,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         name: ProgrammingLanguageName::Clipper,
         extensions: &[FileExtension::Prg],
         categories: &[Compiled, Historical],
+        families: &[XBase],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Clipper,
             syntax: concat!(r#"? ""#, output_for_hello_world!(), r#"""#),
