@@ -15,17 +15,12 @@ name_enum! {
         /// See <https://www.globallanguageservices.co.uk/difference-extinct-language-dead-language/>
         Dead => "Dead",
         Extinct => "Extinct",
-        /// Unrelated to any other known language (e.g. Basque, Sumerian)
         Isolate => "Isolate",
-        /// A stable native language formed from mixing others (e.g. Haitian Creole)
         Creole => "Creole",
-        /// A simplified contact language with no native speakers (e.g. Chinook Jargon)
         Pidgin => "Pidgin",
         /// Built for international communication (e.g. Esperanto, Interlingua)
         Auxiliary => "Auxiliary",
-        /// Built for a work of fiction (e.g. Klingon, Quenya, Dothraki)
         Fictional => "Fictional",
-        /// Kept mainly for religious use (e.g. Latin, Sanskrit, Ge'ez)
         Liturgical => "Liturgical",
         /// Spoken by whistling (e.g. Silbo Gomero)
         Whistled => "Whistled",
@@ -36,23 +31,18 @@ name_enum! {
 pub struct HumanLanguage {
     pub name: HumanLanguageName,
     pub categories: &'static [HumanLanguageCategory],
-    pub scripts: &'static [ScriptName], // scripts used by the language overall
+    pub scripts: &'static [ScriptName],
     pub dialects: &'static [Dialect],
 }
 
-/// A spoken variety of a language (how it sounds), e.g. "Mandarin" vs "Cantonese".
 #[derive(Debug, Clone, Copy)]
 pub struct Dialect {
     pub label: DialectName,
-    /// The same greeting written in different scripts. The first entry is the default.
     pub greetings: &'static [Greeting],
 }
 
-/// One written form of a dialect's greeting.
 #[derive(Debug, Clone, Copy)]
 pub struct Greeting {
-    /// Scripts used by `text`; may hold several (Japanese mixes Kanji and Hiragana),
-    /// or none for languages with no written form.
     pub scripts: &'static [ScriptName],
     pub text: &'static str,
 }
