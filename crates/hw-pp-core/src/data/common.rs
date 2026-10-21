@@ -11,6 +11,8 @@ pub const DEFAULT_HUMAN_LANGUAGE: HumanLanguageName = HumanLanguageName::English
 pub const DEFAULT_HUMAN_LANGUAGE_DIALECT: DialectName = DialectName::AmericanEnglish;
 pub const DEFAULT_SCRIPT: ScriptName = ScriptName::Latin;
 pub const DEFAULT_PROGRAMMING_LANGUAGE: ProgrammingLanguageName = ProgrammingLanguageName::C;
+// pub const DEFAULT_ENCODING:
+
 /// Greeting for the default human language/dialect/script.
 ///
 /// # Panics
