@@ -13,6 +13,7 @@ use hw_pp_core::data::human_languages::{
     get_all_human_language_dialects_as_str_by, get_all_human_languages_as_str_by,
     get_all_scripts_as_str_by,
 };
+use hw_pp_core::data::notation::Notation;
 use hw_pp_core::data::programming_languages::{
     ProgrammingLanguageCategory, ProgrammingLanguageFamily,
     get_all_programming_language_categories_as_str_by,
@@ -144,8 +145,12 @@ pub struct Args {
     extension: Option<FileExtension>,
 
     /// Strip punctuation from the output
-    #[arg(short = 'n', long, visible_alias = "np", group = STYLING, default_value_t = false )]
+    #[arg(long, visible_alias = "np", group = STYLING, default_value_t = false )]
     no_punctuation: bool,
+
+    /// Notation of hello-world output
+    #[arg(long, visible_alias = "no", group = STYLING, default_value_t = Notation::Utf8 )]
+    notation: Notation,
 
     /// Whether to colour the output
     #[arg(

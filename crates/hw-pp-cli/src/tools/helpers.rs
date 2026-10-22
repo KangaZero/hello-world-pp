@@ -1,7 +1,10 @@
 use crate::Args;
-use hw_pp_core::data::common::{
-    get_default_human_language_hello_world, remove_punctuation_from_str,
-    replace_default_hello_world_string_with,
+use hw_pp_core::data::{
+    common::{
+        get_default_human_language_hello_world, remove_punctuation_from_str,
+        replace_default_hello_world_string_with,
+    },
+    notation::Notation,
 };
 
 use std::borrow::Cow;
@@ -13,15 +16,14 @@ use std::borrow::Cow;
 ///
 /// With `-n`, `"¡Hola, Mundo!"` becomes `"Hola Mundo"`.
 #[must_use]
-pub fn hello_world_output_with_options<'output>(
-    args: &Args,
-    output: &'output str,
-) -> Cow<'output, str> {
-    if args.no_punctuation {
+pub fn hello_world_output_with_options(args: &Args, output: &str) -> String {
+    let result = if args.no_punctuation {
         Cow::Owned(remove_punctuation_from_str(output))
     } else {
         Cow::Borrowed(output)
-    }
+    };
+
+    Notation::render(args.notation, &result)
 }
 
 /// Applies `args`' output options to a programming-language `snippet`.

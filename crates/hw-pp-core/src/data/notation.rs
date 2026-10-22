@@ -1,5 +1,8 @@
 use std::fmt::{self, Write as _};
 
+use unicode_normalization::UnicodeNormalization;
+use unicode_segmentation::UnicodeSegmentation;
+
 use crate::data::macros::name_enum;
 
 /// RFC 4648 §4 alphabet.
@@ -28,7 +31,7 @@ name_enum! {
         UpperHex => "Upper Hex",
 
         // Unicode units
-        CodePoints => "Code Points",
+        CodePoints => "Code Points" | "Code Point",
         Utf16 => "UTF-16",
 
         // Escapes (std escape iterators or `format!` combos)
@@ -46,17 +49,17 @@ name_enum! {
         Base64Url => "Base64 URL",
         Base32 => "Base32",
         QuotedPrintable => "Quoted Printable",
-        Punycode => "Punycode",
-        Braille => "Braille",
+        //
+        BraillePatterns => "Braille Patterns" | "Braille",
 
         // Unicode normalization forms (`unicode-normalization`)
-        Nfc => "NFC",
+        // Nfc => "NFC",
         Nfd => "NFD",
         Nfkc => "NFKC",
         Nfkd => "NFKD",
 
         // Segmentation (`unicode-segmentation`)
-        Graphemes => "Graphemes",
+        Graphemes => "Graphemes" | "Grapheme",
     }
 }
 
@@ -84,9 +87,8 @@ impl Notation {
             Self::Base64Url => str_to_base64_url(text),
             Self::Base32 => str_to_base32(text),
             Self::QuotedPrintable => str_to_quoted_printable(text),
-            Self::Punycode => str_to_punycode(text),
-            Self::Braille => str_to_braille(text),
-            Self::Nfc => str_to_nfc(text),
+            Self::BraillePatterns => str_to_braille_patterns(text),
+            // Self::Nfc => str_to_nfc(text),
             Self::Nfd => str_to_nfd(text),
             Self::Nfkc => str_to_nfkc(text),
             Self::Nfkd => str_to_nfkd(text),
@@ -196,15 +198,27 @@ fn is_unreserved(byte: u8) -> bool {
     byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'.' | b'_' | b'~')
 }
 
+/// RFC 2045 §6.7 literal representation: printable ASCII except `=`, plus space and tab.
+fn is_quoted_printable_literal(byte: u8) -> bool {
+    matches!(byte, b'!'..=b'<' | b'>'..=b'~' | b' ' | b'\t')
+}
+
+/// Keeps bytes where `is_literal` holds; writes the rest as `escape` + `{:02X}`.
+fn escape_bytes(text: &str, escape: char, is_literal: impl Fn(u8) -> bool) -> String {
+    let mut out = String::with_capacity(text.len());
+    for byte in text.bytes() {
+        if is_literal(byte) {
+            out.push(char::from(byte));
+        } else {
+            write!(out, "{escape}{byte:02X}").expect("writing to a String never fails");
+        }
+    }
+    out
+}
+
 /// `"H é"` → `"H%20%C3%A9"` (RFC 3986; unreserved = ASCII alphanumeric + `-._~`).
 fn str_to_percent_encoding(text: &str) -> String {
-    join_units(text.bytes(), "", |out, byte| {
-        if is_unreserved(byte) {
-            write!(out, "{}", char::from(byte))
-        } else {
-            write!(out, "%{byte:02X}")
-        }
-    })
+    escape_bytes(text, '%', is_unreserved)
 }
 
 //LCM for 8 and 6 = 24
@@ -272,44 +286,51 @@ fn str_to_base32(text: &str) -> String {
     encode_base32(text.as_bytes(), BASE32_STANDARD)
 }
 
-/// `"Hé"` → `"H=C3=A9"` (RFC 2045 §6.7).
+/// `"Hé"` → `"H=C3=A9"` (RFC 2045 §6.7; no soft line breaks or trailing-whitespace rule).
 fn str_to_quoted_printable(text: &str) -> String {
-    todo!("{text}")
+    escape_bytes(text, '=', is_quoted_printable_literal)
 }
 
-/// `"bücher"` → `"bcher-kva"` (RFC 3492 Bootstring).
-fn str_to_punycode(text: &str) -> String {
-    todo!("{text}")
-}
+// /// `"bücher"` → `"bcher-kva"` (RFC 3492 Bootstring).
+// fn str_to_punycode(text: &str) -> String {
+//     todo!("{text}")
+// }
 
 /// `"H"` → `"⡈"` (one 8-dot cell per UTF-8 byte, `U+2800 + byte`).
-fn str_to_braille(text: &str) -> String {
-    todo!("{text}")
+fn str_to_braille_patterns(text: &str) -> String {
+    join_units(text.bytes(), "", |out, byte| {
+        let cell = char::from_u32(0x2800 + u32::from(byte))
+            .expect("U+2800..=U+28FF are all assigned braille patterns");
+        out.push(cell);
+        Ok(())
+    })
 }
-
-/// `"e\u{301}"` → `"é"` (canonical composition).
-fn str_to_nfc(text: &str) -> String {
-    todo!("{text}")
-}
+//
+// /// `"e\u{301}"` → `"é"` (canonical composition).
+// fn str_to_nfc(text: &str) -> String {
+//     todo!("{text}")
+// }
 
 /// `"é"` → `"e\u{301}"` (canonical decomposition).
 fn str_to_nfd(text: &str) -> String {
-    todo!("{text}")
+    text.nfd().collect()
 }
 
 /// `"ﬁ²"` → `"fi2"` (compatibility composition).
 fn str_to_nfkc(text: &str) -> String {
-    todo!("{text}")
+    text.nfkc().collect()
 }
 
 /// `"ﬁé"` → `"fie\u{301}"` (compatibility decomposition).
 fn str_to_nfkd(text: &str) -> String {
-    todo!("{text}")
+    text.nfkd().collect()
 }
 
 /// `"e\u{301}👍🏽"` → `"[é] [👍🏽]"` (extended grapheme clusters).
 fn str_to_graphemes(text: &str) -> String {
-    todo!("{text}")
+    join_units(text.graphemes(true), " ", |out, character| {
+        write!(out, "[{character}]")
+    })
 }
 
 #[cfg(test)]
@@ -359,5 +380,60 @@ mod tests {
         // UTF-8 bytes EF AF BF hit the last two alphabet slots: `+/` vs `-_`.
         assert_eq!(Notation::Base64.render("\u{fbff}"), "76+/");
         assert_eq!(Notation::Base64Url.render("\u{fbff}"), "76-_");
+    }
+
+    #[test]
+    fn renders_braille_patterns() {
+        // Dot n = bit n - 1, so the cell offset is the byte itself.
+        for (input, expected) in [("", ""), ("H", "⡈"), ("Hé", "⡈⣃⢩"), ("\0", "⠀")] {
+            assert_eq!(
+                Notation::BraillePatterns.render(input),
+                expected,
+                "{input:?}"
+            );
+        }
+    }
+
+    #[test]
+    fn renders_normalization_forms() {
+        // Precomposed é (U+00E9) vs e + combining acute (U+0301); ﬁ ligature and superscript ².
+        for (input, nfd, nfkc, nfkd) in [
+            ("", "", "", ""),
+            (
+                "Hello, World!",
+                "Hello, World!",
+                "Hello, World!",
+                "Hello, World!",
+            ),
+            ("é", "e\u{301}", "é", "e\u{301}"),
+            ("e\u{301}", "e\u{301}", "é", "e\u{301}"),
+            ("ﬁ²", "ﬁ²", "fi2", "fi2"),
+            ("ﬁé", "ﬁe\u{301}", "fié", "fie\u{301}"),
+        ] {
+            assert_eq!(Notation::Nfd.render(input), nfd, "NFD {input:?}");
+            assert_eq!(Notation::Nfkc.render(input), nfkc, "NFKC {input:?}");
+            assert_eq!(Notation::Nfkd.render(input), nfkd, "NFKD {input:?}");
+        }
+    }
+
+    #[test]
+    fn renders_escape_encodings() {
+        for (input, percent, quoted_printable) in [
+            ("Hello, World!", "Hello%2C%20World%21", "Hello, World!"),
+            ("a=b", "a%3Db", "a=3Db"),
+            ("H é", "H%20%C3%A9", "H =C3=A9"),
+            ("\0\x7F", "%00%7F", "=00=7F"),
+        ] {
+            assert_eq!(
+                Notation::PercentEncoding.render(input),
+                percent,
+                "Percent {input:?}"
+            );
+            assert_eq!(
+                Notation::QuotedPrintable.render(input),
+                quoted_printable,
+                "QuotedPrintable {input:?}"
+            );
+        }
     }
 }
