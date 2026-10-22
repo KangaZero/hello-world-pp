@@ -14,7 +14,7 @@ use hw_pp_core::data::human_languages::{
     get_all_human_language_dialects_as_str_by, get_all_human_languages_as_str_by,
     get_all_scripts_as_str_by,
 };
-use hw_pp_core::data::notation::Notation;
+use hw_pp_core::data::notation::{Notation, get_all_notations_as_str};
 use hw_pp_core::data::programming_languages::{
     ProgrammingLanguageCategory, ProgrammingLanguageFamily,
     get_all_programming_language_categories_as_str_by,
@@ -59,7 +59,7 @@ enum ColorWhen {
 #[derive(Subcommand, Debug)]
 enum ListCategory {
     /// Human languages
-    #[command(visible_alias = "hl")]
+    #[command(short_flag = 'l', visible_alias = "hl")]
     HumanLanguages {
         /// Only languages written in this script
         #[arg(short = 's', long)]
@@ -81,8 +81,13 @@ enum ListCategory {
         /// Only scripts used by this language
         language: Option<HumanLanguageName>,
     },
+
+    /// Greeting notations (`--notation`)
+    #[command(visible_alias = "no", alias = "notation")]
+    Notations,
+
     /// Programming languages
-    #[command(visible_alias = "pl", alias = "programming-language")]
+    #[command(short_flag = 'p', visible_alias = "pl", alias = "programming-language")]
     ProgrammingLanguages {
         /// Only languages using this file extension
         #[arg(short, long)]
@@ -185,7 +190,7 @@ pub struct Args {
     #[arg(long, visible_alias = "np", group = STYLING, default_value_t = false )]
     no_punctuation: bool,
 
-    /// Encoding for the greeting (e.g. "Base64"); in snippets only the message is encoded
+    /// Encoding for the greeting (e.g. "Base64", "Upper-Hex"); in snippets only the message is encoded
     #[arg(long, visible_alias = "no", group = STYLING, default_value_t = Notation::Utf8 )]
     notation: Notation,
 
@@ -265,6 +270,7 @@ fn main() -> anyhow::Result<()> {
                 get_all_human_language_dialects_as_str_by(*language)
             }
             ListCategory::Scripts { language } => get_all_scripts_as_str_by(*language),
+            ListCategory::Notations => get_all_notations_as_str(),
             // TODO: Able to filter by dark/light in the future
             ListCategory::Themes => get_all_themes_as_str(),
             ListCategory::ProgrammingLanguages {

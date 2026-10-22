@@ -179,3 +179,38 @@ fn piped_programming_output_has_no_ansi_codes() {
         .success()
         .stdout(predicate::str::contains('\u{1b}').not());
 }
+
+#[test]
+fn hyphenated_names_parse_like_spaced_ones() {
+    for name in ["Bahasa Indonesia", "bahasa-indonesia", "bahasa_indonesia"] {
+        hw_pp()
+            .args(["-l", name])
+            .assert()
+            .success()
+            .stdout("Halo, Dunia!\n");
+    }
+}
+
+#[test]
+fn list_prints_multi_word_names_hyphenated() {
+    hw_pp()
+        .args(["list", "--compact", "themes"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("Catppuccin-Latte"))
+        .stdout(predicate::str::contains("Catppuccin Latte").not());
+}
+
+#[test]
+fn list_notations_includes_every_notation() {
+    hw_pp()
+        .args(["list", "--count", "notations"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("Base64\n"))
+        .stdout(predicate::str::contains("Code-Points\n"))
+        .stdout(predicate::str::contains(format!(
+            "Count: {}\n",
+            hw_pp_core::data::notation::Notation::ALL.len()
+        )));
+}

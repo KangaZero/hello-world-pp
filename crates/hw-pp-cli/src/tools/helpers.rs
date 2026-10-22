@@ -37,7 +37,7 @@ pub fn hello_world_output_with_options(args: &Args, output: &str) -> String {
 /// (`--no-punctuation` → `"dlroW olleH"`).
 /// Snippets that encode the message (e.g. Brainfuck) are returned unchanged.
 ///
-/// Notations that emit quotes or backslashes (e.g. `"Rust Literal"`) are inserted
+/// Notations that emit quotes or backslashes (e.g. `"Rust-Literal"`) are inserted
 /// verbatim, so they can break or change the meaning of the string literal.
 #[must_use]
 pub fn snippet_output_with_default_hello_world_with_options(args: &Args, snippet: &str) -> String {
@@ -51,7 +51,14 @@ pub fn snippet_output_with_default_hello_world_with_options(args: &Args, snippet
 /// With `count`, prints a final `Count: N` line.
 pub fn output_list_command_with(stringified_list: &[&str], compact: bool, count: bool) {
     let separator = if compact { " " } else { "\n" };
-    println!("{}", stringified_list.join(separator));
+    println!(
+        "{}",
+        stringified_list
+            .iter()
+            .map(|item| item.replace(' ', "-"))
+            .collect::<Vec<_>>()
+            .join(separator)
+    );
     if count {
         println!("Count: {}", stringified_list.len());
     }
