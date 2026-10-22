@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Basic`.
+//! Hello-world snippet for `ProgrammingLanguageName::Basic`.
 //!
 //! Sources:
 //! - <https://en.wikipedia.org/wiki/Dartmouth_BASIC>

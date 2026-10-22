@@ -1,18 +1,28 @@
-/// Defines a fieldless enum from one `Variant => "Display Name"` list, plus `ALL`,
-/// `as_str`, `Display`, case-insensitive `FromStr` and a parse error type.
+//! Declarative macros shared by the catalogs and language files.
+
+/// Defines a fieldless enum from one `Variant => "Display Name"` list (or
+/// `Variant => "Display Name" | "Endonym"`), plus `ALL`, `as_str`, `endonym`,
+/// `Display`, `FromStr` and a parse error type.
+///
+/// `FromStr` trims its input and accepts display names and endonyms, ignoring
+/// case, then accents (via `normalize_text`) as a fallback. It calls
+/// `super::normalize::normalize_text`, so the calling module's parent must have
+/// a `normalize` module.
 ///
 /// ```ignore
 /// name_enum! {
 ///     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-///     pub enum Color: ParseColorError("color") { DarkRed => "Dark Red" }
+///     pub enum Color: ParseColorError("color") { DarkRed => "Dark Red" | "Rouge Foncé" }
 /// }
 /// assert_eq!(" dark red ".parse(), Ok(Color::DarkRed));
+/// assert_eq!("rouge fonce".parse(), Ok(Color::DarkRed));
 /// assert_eq!(Color::DarkRed.to_string(), "Dark Red");
+/// assert_eq!(Color::DarkRed.endonym(), Some("Rouge Foncé"));
 /// ```
 macro_rules! name_enum {
-       // Optional endonym Option<&'static str>
-       (@endonym) => { None };
-       (@endonym $endonym:literal) => { Some($endonym)};
+    // Internal: optional endonym as `Option<&'static str>`.
+    (@endonym) => { None };
+    (@endonym $endonym:literal) => { Some($endonym) };
     (
         $(#[$meta:meta])*
         $vis:vis enum $name:ident : $error:ident($kind:literal) {
@@ -42,10 +52,11 @@ macro_rules! name_enum {
                 }
             }
 
+            /// The native name, if it differs from the display name.
             #[must_use]
             pub const fn endonym(self) -> Option<&'static str> {
                 match self {
-                                $(Self::$variant => name_enum!(@endonym $($endonym)?),)+
+                    $(Self::$variant => name_enum!(@endonym $($endonym)?),)+
                 }
             }
         }
@@ -76,19 +87,19 @@ macro_rules! name_enum {
                 let trimmed = s.trim();
                 // Each variant's display name, plus its endonym if it has one.
                 let names = |variant: Self| ::core::iter::once(variant.as_str()).chain(variant.endonym());
-Self::ALL
-        .iter()
-        .copied()
-        .find(|&variant| names(variant).any(|name| name.eq_ignore_ascii_case(trimmed)))
-        .or_else(|| {
-            let normalized = super::normalize::normalize_text(trimmed);
-            Self::ALL
-                .iter()
-                .copied()
-                .find(|&variant| names(variant).any(|name| super::normalize::normalize_text(name) == normalized))
-        })
-        .ok_or_else(|| $error(s.to_owned()))
-           }
+                Self::ALL
+                    .iter()
+                    .copied()
+                    .find(|&variant| names(variant).any(|name| name.eq_ignore_ascii_case(trimmed)))
+                    .or_else(|| {
+                        let normalized = super::normalize::normalize_text(trimmed);
+                        Self::ALL
+                            .iter()
+                            .copied()
+                            .find(|&variant| names(variant).any(|name| super::normalize::normalize_text(name) == normalized))
+                    })
+                    .ok_or_else(|| $error(s.to_owned()))
+            }
         }
     };
 }
@@ -96,7 +107,7 @@ Self::ALL
 /// `"Hello, World!"` as a literal (or the literal given), for use inside [`concat!`].
 ///
 /// Only for snippets that print the message from a string literal; Brainfuck and
-/// Befunge encode it differently and keep it hand-written.
+/// Befunge-93 encode it differently and keep it hand-written.
 ///
 /// ```ignore
 /// concat!(r#"printf(""#, output_for_hello_world!(), r#"\n");"#) // printf("Hello, World!\n");
@@ -112,12 +123,15 @@ macro_rules! output_for_hello_world {
 
 /// Declares the enum variants a language file adds; expands to nothing.
 ///
-/// `build.rs` reads it from every `data/<catalog>/<letter>/<name>.rs` and generates
-/// the enums and table, so adding a language means adding one file.
+/// `build.rs` reads it from every `data/<catalog>/<shard>/<name>.rs` (`<shard>` is
+/// the first letter of the display name, or `#`) and generates the enums and table,
+/// so adding a language means adding one file.
 ///
-/// - `language`: exactly one `Variant => "Name"`.
-/// - Programming: `versions`, `extensions`. Human: `dialects`, `scripts` (may be empty).
-/// - `extensions`/`scripts` may repeat across files with the same name; all else is unique.
+/// - Every pair is `Variant => "Name"`, optionally `| "Endonym"`.
+/// - `language`: exactly one pair.
+/// - Programming: `versions` (non-empty), `extensions` (may be empty).
+/// - Human: `dialects` (non-empty), `scripts` (may be empty).
+/// - `extensions`/`scripts` may repeat across files with the same names; all else is unique.
 ///
 /// ```ignore
 /// language_names! {

@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Prolog`.
+//! Hello-world snippet for `ProgrammingLanguageName::Prolog`.
 //!
 //! Sources:
 //! - <https://www.swi-prolog.org/pldoc/man?section=consulting>

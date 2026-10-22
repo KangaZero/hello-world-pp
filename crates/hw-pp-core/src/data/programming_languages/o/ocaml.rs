@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::OCaml`.
+//! Hello-world snippet for `ProgrammingLanguageName::OCaml`.
 //!
 //! Sources:
 //! - <https://ocaml.org/docs/tour-of-ocaml>

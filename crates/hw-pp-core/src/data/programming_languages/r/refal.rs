@@ -1,4 +1,4 @@
-//! Hello-world snippet for `ProgrammingLanguageName::Refal`.
+//! Hello-world snippets for `ProgrammingLanguageName::Refal`.
 //!
 //! Imported from leachim6/hello-world (`r/Refal.ref` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.

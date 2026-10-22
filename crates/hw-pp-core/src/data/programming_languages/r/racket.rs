@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Racket`.
+//! Hello-world snippet for `ProgrammingLanguageName::Racket`.
 //!
 //! Sources:
 //! - <https://docs.racket-lang.org/guide/intro.html>

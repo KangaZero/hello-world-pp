@@ -1,4 +1,4 @@
-//! Hello-world snippet for `ProgrammingLanguageName::Asp`.
+//! Hello-world snippets for `ProgrammingLanguageName::Asp`.
 //!
 //! Imported from leachim6/hello-world (`a/ASP.asp` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.

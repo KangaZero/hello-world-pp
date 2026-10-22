@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Nim`.
+//! Hello-world snippet for `ProgrammingLanguageName::Nim`.
 //!
 //! Sources:
 //! - <https://nim-lang.org/docs/tut1.html>

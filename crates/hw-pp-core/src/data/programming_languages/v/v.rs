@@ -1,4 +1,4 @@
-//! Hello-world snippet for `ProgrammingLanguageName::V`.
+//! Hello-world snippets for `ProgrammingLanguageName::V`.
 //!
 //! Imported from leachim6/hello-world (`v/V`, `v/V.v` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.

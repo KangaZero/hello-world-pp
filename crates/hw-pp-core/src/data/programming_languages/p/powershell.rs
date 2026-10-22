@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::PowerShell`.
+//! Hello-world snippet for `ProgrammingLanguageName::PowerShell`.
 //!
 //! Sources:
 //! - <https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/write-host>

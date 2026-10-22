@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Bash`.
+//! Hello-world snippet for `ProgrammingLanguageName::Bash`.
 //!
 //! Sources:
 //! - <https://pubs.opengroup.org/onlinepubs/9799919799/utilities/echo.html>

@@ -1,4 +1,4 @@
-//! Hello-world snippet for `ProgrammingLanguageName::Smalltalk`.
+//! Hello-world snippets for `ProgrammingLanguageName::Smalltalk`.
 //!
 //! Imported from leachim6/hello-world (`s/SmallTalk.sm` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.

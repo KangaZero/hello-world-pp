@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Julia`.
+//! Hello-world snippet for `ProgrammingLanguageName::Julia`.
 //!
 //! Sources:
 //! - <https://docs.julialang.org/en/v1/manual/getting-started/>

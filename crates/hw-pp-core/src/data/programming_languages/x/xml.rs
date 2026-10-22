@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Xml`.
+//! Hello-world snippet for `ProgrammingLanguageName::Xml`.
 //!
 //! Sources:
 //! - <https://www.w3.org/TR/xml/>

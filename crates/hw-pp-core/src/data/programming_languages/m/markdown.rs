@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Markdown`.
+//! Hello-world snippet for `ProgrammingLanguageName::Markdown`.
 //!
 //! Sources:
 //! - <https://spec.commonmark.org/>

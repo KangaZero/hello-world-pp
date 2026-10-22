@@ -5,7 +5,7 @@
 //!
 //! Sources:
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(N-S)#Pok%C3%A9battle>
-//! - <https://esolangs.org/wiki/Pok%25C3%25A9Battle>
+//! - <https://esolangs.org/wiki/Pok%C3%A9Battle>
 
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,

@@ -24,7 +24,7 @@ pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLangua
     dialects: &[Dialect {
         label: DialectName::Emegir,
         greetings: &[
-            // silim an-ki: "well-being, heaven-earth"; a reconstruction, not attested
+            // silim an-ki: "well-being, heaven-earth"; composed from attested words, the phrase itself is unattested.
             Greeting {
                 scripts: &[ScriptName::Cuneiform],
                 text: "𒁲 𒀭𒆠",

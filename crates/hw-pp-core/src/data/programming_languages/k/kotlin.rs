@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Kotlin`.
+//! Hello-world snippet for `ProgrammingLanguageName::Kotlin`.
 //!
 //! Sources:
 //! - <https://kotlinlang.org/docs/kotlin-tour-hello-world.html>

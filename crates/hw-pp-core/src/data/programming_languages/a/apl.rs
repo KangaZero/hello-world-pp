@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Apl`.
+//! Hello-world snippet for `ProgrammingLanguageName::Apl`.
 //!
 //! Sources:
 //! - <https://en.wikipedia.org/wiki/APL_(programming_language)>

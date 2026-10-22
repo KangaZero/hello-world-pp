@@ -1,4 +1,4 @@
-//! Hello-world snippet for `ProgrammingLanguageName::Elena`.
+//! Hello-world snippets for `ProgrammingLanguageName::Elena`.
 //!
 //! Imported from leachim6/hello-world (`e/Elena.elena` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.

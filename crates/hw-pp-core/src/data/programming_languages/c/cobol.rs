@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Cobol`.
+//! Hello-world snippet for `ProgrammingLanguageName::Cobol`.
 //!
 //! Sources:
 //! - <https://en.wikipedia.org/wiki/COBOL>

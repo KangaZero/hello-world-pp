@@ -2,7 +2,8 @@
 //!
 //! `j.nḏ ḥr.k` ("hail to you", with the masculine suffix `.k`, as `tꜣ` is masculine) addresses
 //! `tꜣ` ("the land"); both words are attested, the phrase itself is composed from them. The
-//! hieroglyphs follow Wiktionary's spellings (Gardiner M17-Aa27-D46-D2:D21-V31, N17:N21*Z1).
+//! hieroglyphs follow Wiktionary's spellings, written as a plain linear sign sequence without
+//! quadrat format controls (Gardiner M17, Aa27, D46, D2, D21, V31; N17, N21, Z1).
 //!
 //! Sources:
 //! - <https://en.wiktionary.org/wiki/j.n%E1%B8%8F_%E1%B8%A5r#Egyptian>

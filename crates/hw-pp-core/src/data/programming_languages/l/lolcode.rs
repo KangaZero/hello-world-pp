@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Lolcode`.
+//! Hello-world snippet for `ProgrammingLanguageName::Lolcode`.
 //!
 //! Sources:
 //! - <https://esolangs.org/wiki/LOLCODE>

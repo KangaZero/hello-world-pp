@@ -4,7 +4,7 @@
 //! public domain (CC0); see <https://esolangs.org/wiki/Esolang:Copyrights>.
 //!
 //! Sources:
-//! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(D-G)#%3Cspan_class%3D%22spoiler%22%3EFuck%3C%2Fspan%3E>
+//! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(D-G)#Fuck>
 //! - <https://esolangs.org/wiki/SpoilerFuck>
 
 use crate::data::programming_languages::{

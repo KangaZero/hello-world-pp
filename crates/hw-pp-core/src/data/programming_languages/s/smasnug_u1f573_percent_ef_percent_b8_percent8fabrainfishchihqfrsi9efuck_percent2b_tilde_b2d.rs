@@ -4,8 +4,8 @@
 //! public domain (CC0); see <https://esolangs.org/wiki/Esolang:Copyrights>.
 //!
 //! Sources:
-//! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(N-S)#Smasnug_%F0%9F%95%B3%25EF%25B8%258FABrainFIsHCHIHqFRSI9efuck%252B-~B2D>
-//! - <https://esolangs.org/wiki/Smasnug_%F0%9F%95%B3%25EF%25B8%258FABrainFIsHCHIHqFRSI9efuck%252B-~B2D>
+//! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(N-S)#Smasnug_%F0%9F%95%B3%EF%B8%8FABrainFIsHCHIHqFRSI9efuck%2B-~B2D>
+//! - <https://esolangs.org/wiki/Smasnug_%F0%9F%95%B3%EF%B8%8FABrainFIsHCHIHqFRSI9efuck%2B-~B2D>
 
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,

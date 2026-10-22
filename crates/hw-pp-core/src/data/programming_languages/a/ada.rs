@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Ada`.
+//! Hello-world snippet for `ProgrammingLanguageName::Ada`.
 //!
 //! Sources:
 //! - <https://learn.adacore.com/courses/intro-to-ada/chapters/imperative_language.html>

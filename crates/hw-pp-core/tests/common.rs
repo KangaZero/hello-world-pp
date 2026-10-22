@@ -10,7 +10,7 @@ use hw_pp_core::data::programming_languages::{
 use unicode_normalization::char::is_combining_mark;
 
 #[test]
-fn defaults_are_english_c_and_latin() {
+fn defaults_are_american_english_and_c() {
     assert_eq!(DEFAULT_HUMAN_LANGUAGE, HumanLanguageName::English);
     assert_eq!(DEFAULT_HUMAN_LANGUAGE_DIALECT, DialectName::AmericanEnglish);
     assert_eq!(DEFAULT_PROGRAMMING_LANGUAGE, ProgrammingLanguageName::C);
@@ -108,8 +108,8 @@ fn replace_hello_world_returns_ambiguous_snippets_unchanged() {
 #[test]
 fn reverse_str_keeps_grapheme_clusters_whole() {
     assert_eq!(reverse_str("Hello, World!"), "!dlroW ,olleH");
-    // "é" as "e" + combining acute: reversing by `char` would put the accent on the "b"
+    // "é" as "e" + combining acute: reversing by `char` would put the accent on the "b".
     assert_eq!(reverse_str("Que\u{301}bec"), "cebe\u{301}uQ");
-    // A flag is two regional-indicator code points that must stay in order
+    // A flag is two regional-indicator code points that must stay in order.
     assert_eq!(reverse_str("Hi 🇩🇪"), "🇩🇪 iH");
 }

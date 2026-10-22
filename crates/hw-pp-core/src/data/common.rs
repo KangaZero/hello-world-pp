@@ -1,3 +1,5 @@
+//! Catalog-wide defaults and string helpers for greetings and snippets.
+
 use crate::data::programming_languages::get_hello_world_syntax_for;
 
 use super::human_languages::{
@@ -7,11 +9,14 @@ use super::macros::output_for_hello_world;
 use super::programming_languages::ProgrammingLanguageName;
 use unicode_segmentation::UnicodeSegmentation;
 
+/// The human language used when none is given or inferable.
 pub const DEFAULT_HUMAN_LANGUAGE: HumanLanguageName = HumanLanguageName::English;
+/// The dialect used when neither a language nor a dialect is given.
 pub const DEFAULT_HUMAN_LANGUAGE_DIALECT: DialectName = DialectName::AmericanEnglish;
+/// The script of [`get_default_human_language_hello_world`].
 pub const DEFAULT_SCRIPT: ScriptName = ScriptName::Latin;
+/// The programming language used when none is given or inferable.
 pub const DEFAULT_PROGRAMMING_LANGUAGE: ProgrammingLanguageName = ProgrammingLanguageName::C;
-// pub const DEFAULT_ENCODING:
 
 /// Greeting for the default human language/dialect/script.
 ///
@@ -48,7 +53,9 @@ pub fn get_default_programming_language_hello_world() -> &'static str {
 ///   contractions like `G'day`;
 /// - braille cells such as `⠂` (comma) and `⠖` (exclamation mark), whose
 ///   meaning depends on the braille code and their position in a word;
-/// - the Tibetan tsheg `་`, which separates syllables inside a word.
+/// - the Tibetan tsheg `་`, which separates syllables inside a word;
+/// - word-internal joiners: the hyphen `-` (Yiddish `sholem-aleykhem`), the Hebrew
+///   maqaf `־` and the Egyptological morpheme dot `.` (`j.nḏ ḥr.k`).
 pub const HELLO_WORLD_PUNCTUATION: &[char] = &[',', '!', '¡', '，', '！', '、', '،', '།', '꧈'];
 
 /// `text` without any [`HELLO_WORLD_PUNCTUATION`].
@@ -67,7 +74,7 @@ pub fn remove_punctuation_from_str(text: &str) -> String {
 /// ```
 /// use hw_pp_core::data::common::reverse_str;
 /// assert_eq!(reverse_str("Hello, World!"), "!dlroW ,olleH");
-/// assert_eq!(reverse_str("Olá"), "álO"); // `á` stays one character, even when decomposed
+/// assert_eq!(reverse_str("Ola\u{301}"), "a\u{301}lO"); // decomposed `á` stays whole
 /// ```
 #[must_use]
 pub fn reverse_str(text: &str) -> String {

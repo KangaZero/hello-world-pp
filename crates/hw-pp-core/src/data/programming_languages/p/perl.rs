@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Perl`.
+//! Hello-world snippet for `ProgrammingLanguageName::Perl`.
 //!
 //! Sources:
 //! - <https://perldoc.perl.org/perlintro>

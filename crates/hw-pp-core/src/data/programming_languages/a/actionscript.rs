@@ -1,4 +1,4 @@
-//! Hello-world snippet for `ProgrammingLanguageName::Actionscript`.
+//! Hello-world snippets for `ProgrammingLanguageName::Actionscript`.
 //!
 //! Imported from leachim6/hello-world (`a/ActionScript.as` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.

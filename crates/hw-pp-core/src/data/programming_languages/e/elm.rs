@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Elm`.
+//! Hello-world snippet for `ProgrammingLanguageName::Elm`.
 //!
 //! Sources:
 //! - <https://guide.elm-lang.org/>

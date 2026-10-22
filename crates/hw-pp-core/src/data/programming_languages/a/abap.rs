@@ -1,4 +1,4 @@
-//! Hello-world snippet for `ProgrammingLanguageName::Abap`.
+//! Hello-world snippets for `ProgrammingLanguageName::Abap`.
 //!
 //! Imported from leachim6/hello-world (`a/ABAP.abap` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.

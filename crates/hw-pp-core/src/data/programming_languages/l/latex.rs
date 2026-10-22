@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Latex`.
+//! Hello-world snippet for `ProgrammingLanguageName::Latex`.
 //!
 //! Sources:
 //! - <https://www.latex-project.org/help/documentation/usrguide.pdf>

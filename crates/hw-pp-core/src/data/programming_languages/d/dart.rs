@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Dart`.
+//! Hello-world snippet for `ProgrammingLanguageName::Dart`.
 //!
 //! Sources:
 //! - <https://dart.dev/language>

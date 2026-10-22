@@ -1,4 +1,4 @@
-//! Hello-world snippet for `ProgrammingLanguageName::Rexx`.
+//! Hello-world snippets for `ProgrammingLanguageName::Rexx`.
 //!
 //! Imported from leachim6/hello-world (`r/Rexx.rexx` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.

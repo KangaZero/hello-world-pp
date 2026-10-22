@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::TypeScript`.
+//! Hello-world snippet for `ProgrammingLanguageName::TypeScript`.
 //!
 //! Sources:
 //! - <https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html>

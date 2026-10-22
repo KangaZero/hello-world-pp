@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Algol`.
+//! Hello-world snippet for `ProgrammingLanguageName::Algol`.
 //!
 //! Sources:
 //! - <https://en.wikipedia.org/wiki/ALGOL_60>

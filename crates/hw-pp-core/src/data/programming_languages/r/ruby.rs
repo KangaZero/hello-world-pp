@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Ruby`.
+//! Hello-world snippet for `ProgrammingLanguageName::Ruby`.
 //!
 //! Sources:
 //! - <https://www.ruby-lang.org/en/documentation/quickstart/>

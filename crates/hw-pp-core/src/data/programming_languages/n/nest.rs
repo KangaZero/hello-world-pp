@@ -1,4 +1,4 @@
-//! Hello-world snippet for `ProgrammingLanguageName::Nest`.
+//! Hello-world snippets for `ProgrammingLanguageName::Nest`.
 //!
 //! Imported from leachim6/hello-world (PR #1805 `n/Nest.js`, PR #1805 `n/Nest.ts`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.

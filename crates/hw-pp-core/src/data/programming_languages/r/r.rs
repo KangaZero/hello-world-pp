@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::R`.
+//! Hello-world snippet for `ProgrammingLanguageName::R`.
 //!
 //! Sources:
 //! - <https://cran.r-project.org/doc/manuals/r-release/R-intro.html>

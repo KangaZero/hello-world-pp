@@ -127,12 +127,12 @@ pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLangua
                     scripts: &[ScriptName::Sinhala],
                     text: "හලෝ, වර්ල්ඩ්!",
                 },
-                // Thai ฮัลโหล (from English); "world" transcribed (cf. เซ็นทรัลเวิลด์); Thai uses no comma
+                // Thai ฮัลโหล (from English); "world" transcribed (cf. เซ็นทรัลเวิลด์); Thai uses no comma.
                 Greeting {
                     scripts: &[ScriptName::Thai],
                     text: "ฮัลโหล เวิลด์!",
                 },
-                // Amharic ሀሎ (from English); "world" transcribed (cf. ወርልድ ባንክ); no comma, as `፣` is not stripped by the CLI
+                // Amharic ሀሎ (from English); "world" transcribed (cf. ወርልድ ባንክ); no comma, as `፣` is not stripped by the CLI.
                 Greeting {
                     scripts: &[ScriptName::Ethiopic],
                     text: "ሀሎ ወርልድ!",

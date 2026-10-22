@@ -1,4 +1,4 @@
-//! Hello-world snippet for `ProgrammingLanguageName::Purebasic`.
+//! Hello-world snippets for `ProgrammingLanguageName::Purebasic`.
 //!
 //! Imported from leachim6/hello-world (`p/PureBasic.pb` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.

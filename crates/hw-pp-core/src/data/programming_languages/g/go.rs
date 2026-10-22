@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Go`.
+//! Hello-world snippet for `ProgrammingLanguageName::Go`.
 //!
 //! Sources:
 //! - <https://go.dev/tour/welcome/1>

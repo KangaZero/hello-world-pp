@@ -13,9 +13,10 @@ repository = "https://github.com/KangaZero/hello-world-pp"
 # Internal
 hw-pp-core = { path = "crates/hw-pp-core", version = "0.1.0" }
 
-# Normalize accents/diacritics etc for endonyms
+# Normalize accents/diacritics etc. for endonyms
 unicode-normalization = "0.1.26"
-unicode-segmentation = "1.13.3"      # This crate provides Grapheme Cluster, Word and Sentence boundaries according to unicode statndards
+# Grapheme-aware reversal (`reverse_str`)
+unicode-segmentation = "1.13.3"
 
 # Errors
 anyhow = "1.0.104"
@@ -24,7 +25,7 @@ thiserror = "2.0.21"
 # CLI
 clap = { version = "4.6.7", features = ["derive"] }
 
-# Output styling (same versions clap already pulls in)
+# Output styling (same versions clap already pulls in; keep in sync with clap's)
 anstream = "1.0.0"
 anstyle = "1.0.14"
 

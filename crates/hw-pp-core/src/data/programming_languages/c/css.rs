@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Css`.
+//! Hello-world snippet for `ProgrammingLanguageName::Css`.
 //!
 //! Sources:
 //! - <https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::before>

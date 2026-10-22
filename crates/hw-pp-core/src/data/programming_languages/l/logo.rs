@@ -1,4 +1,4 @@
-//! Hello-world snippet for `ProgrammingLanguageName::Logo`.
+//! Hello-world snippets for `ProgrammingLanguageName::Logo`.
 //!
 //! Imported from leachim6/hello-world (`l/Logo.lg` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.

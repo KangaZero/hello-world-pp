@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Rust`.
+//! Hello-world snippet for `ProgrammingLanguageName::Rust`.
 //!
 //! Sources:
 //! - <https://doc.rust-lang.org/book/ch01-02-hello-world.html>

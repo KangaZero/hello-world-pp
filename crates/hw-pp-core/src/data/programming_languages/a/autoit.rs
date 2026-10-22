@@ -1,4 +1,4 @@
-//! Hello-world snippet for `ProgrammingLanguageName::Autoit`.
+//! Hello-world snippets for `ProgrammingLanguageName::Autoit`.
 //!
 //! Imported from leachim6/hello-world (`a/AutoIt.au3` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.

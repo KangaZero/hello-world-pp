@@ -66,7 +66,7 @@ fn extensions_round_trip_and_ignore_case() {
 }
 
 #[test]
-fn programming_lookup_helpers_use_shared_errors() {
+fn programming_lookup_helpers_resolve_defaults_and_extensions() {
     assert_eq!(
         get_default_programming_language_dialect_from_language_name(ProgrammingLanguageName::Cpp),
         Ok(ProgrammingLanguageDialect::Cpp98)

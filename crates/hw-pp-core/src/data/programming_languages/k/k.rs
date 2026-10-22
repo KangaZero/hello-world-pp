@@ -1,4 +1,4 @@
-//! Hello-world snippet for `ProgrammingLanguageName::K`.
+//! Hello-world snippets for `ProgrammingLanguageName::K`.
 //!
 //! Imported from leachim6/hello-world (`k/K.k` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.

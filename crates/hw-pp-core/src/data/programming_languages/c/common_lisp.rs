@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::CommonLisp`.
+//! Hello-world snippet for `ProgrammingLanguageName::CommonLisp`.
 //!
 //! Sources:
 //! - <https://lisp-lang.org/learn/getting-started/>

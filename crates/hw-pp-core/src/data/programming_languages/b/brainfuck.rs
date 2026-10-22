@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Brainfuck`.
+//! Hello-world snippet for `ProgrammingLanguageName::Brainfuck`.
 //!
 //! Sources:
 //! - <https://esolangs.org/wiki/Brainfuck>

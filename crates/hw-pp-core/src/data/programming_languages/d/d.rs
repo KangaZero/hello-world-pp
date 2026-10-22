@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::D`.
+//! Hello-world snippet for `ProgrammingLanguageName::D`.
 //!
 //! Sources:
 //! - <https://tour.dlang.org/tour/en/welcome/welcome-to-d>

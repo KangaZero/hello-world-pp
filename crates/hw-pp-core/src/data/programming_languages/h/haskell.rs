@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Haskell`.
+//! Hello-world snippet for `ProgrammingLanguageName::Haskell`.
 //!
 //! Sources:
 //! - <https://www.haskell.org/onlinereport/haskell2010/>

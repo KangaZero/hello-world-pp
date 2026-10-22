@@ -266,7 +266,7 @@ fn endonyms_parse_like_display_names() {
         ("Deutsch", HumanLanguageName::German),
         ("español", HumanLanguageName::Spanish),
         ("espanol", HumanLanguageName::Spanish), // accent-free fallback
-        ("TIENG VIET", HumanLanguageName::Vietnamese), // stacked marks, upper case
+        ("TIENG VIET", HumanLanguageName::Vietnamese), // accent-free, upper case
         ("  Čeština ", HumanLanguageName::Czech),
     ] {
         assert_eq!(input.parse(), Ok(expected), "{input:?}");

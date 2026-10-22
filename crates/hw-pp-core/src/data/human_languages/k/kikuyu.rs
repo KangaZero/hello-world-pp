@@ -1,8 +1,8 @@
 //! Hello-world greetings for `HumanLanguageName::Kikuyu`.
 //!
 //! Imported from the Hello World Collection (`files/Human.htm` at `8e4c095`),
-//! MIT licensed; see `human_languages/LICENSE-helloworldcollection`. `thi` is spelled
-//! `thĩ`, as in Kikuyu orthography.
+//! MIT licensed; see `human_languages/LICENSE-helloworldcollection`.
+//! Changed from upstream: spells `thi` as `thĩ`, as in Kikuyu orthography.
 //!
 //! Sources:
 //! - <https://en.wiktionary.org/wiki/th%C4%A9#Kikuyu>

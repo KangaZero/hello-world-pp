@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Solidity`.
+//! Hello-world snippet for `ProgrammingLanguageName::Solidity`.
 //!
 //! Sources:
 //! - <https://docs.soliditylang.org/en/latest/introduction-to-smart-contracts.html>

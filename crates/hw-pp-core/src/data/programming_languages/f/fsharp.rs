@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::FSharp`.
+//! Hello-world snippet for `ProgrammingLanguageName::FSharp`.
 //!
 //! Sources:
 //! - <https://learn.microsoft.com/en-us/dotnet/fsharp/get-started/get-started-command-line>

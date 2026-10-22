@@ -1,4 +1,4 @@
-//! Hello-world snippet for `ProgrammingLanguageName::Ats2`.
+//! Hello-world snippets for `ProgrammingLanguageName::Ats2`.
 //!
 //! Imported from leachim6/hello-world (`a/ATS2.dats` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.

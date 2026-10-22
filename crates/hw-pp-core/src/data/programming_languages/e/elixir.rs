@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Elixir`.
+//! Hello-world snippet for `ProgrammingLanguageName::Elixir`.
 //!
 //! Sources:
 //! - <https://elixir.hexdocs.pm/introduction.html>

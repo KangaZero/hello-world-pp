@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Zig`.
+//! Hello-world snippet for `ProgrammingLanguageName::Zig`.
 //!
 //! Sources:
 //! - <https://ziglang.org/documentation/0.13.0/#Hello-World>

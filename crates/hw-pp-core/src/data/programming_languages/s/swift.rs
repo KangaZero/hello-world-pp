@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Swift`.
+//! Hello-world snippet for `ProgrammingLanguageName::Swift`.
 //!
 //! Sources:
 //! - <https://docs.swift.org/swift-book/documentation/the-swift-programming-language/guidedtour/>

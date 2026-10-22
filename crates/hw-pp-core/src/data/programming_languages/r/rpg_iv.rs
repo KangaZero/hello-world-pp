@@ -1,4 +1,4 @@
-//! Hello-world snippet for `ProgrammingLanguageName::RpgIv`.
+//! Hello-world snippets for `ProgrammingLanguageName::RpgIv`.
 //!
 //! Imported from leachim6/hello-world (`r/RPG IV.rpgle` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.

@@ -1,42 +1,62 @@
+//! Syntax-highlighting tokens and color themes for hello-world snippets.
+
 use anstyle::{RgbColor, Style};
 use std::fmt::Write;
 
 use crate::data::{macros::name_enum, programming_languages::ProgrammingLanguageVersion};
 
+/// What a highlighted slice of a snippet is, which picks its [`style`](TokenKind::style).
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum TokenKind {
+    /// Identifiers, whitespace and anything else unhighlighted.
     Plain,
+    /// Reserved words such as `fn` or `return`.
     Keyword,
+    /// Type names.
     Type,
+    /// Function names.
     Function,
+    /// Macros and directives (e.g. `#include`, `.data`).
     Macro,
+    /// String and character literals.
     String,
+    /// Numeric literals.
     Number,
+    /// Comments.
     Comment,
+    /// Operators, brackets and separators.
     Punctuation,
+    /// Code the language would reject.
     Invalid,
 }
 
 name_enum! {
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+    /// A color theme for [`collect_tokenized_syntax`].
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
     pub enum Themes: ParseThemeNameError("theme") {
         /// Same as [`Themes::Kanga`].
         Default => "Default",
         /// Tokyo Night Moon with a Dracula-purple accent.
         Kanga => "Kanga",
+        /// Catppuccin's light flavor.
         CatppuccinLatte => "Catppuccin Latte",
+        /// Catppuccin's lightest dark flavor.
         CatppuccinFrappe => "Catppuccin Frappe",
+        /// Catppuccin's medium dark flavor.
         CatppuccinMacchiato => "Catppuccin Macchiato",
+        /// Catppuccin's darkest flavor.
         CatppuccinMocha => "Catppuccin Mocha",
     }
 }
 
+/// A style with foreground color `r`, `g`, `b` and the default background.
 #[must_use]
 pub const fn rgb(r: u8, g: u8, b: u8) -> Style {
     RgbColor(r, g, b).on_default()
 }
 
 impl TokenKind {
+    /// The style this kind of token is drawn with in `theme`.
     #[must_use]
     pub const fn style(self, theme: Themes) -> Style {
         match theme {
@@ -104,10 +124,10 @@ impl TokenKind {
     }
 }
 
-/// Renders `language_version`'s tokens as ANSI-coloured text in `theme`
+/// Renders `language_version`'s tokens as ANSI-colored text in `theme`
 /// (`None` → [`Themes::Default`], i.e. Kanga).
 ///
-/// Print it with `anstream::println!` so colours are dropped when piped or `NO_COLOR` is set.
+/// Print it with `anstream::println!` so colors are dropped when piped or `NO_COLOR` is set.
 #[must_use]
 pub fn collect_tokenized_syntax(
     language_version: &ProgrammingLanguageVersion,
@@ -120,7 +140,8 @@ pub fn collect_tokenized_syntax(
     };
     for &(token_kind, text) in language_version.tokenized_syntax {
         let style = token_kind.style(resolved_theme);
-        // Same as write!(collected, "{}{}{}", style.render(), text, style.render_reset());
+        // `{style}` / `{style:#}` render the style's ANSI start / reset codes. Writing
+        // to a `String` never fails, so the `fmt::Result` is safe to ignore.
         let _ = write!(collected, "{style}{text}{style:#}");
     }
     collected

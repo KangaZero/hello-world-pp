@@ -1,4 +1,4 @@
-//! Hello-world snippet for `ProgrammingLanguageName::Delphi`.
+//! Hello-world snippets for `ProgrammingLanguageName::Delphi`.
 //!
 //! Imported from leachim6/hello-world (`d/Delphi.delphi`, `d/Delphi.pas` at `a152253`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.

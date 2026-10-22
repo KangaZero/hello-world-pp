@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::JavaScript`.
+//! Hello-world snippet for `ProgrammingLanguageName::JavaScript`.
 //!
 //! Sources:
 //! - <https://developer.mozilla.org/en-US/docs/Web/API/console/log_static>

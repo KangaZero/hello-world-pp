@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Erlang`.
+//! Hello-world snippet for `ProgrammingLanguageName::Erlang`.
 //!
 //! Sources:
 //! - <https://www.erlang.org/doc/system/seq_prog.html>

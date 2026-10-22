@@ -12,6 +12,7 @@ use std::path::{Path, PathBuf};
 mod normalize;
 use normalize::normalize_text;
 
+/// The macro call whose body declares a language file's names.
 const MARKER: &str = "language_names!";
 
 /// Rust keywords (strict, reserved and edition-2024), which cannot name a module or variant.
@@ -27,6 +28,7 @@ const RUST_KEYWORDS: &[&str] = &[
 struct EnumSpec {
     /// Key in `language_names!` that lists this enum's variants.
     key: &'static str,
+    /// The enum's `///` doc comment, as emitted into the generated source.
     doc: &'static str,
     /// `Name: ParseError("kind")`, as `name_enum!` expects.
     header: &'static str,
@@ -44,11 +46,13 @@ struct Catalog {
     output: &'static str,
     /// `language:` (a single pair) comes first, then the list keys.
     enums: [EnumSpec; 3],
+    /// The table's `///` doc comment, as emitted into the generated source.
     table_doc: &'static str,
     /// `NAME: &[Type]`.
     table: &'static str,
 }
 
+/// The programming- and human-language catalogs.
 const CATALOGS: [Catalog; 2] = [
     Catalog {
         dir: "src/data/programming_languages",
@@ -112,21 +116,25 @@ const CATALOGS: [Catalog; 2] = [
     },
 ];
 
-/// One `Variant => "Display Name"` pair.
+/// One `Variant => "Display Name"` pair, optionally with `| "Endonym"`.
 #[derive(Debug, Clone, PartialEq, Eq)]
 struct Named {
+    /// The enum variant's identifier.
     variant: String,
     /// The display name as written in the source, including its quotes.
     display: String,
+    /// The endonym as written in the source, including its quotes.
     endonym: Option<String>,
 }
 
 /// The declarations read from one language file.
 #[derive(Debug)]
 struct LanguageFile {
+    /// The module name, from the file stem.
     module: String,
+    /// The file's path, for `#[path]` and error messages.
     path: PathBuf,
-    /// `language_names!` key -> its pairs (`language` has exactly one).
+    /// `language_names!` key → its pairs (`language` has exactly one).
     fields: HashMap<String, Vec<Named>>,
 }
 
@@ -262,7 +270,7 @@ fn module_name(path: &Path) -> Result<String, String> {
     Ok(module)
 }
 
-/// The folder for a quoted display name: its first letter once folded (`Ölang` -> `o`),
+/// The folder for a quoted display name: its first letter once folded (`Ölang` → `o`),
 /// or `#` for names starting with anything else (`"0587"`, `"μλ"`, `"!"`).
 fn shard_for(quoted: &str) -> String {
     match fold(quoted).chars().next() {
@@ -272,6 +280,9 @@ fn shard_for(quoted: &str) -> String {
 }
 
 /// The text between the braces of the `language_names! { ... }` block.
+///
+/// Takes the first `language_names!` anywhere in the file, comments included.
+/// Comments inside the block are not skipped, so `tokenize` rejects them.
 fn marker_block(source: &str) -> Option<&str> {
     let start = source.find(MARKER)?;
     let open = start + source[start..].find('{')?;
@@ -303,16 +314,20 @@ fn marker_block(source: &str) -> Option<&str> {
     None
 }
 
+/// One lexical token of a `language_names!` body.
 #[derive(Debug, Clone, PartialEq, Eq)]
 enum Token {
+    /// A key or variant name.
     Ident(String),
     /// A string literal, kept with its quotes and escapes.
     Str(String),
+    /// `=>`.
     Arrow,
+    /// One of `[ ] , : |`.
     Punct(char),
 }
 
-/// Splits a `language_names!` body into identifiers, string literals, `=>` and `[ ] , :`.
+/// Splits a `language_names!` body into identifiers, string literals, `=>` and `[ ] , : |`.
 fn tokenize(text: &str) -> Result<Vec<Token>, String> {
     let mut tokens = Vec::new();
     let mut chars = text.char_indices().peekable();
@@ -354,7 +369,8 @@ fn tokenize(text: &str) -> Result<Vec<Token>, String> {
     Ok(tokens)
 }
 
-/// `key: Variant => "Name"` or `key: [Variant => "Name", ...]`, comma-separated.
+/// `key: Variant => "Name"` or `key: [Variant => "Name", ...]`, comma-separated; any
+/// pair may add `| "Endonym"`.
 fn parse_fields(tokens: &[Token]) -> Result<HashMap<String, Vec<Named>>, String> {
     let mut fields = HashMap::new();
     let mut rest = tokens;
@@ -421,7 +437,7 @@ fn parse_pairs(tokens: &[Token]) -> Result<Vec<Named>, String> {
 fn merge_variants(spec: &EnumSpec, languages: &[LanguageFile]) -> Result<Vec<Named>, String> {
     let mut variants: Vec<Named> = Vec::new();
     let mut owners: HashMap<&str, &Path> = HashMap::new();
-    // folded name -> (variant, name as written)
+    // folded name → (variant, name as written)
     let mut taken: HashMap<String, (&str, &str)> = HashMap::new();
     for file in languages {
         for named in &file.fields[spec.key] {
@@ -476,6 +492,8 @@ fn merge_variants(spec: &EnumSpec, languages: &[LanguageFile]) -> Result<Vec<Nam
 }
 
 /// A quoted name from the source (`"Bokmål"`) folded like `FromStr` folds input.
+///
+/// Only the quotes are stripped; escapes such as `\u{e9}` are compared as written.
 fn fold(quoted: &str) -> String {
     normalize_text(quoted.trim_matches('"'))
 }
@@ -515,7 +533,7 @@ fn generate(catalog: &Catalog, languages: &[LanguageFile]) -> Result<String, Str
 ///
 /// - `doc`: the enum's doc comment lines.
 /// - `header`: `Name: ParseError("kind")`.
-/// - `variants`: the `Variant => "Display Name"` pairs, in order.
+/// - `variants`: the `Variant => "Display Name"` pairs (with any endonyms), in order.
 fn write_enum(out: &mut String, doc: &str, header: &str, variants: &[Named]) -> Result<(), String> {
     writeln!(
         out,

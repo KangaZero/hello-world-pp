@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Scala`.
+//! Hello-world snippet for `ProgrammingLanguageName::Scala`.
 //!
 //! Sources:
 //! - <https://docs.scala-lang.org/scala3/book/taste-hello-world.html>

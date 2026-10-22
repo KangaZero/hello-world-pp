@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Lua`.
+//! Hello-world snippet for `ProgrammingLanguageName::Lua`.
 //!
 //! Sources:
 //! - <https://www.lua.org/pil/1.html>

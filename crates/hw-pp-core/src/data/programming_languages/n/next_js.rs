@@ -1,4 +1,4 @@
-//! Hello-world snippet for `ProgrammingLanguageName::NextJs`.
+//! Hello-world snippets for `ProgrammingLanguageName::NextJs`.
 //!
 //! Imported from leachim6/hello-world (PR #1805 `n/Next.js`, PR #1805 `n/Next.tsx`),
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.

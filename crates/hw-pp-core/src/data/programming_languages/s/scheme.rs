@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Scheme`.
+//! Hello-world snippet for `ProgrammingLanguageName::Scheme`.
 //!
 //! Sources:
 //! - <https://small.r7rs.org/attachment/r7rs.pdf>

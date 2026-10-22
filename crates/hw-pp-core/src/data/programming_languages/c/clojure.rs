@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Clojure`.
+//! Hello-world snippet for `ProgrammingLanguageName::Clojure`.
 //!
 //! Sources:
 //! - <https://clojure.org/guides/learn/clojure>

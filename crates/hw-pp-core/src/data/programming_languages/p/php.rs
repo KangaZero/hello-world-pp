@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Php`.
+//! Hello-world snippet for `ProgrammingLanguageName::Php`.
 //!
 //! Sources:
 //! - <https://www.php.net/manual/en/tutorial.firstpage.php>

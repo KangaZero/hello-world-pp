@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Assembly`.
+//! Hello-world snippet for `ProgrammingLanguageName::Assembly`.
 //!
 //! Sources:
 //! - <https://www.nasm.us/doc/>

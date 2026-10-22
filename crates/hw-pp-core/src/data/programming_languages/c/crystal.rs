@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Crystal`.
+//! Hello-world snippet for `ProgrammingLanguageName::Crystal`.
 //!
 //! Sources:
 //! - <https://crystal-lang.org/reference/latest/getting_started/>

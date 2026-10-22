@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Fortran`.
+//! Hello-world snippet for `ProgrammingLanguageName::Fortran`.
 //!
 //! Sources:
 //! - <https://fortran-lang.org/learn/quickstart/hello_world/>

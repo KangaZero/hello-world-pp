@@ -12,7 +12,6 @@ name = "hw-pp"
 path = "src/main.rs"
 
 [dependencies]
-# hw-pp-core = { path = "../hw-pp-core" }
 anyhow.workspace = true
 clap.workspace = true
 hw-pp-core.workspace = true

@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Groovy`.
+//! Hello-world snippet for `ProgrammingLanguageName::Groovy`.
 //!
 //! Sources:
 //! - <https://groovy-lang.org/semantics.html>

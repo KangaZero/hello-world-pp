@@ -1,4 +1,4 @@
-//! Hello-world snippets for `ProgrammingLanguageName::Matlab`.
+//! Hello-world snippet for `ProgrammingLanguageName::Matlab`.
 //!
 //! Sources:
 //! - <https://en.wikipedia.org/wiki/MATLAB>
