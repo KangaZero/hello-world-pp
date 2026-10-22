@@ -214,3 +214,20 @@ fn list_notations_includes_every_notation() {
             hw_pp_core::data::notation::Notation::ALL.len()
         )));
 }
+
+#[test]
+fn dialect_parses_with_any_accent_case_or_separator() {
+    for name in [
+        "Québécois French",
+        "quebecois french",
+        "QUEBECOIS-FRENCH",
+        "québécois_french",
+        "francais-quebecois",
+    ] {
+        hw_pp()
+            .args(["--human-dialect", name])
+            .assert()
+            .success()
+            .stdout("Bonjour le monde!\n");
+    }
+}

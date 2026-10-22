@@ -37,7 +37,7 @@ pub fn hello_world_output_with_options(args: &Args, output: &str) -> String {
 /// (`--no-punctuation` → `"dlroW olleH"`).
 /// Snippets that encode the message (e.g. Brainfuck) are returned unchanged.
 ///
-/// Notations that emit quotes or backslashes (e.g. `"Rust-Literal"`) are inserted
+/// Notations that emit quotes or backslashes (e.g. `--notation rust-literal`) are inserted
 /// verbatim, so they can break or change the meaning of the string literal.
 #[must_use]
 pub fn snippet_output_with_default_hello_world_with_options(args: &Args, snippet: &str) -> String {
@@ -48,6 +48,8 @@ pub fn snippet_output_with_default_hello_world_with_options(args: &Args, snippet
 
 /// Prints `stringified_list` space-separated when `compact`, otherwise one per line.
 ///
+/// Spaces inside a name become `-` (`"Catppuccin Latte"` → `Catppuccin-Latte`), so
+/// every printed name is one shell word that parses back as a flag value unquoted.
 /// With `count`, prints a final `Count: N` line.
 pub fn output_list_command_with(stringified_list: &[&str], compact: bool, count: bool) {
     let separator = if compact { " " } else { "\n" };

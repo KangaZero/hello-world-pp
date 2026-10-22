@@ -7,6 +7,7 @@ use unicode_normalization::{UnicodeNormalization, char::is_combining_mark};
 
 /// Lowercases `text`, strips accents and treats `-`/`_` as spaces, for lenient name matching.
 /// `"Québécois-French"` → `"quebecois french"`.
+///
 /// Lossy beyond Latin: Indic vowel signs and kana voicing marks are combining
 /// marks too (`"が"` → `"か"`), so compare folded text only as a fallback.
 #[must_use]

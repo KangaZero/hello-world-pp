@@ -26,7 +26,7 @@ name_enum! {
         #[default]
         Utf8 => "UTF8" | "UTF 8",
 
-        // Radix, one group per UTF 8 byte (`std::fmt` traits)
+        // Radix, one group per UTF-8 byte (`std::fmt` traits)
         Binary => "Binary",
         Octal => "Octal",
         Decimal => "Decimal",

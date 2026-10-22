@@ -475,8 +475,8 @@ fn merge_variants(spec: &EnumSpec, languages: &[LanguageFile]) -> Result<Vec<Nam
             for name in std::iter::once(&named.display).chain(&named.endonym) {
                 if let Some((other, other_name)) = taken.get(&fold(name)) {
                     return Err(format!(
-                        "{}: {name} and `{other}`'s {other_name} are the same once case and \
-                         accents are ignored, so parsing would be ambiguous",
+                        "{}: {name} and `{other}`'s {other_name} are the same once case, \
+                         accents and `-`/`_` are ignored, so parsing would be ambiguous",
                         declared(&file.path)
                     ));
                 }

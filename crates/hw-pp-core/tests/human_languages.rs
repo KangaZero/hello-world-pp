@@ -233,7 +233,7 @@ fn lookup_errors_have_readable_messages() {
 }
 
 #[test]
-fn names_parse_without_accents() {
+fn names_parse_without_accents_or_separators() {
     for input in [
         "Québécois French",               // exact
         "quebecois french",               // accents dropped
@@ -241,6 +241,13 @@ fn names_parse_without_accents() {
         "  Quebécois french ",            // mixed, with surrounding spaces
         "Que\u{301}be\u{301}cois French", // decomposed accents
         "QUÉBÉCOIS FRENCH",               // uppercase non-ASCII letters
+        "Québécois-French",               // hyphen for the space
+        "quebecois-french",               // hyphen, no accents
+        "québécois_french",               // underscore for the space
+        "QUEBECOIS_FRENCH",               // underscore, uppercase
+        "Que\u{301}be\u{301}cois-French", // decomposed accents and hyphen
+        "français québécois",             // endonym
+        "francais-quebecois",             // endonym, no accents, hyphen
     ] {
         assert_eq!(input.parse(), Ok(DialectName::QuebecoisFrench), "{input:?}");
     }
@@ -251,7 +258,14 @@ fn names_parse_without_accents() {
 
 #[test]
 fn accent_folding_does_not_loosen_matching_otherwise() {
-    for input in ["quebec french", "quebecoisfrench", "bokma", "bokmål!"] {
+    for input in [
+        "quebec french",
+        "quebecoisfrench",
+        "quebocis_french", // misspelled: no fuzzy matching
+        "quebecois.french",
+        "bokma",
+        "bokmål!",
+    ] {
         assert!(
             input.parse::<DialectName>().is_err(),
             "{input:?} should not parse"

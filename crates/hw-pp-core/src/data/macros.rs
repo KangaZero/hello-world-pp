@@ -4,8 +4,11 @@
 /// `Variant => "Display Name" | "Endonym"`), plus `ALL`, `as_str`, `endonym`,
 /// `Display`, `FromStr` and a parse error type.
 ///
+/// The second name is an endonym for languages and dialects, and a short alias
+/// elsewhere (`"UTF 8"`, `"Latte"`).
+///
 /// `FromStr` trims its input and accepts display names and endonyms, ignoring
-/// case, then accents (via `normalize_text`) as a fallback. It calls
+/// case, then accents and `-`/`_` versus spaces (via `normalize_text`) as a fallback. It calls
 /// `super::normalize::normalize_text`, so the calling module's parent must have
 /// a `normalize` module.
 ///
@@ -52,7 +55,7 @@ macro_rules! name_enum {
                 }
             }
 
-            /// The native name, if it differs from the display name.
+            /// The second accepted name, if any: an endonym or a short alias.
             #[must_use]
             pub const fn endonym(self) -> Option<&'static str> {
                 match self {
