@@ -1,5 +1,7 @@
+//! The language catalogs and the helpers that query and render them.
+
 mod macros;
-mod normalize;
+pub mod normalize;
 
 pub mod common;
 pub mod human_languages;

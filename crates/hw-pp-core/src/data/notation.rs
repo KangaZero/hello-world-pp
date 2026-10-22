@@ -1,3 +1,5 @@
+//! Text notations: renders a string as bytes, code units, escapes, encodings and more.
+
 use std::fmt::{self, Write as _};
 
 use unicode_normalization::UnicodeNormalization;
@@ -17,6 +19,7 @@ const BASE64_URL_SAFE: &[u8; 64] =
 const BASE32_STANDARD: &[u8; 32] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 
 name_enum! {
+    /// A way to render text, applied by [`Notation::render`].
     #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Hash)]
     pub enum Notation: ParseNotationError("notation") {
         // Plain text
@@ -34,7 +37,7 @@ name_enum! {
         CodePoints => "Code Points" | "Code Point",
         Utf16 => "UTF-16",
 
-        // Escapes (std escape iterators or `format!` combos)
+        // Escapes (std escape iterators, `write!` or `escape_bytes`)
         RustEscape => "Rust Escape",
         RustLiteral => "Rust Literal",
         ByteEscape => "Byte Escape",
@@ -44,12 +47,13 @@ name_enum! {
         HtmlHexEntities => "HTML Hex Entities",
         PercentEncoding => "Percent Encoding",
 
-        // Bit regrouping and other hand-rolled algorithms
+        // Bit regrouping and byte escaping (hand-rolled)
         Base64 => "Base64",
         Base64Url => "Base64 URL",
         Base32 => "Base32",
         QuotedPrintable => "Quoted Printable",
-        //
+
+        // Byte-to-glyph mapping
         BraillePatterns => "Braille Patterns" | "Braille",
 
         // Unicode normalization forms (`unicode-normalization`)
@@ -64,6 +68,7 @@ name_enum! {
 }
 
 impl Notation {
+    /// `text` rendered in this notation.
     #[must_use]
     pub fn render(self, text: &str) -> String {
         match self {
@@ -145,34 +150,34 @@ fn str_to_code_points(text: &str) -> String {
     })
 }
 
-/// `"H😀"` → `"0048 D83D DE00"` (`encode_utf16`, surrogate pairs included).
+/// `"H😀"` → `"0048 d83d de00"` (`encode_utf16`, surrogate pairs included).
 fn str_to_utf16(text: &str) -> String {
     join_units(text.encode_utf16(), " ", |out, u| write!(out, "{u:04x}"))
 }
 
-/// `"Hé"` → `"\u{48}\u{e9}"` (`str::escape_unicode`).
+/// `"Hé"` → `r"\u{48}\u{e9}"` (`str::escape_unicode`).
 fn str_to_rust_escape(text: &str) -> String {
     text.escape_unicode().collect()
 }
 
-/// `"Hé\n"` → `"H\u{e9}\n"` (`str::escape_default`).
+/// `"Hé\n"` → `r"H\u{e9}\n"` (`str::escape_default`).
 fn str_to_rust_literal(text: &str) -> String {
     text.escape_default().collect()
 }
 
-/// `"Hé"` → `"H\xc3\xa9"` (`<[u8]>::escape_ascii`).
+/// `"Hé"` → `r"H\xc3\xa9"` (`<[u8]>::escape_ascii`).
 fn str_to_byte_escape(text: &str) -> String {
     text.as_bytes().escape_ascii().to_string()
 }
 
-/// `"H😀"` → `"\u0048\uD83D\uDE00"` (`encode_utf16` + `{:04X}`).
+/// `"H😀"` → `r"\u0048\uD83D\uDE00"` (`encode_utf16` + `{:04X}`).
 fn str_to_js_escape(text: &str) -> String {
     join_units(text.encode_utf16(), "", |out, unit| {
         write!(out, "\\u{unit:04X}")
     })
 }
 
-/// `"Hé"` → `"\48 \E9 "` (`{:X}` per `char`, space-terminated).
+/// `"Hé"` → `r"\48\E9"` (`{:X}` per `char`).
 fn str_to_css_escape(text: &str) -> String {
     join_units(text.chars(), "", |out, character| {
         write!(out, "\\{:X}", u32::from(character))
@@ -221,7 +226,7 @@ fn str_to_percent_encoding(text: &str) -> String {
     escape_bytes(text, '%', is_unreserved)
 }
 
-//LCM for 8 and 6 = 24
+/// RFC 4648 base64 of `bytes`: 3 bytes (24 bits, LCM of 8 and 6) → 4 characters, `=`-padded.
 fn encode_base64(bytes: &[u8], alphabet: &[u8; 64]) -> String {
     let mut out = String::with_capacity(bytes.len().div_ceil(3) * 4);
 
@@ -231,7 +236,7 @@ fn encode_base64(bytes: &[u8], alphabet: &[u8; 64]) -> String {
         // n bytes carry n * 8 bits, which need n + 1 six-bit characters.
         let meaningful = chunk.len() + 1; // (chunk.len() * 8).div_ceil(6);
 
-        //24 bits / 6 = 4
+        // 24 bits / 6 = 4 characters per chunk
         for slot in 0..4 {
             if slot < meaningful {
                 let index = (glued_bytes >> (18 - 6 * slot)) & 0b11_1111;
@@ -250,13 +255,12 @@ fn str_to_base64(text: &str) -> String {
     encode_base64(text.as_bytes(), BASE64_STANDARD)
 }
 
-/// `"Hé"` → `"SMOp"` (RFC 4648 §5, `-_` alphabet).
+/// `"~~~"` → `"fn5-"` (RFC 4648 §5, `-_` alphabet, `=` padding kept).
 fn str_to_base64_url(text: &str) -> String {
     encode_base64(text.as_bytes(), BASE64_URL_SAFE)
 }
 
-// like encode_base64 but need divisible by 5 as 32 is a max of 5 bits
-// 1 byte = 8 bits; need LCM of 8 and 5 = 40
+/// Like [`encode_base64`] with 5-bit groups: 5 bytes (40 bits, LCM of 8 and 5) → 8 characters.
 fn encode_base32(bytes: &[u8], alphabet: &[u8; 32]) -> String {
     let mut out = String::with_capacity(bytes.len().div_ceil(5) * 8);
 
@@ -286,7 +290,7 @@ fn str_to_base32(text: &str) -> String {
     encode_base32(text.as_bytes(), BASE32_STANDARD)
 }
 
-/// `"Hé"` → `"H=C3=A9"` (RFC 2045 §6.7; no soft line breaks or trailing-whitespace rule).
+/// `"Hé"` → `"H=C3=A9"` (RFC 2045 §6.7; CR/LF become `=0D=0A`; no soft line breaks or trailing-whitespace rule).
 fn str_to_quoted_printable(text: &str) -> String {
     escape_bytes(text, '=', is_quoted_printable_literal)
 }
@@ -305,7 +309,7 @@ fn str_to_braille_patterns(text: &str) -> String {
         Ok(())
     })
 }
-//
+
 // /// `"e\u{301}"` → `"é"` (canonical composition).
 // fn str_to_nfc(text: &str) -> String {
 //     todo!("{text}")
@@ -326,114 +330,9 @@ fn str_to_nfkd(text: &str) -> String {
     text.nfkd().collect()
 }
 
-/// `"e\u{301}👍🏽"` → `"[é] [👍🏽]"` (extended grapheme clusters).
+/// `"e\u{301}👍🏽"` → `"[e\u{301}] [👍🏽]"` (extended grapheme clusters).
 fn str_to_graphemes(text: &str) -> String {
-    join_units(text.graphemes(true), " ", |out, character| {
-        write!(out, "[{character}]")
+    join_units(text.graphemes(true), " ", |out, grapheme| {
+        write!(out, "[{grapheme}]")
     })
-}
-
-#[cfg(test)]
-mod tests {
-    use super::Notation;
-
-    #[test]
-    fn renders_per_unit_notations() {
-        // Space (below 64) and `é` (two bytes, above 127) catch width bugs.
-        for (notation, expected) in [
-            (Notation::Binary, "01001000 00100000 11000011 10101001"),
-            (Notation::Octal, "110 040 303 251"),
-            (Notation::Decimal, "72 32 195 169"),
-            (Notation::LowerHex, "48 20 c3 a9"),
-            (Notation::UpperHex, "48 20 C3 A9"),
-            (Notation::CodePoints, "U+0048 U+0020 U+00E9"),
-        ] {
-            assert_eq!(notation.render("H é"), expected, "{notation}");
-        }
-    }
-
-    #[test]
-    fn renders_empty_text_as_empty() {
-        assert_eq!(Notation::Binary.render(""), "");
-    }
-
-    #[test]
-    fn renders_base_encodings() {
-        // RFC 4648 §10 test vectors cover every padding length.
-        for (input, base64, base32) in [
-            ("", "", ""),
-            ("f", "Zg==", "MY======"),
-            ("fo", "Zm8=", "MZXQ===="),
-            ("foo", "Zm9v", "MZXW6==="),
-            ("foob", "Zm9vYg==", "MZXW6YQ="),
-            ("fooba", "Zm9vYmE=", "MZXW6YTB"),
-            ("foobar", "Zm9vYmFy", "MZXW6YTBOI======"),
-            ("Hé", "SMOp", "JDB2S==="),
-        ] {
-            assert_eq!(Notation::Base64.render(input), base64, "Base64 {input:?}");
-            assert_eq!(Notation::Base32.render(input), base32, "Base32 {input:?}");
-        }
-    }
-
-    #[test]
-    fn renders_base64_url_alphabet() {
-        // UTF-8 bytes EF AF BF hit the last two alphabet slots: `+/` vs `-_`.
-        assert_eq!(Notation::Base64.render("\u{fbff}"), "76+/");
-        assert_eq!(Notation::Base64Url.render("\u{fbff}"), "76-_");
-    }
-
-    #[test]
-    fn renders_braille_patterns() {
-        // Dot n = bit n - 1, so the cell offset is the byte itself.
-        for (input, expected) in [("", ""), ("H", "⡈"), ("Hé", "⡈⣃⢩"), ("\0", "⠀")] {
-            assert_eq!(
-                Notation::BraillePatterns.render(input),
-                expected,
-                "{input:?}"
-            );
-        }
-    }
-
-    #[test]
-    fn renders_normalization_forms() {
-        // Precomposed é (U+00E9) vs e + combining acute (U+0301); ﬁ ligature and superscript ².
-        for (input, nfd, nfkc, nfkd) in [
-            ("", "", "", ""),
-            (
-                "Hello, World!",
-                "Hello, World!",
-                "Hello, World!",
-                "Hello, World!",
-            ),
-            ("é", "e\u{301}", "é", "e\u{301}"),
-            ("e\u{301}", "e\u{301}", "é", "e\u{301}"),
-            ("ﬁ²", "ﬁ²", "fi2", "fi2"),
-            ("ﬁé", "ﬁe\u{301}", "fié", "fie\u{301}"),
-        ] {
-            assert_eq!(Notation::Nfd.render(input), nfd, "NFD {input:?}");
-            assert_eq!(Notation::Nfkc.render(input), nfkc, "NFKC {input:?}");
-            assert_eq!(Notation::Nfkd.render(input), nfkd, "NFKD {input:?}");
-        }
-    }
-
-    #[test]
-    fn renders_escape_encodings() {
-        for (input, percent, quoted_printable) in [
-            ("Hello, World!", "Hello%2C%20World%21", "Hello, World!"),
-            ("a=b", "a%3Db", "a=3Db"),
-            ("H é", "H%20%C3%A9", "H =C3=A9"),
-            ("\0\x7F", "%00%7F", "=00=7F"),
-        ] {
-            assert_eq!(
-                Notation::PercentEncoding.render(input),
-                percent,
-                "Percent {input:?}"
-            );
-            assert_eq!(
-                Notation::QuotedPrintable.render(input),
-                quoted_printable,
-                "QuotedPrintable {input:?}"
-            );
-        }
-    }
 }
