@@ -24,9 +24,9 @@ name_enum! {
     pub enum Notation: ParseNotationError("notation") {
         // Plain text
         #[default]
-        Utf8 => "UTF-8",
+        Utf8 => "UTF8" | "UTF 8",
 
-        // Radix, one group per UTF-8 byte (`std::fmt` traits)
+        // Radix, one group per UTF 8 byte (`std::fmt` traits)
         Binary => "Binary",
         Octal => "Octal",
         Decimal => "Decimal",
@@ -35,7 +35,7 @@ name_enum! {
 
         // Unicode units
         CodePoints => "Code Points" | "Code Point",
-        Utf16 => "UTF-16",
+        Utf16 => "UTF16" | "UTF 16",
 
         // Escapes (std escape iterators, `write!` or `escape_bytes`)
         RustEscape => "Rust Escape",
@@ -47,14 +47,15 @@ name_enum! {
         HtmlHexEntities => "HTML Hex Entities",
         PercentEncoding => "Percent Encoding",
 
-        // Bit regrouping and byte escaping (hand-rolled)
-        Base64 => "Base64",
-        Base64Url => "Base64 URL",
-        Base32 => "Base32",
+        // Bit regrouping and byte escaping
+        Base64 => "Base64" | "Base 64",
+        Base64Url => "Base64 URL" | "Base 64 URL",
+        Base32 => "Base32" | "Base 32",
         QuotedPrintable => "Quoted Printable",
 
         // Byte-to-glyph mapping
-        BraillePatterns => "Braille Patterns" | "Braille",
+        // Not the Braille script in human_languages: raw 8-dot byte cells.
+        BraillePatterns => "Braille",
 
         // Unicode normalization forms (`unicode-normalization`)
         // Nfc => "NFC",
@@ -100,6 +101,15 @@ impl Notation {
             Self::Graphemes => str_to_graphemes(text),
         }
     }
+}
+
+/// Display names of every notation, e.g. `"Base64"`.
+#[must_use]
+pub fn get_all_notations_as_str() -> Vec<&'static str> {
+    Notation::ALL
+        .iter()
+        .map(|notation| notation.as_str())
+        .collect()
 }
 
 /// Writes every unit with `write_unit` into one buffer, `separator` between units.
@@ -231,15 +241,16 @@ fn encode_base64(bytes: &[u8], alphabet: &[u8; 64]) -> String {
     let mut out = String::with_capacity(bytes.len().div_ceil(3) * 4);
 
     for chunk in bytes.chunks(3) {
-        let byte_at = |index: usize| chunk.get(index).copied().map_or(0, usize::from);
+        let byte_at = |index: usize| chunk.get(index).copied().map_or(0, u32::from);
         let glued_bytes = byte_at(0) << 16 | byte_at(1) << 8 | byte_at(2);
-        // n bytes carry n * 8 bits, which need n + 1 six-bit characters.
-        let meaningful = chunk.len() + 1; // (chunk.len() * 8).div_ceil(6);
+
+        let meaningful = (chunk.len() * 8).div_ceil(6);
 
         // 24 bits / 6 = 4 characters per chunk
         for slot in 0..4 {
             if slot < meaningful {
-                let index = (glued_bytes >> (18 - 6 * slot)) & 0b11_1111;
+                // Masked to 6 bits (0..=63), so the cast can't truncate.
+                let index = ((glued_bytes >> (18 - 6 * slot)) & 0b11_1111) as usize;
                 out.push(char::from(alphabet[index]));
             } else {
                 out.push('=');
@@ -265,7 +276,7 @@ fn encode_base32(bytes: &[u8], alphabet: &[u8; 32]) -> String {
     let mut out = String::with_capacity(bytes.len().div_ceil(5) * 8);
 
     for chunk in bytes.chunks(5) {
-        let byte_at = |index: usize| chunk.get(index).copied().map_or(0, usize::from);
+        let byte_at = |index: usize| chunk.get(index).copied().map_or(0, u64::from);
         let glued_bytes =
             byte_at(0) << 32 | byte_at(1) << 24 | byte_at(2) << 16 | byte_at(3) << 8 | byte_at(4);
 
@@ -274,7 +285,8 @@ fn encode_base32(bytes: &[u8], alphabet: &[u8; 32]) -> String {
         // 40 bits / 5 = 8 characters per chunk
         for slot in 0..8 {
             if slot < meaningful {
-                let index = (glued_bytes >> (35 - 5 * slot)) & 0b1_1111;
+                // Masked to 5 bits (0..=31), so the cast can't truncate.
+                let index = ((glued_bytes >> (35 - 5 * slot)) & 0b1_1111) as usize;
                 out.push(char::from(alphabet[index]));
             } else {
                 out.push('=');

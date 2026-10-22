@@ -5,15 +5,15 @@
 
 use unicode_normalization::{UnicodeNormalization, char::is_combining_mark};
 
-/// Lowercases `text` and strips accents, for lenient name matching.
-/// `"Québécois French"` → `"quebecois french"`.
-///
+/// Lowercases `text`, strips accents and treats `-`/`_` as spaces, for lenient name matching.
+/// `"Québécois-French"` → `"quebecois french"`.
 /// Lossy beyond Latin: Indic vowel signs and kana voicing marks are combining
 /// marks too (`"が"` → `"か"`), so compare folded text only as a fallback.
 #[must_use]
 pub fn normalize_text(text: &str) -> String {
     text.nfd()
         .filter(|c| !is_combining_mark(*c)) // drop every combining mark (accents, vowel signs, voicing marks)
+        .map(|c| if matches!(c, '-' | '_') { ' ' } else { c })
         .collect::<String>()
         .to_lowercase()
 }

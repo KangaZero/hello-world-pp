@@ -39,13 +39,13 @@ name_enum! {
         /// Tokyo Night Moon with a Dracula-purple accent.
         Kanga => "Kanga",
         /// Catppuccin's light flavor.
-        CatppuccinLatte => "Catppuccin Latte",
+        CatppuccinLatte => "Catppuccin Latte" | "Latte",
         /// Catppuccin's lightest dark flavor.
-        CatppuccinFrappe => "Catppuccin Frappe",
+        CatppuccinFrappe => "Catppuccin Frappe" | "Frappe",
         /// Catppuccin's medium dark flavor.
-        CatppuccinMacchiato => "Catppuccin Macchiato",
+        CatppuccinMacchiato => "Catppuccin Macchiato" | "Macchiato",
         /// Catppuccin's darkest flavor.
-        CatppuccinMocha => "Catppuccin Mocha",
+        CatppuccinMocha => "Catppuccin Mocha" | "Mocha",
     }
 }
 

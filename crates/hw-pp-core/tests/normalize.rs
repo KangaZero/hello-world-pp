@@ -44,3 +44,14 @@ fn is_lossy_for_non_latin_combining_marks() {
     assert_eq!(normalize_text("हिन्दी"), "हनद");
     assert_eq!(normalize_text("が"), "か");
 }
+
+#[test]
+fn treats_hyphens_and_underscores_as_spaces() {
+    for (input, expected) in [
+        ("Bahasa-Indonesia", "bahasa indonesia"),
+        ("Upper_Hex", "upper hex"),
+        ("Québécois-French", "quebecois french"),
+    ] {
+        assert_eq!(normalize_text(input), expected, "{input:?}");
+    }
+}
