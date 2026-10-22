@@ -1,20 +1,20 @@
+//! Applies the CLI's output options to greetings, snippets and lists.
+
 use crate::Args;
-use hw_pp_core::data::{
-    common::{
-        get_default_human_language_hello_world, remove_punctuation_from_str,
-        replace_default_hello_world_string_with,
-    },
-    notation::Notation,
+use hw_pp_core::data::common::{
+    get_default_human_language_hello_world, remove_punctuation_from_str,
+    replace_default_hello_world_string_with,
 };
 
 use std::borrow::Cow;
 
-/// Applies `args`' output options to `output`, borrowing it when nothing changes.
+/// Applies `args`' output options to `output`: `--no-punctuation`, then `--notation`.
 ///
-/// - `args`: parsed CLI options; only `no_punctuation` is read.
+/// - `args`: parsed CLI options; `no_punctuation` and `notation` are read.
 /// - `output`: the greeting to print.
 ///
-/// With `-n`, `"¡Hola, Mundo!"` becomes `"Hola Mundo"`.
+/// With `--no-punctuation`, `"¡Hola, Mundo!"` → `"Hola Mundo"`.
+/// With `--notation base64`, `"Hello, World!"` → `"SGVsbG8sIFdvcmxkIQ=="`.
 #[must_use]
 pub fn hello_world_output_with_options(args: &Args, output: &str) -> String {
     let result = if args.no_punctuation {
@@ -23,29 +23,32 @@ pub fn hello_world_output_with_options(args: &Args, output: &str) -> String {
         Cow::Borrowed(output)
     };
 
-    Notation::render(args.notation, &result)
+    args.notation.render(&result)
 }
 
 /// Applies `args`' output options to a programming-language `snippet`.
 ///
-/// With `-n`, only the hello-world message loses its punctuation, so the code
-/// stays valid: `println!("Hello, World!");` becomes `println!("Hello World");`,
-/// and a reversed message (Befunge-93's `"!dlroW ,olleH"`) becomes `"dlroW olleH"`.
+/// The default greeting is run through [`hello_world_output_with_options`]
+/// (`--no-punctuation`, then `--notation`) and replaces the hello-world message in
+/// the code; the rest of the code is untouched. With `--no-punctuation`,
+/// `println!("Hello, World!");` → `println!("Hello World");`; with
+/// `--notation base64` → `println!("SGVsbG8sIFdvcmxkIQ==");`. A reversed message
+/// (Befunge-93's `"!dlroW ,olleH"`) gets the processed greeting reversed
+/// (`--no-punctuation` → `"dlroW olleH"`).
 /// Snippets that encode the message (e.g. Brainfuck) are returned unchanged.
+///
+/// Notations that emit quotes or backslashes (e.g. `"Rust Literal"`) are inserted
+/// verbatim, so they can break or change the meaning of the string literal.
 #[must_use]
-pub fn snippet_output_with_options(args: &Args, snippet: String) -> String {
-    if !args.no_punctuation {
-        return snippet;
-    }
-    let default_hello_world = get_default_human_language_hello_world();
-    replace_default_hello_world_string_with(
-        &snippet,
-        &remove_punctuation_from_str(default_hello_world),
-    )
+pub fn snippet_output_with_default_hello_world_with_options(args: &Args, snippet: &str) -> String {
+    let default_hello_world_with_options =
+        hello_world_output_with_options(args, get_default_human_language_hello_world());
+    replace_default_hello_world_string_with(snippet, &default_hello_world_with_options)
 }
 
-/// Prints `stringified_list` space-separated when `compact`, otherwise one per line. adds count:
-/// {count} at the end as a new line when `count`
+/// Prints `stringified_list` space-separated when `compact`, otherwise one per line.
+///
+/// With `count`, prints a final `Count: N` line.
 pub fn output_list_command_with(stringified_list: &[&str], compact: bool, count: bool) {
     let separator = if compact { " " } else { "\n" };
     println!("{}", stringified_list.join(separator));

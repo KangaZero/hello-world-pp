@@ -11,6 +11,7 @@ const HUMAN_OPTIONS: [(&str, &str); 3] = [
     ("--human-dialect", "american english"),
     ("--script", "latin"),
 ];
+/// One valid `(long flag, value)` per option, so a failure can only be the conflict.
 const PROGRAMMING_OPTIONS: [(&str, &str); 3] = [
     ("--programming-language", "rust"),
     ("--programming-dialect", "rust 2021"),
@@ -103,7 +104,7 @@ fn short_flags_and_aliases_also_combine() {
 #[test]
 fn no_punctuation_strips_only_the_inserted_greeting() {
     hw_pp()
-        .args(["-l", "german", "-p", "rust", "-n"])
+        .args(["-l", "german", "-p", "rust", "--no-punctuation"])
         .assert()
         .success()
         .stdout(predicate::str::contains(r#"println!("Hallo Welt");"#));
@@ -162,9 +163,9 @@ fn all_options_in_one_group_combine_without_conflict() {
 }
 
 #[test]
-fn no_punctuation_only_strips_string_literals_in_code() {
+fn no_punctuation_only_strips_the_message_in_code() {
     hw_pp()
-        .args(["-p", "rust", "-n"])
+        .args(["-p", "rust", "--no-punctuation"])
         .assert()
         .success()
         .stdout(predicate::str::contains(r#"println!("Hello World");"#));
