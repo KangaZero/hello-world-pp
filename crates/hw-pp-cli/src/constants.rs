@@ -3,7 +3,7 @@
 /// App name, banner and `--help` text/styling.
 pub mod cli_info {
     use anstyle::Style;
-    use hw_pp_core::data::programming_languages_token::{Themes, TokenKind};
+    use hw_pp_core::data::{programming_languages_token::TokenKind, theme::Theme};
 
     /// Binary name from `[[bin]] name` in Cargo.toml (not the package name `hw-pp-cli`).
     pub const APP_NAME: &str = env!("CARGO_BIN_NAME");
@@ -24,16 +24,16 @@ pub mod cli_info {
     /// help and code look alike. Each setter styles a role (what the text *is*), so new
     /// flags and subcommands pick it up.
     pub const STYLES: clap::builder::Styles = clap::builder::Styles::styled()
-        .header(TokenKind::Keyword.style(Themes::Default)) // `Options:`, `Commands:` (bold)
-        .usage(TokenKind::Keyword.style(Themes::Default)) // `Usage:`
-        .literal(TokenKind::Function.style(Themes::Default).bold()) // `--color`, `list`
-        .placeholder(TokenKind::Type.style(Themes::Default)) // `<LANGUAGE>`
-        .error(TokenKind::Invalid.style(Themes::Default).bold()) // `error:`
-        .valid(TokenKind::String.style(Themes::Default)) // suggestions in errors
-        .invalid(TokenKind::Number.style(Themes::Default).bold()); // the bad input in errors
+        .header(TokenKind::Keyword.style(Theme::Default)) // `Options:`, `Commands:` (bold)
+        .usage(TokenKind::Keyword.style(Theme::Default)) // `Usage:`
+        .literal(TokenKind::Function.style(Theme::Default).bold()) // `--color`, `list`
+        .placeholder(TokenKind::Type.style(Theme::Default)) // `<LANGUAGE>`
+        .error(TokenKind::Invalid.style(Theme::Default).bold()) // `error:`
+        .valid(TokenKind::String.style(Theme::Default)) // suggestions in errors
+        .invalid(TokenKind::Number.style(Theme::Default).bold()); // the bad input in errors
 
     /// Style of the banner in `--help`.
-    const BANNER_STYLE: Style = TokenKind::Keyword.style(Themes::Kanga);
+    const BANNER_STYLE: Style = TokenKind::Keyword.style(Theme::Kanga);
     /// Bold text in `--help`.
     const BOLD: Style = Style::new().bold();
     /// Italic text in `--help`.

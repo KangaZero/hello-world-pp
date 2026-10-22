@@ -50,11 +50,7 @@ fn renders_base64_url_alphabet() {
 fn renders_braille_patterns() {
     // Dot n = bit n - 1, so the cell offset is the byte itself.
     for (input, expected) in [("", ""), ("H", "⡈"), ("Hé", "⡈⣃⢩"), ("\0", "⠀")] {
-        assert_eq!(
-            Notation::BraillePatterns.render(input),
-            expected,
-            "{input:?}"
-        );
+        assert_eq!(Notation::Braille.render(input), expected, "{input:?}");
     }
 }
 

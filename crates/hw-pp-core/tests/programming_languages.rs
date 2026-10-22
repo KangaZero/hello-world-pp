@@ -2,8 +2,7 @@ use hw_pp_core::data::lookup::LookupError;
 use hw_pp_core::data::programming_languages::{
     FileExtension, PROGRAMMING_LANGUAGES, ProgrammingLanguageCategory, ProgrammingLanguageDialect,
     ProgrammingLanguageError, ProgrammingLanguageFamily, ProgrammingLanguageName,
-    get_default_programming_language_dialect_from_language_name, get_hello_world_syntax_for,
-    get_programming_language_name_from_extension,
+    ProgrammingLanguageVersion,
 };
 
 #[test]
@@ -68,11 +67,11 @@ fn extensions_round_trip_and_ignore_case() {
 #[test]
 fn programming_lookup_helpers_resolve_defaults_and_extensions() {
     assert_eq!(
-        get_default_programming_language_dialect_from_language_name(ProgrammingLanguageName::Cpp),
+        ProgrammingLanguageName::Cpp.default_version(),
         Ok(ProgrammingLanguageDialect::Cpp98)
     );
     assert_eq!(
-        get_programming_language_name_from_extension(FileExtension::Rs),
+        FileExtension::Rs.language(),
         Ok(ProgrammingLanguageName::Rust)
     );
 }
@@ -80,7 +79,7 @@ fn programming_lookup_helpers_resolve_defaults_and_extensions() {
 #[test]
 fn syntax_defaults_to_c99() {
     assert!(
-        get_hello_world_syntax_for(None, None, None)
+        ProgrammingLanguageVersion::syntax_for(None, None, None)
             .expect("default resolves")
             .contains("printf(\"Hello, World!\\n\")")
     );
@@ -89,11 +88,15 @@ fn syntax_defaults_to_c99() {
 #[test]
 fn syntax_infers_language_from_extension_or_version() {
     assert_eq!(
-        get_hello_world_syntax_for(None, None, Some(FileExtension::Py)),
-        get_hello_world_syntax_for(Some(ProgrammingLanguageName::Python), None, None)
+        ProgrammingLanguageVersion::syntax_for(None, None, Some(FileExtension::Py)),
+        ProgrammingLanguageVersion::syntax_for(Some(ProgrammingLanguageName::Python), None, None)
     );
     assert_eq!(
-        get_hello_world_syntax_for(None, Some(ProgrammingLanguageDialect::Python2), None),
+        ProgrammingLanguageVersion::syntax_for(
+            None,
+            Some(ProgrammingLanguageDialect::Python2),
+            None
+        ),
         Ok(r#"print "Hello, World!""#)
     );
 }
@@ -101,7 +104,7 @@ fn syntax_infers_language_from_extension_or_version() {
 #[test]
 fn syntax_rejects_extension_from_another_language() {
     assert_eq!(
-        get_hello_world_syntax_for(
+        ProgrammingLanguageVersion::syntax_for(
             Some(ProgrammingLanguageName::Python),
             None,
             Some(FileExtension::Rs)
@@ -112,7 +115,7 @@ fn syntax_rejects_extension_from_another_language() {
         })
     );
     assert_eq!(
-        get_hello_world_syntax_for(
+        ProgrammingLanguageVersion::syntax_for(
             None,
             Some(ProgrammingLanguageDialect::Cpp20),
             Some(FileExtension::Py)
@@ -125,7 +128,7 @@ fn syntax_rejects_extension_from_another_language() {
 #[test]
 fn syntax_rejects_version_from_another_language() {
     assert_eq!(
-        get_hello_world_syntax_for(
+        ProgrammingLanguageVersion::syntax_for(
             Some(ProgrammingLanguageName::Rust),
             Some(ProgrammingLanguageDialect::Python3),
             None

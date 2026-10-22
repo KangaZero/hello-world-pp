@@ -2,7 +2,7 @@
 
 use std::collections::BTreeSet;
 
-use crate::data::common::{DEFAULT_HUMAN_LANGUAGE, DEFAULT_HUMAN_LANGUAGE_DIALECT};
+use crate::data::common::{DEFAULT_HUMAN_LANGUAGE, DEFAULT_HUMAN_LANGUAGE_DIALECT, DEFAULT_SCRIPT};
 use crate::data::lookup::LookupError;
 use crate::data::macros::name_enum;
 
@@ -107,196 +107,209 @@ pub enum HumanLanguageError {
     },
 }
 
-/// The greeting for a language, dialect and script; each `None` falls back to a default.
-///
-/// - `language`: `None` → inferred from `dialect`, else [`DEFAULT_HUMAN_LANGUAGE`].
-/// - `dialect`: `None` → the language's first dialect, or [`DEFAULT_HUMAN_LANGUAGE_DIALECT`]
-///   when `language` is `None` too.
-/// - `script`: `None` → the dialect's first greeting.
-///
-/// ```
-/// use hw_pp_core::data::human_languages::{
-///     HumanLanguageName, ScriptName, get_human_language_hello_world_for,
-/// };
-/// let romaji =
-///     get_human_language_hello_world_for(Some(HumanLanguageName::Japanese), None, Some(ScriptName::Romaji));
-/// assert_eq!(romaji, Ok("konnichiwa sekai!"));
-/// ```
-///
-/// # Errors
-///
-/// - [`LookupError::NoOwner`] if `dialect` belongs to no recorded language.
-/// - [`LookupError::UnknownLanguage`] if the language is not recorded.
-/// - [`LookupError::NoVariants`] if the language has no dialects to default to.
-/// - [`LookupError::UnknownVariant`] if the language does not record `dialect`.
-/// - [`HumanLanguageError::UnknownScript`] if the dialect has no greeting in `script`.
-/// - [`HumanLanguageError::MissingGreeting`] if the dialect has no greetings.
-///
-/// The [`LookupError`]s are wrapped in [`HumanLanguageError::Lookup`].
-pub fn get_human_language_hello_world_for(
-    language: Option<HumanLanguageName>,
-    dialect: Option<DialectName>,
-    script: Option<ScriptName>,
-) -> Result<&'static str, HumanLanguageError> {
-    let (resolved_language, resolved_dialect) = match (language, dialect) {
-        (None, None) => (DEFAULT_HUMAN_LANGUAGE, DEFAULT_HUMAN_LANGUAGE_DIALECT),
-        (None, Some(existing_dialect)) => (
-            get_human_language_from_dialect(existing_dialect)?,
-            existing_dialect,
-        ),
-        (Some(existing_lang), None) => (
-            existing_lang,
-            get_default_human_language_dialect_from_language(existing_lang)?,
-        ),
-        (Some(existing_lang), Some(existing_dialect)) => (existing_lang, existing_dialect),
-    };
+impl Greeting {
+    /// Greeting for the default human language/dialect/script.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the default language/dialect pair has no recorded greeting.
+    #[must_use]
+    pub fn default_text() -> &'static str {
+        Greeting::text_for(
+            Some(DEFAULT_HUMAN_LANGUAGE),
+            Some(DEFAULT_HUMAN_LANGUAGE_DIALECT),
+            Some(DEFAULT_SCRIPT),
+        )
+        .expect("default human language/dialect/script must resolve to a greeting")
+    }
 
-    let lang = HUMAN_LANGUAGES
-        .iter()
-        .find(|lang| lang.name == resolved_language)
-        .ok_or(LookupError::UnknownLanguage(resolved_language))?;
-    let lang_dialect = lang
-        .dialects
-        .iter()
-        .find(|d| d.label == resolved_dialect)
-        .ok_or(LookupError::UnknownVariant {
-            language: resolved_language,
-            variant: resolved_dialect,
-        })?;
+    /// The greeting for a language, dialect and script; each `None` falls back to a default.
+    ///
+    /// - `language`: `None` → inferred from `dialect`, else [`DEFAULT_HUMAN_LANGUAGE`].
+    /// - `dialect`: `None` → the language's first dialect, or [`DEFAULT_HUMAN_LANGUAGE_DIALECT`]
+    ///   when `language` is `None` too.
+    /// - `script`: `None` → the dialect's first greeting.
+    ///
+    /// ```
+    /// use hw_pp_core::data::human_languages::{Greeting, HumanLanguageName, ScriptName};
+    /// let romaji =
+    ///     Greeting::text_for(Some(HumanLanguageName::Japanese), None, Some(ScriptName::Romaji));
+    /// assert_eq!(romaji, Ok("konnichiwa sekai!"));
+    /// ```
+    ///
+    /// # Errors
+    ///
+    /// - [`LookupError::NoOwner`] if `dialect` belongs to no recorded language.
+    /// - [`LookupError::UnknownLanguage`] if the language is not recorded.
+    /// - [`LookupError::NoVariants`] if the language has no dialects to default to.
+    /// - [`LookupError::UnknownVariant`] if the language does not record `dialect`.
+    /// - [`HumanLanguageError::UnknownScript`] if the dialect has no greeting in `script`.
+    /// - [`HumanLanguageError::MissingGreeting`] if the dialect has no greetings.
+    ///
+    /// The [`LookupError`]s are wrapped in [`HumanLanguageError::Lookup`].
+    pub fn text_for(
+        language: Option<HumanLanguageName>,
+        dialect: Option<DialectName>,
+        script: Option<ScriptName>,
+    ) -> Result<&'static str, HumanLanguageError> {
+        let (resolved_language, resolved_dialect) = match (language, dialect) {
+            (None, None) => (DEFAULT_HUMAN_LANGUAGE, DEFAULT_HUMAN_LANGUAGE_DIALECT),
+            (None, Some(existing_dialect)) => (existing_dialect.language()?, existing_dialect),
+            (Some(existing_lang), None) => (existing_lang, existing_lang.default_dialect()?),
+            (Some(existing_lang), Some(existing_dialect)) => (existing_lang, existing_dialect),
+        };
 
-    let greeting = match script {
-        None => lang_dialect
-            .greetings
-            .first()
-            .ok_or(HumanLanguageError::MissingGreeting {
-                language: resolved_language,
-                dialect: resolved_dialect,
-            })?,
-        Some(wanted) => lang_dialect
-            .greetings
+        let lang = HUMAN_LANGUAGES
             .iter()
-            .find(|greeting| greeting.scripts.contains(&wanted))
-            .ok_or(HumanLanguageError::UnknownScript {
+            .find(|lang| lang.name == resolved_language)
+            .ok_or(LookupError::UnknownLanguage(resolved_language))?;
+        let lang_dialect = lang
+            .dialects
+            .iter()
+            .find(|d| d.label == resolved_dialect)
+            .ok_or(LookupError::UnknownVariant {
                 language: resolved_language,
-                dialect: resolved_dialect,
-                script: wanted,
-            })?,
-    };
-    Ok(greeting.text)
+                variant: resolved_dialect,
+            })?;
+
+        let greeting = match script {
+            None => lang_dialect
+                .greetings
+                .first()
+                .ok_or(HumanLanguageError::MissingGreeting {
+                    language: resolved_language,
+                    dialect: resolved_dialect,
+                })?,
+            Some(wanted) => lang_dialect
+                .greetings
+                .iter()
+                .find(|greeting| greeting.scripts.contains(&wanted))
+                .ok_or(HumanLanguageError::UnknownScript {
+                    language: resolved_language,
+                    dialect: resolved_dialect,
+                    script: wanted,
+                })?,
+        };
+        Ok(greeting.text)
+    }
 }
 
-/// Finds the language that records `dialect`.
-///
-/// # Errors
-///
-/// Returns [`LookupError::NoOwner`] if no recorded language has
-/// the dialect.
-pub fn get_human_language_from_dialect(
-    dialect: DialectName,
-) -> Result<HumanLanguageName, HumanLookupError> {
-    HUMAN_LANGUAGES
-        .iter()
-        .find(|lang| lang.dialects.iter().any(|d| d.label == dialect))
-        .map(|lang| lang.name)
-        .ok_or(LookupError::NoOwner(dialect))
+impl DialectName {
+    /// Finds the language that records this dialect.
+    ///
+    /// # Errors
+    ///
+    /// Returns [`LookupError::NoOwner`] if no recorded language has
+    /// the dialect.
+    pub fn language(self) -> Result<HumanLanguageName, HumanLookupError> {
+        HUMAN_LANGUAGES
+            .iter()
+            .find(|lang| lang.dialects.iter().any(|d| d.label == self))
+            .map(|lang| lang.name)
+            .ok_or(LookupError::NoOwner(self))
+    }
+
+    /// Display names of the dialects of `language`, or of every language if `None`.
+    ///
+    /// ```
+    /// use hw_pp_core::data::human_languages::{DialectName, HumanLanguageName};
+    /// let dialects = DialectName::all_as_str_by(Some(HumanLanguageName::Japanese));
+    /// assert_eq!(dialects, ["Standard Japanese", "Kansai Japanese"]);
+    /// ```
+    #[must_use]
+    pub fn all_as_str_by(language: Option<HumanLanguageName>) -> Vec<&'static str> {
+        HUMAN_LANGUAGES
+            .iter()
+            .filter(|lang| language.is_none_or(|l| lang.name == l))
+            .flat_map(|lang| lang.dialects.iter().map(|d| d.label.as_str()))
+            .collect()
+    }
 }
 
-/// The first recorded dialect of `language`.
-///
-/// # Errors
-///
-/// Returns [`LookupError::UnknownLanguage`] if the language is not recorded,
-/// or [`LookupError::NoVariants`] if it has no dialects.
-pub fn get_default_human_language_dialect_from_language(
-    language: HumanLanguageName,
-) -> Result<DialectName, HumanLookupError> {
-    let lang = HUMAN_LANGUAGES
-        .iter()
-        .find(|lang| lang.name == language)
-        .ok_or(LookupError::UnknownLanguage(language))?;
-    lang.dialects
-        .first()
-        .map(|dialect| dialect.label)
-        .ok_or(LookupError::NoVariants(language))
+impl HumanLanguageName {
+    /// The first recorded dialect of this language.
+    ///
+    /// # Errors
+    ///
+    /// Returns [`LookupError::UnknownLanguage`] if the language is not recorded,
+    /// or [`LookupError::NoVariants`] if it has no dialects.
+    pub fn default_dialect(self) -> Result<DialectName, HumanLookupError> {
+        let lang = HUMAN_LANGUAGES
+            .iter()
+            .find(|lang| lang.name == self)
+            .ok_or(LookupError::UnknownLanguage(self))?;
+        lang.dialects
+            .first()
+            .map(|dialect| dialect.label)
+            .ok_or(LookupError::NoVariants(self))
+    }
+
+    /// Display names of the recorded human languages; `None` filters are ignored.
+    ///
+    /// ```
+    /// use hw_pp_core::data::human_languages::{
+    ///     HumanLanguageCategory, HumanLanguageName, ScriptName,
+    /// };
+    /// let dead_in_latin_script =
+    ///     HumanLanguageName::all_as_str_by(
+    ///         Some(ScriptName::Latin),
+    ///         Some(HumanLanguageCategory::Dead),
+    ///     );
+    /// assert!(dead_in_latin_script.contains(&"Latin"));
+    /// ```
+    #[must_use]
+    pub fn all_as_str_by(
+        script: Option<ScriptName>,
+        category: Option<HumanLanguageCategory>,
+    ) -> Vec<&'static str> {
+        HUMAN_LANGUAGES
+            .iter()
+            .filter(|lang| {
+                category.is_none_or(|c| lang.categories.contains(&c))
+                    && script.is_none_or(|s| lang.scripts.contains(&s))
+            })
+            .map(|lang| lang.name.as_str())
+            .collect()
+    }
 }
 
-/// Display names of the recorded human languages; `None` filters are ignored.
-///
-/// ```
-/// use hw_pp_core::data::human_languages::{
-///     HumanLanguageCategory, ScriptName, get_all_human_languages_as_str_by,
-/// };
-/// let dead_in_latin_script =
-///     get_all_human_languages_as_str_by(Some(ScriptName::Latin), Some(HumanLanguageCategory::Dead));
-/// assert!(dead_in_latin_script.contains(&"Latin"));
-/// ```
-#[must_use]
-pub fn get_all_human_languages_as_str_by(
-    script: Option<ScriptName>,
-    category: Option<HumanLanguageCategory>,
-) -> Vec<&'static str> {
-    HUMAN_LANGUAGES
-        .iter()
-        .filter(|lang| {
-            category.is_none_or(|c| lang.categories.contains(&c))
-                && script.is_none_or(|s| lang.scripts.contains(&s))
-        })
-        .map(|lang| lang.name.as_str())
-        .collect()
+impl ScriptName {
+    /// Display names of the scripts `language` uses (or every language's if `None`), sorted,
+    /// without duplicates.
+    ///
+    /// ```
+    /// use hw_pp_core::data::human_languages::{HumanLanguageName, ScriptName};
+    /// assert_eq!(ScriptName::all_as_str_by(Some(HumanLanguageName::Klingon)), ["Latin", "pIqaD"]);
+    /// ```
+    #[must_use]
+    pub fn all_as_str_by(language: Option<HumanLanguageName>) -> Vec<&'static str> {
+        HUMAN_LANGUAGES
+            .iter()
+            .filter(|lang| language.is_none_or(|l| lang.name == l))
+            .flat_map(|lang| lang.scripts.iter().map(|s| s.as_str()))
+            .collect::<BTreeSet<_>>()
+            .into_iter()
+            .collect()
+    }
 }
 
-/// Display names of the dialects of `language`, or of every language if `None`.
-///
-/// ```
-/// use hw_pp_core::data::human_languages::{HumanLanguageName, get_all_human_language_dialects_as_str_by};
-/// let dialects = get_all_human_language_dialects_as_str_by(Some(HumanLanguageName::Japanese));
-/// assert_eq!(dialects, ["Standard Japanese", "Kansai Japanese"]);
-/// ```
-#[must_use]
-pub fn get_all_human_language_dialects_as_str_by(
-    language: Option<HumanLanguageName>,
-) -> Vec<&'static str> {
-    HUMAN_LANGUAGES
-        .iter()
-        .filter(|lang| language.is_none_or(|l| lang.name == l))
-        .flat_map(|lang| lang.dialects.iter().map(|d| d.label.as_str()))
-        .collect()
-}
-
-/// Display names of the scripts `language` uses (or every language's if `None`), sorted,
-/// without duplicates.
-///
-/// ```
-/// use hw_pp_core::data::human_languages::{HumanLanguageName, get_all_scripts_as_str_by};
-/// assert_eq!(get_all_scripts_as_str_by(Some(HumanLanguageName::Klingon)), ["Latin", "pIqaD"]);
-/// ```
-#[must_use]
-pub fn get_all_scripts_as_str_by(language: Option<HumanLanguageName>) -> Vec<&'static str> {
-    HUMAN_LANGUAGES
-        .iter()
-        .filter(|lang| language.is_none_or(|l| lang.name == l))
-        .flat_map(|lang| lang.scripts.iter().map(|s| s.as_str()))
-        .collect::<BTreeSet<_>>()
-        .into_iter()
-        .collect()
-}
-
-/// Display names of the categories of `language` (or of all languages if `None`), sorted, without duplicates.
-///
-/// ```
-/// use hw_pp_core::data::human_languages::{HumanLanguageName, get_all_human_language_categories_as_str_by};
-/// let categories = get_all_human_language_categories_as_str_by(Some(HumanLanguageName::Sumerian));
-/// assert_eq!(categories, ["Extinct", "Isolate"]);
-/// ```
-#[must_use]
-pub fn get_all_human_language_categories_as_str_by(
-    language: Option<HumanLanguageName>,
-) -> Vec<&'static str> {
-    HUMAN_LANGUAGES
-        .iter()
-        .filter(|lang| language.is_none_or(|l| lang.name == l))
-        .flat_map(|lang| lang.categories.iter().map(|c| c.as_str()))
-        .collect::<BTreeSet<_>>()
-        .into_iter()
-        .collect()
+impl HumanLanguageCategory {
+    /// Display names of the categories of `language` (or of all languages if `None`), sorted,
+    /// without duplicates.
+    ///
+    /// ```
+    /// use hw_pp_core::data::human_languages::{HumanLanguageCategory, HumanLanguageName};
+    /// let categories = HumanLanguageCategory::all_as_str_by(Some(HumanLanguageName::Sumerian));
+    /// assert_eq!(categories, ["Extinct", "Isolate"]);
+    /// ```
+    #[must_use]
+    pub fn all_as_str_by(language: Option<HumanLanguageName>) -> Vec<&'static str> {
+        HUMAN_LANGUAGES
+            .iter()
+            .filter(|lang| language.is_none_or(|l| lang.name == l))
+            .flat_map(|lang| lang.categories.iter().map(|c| c.as_str()))
+            .collect::<BTreeSet<_>>()
+            .into_iter()
+            .collect()
+    }
 }

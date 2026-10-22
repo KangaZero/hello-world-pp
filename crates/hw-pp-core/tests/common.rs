@@ -1,11 +1,13 @@
 use hw_pp_core::data::common::{
     DEFAULT_HUMAN_LANGUAGE, DEFAULT_HUMAN_LANGUAGE_DIALECT, DEFAULT_PROGRAMMING_LANGUAGE,
-    HELLO_WORLD_PUNCTUATION, get_default_human_language_hello_world, remove_punctuation_from_str,
-    replace_default_hello_world_string_with, reverse_str,
+    HELLO_WORLD_PUNCTUATION, remove_punctuation_from_str, replace_default_hello_world_string_with,
+    reverse_str,
 };
-use hw_pp_core::data::human_languages::{DialectName, HUMAN_LANGUAGES, HumanLanguageName};
+use hw_pp_core::data::human_languages::{
+    DialectName, Greeting, HUMAN_LANGUAGES, HumanLanguageName,
+};
 use hw_pp_core::data::programming_languages::{
-    ProgrammingLanguageDialect, ProgrammingLanguageName, get_hello_world_syntax_for,
+    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use unicode_normalization::char::is_combining_mark;
 
@@ -14,7 +16,7 @@ fn defaults_are_american_english_and_c() {
     assert_eq!(DEFAULT_HUMAN_LANGUAGE, HumanLanguageName::English);
     assert_eq!(DEFAULT_HUMAN_LANGUAGE_DIALECT, DialectName::AmericanEnglish);
     assert_eq!(DEFAULT_PROGRAMMING_LANGUAGE, ProgrammingLanguageName::C);
-    assert_eq!(get_default_human_language_hello_world(), "Hello, World!");
+    assert_eq!(Greeting::default_text(), "Hello, World!");
 }
 
 #[test]
@@ -65,8 +67,9 @@ fn hello_world_punctuation_covers_every_greeting() {
 
 #[test]
 fn replace_hello_world_swaps_in_a_human_greeting() {
-    let rust = get_hello_world_syntax_for(Some(ProgrammingLanguageName::Rust), None, None)
-        .expect("Rust snippet exists");
+    let rust =
+        ProgrammingLanguageVersion::syntax_for(Some(ProgrammingLanguageName::Rust), None, None)
+            .expect("Rust snippet exists");
     let replaced = replace_default_hello_world_string_with(rust, "Hallo, Welt!");
     assert!(replaced.contains(r#"println!("Hallo, Welt!");"#));
     assert!(!replaced.contains("Hello, World!"));
@@ -74,7 +77,7 @@ fn replace_hello_world_swaps_in_a_human_greeting() {
 
 #[test]
 fn replace_hello_world_reverses_the_greeting_for_a_reversed_message() {
-    let befunge = get_hello_world_syntax_for(
+    let befunge = ProgrammingLanguageVersion::syntax_for(
         Some(ProgrammingLanguageName::Befunge),
         Some(ProgrammingLanguageDialect::Befunge93),
         None,
@@ -86,9 +89,12 @@ fn replace_hello_world_reverses_the_greeting_for_a_reversed_message() {
 
 #[test]
 fn replace_hello_world_returns_encoded_snippets_unchanged() {
-    let brainfuck =
-        get_hello_world_syntax_for(Some(ProgrammingLanguageName::Brainfuck), None, None)
-            .expect("Brainfuck snippet exists");
+    let brainfuck = ProgrammingLanguageVersion::syntax_for(
+        Some(ProgrammingLanguageName::Brainfuck),
+        None,
+        None,
+    )
+    .expect("Brainfuck snippet exists");
     assert_eq!(
         replace_default_hello_world_string_with(brainfuck, "Hallo, Welt!"),
         brainfuck

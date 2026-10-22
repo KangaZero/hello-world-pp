@@ -55,7 +55,7 @@ name_enum! {
 
         // Byte-to-glyph mapping
         // Not the Braille script in human_languages: raw 8-dot byte cells.
-        BraillePatterns => "Braille",
+        Braille => "Braille",
 
         // Unicode normalization forms (`unicode-normalization`)
         // Nfc => "NFC",
@@ -93,7 +93,7 @@ impl Notation {
             Self::Base64Url => str_to_base64_url(text),
             Self::Base32 => str_to_base32(text),
             Self::QuotedPrintable => str_to_quoted_printable(text),
-            Self::BraillePatterns => str_to_braille_patterns(text),
+            Self::Braille => str_to_braille_patterns(text),
             // Self::Nfc => str_to_nfc(text),
             Self::Nfd => str_to_nfd(text),
             Self::Nfkc => str_to_nfkc(text),
@@ -101,15 +101,15 @@ impl Notation {
             Self::Graphemes => str_to_graphemes(text),
         }
     }
-}
 
-/// Display names of every notation, e.g. `"Base64"`.
-#[must_use]
-pub fn get_all_notations_as_str() -> Vec<&'static str> {
-    Notation::ALL
-        .iter()
-        .map(|notation| notation.as_str())
-        .collect()
+    /// Display names of every notation, e.g. `"Base64"`.
+    #[must_use]
+    pub fn all_as_str() -> Vec<&'static str> {
+        Notation::ALL
+            .iter()
+            .map(|notation| notation.as_str())
+            .collect()
+    }
 }
 
 /// Writes every unit with `write_unit` into one buffer, `separator` between units.

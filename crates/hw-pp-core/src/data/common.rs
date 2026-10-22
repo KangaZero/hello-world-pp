@@ -1,10 +1,6 @@
 //! Catalog-wide defaults and string helpers for greetings and snippets.
 
-use crate::data::programming_languages::get_hello_world_syntax_for;
-
-use super::human_languages::{
-    DialectName, HumanLanguageName, ScriptName, get_human_language_hello_world_for,
-};
+use super::human_languages::{DialectName, HumanLanguageName, ScriptName};
 use super::macros::output_for_hello_world;
 use super::programming_languages::ProgrammingLanguageName;
 use unicode_segmentation::UnicodeSegmentation;
@@ -13,36 +9,10 @@ use unicode_segmentation::UnicodeSegmentation;
 pub const DEFAULT_HUMAN_LANGUAGE: HumanLanguageName = HumanLanguageName::English;
 /// The dialect used when neither a language nor a dialect is given.
 pub const DEFAULT_HUMAN_LANGUAGE_DIALECT: DialectName = DialectName::AmericanEnglish;
-/// The script of [`get_default_human_language_hello_world`].
+/// The script of [`Greeting::default_text`](super::human_languages::Greeting::default_text).
 pub const DEFAULT_SCRIPT: ScriptName = ScriptName::Latin;
 /// The programming language used when none is given or inferable.
 pub const DEFAULT_PROGRAMMING_LANGUAGE: ProgrammingLanguageName = ProgrammingLanguageName::C;
-
-/// Greeting for the default human language/dialect/script.
-///
-/// # Panics
-///
-/// Panics if the default language/dialect pair has no recorded greeting.
-#[must_use]
-pub fn get_default_human_language_hello_world() -> &'static str {
-    get_human_language_hello_world_for(
-        Some(DEFAULT_HUMAN_LANGUAGE),
-        Some(DEFAULT_HUMAN_LANGUAGE_DIALECT),
-        Some(DEFAULT_SCRIPT),
-    )
-    .expect("default human language/dialect/script must resolve to a greeting")
-}
-
-/// Hello-world snippet for the default programming language and its first version.
-///
-/// # Panics
-///
-/// Panics if the default programming language has no recorded snippet.
-#[must_use]
-pub fn get_default_programming_language_hello_world() -> &'static str {
-    get_hello_world_syntax_for(Some(DEFAULT_PROGRAMMING_LANGUAGE), None, None)
-        .expect("default programming language must resolve to a snippet")
-}
 
 /// Punctuation marks that appear in the recorded human-language greetings:
 /// Latin, CJK (`，！、`), the Arabic comma `،`, the Tibetan shad `།` and the

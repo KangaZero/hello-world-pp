@@ -1,14 +1,13 @@
 use hw_pp_core::data::human_languages::{
-    DialectName, HUMAN_LANGUAGES, HumanLanguageCategory, HumanLanguageError, HumanLanguageName,
-    ScriptName, get_all_human_languages_as_str_by, get_human_language_from_dialect,
-    get_human_language_hello_world_for,
+    DialectName, Greeting, HUMAN_LANGUAGES, HumanLanguageCategory, HumanLanguageError,
+    HumanLanguageName, ScriptName,
 };
 use hw_pp_core::data::lookup::LookupError;
 
 #[test]
 fn english_american_hello_world() {
     assert_eq!(
-        get_human_language_hello_world_for(
+        Greeting::text_for(
             Some(HumanLanguageName::English),
             Some(DialectName::AmericanEnglish),
             None
@@ -20,7 +19,7 @@ fn english_american_hello_world() {
 #[test]
 fn kansai_japanese_hello_world() {
     assert_eq!(
-        get_human_language_hello_world_for(
+        Greeting::text_for(
             Some(HumanLanguageName::Japanese),
             Some(DialectName::KansaiJapanese),
             None
@@ -32,7 +31,7 @@ fn kansai_japanese_hello_world() {
 #[test]
 fn script_selects_greeting_within_dialect() {
     assert_eq!(
-        get_human_language_hello_world_for(
+        Greeting::text_for(
             Some(HumanLanguageName::English),
             None,
             Some(ScriptName::Katakana)
@@ -40,7 +39,7 @@ fn script_selects_greeting_within_dialect() {
         Ok("ハローワールド！")
     );
     assert_eq!(
-        get_human_language_hello_world_for(
+        Greeting::text_for(
             Some(HumanLanguageName::Japanese),
             Some(DialectName::KansaiJapanese),
             Some(ScriptName::Romaji)
@@ -52,7 +51,7 @@ fn script_selects_greeting_within_dialect() {
 #[test]
 fn unrecorded_script_errors() {
     assert_eq!(
-        get_human_language_hello_world_for(
+        Greeting::text_for(
             Some(HumanLanguageName::English),
             Some(DialectName::BritishEnglish),
             Some(ScriptName::Katakana)
@@ -95,7 +94,7 @@ fn dialect_mismatch_for_language_errors() {
         variant: DialectName::Mandarin,
     });
     assert_eq!(
-        get_human_language_hello_world_for(
+        Greeting::text_for(
             Some(HumanLanguageName::Spanish),
             Some(DialectName::Mandarin),
             None
@@ -106,7 +105,7 @@ fn dialect_mismatch_for_language_errors() {
 
 #[test]
 fn all_human_language_names() {
-    let result = get_all_human_languages_as_str_by(None, None);
+    let result = HumanLanguageName::all_as_str_by(None, None);
     assert!(result.contains(&"English"));
     assert_eq!(result.len(), HumanLanguageName::ALL.len());
 }
@@ -136,7 +135,7 @@ fn unknown_language_name_errors_with_input() {
 #[test]
 fn dialect_without_language_infers_language() {
     assert_eq!(
-        get_human_language_hello_world_for(None, Some(DialectName::Mandarin), None),
+        Greeting::text_for(None, Some(DialectName::Mandarin), None),
         Ok("你好，世界！")
     );
 }
@@ -154,10 +153,7 @@ fn every_dialect_belongs_to_exactly_one_language() {
                 "{} is recorded under {owners} languages",
                 dialect.label
             );
-            assert_eq!(
-                get_human_language_from_dialect(dialect.label),
-                Ok(lang.name)
-            );
+            assert_eq!(dialect.label.language(), Ok(lang.name));
         }
     }
 }
@@ -223,7 +219,7 @@ fn script_and_category_parse_errors_name_their_kind() {
 
 #[test]
 fn lookup_errors_have_readable_messages() {
-    let err = get_human_language_hello_world_for(
+    let err = Greeting::text_for(
         Some(HumanLanguageName::Spanish),
         Some(DialectName::Mandarin),
         None,
