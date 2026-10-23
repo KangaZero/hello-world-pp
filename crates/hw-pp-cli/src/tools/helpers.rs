@@ -8,6 +8,8 @@ use hw_pp_core::data::human_languages::Greeting;
 
 use std::borrow::Cow;
 
+use anstream::eprintln;
+
 /// Applies `args`' output options to `output`: `--no-punctuation`, then `--notation`.
 ///
 /// - `args`: parsed CLI options; `no_punctuation` and `notation` are read.
@@ -64,4 +66,12 @@ pub fn output_list_command_with(stringified_list: &[&str], compact: bool, count:
     if count {
         println!("Count: {}", stringified_list.len());
     }
+}
+
+/// Prints `message` to stderr after a `warning:` label in `args`' theme color.
+///
+/// `anstream` drops the color when stderr is not a terminal or `NO_COLOR` is set.
+pub fn warn(args: &Args, message: &str) {
+    let style = args.theme.colors().warning;
+    eprintln!("{style}warning:{style:#} {message}");
 }

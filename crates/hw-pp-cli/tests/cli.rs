@@ -231,3 +231,55 @@ fn dialect_parses_with_any_accent_case_or_separator() {
             .stdout("Bonjour le monde!\n");
     }
 }
+
+#[test]
+fn script_conflicts_with_nato_notation() {
+    hw_pp()
+        .args(["-s", "katakana", "--notation", "nato"])
+        .assert()
+        .code(2)
+        .stderr(predicate::str::contains(
+            "cannot be used with '--notation nato'",
+        ));
+}
+
+#[test]
+fn script_combines_with_other_notations() {
+    hw_pp()
+        .args(["-s", "katakana", "--notation", "upper-hex"])
+        .assert()
+        .success();
+}
+
+#[test]
+fn nato_picks_the_latin_script_of_the_language() {
+    hw_pp()
+        .args(["-l", "japanese", "--notation", "nato"])
+        .assert()
+        .success()
+        .stdout(predicate::str::starts_with("Kilo Oscar November November"))
+        .stderr("");
+}
+
+#[test]
+fn nato_warns_when_the_language_has_no_latin_script() {
+    hw_pp()
+        .args(["-l", "sumerian", "--notation", "nato"])
+        .assert()
+        .success()
+        .stdout("𒁲 𒀭𒆠\n")
+        .stderr(predicate::str::contains(
+            "warning: this language has no Latin-script greeting",
+        ));
+}
+
+#[test]
+fn nato_encodes_only_the_message_in_snippets() {
+    hw_pp()
+        .args(["-p", "rust", "-c", "no", "--notation", "nato"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains(
+            r#"println!("Hotel Echo Lima Lima Oscar, Whiskey Oscar Romeo Lima Delta!");"#,
+        ));
+}

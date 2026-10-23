@@ -3,7 +3,7 @@
 /// App name, banner and `--help` text/styling.
 pub mod cli_info {
     use anstyle::Style;
-    use hw_pp_core::data::{programming_languages_token::TokenKind, theme::Theme};
+    use hw_pp_core::data::theme::{Theme, ThemeColors};
 
     /// Binary name from `[[bin]] name` in Cargo.toml (not the package name `hw-pp-cli`).
     pub const APP_NAME: &str = env!("CARGO_BIN_NAME");
@@ -20,20 +20,23 @@ pub mod cli_info {
                             |/
 ";
 
-    /// Colors for `-h`/`--help` and parse errors, taken from the default snippet theme so
-    /// help and code look alike. Each setter styles a role (what the text *is*), so new
-    /// flags and subcommands pick it up.
+    /// The default theme's [`ThemeColors`], shared by help, errors and the banner.
+    const COLORS: ThemeColors = Theme::Default.colors();
+
+    /// Colors for `-h`/`--help` and parse errors, from the default theme so help and code
+    /// look alike. Each setter styles a role (what the text *is*), so new flags and
+    /// subcommands pick it up.
     pub const STYLES: clap::builder::Styles = clap::builder::Styles::styled()
-        .header(TokenKind::Keyword.style(Theme::Default)) // `Options:`, `Commands:` (bold)
-        .usage(TokenKind::Keyword.style(Theme::Default)) // `Usage:`
-        .literal(TokenKind::Function.style(Theme::Default).bold()) // `--color`, `list`
-        .placeholder(TokenKind::Type.style(Theme::Default)) // `<LANGUAGE>`
-        .error(TokenKind::Invalid.style(Theme::Default).bold()) // `error:`
-        .valid(TokenKind::String.style(Theme::Default)) // suggestions in errors
-        .invalid(TokenKind::Number.style(Theme::Default).bold()); // the bad input in errors
+        .header(COLORS.header)
+        .usage(COLORS.usage)
+        .literal(COLORS.literal)
+        .placeholder(COLORS.placeholder)
+        .error(COLORS.error)
+        .valid(COLORS.valid)
+        .invalid(COLORS.invalid);
 
     /// Style of the banner in `--help`.
-    const BANNER_STYLE: Style = TokenKind::Keyword.style(Theme::Kanga);
+    const BANNER_STYLE: Style = COLORS.banner;
     /// Bold text in `--help`.
     const BOLD: Style = Style::new().bold();
     /// Italic text in `--help`.

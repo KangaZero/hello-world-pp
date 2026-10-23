@@ -226,6 +226,23 @@ impl DialectName {
     }
 }
 
+impl HumanLanguage {
+    #[must_use]
+    pub fn language_for(
+        language_name: Option<&HumanLanguageName>,
+        dialect_name: Option<&DialectName>,
+    ) -> Option<&'static HumanLanguage> {
+        if language_name.is_none() && dialect_name.is_none() {
+            return None;
+        }
+
+        HUMAN_LANGUAGES.iter().find(|l| {
+            language_name.is_none_or(|name| l.name == *name)
+                && dialect_name.is_none_or(|d| l.dialects.iter().any(|dia| dia.label == *d))
+        })
+    }
+}
+
 impl HumanLanguageName {
     /// The first recorded dialect of this language.
     ///
@@ -282,14 +299,29 @@ impl ScriptName {
     /// assert_eq!(ScriptName::all_as_str_by(Some(HumanLanguageName::Klingon)), ["Latin", "pIqaD"]);
     /// ```
     #[must_use]
-    pub fn all_as_str_by(language: Option<HumanLanguageName>) -> Vec<&'static str> {
+    pub fn all_as_str_by(language_name: Option<HumanLanguageName>) -> Vec<&'static str> {
         HUMAN_LANGUAGES
             .iter()
-            .filter(|lang| language.is_none_or(|l| lang.name == l))
+            .filter(|lang| language_name.is_none_or(|l| lang.name == l))
             .flat_map(|lang| lang.scripts.iter().map(|s| s.as_str()))
             .collect::<BTreeSet<_>>()
             .into_iter()
             .collect()
+    }
+
+    #[must_use]
+    pub fn contains_script(
+        language_name: Option<HumanLanguageName>,
+        dialect: Option<DialectName>,
+        target_script: ScriptName,
+    ) -> bool {
+        if let Some(language) =
+            HumanLanguage::language_for(language_name.as_ref(), dialect.as_ref())
+        {
+            language.scripts.contains(&target_script)
+        } else {
+            false
+        }
     }
 }
 

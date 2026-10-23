@@ -25,11 +25,101 @@ name_enum! {
     }
 }
 
+/// A theme's colors outside of code tokens: CLI help, errors, warnings and the banner.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct ThemeColors {
+    /// Section headers in help, e.g. `Options:`, `Commands:`.
+    pub header: Style,
+    /// The `Usage:` label.
+    pub usage: Style,
+    /// Literal flags and subcommands in help, e.g. `--color`, `list`.
+    pub literal: Style,
+    /// Value placeholders in help, e.g. `<LANGUAGE>`.
+    pub placeholder: Style,
+    /// `error:` labels.
+    pub error: Style,
+    /// Suggested valid values in error messages.
+    pub valid: Style,
+    /// The rejected input in error messages.
+    pub invalid: Style,
+    /// `warning:` labels: the palette's yellow, bold.
+    pub warning: Style,
+    /// The ASCII-art banner.
+    pub banner: Style,
+}
+
 impl Theme {
     /// Display names of every theme, e.g. `"Kanga"`.
     #[must_use]
     pub fn all_as_str() -> Vec<&'static str> {
         Theme::ALL.iter().map(|theme| theme.as_str()).collect()
+    }
+
+    /// This theme's [`ThemeColors`], from the same palette as its snippet colors.
+    #[must_use]
+    pub const fn colors(self) -> ThemeColors {
+        match self {
+            // Tokyo Night Moon; purple keyword accent
+            Self::Default | Self::Kanga => ThemeColors {
+                header: rgb(189, 147, 249).bold(),
+                usage: rgb(189, 147, 249).bold(),
+                literal: rgb(130, 170, 255).bold(),
+                placeholder: rgb(79, 214, 190),
+                error: rgb(255, 92, 87).bold(),
+                valid: rgb(195, 232, 141),
+                invalid: rgb(255, 150, 108).bold(),
+                warning: rgb(255, 199, 119).bold(),
+                banner: rgb(189, 147, 249).bold(),
+            },
+            // Catppuccin Latte
+            Self::CatppuccinLatte => ThemeColors {
+                header: rgb(136, 57, 239).bold(),
+                usage: rgb(136, 57, 239).bold(),
+                literal: rgb(30, 102, 245).bold(),
+                placeholder: rgb(223, 142, 29),
+                error: rgb(210, 15, 57).bold(),
+                valid: rgb(64, 160, 43),
+                invalid: rgb(254, 100, 11).bold(),
+                warning: rgb(223, 142, 29).bold(),
+                banner: rgb(136, 57, 239).bold(),
+            },
+            // Catppuccin Frappé
+            Self::CatppuccinFrappe => ThemeColors {
+                header: rgb(202, 158, 230).bold(),
+                usage: rgb(202, 158, 230).bold(),
+                literal: rgb(140, 170, 238).bold(),
+                placeholder: rgb(229, 200, 144),
+                error: rgb(231, 130, 132).bold(),
+                valid: rgb(166, 209, 137),
+                invalid: rgb(239, 159, 118).bold(),
+                warning: rgb(229, 200, 144).bold(),
+                banner: rgb(202, 158, 230).bold(),
+            },
+            // Catppuccin Macchiato
+            Self::CatppuccinMacchiato => ThemeColors {
+                header: rgb(198, 160, 246).bold(),
+                usage: rgb(198, 160, 246).bold(),
+                literal: rgb(138, 173, 244).bold(),
+                placeholder: rgb(238, 212, 159),
+                error: rgb(237, 135, 150).bold(),
+                valid: rgb(166, 218, 149),
+                invalid: rgb(245, 169, 127).bold(),
+                warning: rgb(238, 212, 159).bold(),
+                banner: rgb(198, 160, 246).bold(),
+            },
+            // Catppuccin Mocha
+            Self::CatppuccinMocha => ThemeColors {
+                header: rgb(203, 166, 247).bold(),
+                usage: rgb(203, 166, 247).bold(),
+                literal: rgb(137, 180, 250).bold(),
+                placeholder: rgb(249, 226, 175),
+                error: rgb(243, 139, 168).bold(),
+                valid: rgb(166, 227, 161),
+                invalid: rgb(250, 179, 135).bold(),
+                warning: rgb(249, 226, 175).bold(),
+                banner: rgb(203, 166, 247).bold(),
+            },
+        }
     }
 }
 

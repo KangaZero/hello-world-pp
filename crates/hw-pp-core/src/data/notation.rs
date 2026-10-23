@@ -2,7 +2,7 @@
 
 use std::fmt::{self, Write as _};
 
-use unicode_normalization::UnicodeNormalization;
+use unicode_normalization::{UnicodeNormalization, char::is_combining_mark};
 use unicode_segmentation::UnicodeSegmentation;
 
 use crate::data::macros::name_enum;
@@ -17,6 +17,18 @@ const BASE64_URL_SAFE: &[u8; 64] =
 
 /// RFC 4648 §6 alphabet.
 const BASE32_STANDARD: &[u8; 32] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+
+/// ICAO/NATO code words for `A..=Z`, indexed by `letter - b'A'` (`Alfa` and `Juliett` as spelled by ICAO).
+const NATO_LETTERS: [&str; 26] = [
+    "Alfa", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel", "India", "Juliett",
+    "Kilo", "Lima", "Mike", "November", "Oscar", "Papa", "Quebec", "Romeo", "Sierra", "Tango",
+    "Uniform", "Victor", "Whiskey", "X-ray", "Yankee", "Zulu",
+];
+
+/// ICAO code words for `0..=9`, indexed by `digit - b'0'` (radiotelephony pronunciations).
+const NATO_DIGITS: [&str; 10] = [
+    "Zero", "One", "Two", "Tree", "Fower", "Fife", "Six", "Seven", "Eight", "Niner",
+];
 
 name_enum! {
     /// A way to render text, applied by [`Notation::render`].
@@ -65,6 +77,9 @@ name_enum! {
 
         // Segmentation (`unicode-segmentation`)
         Graphemes => "Graphemes" | "Grapheme",
+
+        // Codewords ( Only works on the latin alphabet )
+        NATO => "NATO" | "ICAO"
     }
 }
 
@@ -99,6 +114,7 @@ impl Notation {
             Self::Nfkc => str_to_nfkc(text),
             Self::Nfkd => str_to_nfkd(text),
             Self::Graphemes => str_to_graphemes(text),
+            Self::NATO => str_to_nato(text),
         }
     }
 
@@ -342,9 +358,42 @@ fn str_to_nfkd(text: &str) -> String {
     text.nfkd().collect()
 }
 
-/// `"e\u{301}👍🏽"` → `"[e\u{301}] [👍🏽]"` (extended grapheme clusters).
+///`"e\u{301}👍🏽"` → `"[e\u{301}] [👍🏽]"` (extended grapheme clusters).
 fn str_to_graphemes(text: &str) -> String {
     join_units(text.graphemes(true), " ", |out, grapheme| {
         write!(out, "[{grapheme}]")
     })
+}
+
+/// The ICAO code word for an ASCII letter (any case) or digit: `'h'` → `"Hotel"`,
+/// `'9'` → `"Niner"`; `None` for anything else.
+fn nato_word(character: char) -> Option<&'static str> {
+    let byte = u8::try_from(character.to_ascii_uppercase()).ok()?;
+    match byte {
+        b'A'..=b'Z' => Some(NATO_LETTERS[usize::from(byte - b'A')]),
+        b'0'..=b'9' => Some(NATO_DIGITS[usize::from(byte - b'0')]),
+        _ => None,
+    }
+}
+
+/// `"HELLO"` → `"Hotel Echo Lima Lima Oscar"`
+/// Strips `text` of accents/diacritics and will normalize to ASCII if possible
+/// Any normalized ASCII char will map and output as NATO equivalent, else return original char
+fn str_to_nato(text: &str) -> String {
+    let mut out = String::new();
+    let mut previous_was_word = false;
+    // drop every combining mark (accents, vowel signs, voicing marks)
+    for character in text.nfd().filter(|c| !is_combining_mark(*c)) {
+        if let Some(word) = nato_word(character) {
+            if previous_was_word {
+                out.push(' ');
+            }
+            out.push_str(word);
+            previous_was_word = true;
+        } else {
+            out.push(character);
+            previous_was_word = false;
+        }
+    }
+    out
 }

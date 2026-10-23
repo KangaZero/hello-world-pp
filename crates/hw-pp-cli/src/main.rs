@@ -1,11 +1,12 @@
 use crate::constants::cli_info::{self, BANNER};
 use crate::tools::helpers::{
     hello_world_output_with_options, output_list_command_with,
-    snippet_output_with_default_hello_world_with_options,
+    snippet_output_with_default_hello_world_with_options, warn,
 };
-use anstream::{eprintln, println};
+use anstream::println;
 use anyhow::Context;
-use clap::{ArgGroup, Parser, Subcommand, ValueEnum};
+use clap::error::ErrorKind;
+use clap::{ArgGroup, CommandFactory, Parser, Subcommand, ValueEnum};
 use hw_pp_core::data::common::replace_default_hello_world_string_with;
 use hw_pp_core::data::human_languages::{
     DialectName, Greeting, HumanLanguageCategory, HumanLanguageName, ScriptName,
@@ -222,6 +223,34 @@ impl Args {
     fn has_color_on(&self) -> bool {
         self.color == ColorWhen::Yes
     }
+
+    /// Rejects option combinations clap can't declare: `--script` with `--notation nato`.
+    fn validate(&self) {
+        if self.notation == Notation::NATO && self.script.is_some() {
+            Self::command()
+                .error(
+                    ErrorKind::ArgumentConflict,
+                    "the argument '--script <SCRIPT>' cannot be used with '--notation nato' \
+                     (NATO picks the language's Latin script itself)",
+                )
+                .exit();
+        }
+    }
+
+    /// `--script`, or Latin when `--notation nato` and the language has a Latin-script greeting.
+    fn greeting_script(&self) -> Option<ScriptName> {
+        let wants_latin = self.notation == Notation::NATO
+            && ScriptName::contains_script(
+                self.human_language,
+                self.human_dialect,
+                ScriptName::Latin,
+            );
+        if wants_latin {
+            Some(ScriptName::Latin)
+        } else {
+            self.script
+        }
+    }
 }
 
 /// Hello-world snippet for the selected programming language, syntax-highlighted
@@ -242,6 +271,7 @@ fn selected_snippet(args: &Args) -> anyhow::Result<String> {
 
 fn main() -> anyhow::Result<()> {
     let args = Args::parse();
+    args.validate();
     if let Some(Command::List {
         ref category,
         compact,
@@ -283,6 +313,15 @@ fn main() -> anyhow::Result<()> {
         println!("{}", BANNER);
         return Ok(());
     }
+    if args.notation == Notation::NATO
+        && args.has_human_options()
+        && args.greeting_script() != Some(ScriptName::Latin)
+    {
+        warn(
+            &args,
+            "this language has no Latin-script greeting, so NATO keeps its letters as they are\n",
+        );
+    }
 
     match (args.has_human_options(), args.has_programming_options()) {
         (false, true) => {
@@ -294,17 +333,23 @@ fn main() -> anyhow::Result<()> {
         }
         // Human options only, or none at all (the default greeting).
         (_, false) => {
-            let hello_world =
-                Greeting::text_for(args.human_language, args.human_dialect, args.script)
-                    .context("failed to look up a 'hello-world' for human language")?;
+            let hello_world = Greeting::text_for(
+                args.human_language,
+                args.human_dialect,
+                args.greeting_script(),
+            )
+            .context("failed to look up a 'hello-world' for human language")?;
             println!("{}", hello_world_output_with_options(&args, hello_world));
         }
         (true, true) => {
             let snippet = selected_snippet(&args)?;
 
-            let hello_world_in_human_language =
-                Greeting::text_for(args.human_language, args.human_dialect, args.script)
-                    .context("failed to look up a 'hello-world' for human language")?;
+            let hello_world_in_human_language = Greeting::text_for(
+                args.human_language,
+                args.human_dialect,
+                args.greeting_script(),
+            )
+            .context("failed to look up a 'hello-world' for human language")?;
             // `--no-punctuation` and `--notation` are applied to the greeting before it goes
             // in, so the surrounding code stays valid.
             let hello_world_options_applied =
@@ -315,9 +360,12 @@ fn main() -> anyhow::Result<()> {
             // default one, so the message must be encoded (e.g. Brainfuck): say why the greeting
             // is missing; the snippet is still valid.
             if result == snippet && hello_world_options_applied != Greeting::default_text() {
-                eprintln!(
-                    "warning: this snippet encodes its message, so {hello_world_in_human_language:?} \
-                     could not be inserted"
+                warn(
+                    &args,
+                    &format!(
+                        "this snippet encodes its message, so {hello_world_in_human_language:?} \
+                         could not be inserted"
+                    ),
                 );
             }
             println!("{result}");
