@@ -143,7 +143,7 @@
           toolchain = mkToolchain pkgs;
         in
         {
-          default = pkgs.callPackage ./package.nix {
+          default = pkgs.callPackage ./default.nix {
             rustPlatform = pkgs.makeRustPlatform {
               cargo = toolchain;
               rustc = toolchain;
