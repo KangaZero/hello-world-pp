@@ -5,6 +5,7 @@
 //! - <https://en.wiktionary.org/wiki/%D1%81%D0%B2%D1%96%D1%82%D0%B5#Ukrainian>
 //! - <https://en.wiktionary.org/wiki/hello#Translations>
 //! - <https://en.wiktionary.org/wiki/world#Translations>
+//! - <https://czo.gov.ua/en/translit#:~:text=To%20address%20this%2C%20an%20official%20transliteration%20table%20was,the%20transliteration%20of%20the%20Ukrainian%20alphabet%20in%20Latin%22%29.>
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,
@@ -31,7 +32,7 @@ pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLangua
             },
             Greeting {
                 scripts: &[ScriptName::Latin],
-                text: "Pryvít, svíte!",
+                text: "Pryvit, svite!",
             },
         ],
     }],
