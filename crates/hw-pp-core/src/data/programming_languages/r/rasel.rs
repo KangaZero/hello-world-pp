@@ -8,8 +8,8 @@
 //! - <https://esolangs.org/wiki/RASEL>
 
 use crate::data::programming_languages::{
-    ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
-    ProgrammingLanguageName, ProgrammingLanguageVersion,
+    FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
+    ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::{
     macros::language_names,
@@ -27,7 +27,7 @@ const RASEL: &str = r#"A"!dlroW ,olleH">:?@,Hj"#;
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Rasel,
-        extensions: &[],
+        extensions: &[FileExtension::Rasel, FileExtension::Rasela],
         categories: &[Esolang],
         families: &[],
         versions: &[ProgrammingLanguageVersion {

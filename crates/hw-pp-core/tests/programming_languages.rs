@@ -54,6 +54,14 @@ fn every_programming_variant_is_used_in_the_data() {
             "{version} has no entry"
         );
     }
+    for extension in FileExtension::ALL {
+        assert!(
+            PROGRAMMING_LANGUAGES
+                .iter()
+                .any(|l| l.extensions.contains(extension)),
+            "{extension} is declared but no language lists it"
+        );
+    }
 }
 
 #[test]

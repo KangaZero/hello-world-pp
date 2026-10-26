@@ -26,7 +26,13 @@ const FUNGE98: &str = concat!("<v\"", output_for_hello_world!(), "\"\n >:v\n ^,_
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
         name: ProgrammingLanguageName::Befunge,
-        extensions: &[FileExtension::Bf],
+        extensions: &[
+            FileExtension::Bf,
+            FileExtension::Be,
+            FileExtension::B93,
+            FileExtension::B98,
+            FileExtension::Befunge,
+        ],
         categories: &[Esolang],
         families: &[],
         versions: &[
