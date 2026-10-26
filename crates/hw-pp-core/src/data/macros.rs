@@ -8,9 +8,8 @@
 /// elsewhere (`"UTF 8"`, `"Latte"`).
 ///
 /// `FromStr` trims its input and accepts display names and endonyms, ignoring
-/// case, then accents and `-`/`_` versus spaces (via `normalize_text`) as a fallback. It calls
-/// `super::normalize::normalize_text`, so the calling module's parent must have
-/// a `normalize` module.
+/// case, then accents and `-`/`_` versus spaces (via `folded_eq`, without allocating) as a
+/// fallback.
 ///
 /// ```ignore
 /// name_enum! {
@@ -95,11 +94,10 @@ macro_rules! name_enum {
                     .copied()
                     .find(|&variant| names(variant).any(|name| name.eq_ignore_ascii_case(trimmed)))
                     .or_else(|| {
-                        let normalized = super::normalize::normalize_text(trimmed);
                         Self::ALL
                             .iter()
                             .copied()
-                            .find(|&variant| names(variant).any(|name| super::normalize::normalize_text(name) == normalized))
+                            .find(|&variant| names(variant).any(|name| $crate::data::normalize::folded_eq(name, trimmed)))
                     })
                     .ok_or_else(|| $error(s.to_owned()))
             }

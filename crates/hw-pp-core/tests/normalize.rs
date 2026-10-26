@@ -1,4 +1,4 @@
-use hw_pp_core::data::normalize::normalize_text;
+use hw_pp_core::data::normalize::{folded_eq, normalize_text};
 
 #[test]
 fn strips_accents_and_lowercases() {
@@ -54,4 +54,18 @@ fn treats_hyphens_and_underscores_as_spaces() {
     ] {
         assert_eq!(normalize_text(input), expected, "{input:?}");
     }
+}
+
+#[test]
+fn folded_eq_agrees_with_normalize_text() {
+    for (a, b) in [
+        ("Québécois-French", "quebecois french"),
+        ("ΙΧΘΥΣ", "ιχθυσ"),
+        ("が", "か"),
+    ] {
+        assert!(folded_eq(a, b), "{a:?} vs {b:?}");
+        assert_eq!(normalize_text(a), normalize_text(b));
+    }
+    assert!(!folded_eq("Rust", "Rusty"));
+    assert!(!folded_eq("Rusty", "Rust"));
 }

@@ -9,6 +9,10 @@ use std::path::{Path, PathBuf};
 
 // Shared with the library, so names are folded exactly as `FromStr` folds them.
 #[path = "src/data/normalize.rs"]
+#[expect(
+    dead_code,
+    reason = "`folded_eq` is only used by the library's `FromStr`"
+)]
 mod normalize;
 use normalize::normalize_text;
 
