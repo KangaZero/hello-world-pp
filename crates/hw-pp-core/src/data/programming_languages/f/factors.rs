@@ -31,6 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Fact],
         categories: &[],
         families: &[],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Factors,
             syntax: FACTORS,

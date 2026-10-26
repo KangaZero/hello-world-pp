@@ -10,7 +10,11 @@
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/a/AutoIt.au3>
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/AutoIT3.txt>
 //! - <http://helloworldcollection.de/#AutoIT3>
+//! - <https://www.wikidata.org/wiki/Q784845> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Imperative, ObjectOriented, Procedural, Reflective,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Basic, ProgrammingLanguageName,
@@ -48,6 +52,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Au3],
         categories: &[Scripting],
         families: &[Basic],
+        paradigms: &[
+            Imperative,
+            Procedural,
+            ObjectOriented,
+            Functional,
+            Reflective,
+        ],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Autoit,

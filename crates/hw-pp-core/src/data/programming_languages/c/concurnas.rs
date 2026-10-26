@@ -33,6 +33,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Conc],
         categories: &[Compiled],
         families: &[],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Concurnas,
             syntax: CONCURNAS,

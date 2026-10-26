@@ -35,6 +35,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::N0x80070050,
             syntax: N0X80070050,

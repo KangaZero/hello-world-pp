@@ -29,6 +29,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Pyowo],
         categories: &[Esolang],
         families: &[],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Pythowo,
             syntax: PYTHOWO,

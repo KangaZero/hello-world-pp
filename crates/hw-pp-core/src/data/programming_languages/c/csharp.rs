@@ -5,10 +5,14 @@
 //! - <https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/top-level-statements>
 //! - <https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history>
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/c/CSharp.cs>
+//! - <https://www.wikidata.org/wiki/Q2370> (paradigms)
 //!
 //! The `C# 9` version is imported from leachim6/hello-world,
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    EventDriven, Functional, Generic, Imperative, ObjectOriented, Reflective, Structured,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::Compiled,
@@ -44,6 +48,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Cs],
         categories: &[Compiled],
         families: &[C, DotNet],
+        paradigms: &[
+            Imperative,
+            Structured,
+            ObjectOriented,
+            Functional,
+            Reflective,
+            Generic,
+            EventDriven,
+        ],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::CSharp10,

@@ -6,7 +6,11 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Oz.htm>
 //! - <http://helloworldcollection.de/#Oz>
+//! - <https://www.wikidata.org/wiki/Q1208217> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concurrent, Constraint, Functional, Imperative, ObjectOriented, PrototypeBased,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -45,6 +49,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
+        paradigms: &[
+            Imperative,
+            ObjectOriented,
+            PrototypeBased,
+            Functional,
+            Constraint,
+            Concurrent,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Oz,
             syntax: OZ,

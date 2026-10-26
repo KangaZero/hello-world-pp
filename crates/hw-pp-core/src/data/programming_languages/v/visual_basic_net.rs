@@ -6,7 +6,11 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Visual%26nbsp%3BBasic%26nbsp%3B.NET.txt>
 //! - <http://helloworldcollection.de/#Visual%C2%A0Basic%C2%A0.NET>
+//! - <https://www.wikidata.org/wiki/Q50077> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    EventDriven, Functional, Generic, Imperative, ObjectOriented, Reflective, Structured,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -46,6 +50,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
+        paradigms: &[
+            Imperative,
+            Structured,
+            ObjectOriented,
+            Functional,
+            Reflective,
+            Generic,
+            EventDriven,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::VisualBasicNet,
             syntax: VISUAL_BASIC_NET,

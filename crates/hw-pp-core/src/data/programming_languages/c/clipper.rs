@@ -32,6 +32,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Prg],
         categories: &[Compiled, Historical],
         families: &[XBase],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Clipper,
             syntax: CLIPPER,

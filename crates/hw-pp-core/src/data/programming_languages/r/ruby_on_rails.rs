@@ -36,6 +36,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Framework],
         families: &[Ruby],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::RubyOnRails,
             syntax: RUBY_ON_RAILS,

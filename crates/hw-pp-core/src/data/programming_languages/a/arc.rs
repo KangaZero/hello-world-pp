@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/a/ARC.arc>
+//! - <https://www.wikidata.org/wiki/Q2438046> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Metaprogramming, Procedural,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Lisp, ProgrammingLanguageName,
@@ -30,6 +34,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Arc],
         categories: &[Scripting],
         families: &[Lisp],
+        paradigms: &[Procedural, Functional, Metaprogramming],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Arc,
             syntax: ARC,

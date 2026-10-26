@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/pull/1598>
+//! - <https://www.wikidata.org/wiki/Q124813537> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Functional;
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -39,6 +41,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Roc],
         categories: &[Compiled],
         families: &[],
+        paradigms: &[Functional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Roc,
             syntax: ROC,

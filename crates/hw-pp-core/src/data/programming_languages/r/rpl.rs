@@ -6,7 +6,11 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/RPL.txt>
 //! - <http://helloworldcollection.de/#RPL>
+//! - <https://www.wikidata.org/wiki/Q960361> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    ObjectOriented, StackBased, Structured,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageFamily::Lisp,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -41,6 +45,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[Lisp],
+        paradigms: &[Structured, ObjectOriented, StackBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rpl,
             syntax: RPL,

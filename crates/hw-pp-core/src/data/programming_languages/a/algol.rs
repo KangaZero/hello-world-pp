@@ -3,7 +3,9 @@
 //! Sources:
 //! - <https://en.wikipedia.org/wiki/ALGOL_60>
 //! - <https://www.masswerk.at/algol60/report.htm>
+//! - <https://www.wikidata.org/wiki/Q188436> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Procedural, Structured};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
@@ -36,6 +38,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Alg],
         categories: &[Compiled, Historical],
         families: &[Algol],
+        paradigms: &[Imperative, Procedural, Structured],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Algol60,
             syntax: ALGOL60,

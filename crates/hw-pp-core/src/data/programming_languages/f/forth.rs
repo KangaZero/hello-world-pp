@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/f/Forth.fth>
+//! - <https://www.wikidata.org/wiki/Q275472> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concatenative, Procedural, Reflective, StackBased,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Forth, ProgrammingLanguageName,
@@ -30,6 +34,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Fth],
         categories: &[Scripting],
         families: &[Forth],
+        paradigms: &[Procedural, Reflective, StackBased, Concatenative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Forth,
             syntax: FORTH,

@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/p/Perl6.p6>
+//! - <https://www.wikidata.org/wiki/Q2052676> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Imperative, ObjectOriented,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -38,6 +42,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::P6],
         categories: &[Scripting],
         families: &[],
+        paradigms: &[Imperative, ObjectOriented, Functional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Perl6,
             syntax: PERL6,

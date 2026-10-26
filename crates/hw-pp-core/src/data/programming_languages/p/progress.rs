@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Progress.txt>
 //! - <http://helloworldcollection.de/#Progress>
+//! - <https://www.wikidata.org/wiki/Q1963461> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::ObjectOriented;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -38,6 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
+        paradigms: &[ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Progress,
             syntax: PROGRESS,

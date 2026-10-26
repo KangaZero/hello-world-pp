@@ -3,7 +3,11 @@
 //! Sources:
 //! - <https://docs.racket-lang.org/guide/intro.html>
 //! - <https://docs.racket-lang.org/quick/>
+//! - <https://www.wikidata.org/wiki/Q1254148> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Metaprogramming, ObjectOriented, Procedural, Reflective,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Scripting},
@@ -35,6 +39,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Rkt],
         categories: &[Compiled, Scripting],
         families: &[Lisp],
+        paradigms: &[
+            Procedural,
+            ObjectOriented,
+            Functional,
+            Reflective,
+            Metaprogramming,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Racket8,
             syntax: RACKET8,

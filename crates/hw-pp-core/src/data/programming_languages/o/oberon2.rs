@@ -41,6 +41,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Obn],
         categories: &[Compiled, Historical],
         families: &[Modula, Oberon],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Oberon2,
             syntax: OBERON2,

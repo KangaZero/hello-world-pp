@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/j/J.ijs>
+//! - <https://www.wikidata.org/wiki/Q383994> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Array, Functional, ObjectOriented};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Apl, ProgrammingLanguageName,
@@ -36,6 +38,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Ijs],
         categories: &[Scripting],
         families: &[Apl],
+        paradigms: &[ObjectOriented, Functional, Array],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::J,
             syntax: J,

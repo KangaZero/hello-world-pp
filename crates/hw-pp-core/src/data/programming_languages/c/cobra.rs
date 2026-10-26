@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/c/Cobra.cobra>
+//! - <https://www.wikidata.org/wiki/Q608565> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Functional, ObjectOriented};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::DotNet, ProgrammingLanguageName,
@@ -37,6 +39,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Cobra],
         categories: &[Compiled],
         families: &[DotNet],
+        paradigms: &[ObjectOriented, Functional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cobra,
             syntax: COBRA,

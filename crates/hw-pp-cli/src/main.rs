@@ -16,6 +16,7 @@ use hw_pp_core::data::notation::Notation;
 use hw_pp_core::data::programming_languages::{
     FileExtension, ProgrammingLanguageCategory, ProgrammingLanguageDialect,
     ProgrammingLanguageFamily, ProgrammingLanguageName, ProgrammingLanguageVersion,
+    ProgrammingParadigm,
 };
 use hw_pp_core::data::theme::Theme;
 
@@ -90,6 +91,9 @@ enum ListCategory {
         /// Only languages in this category
         #[arg(short, long)]
         category: Option<ProgrammingLanguageCategory>,
+        /// Only languages supporting this paradigm (e.g. functional, object-oriented)
+        #[arg(short, long)]
+        paradigm: Option<ProgrammingParadigm>,
     },
     /// Programming language dialects (versions)
     #[command(visible_alias = "pd", alias = "programming-dialect")]
@@ -119,6 +123,12 @@ enum ListCategory {
     #[command(visible_alias = "pf", alias = "programming-language-family")]
     ProgrammingLanguageFamilies {
         /// Only families of this language
+        language: Option<ProgrammingLanguageName>,
+    },
+    /// Programming paradigms (e.g. functional, object-oriented)
+    #[command(visible_alias = "pp", alias = "programming-paradigm")]
+    ProgrammingParadigms {
+        /// Only paradigms of this language
         language: Option<ProgrammingLanguageName>,
     },
 
@@ -280,16 +290,10 @@ fn selected_snippet(args: &Args) -> anyhow::Result<String> {
     })
 }
 
-fn main() -> anyhow::Result<()> {
-    let args = Args::parse();
-    args.validate();
-    if let Some(Command::List {
-        ref category,
-        compact,
-        count,
-    }) = args.command
-    {
-        let list_as_str: Vec<&'static str> = match category {
+impl ListCategory {
+    /// The display names this `list` subcommand prints.
+    fn entries(&self) -> Vec<&'static str> {
+        match self {
             ListCategory::HumanLanguages {
                 script,
                 category,
@@ -304,7 +308,8 @@ fn main() -> anyhow::Result<()> {
                 extension,
                 family,
                 category,
-            } => ProgrammingLanguageName::all_as_str_by(*extension, *family, *category),
+                paradigm,
+            } => ProgrammingLanguageName::all_as_str_by(*extension, *family, *category, *paradigm),
             ListCategory::ProgrammingDialects { language } => {
                 ProgrammingLanguageDialect::all_as_str_by(*language)
             }
@@ -320,7 +325,23 @@ fn main() -> anyhow::Result<()> {
             ListCategory::ProgrammingLanguageFamilies { language } => {
                 ProgrammingLanguageFamily::all_as_str_by(*language)
             }
-        };
+            ListCategory::ProgrammingParadigms { language } => {
+                ProgrammingParadigm::all_as_str_by(*language)
+            }
+        }
+    }
+}
+
+fn main() -> anyhow::Result<()> {
+    let args = Args::parse();
+    args.validate();
+    if let Some(Command::List {
+        ref category,
+        compact,
+        count,
+    }) = args.command
+    {
+        let list_as_str = category.entries();
 
         output_list_command_with(&list_as_str, compact, count);
         return Ok(());

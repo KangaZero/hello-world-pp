@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/c/CAML.ml>
+//! - <https://www.wikidata.org/wiki/Q1118153> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Functional, Imperative};
 use crate::data::programming_languages::{
     ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
@@ -32,6 +34,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Compiled, Historical],
         families: &[Ml],
+        paradigms: &[Imperative, Functional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Caml,
             syntax: CAML,

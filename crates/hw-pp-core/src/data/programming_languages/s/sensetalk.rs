@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/SenseTalk.txt>
 //! - <http://helloworldcollection.de/#SenseTalk>
+//! - <https://www.wikidata.org/wiki/Q7450966> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::ObjectOriented;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -37,6 +39,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
+        paradigms: &[ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sensetalk,
             syntax: SENSETALK,

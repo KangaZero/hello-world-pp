@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(N-S)#ROOP>
 //! - <https://esolangs.org/wiki/ROOP>
+//! - <https://www.wikidata.org/wiki/Q7277404> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Logic, ObjectOriented, Procedural};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -35,6 +37,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
+        paradigms: &[Procedural, ObjectOriented, Logic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Roop,
             syntax: ROOP,

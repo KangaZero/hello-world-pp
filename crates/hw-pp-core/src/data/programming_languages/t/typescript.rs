@@ -3,7 +3,11 @@
 //! Sources:
 //! - <https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html>
 //! - <https://www.typescriptlang.org/docs/handbook/2/basic-types.html>
+//! - <https://www.wikidata.org/wiki/Q978185> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    EventDriven, Functional, Generic, Imperative, ObjectOriented,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Scripting},
@@ -35,6 +39,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Ts],
         categories: &[Scripting, Compiled],
         families: &[JavaScript],
+        paradigms: &[Imperative, ObjectOriented, Functional, Generic, EventDriven],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::TypeScript5,
             syntax: TYPE_SCRIPT5,

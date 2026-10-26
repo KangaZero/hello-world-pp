@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/p/PeopleCode>
+//! - <https://www.wikidata.org/wiki/Q7165836> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, ObjectOriented};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Scripting, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -33,6 +35,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Scripting],
         families: &[],
+        paradigms: &[Imperative, ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Peoplecode,
             syntax: PEOPLECODE,

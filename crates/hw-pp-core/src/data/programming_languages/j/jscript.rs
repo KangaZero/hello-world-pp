@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/j/JScript.js>
+//! - <https://www.wikidata.org/wiki/Q553514> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{ObjectOriented, PrototypeBased};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Scripting, ProgrammingLanguageDialect,
     ProgrammingLanguageFamily::JavaScript, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,6 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Scripting],
         families: &[JavaScript],
+        paradigms: &[ObjectOriented, PrototypeBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Jscript,
             syntax: JSCRIPT,

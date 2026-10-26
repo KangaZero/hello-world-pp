@@ -14,7 +14,9 @@
 //! - <http://helloworldcollection.de/#PureBasic%C2%A0(Messagebox)>
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/PureBasic%26nbsp%3B%28Window%29.txt>
 //! - <http://helloworldcollection.de/#PureBasic%C2%A0(Window)>
+//! - <https://www.wikidata.org/wiki/Q2118858> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Structured;
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Basic, ProgrammingLanguageName,
@@ -88,6 +90,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Pb],
         categories: &[Compiled],
         families: &[Basic],
+        paradigms: &[Structured],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Purebasic,

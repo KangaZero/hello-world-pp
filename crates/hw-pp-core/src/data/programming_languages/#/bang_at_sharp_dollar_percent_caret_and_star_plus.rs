@@ -29,6 +29,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::BangAtSharpDollarPercentCaretAndStarPlus,
             syntax: BANG_AT_SHARP_DOLLAR_PERCENT_CARET_AND_STAR_PLUS,

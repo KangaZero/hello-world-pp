@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/o/Object%20Pascal.pp>
+//! - <https://www.wikidata.org/wiki/Q633894> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Generic, Imperative, ObjectOriented, Procedural, Structured,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Pascal, ProgrammingLanguageName,
@@ -53,6 +57,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Pp],
         categories: &[Compiled],
         families: &[Pascal],
+        paradigms: &[Imperative, Procedural, Structured, ObjectOriented, Generic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::ObjectPascal,
             syntax: OBJECT_PASCAL,

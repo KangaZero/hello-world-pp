@@ -218,6 +218,21 @@ fn list_filters_human_languages_by_family() {
 }
 
 #[test]
+fn list_filters_programming_languages_by_paradigm() {
+    hw_pp()
+        .args(["list", "pl", "--paradigm", "logic"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("Prolog\n"))
+        .stdout(predicate::str::contains("\nC\n").not());
+    hw_pp()
+        .args(["list", "pp", "prolog"])
+        .assert()
+        .success()
+        .stdout("Declarative\nLogic\n");
+}
+
+#[test]
 fn list_notations_includes_every_notation() {
     hw_pp()
         .args(["list", "--count", "notations"])

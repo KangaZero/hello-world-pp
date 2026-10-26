@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/MetaPost.htm>
 //! - <http://helloworldcollection.de/#MetaPost>
+//! - <https://www.wikidata.org/wiki/Q1265836> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Declarative, Imperative};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -39,6 +41,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
+        paradigms: &[Imperative, Declarative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Metapost,
             syntax: METAPOST,

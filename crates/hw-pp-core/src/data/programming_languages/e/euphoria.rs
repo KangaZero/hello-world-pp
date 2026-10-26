@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/e/Euphoria.ex>
+//! - <https://www.wikidata.org/wiki/Q1374139> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Procedural};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Scripting, ProgrammingLanguageDialect,
     ProgrammingLanguageFamily::Basic, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,6 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Scripting],
         families: &[Basic],
+        paradigms: &[Imperative, Procedural],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Euphoria,
             syntax: EUPHORIA,

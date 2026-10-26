@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/x/XQuery.xq>
+//! - <https://www.wikidata.org/wiki/Q850661> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Declarative, Functional};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Query,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -34,6 +36,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Xq],
         categories: &[Query],
         families: &[],
+        paradigms: &[Functional, Declarative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Xquery,
             syntax: XQUERY,

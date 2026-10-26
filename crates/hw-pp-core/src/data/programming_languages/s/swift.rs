@@ -3,7 +3,11 @@
 //! Sources:
 //! - <https://docs.swift.org/swift-book/documentation/the-swift-programming-language/guidedtour/>
 //! - <https://www.swift.org/getting-started/cli-swiftpm/>
+//! - <https://www.wikidata.org/wiki/Q17118377> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Declarative, Functional, Imperative, ObjectOriented,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -27,6 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Swift],
         categories: &[Compiled],
         families: &[],
+        paradigms: &[Imperative, ObjectOriented, Functional, Declarative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Swift5,
             syntax: SWIFT5,

@@ -30,6 +30,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::OiscalypseWithISlashO,
             syntax: OISCALYPSE_WITH_I_SLASH_O,

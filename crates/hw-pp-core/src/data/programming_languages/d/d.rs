@@ -3,7 +3,11 @@
 //! Sources:
 //! - <https://tour.dlang.org/tour/en/welcome/welcome-to-d>
 //! - <https://dlang.org/spec/spec.html>
+//! - <https://www.wikidata.org/wiki/Q319268> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Imperative, ObjectOriented,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::C, ProgrammingLanguageName,
@@ -36,6 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::D],
         categories: &[Compiled],
         families: &[C],
+        paradigms: &[Imperative, ObjectOriented, Functional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::D2,
             syntax: D2,

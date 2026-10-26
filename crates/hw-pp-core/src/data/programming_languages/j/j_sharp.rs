@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/j/J%23.jsl>
+//! - <https://www.wikidata.org/wiki/Q1160312> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Imperative, ObjectOriented, Structured,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
@@ -42,6 +46,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Jsl],
         categories: &[Compiled, Historical],
         families: &[],
+        paradigms: &[Imperative, Structured, ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::JSharp,
             syntax: J_SHARP,

@@ -90,6 +90,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::TheAmnesiacFromMinsk,
             syntax: THE_AMNESIAC_FROM_MINSK,

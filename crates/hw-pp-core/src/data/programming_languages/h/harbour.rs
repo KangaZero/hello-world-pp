@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/h/Harbour.prg>
+//! - <https://www.wikidata.org/wiki/Q2544816> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Declarative, Functional, Imperative, ObjectOriented, Procedural, Reflective,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Compiled, ProgrammingLanguageDialect,
     ProgrammingLanguageFamily::XBase, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -37,6 +41,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Compiled],
         families: &[XBase],
+        paradigms: &[
+            Imperative,
+            Procedural,
+            ObjectOriented,
+            Functional,
+            Declarative,
+            Reflective,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Harbour,
             syntax: HARBOUR,

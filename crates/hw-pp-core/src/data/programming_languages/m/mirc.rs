@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/m/Mirc.mrc>
+//! - <https://www.wikidata.org/wiki/Q300841> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{EventDriven, Procedural};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,6 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Mrc],
         categories: &[Scripting],
         families: &[],
+        paradigms: &[Procedural, EventDriven],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Mirc,
             syntax: MIRC,

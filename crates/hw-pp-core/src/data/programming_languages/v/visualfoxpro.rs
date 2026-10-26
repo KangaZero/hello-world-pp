@@ -52,6 +52,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Historical],
         families: &[XBase],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Visualfoxpro,
             syntax: VISUALFOXPRO,

@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/s/Squirrel.nut>
+//! - <https://www.wikidata.org/wiki/Q1200182> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Imperative, ObjectOriented, Procedural,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,6 +33,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Nut],
         categories: &[Scripting],
         families: &[],
+        paradigms: &[Imperative, Procedural, ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Squirrel,
             syntax: SQUIRREL,

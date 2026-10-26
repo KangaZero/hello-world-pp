@@ -14,7 +14,11 @@
 //! - <http://helloworldcollection.de/#ActionScript%C2%A03.0>
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Actionscript%26nbsp%3B%28Flash%26nbsp%3B5%29.txt>
 //! - <http://helloworldcollection.de/#Actionscript%C2%A0(Flash%C2%A05)>
+//! - <https://www.wikidata.org/wiki/Q234657> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Imperative, ObjectOriented, PrototypeBased,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::JavaScript, ProgrammingLanguageName,
@@ -99,6 +103,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::As],
         categories: &[Scripting],
         families: &[JavaScript],
+        paradigms: &[Imperative, ObjectOriented, PrototypeBased, Functional],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Actionscript,

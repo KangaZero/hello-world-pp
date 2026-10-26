@@ -5,10 +5,14 @@
 //! - <https://learn.microsoft.com/en-us/dotnet/visual-basic/programming-guide/program-structure/structure-of-a-visual-basic-program>
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Visual%26nbsp%3BBasic%26nbsp%3B6.txt>
 //! - <http://helloworldcollection.de/#Visual%C2%A0Basic%C2%A06>
+//! - <https://www.wikidata.org/wiki/Q50077> (paradigms)
 //!
 //! The `Visual Basic 6` version is imported from the Hello World Collection, MIT licensed; see
 //! `programming_languages/LICENSE-helloworldcollection`.
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    EventDriven, Functional, Generic, Imperative, ObjectOriented, Reflective, Structured,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::Compiled,
@@ -54,6 +58,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Vb],
         categories: &[Compiled],
         families: &[Basic, DotNet],
+        paradigms: &[
+            Imperative,
+            Structured,
+            ObjectOriented,
+            Functional,
+            Reflective,
+            Generic,
+            EventDriven,
+        ],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::VbNet,

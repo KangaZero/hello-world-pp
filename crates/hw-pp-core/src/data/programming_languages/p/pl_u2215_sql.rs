@@ -37,6 +37,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Pls],
         categories: &[Query],
         families: &[Ada],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PlU2215Sql,
             syntax: PL_U2215_SQL,

@@ -3,7 +3,11 @@
 //! Sources:
 //! - <https://cran.r-project.org/doc/manuals/r-release/R-intro.html>
 //! - <https://stat.ethz.ch/R-manual/R-devel/library/base/html/cat.html>
+//! - <https://www.wikidata.org/wiki/Q206904> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Array, Functional, Imperative, ObjectOriented, Procedural, Reflective,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::R, ProgrammingLanguageName,
@@ -28,6 +32,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::R],
         categories: &[Scripting],
         families: &[R],
+        paradigms: &[
+            Imperative,
+            Procedural,
+            ObjectOriented,
+            Functional,
+            Array,
+            Reflective,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::R4,
             syntax: R4,

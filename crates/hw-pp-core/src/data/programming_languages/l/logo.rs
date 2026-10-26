@@ -10,7 +10,9 @@
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/l/Logo.lg>
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Logo%26nbsp%3B%28graphical%29.txt>
 //! - <http://helloworldcollection.de/#Logo%C2%A0(graphical)>
+//! - <https://www.wikidata.org/wiki/Q201436> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Functional, Procedural, Reflective};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::Educational,
@@ -92,6 +94,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Lg],
         categories: &[Educational],
         families: &[Lisp, Logo],
+        paradigms: &[Procedural, Functional, Reflective],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Logo,

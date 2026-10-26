@@ -14,7 +14,9 @@
 //! - <http://helloworldcollection.de/#K4>
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/K5.htm>
 //! - <http://helloworldcollection.de/#K5>
+//! - <https://www.wikidata.org/wiki/Q4042031> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Array, Functional};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Apl, ProgrammingLanguageName,
@@ -66,6 +68,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::K],
         categories: &[Scripting],
         families: &[Apl],
+        paradigms: &[Functional, Array],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::K,

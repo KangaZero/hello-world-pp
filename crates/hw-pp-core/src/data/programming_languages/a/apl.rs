@@ -3,7 +3,9 @@
 //! Sources:
 //! - <https://en.wikipedia.org/wiki/APL_(programming_language)>
 //! - <https://tryapl.org/>
+//! - <https://www.wikidata.org/wiki/Q296187> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Array, Functional, Structured};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
@@ -30,6 +32,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Apl],
         categories: &[Compiled, Historical],
         families: &[Apl],
+        paradigms: &[Structured, Functional, Array],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Apl,
             syntax: APL,

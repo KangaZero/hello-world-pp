@@ -3,7 +3,11 @@
 //! Sources:
 //! - <https://lisp-lang.org/learn/getting-started/>
 //! - <https://www.lispworks.com/documentation/HyperSpec/Body/f_format.htm>
+//! - <https://www.wikidata.org/wiki/Q849146> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Generic, Metaprogramming, ObjectOriented, Procedural, Reflective,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
@@ -30,6 +34,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Lisp, FileExtension::Lsp, FileExtension::Cl],
         categories: &[Compiled, Historical],
         families: &[Lisp],
+        paradigms: &[
+            Procedural,
+            ObjectOriented,
+            Functional,
+            Reflective,
+            Generic,
+            Metaprogramming,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AnsiCommonLisp,
             syntax: ANSI_COMMON_LISP,

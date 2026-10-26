@@ -48,6 +48,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Asm, FileExtension::S],
         categories: &[Assembly, Compiled, Historical],
         families: &[],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::X8664LinuxSyscalls,
             syntax: X8664_LINUX_SYSCALLS,

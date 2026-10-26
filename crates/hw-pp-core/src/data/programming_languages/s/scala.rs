@@ -3,7 +3,11 @@
 //! Sources:
 //! - <https://docs.scala-lang.org/scala3/book/taste-hello-world.html>
 //! - <https://docs.scala-lang.org/scala3/book/methods-main-methods.html>
+//! - <https://www.wikidata.org/wiki/Q460584> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concurrent, Functional, Imperative, ObjectOriented,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Java, ProgrammingLanguageName,
@@ -33,6 +37,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Scala, FileExtension::Sc],
         categories: &[Compiled],
         families: &[Java],
+        paradigms: &[Imperative, ObjectOriented, Functional, Concurrent],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Scala3,
             syntax: SCALA3,

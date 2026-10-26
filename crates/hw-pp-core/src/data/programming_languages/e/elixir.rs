@@ -3,7 +3,9 @@
 //! Sources:
 //! - <https://elixir.hexdocs.pm/introduction.html>
 //! - <https://elixir.hexdocs.pm/IO.html>
+//! - <https://www.wikidata.org/wiki/Q5362035> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Concurrent, Functional};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Scripting},
@@ -28,6 +30,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Ex, FileExtension::Exs],
         categories: &[Compiled, Scripting],
         families: &[],
+        paradigms: &[Functional, Concurrent],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Elixir1,
             syntax: ELIXIR1,

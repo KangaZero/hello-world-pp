@@ -3,7 +3,12 @@
 //! Sources:
 //! - <https://kotlinlang.org/docs/kotlin-tour-hello-world.html>
 //! - <https://kotlinlang.org/docs/whatsnew19.html>
+//! - <https://www.wikidata.org/wiki/Q3816639> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concurrent, Declarative, Functional, Generic, Imperative, ObjectOriented, Reflective,
+    Structured,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Java, ProgrammingLanguageName,
@@ -34,6 +39,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Kt, FileExtension::Kts],
         categories: &[Compiled],
         families: &[Java],
+        paradigms: &[
+            Imperative,
+            Structured,
+            ObjectOriented,
+            Functional,
+            Declarative,
+            Concurrent,
+            Reflective,
+            Generic,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Kotlin19,
             syntax: KOTLIN19,

@@ -3,7 +3,11 @@
 //! Sources:
 //! - <https://ocaml.org/docs/tour-of-ocaml>
 //! - <https://ocaml.org/docs/your-first-program>
+//! - <https://www.wikidata.org/wiki/Q212587> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Imperative, ObjectOriented,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::Compiled,
@@ -34,6 +38,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Ml, FileExtension::Mli],
         categories: &[Compiled],
         families: &[Ml, OCaml],
+        paradigms: &[Imperative, ObjectOriented, Functional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::OCaml5,
             syntax: O_CAML5,

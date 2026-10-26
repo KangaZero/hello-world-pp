@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/m/Mercury.m>
+//! - <https://www.wikidata.org/wiki/Q206040> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Functional, Logic, ObjectOriented};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Compiled, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -40,6 +42,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Compiled],
         families: &[],
+        paradigms: &[ObjectOriented, Functional, Logic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Mercury,
             syntax: MERCURY,

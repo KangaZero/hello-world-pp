@@ -3,7 +3,11 @@
 //! Sources:
 //! - <https://www.lua.org/pil/1.html>
 //! - <https://www.lua.org/manual/5.4/manual.html#pdf-print>
+//! - <https://www.wikidata.org/wiki/Q207316> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Imperative, ObjectOriented, Procedural, PrototypeBased,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::C, ProgrammingLanguageName,
@@ -28,6 +32,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Lua],
         categories: &[Scripting],
         families: &[C],
+        paradigms: &[
+            Imperative,
+            Procedural,
+            ObjectOriented,
+            PrototypeBased,
+            Functional,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Lua54,
             syntax: LUA54,

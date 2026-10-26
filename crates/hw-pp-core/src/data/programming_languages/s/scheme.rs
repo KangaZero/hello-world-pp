@@ -36,6 +36,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Scm, FileExtension::Ss],
         categories: &[Compiled, Historical],
         families: &[Lisp],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::R7rs,
             syntax: R7RS,

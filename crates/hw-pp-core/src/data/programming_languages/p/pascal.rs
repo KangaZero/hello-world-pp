@@ -5,10 +5,12 @@
 //! - <https://www.freepascal.org/docs-html/current/ref/ref.html>
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Pascal%26nbsp%3B%28Windows%29>
 //! - <http://helloworldcollection.de/#Pascal%C2%A0(Windows)>
+//! - <https://www.wikidata.org/wiki/Q81571> (paradigms)
 //!
 //! The `Pascal (Windows)` version is imported from the Hello World Collection, MIT licensed; see
 //! `programming_languages/LICENSE-helloworldcollection`.
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Structured};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Pascal, ProgrammingLanguageName,
@@ -59,6 +61,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Pas],
         categories: &[Compiled],
         families: &[Pascal],
+        paradigms: &[Imperative, Structured],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Pascal,

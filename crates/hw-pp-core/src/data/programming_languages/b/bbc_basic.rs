@@ -30,6 +30,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Bbc],
         categories: &[Historical],
         families: &[Basic],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::BbcBasic,
             syntax: BBC_BASIC,

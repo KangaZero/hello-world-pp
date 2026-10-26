@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/c/Cil.il>
+//! - <https://www.wikidata.org/wiki/Q263544> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::ObjectOriented;
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Assembly,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -42,6 +44,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Il],
         categories: &[Assembly],
         families: &[],
+        paradigms: &[ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cil,
             syntax: CIL,

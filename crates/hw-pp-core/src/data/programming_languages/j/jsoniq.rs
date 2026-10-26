@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/j/JSONiq>
+//! - <https://www.wikidata.org/wiki/Q17060857> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Declarative;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Query, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,6 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Query],
         families: &[],
+        paradigms: &[Declarative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Jsoniq,
             syntax: JSONIQ,

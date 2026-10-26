@@ -4,7 +4,9 @@
 //! - <https://guide.elm-lang.org/>
 //! - <https://package.elm-lang.org/packages/elm/html/latest/Html#text>
 //! - <https://elm-lang.org/examples/hello>
+//! - <https://www.wikidata.org/wiki/Q5366250> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Functional, Reactive};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Haskell, ProgrammingLanguageName,
@@ -38,6 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Elm],
         categories: &[Compiled],
         families: &[Haskell],
+        paradigms: &[Functional, Reactive],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Elm019,
             syntax: ELM019,

@@ -30,6 +30,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::ThisEsolangIsNotAPushDownAutomata,
             syntax: THIS_ESOLANG_IS_NOT_A_PUSH_DOWN_AUTOMATA,

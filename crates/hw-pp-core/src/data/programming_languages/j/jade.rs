@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/j/Jade.jade>
+//! - <https://www.wikidata.org/wiki/Q6107617> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Concurrent, ObjectOriented};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Markup,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Algol, ProgrammingLanguageName,
@@ -38,6 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Jade],
         categories: &[Markup],
         families: &[Algol],
+        paradigms: &[ObjectOriented, Concurrent],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Jade,
             syntax: JADE,

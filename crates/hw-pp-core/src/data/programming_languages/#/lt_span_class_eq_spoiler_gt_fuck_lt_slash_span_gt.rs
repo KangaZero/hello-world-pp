@@ -30,6 +30,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::LtSpanClassEqSpoilerGtFuckLtSlashSpanGt,
             syntax: LT_SPAN_CLASS_EQ_SPOILER_GT_FUCK_LT_SLASH_SPAN_GT,

@@ -6,7 +6,11 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/T.htm>
 //! - <http://helloworldcollection.de/#T>
+//! - <https://www.wikidata.org/wiki/Q7672623> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Imperative, Metaprogramming, ObjectOriented,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageFamily::Lisp,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -38,6 +42,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[Lisp],
+        paradigms: &[Imperative, ObjectOriented, Functional, Metaprogramming],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::T,
             syntax: T,

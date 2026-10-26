@@ -6,7 +6,11 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/POP-11.txt>
 //! - <http://helloworldcollection.de/#POP-11>
+//! - <https://www.wikidata.org/wiki/Q7120001> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Declarative, Procedural, Reflective,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageFamily::Lisp,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -43,6 +47,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[Lisp],
+        paradigms: &[Procedural, Declarative, Reflective],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Pop11,
             syntax: POP11,

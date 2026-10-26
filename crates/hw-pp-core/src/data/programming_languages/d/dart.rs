@@ -3,7 +3,11 @@
 //! Sources:
 //! - <https://dart.dev/language>
 //! - <https://dart.dev/overview>
+//! - <https://www.wikidata.org/wiki/Q406009> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Imperative, ObjectOriented, Reflective,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Scripting},
@@ -36,6 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Dart],
         categories: &[Compiled, Scripting],
         families: &[C, JavaScript],
+        paradigms: &[Imperative, ObjectOriented, Functional, Reflective],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Dart3,
             syntax: DART3,

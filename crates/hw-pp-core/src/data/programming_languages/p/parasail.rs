@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/p/ParaSail.psi>
+//! - <https://www.wikidata.org/wiki/Q7133637> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concurrent, ObjectOriented, Procedural, Structured,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Pascal, ProgrammingLanguageName,
@@ -36,6 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Psi],
         categories: &[Compiled],
         families: &[Pascal],
+        paradigms: &[Procedural, Structured, ObjectOriented, Concurrent],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Parasail,
             syntax: PARASAIL,

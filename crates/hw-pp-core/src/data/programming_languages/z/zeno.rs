@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/pull/1540>
+//! - <https://www.wikidata.org/wiki/Q7475367> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Procedural};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -35,6 +37,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Zno],
         categories: &[],
         families: &[],
+        paradigms: &[Imperative, Procedural],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Zeno,
             syntax: ZENO,

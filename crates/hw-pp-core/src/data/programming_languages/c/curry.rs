@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/c/Curry.curry>
+//! - <https://www.wikidata.org/wiki/Q2368856> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Constraint, Functional, Logic};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Haskell, ProgrammingLanguageName,
@@ -42,6 +44,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Curry],
         categories: &[Compiled],
         families: &[Haskell],
+        paradigms: &[Functional, Logic, Constraint],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Curry,
             syntax: CURRY,

@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/h/HyperTalk.ht>
+//! - <https://www.wikidata.org/wiki/Q58329> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{EventDriven, Procedural};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Historical, Scripting},
@@ -30,6 +32,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Ht],
         categories: &[Scripting, Historical],
         families: &[],
+        paradigms: &[Procedural, EventDriven],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hypertalk,
             syntax: HYPERTALK,

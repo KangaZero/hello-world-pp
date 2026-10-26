@@ -30,6 +30,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Dtl],
         categories: &[Educational],
         families: &[],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::U30c8U30eaU30c8U30eb,
             syntax: U30C8_U30EA_U30C8_U30EB,

@@ -45,6 +45,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Mod],
         categories: &[Compiled, Historical],
         families: &[Modula],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Modula2,
             syntax: MODULA2,

@@ -6,7 +6,11 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Wolfram.htm>
 //! - <http://helloworldcollection.de/#Wolfram>
+//! - <https://www.wikidata.org/wiki/Q15241057> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Array, Declarative, Functional, Imperative, ObjectOriented,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -38,6 +42,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
+        paradigms: &[Imperative, ObjectOriented, Functional, Declarative, Array],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Wolfram,
             syntax: WOLFRAM,

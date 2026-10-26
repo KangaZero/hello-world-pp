@@ -9,10 +9,14 @@
 //! - <http://helloworldcollection.de/#Java%C2%A0(Servlet)>
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Java%26nbsp%3B%28Swing%29.txt>
 //! - <http://helloworldcollection.de/#Java%C2%A0(Swing)>
+//! - <https://www.wikidata.org/wiki/Q251> (paradigms)
 //!
 //! The `Java (Mobile)`, `Java (Servlet)`, `Java (Swing)` versions are imported from the Hello World
 //! Collection, MIT licensed; see `programming_languages/LICENSE-helloworldcollection`.
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Generic, Imperative, ObjectOriented, Reflective, Structured,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::Compiled,
@@ -123,6 +127,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Java],
         categories: &[Compiled],
         families: &[C, Java],
+        paradigms: &[
+            Imperative,
+            Structured,
+            ObjectOriented,
+            Functional,
+            Reflective,
+            Generic,
+        ],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Java17,

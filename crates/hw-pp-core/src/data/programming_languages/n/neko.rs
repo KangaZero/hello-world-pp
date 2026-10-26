@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/n/Neko.neko>
+//! - <https://www.wikidata.org/wiki/Q3337877> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    ObjectOriented, PrototypeBased, Structured,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,6 +33,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Neko],
         categories: &[Scripting],
         families: &[],
+        paradigms: &[Structured, ObjectOriented, PrototypeBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Neko,
             syntax: NEKO,

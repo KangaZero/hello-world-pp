@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/e/Ec.ec>
+//! - <https://www.wikidata.org/wiki/Q22095795> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Generic, Imperative, ObjectOriented, Procedural,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -39,6 +43,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Ec],
         categories: &[Compiled],
         families: &[],
+        paradigms: &[Imperative, Procedural, ObjectOriented, Generic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ec,
             syntax: EC,

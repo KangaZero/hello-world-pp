@@ -3,7 +3,9 @@
 //! Sources:
 //! - <https://crystal-lang.org/reference/latest/getting_started/>
 //! - <https://crystal-lang.org/reference/latest/tutorials/basics/10_hello_world.html>
+//! - <https://www.wikidata.org/wiki/Q21921428> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Concurrent, ObjectOriented};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -27,6 +29,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Cr],
         categories: &[Compiled],
         families: &[],
+        paradigms: &[ObjectOriented, Concurrent],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Crystal1,
             syntax: CRYSTAL1,

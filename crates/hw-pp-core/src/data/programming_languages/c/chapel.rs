@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/c/Chapel.chpl>
+//! - <https://www.wikidata.org/wiki/Q4036051> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Array, Concurrent, ObjectOriented};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::C, ProgrammingLanguageName,
@@ -30,6 +32,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Chpl],
         categories: &[Compiled],
         families: &[C],
+        paradigms: &[ObjectOriented, Concurrent, Array],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Chapel,
             syntax: CHAPEL,

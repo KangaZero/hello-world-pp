@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/pull/1662>
+//! - <https://www.wikidata.org/wiki/Q4741415> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concurrent, EventDriven, ObjectOriented, PrototypeBased, Reflective,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,6 +33,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::At],
         categories: &[Scripting],
         families: &[],
+        paradigms: &[
+            ObjectOriented,
+            PrototypeBased,
+            Concurrent,
+            Reflective,
+            EventDriven,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ambienttalk,
             syntax: AMBIENTTALK,

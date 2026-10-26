@@ -4,7 +4,11 @@
 //! - <https://docs.python.org/3/tutorial/introduction.html>
 //! - <https://docs.python.org/2/reference/simple_stmts.html#the-print-statement>
 //! - <https://docs.python.org/3/whatsnew/3.0.html>
+//! - <https://www.wikidata.org/wiki/Q28865> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Imperative, ObjectOriented,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Python, ProgrammingLanguageName,
@@ -30,6 +34,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Py],
         categories: &[Scripting],
         families: &[Python],
+        paradigms: &[Imperative, ObjectOriented, Functional],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Python2,

@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/v/Vala.vala>
+//! - <https://www.wikidata.org/wiki/Q1138939> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Imperative, ObjectOriented, Structured,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::C, ProgrammingLanguageName,
@@ -38,6 +42,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Vala],
         categories: &[Compiled],
         families: &[C],
+        paradigms: &[Imperative, Structured, ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Vala,
             syntax: VALA,

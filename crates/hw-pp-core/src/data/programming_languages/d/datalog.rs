@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/pull/1524>
+//! - <https://www.wikidata.org/wiki/Q1172264> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Declarative, Logic};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Query,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -34,6 +36,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Dl],
         categories: &[Query],
         families: &[],
+        paradigms: &[Declarative, Logic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Datalog,
             syntax: DATALOG,

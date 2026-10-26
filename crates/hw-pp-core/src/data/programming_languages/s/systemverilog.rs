@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/pull/1570>
+//! - <https://www.wikidata.org/wiki/Q1387402> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{ObjectOriented, Structured};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::HardwareDescription,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -37,6 +39,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Sv],
         categories: &[HardwareDescription],
         families: &[],
+        paradigms: &[Structured, ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Systemverilog,
             syntax: SYSTEMVERILOG,

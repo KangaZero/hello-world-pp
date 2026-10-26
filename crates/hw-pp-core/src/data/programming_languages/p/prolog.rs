@@ -4,7 +4,9 @@
 //! - <https://www.swi-prolog.org/pldoc/man?section=consulting>
 //! - <https://www.swi-prolog.org/pldoc/man?section=initgoal>
 //! - <https://en.wikipedia.org/wiki/Prolog>
+//! - <https://www.wikidata.org/wiki/Q163468> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Declarative, Logic};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Prolog, ProgrammingLanguageName,
@@ -35,6 +37,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Pl, FileExtension::Pro],
         categories: &[Compiled],
         families: &[Prolog],
+        paradigms: &[Declarative, Logic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::IsoProlog,
             syntax: ISO_PROLOG,

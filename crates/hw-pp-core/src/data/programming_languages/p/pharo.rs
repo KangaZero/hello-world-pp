@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/p/Pharo.st>
+//! - <https://www.wikidata.org/wiki/Q369096> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{ObjectOriented, Reflective};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Scripting, ProgrammingLanguageDialect,
     ProgrammingLanguageFamily::Smalltalk, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,6 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Scripting],
         families: &[Smalltalk],
+        paradigms: &[ObjectOriented, Reflective],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Pharo,
             syntax: PHARO,

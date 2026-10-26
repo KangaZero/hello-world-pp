@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/y/Yoix.yx>
+//! - <https://www.wikidata.org/wiki/Q7475378> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{ObjectOriented, Procedural};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -35,6 +37,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Yx],
         categories: &[],
         families: &[],
+        paradigms: &[Procedural, ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Yoix,
             syntax: YOIX,

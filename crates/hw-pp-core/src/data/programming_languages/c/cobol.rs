@@ -3,7 +3,11 @@
 //! Sources:
 //! - <https://en.wikipedia.org/wiki/COBOL>
 //! - <https://gnucobol.sourceforge.io/>
+//! - <https://www.wikidata.org/wiki/Q131140> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Imperative, ObjectOriented, Procedural,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
@@ -36,6 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Cob, FileExtension::Cbl],
         categories: &[Compiled, Historical],
         families: &[],
+        paradigms: &[Imperative, Procedural, ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cobol85,
             syntax: COBOL85,

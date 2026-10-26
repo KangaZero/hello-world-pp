@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/l/LiveScript.ls>
+//! - <https://www.wikidata.org/wiki/Q16963446> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Functional, ObjectOriented};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::JavaScript, ProgrammingLanguageName,
@@ -30,6 +32,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Ls],
         categories: &[Scripting],
         families: &[JavaScript],
+        paradigms: &[ObjectOriented, Functional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Livescript,
             syntax: LIVESCRIPT,

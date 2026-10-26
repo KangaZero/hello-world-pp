@@ -5,10 +5,12 @@
 //! - <https://en.wikipedia.org/wiki/Objective-C>
 //! - <https://developer.apple.com/documentation/foundation/nslog>
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/o/Objective%20C.m>
+//! - <https://www.wikidata.org/wiki/Q188531> (paradigms)
 //!
 //! The `Objective-C (ARC)` version is imported from leachim6/hello-world,
 //! MIT licensed; see `programming_languages/LICENSE-leachim6-hello-world`.
 
+use crate::data::programming_languages::ProgrammingParadigm::{ObjectOriented, Reflective};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
@@ -62,6 +64,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::M, FileExtension::Mm],
         categories: &[Compiled, Historical],
         families: &[C],
+        paradigms: &[ObjectOriented, Reflective],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::ObjectiveC2,

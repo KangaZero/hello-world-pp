@@ -36,6 +36,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Vba],
         categories: &[Scripting],
         families: &[Basic],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::VisualBasicForApplications,
             syntax: VISUAL_BASIC_FOR_APPLICATIONS,

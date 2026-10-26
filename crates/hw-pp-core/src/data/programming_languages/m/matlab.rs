@@ -2,7 +2,11 @@
 //!
 //! Sources:
 //! - <https://en.wikipedia.org/wiki/MATLAB>
+//! - <https://www.wikidata.org/wiki/Q37805571> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Array, Functional, Imperative, ObjectOriented, Procedural,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -26,6 +30,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::M],
         categories: &[Scripting],
         families: &[],
+        paradigms: &[Imperative, Procedural, ObjectOriented, Functional, Array],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Matlab,
             syntax: MATLAB,

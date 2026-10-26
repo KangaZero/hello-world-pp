@@ -120,6 +120,57 @@ pub enum ProgrammingLanguageError {
     MissingExtension(ProgrammingLanguageName),
 }
 
+name_enum! {
+    /// A [programming paradigm](https://en.wikipedia.org/wiki/Programming_paradigm): a style a
+    /// language supports. Most languages support several. Recorded from Wikidata's
+    /// "programming paradigm" (P3966), with finer paradigms folded into these.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+    pub enum ProgrammingParadigm: ParseProgrammingParadigmError("programming paradigm") {
+        /// Statements that change program state, step by step (C, Pascal).
+        Imperative => "Imperative",
+        /// Imperative code organised into procedures (C, Fortran, Go).
+        Procedural => "Procedural",
+        /// Imperative code built from blocks, loops and conditionals instead of `goto`.
+        Structured => "Structured",
+        /// Data and behaviour bundled into objects, usually via classes (Java, C#, Smalltalk).
+        ObjectOriented => "Object-Oriented",
+        /// Object-oriented without classes: objects inherit from other objects (JavaScript, Self, Lua).
+        PrototypeBased => "Prototype-Based",
+        /// Programs built from (ideally pure) functions and immutable data (Haskell, OCaml, Clojure).
+        Functional => "Functional",
+        /// Describes what result is wanted rather than how to compute it (SQL, HTML).
+        Declarative => "Declarative",
+        /// Facts and rules, queried by a solver (Prolog, Datalog).
+        Logic => "Logic",
+        /// Relations between variables, solved by a constraint solver (`MiniZinc`, `ECLiPSe`).
+        Constraint => "Constraint",
+        /// Built around simultaneous computations: processes, actors, parallelism (Erlang, Go).
+        Concurrent => "Concurrent",
+        /// Operations apply to whole arrays at once (APL, J, MATLAB).
+        Array => "Array",
+        /// Programs inspect and modify their own structure at run time (Smalltalk, Ruby).
+        Reflective => "Reflective",
+        /// Code written once for many types via type parameters (C++ templates, Ada generics).
+        Generic => "Generic",
+        /// Control flow driven by events and their handlers (Visual Basic, JavaScript).
+        EventDriven => "Event-Driven",
+        /// Computations that update as their input streams change (Elm, functional reactive programming).
+        Reactive => "Reactive",
+        /// Code that writes or transforms code, e.g. macros (Lisp, Rust).
+        Metaprogramming => "Metaprogramming",
+        /// Programs built from diagrams or blocks instead of text (Scratch, `LabVIEW`).
+        Visual => "Visual",
+        /// Programs as graphs of operations that fire when their inputs arrive (`LabVIEW`, Lucid).
+        Dataflow => "Dataflow",
+        /// Operations work on an implicit data stack (Forth, PostScript).
+        StackBased => "Stack-Based",
+        /// Programs are compositions of functions written one after another (Joy, Factor).
+        Concatenative => "Concatenative",
+        /// Cross-cutting concerns (logging, security) added separately as aspects (`AspectJ`).
+        AspectOriented => "Aspect-Oriented",
+    }
+}
+
 /// One version of a [`ProgrammingLanguage`] and its hello-world snippet.
 #[derive(Debug, Clone, Copy)]
 pub struct ProgrammingLanguageVersion {
@@ -146,6 +197,8 @@ pub struct ProgrammingLanguage {
     pub categories: &'static [ProgrammingLanguageCategory],
     /// Every family it belongs to.
     pub families: &'static [ProgrammingLanguageFamily],
+    /// Every paradigm it supports, as recorded by Wikidata; empty when none is recorded.
+    pub paradigms: &'static [ProgrammingParadigm],
     /// Its versions; the first is the default.
     pub versions: &'static [ProgrammingLanguageVersion],
 }
@@ -340,26 +393,33 @@ impl ProgrammingLanguageName {
     /// - `extension`: languages using it.
     /// - `family`: languages in it (e.g. [`ProgrammingLanguageFamily::OCaml`]).
     /// - `category`: languages in it (e.g. [`ProgrammingLanguageCategory::Esolang`]).
+    /// - `paradigm`: languages supporting it (e.g. [`ProgrammingParadigm::Functional`]).
     ///
     /// ```
     /// use hw_pp_core::data::programming_languages::{
-    ///     FileExtension, ProgrammingLanguageFamily, ProgrammingLanguageName,
+    ///     FileExtension, ProgrammingLanguageFamily, ProgrammingLanguageName, ProgrammingParadigm,
     /// };
-    /// let users_of_m = ProgrammingLanguageName::all_as_str_by(Some(FileExtension::M), None, None);
+    /// let users_of_m =
+    ///     ProgrammingLanguageName::all_as_str_by(Some(FileExtension::M), None, None, None);
     /// assert_eq!(users_of_m, ["MATLAB", "Objective-C"]);
     /// let ocaml_family =
     ///     ProgrammingLanguageName::all_as_str_by(
     ///         None,
     ///         Some(ProgrammingLanguageFamily::OCaml),
     ///         None,
+    ///         None,
     ///     );
     /// assert!(ocaml_family.contains(&"F#") && ocaml_family.contains(&"OCaml"));
+    /// let logic =
+    ///     ProgrammingLanguageName::all_as_str_by(None, None, None, Some(ProgrammingParadigm::Logic));
+    /// assert!(logic.contains(&"Prolog"));
     /// ```
     #[must_use]
     pub fn all_as_str_by(
         extension: Option<FileExtension>,
         family: Option<ProgrammingLanguageFamily>,
         category: Option<ProgrammingLanguageCategory>,
+        paradigm: Option<ProgrammingParadigm>,
     ) -> Vec<&'static str> {
         PROGRAMMING_LANGUAGES
             .iter()
@@ -367,6 +427,7 @@ impl ProgrammingLanguageName {
                 extension.is_none_or(|e| lang.extensions.contains(&e))
                     && family.is_none_or(|f| lang.families.contains(&f))
                     && category.is_none_or(|c| lang.categories.contains(&c))
+                    && paradigm.is_none_or(|p| lang.paradigms.contains(&p))
             })
             .map(|lang| lang.name.as_str())
             .collect()
@@ -406,6 +467,27 @@ impl ProgrammingLanguageFamily {
             .iter()
             .filter(|lang| language.is_none_or(|l| lang.name == l))
             .flat_map(|lang| lang.families.iter().map(|f| f.as_str()))
+            .collect::<BTreeSet<_>>()
+            .into_iter()
+            .collect()
+    }
+}
+
+impl ProgrammingParadigm {
+    /// Display names of the paradigms of `language` (or of all languages if `None`), sorted,
+    /// without duplicates.
+    ///
+    /// ```
+    /// use hw_pp_core::data::programming_languages::{ProgrammingLanguageName, ProgrammingParadigm};
+    /// let paradigms = ProgrammingParadigm::all_as_str_by(Some(ProgrammingLanguageName::Prolog));
+    /// assert!(paradigms.contains(&"Logic"));
+    /// ```
+    #[must_use]
+    pub fn all_as_str_by(language: Option<ProgrammingLanguageName>) -> Vec<&'static str> {
+        PROGRAMMING_LANGUAGES
+            .iter()
+            .filter(|lang| language.is_none_or(|l| lang.name == l))
+            .flat_map(|lang| lang.paradigms.iter().map(|p| p.as_str()))
             .collect::<BTreeSet<_>>()
             .into_iter()
             .collect()

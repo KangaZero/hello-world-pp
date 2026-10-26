@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/n/NetRexx.nrx>
+//! - <https://www.wikidata.org/wiki/Q6998311> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    ObjectOriented, Procedural, Structured,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Rexx, ProgrammingLanguageName,
@@ -30,6 +34,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Nrx],
         categories: &[Compiled],
         families: &[Rexx],
+        paradigms: &[Procedural, Structured, ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Netrexx,
             syntax: NETREXX,

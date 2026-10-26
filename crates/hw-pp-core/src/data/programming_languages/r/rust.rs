@@ -4,8 +4,12 @@
 //! - <https://doc.rust-lang.org/book/ch01-02-hello-world.html>
 //! - <https://doc.rust-lang.org/rust-by-example/hello.html>
 //! - <https://doc.rust-lang.org/edition-guide/rust-2021/index.html>
+//! - <https://www.wikidata.org/wiki/Q575650> (paradigms)
 
 use crate::data::programming_languages::ProgrammingLanguageFamily::{C, OCaml};
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concurrent, Functional, Generic, Imperative, ObjectOriented, Procedural,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -35,6 +39,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Rs],
         categories: &[Compiled],
         families: &[C, OCaml],
+        paradigms: &[
+            Imperative,
+            Procedural,
+            ObjectOriented,
+            Functional,
+            Concurrent,
+            Generic,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rust2021,
             syntax: RUST2021,

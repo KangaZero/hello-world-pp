@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/c/CoffeeScript.coffee>
+//! - <https://www.wikidata.org/wiki/Q1106819> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    AspectOriented, Functional, Imperative, PrototypeBased,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::JavaScript, ProgrammingLanguageName,
@@ -30,6 +34,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Coffee],
         categories: &[Scripting],
         families: &[JavaScript],
+        paradigms: &[Imperative, PrototypeBased, Functional, AspectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Coffeescript,
             syntax: COFFEESCRIPT,

@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/z/ZPL>
+//! - <https://www.wikidata.org/wiki/Q3332038> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Array;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Compiled, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,6 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Compiled],
         families: &[],
+        paradigms: &[Array],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Zpl,
             syntax: ZPL,

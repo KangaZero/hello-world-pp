@@ -3,7 +3,11 @@
 //! Sources:
 //! - <https://docs.julialang.org/en/v1/manual/getting-started/>
 //! - <https://docs.julialang.org/en/v1/base/io-network/#Base.println>
+//! - <https://www.wikidata.org/wiki/Q2613697> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Array, Concurrent, Functional, Imperative, Metaprogramming, ObjectOriented, Procedural,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Scripting},
@@ -30,6 +34,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Jl],
         categories: &[Compiled, Scripting],
         families: &[Lisp],
+        paradigms: &[
+            Imperative,
+            Procedural,
+            ObjectOriented,
+            Functional,
+            Concurrent,
+            Array,
+            Metaprogramming,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Julia110,
             syntax: JULIA110,

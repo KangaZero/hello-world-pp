@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/pull/1524>
+//! - <https://www.wikidata.org/wiki/Q143419> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, ObjectOriented};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,6 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Bmx],
         categories: &[Compiled],
         families: &[],
+        paradigms: &[Imperative, ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Blitzmax,
             syntax: BLITZMAX,

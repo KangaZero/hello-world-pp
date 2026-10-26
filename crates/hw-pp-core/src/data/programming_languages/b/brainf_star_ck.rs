@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(B-C)#Brainf%2Ack>
 //! - <https://esolangs.org/wiki/Brainf_ck>
+//! - <https://www.wikidata.org/wiki/Q244627> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Imperative;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -30,6 +32,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
+        paradigms: &[Imperative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::BrainfStarCk,
             syntax: BRAINF_STAR_CK,

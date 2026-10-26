@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/r/Rapira.rap>
+//! - <https://www.wikidata.org/wiki/Q4117140> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Procedural, Structured};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Educational,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Pascal, ProgrammingLanguageName,
@@ -30,6 +32,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Rap],
         categories: &[Educational],
         families: &[Pascal],
+        paradigms: &[Procedural, Structured],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rapira,
             syntax: RAPIRA,

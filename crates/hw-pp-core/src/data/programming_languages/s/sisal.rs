@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/pull/1490>
+//! - <https://www.wikidata.org/wiki/Q7390483> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Concurrent, Dataflow, Functional};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
@@ -40,6 +42,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Sis],
         categories: &[Compiled, Historical],
         families: &[],
+        paradigms: &[Functional, Concurrent, Dataflow],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sisal,
             syntax: SISAL,

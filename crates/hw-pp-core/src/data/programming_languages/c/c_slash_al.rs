@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/C%26%2347%3BAL.txt>
 //! - <http://helloworldcollection.de/#C%2FAL>
+//! - <https://www.wikidata.org/wiki/Q1926221> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Imperative;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageFamily::Pascal,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -52,6 +54,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[Pascal],
+        paradigms: &[Imperative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::CSlashAl,
             syntax: C_SLASH_AL,

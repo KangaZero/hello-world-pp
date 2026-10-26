@@ -18,11 +18,15 @@
 //! - <http://helloworldcollection.de/#C%2B%2B%C2%A0(MFC)>
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/C%2B%2B%26nbsp%3B%28Qt%29.txt>
 //! - <http://helloworldcollection.de/#C%2B%2B%C2%A0(Qt)>
+//! - <https://www.wikidata.org/wiki/Q2407> (paradigms)
 //!
 //! The `C++ (.NET CLI)`, `C++ (Epoc)`, `C++ (FLTK)`, `C++ (Gtk++)`, `C++ (ISO)`, `C++ (MFC)`,
 //! `C++ (Qt)` versions are imported from the Hello World Collection, MIT licensed; see
 //! `programming_languages/LICENSE-helloworldcollection`.
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Generic, ObjectOriented, Procedural,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::Compiled,
@@ -307,6 +311,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         ],
         categories: &[Compiled],
         families: &[Algol, C, Cpp],
+        paradigms: &[Procedural, ObjectOriented, Functional, Generic],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Cpp98,

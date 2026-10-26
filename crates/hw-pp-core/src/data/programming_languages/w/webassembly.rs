@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/w/WebAssembly.wat>
+//! - <https://www.wikidata.org/wiki/Q20155677> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, StackBased, Structured};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Assembly,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -51,6 +53,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Wat],
         categories: &[Assembly],
         families: &[],
+        paradigms: &[Imperative, Structured, StackBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Webassembly,
             syntax: WEBASSEMBLY,

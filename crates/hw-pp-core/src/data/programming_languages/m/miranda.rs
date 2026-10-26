@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/m/Miranda.m>
+//! - <https://www.wikidata.org/wiki/Q780803> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Declarative, Functional};
 use crate::data::programming_languages::{
     ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
@@ -35,6 +37,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Compiled, Historical],
         families: &[],
+        paradigms: &[Functional, Declarative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Miranda,
             syntax: MIRANDA,

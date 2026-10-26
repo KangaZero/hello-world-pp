@@ -144,6 +144,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::NoLiteralsGotosOnlyFinalDestinationBang,
             syntax: NO_LITERALS_GOTOS_ONLY_FINAL_DESTINATION_BANG,

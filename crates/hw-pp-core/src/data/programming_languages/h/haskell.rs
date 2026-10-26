@@ -3,7 +3,9 @@
 //! Sources:
 //! - <https://www.haskell.org/onlinereport/haskell2010/>
 //! - <https://www.haskell.org/tutorial/io.html>
+//! - <https://www.wikidata.org/wiki/Q34010> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Functional;
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Haskell, ProgrammingLanguageName,
@@ -33,6 +35,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Hs, FileExtension::Lhs],
         categories: &[Compiled],
         families: &[Haskell],
+        paradigms: &[Functional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Haskell2010,
             syntax: HASKELL2010,

@@ -4,7 +4,9 @@
 //! - <https://clojure.org/guides/learn/clojure>
 //! - <https://clojure.org/releases/devchangelog>
 //! - <https://clojure.org/news/2022/03/22/clojure-1-11-0>
+//! - <https://www.wikidata.org/wiki/Q51798> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Concurrent, Functional, Logic};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Scripting},
@@ -31,6 +33,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Clj, FileExtension::Cljs, FileExtension::Cljc],
         categories: &[Compiled, Scripting],
         families: &[Lisp],
+        paradigms: &[Functional, Logic, Concurrent],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Clojure111,
             syntax: CLOJURE111,

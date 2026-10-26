@@ -4,7 +4,11 @@
 //! - <https://developer.mozilla.org/en-US/docs/Web/API/console/log_static>
 //! - <https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/What_is_JavaScript>
 //! - <https://262.ecma-international.org/11.0/>
+//! - <https://www.wikidata.org/wiki/Q2005> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    AspectOriented, EventDriven, Functional, Generic, Imperative, PrototypeBased,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::JavaScript, ProgrammingLanguageName,
@@ -29,6 +33,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Js, FileExtension::Mjs, FileExtension::Cjs],
         categories: &[Scripting],
         families: &[JavaScript],
+        paradigms: &[
+            Imperative,
+            PrototypeBased,
+            Functional,
+            Generic,
+            EventDriven,
+            AspectOriented,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::JavaScriptEs2020,
             syntax: JAVA_SCRIPT_ES2020,

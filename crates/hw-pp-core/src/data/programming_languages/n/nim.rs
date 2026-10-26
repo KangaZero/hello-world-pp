@@ -3,7 +3,11 @@
 //! Sources:
 //! - <https://nim-lang.org/docs/tut1.html>
 //! - <https://nim-lang.org/blog/2023/08/01/nim-v20-released.html>
+//! - <https://www.wikidata.org/wiki/Q20080327> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concurrent, Functional, Imperative, Metaprogramming, ObjectOriented, Procedural,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Python, ProgrammingLanguageName,
@@ -28,6 +32,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Nim],
         categories: &[Compiled],
         families: &[Python],
+        paradigms: &[
+            Imperative,
+            Procedural,
+            ObjectOriented,
+            Functional,
+            Concurrent,
+            Metaprogramming,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Nim2,
             syntax: NIM2,

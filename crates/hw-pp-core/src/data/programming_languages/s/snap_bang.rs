@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/s/Snap%21.xml>
+//! - <https://www.wikidata.org/wiki/Q1002996> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{EventDriven, ObjectOriented};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Educational, ProgrammingLanguageDialect,
     ProgrammingLanguageFamily::Smalltalk, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -37,6 +39,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Educational],
         families: &[Smalltalk],
+        paradigms: &[ObjectOriented, EventDriven],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::SnapBang,
             syntax: SNAP_BANG,

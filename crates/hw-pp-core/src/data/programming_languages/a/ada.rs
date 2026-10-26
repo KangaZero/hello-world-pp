@@ -4,7 +4,11 @@
 //! - <https://learn.adacore.com/courses/intro-to-ada/chapters/imperative_language.html>
 //! - <http://www.ada-auth.org/standards/12rm/html/RM-TOC.html>
 //! - <https://en.wikipedia.org/wiki/Ada_(programming_language)>
+//! - <https://www.wikidata.org/wiki/Q154755> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Imperative, ObjectOriented, Structured,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Ada, ProgrammingLanguageName,
@@ -38,6 +42,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Adb, FileExtension::Ads],
         categories: &[Compiled],
         families: &[Ada],
+        paradigms: &[Imperative, Structured, ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ada2012,
             syntax: ADA2012,

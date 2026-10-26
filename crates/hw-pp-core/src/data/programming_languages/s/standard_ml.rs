@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/s/Standard%20ML.sml>
+//! - <https://www.wikidata.org/wiki/Q597330> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Functional, Imperative, Procedural};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Compiled, ProgrammingLanguageDialect,
     ProgrammingLanguageFamily::Ml, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -35,6 +37,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Compiled],
         families: &[Ml],
+        paradigms: &[Imperative, Procedural, Functional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::StandardMl,
             syntax: STANDARD_ML,

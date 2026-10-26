@@ -3,7 +3,9 @@
 //! Sources:
 //! - <https://esolangs.org/wiki/LOLCODE>
 //! - <https://github.com/justinmeza/lolcode-spec/blob/master/v1.2/lolcode-spec-v1.2.md>
+//! - <https://www.wikidata.org/wiki/Q513238> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Procedural, Structured};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -33,6 +35,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Lol],
         categories: &[Esolang],
         families: &[],
+        paradigms: &[Imperative, Procedural, Structured],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Lolcode12,
             syntax: LOLCODE12,

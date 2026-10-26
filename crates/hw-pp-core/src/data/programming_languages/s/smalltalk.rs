@@ -12,7 +12,9 @@
 //! - <http://helloworldcollection.de/#Smalltalk%C2%A0(simple)>
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Smalltalk%26nbsp%3B%28window%29>
 //! - <http://helloworldcollection.de/#Smalltalk%C2%A0(window)>
+//! - <https://www.wikidata.org/wiki/Q235086> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::ObjectOriented;
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Smalltalk, ProgrammingLanguageName,
@@ -74,6 +76,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Sm],
         categories: &[Scripting],
         families: &[Smalltalk],
+        paradigms: &[ObjectOriented],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Smalltalk,

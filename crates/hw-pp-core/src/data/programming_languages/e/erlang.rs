@@ -3,7 +3,11 @@
 //! Sources:
 //! - <https://www.erlang.org/doc/system/seq_prog.html>
 //! - <https://www.erlang.org/doc/apps/stdlib/io.html>
+//! - <https://www.wikidata.org/wiki/Q334879> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concurrent, Declarative, Functional,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -35,6 +39,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Erl, FileExtension::Hrl],
         categories: &[Compiled],
         families: &[],
+        paradigms: &[Functional, Declarative, Concurrent],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::ErlangOtp,
             syntax: ERLANG_OTP,

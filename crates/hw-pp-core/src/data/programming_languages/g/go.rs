@@ -4,7 +4,11 @@
 //! - <https://go.dev/tour/welcome/1>
 //! - <https://go.dev/doc/tutorial/getting-started>
 //! - <https://go.dev/ref/spec>
+//! - <https://www.wikidata.org/wiki/Q37227> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concurrent, Functional, Imperative, ObjectOriented, Procedural, Structured,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::C, ProgrammingLanguageName,
@@ -39,6 +43,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Go],
         categories: &[Compiled],
         families: &[C],
+        paradigms: &[
+            Imperative,
+            Procedural,
+            Structured,
+            ObjectOriented,
+            Functional,
+            Concurrent,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Go1,
             syntax: GO1,

@@ -3,7 +3,11 @@
 //! Sources:
 //! - <https://ziglang.org/documentation/0.13.0/#Hello-World>
 //! - <https://ziglang.org/learn/getting-started/>
+//! - <https://www.wikidata.org/wiki/Q51885456> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concurrent, Functional, Generic, Imperative, Procedural,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -35,6 +39,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Zig],
         categories: &[Compiled],
         families: &[],
+        paradigms: &[Imperative, Procedural, Functional, Concurrent, Generic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Zig013,
             syntax: ZIG013,

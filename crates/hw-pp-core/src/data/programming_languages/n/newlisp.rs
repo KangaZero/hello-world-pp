@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/n/NewLISP.lsp>
+//! - <https://www.wikidata.org/wiki/Q827233> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, ObjectOriented, PrototypeBased,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Scripting, ProgrammingLanguageDialect,
     ProgrammingLanguageFamily::Lisp, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -35,6 +39,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Scripting],
         families: &[Lisp],
+        paradigms: &[ObjectOriented, PrototypeBased, Functional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Newlisp,
             syntax: NEWLISP,

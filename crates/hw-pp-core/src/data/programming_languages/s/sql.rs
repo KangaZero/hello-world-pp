@@ -9,10 +9,12 @@
 //! - <http://helloworldcollection.de/#SQL%C2%A0(DB2)>
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/SQL%26nbsp%3B%28Oracle%29.txt>
 //! - <http://helloworldcollection.de/#SQL%C2%A0(Oracle)>
+//! - <https://www.wikidata.org/wiki/Q47607> (paradigms)
 //!
 //! The `SQL (Advantage)`, `SQL (DB2)`, `SQL (Oracle)` versions are imported from the Hello World
 //! Collection, MIT licensed; see `programming_languages/LICENSE-helloworldcollection`.
 
+use crate::data::programming_languages::ProgrammingParadigm::Declarative;
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Query, Scripting},
@@ -63,6 +65,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Sql],
         categories: &[Query, Scripting],
         families: &[],
+        paradigms: &[Declarative],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Sql2016,

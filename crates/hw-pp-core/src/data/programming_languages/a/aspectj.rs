@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/a/Aspectj.aj>
+//! - <https://www.wikidata.org/wiki/Q735604> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::AspectOriented;
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Java, ProgrammingLanguageName,
@@ -34,6 +36,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Aj],
         categories: &[Compiled],
         families: &[Java],
+        paradigms: &[AspectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Aspectj,
             syntax: ASPECTJ,

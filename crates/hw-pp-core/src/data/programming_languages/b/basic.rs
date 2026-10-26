@@ -3,7 +3,11 @@
 //! Sources:
 //! - <https://en.wikipedia.org/wiki/Dartmouth_BASIC>
 //! - <https://en.wikipedia.org/wiki/BASIC>
+//! - <https://www.wikidata.org/wiki/Q42979> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Imperative, ObjectOriented, Procedural,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Historical, Scripting},
@@ -35,6 +39,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Bas],
         categories: &[Scripting, Historical],
         families: &[Basic],
+        paradigms: &[Imperative, Procedural, ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::ClassicBasic,
             syntax: CLASSIC_BASIC,

@@ -3,7 +3,11 @@
 //! Sources:
 //! - <https://learn.microsoft.com/en-us/dotnet/fsharp/get-started/get-started-command-line>
 //! - <https://learn.microsoft.com/en-us/dotnet/fsharp/whats-new/fsharp-8>
+//! - <https://www.wikidata.org/wiki/Q648619> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concurrent, Functional, Imperative, Metaprogramming, ObjectOriented, Reflective,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::Compiled,
@@ -30,6 +34,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Fs, FileExtension::Fsx],
         categories: &[Compiled],
         families: &[DotNet, Ml, OCaml],
+        paradigms: &[
+            Imperative,
+            ObjectOriented,
+            Functional,
+            Concurrent,
+            Reflective,
+            Metaprogramming,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::FSharp8,
             syntax: F_SHARP8,

@@ -2,7 +2,7 @@ use hw_pp_core::data::lookup::LookupError;
 use hw_pp_core::data::programming_languages::{
     FileExtension, PROGRAMMING_LANGUAGES, ProgrammingLanguageCategory, ProgrammingLanguageDialect,
     ProgrammingLanguageError, ProgrammingLanguageFamily, ProgrammingLanguageName,
-    ProgrammingLanguageVersion,
+    ProgrammingLanguageVersion, ProgrammingParadigm,
 };
 
 #[test]
@@ -27,6 +27,9 @@ fn programming_name_enums_round_trip_through_display_and_from_str() {
     }
     for &category in ProgrammingLanguageCategory::ALL {
         assert_eq!(category.to_string().parse(), Ok(category));
+    }
+    for &paradigm in ProgrammingParadigm::ALL {
+        assert_eq!(paradigm.to_string().parse(), Ok(paradigm));
     }
     for &family in ProgrammingLanguageFamily::ALL {
         assert_eq!(family.to_string().parse(), Ok(family));
@@ -164,5 +167,28 @@ fn tokens_rebuild_every_snippet_exactly() {
             "{} has no tokens",
             version.label
         );
+    }
+}
+
+#[test]
+fn paradigms_filter_languages_and_list_per_language() {
+    let logic =
+        ProgrammingLanguageName::all_as_str_by(None, None, None, Some(ProgrammingParadigm::Logic));
+    assert!(logic.contains(&"Prolog"));
+    assert!(!logic.contains(&"C"));
+    let rust = ProgrammingParadigm::all_as_str_by(Some(ProgrammingLanguageName::Rust));
+    assert!(rust.contains(&"Functional") && rust.contains(&"Imperative"));
+}
+
+#[test]
+fn every_language_lists_each_paradigm_once() {
+    for lang in PROGRAMMING_LANGUAGES {
+        for (i, paradigm) in lang.paradigms.iter().enumerate() {
+            assert!(
+                !lang.paradigms[..i].contains(paradigm),
+                "{} lists {paradigm} twice",
+                lang.name
+            );
+        }
     }
 }

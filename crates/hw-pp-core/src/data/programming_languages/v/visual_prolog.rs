@@ -6,7 +6,11 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Visual%26nbsp%3BProlog.htm>
 //! - <http://helloworldcollection.de/#Visual%C2%A0Prolog>
+//! - <https://www.wikidata.org/wiki/Q627600> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Imperative, Logic, ObjectOriented,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageFamily::Prolog,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -40,6 +44,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[Prolog],
+        paradigms: &[Imperative, ObjectOriented, Functional, Logic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::VisualProlog,
             syntax: VISUAL_PROLOG,

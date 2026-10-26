@@ -3,7 +3,11 @@
 //! Sources:
 //! - <https://www.ruby-lang.org/en/documentation/quickstart/>
 //! - <https://docs.ruby-lang.org/en/master/Kernel.html#method-i-puts>
+//! - <https://www.wikidata.org/wiki/Q161053> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Imperative, ObjectOriented, Reflective,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Ruby, ProgrammingLanguageName,
@@ -28,6 +32,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Rb],
         categories: &[Scripting],
         families: &[Ruby],
+        paradigms: &[Imperative, ObjectOriented, Functional, Reflective],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ruby3,
             syntax: RUBY3,

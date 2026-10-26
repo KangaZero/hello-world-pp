@@ -3,7 +3,11 @@
 //! Sources:
 //! - <https://fortran-lang.org/learn/quickstart/hello_world/>
 //! - <https://en.wikipedia.org/wiki/Fortran>
+//! - <https://www.wikidata.org/wiki/Q83303> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Array, Generic, Imperative, ObjectOriented, Procedural, Structured,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
@@ -36,6 +40,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::F, FileExtension::F90, FileExtension::F95],
         categories: &[Compiled, Historical],
         families: &[Fortran],
+        paradigms: &[
+            Imperative,
+            Procedural,
+            Structured,
+            ObjectOriented,
+            Array,
+            Generic,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Fortran90,
             syntax: FORTRAN90,

@@ -24,12 +24,14 @@
 //! - <http://helloworldcollection.de/#C%C2%A0(Windows)>
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/C%26nbsp%3B%28X11%26nbsp%3BAthena%29>
 //! - <http://helloworldcollection.de/#C%C2%A0(X11%C2%A0Athena)>
+//! - <https://www.wikidata.org/wiki/Q15777> (paradigms)
 //!
 //! The `C (ANSI)`, `C (Amiga Anywhere)`, `C (Curses)`, `C (GEM)`, `C (Intuition)`, `C (K&R)`,
 //! `C (OpenGL)`, `C (PresentationManager)`, `C (Windows)`, `C (X11 Athena)` versions are imported
 //! from the Hello World Collection, MIT licensed; see
 //! `programming_languages/LICENSE-helloworldcollection`.
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Procedural, Structured};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::C, ProgrammingLanguageName,
@@ -288,6 +290,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::C, FileExtension::H],
         categories: &[Compiled],
         families: &[C],
+        paradigms: &[Imperative, Procedural, Structured],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::C99,

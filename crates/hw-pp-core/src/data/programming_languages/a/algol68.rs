@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/a/ALGOL%2068.algol68>
+//! - <https://www.wikidata.org/wiki/Q2166735> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Concurrent, Imperative};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
@@ -38,6 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Algol68],
         categories: &[Compiled, Historical],
         families: &[Algol],
+        paradigms: &[Imperative, Concurrent],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Algol68,
             syntax: ALGOL68,

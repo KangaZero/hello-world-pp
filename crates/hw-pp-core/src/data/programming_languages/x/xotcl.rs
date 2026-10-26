@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/x/XOTcl.xotcl>
+//! - <https://www.wikidata.org/wiki/Q4053333> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    EventDriven, Functional, Imperative, ObjectOriented,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Tcl, ProgrammingLanguageName,
@@ -30,6 +34,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Xotcl],
         categories: &[Scripting],
         families: &[Tcl],
+        paradigms: &[Imperative, ObjectOriented, Functional, EventDriven],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Xotcl,
             syntax: XOTCL,

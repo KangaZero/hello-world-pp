@@ -3,7 +3,11 @@
 //! Sources:
 //! - <https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/write-host>
 //! - <https://learn.microsoft.com/en-us/powershell/scripting/overview>
+//! - <https://www.wikidata.org/wiki/Q840410> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Imperative, ObjectOriented, Procedural, Reflective,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::DotNet, ProgrammingLanguageName,
@@ -28,6 +32,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Ps1, FileExtension::Psm1],
         categories: &[Scripting],
         families: &[DotNet],
+        paradigms: &[
+            Imperative,
+            Procedural,
+            ObjectOriented,
+            Functional,
+            Reflective,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PowerShell7,
             syntax: POWER_SHELL7,

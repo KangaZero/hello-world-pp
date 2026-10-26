@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/m/Mathematica.nb>
+//! - <https://www.wikidata.org/wiki/Q81294> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Array, Functional};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scientific,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,6 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Nb],
         categories: &[Scientific],
         families: &[],
+        paradigms: &[Functional, Array],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Mathematica,
             syntax: MATHEMATICA,

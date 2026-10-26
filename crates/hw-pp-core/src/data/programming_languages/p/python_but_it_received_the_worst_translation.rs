@@ -31,6 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
+        paradigms: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PythonButItReceivedTheWorstTranslation,
             syntax: PYTHON_BUT_IT_RECEIVED_THE_WORST_TRANSLATION,

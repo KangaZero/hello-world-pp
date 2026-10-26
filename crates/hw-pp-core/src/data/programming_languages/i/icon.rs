@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/i/Icon.icn>
+//! - <https://www.wikidata.org/wiki/Q1156474> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Procedural, Structured};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Historical, Scripting},
@@ -38,6 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Icn],
         categories: &[Scripting, Historical],
         families: &[Icon, Snobol],
+        paradigms: &[Procedural, Structured],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Icon,
             syntax: ICON,
