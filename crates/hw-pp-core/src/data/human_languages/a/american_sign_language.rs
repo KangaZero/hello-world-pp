@@ -24,7 +24,7 @@ pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLangua
         label: DialectName::Asl,
         greetings: &[Greeting {
             scripts: &[],
-            text: "HELLO WORLD",
+            text: "",
         }],
     }],
 };

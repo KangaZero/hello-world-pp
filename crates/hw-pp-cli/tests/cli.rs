@@ -264,10 +264,10 @@ fn nato_picks_the_latin_script_of_the_language() {
 #[test]
 fn nato_warns_when_the_language_has_no_latin_script() {
     hw_pp()
-        .args(["-l", "sumerian", "--notation", "nato"])
+        .args(["-l", "american sign language", "--notation", "nato"])
         .assert()
         .success()
-        .stdout("𒁲 𒀭𒆠\n")
+        .stdout("\n")
         .stderr(predicate::str::contains(
             "warning: this language has no Latin-script greeting",
         ));
