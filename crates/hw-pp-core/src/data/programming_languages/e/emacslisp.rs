@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/e/EmacsLisp.el>
+//! - <https://en.wikipedia.org/wiki/Emacs_Lisp> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Metaprogramming, Reflective,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Lisp, ProgrammingLanguageName,
@@ -30,7 +34,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::El],
         categories: &[Scripting],
         families: &[Lisp],
-        paradigms: &[],
+        paradigms: &[Functional, Reflective, Metaprogramming],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Emacslisp,
             syntax: EMACSLISP,

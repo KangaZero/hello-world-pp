@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/VMS-DCL>
 //! - <http://helloworldcollection.de/#VMS-DCL>
+//! - <https://en.wikipedia.org/wiki/DIGITAL_Command_Language> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Imperative;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -38,7 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::VmsDcl,
             syntax: VMS_DCL,

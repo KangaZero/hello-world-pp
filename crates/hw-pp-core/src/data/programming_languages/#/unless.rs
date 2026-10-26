@@ -7,6 +7,9 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(nonalphabetic_and_A)#--Unless>
 //! - <https://esolangs.org/wiki/--Unless>
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Declarative, Functional, ObjectOriented,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -31,7 +34,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[ObjectOriented, Functional, Declarative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Unless,
             syntax: UNLESS,

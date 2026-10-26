@@ -6,7 +6,11 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/MS%26nbsp%3BSmall%26nbsp%3BBasic.htm>
 //! - <http://helloworldcollection.de/#MS%C2%A0Small%C2%A0Basic>
+//! - <https://en.wikipedia.org/wiki/Microsoft_Small_Basic> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Imperative, ObjectOriented, Structured,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -38,7 +42,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Structured, ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::MsSmallBasic,
             syntax: MS_SMALL_BASIC,

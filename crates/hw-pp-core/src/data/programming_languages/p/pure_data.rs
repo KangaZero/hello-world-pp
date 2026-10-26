@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/p/Pure%20Data.pd>
+//! - <https://en.wikipedia.org/wiki/Pure_Data> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Dataflow;
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Music,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -36,7 +38,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Pd],
         categories: &[Music],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Dataflow],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PureData,
             syntax: PURE_DATA,

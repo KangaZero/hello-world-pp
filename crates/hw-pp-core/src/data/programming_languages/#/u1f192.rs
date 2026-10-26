@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/%23/%F0%9F%86%92>
+//! - <https://esolangs.org/wiki/%F0%9F%86%92> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Functional;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Functional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::U1f192,
             syntax: U1F192,

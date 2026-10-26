@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/s/S%20Algol>
+//! - <https://en.wikipedia.org/wiki/S-algol> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Procedural, Structured};
 use crate::data::programming_languages::{
     ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
@@ -35,7 +37,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Compiled, Historical],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Procedural, Structured],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::SAlgol,
             syntax: S_ALGOL,

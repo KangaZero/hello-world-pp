@@ -3,7 +3,9 @@
 //! Sources:
 //! - <https://docs.soliditylang.org/en/latest/introduction-to-smart-contracts.html>
 //! - <https://docs.soliditylang.org/en/latest/layout-of-source-files.html>
+//! - <https://en.wikipedia.org/wiki/Solidity> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, ObjectOriented};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -38,7 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Sol],
         categories: &[Compiled],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Solidity08,
             syntax: SOLIDITY08,

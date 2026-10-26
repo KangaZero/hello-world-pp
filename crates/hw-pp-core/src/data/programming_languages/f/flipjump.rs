@@ -7,6 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(D-G)#FlipJump>
 //! - <https://esolangs.org/wiki/FlipJump>
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Reflective};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -46,7 +47,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Reflective],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Flipjump,
             syntax: FLIPJUMP,

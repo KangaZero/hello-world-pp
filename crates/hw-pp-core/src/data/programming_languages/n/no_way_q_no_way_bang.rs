@@ -7,6 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(N-S)#NO_WAY%3F_NO_WAY!>
 //! - <https://esolangs.org/wiki/NO_WAY%3F_NO_WAY!>
 
+use crate::data::programming_languages::ProgrammingParadigm::StackBased;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -50,7 +51,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[StackBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::NoWayQNoWayBang,
             syntax: NO_WAY_Q_NO_WAY_BANG,

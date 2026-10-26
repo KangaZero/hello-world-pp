@@ -7,6 +7,9 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(nonalphabetic_and_A)#%D8%AB%D9%84%D8%A7%D8%AB%D9%8A>
 //! - <https://esolangs.org/wiki/Triliteral>
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concatenative, Imperative, Reflective,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -30,7 +33,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Reflective, Concatenative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::U062bU0644U0627U062bU064a,
             syntax: U062B_U0644_U0627_U062B_U064A,

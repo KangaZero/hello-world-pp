@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/LibertyBASIC.txt>
 //! - <http://helloworldcollection.de/#LibertyBASIC>
+//! - <https://en.wikipedia.org/wiki/Liberty_BASIC> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{EventDriven, Procedural};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageFamily::Basic,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -38,7 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[Basic],
-        paradigms: &[],
+        paradigms: &[Procedural, EventDriven],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Libertybasic,
             syntax: LIBERTYBASIC,

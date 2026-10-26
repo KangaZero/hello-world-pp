@@ -6,7 +6,11 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Rebol-view.txt>
 //! - <http://helloworldcollection.de/#Rebol-view>
+//! - <https://en.wikipedia.org/wiki/Rebol> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Imperative, PrototypeBased,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -40,7 +44,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, PrototypeBased, Functional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::RebolView,
             syntax: REBOL_VIEW,

@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/o/ON%20THE%20WAY%20TO%20WHO%20KNOWS%20WHERE>
+//! - <https://esolangs.org/wiki/ON_THE_WAY_TO_WHO_KNOWS_WHERE> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::StackBased;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[StackBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::OnTheWayToWhoKnowsWhere,
             syntax: ON_THE_WAY_TO_WHO_KNOWS_WHERE,

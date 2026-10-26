@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/TSO%26nbsp%3BCLIST>
 //! - <http://helloworldcollection.de/#TSO%C2%A0CLIST>
+//! - <https://www.wikidata.org/wiki/Q579880> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Procedural;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -37,7 +39,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Procedural],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::TsoClist,
             syntax: TSO_CLIST,

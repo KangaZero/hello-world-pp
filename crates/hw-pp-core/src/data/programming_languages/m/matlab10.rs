@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/m/MATLAB%201.0.m>
+//! - <https://en.wikipedia.org/wiki/MATLAB> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Array, Functional, Imperative, ObjectOriented, Procedural,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage,
     ProgrammingLanguageCategory::{Historical, Scientific},
@@ -30,7 +34,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Scientific, Historical],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Procedural, ObjectOriented, Functional, Array],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Matlab10,
             syntax: MATLAB10,

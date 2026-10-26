@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/m/Modula%203.m3>
+//! - <https://en.wikipedia.org/wiki/Modula-3> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concurrent, Generic, Imperative, ObjectOriented, Procedural, Structured,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
@@ -40,7 +44,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::M3],
         categories: &[Compiled, Historical],
         families: &[Modula],
-        paradigms: &[],
+        paradigms: &[
+            Imperative,
+            Procedural,
+            Structured,
+            ObjectOriented,
+            Concurrent,
+            Generic,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Modula3,
             syntax: MODULA3,

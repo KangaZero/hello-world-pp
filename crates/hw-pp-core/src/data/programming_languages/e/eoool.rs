@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/e/EOOOL.eoool>
+//! - <https://esolangs.org/wiki/EOOOL> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{ObjectOriented, StackBased};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Eoool],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[ObjectOriented, StackBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Eoool,
             syntax: EOOOL,

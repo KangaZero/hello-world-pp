@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/t/TSQL.sql>
+//! - <https://www.wikidata.org/wiki/Q1411245> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Procedural;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Query, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -35,7 +37,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Query],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Procedural],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Tsql,
             syntax: TSQL,

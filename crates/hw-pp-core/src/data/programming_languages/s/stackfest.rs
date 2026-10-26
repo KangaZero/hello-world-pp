@@ -7,6 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(N-S)#Stackfest>
 //! - <https://esolangs.org/wiki/Stackfest>
 
+use crate::data::programming_languages::ProgrammingParadigm::StackBased;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -33,7 +34,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[StackBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Stackfest,
             syntax: STACKFEST,

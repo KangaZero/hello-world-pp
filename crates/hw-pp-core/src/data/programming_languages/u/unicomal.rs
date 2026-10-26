@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/u/Unicomal.lst>
+//! - <https://en.wikipedia.org/wiki/COMAL> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Structured;
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Historical,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Lst],
         categories: &[Historical],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Structured],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Unicomal,
             syntax: UNICOMAL,

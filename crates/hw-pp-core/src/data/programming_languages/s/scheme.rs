@@ -5,6 +5,9 @@
 //! - <https://r7rs.org/>
 //! - <https://en.wikipedia.org/wiki/Scheme_(programming_language)>
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Imperative, Metaprogramming,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
@@ -36,7 +39,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Scm, FileExtension::Ss],
         categories: &[Compiled, Historical],
         families: &[Lisp],
-        paradigms: &[],
+        paradigms: &[Imperative, Functional, Metaprogramming],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::R7rs,
             syntax: R7RS,

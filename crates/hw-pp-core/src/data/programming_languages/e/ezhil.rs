@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Ezhil.htm>
 //! - <http://helloworldcollection.de/#Ezhil>
+//! - <https://en.wikipedia.org/wiki/Ezhil_(programming_language)> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Structured};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -39,7 +41,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Structured],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ezhil,
             syntax: EZHIL,

@@ -7,6 +7,9 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(N-S)#Nonstraightforward>
 //! - <https://esolangs.org/wiki/Nonstraightforward>
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Declarative, Imperative, ObjectOriented, Procedural, PrototypeBased,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -34,7 +37,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[
+            Imperative,
+            Procedural,
+            ObjectOriented,
+            PrototypeBased,
+            Declarative,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Nonstraightforward,
             syntax: NONSTRAIGHTFORWARD,

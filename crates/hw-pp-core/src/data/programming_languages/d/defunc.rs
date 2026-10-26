@@ -7,6 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(D-G)#Defunc>
 //! - <https://esolangs.org/wiki/Defunc>
 
+use crate::data::programming_languages::ProgrammingParadigm::Functional;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -40,7 +41,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Functional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Defunc,
             syntax: DEFUNC,

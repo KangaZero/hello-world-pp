@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/h/HSP.hsp>
+//! - <https://en.wikipedia.org/wiki/Hot_Soup_Processor> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Procedural};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -34,7 +36,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Hsp],
         categories: &[Scripting],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Procedural],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hsp,
             syntax: HSP,

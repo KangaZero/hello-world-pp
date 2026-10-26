@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/d/Decimal.dec>
+//! - <https://esolangs.org/wiki/Decimal> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::StackBased;
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -46,7 +48,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Dec],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[StackBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Decimal,
             syntax: DECIMAL,

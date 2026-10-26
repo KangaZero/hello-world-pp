@@ -7,6 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(T-Z)#URSL>
 //! - <https://esolangs.org/wiki/URSL>
 
+use crate::data::programming_languages::ProgrammingParadigm::StackBased;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -30,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[StackBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ursl,
             syntax: URSL,

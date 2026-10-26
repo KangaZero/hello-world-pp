@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/f/Fortran77.f77>
+//! - <https://en.wikipedia.org/wiki/Fortran> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Array, Generic, Imperative, ObjectOriented, Procedural, Structured,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
@@ -36,7 +40,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::F77],
         categories: &[Compiled, Historical],
         families: &[],
-        paradigms: &[],
+        paradigms: &[
+            Imperative,
+            Procedural,
+            Structured,
+            ObjectOriented,
+            Array,
+            Generic,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Fortran77,
             syntax: FORTRAN77,

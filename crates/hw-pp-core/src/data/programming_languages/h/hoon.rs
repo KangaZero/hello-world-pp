@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Hoon.htm>
 //! - <http://helloworldcollection.de/#Hoon>
+//! - <https://esolangs.org/wiki/Hoon> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Functional;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -38,7 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Functional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hoon,
             syntax: HOON,

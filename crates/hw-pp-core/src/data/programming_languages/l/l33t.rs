@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/L33t.htm>
 //! - <http://helloworldcollection.de/#L33t>
+//! - <https://esolangs.org/wiki/L33t> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Reflective;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -57,7 +59,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Reflective],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::L33t,
             syntax: L33T,

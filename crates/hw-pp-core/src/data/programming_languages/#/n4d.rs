@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/4D.htm>
 //! - <http://helloworldcollection.de/#4D>
+//! - <https://www.wikidata.org/wiki/Q238349> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Procedural;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -38,7 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Procedural],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::N4d,
             syntax: N4D,

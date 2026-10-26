@@ -7,6 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(N-S)#PHL_1.0>
 //! - <https://esolangs.org/wiki/PHL_1.0>
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Procedural};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -36,7 +37,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Procedural],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Phl10,
             syntax: PHL10,

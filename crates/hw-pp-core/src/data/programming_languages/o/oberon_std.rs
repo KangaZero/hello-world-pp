@@ -6,7 +6,11 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Oberon.std>
 //! - <http://helloworldcollection.de/#Oberon.std>
+//! - <https://en.wikipedia.org/wiki/Oberon_(programming_language)> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Imperative, ObjectOriented, Structured,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -43,7 +47,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Structured, ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::OberonStd,
             syntax: OBERON_STD,

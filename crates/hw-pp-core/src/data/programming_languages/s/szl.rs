@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/szl.htm>
 //! - <http://helloworldcollection.de/#szl>
+//! - <https://www.wikidata.org/wiki/Q970424> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Procedural;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -38,7 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Procedural],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Szl,
             syntax: SZL,

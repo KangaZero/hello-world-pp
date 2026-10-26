@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Fortress.txt>
 //! - <http://helloworldcollection.de/#Fortress>
+//! - <https://en.wikipedia.org/wiki/Fortress_(programming_language)> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Procedural, Structured};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageFamily::Fortran,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -39,7 +41,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[Fortran],
-        paradigms: &[],
+        paradigms: &[Imperative, Procedural, Structured],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Fortress,
             syntax: FORTRESS,

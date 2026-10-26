@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/QuickBASIC.txt>
 //! - <http://helloworldcollection.de/#QuickBASIC>
+//! - <https://en.wikipedia.org/wiki/QuickBASIC> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Procedural;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageFamily::Basic,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -38,7 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[Basic],
-        paradigms: &[],
+        paradigms: &[Procedural],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Quickbasic,
             syntax: QUICKBASIC,

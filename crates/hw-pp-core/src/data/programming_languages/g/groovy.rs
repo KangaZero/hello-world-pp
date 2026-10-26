@@ -4,7 +4,11 @@
 //! - <https://groovy-lang.org/semantics.html>
 //! - <https://groovy-lang.org/differences.html>
 //! - <https://groovy-lang.org/releasenotes/groovy-4.0.html>
+//! - <https://en.wikipedia.org/wiki/Apache_Groovy> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    AspectOriented, Functional, Imperative, ObjectOriented,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Scripting},
@@ -29,7 +33,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Groovy, FileExtension::Gvy],
         categories: &[Scripting, Compiled],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, ObjectOriented, Functional, AspectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Groovy4,
             syntax: GROOVY4,

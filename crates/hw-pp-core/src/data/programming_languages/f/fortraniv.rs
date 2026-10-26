@@ -6,7 +6,11 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/FortranIV>
 //! - <http://helloworldcollection.de/#FortranIV>
+//! - <https://en.wikipedia.org/wiki/Fortran> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Array, Generic, Imperative, ObjectOriented, Procedural, Structured,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -41,7 +45,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[
+            Imperative,
+            Procedural,
+            Structured,
+            ObjectOriented,
+            Array,
+            Generic,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Fortraniv,
             syntax: FORTRANIV,

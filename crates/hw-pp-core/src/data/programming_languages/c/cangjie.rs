@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/pull/1823>
+//! - <https://en.wikipedia.org/wiki/Cangjie_(programming_language)> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Declarative, Functional, Generic, Imperative, ObjectOriented,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -36,7 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Cj],
         categories: &[Compiled],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, ObjectOriented, Functional, Declarative, Generic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cangjie,
             syntax: CANGJIE,

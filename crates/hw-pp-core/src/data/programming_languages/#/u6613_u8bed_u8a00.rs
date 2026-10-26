@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/%23/%E6%98%93%E8%AF%AD%E8%A8%80.e>
+//! - <https://en.wikipedia.org/wiki/Easy_Programming_Language> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Imperative, ObjectOriented, Procedural,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -29,7 +33,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Procedural, ObjectOriented, Functional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::U6613U8bedU8a00,
             syntax: U6613_U8BED_U8A00,

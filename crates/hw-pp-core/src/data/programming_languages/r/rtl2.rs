@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/r/RTL2.rtl2>
+//! - <https://en.wikipedia.org/wiki/RTL/2> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Structured};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Historical,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -46,7 +48,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Rtl2],
         categories: &[Historical],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Structured],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rtl2,
             syntax: RTL2,

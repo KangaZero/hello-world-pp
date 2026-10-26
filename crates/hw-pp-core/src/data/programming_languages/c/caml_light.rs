@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/CAML-Light>
 //! - <http://helloworldcollection.de/#CAML-Light>
+//! - <https://en.wikipedia.org/wiki/Caml> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Functional, Imperative};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -40,7 +42,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Functional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::CamlLight,
             syntax: CAML_LIGHT,

@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/h/HQ9funge>
+//! - <https://esolangs.org/wiki/HQ9funge> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Reflective;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Reflective],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hq9funge,
             syntax: HQ9FUNGE,

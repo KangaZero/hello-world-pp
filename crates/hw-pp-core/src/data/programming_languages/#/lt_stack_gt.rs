@@ -7,6 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(nonalphabetic_and_A)#%3Cstack%3E>
 //! - <https://esolangs.org/wiki/LstackG>
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, StackBased};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -41,7 +42,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, StackBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::LtStackGt,
             syntax: LT_STACK_GT,

@@ -7,6 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(N-S)#Rhokell>
 //! - <https://esolangs.org/wiki/Rhokell>
 
+use crate::data::programming_languages::ProgrammingParadigm::{Declarative, Functional};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -47,7 +48,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Functional, Declarative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rhokell,
             syntax: RHOKELL,

@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Redcode.txt>
 //! - <http://helloworldcollection.de/#Redcode>
+//! - <https://esolangs.org/wiki/Redcode> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Reflective};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -195,7 +197,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Reflective],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Redcode,
             syntax: REDCODE,

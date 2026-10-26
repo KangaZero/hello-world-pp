@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/m/MacLisp.lisp>
+//! - <https://en.wikipedia.org/wiki/Maclisp> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Metaprogramming, Procedural, Reflective,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Historical, ProgrammingLanguageDialect,
     ProgrammingLanguageFamily::Lisp, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -44,7 +48,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Historical],
         families: &[Lisp],
-        paradigms: &[],
+        paradigms: &[Procedural, Functional, Reflective, Metaprogramming],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Maclisp,
             syntax: MACLISP,

@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/p/PostScript%20Page.ps>
+//! - <https://en.wikipedia.org/wiki/PostScript> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concatenative, Procedural, StackBased,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Markup, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -43,7 +47,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Markup],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Procedural, StackBased, Concatenative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PostscriptPage,
             syntax: POSTSCRIPT_PAGE,

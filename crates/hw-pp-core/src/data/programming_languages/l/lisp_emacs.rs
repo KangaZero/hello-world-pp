@@ -6,7 +6,11 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Lisp-Emacs.txt>
 //! - <http://helloworldcollection.de/#Lisp-Emacs>
+//! - <https://en.wikipedia.org/wiki/Emacs_Lisp> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Metaprogramming, Reflective,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -43,7 +47,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Functional, Reflective, Metaprogramming],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::LispEmacs,
             syntax: LISP_EMACS,

@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/v/VHDL.vhdl>
+//! - <https://en.wikipedia.org/wiki/VHDL> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Concurrent, Dataflow, Reactive};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::HardwareDescription,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Ada, ProgrammingLanguageName,
@@ -46,7 +48,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Vhdl],
         categories: &[HardwareDescription],
         families: &[Ada],
-        paradigms: &[],
+        paradigms: &[Concurrent, Reactive, Dataflow],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Vhdl,
             syntax: VHDL,

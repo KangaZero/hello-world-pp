@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/b/Blitz3D.bb>
+//! - <https://en.wikipedia.org/wiki/Blitz_BASIC> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Imperative;
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -38,7 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Bb],
         categories: &[Compiled],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Blitz3d,
             syntax: BLITZ3D,

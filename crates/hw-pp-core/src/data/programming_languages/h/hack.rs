@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/h/Hack.hh>
+//! - <https://en.wikipedia.org/wiki/Hack_(programming_language)> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Imperative, ObjectOriented, Procedural, Reflective,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -34,7 +38,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Hh],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[
+            Imperative,
+            Procedural,
+            ObjectOriented,
+            Functional,
+            Reflective,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hack,
             syntax: HACK,

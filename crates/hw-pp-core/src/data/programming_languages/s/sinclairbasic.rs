@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/SinclairBasic.txt>
 //! - <http://helloworldcollection.de/#SinclairBasic>
+//! - <https://en.wikipedia.org/wiki/Sinclair_BASIC> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Imperative;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageFamily::Basic,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -37,7 +39,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[Basic],
-        paradigms: &[],
+        paradigms: &[Imperative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sinclairbasic,
             syntax: SINCLAIRBASIC,

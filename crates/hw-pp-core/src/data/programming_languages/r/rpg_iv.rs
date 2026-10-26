@@ -12,7 +12,9 @@
 //! - <http://helloworldcollection.de/#RPG%C2%A0IV%C2%A0v5>
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/RPG%26nbsp%3BIV%26nbsp%3Bv7.1.htm>
 //! - <http://helloworldcollection.de/#RPG%C2%A0IV%C2%A0v7.1>
+//! - <https://www.wikidata.org/wiki/Q840543> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Procedural;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Compiled, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -70,7 +72,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Compiled],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Procedural],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::RpgIv,

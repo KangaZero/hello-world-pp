@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/l/LassoScript.lasso>
+//! - <https://en.wikipedia.org/wiki/Lasso_(programming_language)> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concurrent, Imperative, Metaprogramming, ObjectOriented, Procedural, Reflective, Structured,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -36,7 +40,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Lasso],
         categories: &[Scripting],
         families: &[],
-        paradigms: &[],
+        paradigms: &[
+            Imperative,
+            Procedural,
+            Structured,
+            ObjectOriented,
+            Concurrent,
+            Reflective,
+            Metaprogramming,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Lassoscript,
             syntax: LASSOSCRIPT,

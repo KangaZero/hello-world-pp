@@ -7,6 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(T-Z)#WARP>
 //! - <https://esolangs.org/wiki/WARP>
 
+use crate::data::programming_languages::ProgrammingParadigm::ObjectOriented;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -30,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Warp,
             syntax: WARP,

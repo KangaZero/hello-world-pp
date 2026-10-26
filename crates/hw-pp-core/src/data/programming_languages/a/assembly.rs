@@ -4,7 +4,9 @@
 //! - <https://www.nasm.us/doc/>
 //! - <https://man7.org/linux/man-pages/man2/write.2.html>
 //! - <https://man7.org/linux/man-pages/man2/exit.2.html>
+//! - <https://en.wikipedia.org/wiki/Assembly_language> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Metaprogramming};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Assembly, Compiled, Historical},
@@ -48,7 +50,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Asm, FileExtension::S],
         categories: &[Assembly, Compiled, Historical],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Metaprogramming],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::X8664LinuxSyscalls,
             syntax: X8664_LINUX_SYSCALLS,

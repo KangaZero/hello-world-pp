@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/pull/1805>
+//! - <https://en.wikipedia.org/wiki/AssemblyScript> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Generic, Imperative, ObjectOriented,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Assembly, ProgrammingLanguageDialect,
     ProgrammingLanguageFamily::JavaScript, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -35,7 +39,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Assembly],
         families: &[JavaScript],
-        paradigms: &[],
+        paradigms: &[Imperative, ObjectOriented, Functional, Generic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Assemblyscript,
             syntax: ASSEMBLYSCRIPT,

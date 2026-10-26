@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/VAX%26nbsp%3BMacro.txt>
 //! - <http://helloworldcollection.de/#VAX%C2%A0Macro>
+//! - <https://en.wikipedia.org/wiki/VAX_MACRO> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Imperative;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -60,7 +62,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::VaxMacro,
             syntax: VAX_MACRO,

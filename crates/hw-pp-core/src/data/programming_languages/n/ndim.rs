@@ -5,8 +5,10 @@
 //!
 //! Sources:
 //! - <https://esolangs.org/wiki/Ndim#Hello,_World!>
+//! - <https://esolangs.org/wiki/Ndim> (paradigms)
 
 use crate::data::macros::language_names;
+use crate::data::programming_languages::ProgrammingParadigm::StackBased;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -111,7 +113,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[StackBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ndim,
             syntax: NDIM,

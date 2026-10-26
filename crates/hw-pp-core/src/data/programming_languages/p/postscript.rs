@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/p/PostScript.ps>
+//! - <https://en.wikipedia.org/wiki/PostScript> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concatenative, Procedural, StackBased,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -34,7 +38,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Ps],
         categories: &[Scripting],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Procedural, StackBased, Concatenative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Postscript,
             syntax: POSTSCRIPT,

@@ -7,6 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(N-S)#ResPlicate>
 //! - <https://esolangs.org/wiki/ResPlicate>
 
+use crate::data::programming_languages::ProgrammingParadigm::Reflective;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -31,7 +32,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Reflective],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Resplicate,
             syntax: RESPLICATE,

@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Binary%26nbsp%3BLambda%26nbsp%3BCalculus.htm>
 //! - <http://helloworldcollection.de/#Binary%C2%A0Lambda%C2%A0Calculus>
+//! - <https://esolangs.org/wiki/Binary_lambda_calculus> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Functional;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -30,7 +32,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Functional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::BinaryLambdaCalculus,
             syntax: BINARY_LAMBDA_CALCULUS,

@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/a/Amiga-E.amiga-e>
+//! - <https://en.wikipedia.org/wiki/Amiga_E> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, ObjectOriented, Procedural,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
@@ -34,7 +38,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::AmigaE],
         categories: &[Compiled, Historical],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Procedural, ObjectOriented, Functional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AmigaE,
             syntax: AMIGA_E,

@@ -6,7 +6,11 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Informix%26nbsp%3B4GL>
 //! - <http://helloworldcollection.de/#Informix%C2%A04GL>
+//! - <https://en.wikipedia.org/wiki/Informix-4GL> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Declarative, Imperative, Procedural, Structured,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -42,7 +46,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Procedural, Structured, Declarative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Informix4gl,
             syntax: INFORMIX4GL,

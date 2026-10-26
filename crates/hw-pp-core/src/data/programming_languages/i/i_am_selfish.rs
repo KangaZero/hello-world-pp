@@ -7,6 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(H-M)#I_am_selfish>
 //! - <https://esolangs.org/wiki/I_am_selfish>
 
+use crate::data::programming_languages::ProgrammingParadigm::Imperative;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -35,7 +36,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::IAmSelfish,
             syntax: I_AM_SELFISH,

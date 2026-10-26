@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/p/PLI.pl1>
+//! - <https://en.wikipedia.org/wiki/PL/I> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Procedural, Structured};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
@@ -38,7 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Pl1],
         categories: &[Compiled, Historical],
         families: &[PlI],
-        paradigms: &[],
+        paradigms: &[Imperative, Procedural, Structured],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Pli,
             syntax: PLI,

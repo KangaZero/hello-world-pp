@@ -5,7 +5,11 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/pull/1542>
+//! - <https://en.wikipedia.org/wiki/SAKO_(programming_language)> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Array, Imperative, Procedural, Structured,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Historical,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -36,7 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Sako],
         categories: &[Historical],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Procedural, Structured, Array],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sako,
             syntax: SAKO,

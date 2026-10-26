@@ -7,6 +7,9 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(T-Z)#%E2%98%95Yappacino>
 //! - <https://esolangs.org/wiki/Yappacino>
 
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Declarative, Functional, Imperative, Procedural,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -34,7 +37,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Procedural, Functional, Declarative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::U2615Yappacino,
             syntax: U2615_YAPPACINO,

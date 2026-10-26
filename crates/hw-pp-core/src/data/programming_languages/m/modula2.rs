@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/m/Modula%202.mod>
+//! - <https://en.wikipedia.org/wiki/Modula-2> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Concurrent, Imperative, Structured};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::{Compiled, Historical},
@@ -45,7 +47,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Mod],
         categories: &[Compiled, Historical],
         families: &[Modula],
-        paradigms: &[],
+        paradigms: &[Imperative, Structured, Concurrent],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Modula2,
             syntax: MODULA2,
