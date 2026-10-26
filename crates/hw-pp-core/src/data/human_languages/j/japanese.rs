@@ -43,6 +43,10 @@ pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLangua
                     text: "こんにちは世界！",
                 },
                 Greeting {
+                    scripts: &[ScriptName::Katakana],
+                    text: "コンニチハセカイ！",
+                },
+                Greeting {
                     scripts: &[ScriptName::Romaji, ScriptName::Latin],
                     text: "konnichiwa sekai!",
                 },
@@ -54,6 +58,10 @@ pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLangua
                 Greeting {
                     scripts: &[ScriptName::Kana, ScriptName::Kanji, ScriptName::Hiragana],
                     text: "まいど、世界！",
+                },
+                Greeting {
+                    scripts: &[ScriptName::Katakana],
+                    text: "マイド、セカイ！",
                 },
                 Greeting {
                     scripts: &[ScriptName::Romaji, ScriptName::Latin],
