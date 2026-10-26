@@ -9,7 +9,7 @@
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Signed,
-    HumanLanguageName, ScriptName,
+    HumanLanguageFamily::FrenchSign, HumanLanguageName, ScriptName,
 };
 use crate::data::macros::language_names;
 
@@ -22,6 +22,7 @@ language_names! {
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::AmericanSignLanguage,
     categories: &[Signed],
+    families: &[FrenchSign],
     scripts: &[ScriptName::Fingerspelling],
     dialects: &[
         Dialect {

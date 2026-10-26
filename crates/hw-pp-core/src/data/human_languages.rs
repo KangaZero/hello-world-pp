@@ -40,6 +40,121 @@ name_enum! {
     }
 }
 
+name_enum! {
+    /// A language family or major branch, as listed by Wikipedia's
+    /// [language family](https://en.wikipedia.org/wiki/Language_family) and
+    /// [list of language families](https://en.wikipedia.org/wiki/List_of_language_families);
+    /// a language records its family and, where well known, its branch.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+    pub enum HumanLanguageFamily: ParseHumanLanguageFamilyError("language family") {
+        /// Most of Europe and South Asia (English, Hindi, Russian).
+        IndoEuropean => "Indo-European",
+        /// Chinese, Burmese, Tibetan.
+        SinoTibetan => "Sino-Tibetan",
+        /// Sub-Saharan Africa (Yoruba, Swahili, Zulu); Glottolog splits it, counting only Atlantic-Congo as proven.
+        NigerCongo => "Niger-Congo",
+        /// North Africa and the Middle East (Arabic, Hebrew, Amharic, Hausa).
+        Afroasiatic => "Afroasiatic",
+        /// Maritime Southeast Asia and the Pacific (Malay, Tagalog, Māori, Malagasy).
+        Austronesian => "Austronesian",
+        /// Highlands of New Guinea.
+        TransNewGuinea => "Trans-New Guinea",
+        /// Central and East Africa (Kanuri, Luo, Maasai); a contested grouping.
+        NiloSaharan => "Nilo-Saharan",
+        /// Mainland Southeast Asia and India (Vietnamese, Khmer, Santali).
+        Austroasiatic => "Austroasiatic",
+        /// Thai, Lao, Zhuang.
+        KraDai => "Kra-Dai" | "Tai-Kadai",
+        /// South India (Tamil, Telugu, Kannada, Malayalam).
+        Dravidian => "Dravidian",
+        /// Turkish, Kazakh, Uzbek, Yakut.
+        Turkic => "Turkic",
+        /// Finnish, Estonian, Hungarian, Sami.
+        Uralic => "Uralic",
+        /// Japanese and the Ryukyuan languages.
+        Japonic => "Japonic",
+        /// Korean and Jeju.
+        Koreanic => "Koreanic",
+        /// Mongolian, Buryat, Kalmyk.
+        Mongolic => "Mongolic",
+        /// Georgian, Mingrelian, Svan.
+        Kartvelian => "Kartvelian",
+        /// Chechen, Avar, Lezgian.
+        NortheastCaucasian => "Northeast Caucasian",
+        /// Abkhaz, Adyghe, Kabardian.
+        NorthwestCaucasian => "Northwest Caucasian",
+        /// Hmong, Mien.
+        HmongMien => "Hmong-Mien" | "Miao-Yao",
+        /// Greenlandic, Inuktitut, Yupik, Aleut.
+        EskimoAleut => "Eskimo-Aleut",
+        /// The Quechua languages of the Andes.
+        Quechuan => "Quechuan",
+        /// Nahuatl, Hopi, Comanche.
+        UtoAztecan => "Uto-Aztecan",
+        /// Cherokee, Mohawk, Seneca.
+        Iroquoian => "Iroquoian",
+        /// Yucatec Maya, Kʼicheʼ, Qʼeqchiʼ.
+        Mayan => "Mayan",
+        /// Zapotec, Mixtec, Otomi.
+        OtoManguean => "Oto-Manguean",
+        /// Guarani, Tupi.
+        Tupian => "Tupian",
+        /// Wayuu, Asháninka, Garifuna.
+        Arawakan => "Arawakan",
+        /// Navajo, Apache, Tlingit.
+        NaDene => "Na-Dene",
+        /// Cree, Ojibwe, Blackfoot.
+        Algic => "Algic",
+        /// Most Aboriginal Australian languages (Warlpiri, Pitjantjatjara).
+        PamaNyungan => "Pama-Nyungan",
+        /// Southern African click languages (ǃXóõ, ǀXam, ǁXegwi).
+        Tuu => "Tuu",
+        /// ǃKung and ǂʼAmkoe.
+        Kxa => "Kxʼa" | "Kxa",
+        /// Khoekhoe (Nama), Naro.
+        KhoeKwadi => "Khoe-Kwadi",
+        /// Sign languages descended from Old French Sign Language (ASL, LSF).
+        FrenchSign => "French Sign",
+        /// British, Australian and New Zealand Sign Language.
+        Banzsl => "BANZSL",
+        // Major branches, listed alongside their family.
+        /// Branch of Indo-European (English, German, Swedish).
+        Germanic => "Germanic",
+        /// Branch of Indo-European: Latin and its Romance descendants.
+        Italic => "Italic",
+        /// Branch of Italic descended from Latin (Spanish, French, Italian).
+        Romance => "Romance",
+        /// Branch of Indo-European (Irish, Welsh, Breton).
+        Celtic => "Celtic",
+        /// Branch of Indo-European (Russian, Polish, Serbian).
+        Slavic => "Slavic",
+        /// Branch of Indo-European (Lithuanian, Latvian).
+        Baltic => "Baltic",
+        /// Branch of Indo-European: Greek, ancient and modern.
+        Hellenic => "Hellenic",
+        /// Branch of Indo-European (Hindi, Bengali, Sanskrit).
+        IndoAryan => "Indo-Aryan",
+        /// Branch of Indo-European (Persian, Kurdish, Pashto).
+        Iranian => "Iranian",
+        /// Branch of Afroasiatic (Arabic, Hebrew, Amharic).
+        Semitic => "Semitic",
+        /// Branch of Afroasiatic (Kabyle, Tamazight).
+        Berber => "Berber",
+        /// Branch of Afroasiatic (Oromo, Somali).
+        Cushitic => "Cushitic",
+        /// Branch of Afroasiatic (Hausa).
+        Chadic => "Chadic",
+        /// Branch of Afroasiatic: Ancient Egyptian and Coptic.
+        Egyptian => "Egyptian",
+        /// Branch of Niger-Congo (Swahili, Zulu, Shona).
+        Bantu => "Bantu",
+        /// Branch of Austronesian (Hawaiian, Māori, Samoan, Tongan).
+        Polynesian => "Polynesian",
+        /// Branch of Sino-Tibetan: the Chinese languages.
+        Sinitic => "Sinitic",
+    }
+}
+
 /// One recorded human language, as declared by its language file.
 #[derive(Debug, Clone, Copy)]
 pub struct HumanLanguage {
@@ -47,6 +162,9 @@ pub struct HumanLanguage {
     pub name: HumanLanguageName,
     /// Every category it belongs to.
     pub categories: &'static [HumanLanguageCategory],
+    /// Its family and, where well known, its branch; empty for isolates, constructed
+    /// languages, creoles and pidgins.
+    pub families: &'static [HumanLanguageFamily],
     /// Every script it is written in; empty for unwritten (e.g. signed) languages.
     pub scripts: &'static [ScriptName],
     /// Its dialects; the first is the default.
@@ -265,25 +383,30 @@ impl HumanLanguageName {
     ///
     /// ```
     /// use hw_pp_core::data::human_languages::{
-    ///     HumanLanguageCategory, HumanLanguageName, ScriptName,
+    ///     HumanLanguageCategory, HumanLanguageFamily, HumanLanguageName, ScriptName,
     /// };
     /// let dead_in_latin_script =
     ///     HumanLanguageName::all_as_str_by(
     ///         Some(ScriptName::Latin),
     ///         Some(HumanLanguageCategory::Dead),
+    ///         None,
     ///     );
     /// assert!(dead_in_latin_script.contains(&"Latin"));
+    /// let romance = HumanLanguageName::all_as_str_by(None, None, Some(HumanLanguageFamily::Romance));
+    /// assert!(romance.contains(&"Spanish") && !romance.contains(&"Latin"));
     /// ```
     #[must_use]
     pub fn all_as_str_by(
         script: Option<ScriptName>,
         category: Option<HumanLanguageCategory>,
+        family: Option<HumanLanguageFamily>,
     ) -> Vec<&'static str> {
         HUMAN_LANGUAGES
             .iter()
             .filter(|lang| {
                 category.is_none_or(|c| lang.categories.contains(&c))
                     && script.is_none_or(|s| lang.scripts.contains(&s))
+                    && family.is_none_or(|f| lang.families.contains(&f))
             })
             .map(|lang| lang.name.as_str())
             .collect()
@@ -340,6 +463,27 @@ impl HumanLanguageCategory {
             .iter()
             .filter(|lang| language.is_none_or(|l| lang.name == l))
             .flat_map(|lang| lang.categories.iter().map(|c| c.as_str()))
+            .collect::<BTreeSet<_>>()
+            .into_iter()
+            .collect()
+    }
+}
+
+impl HumanLanguageFamily {
+    /// Display names of the families of `language` (or of all languages if `None`), sorted,
+    /// without duplicates.
+    ///
+    /// ```
+    /// use hw_pp_core::data::human_languages::{HumanLanguageFamily, HumanLanguageName};
+    /// let families = HumanLanguageFamily::all_as_str_by(Some(HumanLanguageName::English));
+    /// assert_eq!(families, ["Germanic", "Indo-European"]);
+    /// ```
+    #[must_use]
+    pub fn all_as_str_by(language: Option<HumanLanguageName>) -> Vec<&'static str> {
+        HUMAN_LANGUAGES
+            .iter()
+            .filter(|lang| language.is_none_or(|l| lang.name == l))
+            .flat_map(|lang| lang.families.iter().map(|f| f.as_str()))
             .collect::<BTreeSet<_>>()
             .into_iter()
             .collect()

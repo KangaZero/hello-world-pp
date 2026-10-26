@@ -10,7 +10,9 @@
 //! - <https://en.wiktionary.org/wiki/t%EA%9C%A3#Egyptian>
 
 use crate::data::human_languages::{
-    Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Extinct,
+    Dialect, DialectName, Greeting, HumanLanguage,
+    HumanLanguageCategory::Extinct,
+    HumanLanguageFamily::{Afroasiatic, Egyptian},
     HumanLanguageName, ScriptName,
 };
 use crate::data::macros::language_names;
@@ -24,6 +26,7 @@ language_names! {
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::AncientEgyptian,
     categories: &[Extinct],
+    families: &[Afroasiatic, Egyptian],
     scripts: &[ScriptName::EgyptianHieroglyphs, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::MiddleEgyptian,

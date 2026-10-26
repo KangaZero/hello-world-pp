@@ -21,6 +21,7 @@ language_names! {
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Interlingua,
     categories: &[Constructed, Auxiliary],
+    families: &[],
     scripts: &[ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::StandardInterlingua,

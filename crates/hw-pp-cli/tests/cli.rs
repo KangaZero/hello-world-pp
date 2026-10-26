@@ -203,6 +203,21 @@ fn list_prints_multi_word_names_hyphenated() {
 }
 
 #[test]
+fn list_filters_human_languages_by_family() {
+    hw_pp()
+        .args(["list", "hl", "--family", "bantu"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("Zulu\n"))
+        .stdout(predicate::str::contains("English").not());
+    hw_pp()
+        .args(["list", "hf", "english"])
+        .assert()
+        .success()
+        .stdout("Germanic\nIndo-European\n");
+}
+
+#[test]
 fn list_notations_includes_every_notation() {
     hw_pp()
         .args(["list", "--count", "notations"])

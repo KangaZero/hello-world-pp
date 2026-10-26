@@ -8,7 +8,7 @@
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,
-    HumanLanguageName, ScriptName,
+    HumanLanguageFamily::Dravidian, HumanLanguageName, ScriptName,
 };
 use crate::data::macros::language_names;
 
@@ -21,6 +21,7 @@ language_names! {
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Tamil,
     categories: &[Natural],
+    families: &[Dravidian],
     scripts: &[ScriptName::Tamil, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::StandardTamil,

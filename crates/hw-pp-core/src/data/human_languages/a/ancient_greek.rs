@@ -7,8 +7,10 @@
 //! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
-    Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Dead, HumanLanguageName,
-    ScriptName,
+    Dialect, DialectName, Greeting, HumanLanguage,
+    HumanLanguageCategory::Dead,
+    HumanLanguageFamily::{Hellenic, IndoEuropean},
+    HumanLanguageName, ScriptName,
 };
 use crate::data::macros::language_names;
 
@@ -21,6 +23,7 @@ language_names! {
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::AncientGreek,
     categories: &[Dead],
+    families: &[IndoEuropean, Hellenic],
     scripts: &[ScriptName::Greek, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::AtticGreek,

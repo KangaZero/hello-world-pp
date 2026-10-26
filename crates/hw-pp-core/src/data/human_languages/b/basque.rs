@@ -24,6 +24,7 @@ language_names! {
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Basque,
     categories: &[Natural, Isolate],
+    families: &[],
     scripts: &[ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::StandardBasque,

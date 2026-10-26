@@ -1,6 +1,6 @@
 use hw_pp_core::data::human_languages::{
     DialectName, Greeting, HUMAN_LANGUAGES, HumanLanguageCategory, HumanLanguageError,
-    HumanLanguageName, ScriptName,
+    HumanLanguageFamily, HumanLanguageName, ScriptName,
 };
 use hw_pp_core::data::lookup::LookupError;
 
@@ -105,7 +105,7 @@ fn dialect_mismatch_for_language_errors() {
 
 #[test]
 fn all_human_language_names() {
-    let result = HumanLanguageName::all_as_str_by(None, None);
+    let result = HumanLanguageName::all_as_str_by(None, None, None);
     assert!(result.contains(&"English"));
     assert_eq!(result.len(), HumanLanguageName::ALL.len());
 }
@@ -176,6 +176,7 @@ fn every_name_enum_round_trips_through_display_and_from_str() {
         }
     }
     assert_round_trips(HumanLanguageCategory::ALL);
+    assert_round_trips(HumanLanguageFamily::ALL);
     assert_round_trips(ScriptName::ALL);
     assert_round_trips(HumanLanguageName::ALL);
     assert_round_trips(DialectName::ALL);
@@ -202,6 +203,58 @@ fn every_variant_is_used_in_the_data() {
             HUMAN_LANGUAGES.iter().any(|l| l.scripts.contains(script)),
             "{script} is not listed by any language"
         );
+    }
+}
+
+#[test]
+fn families_filter_languages_and_list_per_language() {
+    let bantu = HumanLanguageName::all_as_str_by(None, None, Some(HumanLanguageFamily::Bantu));
+    assert!(bantu.contains(&"Zulu") && bantu.contains(&"Swahili"));
+    assert!(!bantu.contains(&"Yoruba"));
+    assert_eq!(
+        HumanLanguageFamily::all_as_str_by(Some(HumanLanguageName::Spanish)),
+        ["Indo-European", "Italic", "Romance"]
+    );
+    assert_eq!(
+        HumanLanguageFamily::all_as_str_by(Some(HumanLanguageName::Basque)),
+        Vec::<&str>::new()
+    );
+}
+
+#[test]
+fn every_branch_is_listed_with_its_family() {
+    use HumanLanguageFamily::{
+        Afroasiatic, Austronesian, Baltic, Bantu, Berber, Celtic, Chadic, Cushitic, Egyptian,
+        Germanic, Hellenic, IndoAryan, IndoEuropean, Iranian, Italic, NigerCongo, Polynesian,
+        Romance, Semitic, Sinitic, SinoTibetan, Slavic,
+    };
+    let parents = [
+        (Germanic, IndoEuropean),
+        (Italic, IndoEuropean),
+        (Romance, Italic),
+        (Celtic, IndoEuropean),
+        (Slavic, IndoEuropean),
+        (Baltic, IndoEuropean),
+        (Hellenic, IndoEuropean),
+        (IndoAryan, IndoEuropean),
+        (Iranian, IndoEuropean),
+        (Semitic, Afroasiatic),
+        (Berber, Afroasiatic),
+        (Cushitic, Afroasiatic),
+        (Chadic, Afroasiatic),
+        (Egyptian, Afroasiatic),
+        (Bantu, NigerCongo),
+        (Polynesian, Austronesian),
+        (Sinitic, SinoTibetan),
+    ];
+    for lang in HUMAN_LANGUAGES {
+        for (branch, parent) in parents {
+            assert!(
+                !lang.families.contains(&branch) || lang.families.contains(&parent),
+                "{} is {branch} but not {parent}",
+                lang.name
+            );
+        }
     }
 }
 

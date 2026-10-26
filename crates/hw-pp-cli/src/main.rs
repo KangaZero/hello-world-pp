@@ -9,7 +9,8 @@ use clap::error::ErrorKind;
 use clap::{ArgGroup, CommandFactory, Parser, Subcommand, ValueEnum};
 use hw_pp_core::data::common::replace_default_hello_world_string_with;
 use hw_pp_core::data::human_languages::{
-    DialectName, Greeting, HumanLanguageCategory, HumanLanguageName, ScriptName,
+    DialectName, Greeting, HumanLanguageCategory, HumanLanguageFamily, HumanLanguageName,
+    ScriptName,
 };
 use hw_pp_core::data::notation::Notation;
 use hw_pp_core::data::programming_languages::{
@@ -55,6 +56,10 @@ enum ListCategory {
         /// Only languages in this category
         #[arg(short = 'c', long)]
         category: Option<HumanLanguageCategory>,
+
+        /// Only languages in this family or branch (e.g. indo-european, bantu)
+        #[arg(short = 'f', long)]
+        family: Option<HumanLanguageFamily>,
     },
     /// Human language dialects
     #[command(visible_alias = "hd", alias = "human-dialect")]
@@ -96,6 +101,12 @@ enum ListCategory {
     #[command(visible_alias = "hc", alias = "human-language-category")]
     HumanLanguageCategories {
         /// Only categories of this language
+        language: Option<HumanLanguageName>,
+    },
+    /// Human language families and branches
+    #[command(visible_alias = "hf", alias = "human-language-family")]
+    HumanLanguageFamilies {
+        /// Only families of this language
         language: Option<HumanLanguageName>,
     },
     /// Programming language categories
@@ -279,9 +290,11 @@ fn main() -> anyhow::Result<()> {
     }) = args.command
     {
         let list_as_str: Vec<&'static str> = match category {
-            ListCategory::HumanLanguages { script, category } => {
-                HumanLanguageName::all_as_str_by(*script, *category)
-            }
+            ListCategory::HumanLanguages {
+                script,
+                category,
+                family,
+            } => HumanLanguageName::all_as_str_by(*script, *category, *family),
             ListCategory::HumanDialects { language } => DialectName::all_as_str_by(*language),
             ListCategory::Scripts { language } => ScriptName::all_as_str_by(*language),
             ListCategory::Notations => Notation::all_as_str(),
@@ -297,6 +310,9 @@ fn main() -> anyhow::Result<()> {
             }
             ListCategory::HumanLanguageCategories { language } => {
                 HumanLanguageCategory::all_as_str_by(*language)
+            }
+            ListCategory::HumanLanguageFamilies { language } => {
+                HumanLanguageFamily::all_as_str_by(*language)
             }
             ListCategory::ProgrammingLanguageCategories { language } => {
                 ProgrammingLanguageCategory::all_as_str_by(*language)

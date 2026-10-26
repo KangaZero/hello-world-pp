@@ -21,6 +21,7 @@ language_names! {
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Solresol,
     categories: &[Auxiliary, Constructed],
+    families: &[],
     scripts: &[ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::SudreSolresol,

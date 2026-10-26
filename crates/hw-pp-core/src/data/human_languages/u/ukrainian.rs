@@ -8,7 +8,9 @@
 //! - <https://czo.gov.ua/en/translit#:~:text=To%20address%20this%2C%20an%20official%20transliteration%20table%20was,the%20transliteration%20of%20the%20Ukrainian%20alphabet%20in%20Latin%22%29.>
 
 use crate::data::human_languages::{
-    Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,
+    Dialect, DialectName, Greeting, HumanLanguage,
+    HumanLanguageCategory::Natural,
+    HumanLanguageFamily::{IndoEuropean, Slavic},
     HumanLanguageName, ScriptName,
 };
 use crate::data::macros::language_names;
@@ -22,6 +24,7 @@ language_names! {
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Ukrainian,
     categories: &[Natural],
+    families: &[IndoEuropean, Slavic],
     scripts: &[ScriptName::Cyrillic, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::StandardUkrainian,

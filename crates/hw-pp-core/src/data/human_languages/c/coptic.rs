@@ -7,6 +7,7 @@
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage,
     HumanLanguageCategory::{Dead, Liturgical},
+    HumanLanguageFamily::{Afroasiatic, Egyptian},
     HumanLanguageName, ScriptName,
 };
 use crate::data::macros::language_names;
@@ -20,6 +21,7 @@ language_names! {
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Coptic,
     categories: &[Dead, Liturgical],
+    families: &[Afroasiatic, Egyptian],
     scripts: &[ScriptName::Coptic, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::BohairicCoptic,

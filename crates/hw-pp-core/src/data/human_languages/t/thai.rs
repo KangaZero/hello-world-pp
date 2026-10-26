@@ -9,7 +9,7 @@
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,
-    HumanLanguageName, ScriptName,
+    HumanLanguageFamily::KraDai, HumanLanguageName, ScriptName,
 };
 use crate::data::macros::language_names;
 
@@ -22,6 +22,7 @@ language_names! {
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Thai,
     categories: &[Natural],
+    families: &[KraDai],
     scripts: &[ScriptName::Thai, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::CentralThai,

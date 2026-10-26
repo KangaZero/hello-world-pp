@@ -20,6 +20,7 @@ language_names! {
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Klingon,
     categories: &[Constructed, Fictional],
+    families: &[],
     scripts: &[ScriptName::Latin, ScriptName::Piqad],
     dialects: &[Dialect {
         label: DialectName::StandardKlingon,

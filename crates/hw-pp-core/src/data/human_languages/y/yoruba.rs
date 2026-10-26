@@ -8,7 +8,7 @@
 
 use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,
-    HumanLanguageName, ScriptName,
+    HumanLanguageFamily::NigerCongo, HumanLanguageName, ScriptName,
 };
 use crate::data::macros::language_names;
 
@@ -21,6 +21,7 @@ language_names! {
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Yoruba,
     categories: &[Natural],
+    families: &[NigerCongo],
     scripts: &[ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::StandardYoruba,

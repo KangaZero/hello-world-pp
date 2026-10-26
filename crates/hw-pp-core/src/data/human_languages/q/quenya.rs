@@ -19,6 +19,7 @@ language_names! {
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Quenya,
     categories: &[Constructed, Fictional],
+    families: &[],
     scripts: &[ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::ExilicQuenya,

@@ -11,7 +11,9 @@
 //! - <http://helloworldcollection.de/#Human>
 
 use crate::data::human_languages::{
-    Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,
+    Dialect, DialectName, Greeting, HumanLanguage,
+    HumanLanguageCategory::Natural,
+    HumanLanguageFamily::{IndoAryan, IndoEuropean},
     HumanLanguageName, ScriptName,
 };
 use crate::data::macros::language_names;
@@ -25,6 +27,7 @@ language_names! {
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Punjabi,
     categories: &[Natural],
+    families: &[IndoEuropean, IndoAryan],
     scripts: &[ScriptName::Gurmukhi, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::EasternPunjabi,

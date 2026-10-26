@@ -9,7 +9,9 @@
 //! - <https://en.wiktionary.org/wiki/world#Translations>
 
 use crate::data::human_languages::{
-    Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Extinct,
+    Dialect, DialectName, Greeting, HumanLanguage,
+    HumanLanguageCategory::Extinct,
+    HumanLanguageFamily::{Germanic, IndoEuropean},
     HumanLanguageName, ScriptName,
 };
 use crate::data::macros::language_names;
@@ -23,6 +25,7 @@ language_names! {
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Gothic,
     categories: &[Extinct],
+    families: &[IndoEuropean, Germanic],
     scripts: &[ScriptName::Gothic, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::BiblicalGothic,

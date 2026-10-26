@@ -20,6 +20,7 @@ language_names! {
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Sumerian,
     categories: &[Extinct, Isolate],
+    families: &[],
     scripts: &[ScriptName::Cuneiform, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::Emegir,
