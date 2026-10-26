@@ -13,18 +13,24 @@ use crate::data::macros::language_names;
 language_names! {
     language: Sindhi => "Sindhi" | "سنڌي",
     dialects: [StandardSindhi => "Standard Sindhi"],
-    scripts: [PersoArabic => "Perso-Arabic"],
+    scripts: [PersoArabic => "Perso-Arabic", Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Sindhi,
     categories: &[Natural],
-    scripts: &[ScriptName::PersoArabic],
+    scripts: &[ScriptName::PersoArabic, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::StandardSindhi,
-        greetings: &[Greeting {
-            scripts: &[ScriptName::PersoArabic],
-            text: "هيلو، دنيا!",
-        }],
+        greetings: &[
+            Greeting {
+                scripts: &[ScriptName::PersoArabic],
+                text: "هيلو، دنيا!",
+            },
+            Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "helo, dunyā!",
+            },
+        ],
     }],
 };

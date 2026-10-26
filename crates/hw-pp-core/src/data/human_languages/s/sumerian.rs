@@ -14,13 +14,13 @@ use crate::data::macros::language_names;
 language_names! {
     language: Sumerian => "Sumerian" | "𒅴𒂠",
     dialects: [Emegir => "Emegir" | "𒅴𒂠"],
-    scripts: [Cuneiform => "Cuneiform"],
+    scripts: [Cuneiform => "Cuneiform", Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Sumerian,
     categories: &[Extinct, Isolate],
-    scripts: &[ScriptName::Cuneiform],
+    scripts: &[ScriptName::Cuneiform, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::Emegir,
         greetings: &[
@@ -28,6 +28,10 @@ pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLangua
             Greeting {
                 scripts: &[ScriptName::Cuneiform],
                 text: "𒁲 𒀭𒆠",
+            },
+            Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "silim an-ki",
             },
         ],
     }],

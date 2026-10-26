@@ -17,18 +17,24 @@ use crate::data::macros::language_names;
 language_names! {
     language: Persian => "Persian" | "فارسی",
     dialects: [IranianPersian => "Iranian Persian"],
-    scripts: [PersoArabic => "Perso-Arabic"],
+    scripts: [PersoArabic => "Perso-Arabic", Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Persian,
     categories: &[Natural],
-    scripts: &[ScriptName::PersoArabic],
+    scripts: &[ScriptName::PersoArabic, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::IranianPersian,
-        greetings: &[Greeting {
-            scripts: &[ScriptName::PersoArabic],
-            text: "سلام، دنیا!",
-        }],
+        greetings: &[
+            Greeting {
+                scripts: &[ScriptName::PersoArabic],
+                text: "سلام، دنیا!",
+            },
+            Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "salâm, donyâ!",
+            },
+        ],
     }],
 };

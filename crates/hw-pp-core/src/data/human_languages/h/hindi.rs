@@ -17,18 +17,24 @@ use crate::data::macros::language_names;
 language_names! {
     language: Hindi => "Hindi" | "हिन्दी",
     dialects: [ModernStandardHindi => "Modern Standard Hindi"],
-    scripts: [Devanagari => "Devanagari"],
+    scripts: [Devanagari => "Devanagari", Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Hindi,
     categories: &[Natural],
-    scripts: &[ScriptName::Devanagari],
+    scripts: &[ScriptName::Devanagari, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::ModernStandardHindi,
-        greetings: &[Greeting {
-            scripts: &[ScriptName::Devanagari],
-            text: "नमस्ते दुनिया!",
-        }],
+        greetings: &[
+            Greeting {
+                scripts: &[ScriptName::Devanagari],
+                text: "नमस्ते दुनिया!",
+            },
+            Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "namaste duniyā!",
+            },
+        ],
     }],
 };

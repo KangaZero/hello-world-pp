@@ -16,18 +16,24 @@ use crate::data::macros::language_names;
 language_names! {
     language: Thai => "Thai" | "ภาษาไทย",
     dialects: [CentralThai => "Central Thai" | "ภาษาไทยกลาง"],
-    scripts: [Thai => "Thai"],
+    scripts: [Thai => "Thai", Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Thai,
     categories: &[Natural],
-    scripts: &[ScriptName::Thai],
+    scripts: &[ScriptName::Thai, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::CentralThai,
-        greetings: &[Greeting {
-            scripts: &[ScriptName::Thai],
-            text: "สวัสดีชาวโลก!",
-        }],
+        greetings: &[
+            Greeting {
+                scripts: &[ScriptName::Thai],
+                text: "สวัสดีชาวโลก!",
+            },
+            Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "sawatdi chao lok!",
+            },
+        ],
     }],
 };

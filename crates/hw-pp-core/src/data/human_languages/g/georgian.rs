@@ -15,18 +15,24 @@ use crate::data::macros::language_names;
 language_names! {
     language: Georgian => "Georgian" | "ქართული",
     dialects: [StandardGeorgian => "Standard Georgian"],
-    scripts: [Georgian => "Georgian"],
+    scripts: [Georgian => "Georgian", Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Georgian,
     categories: &[Natural],
-    scripts: &[ScriptName::Georgian],
+    scripts: &[ScriptName::Georgian, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::StandardGeorgian,
-        greetings: &[Greeting {
-            scripts: &[ScriptName::Georgian],
-            text: "გამარჯობა, მსოფლიო!",
-        }],
+        greetings: &[
+            Greeting {
+                scripts: &[ScriptName::Georgian],
+                text: "გამარჯობა, მსოფლიო!",
+            },
+            Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "gamarǯoba, msoplio!",
+            },
+        ],
     }],
 };

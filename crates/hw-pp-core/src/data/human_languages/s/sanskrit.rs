@@ -16,18 +16,24 @@ use crate::data::macros::language_names;
 language_names! {
     language: Sanskrit => "Sanskrit" | "संस्कृतम्",
     dialects: [ClassicalSanskrit => "Classical Sanskrit"],
-    scripts: [Devanagari => "Devanagari"],
+    scripts: [Devanagari => "Devanagari", Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Sanskrit,
     categories: &[Liturgical, Natural],
-    scripts: &[ScriptName::Devanagari],
+    scripts: &[ScriptName::Devanagari, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::ClassicalSanskrit,
-        greetings: &[Greeting {
-            scripts: &[ScriptName::Devanagari],
-            text: "नमस्ते विश्व!",
-        }],
+        greetings: &[
+            Greeting {
+                scripts: &[ScriptName::Devanagari],
+                text: "नमस्ते विश्व!",
+            },
+            Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "namaste viśva!",
+            },
+        ],
     }],
 };

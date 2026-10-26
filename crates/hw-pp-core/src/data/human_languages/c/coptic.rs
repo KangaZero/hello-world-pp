@@ -14,18 +14,24 @@ use crate::data::macros::language_names;
 language_names! {
     language: Coptic => "Coptic",
     dialects: [BohairicCoptic => "Bohairic Coptic"],
-    scripts: [Coptic => "Coptic"],
+    scripts: [Coptic => "Coptic", Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Coptic,
     categories: &[Dead, Liturgical],
-    scripts: &[ScriptName::Coptic],
+    scripts: &[ScriptName::Coptic, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::BohairicCoptic,
-        greetings: &[Greeting {
-            scripts: &[ScriptName::Coptic],
-            text: "ⲭⲉⲣⲉ, ⲕⲟⲥⲙⲟⲥ!",
-        }],
+        greetings: &[
+            Greeting {
+                scripts: &[ScriptName::Coptic],
+                text: "ⲭⲉⲣⲉ, ⲕⲟⲥⲙⲟⲥ!",
+            },
+            Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "khere, kosmos!",
+            },
+        ],
     }],
 };

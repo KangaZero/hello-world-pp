@@ -40,9 +40,10 @@ fn remove_punctuation_keeps_apostrophes_and_braille() {
 #[test]
 fn hello_world_punctuation_covers_every_greeting() {
     const BRAILLE: core::ops::RangeInclusive<char> = '\u{2800}'..='\u{28FF}';
-    /// Word-internal marks: the apostrophe, hyphens (including the Hebrew maqaf `־`), the
-    /// Tibetan syllable separator (tsheg) and the morpheme dot of Egyptian transliteration (`j.nḏ`).
-    const WORD_MARKS: &[char] = &['\'', '-', '.', '\u{05BE}', '\u{0F0B}'];
+    /// Word-internal marks: the apostrophe (and the typographic `’` romanizing Lezgian `ь`),
+    /// hyphens (including the Hebrew maqaf `־`), the Tibetan syllable separator (tsheg) and the
+    /// morpheme dot of Egyptian transliteration (`j.nḏ`).
+    const WORD_MARKS: &[char] = &['\'', '\u{2019}', '-', '.', '\u{05BE}', '\u{0F0B}'];
 
     let uncovered: Vec<String> = HUMAN_LANGUAGES
         .iter()

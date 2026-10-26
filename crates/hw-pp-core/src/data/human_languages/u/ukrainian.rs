@@ -15,18 +15,24 @@ use crate::data::macros::language_names;
 language_names! {
     language: Ukrainian => "Ukrainian" | "Українська",
     dialects: [StandardUkrainian => "Standard Ukrainian"],
-    scripts: [Cyrillic => "Cyrillic"],
+    scripts: [Cyrillic => "Cyrillic", Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Ukrainian,
     categories: &[Natural],
-    scripts: &[ScriptName::Cyrillic],
+    scripts: &[ScriptName::Cyrillic, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::StandardUkrainian,
-        greetings: &[Greeting {
-            scripts: &[ScriptName::Cyrillic],
-            text: "Привіт, світе!",
-        }],
+        greetings: &[
+            Greeting {
+                scripts: &[ScriptName::Cyrillic],
+                text: "Привіт, світе!",
+            },
+            Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Pryvít, svíte!",
+            },
+        ],
     }],
 };

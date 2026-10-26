@@ -14,18 +14,24 @@ use crate::data::macros::language_names;
 language_names! {
     language: Assamese => "Assamese" | "অসমীয়া",
     dialects: [StandardAssamese => "Standard Assamese"],
-    scripts: [Bengali => "Bengali"],
+    scripts: [Bengali => "Bengali", Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Assamese,
     categories: &[Natural],
-    scripts: &[ScriptName::Bengali],
+    scripts: &[ScriptName::Bengali, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::StandardAssamese,
-        greetings: &[Greeting {
-            scripts: &[ScriptName::Bengali],
-            text: "নমস্কাৰ, বিশ্ব!",
-        }],
+        greetings: &[
+            Greeting {
+                scripts: &[ScriptName::Bengali],
+                text: "নমস্কাৰ, বিশ্ব!",
+            },
+            Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "nomoskar, bisso!",
+            },
+        ],
     }],
 };

@@ -15,18 +15,24 @@ use crate::data::macros::language_names;
 language_names! {
     language: AncientGreek => "Ancient Greek" | "Ἑλληνική",
     dialects: [AtticGreek => "Attic Greek"],
-    scripts: [Greek => "Greek"],
+    scripts: [Greek => "Greek", Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::AncientGreek,
     categories: &[Dead],
-    scripts: &[ScriptName::Greek],
+    scripts: &[ScriptName::Greek, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::AtticGreek,
-        greetings: &[Greeting {
-            scripts: &[ScriptName::Greek],
-            text: "Χαῖρε, κόσμε!",
-        }],
+        greetings: &[
+            Greeting {
+                scripts: &[ScriptName::Greek],
+                text: "Χαῖρε, κόσμε!",
+            },
+            Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Khaîre, kósme!",
+            },
+        ],
     }],
 };

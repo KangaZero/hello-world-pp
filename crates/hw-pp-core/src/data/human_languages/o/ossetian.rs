@@ -14,18 +14,24 @@ use crate::data::macros::language_names;
 language_names! {
     language: Ossetian => "Ossetian" | "ирон ӕвзаг",
     dialects: [IronOssetian => "Iron Ossetian" | "ирон"],
-    scripts: [Cyrillic => "Cyrillic"],
+    scripts: [Cyrillic => "Cyrillic", Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::Ossetian,
     categories: &[Natural],
-    scripts: &[ScriptName::Cyrillic],
+    scripts: &[ScriptName::Cyrillic, ScriptName::Latin],
     dialects: &[Dialect {
         label: DialectName::IronOssetian,
-        greetings: &[Greeting {
-            scripts: &[ScriptName::Cyrillic],
-            text: "Салам, дуне!",
-        }],
+        greetings: &[
+            Greeting {
+                scripts: &[ScriptName::Cyrillic],
+                text: "Салам, дуне!",
+            },
+            Greeting {
+                scripts: &[ScriptName::Latin],
+                text: "Salam, dune!",
+            },
+        ],
     }],
 };
