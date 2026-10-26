@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [Argh => "Argh"],
     extensions: [Agh => "agh"],
 }
+
+const ARGH: &str = concat!(
+    r"lpppppppppppsrfj
+ ",
+    output_for_hello_world!(),
+    r"*  j
+             qPh"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +37,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Argh,
-            syntax: concat!(
-                r"lpppppppppppsrfj
+            syntax: ARGH,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ARGH,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"lpppppppppppsrfj
  ",
-                output_for_hello_world!(),
-                r"*  j
+                            output_for_hello_world!(),
+                            r"*  j
              qPh"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"lpppppppppppsrfj
- ",
-                    output_for_hello_world!(),
-                    r"*  j
-             qPh"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

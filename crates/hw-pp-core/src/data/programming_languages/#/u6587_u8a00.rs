@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,12 @@ language_names! {
     versions: [U6587U8a00 => "文言"],
     extensions: [Wy => "wy"],
 }
+
+const U6587_U8A00: &str = concat!(
+    r"吾有一言。曰「「",
+    output_for_hello_world!(),
+    r"」」。書之。"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,18 +35,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::U6587U8a00,
-            syntax: concat!(
-                r"吾有一言。曰「「",
-                output_for_hello_world!(),
-                r"」」。書之。"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"吾有一言。曰「「",
-                    output_for_hello_world!(),
-                    r"」」。書之。"
-                ),
-            )],
+            syntax: U6587_U8A00,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    U6587_U8A00,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"吾有一言。曰「「",
+                            output_for_hello_world!(),
+                            r"」」。書之。"
+                        ),
+                    )],
+                )
+            },
         }],
     };

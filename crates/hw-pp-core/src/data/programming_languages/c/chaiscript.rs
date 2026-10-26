@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -22,18 +22,10 @@ language_names! {
     extensions: [],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::Chaiscript,
-        extensions: &[],
-        categories: &[],
-        families: &[],
-        versions: &[ProgrammingLanguageVersion {
-            label: ProgrammingLanguageDialect::Chaiscript,
-            syntax: concat!(
-                r"// ",
-                output_for_hello_world!(),
-                r#" in ChaiScript
+const CHAISCRIPT: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in ChaiScript
 
 #include <chaiscript/chaiscript.hpp>
 
@@ -49,127 +41,142 @@ int main() {
     puts(helloWorld("World"));
   )");
 }"#
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Comment,
-                    concat!(r"// ", output_for_hello_world!(), r" in ChaiScript"),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Chaiscript,
+        extensions: &[],
+        categories: &[],
+        families: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Chaiscript,
+            syntax: CHAISCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CHAISCRIPT,
+                    [
+                        (
+                            TokenKind::Comment,
+                            concat!(r"// ", output_for_hello_world!(), r" in ChaiScript"),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Macro, r"#include <chaiscript/chaiscript.hpp>"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r"#include <chaiscript/chaiscript.hpp>"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 std",
-                ),
-                (TokenKind::Punctuation, r"::"),
-                (TokenKind::Type, r"string"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"helloWorld"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Keyword, r"const"),
-                (TokenKind::Plain, r" std"),
-                (TokenKind::Punctuation, r"::"),
-                (TokenKind::Type, r"string"),
-                (TokenKind::Plain, r" &t_name"),
-                (TokenKind::Punctuation, r")"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"::"),
+                        (TokenKind::Type, r"string"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"helloWorld"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Keyword, r"const"),
+                        (TokenKind::Plain, r" std"),
+                        (TokenKind::Punctuation, r"::"),
+                        (TokenKind::Type, r"string"),
+                        (TokenKind::Plain, r" &t_name"),
+                        (TokenKind::Punctuation, r")"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Keyword, r"return"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::String, r#""Hello ""#),
-                (TokenKind::Plain, r" + t_name + "),
-                (TokenKind::String, r#""!""#),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"return"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::String, r#""Hello ""#),
+                        (TokenKind::Plain, r" + t_name + "),
+                        (TokenKind::String, r#""!""#),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Type, r"int"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"main"),
-                (TokenKind::Punctuation, r"()"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Type, r"int"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"main"),
+                        (TokenKind::Punctuation, r"()"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
   chaiscript",
-                ),
-                (TokenKind::Punctuation, r"::"),
-                (TokenKind::Plain, r"ChaiScript chai"),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"::"),
+                        (TokenKind::Plain, r"ChaiScript chai"),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
   chai",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"add"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"chaiscript"),
-                (TokenKind::Punctuation, r"::"),
-                (TokenKind::Keyword, r"fun"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"&helloWorld"),
-                (TokenKind::Punctuation, r"),"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::String, r#""helloWorld""#),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"add"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"chaiscript"),
+                        (TokenKind::Punctuation, r"::"),
+                        (TokenKind::Keyword, r"fun"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"&helloWorld"),
+                        (TokenKind::Punctuation, r"),"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::String, r#""helloWorld""#),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
   chai",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"eval"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"R"),
-                (TokenKind::String, r#""("#),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"eval"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"R"),
+                        (TokenKind::String, r#""("#),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Function, r"puts"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Function, r"helloWorld"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::String, r#""World""#),
-                (TokenKind::Punctuation, r"));"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Function, r"puts"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Function, r"helloWorld"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::String, r#""World""#),
+                        (TokenKind::Punctuation, r"));"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Punctuation, r")"),
-                (TokenKind::String, r#"");"#),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r")"),
+                        (TokenKind::String, r#"");"#),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                    ],
+                )
+            },
         }],
     };

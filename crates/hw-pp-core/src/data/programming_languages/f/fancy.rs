@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,8 @@ language_names! {
     versions: [Fancy => "Fancy"],
     extensions: [Fy => "fy"],
 }
+
+const FANCY: &str = concat!(r#"""#, output_for_hello_world!(), r#"" println "#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,15 +31,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Fancy,
-            syntax: concat!(r#"""#, output_for_hello_world!(), r#"" println "#),
-            tokenized_syntax: &[
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"println"),
-                (TokenKind::Plain, r" "),
-            ],
+            syntax: FANCY,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FANCY,
+                    [
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"println"),
+                        (TokenKind::Plain, r" "),
+                    ],
+                )
+            },
         }],
     };

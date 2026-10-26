@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,12 @@ language_names! {
     versions: [Rafflalang => "Rafflalang"],
     extensions: [Bro => "bro"],
 }
+
+const RAFFLALANG: &str = concat!(
+    r#"TODO MUNDO FALA DE MIM ""#,
+    output_for_hello_world!(),
+    r#"" BRO;"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,18 +35,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rafflalang,
-            syntax: concat!(
-                r#"TODO MUNDO FALA DE MIM ""#,
-                output_for_hello_world!(),
-                r#"" BRO;"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"TODO MUNDO FALA DE MIM ""#,
-                    output_for_hello_world!(),
-                    r#"" BRO;"#
-                ),
-            )],
+            syntax: RAFFLALANG,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    RAFFLALANG,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"TODO MUNDO FALA DE MIM ""#,
+                            output_for_hello_world!(),
+                            r#"" BRO;"#
+                        ),
+                    )],
+                )
+            },
         }],
     };

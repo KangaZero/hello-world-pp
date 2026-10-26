@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,16 @@ language_names! {
     versions: [Jolie => "Jolie"],
     extensions: [Ol => "ol"],
 }
+
+const JOLIE: &str = concat!(
+    r#"include "console.iol"
+
+main {
+	println@Console(""#,
+    output_for_hello_world!(),
+    r#"")()
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,44 +39,41 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Jolie,
-            syntax: concat!(
-                r#"include "console.iol"
-
-main {
-	println@Console(""#,
-                output_for_hello_world!(),
-                r#"")()
-}"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Plain, r"include "),
-                (TokenKind::String, r#""console.iol""#),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: JOLIE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    JOLIE,
+                    [
+                        (TokenKind::Plain, r"include "),
+                        (TokenKind::String, r#""console.iol""#),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 main ",
-                ),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	",
-                ),
-                (TokenKind::Function, r"println"),
-                (TokenKind::Macro, r"@Console"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r")()"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Function, r"println"),
+                        (TokenKind::Macro, r"@Console"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r")()"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                    ],
+                )
+            },
         }],
     };

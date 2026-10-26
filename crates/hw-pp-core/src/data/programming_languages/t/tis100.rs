@@ -10,13 +10,33 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Assembly,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Tis100 => "TIS-100",
     versions: [Tis100 => "TIS-100"],
     extensions: [Tis => "tis"],
 }
+
+const TIS100: &str = r"@0 
+MOV 72 DOWN 
+MOV 101 DOWN 
+MOV 108 DOWN 
+MOV 108 DOWN 
+MOV 111 DOWN 
+MOV 44 DOWN 
+MOV 32 DOWN 
+MOV 87 DOWN 
+MOV 111 DOWN 
+MOV 114 DOWN 
+MOV 108 DOWN 
+MOV 100 DOWN 
+MOV 33 DOWN 
+MOV 10 DOWN 
+HCF";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +46,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Tis100,
-            syntax: r"@0 
+            syntax: TIS100,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    TIS100,
+                    [(
+                        TokenKind::Plain,
+                        r"@0 
 MOV 72 DOWN 
 MOV 101 DOWN 
 MOV 108 DOWN 
@@ -42,24 +68,8 @@ MOV 100 DOWN
 MOV 33 DOWN 
 MOV 10 DOWN 
 HCF",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"@0 
-MOV 72 DOWN 
-MOV 101 DOWN 
-MOV 108 DOWN 
-MOV 108 DOWN 
-MOV 111 DOWN 
-MOV 44 DOWN 
-MOV 32 DOWN 
-MOV 87 DOWN 
-MOV 111 DOWN 
-MOV 114 DOWN 
-MOV 108 DOWN 
-MOV 100 DOWN 
-MOV 33 DOWN 
-MOV 10 DOWN 
-HCF",
-            )],
+                    )],
+                )
+            },
         }],
     };

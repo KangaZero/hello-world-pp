@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,20 @@ language_names! {
     versions: [PovRay => "POV-Ray"],
     extensions: [],
 }
+
+const POV_RAY: &str = concat!(
+    r#"#include "skies.inc"
+
+camera{location  look_at y}
+light_source{,2}
+sky_sphere{S_Cloud1}
+plane{y 0 pigment{checker rgb 1,0} finish{reflection .5}}
+text{ttf "timrom.ttf" ""#,
+    output_for_hello_world!(),
+    r#"" .3,0
+  pigment {agate scale .2} translate -2.5*x
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,34 +44,27 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PovRay,
-            syntax: concat!(
-                r#"#include "skies.inc"
+            syntax: POV_RAY,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    POV_RAY,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"#include "skies.inc"
 
 camera{location  look_at y}
 light_source{,2}
 sky_sphere{S_Cloud1}
 plane{y 0 pigment{checker rgb 1,0} finish{reflection .5}}
 text{ttf "timrom.ttf" ""#,
-                output_for_hello_world!(),
-                r#"" .3,0
+                            output_for_hello_world!(),
+                            r#"" .3,0
   pigment {agate scale .2} translate -2.5*x
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"#include "skies.inc"
-
-camera{location  look_at y}
-light_source{,2}
-sky_sphere{S_Cloud1}
-plane{y 0 pigment{checker rgb 1,0} finish{reflection .5}}
-text{ttf "timrom.ttf" ""#,
-                    output_for_hello_world!(),
-                    r#"" .3,0
-  pigment {agate scale .2} translate -2.5*x
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

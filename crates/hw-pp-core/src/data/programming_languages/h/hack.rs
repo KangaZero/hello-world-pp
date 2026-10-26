@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,13 @@ language_names! {
     versions: [Hack => "Hack"],
     extensions: [Hh => "hh"],
 }
+
+const HACK: &str = concat!(
+    r#"<?hh 
+echo ""#,
+    output_for_hello_world!(),
+    r#"";"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,26 +36,26 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hack,
-            syntax: concat!(
-                r#"<?hh 
-echo ""#,
-                output_for_hello_world!(),
-                r#"";"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Punctuation, r"<?"),
-                (
-                    TokenKind::Plain,
-                    r"hh 
+            syntax: HACK,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    HACK,
+                    [
+                        (TokenKind::Punctuation, r"<?"),
+                        (
+                            TokenKind::Plain,
+                            r"hh 
 ",
-                ),
-                (TokenKind::Function, r"echo"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r";"),
-            ],
+                        ),
+                        (TokenKind::Function, r"echo"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r";"),
+                    ],
+                )
+            },
         }],
     };

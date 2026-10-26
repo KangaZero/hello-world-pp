@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -22,18 +22,10 @@ language_names! {
     extensions: [],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::AssemblerPaRisc,
-        extensions: &[],
-        categories: &[Assembly],
-        families: &[],
-        versions: &[ProgrammingLanguageVersion {
-            label: ProgrammingLanguageDialect::AssemblerPaRisc,
-            syntax: concat!(
-                r"// ",
-                output_for_hello_world!(),
-                r#" written in PA-RISC 2.0 assembly code
+const ASSEMBLER_PA_RISC: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" written in PA-RISC 2.0 assembly code
 
     .LEVEL  2.0N
 
@@ -69,8 +61,8 @@ main
 M$3
     .ALIGN  8
     .STRINGZ    ""#,
-                output_for_hello_world!(),
-                r#""
+    output_for_hello_world!(),
+    r#""
     .BLOCK  4
     .STRINGZ    "%s\n"
     .IMPORT $global$,DATA
@@ -79,420 +71,435 @@ M$3
     .EXPORT main,ENTRY,PRIV_LEV=3,LONG_RETURN
     .IMPORT printf,CODE
     .END"#
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Plain,
-                    concat!(r"// ", output_for_hello_world!(), r" written in PA-RISC "),
-                ),
-                (TokenKind::Number, r"2.0"),
-                (
-                    TokenKind::Plain,
-                    r" assembly code
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::AssemblerPaRisc,
+        extensions: &[],
+        categories: &[Assembly],
+        families: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::AssemblerPaRisc,
+            syntax: ASSEMBLER_PA_RISC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_PA_RISC,
+                    [
+                        (
+                            TokenKind::Plain,
+                            concat!(r"// ", output_for_hello_world!(), r" written in PA-RISC "),
+                        ),
+                        (TokenKind::Number, r"2.0"),
+                        (
+                            TokenKind::Plain,
+                            r" assembly code
 
     ",
-                ),
-                (TokenKind::Macro, r".LEVEL"),
-                (TokenKind::Plain, r"  "),
-                (TokenKind::Number, r"2"),
-                (TokenKind::Macro, r".0N"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".LEVEL"),
+                        (TokenKind::Plain, r"  "),
+                        (TokenKind::Number, r"2"),
+                        (TokenKind::Macro, r".0N"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
     ",
-                ),
-                (TokenKind::Macro, r".SPACE"),
-                (TokenKind::Plain, r"  $"),
-                (TokenKind::Keyword, r"TEXT"),
-                (TokenKind::Plain, r"$"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"SORT="),
-                (TokenKind::Number, r"8"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".SPACE"),
+                        (TokenKind::Plain, r"  $"),
+                        (TokenKind::Keyword, r"TEXT"),
+                        (TokenKind::Plain, r"$"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"SORT="),
+                        (TokenKind::Number, r"8"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Macro, r".SUBSPA"),
-                (TokenKind::Plain, r" $CODE$"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"QUAD="),
-                (TokenKind::Number, r"0"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"ALIGN="),
-                (TokenKind::Number, r"4"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"ACCESS="),
-                (TokenKind::Number, r"0x2c"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"CODE_ONLY"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"SORT="),
-                (TokenKind::Number, r"24"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".SUBSPA"),
+                        (TokenKind::Plain, r" $CODE$"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"QUAD="),
+                        (TokenKind::Number, r"0"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"ALIGN="),
+                        (TokenKind::Number, r"4"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"ACCESS="),
+                        (TokenKind::Number, r"0x2c"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"CODE_ONLY"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"SORT="),
+                        (TokenKind::Number, r"24"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"main"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"main"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Macro, r".PROC"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".PROC"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Macro, r".CALLINFO"),
-                (TokenKind::Plain, r" CALLER"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"FRAME="),
-                (TokenKind::Number, r"16"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"SAVE_RP"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"ORDERING_AWARE
+                        ),
+                        (TokenKind::Macro, r".CALLINFO"),
+                        (TokenKind::Plain, r" CALLER"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"FRAME="),
+                        (TokenKind::Number, r"16"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"SAVE_RP"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"ORDERING_AWARE
         ",
-                ),
-                (TokenKind::Macro, r".ENTRY"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".ENTRY"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"STW"),
-                (TokenKind::Plain, r"     %r2"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"-"),
-                (TokenKind::Number, r"20"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"%r30"),
-                (TokenKind::Punctuation, r")"),
-                (TokenKind::Plain, r"   "),
-                (TokenKind::Comment, r";offset 0x0"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"STW"),
+                        (TokenKind::Plain, r"     %r2"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"-"),
+                        (TokenKind::Number, r"20"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"%r30"),
+                        (TokenKind::Punctuation, r")"),
+                        (TokenKind::Plain, r"   "),
+                        (TokenKind::Comment, r";offset 0x0"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"LDO"),
-                (TokenKind::Plain, r"     "),
-                (TokenKind::Number, r"64"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"%r30"),
-                (TokenKind::Punctuation, r"),"),
-                (TokenKind::Plain, r"%r30   "),
-                (TokenKind::Comment, r";offset 0x4"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"LDO"),
+                        (TokenKind::Plain, r"     "),
+                        (TokenKind::Number, r"64"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"%r30"),
+                        (TokenKind::Punctuation, r"),"),
+                        (TokenKind::Plain, r"%r30   "),
+                        (TokenKind::Comment, r";offset 0x4"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"ADDIL"),
-                (TokenKind::Plain, r"   LR"),
-                (
-                    TokenKind::String,
-                    r"'M$3-$global$,%r27,%r1        ;offset 0x8",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"ADDIL"),
+                        (TokenKind::Plain, r"   LR"),
+                        (
+                            TokenKind::String,
+                            r"'M$3-$global$,%r27,%r1        ;offset 0x8",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"LDO"),
-                (TokenKind::Plain, r"     RR"),
-                (
-                    TokenKind::String,
-                    r"'M$3-$global$(%r1),%r1        ;offset 0xc",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"LDO"),
+                        (TokenKind::Plain, r"     RR"),
+                        (
+                            TokenKind::String,
+                            r"'M$3-$global$(%r1),%r1        ;offset 0xc",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"STW"),
-                (TokenKind::Plain, r"     %r1"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"-"),
-                (TokenKind::Number, r"56"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"%r30"),
-                (TokenKind::Punctuation, r")"),
-                (TokenKind::Plain, r"   "),
-                (TokenKind::Comment, r";offset 0x10"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"STW"),
+                        (TokenKind::Plain, r"     %r1"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"-"),
+                        (TokenKind::Number, r"56"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"%r30"),
+                        (TokenKind::Punctuation, r")"),
+                        (TokenKind::Plain, r"   "),
+                        (TokenKind::Comment, r";offset 0x10"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"ADDIL"),
-                (TokenKind::Plain, r"   LR"),
-                (
-                    TokenKind::String,
-                    r"'M$3-$global$+16,%r27,%r1     ;offset 0x14",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"ADDIL"),
+                        (TokenKind::Plain, r"   LR"),
+                        (
+                            TokenKind::String,
+                            r"'M$3-$global$+16,%r27,%r1     ;offset 0x14",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"LDO"),
-                (TokenKind::Plain, r"     RR"),
-                (
-                    TokenKind::String,
-                    r"'M$3-$global$+16(%r1),%r26    ;offset 0x18",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"LDO"),
+                        (TokenKind::Plain, r"     RR"),
+                        (
+                            TokenKind::String,
+                            r"'M$3-$global$+16(%r1),%r26    ;offset 0x18",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"LDW"),
-                (TokenKind::Plain, r"     -"),
-                (TokenKind::Number, r"56"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"%r30"),
-                (TokenKind::Punctuation, r"),"),
-                (TokenKind::Plain, r"%r25  "),
-                (TokenKind::Comment, r";offset 0x1c"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"LDW"),
+                        (TokenKind::Plain, r"     -"),
+                        (TokenKind::Number, r"56"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"%r30"),
+                        (TokenKind::Punctuation, r"),"),
+                        (TokenKind::Plain, r"%r25  "),
+                        (TokenKind::Comment, r";offset 0x1c"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"LDIL"),
-                (TokenKind::Plain, r"    L"),
-                (TokenKind::String, r"'printf,%r31   ;offset 0x20"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"LDIL"),
+                        (TokenKind::Plain, r"    L"),
+                        (TokenKind::String, r"'printf,%r31   ;offset 0x20"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Macro, r".CALL"),
-                (TokenKind::Plain, r"   ARGW0=GR"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"ARGW1=GR"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"RTNVAL=GR     "),
-                (TokenKind::Comment, r";in=25,26;out=28;"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".CALL"),
+                        (TokenKind::Plain, r"   ARGW0=GR"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"ARGW1=GR"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"RTNVAL=GR     "),
+                        (TokenKind::Comment, r";in=25,26;out=28;"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"BE"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"L    R"),
-                (
-                    TokenKind::String,
-                    r"'printf(%sr4,%r31),%r31        ;offset 0x24",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"BE"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"L    R"),
+                        (
+                            TokenKind::String,
+                            r"'printf(%sr4,%r31),%r31        ;offset 0x24",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"COPY"),
-                (TokenKind::Plain, r"    %r31"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"%r2        "),
-                (TokenKind::Comment, r";offset 0x28"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"COPY"),
+                        (TokenKind::Plain, r"    %r31"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"%r2        "),
+                        (TokenKind::Comment, r";offset 0x28"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"LDW"),
-                (TokenKind::Plain, r"     -"),
-                (TokenKind::Number, r"84"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"%r30"),
-                (TokenKind::Punctuation, r"),"),
-                (TokenKind::Plain, r"%r2   "),
-                (TokenKind::Comment, r";offset 0x2c"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"LDW"),
+                        (TokenKind::Plain, r"     -"),
+                        (TokenKind::Number, r"84"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"%r30"),
+                        (TokenKind::Punctuation, r"),"),
+                        (TokenKind::Plain, r"%r2   "),
+                        (TokenKind::Comment, r";offset 0x2c"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"BVE"),
-                (TokenKind::Plain, r"     "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"%r2"),
-                (TokenKind::Punctuation, r")"),
-                (TokenKind::Plain, r"   "),
-                (TokenKind::Comment, r";offset 0x30"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"BVE"),
+                        (TokenKind::Plain, r"     "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"%r2"),
+                        (TokenKind::Punctuation, r")"),
+                        (TokenKind::Plain, r"   "),
+                        (TokenKind::Comment, r";offset 0x30"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Macro, r".EXIT"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".EXIT"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"LDO"),
-                (TokenKind::Plain, r"     -"),
-                (TokenKind::Number, r"64"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"%r30"),
-                (TokenKind::Punctuation, r"),"),
-                (TokenKind::Plain, r"%r30  "),
-                (TokenKind::Comment, r";offset 0x34"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"LDO"),
+                        (TokenKind::Plain, r"     -"),
+                        (TokenKind::Number, r"64"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"%r30"),
+                        (TokenKind::Punctuation, r"),"),
+                        (TokenKind::Plain, r"%r30  "),
+                        (TokenKind::Comment, r";offset 0x34"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Macro, r".PROCEND"),
-                (TokenKind::Plain, r"    "),
-                (TokenKind::Comment, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".PROCEND"),
+                        (TokenKind::Plain, r"    "),
+                        (TokenKind::Comment, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 
     ",
-                ),
-                (TokenKind::Macro, r".SPACE"),
-                (TokenKind::Plain, r"  $"),
-                (TokenKind::Keyword, r"TEXT"),
-                (
-                    TokenKind::Plain,
-                    r"$
+                        ),
+                        (TokenKind::Macro, r".SPACE"),
+                        (TokenKind::Plain, r"  $"),
+                        (TokenKind::Keyword, r"TEXT"),
+                        (
+                            TokenKind::Plain,
+                            r"$
     ",
-                ),
-                (TokenKind::Macro, r".SUBSPA"),
-                (
-                    TokenKind::Plain,
-                    r" $CODE$
+                        ),
+                        (TokenKind::Macro, r".SUBSPA"),
+                        (
+                            TokenKind::Plain,
+                            r" $CODE$
     ",
-                ),
-                (TokenKind::Macro, r".SPACE"),
-                (TokenKind::Plain, r"  $PRIVATE$"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"SORT="),
-                (TokenKind::Number, r"16"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".SPACE"),
+                        (TokenKind::Plain, r"  $PRIVATE$"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"SORT="),
+                        (TokenKind::Number, r"16"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Macro, r".SUBSPA"),
-                (TokenKind::Plain, r" $DATA$"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"QUAD="),
-                (TokenKind::Number, r"1"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"ALIGN="),
-                (TokenKind::Number, r"8"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"ACCESS="),
-                (TokenKind::Number, r"0x1f"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"SORT="),
-                (TokenKind::Number, r"16"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".SUBSPA"),
+                        (TokenKind::Plain, r" $DATA$"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"QUAD="),
+                        (TokenKind::Number, r"1"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"ALIGN="),
+                        (TokenKind::Number, r"8"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"ACCESS="),
+                        (TokenKind::Number, r"0x1f"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"SORT="),
+                        (TokenKind::Number, r"16"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"M"),
-                (TokenKind::Plain, r"$"),
-                (TokenKind::Number, r"3"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"M"),
+                        (TokenKind::Plain, r"$"),
+                        (TokenKind::Number, r"3"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Macro, r".ALIGN"),
-                (TokenKind::Plain, r"  "),
-                (TokenKind::Number, r"8"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".ALIGN"),
+                        (TokenKind::Plain, r"  "),
+                        (TokenKind::Number, r"8"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Macro, r".STRINGZ"),
-                (TokenKind::Plain, r"    "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".STRINGZ"),
+                        (TokenKind::Plain, r"    "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Macro, r".BLOCK"),
-                (TokenKind::Plain, r"  "),
-                (TokenKind::Number, r"4"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".BLOCK"),
+                        (TokenKind::Plain, r"  "),
+                        (TokenKind::Number, r"4"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Macro, r".STRINGZ"),
-                (TokenKind::Plain, r"    "),
-                (TokenKind::String, r#""%s\n""#),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".STRINGZ"),
+                        (TokenKind::Plain, r"    "),
+                        (TokenKind::String, r#""%s\n""#),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Macro, r".IMPORT"),
-                (TokenKind::Plain, r" $global$"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"DATA
+                        ),
+                        (TokenKind::Macro, r".IMPORT"),
+                        (TokenKind::Plain, r" $global$"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"DATA
     ",
-                ),
-                (TokenKind::Macro, r".SPACE"),
-                (TokenKind::Plain, r"  $"),
-                (TokenKind::Keyword, r"TEXT"),
-                (
-                    TokenKind::Plain,
-                    r"$
+                        ),
+                        (TokenKind::Macro, r".SPACE"),
+                        (TokenKind::Plain, r"  $"),
+                        (TokenKind::Keyword, r"TEXT"),
+                        (
+                            TokenKind::Plain,
+                            r"$
     ",
-                ),
-                (TokenKind::Macro, r".SUBSPA"),
-                (
-                    TokenKind::Plain,
-                    r" $CODE$
+                        ),
+                        (TokenKind::Macro, r".SUBSPA"),
+                        (
+                            TokenKind::Plain,
+                            r" $CODE$
     ",
-                ),
-                (TokenKind::Macro, r".EXPORT"),
-                (TokenKind::Plain, r" main"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"ENTRY"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"PRIV_LEV="),
-                (TokenKind::Number, r"3"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"LONG_RETURN
+                        ),
+                        (TokenKind::Macro, r".EXPORT"),
+                        (TokenKind::Plain, r" main"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"ENTRY"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"PRIV_LEV="),
+                        (TokenKind::Number, r"3"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"LONG_RETURN
     ",
-                ),
-                (TokenKind::Macro, r".IMPORT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"printf"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"CODE
+                        ),
+                        (TokenKind::Macro, r".IMPORT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"printf"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"CODE
     ",
-                ),
-                (TokenKind::Macro, r".END"),
-            ],
+                        ),
+                        (TokenKind::Macro, r".END"),
+                    ],
+                )
+            },
         }],
     };

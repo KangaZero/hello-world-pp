@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,16 @@ language_names! {
     versions: [MsSmallBasic => "MS Small Basic"],
     extensions: [],
 }
+
+const MS_SMALL_BASIC: &str = concat!(
+    r"' ",
+    output_for_hello_world!(),
+    r#" in Microsoft Small Basic
+
+TextWindow.WriteLine(""#,
+    output_for_hello_world!(),
+    r#"")"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,39 +40,36 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::MsSmallBasic,
-            syntax: concat!(
-                r"' ",
-                output_for_hello_world!(),
-                r#" in Microsoft Small Basic
-
-TextWindow.WriteLine(""#,
-                output_for_hello_world!(),
-                r#"")"#
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Comment,
-                    concat!(
-                        r"' ",
-                        output_for_hello_world!(),
-                        r" in Microsoft Small Basic"
-                    ),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: MS_SMALL_BASIC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MS_SMALL_BASIC,
+                    [
+                        (
+                            TokenKind::Comment,
+                            concat!(
+                                r"' ",
+                                output_for_hello_world!(),
+                                r" in Microsoft Small Basic"
+                            ),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"TextWindow"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Keyword, r"WriteLine"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r")"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"TextWindow"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Keyword, r"WriteLine"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r")"),
+                    ],
+                )
+            },
         }],
     };

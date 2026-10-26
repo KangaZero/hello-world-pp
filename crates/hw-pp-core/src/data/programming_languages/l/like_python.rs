@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [LikePython => "Like, Python"],
     extensions: [Lp => "lp"],
 }
+
+const LIKE_PYTHON: &str = concat!(
+    r#"#!usr/bin/python
+
+yo just print like ""#,
+    output_for_hello_world!(),
+    r#"" bro"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +37,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::LikePython,
-            syntax: concat!(
-                r#"#!usr/bin/python
+            syntax: LIKE_PYTHON,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LIKE_PYTHON,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"#!usr/bin/python
 
 yo just print like ""#,
-                output_for_hello_world!(),
-                r#"" bro"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"#!usr/bin/python
-
-yo just print like ""#,
-                    output_for_hello_world!(),
-                    r#"" bro"#
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r#"" bro"#
+                        ),
+                    )],
+                )
+            },
         }],
     };

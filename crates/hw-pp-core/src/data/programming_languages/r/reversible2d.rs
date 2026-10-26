@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Reversible2d => "Reversible-2D",
     versions: [Reversible2d => "Reversible-2D"],
     extensions: [],
 }
+
+const REVERSIBLE2D: &str = r" >PHOPeOPlOPlOPoOP,OP OPWOPoOPrOPlOPdOP!O¤";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Reversible2d,
-            syntax: r" >PHOPeOPlOPlOPoOP,OP OPWOPoOPrOPlOPdOP!O¤",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r" >PHOPeOPlOPlOPoOP,OP OPWOPoOPrOPlOPdOP!O¤",
-            )],
+            syntax: REVERSIBLE2D,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    REVERSIBLE2D,
+                    [(
+                        TokenKind::Plain,
+                        r" >PHOPeOPlOPlOPoOP,OP OPWOPoOPrOPlOPdOP!O¤",
+                    )],
+                )
+            },
         }],
     };

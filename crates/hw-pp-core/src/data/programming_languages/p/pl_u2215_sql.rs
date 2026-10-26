@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,15 @@ language_names! {
     versions: [PlU2215Sql => "PL∕SQL"],
     extensions: [Pls => "pls"],
 }
+
+const PL_U2215_SQL: &str = concat!(
+    r"BEGIN
+  dbms_output.put_line('",
+    output_for_hello_world!(),
+    r"');
+END;
+/"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,41 +39,39 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Ada],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PlU2215Sql,
-            syntax: concat!(
-                r"BEGIN
-  dbms_output.put_line('",
-                output_for_hello_world!(),
-                r"');
-END;
-/"
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"BEGIN"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: PL_U2215_SQL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PL_U2215_SQL,
+                    [
+                        (TokenKind::Keyword, r"BEGIN"),
+                        (
+                            TokenKind::Plain,
+                            r"
   dbms_output",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Keyword, r"put_line"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r"'", output_for_hello_world!(), r"'"),
-                ),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Keyword, r"put_line"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r"'", output_for_hello_world!(), r"'"),
+                        ),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"END"),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"END"),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 /",
-                ),
-            ],
+                        ),
+                    ],
+                )
+            },
         }],
     };

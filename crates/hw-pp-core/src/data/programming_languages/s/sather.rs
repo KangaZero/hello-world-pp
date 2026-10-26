@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,18 @@ language_names! {
     versions: [Sather => "Sather"],
     extensions: [Sa => "sa"],
 }
+
+const SATHER: &str = concat!(
+    r#"class MAIN is
+   main is 
+      loop 
+         #OUT + ""#,
+    output_for_hello_world!(),
+    r#"\n" 
+      end 
+   end
+end"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,55 +41,50 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sather,
-            syntax: concat!(
-                r#"class MAIN is
-   main is 
-      loop 
-         #OUT + ""#,
-                output_for_hello_world!(),
-                r#"\n" 
-      end 
-   end
-end"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"class"),
-                (TokenKind::Plain, r" MAIN "),
-                (TokenKind::Keyword, r"is"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: SATHER,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SATHER,
+                    [
+                        (TokenKind::Keyword, r"class"),
+                        (TokenKind::Plain, r" MAIN "),
+                        (TokenKind::Keyword, r"is"),
+                        (
+                            TokenKind::Plain,
+                            r"
    main ",
-                ),
-                (TokenKind::Keyword, r"is"),
-                (
-                    TokenKind::Plain,
-                    r" 
+                        ),
+                        (TokenKind::Keyword, r"is"),
+                        (
+                            TokenKind::Plain,
+                            r" 
       loop 
          #OUT + ",
-                ),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
-                ),
-                (
-                    TokenKind::Plain,
-                    r" 
+                        ),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r" 
       ",
-                ),
-                (TokenKind::Keyword, r"end"),
-                (
-                    TokenKind::Plain,
-                    r" 
+                        ),
+                        (TokenKind::Keyword, r"end"),
+                        (
+                            TokenKind::Plain,
+                            r" 
    ",
-                ),
-                (TokenKind::Keyword, r"end"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"end"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"end"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"end"),
+                    ],
+                )
+            },
         }],
     };

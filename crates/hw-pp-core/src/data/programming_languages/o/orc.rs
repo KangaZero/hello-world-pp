@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,21 @@ language_names! {
     versions: [Orc => "Orc"],
     extensions: [Orc => "orc"],
 }
+
+const ORC: &str = concat!(
+    r#"{- HelloWorld.orc -- Orc program HelloWorld
+ -
+ - $Id$
+ -
+ - Created by xbony2 on Nov 8, 2014 8:30:25 PM
+ - Licensed under public domain.
+ -}
+
+Println(""#,
+    output_for_hello_world!(),
+    r#"") >>
+stop"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,8 +44,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Orc,
-            syntax: concat!(
-                r#"{- HelloWorld.orc -- Orc program HelloWorld
+            syntax: ORC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ORC,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"{- HelloWorld.orc -- Orc program HelloWorld
  -
  - $Id$
  -
@@ -39,26 +60,12 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
  -}
 
 Println(""#,
-                output_for_hello_world!(),
-                r#"") >>
+                            output_for_hello_world!(),
+                            r#"") >>
 stop"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"{- HelloWorld.orc -- Orc program HelloWorld
- -
- - $Id$
- -
- - Created by xbony2 on Nov 8, 2014 8:30:25 PM
- - Licensed under public domain.
- -}
-
-Println(""#,
-                    output_for_hello_world!(),
-                    r#"") >>
-stop"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

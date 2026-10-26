@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,16 +21,8 @@ language_names! {
     extensions: [X10 => "x10"],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::X10,
-        extensions: &[FileExtension::X10],
-        categories: &[Compiled],
-        families: &[],
-        versions: &[ProgrammingLanguageVersion {
-            label: ProgrammingLanguageDialect::X10,
-            syntax: concat!(
-                r#"/*
+const X10: &str = concat!(
+    r#"/*
  *  This file is part of the X10 project (http://x10-lang.org).
  *
  *  This file is licensed to You under the Eclipse Public License (EPL);
@@ -46,17 +38,30 @@ import x10.io.Console;
 public class HelloWorld {
   public static def main(Rail[String]) {
       Console.OUT.println(""#,
-                output_for_hello_world!(),
-                r#"");
+    output_for_hello_world!(),
+    r#"");
   }
 }
 
 "#
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Comment,
-                    r"/*
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::X10,
+        extensions: &[FileExtension::X10],
+        categories: &[Compiled],
+        families: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::X10,
+            syntax: X10,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    X10,
+                    [
+                        (
+                            TokenKind::Comment,
+                            r"/*
  *  This file is part of the X10 project (http://x10-lang.org).
  *
  *  This file is licensed to You under the Eclipse Public License (EPL);
@@ -66,83 +71,85 @@ public class HelloWorld {
  *
  *  (C) Copyright IBM Corporation 2006-2016.
  */",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"import"),
-                (TokenKind::Plain, r" x10"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Plain, r"io"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Plain, r"Console"),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"import"),
+                        (TokenKind::Plain, r" x10"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Plain, r"io"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Plain, r"Console"),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"public"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"class"),
-                (TokenKind::Plain, r" HelloWorld "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"public"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"class"),
+                        (TokenKind::Plain, r" HelloWorld "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Keyword, r"public"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"static"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"def"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"main"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"Rail"),
-                (TokenKind::Punctuation, r"["),
-                (TokenKind::Function, r"String"),
-                (TokenKind::Punctuation, r"])"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"public"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"static"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"def"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"main"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"Rail"),
+                        (TokenKind::Punctuation, r"["),
+                        (TokenKind::Function, r"String"),
+                        (TokenKind::Punctuation, r"])"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
       Console",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Plain, r"OUT"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"println"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Plain, r"OUT"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"println"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-            ],
+                        ),
+                    ],
+                )
+            },
         }],
     };

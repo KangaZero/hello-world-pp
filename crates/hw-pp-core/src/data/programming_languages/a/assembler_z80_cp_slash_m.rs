@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -22,18 +22,10 @@ language_names! {
     extensions: [],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::AssemblerZ80CpSlashM,
-        extensions: &[],
-        categories: &[Assembly],
-        families: &[],
-        versions: &[ProgrammingLanguageVersion {
-            label: ProgrammingLanguageDialect::AssemblerZ80CpSlashM,
-            syntax: concat!(
-                r"; ",
-                output_for_hello_world!(),
-                r" in Z80 Assembly for CP/M
+const ASSEMBLER_Z80_CP_SLASH_M: &str = concat!(
+    r"; ",
+    output_for_hello_world!(),
+    r" in Z80 Assembly for CP/M
 
 BDOS    equ     05h
 WRTLINE equ     09h
@@ -45,88 +37,103 @@ WRTLINE equ     09h
         ret
 ;
 sHello  db      '",
-                output_for_hello_world!(),
-                r"$'"
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Comment,
-                    concat!(
-                        r"; ",
-                        output_for_hello_world!(),
-                        r" in Z80 Assembly for CP/M"
-                    ),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+    output_for_hello_world!(),
+    r"$'"
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::AssemblerZ80CpSlashM,
+        extensions: &[],
+        categories: &[Assembly],
+        families: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::AssemblerZ80CpSlashM,
+            syntax: ASSEMBLER_Z80_CP_SLASH_M,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_Z80_CP_SLASH_M,
+                    [
+                        (
+                            TokenKind::Comment,
+                            concat!(
+                                r"; ",
+                                output_for_hello_world!(),
+                                r" in Z80 Assembly for CP/M"
+                            ),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 BDOS    ",
-                ),
-                (TokenKind::Keyword, r"equ"),
-                (
-                    TokenKind::Plain,
-                    r"     05h
+                        ),
+                        (TokenKind::Keyword, r"equ"),
+                        (
+                            TokenKind::Plain,
+                            r"     05h
 WRTLINE ",
-                ),
-                (TokenKind::Keyword, r"equ"),
-                (
-                    TokenKind::Plain,
-                    r"     09h
+                        ),
+                        (TokenKind::Keyword, r"equ"),
+                        (
+                            TokenKind::Plain,
+                            r"     09h
 ",
-                ),
-                (TokenKind::Comment, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"org"),
-                (
-                    TokenKind::Plain,
-                    r"     0100h
+                        ),
+                        (TokenKind::Keyword, r"org"),
+                        (
+                            TokenKind::Plain,
+                            r"     0100h
         ",
-                ),
-                (TokenKind::Keyword, r"lxi"),
-                (TokenKind::Plain, r"     d"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"sHello
+                        ),
+                        (TokenKind::Keyword, r"lxi"),
+                        (TokenKind::Plain, r"     d"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"sHello
         ",
-                ),
-                (TokenKind::Keyword, r"mvi"),
-                (TokenKind::Plain, r"     c"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"WRTLINE
+                        ),
+                        (TokenKind::Keyword, r"mvi"),
+                        (TokenKind::Plain, r"     c"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"WRTLINE
         ",
-                ),
-                (TokenKind::Keyword, r"call"),
-                (
-                    TokenKind::Plain,
-                    r"    BDOS
+                        ),
+                        (TokenKind::Keyword, r"call"),
+                        (
+                            TokenKind::Plain,
+                            r"    BDOS
         ",
-                ),
-                (TokenKind::Keyword, r"ret"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"ret"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 sHello  ",
-                ),
-                (TokenKind::Keyword, r"db"),
-                (TokenKind::Plain, r"      "),
-                (
-                    TokenKind::String,
-                    concat!(r"'", output_for_hello_world!(), r"$'"),
-                ),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"db"),
+                        (TokenKind::Plain, r"      "),
+                        (
+                            TokenKind::String,
+                            concat!(r"'", output_for_hello_world!(), r"$'"),
+                        ),
+                    ],
+                )
+            },
         }],
     };

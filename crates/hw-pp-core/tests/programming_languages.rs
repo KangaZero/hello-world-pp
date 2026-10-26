@@ -143,31 +143,9 @@ fn syntax_rejects_version_from_another_language() {
 }
 
 #[test]
-fn tokenized_syntax_len_matches_syntax() {
+fn tokens_rebuild_every_snippet_exactly() {
     for version in PROGRAMMING_LANGUAGES.iter().flat_map(|lang| lang.versions) {
-        let tokens_len: usize = version
-            .tokenized_syntax
-            .iter()
-            .map(|(_, text)| text.len())
-            .sum();
-        assert_eq!(
-            tokens_len,
-            version.syntax.len(),
-            "{} tokens cover {tokens_len} bytes, but its syntax has {}",
-            version.label,
-            version.syntax.len()
-        );
-    }
-}
-
-#[test]
-fn tokenized_syntax_rebuilds_every_snippet_exactly() {
-    for version in PROGRAMMING_LANGUAGES.iter().flat_map(|lang| lang.versions) {
-        let rebuilt: String = version
-            .tokenized_syntax
-            .iter()
-            .map(|(_, text)| *text)
-            .collect();
+        let rebuilt: String = version.tokens().map(|(_, text)| text).collect();
         assert_eq!(
             rebuilt, version.syntax,
             "{} tokens do not match its syntax",

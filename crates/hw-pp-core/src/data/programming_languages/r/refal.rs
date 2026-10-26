@@ -17,7 +17,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -25,6 +25,27 @@ language_names! {
     versions: [Refal => "Refal", Refal2 => "REFAL-2"],
     extensions: [Ref => "ref"],
 }
+
+const REFAL: &str = concat!(
+    r"$ENTRY Go { = <Hello>;}
+Hello {
+   = <Prout '",
+    output_for_hello_world!(),
+    r"'>;
+}"
+);
+const REFAL2: &str = concat!(
+    r"* ",
+    output_for_hello_world!(),
+    r" in REFAL-2
+start
+entry go
+extrn PROUT
+go = <prout '",
+    output_for_hello_world!(),
+    r"'>
+end"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -35,55 +56,47 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Refal,
-                syntax: concat!(
-                    r"$ENTRY Go { = <Hello>;}
+                syntax: REFAL,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        REFAL,
+                        [(
+                            TokenKind::Plain,
+                            concat!(
+                                r"$ENTRY Go { = <Hello>;}
 Hello {
    = <Prout '",
-                    output_for_hello_world!(),
-                    r"'>;
+                                output_for_hello_world!(),
+                                r"'>;
 }"
-                ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r"$ENTRY Go { = <Hello>;}
-Hello {
-   = <Prout '",
-                        output_for_hello_world!(),
-                        r"'>;
-}"
-                    ),
-                )],
+                            ),
+                        )],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Refal2,
-                syntax: concat!(
-                    r"* ",
-                    output_for_hello_world!(),
-                    r" in REFAL-2
+                syntax: REFAL2,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        REFAL2,
+                        [(
+                            TokenKind::Plain,
+                            concat!(
+                                r"* ",
+                                output_for_hello_world!(),
+                                r" in REFAL-2
 start
 entry go
 extrn PROUT
 go = <prout '",
-                    output_for_hello_world!(),
-                    r"'>
+                                output_for_hello_world!(),
+                                r"'>
 end"
-                ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r"* ",
-                        output_for_hello_world!(),
-                        r" in REFAL-2
-start
-entry go
-extrn PROUT
-go = <prout '",
-                        output_for_hello_world!(),
-                        r"'>
-end"
-                    ),
-                )],
+                            ),
+                        )],
+                    )
+                },
             },
         ],
     };

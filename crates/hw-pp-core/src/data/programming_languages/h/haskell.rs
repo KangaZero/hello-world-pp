@@ -11,7 +11,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -19,6 +19,13 @@ language_names! {
     versions: [Haskell2010 => "Haskell 2010"],
     extensions: [Hs => "hs", Lhs => "lhs"],
 }
+
+const HASKELL2010: &str = concat!(
+    r#"main :: IO ()
+main = putStrLn ""#,
+    output_for_hello_world!(),
+    r#"""#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -28,25 +35,25 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Haskell],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Haskell2010,
-            syntax: concat!(
-                r#"main :: IO ()
-main = putStrLn ""#,
-                output_for_hello_world!(),
-                r#"""#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Function, "main"),
-                (TokenKind::Plain, " "),
-                (TokenKind::Keyword, "::"),
-                (TokenKind::Plain, " "),
-                (TokenKind::Type, "IO"),
-                (TokenKind::Plain, " ()\nmain "),
-                (TokenKind::Keyword, "="),
-                (TokenKind::Plain, " putStrLn "),
-                (
-                    TokenKind::String,
-                    concat!("\"", output_for_hello_world!(), "\""),
-                ),
-            ],
+            syntax: HASKELL2010,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    HASKELL2010,
+                    [
+                        (TokenKind::Function, "main"),
+                        (TokenKind::Plain, " "),
+                        (TokenKind::Keyword, "::"),
+                        (TokenKind::Plain, " "),
+                        (TokenKind::Type, "IO"),
+                        (TokenKind::Plain, " ()\nmain "),
+                        (TokenKind::Keyword, "="),
+                        (TokenKind::Plain, " putStrLn "),
+                        (
+                            TokenKind::String,
+                            concat!("\"", output_for_hello_world!(), "\""),
+                        ),
+                    ],
+                )
+            },
         }],
     };

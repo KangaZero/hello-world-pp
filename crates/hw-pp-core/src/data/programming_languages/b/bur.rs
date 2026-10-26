@@ -11,13 +11,19 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Bur => "Bur",
     versions: [Bur => "Bur"],
     extensions: [],
 }
+
+const BUR: &str =
+    r"~@,#33!#100!#108!#114!#111!#87!#32!#44!#111!#108!#108!#101!#72!!.!.!.!.!.!.!.!.!.!.!.!.!v.;";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +33,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Bur,
-            syntax: r"~@,#33!#100!#108!#114!#111!#87!#32!#44!#111!#108!#108!#101!#72!!.!.!.!.!.!.!.!.!.!.!.!.!v.;",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"~@,#33!#100!#108!#114!#111!#87!#32!#44!#111!#108!#108!#101!#72!!.!.!.!.!.!.!.!.!.!.!.!.!v.;",
-            )],
+            syntax: BUR,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BUR,
+                    [(
+                        TokenKind::Plain,
+                        r"~@,#33!#100!#108!#114!#111!#87!#32!#44!#111!#108!#108!#101!#72!!.!.!.!.!.!.!.!.!.!.!.!.!v.;",
+                    )],
+                )
+            },
         }],
     };

@@ -11,13 +11,25 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Plankalkul => "Plankalkül",
     versions: [Plankalkul => "Plankalkül"],
     extensions: [],
 }
+
+const PLANKALKUL: &str = r"R1.1(V0[:sig]) => R0
+R1.2(V0[:m x sig]) => R0
+0 => i | m + 1 => j
+[W [ i  i ] ] ]
+END
+R1.3() => R0
+'H';'e';'l';'l';'o';',';' ';'w';'o';'r';'l';'d';'!' => Z0[: m x sig] R1.2(Z0) => R0
+END";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +39,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Plankalkul,
-            syntax: r"R1.1(V0[:sig]) => R0
+            syntax: PLANKALKUL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PLANKALKUL,
+                    [(
+                        TokenKind::Plain,
+                        r"R1.1(V0[:sig]) => R0
 R1.2(V0[:m x sig]) => R0
 0 => i | m + 1 => j
 [W [ i  i ] ] ]
@@ -35,16 +53,8 @@ END
 R1.3() => R0
 'H';'e';'l';'l';'o';',';' ';'w';'o';'r';'l';'d';'!' => Z0[: m x sig] R1.2(Z0) => R0
 END",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"R1.1(V0[:sig]) => R0
-R1.2(V0[:m x sig]) => R0
-0 => i | m + 1 => j
-[W [ i  i ] ] ]
-END
-R1.3() => R0
-'H';'e';'l';'l';'o';',';' ';'w';'o';'r';'l';'d';'!' => Z0[: m x sig] R1.2(Z0) => R0
-END",
-            )],
+                    )],
+                )
+            },
         }],
     };

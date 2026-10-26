@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,18 @@ language_names! {
     versions: [Pug => "Pug"],
     extensions: [Pug => "pug"],
 }
+
+const PUG: &str = concat!(
+    r"doctype html
+html
+    head
+       title ",
+    output_for_hello_world!(),
+    r"
+    body
+       h1 ",
+    output_for_hello_world!()
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,30 +41,25 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Pug,
-            syntax: concat!(
-                r"doctype html
+            syntax: PUG,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PUG,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"doctype html
 html
     head
        title ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
     body
        h1 ",
-                output_for_hello_world!()
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"doctype html
-html
-    head
-       title ",
-                    output_for_hello_world!(),
-                    r"
-    body
-       h1 ",
-                    output_for_hello_world!()
-                ),
-            )],
+                            output_for_hello_world!()
+                        ),
+                    )],
+                )
+            },
         }],
     };

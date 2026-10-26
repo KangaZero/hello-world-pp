@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: WelcomeToEsolangTheEsotericProgrammingLanguagesWikiBang => "Welcome to Esolang, the esoteric programming languages wiki!",
     versions: [WelcomeToEsolangTheEsotericProgrammingLanguagesWikiBang => "Welcome to Esolang, the esoteric programming languages wiki!"],
     extensions: [],
 }
+
+const WELCOME_TO_ESOLANG_THE_ESOTERIC_PROGRAMMING_LANGUAGES_WIKI_BANG: &str = r"Welcome";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -28,7 +33,12 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[ProgrammingLanguageVersion {
             label:
                 ProgrammingLanguageDialect::WelcomeToEsolangTheEsotericProgrammingLanguagesWikiBang,
-            syntax: r"Welcome",
-            tokenized_syntax: &[(TokenKind::Plain, r"Welcome")],
+            syntax: WELCOME_TO_ESOLANG_THE_ESOTERIC_PROGRAMMING_LANGUAGES_WIKI_BANG,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    WELCOME_TO_ESOLANG_THE_ESOTERIC_PROGRAMMING_LANGUAGES_WIKI_BANG,
+                    [(TokenKind::Plain, r"Welcome")],
+                )
+            },
         }],
     };

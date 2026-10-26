@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,194 @@ language_names! {
     versions: [Examplefuck => "ExampleFuck"],
     extensions: [],
 }
+
+const EXAMPLEFUCK: &str = concat!(
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+FizzBuzz
+Truth Machine
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+FizzBuzz
+Truth Machine
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+Truth Machine
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+Truth Machine
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+Truth Machine
+",
+    output_for_hello_world!(),
+    r"
+Quine
+Quine
+Quine
+Quine
+Cat Program
+99 Bottles of Beer
+Truth Machine
+",
+    output_for_hello_world!(),
+    r"
+Truth Machine
+",
+    output_for_hello_world!(),
+    r"
+Truth Machine
+Cat Program
+Truth Machine
+Truth Machine
+",
+    output_for_hello_world!(),
+    r"
+FizzBuzz
+Quine
+99 Bottles of Beer
+Quine
+Cat Program
+99 Bottles of Beer
+Truth Machine
+Truth Machine
+Self Interpreter
+Truth Machine
+Cat Program
+Cat Program
+Cat Program
+Self Interpreter
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+Self Interpreter
+Self Interpreter
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+Self Interpreter
+Truth Machine
+Truth Machine
+Self Interpreter
+Quine
+Cat Program
+Self Interpreter
+Quine
+Self Interpreter
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+Self Interpreter
+Cat Program
+Cat Program
+Cat Program
+Cat Program
+Cat Program
+Cat Program
+Self Interpreter
+Cat Program
+Cat Program
+Cat Program
+Cat Program
+Cat Program
+Cat Program
+Cat Program
+Cat Program
+Self Interpreter
+Truth Machine
+Truth Machine
+",
+    output_for_hello_world!(),
+    r"
+Self Interpreter
+Truth Machine
+",
+    output_for_hello_world!(),
+    r"
+",
+    output_for_hello_world!(),
+    r"
+Self Interpreter"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,76 +218,82 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Examplefuck,
-            syntax: concat!(
-                output_for_hello_world!(),
-                r"
+            syntax: EXAMPLEFUCK,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    EXAMPLEFUCK,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 FizzBuzz
 Truth Machine
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 FizzBuzz
 Truth Machine
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 Truth Machine
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 Truth Machine
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 Truth Machine
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 Quine
 Quine
 Quine
@@ -108,19 +302,19 @@ Cat Program
 99 Bottles of Beer
 Truth Machine
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 Truth Machine
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 Truth Machine
 Cat Program
 Truth Machine
 Truth Machine
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 FizzBuzz
 Quine
 99 Bottles of Beer
@@ -136,37 +330,37 @@ Cat Program
 Cat Program
 Self Interpreter
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 Self Interpreter
 Self Interpreter
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 Self Interpreter
 Truth Machine
 Truth Machine
@@ -177,14 +371,14 @@ Self Interpreter
 Quine
 Self Interpreter
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 Self Interpreter
 Cat Program
 Cat Program
@@ -205,207 +399,20 @@ Self Interpreter
 Truth Machine
 Truth Machine
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 Self Interpreter
 Truth Machine
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 Self Interpreter"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-FizzBuzz
-Truth Machine
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-FizzBuzz
-Truth Machine
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-Truth Machine
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-Truth Machine
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-Truth Machine
-",
-                    output_for_hello_world!(),
-                    r"
-Quine
-Quine
-Quine
-Quine
-Cat Program
-99 Bottles of Beer
-Truth Machine
-",
-                    output_for_hello_world!(),
-                    r"
-Truth Machine
-",
-                    output_for_hello_world!(),
-                    r"
-Truth Machine
-Cat Program
-Truth Machine
-Truth Machine
-",
-                    output_for_hello_world!(),
-                    r"
-FizzBuzz
-Quine
-99 Bottles of Beer
-Quine
-Cat Program
-99 Bottles of Beer
-Truth Machine
-Truth Machine
-Self Interpreter
-Truth Machine
-Cat Program
-Cat Program
-Cat Program
-Self Interpreter
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-Self Interpreter
-Self Interpreter
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-Self Interpreter
-Truth Machine
-Truth Machine
-Self Interpreter
-Quine
-Cat Program
-Self Interpreter
-Quine
-Self Interpreter
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-Self Interpreter
-Cat Program
-Cat Program
-Cat Program
-Cat Program
-Cat Program
-Cat Program
-Self Interpreter
-Cat Program
-Cat Program
-Cat Program
-Cat Program
-Cat Program
-Cat Program
-Cat Program
-Cat Program
-Self Interpreter
-Truth Machine
-Truth Machine
-",
-                    output_for_hello_world!(),
-                    r"
-Self Interpreter
-Truth Machine
-",
-                    output_for_hello_world!(),
-                    r"
-",
-                    output_for_hello_world!(),
-                    r"
-Self Interpreter"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

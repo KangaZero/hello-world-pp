@@ -10,13 +10,18 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Hexish => "Hexish",
     versions: [Hexish => "Hexish"],
     extensions: [Hexish => "hexish"],
 }
+
+const HEXISH: &str = r"0902160E48656C6C6F20776F726C6421001001161508";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,10 +31,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hexish,
-            syntax: r"0902160E48656C6C6F20776F726C6421001001161508",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"0902160E48656C6C6F20776F726C6421001001161508",
-            )],
+            syntax: HEXISH,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    HEXISH,
+                    [(
+                        TokenKind::Plain,
+                        r"0902160E48656C6C6F20776F726C6421001001161508",
+                    )],
+                )
+            },
         }],
     };

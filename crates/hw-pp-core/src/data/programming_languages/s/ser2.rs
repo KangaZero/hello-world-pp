@@ -11,13 +11,25 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Ser2 => "Ser2",
     versions: [Ser2 => "Ser2"],
     extensions: [],
 }
+
+const SER2: &str = r"!print--:#out:--:#c:#n:/wrote--:'@output--:#out: #c:#n:
+!print--:#out:eol:     /wrote- :'@output--:#out:&0a:
+!wrote--:'@iopair--:#out:#c:#n:/print--:#out:#n:
+!wrote- :'@iopair--:#out:#c:   /#out:
+
+!'@run-:#: / print--:#:
+--:'H:--:'e:--:'l:--:'l:--:'o:--:',:--:' :
+--:'w:--:'o:--:'r:--:'l:--:'d:--:'!:eol:";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +39,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ser2,
-            syntax: r"!print--:#out:--:#c:#n:/wrote--:'@output--:#out: #c:#n:
+            syntax: SER2,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SER2,
+                    [(
+                        TokenKind::Plain,
+                        r"!print--:#out:--:#c:#n:/wrote--:'@output--:#out: #c:#n:
 !print--:#out:eol:     /wrote- :'@output--:#out:&0a:
 !wrote--:'@iopair--:#out:#c:#n:/print--:#out:#n:
 !wrote- :'@iopair--:#out:#c:   /#out:
@@ -35,16 +53,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 !'@run-:#: / print--:#:
 --:'H:--:'e:--:'l:--:'l:--:'o:--:',:--:' :
 --:'w:--:'o:--:'r:--:'l:--:'d:--:'!:eol:",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"!print--:#out:--:#c:#n:/wrote--:'@output--:#out: #c:#n:
-!print--:#out:eol:     /wrote- :'@output--:#out:&0a:
-!wrote--:'@iopair--:#out:#c:#n:/print--:#out:#n:
-!wrote- :'@iopair--:#out:#c:   /#out:
-
-!'@run-:#: / print--:#:
---:'H:--:'e:--:'l:--:'l:--:'o:--:',:--:' :
---:'w:--:'o:--:'r:--:'l:--:'d:--:'!:eol:",
-            )],
+                    )],
+                )
+            },
         }],
     };

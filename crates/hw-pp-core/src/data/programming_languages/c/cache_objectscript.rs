@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [CacheObjectscript => "Cache ObjectScript"],
     extensions: [Mac => "mac"],
 }
+
+const CACHE_OBJECTSCRIPT: &str = concat!(
+    r#"HelloWorld  ;
+  Write ""#,
+    output_for_hello_world!(),
+    r#""
+  Quit"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +37,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::CacheObjectscript,
-            syntax: concat!(
-                r#"HelloWorld  ;
+            syntax: CACHE_OBJECTSCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CACHE_OBJECTSCRIPT,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"HelloWorld  ;
   Write ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
   Quit"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"HelloWorld  ;
-  Write ""#,
-                    output_for_hello_world!(),
-                    r#""
-  Quit"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -11,13 +11,28 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: BrokenCalculator => "Broken Calculator",
     versions: [BrokenCalculator => "Broken Calculator"],
     extensions: [],
 }
+
+const BROKEN_CALCULATOR: &str = r"PCR 72
+PCR 69
+PCR 76
+PCR 76
+PCR 79
+PCR 32
+PCR 87
+PCR 79
+PCR 82
+PCR 76
+PCR 68";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +42,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::BrokenCalculator,
-            syntax: r"PCR 72
+            syntax: BROKEN_CALCULATOR,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BROKEN_CALCULATOR,
+                    [(
+                        TokenKind::Plain,
+                        r"PCR 72
 PCR 69
 PCR 76
 PCR 76
@@ -38,19 +59,8 @@ PCR 79
 PCR 82
 PCR 76
 PCR 68",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"PCR 72
-PCR 69
-PCR 76
-PCR 76
-PCR 79
-PCR 32
-PCR 87
-PCR 79
-PCR 82
-PCR 76
-PCR 68",
-            )],
+                    )],
+                )
+            },
         }],
     };

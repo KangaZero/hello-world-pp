@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,28 @@ language_names! {
     versions: [ReactVr => "React-VR"],
     extensions: [],
 }
+
+const REACT_VR: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r" in React-VR
+
+import React from 'react';
+import { AppRegistry, asset, Text, View,} from 'react-vr';
+ 
+export default class HelloWorld extends React.Component {
+  render() { return (
+      <View>
+        <Text
+          style={{transform: [{translate: [0, 0, -3]}],}}>
+          ",
+    output_for_hello_world!(),
+    r"
+        </Text>
+      </View>
+    );   } };
+AppRegistry.registerComponent('HelloWorld', () => HelloWorld);"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +52,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::ReactVr,
-            syntax: concat!(
-                r"// ",
-                output_for_hello_world!(),
-                r" in React-VR
+            syntax: REACT_VR,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    REACT_VR,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"// ",
+                            output_for_hello_world!(),
+                            r" in React-VR
 
 import React from 'react';
 import { AppRegistry, asset, Text, View,} from 'react-vr';
@@ -44,36 +72,15 @@ export default class HelloWorld extends React.Component {
         <Text
           style={{transform: [{translate: [0, 0, -3]}],}}>
           ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
         </Text>
       </View>
     );   } };
 AppRegistry.registerComponent('HelloWorld', () => HelloWorld);"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r" in React-VR
-
-import React from 'react';
-import { AppRegistry, asset, Text, View,} from 'react-vr';
- 
-export default class HelloWorld extends React.Component {
-  render() { return (
-      <View>
-        <Text
-          style={{transform: [{translate: [0, 0, -3]}],}}>
-          ",
-                    output_for_hello_world!(),
-                    r"
-        </Text>
-      </View>
-    );   } };
-AppRegistry.registerComponent('HelloWorld', () => HelloWorld);"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

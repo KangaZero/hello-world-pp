@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,49 @@ language_names! {
     versions: [Matrix => "Matrix"],
     extensions: [],
 }
+
+const MATRIX: &str = concat!(
+    r"| ",
+    output_for_hello_world!(),
+    r#" in Matrix
+ 
+System:Hello_World
+ 
+    Type
+        BaseType
+            String
+                Text : 12
+ 
+    Matrix:Model:Application
+        Silo:M1:Software_Application
+            Realm:Analysis_Of_Application
+                Domain:Friend
+                    Entity:Greeting
+                        State
+                            Dataset:Hail
+                                Text : Message
+                            DynamicDataState:Display:Hail
+                                StateAction
+                                    Template
+                                        <<|>><<#Message>>
+                                        <<:>>
+                                Transition
+                                    EventState
+                                        Wave -> Display
+ 
+        Silo:M0:Real_World_Objects
+            RealmObject:Objects_Of_Application
+                DomainObject:Friend
+                    EntityObject:Greeting
+                        Object
+                            | Identity | State
+                            ID001      : Display
+                        ObjectEvent
+                            | Identity | Event | Message
+                            ID001      : Wave  : ""#,
+    output_for_hello_world!(),
+    r#"""#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +73,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Matrix,
-            syntax: concat!(
-                r"| ",
-                output_for_hello_world!(),
-                r#" in Matrix
+            syntax: MATRIX,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MATRIX,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"| ",
+                            output_for_hello_world!(),
+                            r#" in Matrix
  
 System:Hello_World
  
@@ -69,53 +118,11 @@ System:Hello_World
                         ObjectEvent
                             | Identity | Event | Message
                             ID001      : Wave  : ""#,
-                output_for_hello_world!(),
-                r#"""#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"| ",
-                    output_for_hello_world!(),
-                    r#" in Matrix
- 
-System:Hello_World
- 
-    Type
-        BaseType
-            String
-                Text : 12
- 
-    Matrix:Model:Application
-        Silo:M1:Software_Application
-            Realm:Analysis_Of_Application
-                Domain:Friend
-                    Entity:Greeting
-                        State
-                            Dataset:Hail
-                                Text : Message
-                            DynamicDataState:Display:Hail
-                                StateAction
-                                    Template
-                                        <<|>><<#Message>>
-                                        <<:>>
-                                Transition
-                                    EventState
-                                        Wave -> Display
- 
-        Silo:M0:Real_World_Objects
-            RealmObject:Objects_Of_Application
-                DomainObject:Friend
-                    EntityObject:Greeting
-                        Object
-                            | Identity | State
-                            ID001      : Display
-                        ObjectEvent
-                            | Identity | Event | Message
-                            ID001      : Wave  : ""#,
-                    output_for_hello_world!(),
-                    r#"""#
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r#"""#
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -10,13 +10,76 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Chicken => "Chicken",
     versions: [Chicken => "Chicken"],
     extensions: [Chicken => "chicken"],
 }
+
+const CHICKEN: &str = r"chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken
+
+chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken
+
+chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken
+chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken
+
+chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken
+
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken
+
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +89,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Chicken,
-            syntax: r"chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+            syntax: CHICKEN,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CHICKEN,
+                    [(
+                        TokenKind::Plain,
+                        r"chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
 chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
 chicken chicken chicken chicken
 chicken chicken chicken chicken chicken chicken chicken chicken chicken
@@ -85,67 +154,8 @@ chicken chicken chicken
 chicken chicken chicken chicken chicken chicken chicken chicken
 chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
 chicken chicken chicken chicken chicken chicken",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken
-
-chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken
-
-chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken
-chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken
-
-chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken
-
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken
-
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken",
-            )],
+                    )],
+                )
+            },
         }],
     };

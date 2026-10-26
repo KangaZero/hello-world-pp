@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Hexdump => "Hexdump",
     versions: [Hexdump => "Hexdump"],
     extensions: [],
 }
+
+const HEXDUMP: &str = r"48 65 6C 6C 6F 20 57 6F 72 6C 64 21";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +32,12 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hexdump,
-            syntax: r"48 65 6C 6C 6F 20 57 6F 72 6C 64 21",
-            tokenized_syntax: &[(TokenKind::Plain, r"48 65 6C 6C 6F 20 57 6F 72 6C 64 21")],
+            syntax: HEXDUMP,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    HEXDUMP,
+                    [(TokenKind::Plain, r"48 65 6C 6C 6F 20 57 6F 72 6C 64 21")],
+                )
+            },
         }],
     };

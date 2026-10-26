@@ -11,13 +11,21 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Stackfest => "Stackfest",
     versions: [Stackfest => "Stackfest"],
     extensions: [],
 }
+
+const STACKFEST: &str = r#"st = >>
+push "!dlroW ,olleH" into st
+while st != null:
+    outascii from st"#;
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,16 +35,18 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Stackfest,
-            syntax: r#"st = >>
+            syntax: STACKFEST,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    STACKFEST,
+                    [(
+                        TokenKind::Plain,
+                        r#"st = >>
 push "!dlroW ,olleH" into st
 while st != null:
     outascii from st"#,
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r#"st = >>
-push "!dlroW ,olleH" into st
-while st != null:
-    outascii from st"#,
-            )],
+                    )],
+                )
+            },
         }],
     };

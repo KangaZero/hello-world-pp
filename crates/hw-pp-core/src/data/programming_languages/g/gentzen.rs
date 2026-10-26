@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,16 @@ language_names! {
     versions: [Gentzen => "Gentzen"],
     extensions: [Gentzen => "gentzen"],
 }
+
+const GENTZEN: &str = concat!(
+    r#"<- "stdlib";
+<- "iolib";
+main : () / ($1(iosys) |- $2(++));
+main = [x,y] cut ""#,
+    output_for_hello_world!(),
+    r#"" [z] outtext x z y;
+-> main;"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,26 +39,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Gentzen,
-            syntax: concat!(
-                r#"<- "stdlib";
+            syntax: GENTZEN,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    GENTZEN,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"<- "stdlib";
 <- "iolib";
 main : () / ($1(iosys) |- $2(++));
 main = [x,y] cut ""#,
-                output_for_hello_world!(),
-                r#"" [z] outtext x z y;
+                            output_for_hello_world!(),
+                            r#"" [z] outtext x z y;
 -> main;"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"<- "stdlib";
-<- "iolib";
-main : () / ($1(iosys) |- $2(++));
-main = [x,y] cut ""#,
-                    output_for_hello_world!(),
-                    r#"" [z] outtext x z y;
--> main;"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

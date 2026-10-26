@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [N4gl => "4gl"],
     extensions: [E4gl => "4gl"],
 }
+
+const N4GL: &str = concat!(
+    r#"main
+    display ""#,
+    output_for_hello_world!(),
+    r#""
+end main"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +37,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::N4gl,
-            syntax: concat!(
-                r#"main
+            syntax: N4GL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    N4GL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"main
     display ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 end main"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"main
-    display ""#,
-                    output_for_hello_world!(),
-                    r#""
-end main"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

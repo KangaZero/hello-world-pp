@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,13 @@ language_names! {
     versions: [Dup => "DUP"],
     extensions: [Dup => "dup"],
 }
+
+const DUP: &str = concat!(
+    r#"[\[^^>][$;,1+]#%%]p:
+0$""#,
+    output_for_hello_world!(),
+    r#""p;!10,"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,20 +36,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Dup,
-            syntax: concat!(
-                r#"[\[^^>][$;,1+]#%%]p:
+            syntax: DUP,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    DUP,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"[\[^^>][$;,1+]#%%]p:
 0$""#,
-                output_for_hello_world!(),
-                r#""p;!10,"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"[\[^^>][$;,1+]#%%]p:
-0$""#,
-                    output_for_hello_world!(),
-                    r#""p;!10,"#
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r#""p;!10,"#
+                        ),
+                    )],
+                )
+            },
         }],
     };

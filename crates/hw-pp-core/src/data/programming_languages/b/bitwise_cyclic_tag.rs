@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: BitwiseCyclicTag => "Bitwise Cyclic Tag",
     versions: [BitwiseCyclicTag => "Bitwise Cyclic Tag"],
     extensions: [],
 }
+
+const BITWISE_CYCLIC_TAG: &str = r"1";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +32,9 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::BitwiseCyclicTag,
-            syntax: r"1",
-            tokenized_syntax: &[(TokenKind::Plain, r"1")],
+            syntax: BITWISE_CYCLIC_TAG,
+            tokenized_syntax: &const {
+                checked_token_lengths(BITWISE_CYCLIC_TAG, [(TokenKind::Plain, r"1")])
+            },
         }],
     };

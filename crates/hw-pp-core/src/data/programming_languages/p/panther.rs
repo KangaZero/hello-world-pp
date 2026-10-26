@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,22 @@ language_names! {
     versions: [Panther => "Panther"],
     extensions: [],
 }
+
+const PANTHER: &str = concat!(
+    r"import sys
+from panther import Panther
+from panther.app import API
+
+
+@API()
+def hello_world():
+    return '",
+    output_for_hello_world!(),
+    r"'
+
+
+app = Panther(__name__, configs=sys.modules[__name__], urls={'/': hello_world})"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,99 +45,90 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Panther,
-            syntax: concat!(
-                r"import sys
-from panther import Panther
-from panther.app import API
-
-
-@API()
-def hello_world():
-    return '",
-                output_for_hello_world!(),
-                r"'
-
-
-app = Panther(__name__, configs=sys.modules[__name__], urls={'/': hello_world})"
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"import"),
-                (
-                    TokenKind::Plain,
-                    r" sys
+            syntax: PANTHER,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PANTHER,
+                    [
+                        (TokenKind::Keyword, r"import"),
+                        (
+                            TokenKind::Plain,
+                            r" sys
 ",
-                ),
-                (TokenKind::Keyword, r"from"),
-                (TokenKind::Plain, r" panther "),
-                (TokenKind::Keyword, r"import"),
-                (
-                    TokenKind::Plain,
-                    r" Panther
+                        ),
+                        (TokenKind::Keyword, r"from"),
+                        (TokenKind::Plain, r" panther "),
+                        (TokenKind::Keyword, r"import"),
+                        (
+                            TokenKind::Plain,
+                            r" Panther
 ",
-                ),
-                (TokenKind::Keyword, r"from"),
-                (TokenKind::Plain, r" panther"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Plain, r"app "),
-                (TokenKind::Keyword, r"import"),
-                (
-                    TokenKind::Plain,
-                    r" API
+                        ),
+                        (TokenKind::Keyword, r"from"),
+                        (TokenKind::Plain, r" panther"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Plain, r"app "),
+                        (TokenKind::Keyword, r"import"),
+                        (
+                            TokenKind::Plain,
+                            r" API
 
 
 ",
-                ),
-                (TokenKind::Punctuation, r"@"),
-                (TokenKind::Plain, r"API"),
-                (TokenKind::Punctuation, r"()"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"@"),
+                        (TokenKind::Plain, r"API"),
+                        (TokenKind::Punctuation, r"()"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"def"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"hello_world"),
-                (TokenKind::Punctuation, r"():"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"def"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"hello_world"),
+                        (TokenKind::Punctuation, r"():"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"return"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r"'", output_for_hello_world!(), r"'"),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"return"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r"'", output_for_hello_world!(), r"'"),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 
 app ",
-                ),
-                (TokenKind::Keyword, r"="),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"Panther"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"__name__"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" configs"),
-                (TokenKind::Keyword, r"="),
-                (TokenKind::Plain, r"sys"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Plain, r"modules"),
-                (TokenKind::Punctuation, r"["),
-                (TokenKind::Plain, r"__name__"),
-                (TokenKind::Punctuation, r"],"),
-                (TokenKind::Plain, r" urls"),
-                (TokenKind::Keyword, r"="),
-                (TokenKind::Punctuation, r"{"),
-                (TokenKind::String, r"'/'"),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" hello_world"),
-                (TokenKind::Punctuation, r"})"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"="),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"Panther"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"__name__"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" configs"),
+                        (TokenKind::Keyword, r"="),
+                        (TokenKind::Plain, r"sys"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Plain, r"modules"),
+                        (TokenKind::Punctuation, r"["),
+                        (TokenKind::Plain, r"__name__"),
+                        (TokenKind::Punctuation, r"],"),
+                        (TokenKind::Plain, r" urls"),
+                        (TokenKind::Keyword, r"="),
+                        (TokenKind::Punctuation, r"{"),
+                        (TokenKind::String, r"'/'"),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" hello_world"),
+                        (TokenKind::Punctuation, r"})"),
+                    ],
+                )
+            },
         }],
     };

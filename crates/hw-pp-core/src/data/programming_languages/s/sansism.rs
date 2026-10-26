@@ -11,13 +11,21 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Sansism => "Sansism",
     versions: [Sansism => "Sansism"],
     extensions: [],
 }
+
+const SANSISM: &str = r"           G                                  GGG
+>++++++++++>!+++++++!++++++++++!+++!+##!!!!##-G+G
+G.+++++++++++++++##!!##.++!.+++..+++++++.+!.++! G
+G!.+++.------.--------.!+.!.G                  GG";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,16 +35,18 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sansism,
-            syntax: r"           G                                  GGG
+            syntax: SANSISM,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SANSISM,
+                    [(
+                        TokenKind::Plain,
+                        r"           G                                  GGG
 >++++++++++>!+++++++!++++++++++!+++!+##!!!!##-G+G
 G.+++++++++++++++##!!##.++!.+++..+++++++.+!.++! G
 G!.+++.------.--------.!+.!.G                  GG",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"           G                                  GGG
->++++++++++>!+++++++!++++++++++!+++!+##!!!!##-G+G
-G.+++++++++++++++##!!##.++!.+++..+++++++.+!.++! G
-G!.+++.------.--------.!+.!.G                  GG",
-            )],
+                    )],
+                )
+            },
         }],
     };

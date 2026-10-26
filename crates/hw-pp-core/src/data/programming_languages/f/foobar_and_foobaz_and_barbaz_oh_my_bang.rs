@@ -11,13 +11,31 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: FoobarAndFoobazAndBarbazOhMyBang => "Foobar and Foobaz and Barbaz, oh my!",
     versions: [FoobarAndFoobazAndBarbazOhMyBang => "Foobar and Foobaz and Barbaz, oh my!"],
     extensions: [],
 }
+
+const FOOBAR_AND_FOOBAZ_AND_BARBAZ_OH_MY_BANG: &str = r"72 and 27 and 27, oh my.
+101 and 101 and 101, oh my.
+108 and 108 and 108, oh my.
+108 and 108 and 108, oh my.
+111 and 111 and 111, oh my.
+44 and 44 and 44, oh my.
+32 and 32 and 32, oh my.
+119 and 119 and 119, oh my.
+111 and 111 and 111, oh my.
+114 and 114 and 114, oh my.
+108 and 108 and 108, oh my.
+100 and 100 and 100, oh my.
+33 and 33 and 33, oh my.
+10 and 10 and 10, oh my.";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +45,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::FoobarAndFoobazAndBarbazOhMyBang,
-            syntax: r"72 and 27 and 27, oh my.
+            syntax: FOOBAR_AND_FOOBAZ_AND_BARBAZ_OH_MY_BANG,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FOOBAR_AND_FOOBAZ_AND_BARBAZ_OH_MY_BANG,
+                    [(
+                        TokenKind::Plain,
+                        r"72 and 27 and 27, oh my.
 101 and 101 and 101, oh my.
 108 and 108 and 108, oh my.
 108 and 108 and 108, oh my.
@@ -41,22 +65,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 100 and 100 and 100, oh my.
 33 and 33 and 33, oh my.
 10 and 10 and 10, oh my.",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"72 and 27 and 27, oh my.
-101 and 101 and 101, oh my.
-108 and 108 and 108, oh my.
-108 and 108 and 108, oh my.
-111 and 111 and 111, oh my.
-44 and 44 and 44, oh my.
-32 and 32 and 32, oh my.
-119 and 119 and 119, oh my.
-111 and 111 and 111, oh my.
-114 and 114 and 114, oh my.
-108 and 108 and 108, oh my.
-100 and 100 and 100, oh my.
-33 and 33 and 33, oh my.
-10 and 10 and 10, oh my.",
-            )],
+                    )],
+                )
+            },
         }],
     };

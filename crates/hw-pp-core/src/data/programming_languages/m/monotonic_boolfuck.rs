@@ -11,13 +11,31 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: MonotonicBoolfuck => "Monotonic Boolfuck",
     versions: [MonotonicBoolfuck => "Monotonic Boolfuck"],
     extensions: [],
 }
+
+const MONOTONIC_BOOLFUCK: &str = r"1
+>;;;<;>;;<;;;  H
+<;>;<;>;;<;;;; e
+;;<;;>;<;;;;   l
+;;<;;>;<;;;;   l
+<;;;;>;<;;;;   o
+;;<;;>;<;;;
+;;;;;<;;;
+<;;;>;<;;;;;   W
+<;;;;>;<;;;;   o
+;<;>;;<;;;;;   r
+;;<;;>;<;;;;   l
+;;<;>;;<;;;;   d
+<;>;;;;<;;;";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +45,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::MonotonicBoolfuck,
-            syntax: r"1
+            syntax: MONOTONIC_BOOLFUCK,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MONOTONIC_BOOLFUCK,
+                    [(
+                        TokenKind::Plain,
+                        r"1
 >;;;<;>;;<;;;  H
 <;>;<;>;;<;;;; e
 ;;<;;>;<;;;;   l
@@ -41,22 +65,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 ;;<;;>;<;;;;   l
 ;;<;>;;<;;;;   d
 <;>;;;;<;;;",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"1
->;;;<;>;;<;;;  H
-<;>;<;>;;<;;;; e
-;;<;;>;<;;;;   l
-;;<;;>;<;;;;   l
-<;;;;>;<;;;;   o
-;;<;;>;<;;;
-;;;;;<;;;
-<;;;>;<;;;;;   W
-<;;;;>;<;;;;   o
-;<;>;;<;;;;;   r
-;;<;;>;<;;;;   l
-;;<;>;;<;;;;   d
-<;>;;;;<;;;",
-            )],
+                    )],
+                )
+            },
         }],
     };

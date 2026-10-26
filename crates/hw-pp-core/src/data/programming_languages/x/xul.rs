@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,15 @@ language_names! {
     versions: [Xul => "XUL"],
     extensions: [Xul => "xul"],
 }
+
+const XUL: &str = concat!(
+    r#"<?xml version="1.0"?>
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    <label value=""#,
+    output_for_hello_world!(),
+    r#""/>
+</window>"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,50 +38,48 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Xul,
-            syntax: concat!(
-                r#"<?xml version="1.0"?>
-<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-    <label value=""#,
-                output_for_hello_world!(),
-                r#""/>
-</window>"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"<"),
-                (TokenKind::Plain, r"?xml version="),
-                (TokenKind::String, r#""1.0""#),
-                (TokenKind::Plain, r"?"),
-                (TokenKind::Keyword, r">"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: XUL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    XUL,
+                    [
+                        (TokenKind::Keyword, r"<"),
+                        (TokenKind::Plain, r"?xml version="),
+                        (TokenKind::String, r#""1.0""#),
+                        (TokenKind::Plain, r"?"),
+                        (TokenKind::Keyword, r">"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"<window"),
-                (TokenKind::Plain, r" xmlns="),
-                (
-                    TokenKind::String,
-                    r#""http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul""#,
-                ),
-                (TokenKind::Keyword, r">"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"<window"),
+                        (TokenKind::Plain, r" xmlns="),
+                        (
+                            TokenKind::String,
+                            r#""http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul""#,
+                        ),
+                        (TokenKind::Keyword, r">"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"<label"),
-                (TokenKind::Plain, r" value="),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Keyword, r"/>"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"<label"),
+                        (TokenKind::Plain, r" value="),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Keyword, r"/>"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"</window>"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"</window>"),
+                    ],
+                )
+            },
         }],
     };

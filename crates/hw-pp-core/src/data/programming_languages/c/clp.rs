@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,18 @@ language_names! {
     versions: [Clp => "CLP"],
     extensions: [],
 }
+
+const CLP: &str = concat!(
+    r"/* ",
+    output_for_hello_world!(),
+    r" in CLP for the IBM AS/400 */
+PGM
+SNDPGMMSG  MSG('",
+    output_for_hello_world!(),
+    r" !') MSGTYPE(*COMP)
+ 
+ENDPGM"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,30 +42,25 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Clp,
-            syntax: concat!(
-                r"/* ",
-                output_for_hello_world!(),
-                r" in CLP for the IBM AS/400 */
+            syntax: CLP,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CLP,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"/* ",
+                            output_for_hello_world!(),
+                            r" in CLP for the IBM AS/400 */
 PGM
 SNDPGMMSG  MSG('",
-                output_for_hello_world!(),
-                r" !') MSGTYPE(*COMP)
+                            output_for_hello_world!(),
+                            r" !') MSGTYPE(*COMP)
  
 ENDPGM"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"/* ",
-                    output_for_hello_world!(),
-                    r" in CLP for the IBM AS/400 */
-PGM
-SNDPGMMSG  MSG('",
-                    output_for_hello_world!(),
-                    r" !') MSGTYPE(*COMP)
- 
-ENDPGM"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -11,13 +11,132 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: NoLiteralsGotosOnlyFinalDestinationBang => "No Literals, Gotos Only, Final Destination!",
     versions: [NoLiteralsGotosOnlyFinalDestinationBang => "No Literals, Gotos Only, Final Destination!"],
     extensions: [],
 }
+
+const NO_LITERALS_GOTOS_ONLY_FINAL_DESTINATION_BANG: &str = r"\,1
+1+1,2
+2+1,3
+3+1,4
+4+1,5
+5+1,6
+6+2,8
+
+8+1,9
+9+1,A
+A+1,B
+B+2,D
+
+D+1,E
+E+1,F
+F+1,G
+G+10
+0,0
+
+0,0
+5D
+5D
+15,b
+55
+5G
+26
+60
+
+
+
+
+
+0:D9*0+4B
+0:D9*0+18
+
+3F
+
+
+
+
+
+
+
+
+0:D9*0+1D
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+0:D9*0+56
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+0:D9*0+5G
+
+
+
+
+
+
+
+
+
+
+
+
+0:D9*0+1E
+0:D9*0+11,a
+
+
+
+
+
+
+0:D9*0+a+1,a
+
+
+0:D9*0+b+1,b
+
+
+0:D9*0+5D";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +146,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::NoLiteralsGotosOnlyFinalDestinationBang,
-            syntax: r"\,1
+            syntax: NO_LITERALS_GOTOS_ONLY_FINAL_DESTINATION_BANG,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    NO_LITERALS_GOTOS_ONLY_FINAL_DESTINATION_BANG,
+                    [(
+                        TokenKind::Plain,
+                        r"\,1
 1+1,2
 2+1,3
 3+1,4
@@ -142,123 +267,8 @@ G+10
 
 
 0:D9*0+5D",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"\,1
-1+1,2
-2+1,3
-3+1,4
-4+1,5
-5+1,6
-6+2,8
-
-8+1,9
-9+1,A
-A+1,B
-B+2,D
-
-D+1,E
-E+1,F
-F+1,G
-G+10
-0,0
-
-0,0
-5D
-5D
-15,b
-55
-5G
-26
-60
-
-
-
-
-
-0:D9*0+4B
-0:D9*0+18
-
-3F
-
-
-
-
-
-
-
-
-0:D9*0+1D
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-0:D9*0+56
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-0:D9*0+5G
-
-
-
-
-
-
-
-
-
-
-
-
-0:D9*0+1E
-0:D9*0+11,a
-
-
-
-
-
-
-0:D9*0+a+1,a
-
-
-0:D9*0+b+1,b
-
-
-0:D9*0+5D",
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,26 @@ language_names! {
     versions: [Easm => "easm"],
     extensions: [Easm => "easm"],
 }
+
+const EASM: &str = concat!(
+    r#"subsystem cui
+
+section imports
+
+    from msvcr70.dll import printf
+    from kernel32.dll import ExitProcess
+
+section data
+
+    string pszOutput = ""#,
+    output_for_hello_world!(),
+    r#""
+
+section code
+
+    call printf (&pszOutput)
+    call ExitProcess (00h)"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,8 +49,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Easm,
-            syntax: concat!(
-                r#"subsystem cui
+            syntax: EASM,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    EASM,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"subsystem cui
 
 section imports
 
@@ -40,35 +66,16 @@ section imports
 section data
 
     string pszOutput = ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 
 section code
 
     call printf (&pszOutput)
     call ExitProcess (00h)"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"subsystem cui
-
-section imports
-
-    from msvcr70.dll import printf
-    from kernel32.dll import ExitProcess
-
-section data
-
-    string pszOutput = ""#,
-                    output_for_hello_world!(),
-                    r#""
-
-section code
-
-    call printf (&pszOutput)
-    call ExitProcess (00h)"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,16 @@ language_names! {
     versions: [Processing => "Processing"],
     extensions: [Pde => "pde"],
 }
+
+const PROCESSING: &str = concat!(
+    r#"size(128, 128);
+background(0);
+textAlign(CENTER, CENTER);
+fill(255);
+text(""#,
+    output_for_hello_world!(),
+    r#"", width / 2, height / 2);"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,70 +40,67 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Java],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Processing,
-            syntax: concat!(
-                r#"size(128, 128);
-background(0);
-textAlign(CENTER, CENTER);
-fill(255);
-text(""#,
-                output_for_hello_world!(),
-                r#"", width / 2, height / 2);"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Function, r"size"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Number, r"128"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"128"),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: PROCESSING,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PROCESSING,
+                    [
+                        (TokenKind::Function, r"size"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Number, r"128"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"128"),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Function, r"background"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Number, r"0"),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Function, r"background"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Number, r"0"),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Function, r"textAlign"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"CENTER"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" CENTER"),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Function, r"textAlign"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"CENTER"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" CENTER"),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Function, r"fill"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Number, r"255"),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Function, r"fill"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Number, r"255"),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Function, r"text"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" width / "),
-                (TokenKind::Number, r"2"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" height / "),
-                (TokenKind::Number, r"2"),
-                (TokenKind::Punctuation, r");"),
-            ],
+                        ),
+                        (TokenKind::Function, r"text"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" width / "),
+                        (TokenKind::Number, r"2"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" height / "),
+                        (TokenKind::Number, r"2"),
+                        (TokenKind::Punctuation, r");"),
+                    ],
+                )
+            },
         }],
     };

@@ -20,7 +20,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -28,6 +28,35 @@ language_names! {
     versions: [Rexx => "Rexx", RexxSimple => "Rexx (simple)", RexxWindow => "Rexx (window)"],
     extensions: [Rexx => "rexx"],
 }
+
+const REXX: &str = concat!(
+    r#"<<hello.rexx>>=
+Say ""#,
+    output_for_hello_world!(),
+    r#"""#
+);
+const REXX_SIMPLE: &str = concat!(
+    r"/* ",
+    output_for_hello_world!(),
+    r" in Rexx, simple version (writes to standard output) */
+
+say '",
+    output_for_hello_world!(),
+    r"'
+exit"
+);
+const REXX_WINDOW: &str = concat!(
+    r"/* Hallo World in Rexx, opens window */
+
+call RxFuncAdd 'SysLoadFuncs', 'RexxUtil', 'SysLoadFuncs'
+call SysLoadFuncs
+call RxMessageBox '",
+    output_for_hello_world!(),
+    r"', '",
+    output_for_hello_world!(),
+    r" Window', 'OK', 'EXCLAMATION'
+exit"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -38,130 +67,120 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Rexx,
-                syntax: concat!(
-                    r#"<<hello.rexx>>=
-Say ""#,
-                    output_for_hello_world!(),
-                    r#"""#
-                ),
-                tokenized_syntax: &[
-                    (TokenKind::Plain, r"<<hello"),
-                    (TokenKind::Punctuation, r"."),
-                    (
-                        TokenKind::Plain,
-                        r"rexx>>=
+                syntax: REXX,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        REXX,
+                        [
+                            (TokenKind::Plain, r"<<hello"),
+                            (TokenKind::Punctuation, r"."),
+                            (
+                                TokenKind::Plain,
+                                r"rexx>>=
 ",
-                    ),
-                    (TokenKind::Keyword, r"Say"),
-                    (TokenKind::Plain, r" "),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                    ),
-                ],
+                            ),
+                            (TokenKind::Keyword, r"Say"),
+                            (TokenKind::Plain, r" "),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                            ),
+                        ],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::RexxSimple,
-                syntax: concat!(
-                    r"/* ",
-                    output_for_hello_world!(),
-                    r" in Rexx, simple version (writes to standard output) */
-
-say '",
-                    output_for_hello_world!(),
-                    r"'
-exit"
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        concat!(
-                            r"/* ",
-                            output_for_hello_world!(),
-                            r" in Rexx, simple version (writes to standard output) */"
-                        ),
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r"
+                syntax: REXX_SIMPLE,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        REXX_SIMPLE,
+                        [
+                            (
+                                TokenKind::Comment,
+                                concat!(
+                                    r"/* ",
+                                    output_for_hello_world!(),
+                                    r" in Rexx, simple version (writes to standard output) */"
+                                ),
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r"
 
 ",
-                    ),
-                    (TokenKind::Keyword, r"say"),
-                    (TokenKind::Plain, r" "),
-                    (
-                        TokenKind::String,
-                        concat!(r"'", output_for_hello_world!(), r"'"),
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Keyword, r"say"),
+                            (TokenKind::Plain, r" "),
+                            (
+                                TokenKind::String,
+                                concat!(r"'", output_for_hello_world!(), r"'"),
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r"
 ",
-                    ),
-                    (TokenKind::Keyword, r"exit"),
-                ],
+                            ),
+                            (TokenKind::Keyword, r"exit"),
+                        ],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::RexxWindow,
-                syntax: concat!(
-                    r"/* Hallo World in Rexx, opens window */
-
-call RxFuncAdd 'SysLoadFuncs', 'RexxUtil', 'SysLoadFuncs'
-call SysLoadFuncs
-call RxMessageBox '",
-                    output_for_hello_world!(),
-                    r"', '",
-                    output_for_hello_world!(),
-                    r" Window', 'OK', 'EXCLAMATION'
-exit"
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        r"/* Hallo World in Rexx, opens window */",
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r"
+                syntax: REXX_WINDOW,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        REXX_WINDOW,
+                        [
+                            (
+                                TokenKind::Comment,
+                                r"/* Hallo World in Rexx, opens window */",
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r"
 
 call RxFuncAdd ",
-                    ),
-                    (TokenKind::String, r"'SysLoadFuncs'"),
-                    (TokenKind::Punctuation, r","),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"'RexxUtil'"),
-                    (TokenKind::Punctuation, r","),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"'SysLoadFuncs'"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::String, r"'SysLoadFuncs'"),
+                            (TokenKind::Punctuation, r","),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"'RexxUtil'"),
+                            (TokenKind::Punctuation, r","),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"'SysLoadFuncs'"),
+                            (
+                                TokenKind::Plain,
+                                r"
 call SysLoadFuncs
 call RxMessageBox ",
-                    ),
-                    (
-                        TokenKind::String,
-                        concat!(r"'", output_for_hello_world!(), r"'"),
-                    ),
-                    (TokenKind::Punctuation, r","),
-                    (TokenKind::Plain, r" "),
-                    (
-                        TokenKind::String,
-                        concat!(r"'", output_for_hello_world!(), r" Window'"),
-                    ),
-                    (TokenKind::Punctuation, r","),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"'OK'"),
-                    (TokenKind::Punctuation, r","),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"'EXCLAMATION'"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (
+                                TokenKind::String,
+                                concat!(r"'", output_for_hello_world!(), r"'"),
+                            ),
+                            (TokenKind::Punctuation, r","),
+                            (TokenKind::Plain, r" "),
+                            (
+                                TokenKind::String,
+                                concat!(r"'", output_for_hello_world!(), r" Window'"),
+                            ),
+                            (TokenKind::Punctuation, r","),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"'OK'"),
+                            (TokenKind::Punctuation, r","),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"'EXCLAMATION'"),
+                            (
+                                TokenKind::Plain,
+                                r"
 ",
-                    ),
-                    (TokenKind::Keyword, r"exit"),
-                ],
+                            ),
+                            (TokenKind::Keyword, r"exit"),
+                        ],
+                    )
+                },
             },
         ],
     };

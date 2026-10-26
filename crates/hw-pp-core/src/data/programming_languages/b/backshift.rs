@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,8 @@ language_names! {
     versions: [Backshift => "Backshift"],
     extensions: [],
 }
+
+const BACKSHIFT: &str = concat!(r" ", output_for_hello_world!());
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,7 +31,12 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Backshift,
-            syntax: concat!(r" ", output_for_hello_world!()),
-            tokenized_syntax: &[(TokenKind::Plain, concat!(r" ", output_for_hello_world!()))],
+            syntax: BACKSHIFT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BACKSHIFT,
+                    [(TokenKind::Plain, concat!(r" ", output_for_hello_world!()))],
+                )
+            },
         }],
     };

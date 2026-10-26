@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,17 @@ language_names! {
     versions: [Haml => "Haml"],
     extensions: [Haml => "haml"],
 }
+
+const HAML: &str = concat!(
+    r"%html
+  %title ",
+    output_for_hello_world!(),
+    r"
+  %body
+    %h1 ",
+    output_for_hello_world!(),
+    r" "
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,44 +40,40 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Haml,
-            syntax: concat!(
-                r"%html
-  %title ",
-                output_for_hello_world!(),
-                r"
-  %body
-    %h1 ",
-                output_for_hello_world!(),
-                r" "
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Punctuation, r"%"),
-                (
-                    TokenKind::Plain,
-                    r"html
+            syntax: HAML,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    HAML,
+                    [
+                        (TokenKind::Punctuation, r"%"),
+                        (
+                            TokenKind::Plain,
+                            r"html
   ",
-                ),
-                (TokenKind::Punctuation, r"%"),
-                (
-                    TokenKind::Plain,
-                    concat!(
-                        r"title ",
-                        output_for_hello_world!(),
-                        r"
+                        ),
+                        (TokenKind::Punctuation, r"%"),
+                        (
+                            TokenKind::Plain,
+                            concat!(
+                                r"title ",
+                                output_for_hello_world!(),
+                                r"
   "
-                    ),
-                ),
-                (TokenKind::Punctuation, r"%"),
-                (
-                    TokenKind::Plain,
-                    r"body
+                            ),
+                        ),
+                        (TokenKind::Punctuation, r"%"),
+                        (
+                            TokenKind::Plain,
+                            r"body
     ",
-                ),
-                (TokenKind::Punctuation, r"%"),
-                (
-                    TokenKind::Plain,
-                    concat!(r"h1 ", output_for_hello_world!(), r" "),
-                ),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"%"),
+                        (
+                            TokenKind::Plain,
+                            concat!(r"h1 ", output_for_hello_world!(), r" "),
+                        ),
+                    ],
+                )
+            },
         }],
     };

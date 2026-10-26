@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,13 @@ language_names! {
     versions: [Xlisp => "XLisp"],
     extensions: [Xlisp => "xlisp"],
 }
+
+const XLISP: &str = concat!(
+    r#"(DISPLAY ""#,
+    output_for_hello_world!(),
+    r#"")
+(NEWLINE)"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,29 +37,29 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Lisp],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Xlisp,
-            syntax: concat!(
-                r#"(DISPLAY ""#,
-                output_for_hello_world!(),
-                r#"")
-(NEWLINE)"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Function, r"DISPLAY"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: XLISP,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    XLISP,
+                    [
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Function, r"DISPLAY"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Function, r"NEWLINE"),
-                (TokenKind::Punctuation, r")"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Function, r"NEWLINE"),
+                        (TokenKind::Punctuation, r")"),
+                    ],
+                )
+            },
         }],
     };

@@ -10,13 +10,18 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Unlambda => "Unlambda",
     versions: [Unlambda => "Unlambda"],
     extensions: [Unl => "unl"],
 }
+
+const UNLAMBDA: &str = r"`r```````````.H.e.l.l.o. .w.o.r.l.di";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +31,12 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Unlambda,
-            syntax: r"`r```````````.H.e.l.l.o. .w.o.r.l.di",
-            tokenized_syntax: &[(TokenKind::Plain, r"`r```````````.H.e.l.l.o. .w.o.r.l.di")],
+            syntax: UNLAMBDA,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    UNLAMBDA,
+                    [(TokenKind::Plain, r"`r```````````.H.e.l.l.o. .w.o.r.l.di")],
+                )
+            },
         }],
     };

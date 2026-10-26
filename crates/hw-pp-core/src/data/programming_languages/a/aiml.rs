@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,17 @@ language_names! {
     versions: [Aiml => "Aiml"],
     extensions: [Aiml => "aiml"],
 }
+
+const AIML: &str = concat!(
+    r"<aiml>
+    <category>
+        <pattern>*</pattern>
+        <template>",
+    output_for_hello_world!(),
+    r"</template>
+    </category>
+</aiml>"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,52 +40,48 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Aiml,
-            syntax: concat!(
-                r"<aiml>
-    <category>
-        <pattern>*</pattern>
-        <template>",
-                output_for_hello_world!(),
-                r"</template>
-    </category>
-</aiml>"
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"<aiml>"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: AIML,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    AIML,
+                    [
+                        (TokenKind::Keyword, r"<aiml>"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"<category>"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"<category>"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"<pattern>"),
-                (TokenKind::Plain, r"*"),
-                (TokenKind::Keyword, r"</pattern>"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"<pattern>"),
+                        (TokenKind::Plain, r"*"),
+                        (TokenKind::Keyword, r"</pattern>"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"<template>"),
-                (TokenKind::Plain, output_for_hello_world!()),
-                (TokenKind::Keyword, r"</template>"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"<template>"),
+                        (TokenKind::Plain, output_for_hello_world!()),
+                        (TokenKind::Keyword, r"</template>"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"</category>"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"</category>"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"</aiml>"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"</aiml>"),
+                    ],
+                )
+            },
         }],
     };

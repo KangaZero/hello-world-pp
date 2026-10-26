@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,15 @@ language_names! {
     versions: [Vbscript => "VBScript"],
     extensions: [],
 }
+
+const VBSCRIPT: &str = concat!(
+    r"' ",
+    output_for_hello_world!(),
+    r#" in VBScript (Windows Scripting Host)
+msgbox ""#,
+    output_for_hello_world!(),
+    r#"""#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,34 +39,32 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Basic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Vbscript,
-            syntax: concat!(
-                r"' ",
-                output_for_hello_world!(),
-                r#" in VBScript (Windows Scripting Host)
-msgbox ""#,
-                output_for_hello_world!(),
-                r#"""#
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Comment,
-                    concat!(
-                        r"' ",
-                        output_for_hello_world!(),
-                        r" in VBScript (Windows Scripting Host)"
-                    ),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: VBSCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    VBSCRIPT,
+                    [
+                        (
+                            TokenKind::Comment,
+                            concat!(
+                                r"' ",
+                                output_for_hello_world!(),
+                                r" in VBScript (Windows Scripting Host)"
+                            ),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"msgbox"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"msgbox"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                    ],
+                )
+            },
         }],
     };

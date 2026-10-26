@@ -19,7 +19,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -27,6 +27,39 @@ language_names! {
     versions: [Elena => "Elena", Elena30 => "ELENA 3.0", Elena40 => "ELENA 4.0"],
     extensions: [Elena => "elena"],
 }
+
+const ELENA: &str = concat!(
+    r#"public program
+[
+    console writeLine(""#,
+    output_for_hello_world!(),
+    r#"").
+]"#
+);
+const ELENA30: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in ELENA 3.0
+
+program =
+[
+    console writeLine:""#,
+    output_for_hello_world!(),
+    r#"".
+]."#
+);
+const ELENA40: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in ELENA 4.0
+
+public program()
+{
+    console.writeLine(""#,
+    output_for_hello_world!(),
+    r#"")
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -37,85 +70,71 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Elena,
-                syntax: concat!(
-                    r#"public program
+                syntax: ELENA,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        ELENA,
+                        [(
+                            TokenKind::Plain,
+                            concat!(
+                                r#"public program
 [
     console writeLine(""#,
-                    output_for_hello_world!(),
-                    r#"").
+                                output_for_hello_world!(),
+                                r#"").
 ]"#
-                ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r#"public program
-[
-    console writeLine(""#,
-                        output_for_hello_world!(),
-                        r#"").
-]"#
-                    ),
-                )],
+                            ),
+                        )],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Elena30,
-                syntax: concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in ELENA 3.0
+                syntax: ELENA30,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        ELENA30,
+                        [(
+                            TokenKind::Plain,
+                            concat!(
+                                r"// ",
+                                output_for_hello_world!(),
+                                r#" in ELENA 3.0
 
 program =
 [
     console writeLine:""#,
-                    output_for_hello_world!(),
-                    r#"".
+                                output_for_hello_world!(),
+                                r#"".
 ]."#
-                ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r"// ",
-                        output_for_hello_world!(),
-                        r#" in ELENA 3.0
-
-program =
-[
-    console writeLine:""#,
-                        output_for_hello_world!(),
-                        r#"".
-]."#
-                    ),
-                )],
+                            ),
+                        )],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Elena40,
-                syntax: concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in ELENA 4.0
+                syntax: ELENA40,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        ELENA40,
+                        [(
+                            TokenKind::Plain,
+                            concat!(
+                                r"// ",
+                                output_for_hello_world!(),
+                                r#" in ELENA 4.0
 
 public program()
 {
     console.writeLine(""#,
-                    output_for_hello_world!(),
-                    r#"")
+                                output_for_hello_world!(),
+                                r#"")
 }"#
-                ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r"// ",
-                        output_for_hello_world!(),
-                        r#" in ELENA 4.0
-
-public program()
-{
-    console.writeLine(""#,
-                        output_for_hello_world!(),
-                        r#"")
-}"#
-                    ),
-                )],
+                            ),
+                        )],
+                    )
+                },
             },
         ],
     };

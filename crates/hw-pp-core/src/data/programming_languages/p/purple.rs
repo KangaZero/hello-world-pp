@@ -11,13 +11,19 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Purple => "Purple",
     versions: [Purple => "Purple"],
     extensions: [],
 }
+
+const PURPLE: &str = r"aA1aa1oA0bi0b0bb1bbbAiB0 Purple is the awesomest, so why haven't you tried it yet?
+!dlroW ,olleH";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,12 +33,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Purple,
-            syntax: r"aA1aa1oA0bi0b0bb1bbbAiB0 Purple is the awesomest, so why haven't you tried it yet?
+            syntax: PURPLE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PURPLE,
+                    [(
+                        TokenKind::Plain,
+                        r"aA1aa1oA0bi0b0bb1bbbAiB0 Purple is the awesomest, so why haven't you tried it yet?
 !dlroW ,olleH",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"aA1aa1oA0bi0b0bb1bbbAiB0 Purple is the awesomest, so why haven't you tried it yet?
-!dlroW ,olleH",
-            )],
+                    )],
+                )
+            },
         }],
     };

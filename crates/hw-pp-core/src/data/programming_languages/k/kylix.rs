@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,23 @@ language_names! {
     versions: [Kylix => "Kylix"],
     extensions: [],
 }
+
+const KYLIX: &str = concat!(
+    r"{",
+    output_for_hello_world!(),
+    r" in Kylix} 
+
+program Hello_World;
+ 
+ uses
+    QDialogs;
+ 
+ begin
+   ShowMessage('",
+    output_for_hello_world!(),
+    r"');
+ end."
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,75 +47,65 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Kylix,
-            syntax: concat!(
-                r"{",
-                output_for_hello_world!(),
-                r" in Kylix} 
-
-program Hello_World;
- 
- uses
-    QDialogs;
- 
- begin
-   ShowMessage('",
-                output_for_hello_world!(),
-                r"');
- end."
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Comment,
-                    concat!(r"{", output_for_hello_world!(), r" in Kylix}"),
-                ),
-                (
-                    TokenKind::Plain,
-                    r" 
+            syntax: KYLIX,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    KYLIX,
+                    [
+                        (
+                            TokenKind::Comment,
+                            concat!(r"{", output_for_hello_world!(), r" in Kylix}"),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r" 
 
 ",
-                ),
-                (TokenKind::Keyword, r"program"),
-                (TokenKind::Plain, r" Hello_World"),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"program"),
+                        (TokenKind::Plain, r" Hello_World"),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
  
  ",
-                ),
-                (TokenKind::Keyword, r"uses"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"uses"),
+                        (
+                            TokenKind::Plain,
+                            r"
     QDialogs",
-                ),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
  
  ",
-                ),
-                (TokenKind::Keyword, r"begin"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"begin"),
+                        (
+                            TokenKind::Plain,
+                            r"
    ",
-                ),
-                (TokenKind::Function, r"ShowMessage"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r"'", output_for_hello_world!(), r"'"),
-                ),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Function, r"ShowMessage"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r"'", output_for_hello_world!(), r"'"),
+                        ),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
  ",
-                ),
-                (TokenKind::Keyword, r"end"),
-                (TokenKind::Punctuation, r"."),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"end"),
+                        (TokenKind::Punctuation, r"."),
+                    ],
+                )
+            },
         }],
     };

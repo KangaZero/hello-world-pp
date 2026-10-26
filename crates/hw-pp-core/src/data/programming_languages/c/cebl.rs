@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,8 @@ language_names! {
     versions: [Cebl => "CEBL"],
     extensions: [Ceb => "ceb"],
 }
+
+const CEBL: &str = concat!(r#"OUT ""#, output_for_hello_world!(), r#"",0"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,10 +31,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cebl,
-            syntax: concat!(r#"OUT ""#, output_for_hello_world!(), r#"",0"#),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r#"OUT ""#, output_for_hello_world!(), r#"",0"#),
-            )],
+            syntax: CEBL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CEBL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(r#"OUT ""#, output_for_hello_world!(), r#"",0"#),
+                    )],
+                )
+            },
         }],
     };

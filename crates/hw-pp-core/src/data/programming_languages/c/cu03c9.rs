@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,12 @@ language_names! {
     versions: [CU03c9 => "Cω"],
     extensions: [],
 }
+
+const CU03C9: &str = concat!(
+    r#"System.Console.WriteLine(""#,
+    output_for_hello_world!(),
+    r#"");"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,23 +35,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::CU03c9,
-            syntax: concat!(
-                r#"System.Console.WriteLine(""#,
-                output_for_hello_world!(),
-                r#"");"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Plain, r"System"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Plain, r"Console"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"WriteLine"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r");"),
-            ],
+            syntax: CU03C9,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CU03C9,
+                    [
+                        (TokenKind::Plain, r"System"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Plain, r"Console"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"WriteLine"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r");"),
+                    ],
+                )
+            },
         }],
     };

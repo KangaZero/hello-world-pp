@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Functionable => "Functionable",
     versions: [Functionable => "Functionable"],
     extensions: [],
 }
+
+const FUNCTIONABLE: &str = r"output(list(72,101,108,108,111,44,32,119,111,115,108,100,33),1)";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Functionable,
-            syntax: r"output(list(72,101,108,108,111,44,32,119,111,115,108,100,33),1)",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"output(list(72,101,108,108,111,44,32,119,111,115,108,100,33),1)",
-            )],
+            syntax: FUNCTIONABLE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FUNCTIONABLE,
+                    [(
+                        TokenKind::Plain,
+                        r"output(list(72,101,108,108,111,44,32,119,111,115,108,100,33),1)",
+                    )],
+                )
+            },
         }],
     };

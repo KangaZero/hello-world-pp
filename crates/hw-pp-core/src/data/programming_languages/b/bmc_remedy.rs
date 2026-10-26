@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,38 @@ language_names! {
     versions: [BmcRemedy => "BMC Remedy"],
     extensions: [],
 }
+
+const BMC_REMEDY: &str = concat!(
+    r"char-set: windows-1252
+#
+#  ",
+    output_for_hello_world!(),
+    r" in BMC Remedy 7.0
+#  File exported Thu May  8 09:36:46 2008
+#
+begin active link
+   name           : Remedy_HelloWorld
+   timestamp      : 1210249958
+   export-version : 9
+   owner          : Demo
+   last-changed   : Demo
+   actlink-order  : 0
+   wk-conn-type   : 1
+   schema-name    : _1
+   actlink-mask   : 16
+   enable         : 1
+   permission     : 0
+   action {
+      message-type: 0
+      message-num : 10000
+      message-pane: 1
+      message-text: ",
+    output_for_hello_world!(),
+    r"!
+   }
+   object-prop    : 2\60016\4\1\0\60017\4\1\0\
+end"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,12 +62,18 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::BmcRemedy,
-            syntax: concat!(
-                r"char-set: windows-1252
+            syntax: BMC_REMEDY,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BMC_REMEDY,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"char-set: windows-1252
 #
 #  ",
-                output_for_hello_world!(),
-                r" in BMC Remedy 7.0
+                            output_for_hello_world!(),
+                            r" in BMC Remedy 7.0
 #  File exported Thu May  8 09:36:46 2008
 #
 begin active link
@@ -55,45 +93,14 @@ begin active link
       message-num : 10000
       message-pane: 1
       message-text: ",
-                output_for_hello_world!(),
-                r"!
+                            output_for_hello_world!(),
+                            r"!
    }
    object-prop    : 2\60016\4\1\0\60017\4\1\0\
 end"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"char-set: windows-1252
-#
-#  ",
-                    output_for_hello_world!(),
-                    r" in BMC Remedy 7.0
-#  File exported Thu May  8 09:36:46 2008
-#
-begin active link
-   name           : Remedy_HelloWorld
-   timestamp      : 1210249958
-   export-version : 9
-   owner          : Demo
-   last-changed   : Demo
-   actlink-order  : 0
-   wk-conn-type   : 1
-   schema-name    : _1
-   actlink-mask   : 16
-   enable         : 1
-   permission     : 0
-   action {
-      message-type: 0
-      message-num : 10000
-      message-pane: 1
-      message-text: ",
-                    output_for_hello_world!(),
-                    r"!
-   }
-   object-prop    : 2\60016\4\1\0\60017\4\1\0\
-end"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

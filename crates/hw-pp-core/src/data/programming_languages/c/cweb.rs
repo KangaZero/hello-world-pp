@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,44 @@ language_names! {
     versions: [Cweb => "CWEB"],
     extensions: [],
 }
+
+const CWEB: &str = concat!(
+    r#"\def\title{<a href="/showArticle.jhtml?documentID=cuj9505wittenbe&pgno=1">Listing 1</a>}
+
+@*A Simple Example.
+This is a trivial example of a \.{CWEB} program.
+It is, of course, the classic ""#,
+    output_for_hello_world!(),
+    r#""
+program we all know and love:
+
+@c
+@<Header files needed by the program@>@;
+@#
+main(void)
+{
+   @<Print the message |""#,
+    output_for_hello_world!(),
+    r#""|@>@;
+}
+
+@ Naturally, we use |printf| to do the dirty work:
+
+@<Print the message |""#,
+    output_for_hello_world!(),
+    r#""|@>=
+printf(""#,
+    output_for_hello_world!(),
+    r#"\n");
+
+@ The prototype for |printf| is in the standard
+header, \.{<stdio.h>}.
+
+@<Header files needed by the program@>=
+#include <stdio.h>
+
+@*Index."#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,14 +68,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cweb,
-            syntax: concat!(
-                r#"\def\title{<a href="/showArticle.jhtml?documentID=cuj9505wittenbe&pgno=1">Listing 1</a>}
+            syntax: CWEB,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CWEB,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"\def\title{<a href="/showArticle.jhtml?documentID=cuj9505wittenbe&pgno=1">Listing 1</a>}
 
 @*A Simple Example.
 This is a trivial example of a \.{CWEB} program.
 It is, of course, the classic ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 program we all know and love:
 
 @c
@@ -46,18 +90,18 @@ program we all know and love:
 main(void)
 {
    @<Print the message |""#,
-                output_for_hello_world!(),
-                r#""|@>@;
+                            output_for_hello_world!(),
+                            r#""|@>@;
 }
 
 @ Naturally, we use |printf| to do the dirty work:
 
 @<Print the message |""#,
-                output_for_hello_world!(),
-                r#""|@>=
+                            output_for_hello_world!(),
+                            r#""|@>=
 printf(""#,
-                output_for_hello_world!(),
-                r#"\n");
+                            output_for_hello_world!(),
+                            r#"\n");
 
 @ The prototype for |printf| is in the standard
 header, \.{<stdio.h>}.
@@ -66,46 +110,9 @@ header, \.{<stdio.h>}.
 #include <stdio.h>
 
 @*Index."#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"\def\title{<a href="/showArticle.jhtml?documentID=cuj9505wittenbe&pgno=1">Listing 1</a>}
-
-@*A Simple Example.
-This is a trivial example of a \.{CWEB} program.
-It is, of course, the classic ""#,
-                    output_for_hello_world!(),
-                    r#""
-program we all know and love:
-
-@c
-@<Header files needed by the program@>@;
-@#
-main(void)
-{
-   @<Print the message |""#,
-                    output_for_hello_world!(),
-                    r#""|@>@;
-}
-
-@ Naturally, we use |printf| to do the dirty work:
-
-@<Print the message |""#,
-                    output_for_hello_world!(),
-                    r#""|@>=
-printf(""#,
-                    output_for_hello_world!(),
-                    r#"\n");
-
-@ The prototype for |printf| is in the standard
-header, \.{<stdio.h>}.
-
-@<Header files needed by the program@>=
-#include <stdio.h>
-
-@*Index."#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

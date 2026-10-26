@@ -11,13 +11,28 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Fool => "Fool",
     versions: [Fool => "Fool"],
     extensions: [],
 }
+
+const FOOL: &str = r"H:>.>.>.>.*.>.>.>.*.>
+e:>.*.>.>.*.>.>.>.*.>.*.>
+l:>.>.>.*.>.*.>.>.*.>.*.>
+o:>.*.>.*.>.*.>.*.>.>.*.>.*.>
+,:>.>.>.*.>.*.>.>.*.>.>
+ :>.>.>.>.>.>.*.>.>
+w:>.*.>.*.>.*.>.>.*.>.*.>.*.>
+r:>.>.*.>.>.>.*.>.*.>.*.>
+d:>.>.>.*.>.>.>.*.>.*.>
+!:>.*.>.>.>.>.>.*.>.>
+main:!.d.l.r.o.w. .,.o.l.l.e.H";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +42,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Fool,
-            syntax: r"H:>.>.>.>.*.>.>.>.*.>
+            syntax: FOOL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FOOL,
+                    [(
+                        TokenKind::Plain,
+                        r"H:>.>.>.>.*.>.>.>.*.>
 e:>.*.>.>.*.>.>.>.*.>.*.>
 l:>.>.>.*.>.*.>.>.*.>.*.>
 o:>.*.>.*.>.*.>.*.>.>.*.>.*.>
@@ -38,19 +59,8 @@ r:>.>.*.>.>.>.*.>.*.>.*.>
 d:>.>.>.*.>.>.>.*.>.*.>
 !:>.*.>.>.>.>.>.*.>.>
 main:!.d.l.r.o.w. .,.o.l.l.e.H",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"H:>.>.>.>.*.>.>.>.*.>
-e:>.*.>.>.*.>.>.>.*.>.*.>
-l:>.>.>.*.>.*.>.>.*.>.*.>
-o:>.*.>.*.>.*.>.*.>.>.*.>.*.>
-,:>.>.>.*.>.*.>.>.*.>.>
- :>.>.>.>.>.>.*.>.>
-w:>.*.>.*.>.*.>.>.*.>.*.>.*.>
-r:>.>.*.>.>.>.*.>.*.>.*.>
-d:>.>.>.*.>.>.>.*.>.*.>
-!:>.*.>.>.>.>.>.*.>.>
-main:!.d.l.r.o.w. .,.o.l.l.e.H",
-            )],
+                    )],
+                )
+            },
         }],
     };

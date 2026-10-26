@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,13 @@ language_names! {
     versions: [Cryptol => "Cryptol"],
     extensions: [],
 }
+
+const CRYPTOL: &str = concat!(
+    r#":set ascii=on
+""#,
+    output_for_hello_world!(),
+    r#"""#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,20 +36,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cryptol,
-            syntax: concat!(
-                r#":set ascii=on
+            syntax: CRYPTOL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CRYPTOL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#":set ascii=on
 ""#,
-                output_for_hello_world!(),
-                r#"""#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#":set ascii=on
-""#,
-                    output_for_hello_world!(),
-                    r#"""#
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r#"""#
+                        ),
+                    )],
+                )
+            },
         }],
     };

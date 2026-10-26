@@ -11,7 +11,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -19,6 +19,8 @@ language_names! {
     versions: [Elixir1 => "Elixir 1"],
     extensions: [Ex => "ex", Exs => "exs"],
 }
+
+const ELIXIR1: &str = concat!(r#"IO.puts(""#, output_for_hello_world!(), r#"")"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -28,17 +30,22 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Elixir1,
-            syntax: concat!(r#"IO.puts(""#, output_for_hello_world!(), r#"")"#),
-            tokenized_syntax: &[
-                (TokenKind::Type, "IO"),
-                (TokenKind::Punctuation, "."),
-                (TokenKind::Function, "puts"),
-                (TokenKind::Punctuation, "("),
-                (
-                    TokenKind::String,
-                    concat!("\"", output_for_hello_world!(), "\""),
-                ),
-                (TokenKind::Punctuation, ")"),
-            ],
+            syntax: ELIXIR1,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ELIXIR1,
+                    [
+                        (TokenKind::Type, "IO"),
+                        (TokenKind::Punctuation, "."),
+                        (TokenKind::Function, "puts"),
+                        (TokenKind::Punctuation, "("),
+                        (
+                            TokenKind::String,
+                            concat!("\"", output_for_hello_world!(), "\""),
+                        ),
+                        (TokenKind::Punctuation, ")"),
+                    ],
+                )
+            },
         }],
     };

@@ -11,7 +11,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -19,6 +19,8 @@ language_names! {
     versions: [Lua54 => "Lua 5.4"],
     extensions: [Lua => "lua"],
 }
+
+const LUA54: &str = concat!(r#"print(""#, output_for_hello_world!(), r#"")"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -28,15 +30,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[C],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Lua54,
-            syntax: concat!(r#"print(""#, output_for_hello_world!(), r#"")"#),
-            tokenized_syntax: &[
-                (TokenKind::Function, "print"),
-                (TokenKind::Plain, "("),
-                (
-                    TokenKind::String,
-                    concat!("\"", output_for_hello_world!(), "\""),
-                ),
-                (TokenKind::Plain, ")"),
-            ],
+            syntax: LUA54,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LUA54,
+                    [
+                        (TokenKind::Function, "print"),
+                        (TokenKind::Plain, "("),
+                        (
+                            TokenKind::String,
+                            concat!("\"", output_for_hello_world!(), "\""),
+                        ),
+                        (TokenKind::Plain, ")"),
+                    ],
+                )
+            },
         }],
     };

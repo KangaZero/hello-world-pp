@@ -11,13 +11,37 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Thesquare => "TheSquare",
     versions: [Thesquare => "TheSquare"],
     extensions: [],
 }
+
+const THESQUARE: &str = r"v#############@
++:DDDDDDDDDDD:[
++#;;;;;;;;;;;#
++              
++ ;;
++  >v      ;
++ JJ+      >v
++>^-+      J-
++/--+      --
+v{>[<;;    --
+/- +  >v;  --
++\ +;JJ+>v --
+++ +>^++J- --
+++ +J++++-;--
+++ >^>^++->^-
+++     ++-Jv<
+>^     >^-+ ;
+#      v-<+>[ ^
+#      - ;+
+#      >-[^";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +51,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Thesquare,
-            syntax: r"v#############@
+            syntax: THESQUARE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    THESQUARE,
+                    [(
+                        TokenKind::Plain,
+                        r"v#############@
 +:DDDDDDDDDDD:[
 +#;;;;;;;;;;;#
 +              
@@ -47,28 +77,8 @@ v{>[<;;    --
 #      v-<+>[ ^
 #      - ;+
 #      >-[^",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"v#############@
-+:DDDDDDDDDDD:[
-+#;;;;;;;;;;;#
-+              
-+ ;;
-+  >v      ;
-+ JJ+      >v
-+>^-+      J-
-+/--+      --
-v{>[<;;    --
-/- +  >v;  --
-+\ +;JJ+>v --
-++ +>^++J- --
-++ +J++++-;--
-++ >^>^++->^-
-++     ++-Jv<
->^     >^-+ ;
-#      v-<+>[ ^
-#      - ;+
-#      >-[^",
-            )],
+                    )],
+                )
+            },
         }],
     };

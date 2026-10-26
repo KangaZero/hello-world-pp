@@ -22,7 +22,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -31,95 +31,26 @@ language_names! {
     extensions: [Java => "java"],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::Java,
-        extensions: &[FileExtension::Java],
-        categories: &[Compiled],
-        families: &[C, Java],
-        versions: &[
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::Java17,
-                syntax: concat!(
-                    r#"class Main {
+const JAVA17: &str = concat!(
+    r#"class Main {
     public static void main(String[] args) {
         System.out.println(""#,
-                    output_for_hello_world!(),
-                    r#"");
+    output_for_hello_world!(),
+    r#"");
     }
 }"#
-                ),
-                tokenized_syntax: &[
-                    (TokenKind::Type, "class"),
-                    (TokenKind::Plain, " Main "),
-                    (TokenKind::Punctuation, "{"),
-                    (TokenKind::Plain, "\n    "),
-                    (TokenKind::Keyword, "public"),
-                    (TokenKind::Plain, " "),
-                    (TokenKind::Keyword, "static"),
-                    (TokenKind::Plain, " "),
-                    (TokenKind::Type, "void"),
-                    (TokenKind::Plain, " "),
-                    (TokenKind::Function, "main"),
-                    (TokenKind::Punctuation, "("),
-                    (TokenKind::Plain, "String"),
-                    (TokenKind::Keyword, "[]"),
-                    (TokenKind::Plain, " args"),
-                    (TokenKind::Punctuation, ")"),
-                    (TokenKind::Plain, " "),
-                    (TokenKind::Punctuation, "{"),
-                    (TokenKind::Plain, "\n        System"),
-                    (TokenKind::Punctuation, "."),
-                    (TokenKind::Plain, "out"),
-                    (TokenKind::Punctuation, "."),
-                    (TokenKind::Function, "println"),
-                    (TokenKind::Punctuation, "("),
-                    (
-                        TokenKind::String,
-                        concat!("\"", output_for_hello_world!(), "\""),
-                    ),
-                    (TokenKind::Punctuation, ");"),
-                    (TokenKind::Plain, "\n    "),
-                    (TokenKind::Punctuation, "}"),
-                    (TokenKind::Plain, "\n"),
-                    (TokenKind::Punctuation, "}"),
-                ],
-            },
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::Java25,
-                syntax: concat!(
-                    r#"void main() {
+);
+const JAVA25: &str = concat!(
+    r#"void main() {
     IO.println(""#,
-                    output_for_hello_world!(),
-                    r#"");
+    output_for_hello_world!(),
+    r#"");
 }"#
-                ),
-                tokenized_syntax: &[
-                    (TokenKind::Type, "void"),
-                    (TokenKind::Plain, " "),
-                    (TokenKind::Function, "main"),
-                    (TokenKind::Punctuation, "()"),
-                    (TokenKind::Plain, " "),
-                    (TokenKind::Punctuation, "{"),
-                    (TokenKind::Plain, "\n    IO"),
-                    (TokenKind::Punctuation, "."),
-                    (TokenKind::Function, "println"),
-                    (TokenKind::Punctuation, "("),
-                    (
-                        TokenKind::String,
-                        concat!("\"", output_for_hello_world!(), "\""),
-                    ),
-                    (TokenKind::Punctuation, ");"),
-                    (TokenKind::Plain, "\n"),
-                    (TokenKind::Punctuation, "}"),
-                ],
-            },
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::JavaMobile,
-                syntax: concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" on a mobile Java device
+);
+const JAVA_MOBILE: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" on a mobile Java device
 
 package helloworld;
 
@@ -131,11 +62,11 @@ public class HelloWorld extends MIDlet {
   public HelloWorld()
   {
     Form form = new Form(""#,
-                    output_for_hello_world!(),
-                    r#"");
+    output_for_hello_world!(),
+    r#"");
     form.append(""#,
-                    output_for_hello_world!(),
-                    r#"");
+    output_for_hello_world!(),
+    r#"");
     Display.getDisplay(this).setCurrent(form);
   }
 
@@ -145,207 +76,16 @@ public class HelloWorld extends MIDlet {
   protected void destroyApp(boolean parm1) throws
     javax.microedition.midlet.MIDletStateChangeException {  }
 }"#
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        concat!(
-                            r"// ",
-                            output_for_hello_world!(),
-                            r" on a mobile Java device
-"
-                        ),
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"package"),
-                    (TokenKind::Plain, r" helloworld"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-",
-                    ),
-                    (TokenKind::Keyword, r"import"),
-                    (TokenKind::Plain, r" javax.microedition"),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Plain, r"midlet.*"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"import"),
-                    (TokenKind::Plain, r" javax.microedition"),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Plain, r"lcdui.*"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-",
-                    ),
-                    (TokenKind::Keyword, r"public"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Type, r"class"),
-                    (TokenKind::Plain, r" HelloWorld "),
-                    (TokenKind::Keyword, r"extends"),
-                    (TokenKind::Plain, r" MIDlet "),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-  ",
-                    ),
-                    (TokenKind::Keyword, r"public"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"HelloWorld"),
-                    (TokenKind::Punctuation, r"()"),
-                    (
-                        TokenKind::Plain,
-                        r"
-  ",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    Form form ",
-                    ),
-                    (TokenKind::Keyword, r"="),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"new"),
-                    (TokenKind::Plain, r" Form"),
-                    (TokenKind::Punctuation, r"("),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                    ),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    form",
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Function, r"append"),
-                    (TokenKind::Punctuation, r"("),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                    ),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    Display",
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Function, r"getDisplay"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"this"),
-                    (TokenKind::Punctuation, r")."),
-                    (TokenKind::Function, r"setCurrent"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"form"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-  ",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-  ",
-                    ),
-                    (TokenKind::Keyword, r"protected"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Type, r"void"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"pauseApp"),
-                    (TokenKind::Punctuation, r"()"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Punctuation, r"{"),
-                    (TokenKind::Plain, r"  "),
-                    (TokenKind::Punctuation, r"}"),
-                    (
-                        TokenKind::Plain,
-                        r"
-  ",
-                    ),
-                    (TokenKind::Keyword, r"protected"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Type, r"void"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"startApp"),
-                    (TokenKind::Punctuation, r"()"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"throws"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    javax.microedition.midlet",
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Plain, r"MIDletStateChangeException "),
-                    (TokenKind::Punctuation, r"{"),
-                    (TokenKind::Plain, r"  "),
-                    (TokenKind::Punctuation, r"}"),
-                    (
-                        TokenKind::Plain,
-                        r"
-  ",
-                    ),
-                    (TokenKind::Keyword, r"protected"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Type, r"void"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"destroyApp"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Type, r"boolean"),
-                    (TokenKind::Plain, r" parm1"),
-                    (TokenKind::Punctuation, r")"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"throws"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    javax.microedition.midlet",
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Plain, r"MIDletStateChangeException "),
-                    (TokenKind::Punctuation, r"{"),
-                    (TokenKind::Plain, r"  "),
-                    (TokenKind::Punctuation, r"}"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                ],
-            },
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::JavaServlet,
-                syntax: concat!(
-                    r"import javax.servlet.*;
+);
+const JAVA_SERVLET: &str = concat!(
+    r"import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.*;
 
 //
 // ",
-                    output_for_hello_world!(),
-                    r#" Java Servlet
+    output_for_hello_world!(),
+    r#" Java Servlet
 //
 public class HelloWorld extends HttpServlet {
 public void service(HttpServletRequest request,
@@ -357,239 +97,530 @@ PrintWriter out = response.getWriter();
 
 out.println("<html><body>");
 out.println(""#,
-                    output_for_hello_world!(),
-                    r#"");
+    output_for_hello_world!(),
+    r#"");
 out.println("</body></html>");
 }
 }"#
-                ),
-                tokenized_syntax: &[
-                    (TokenKind::Keyword, r"import"),
-                    (TokenKind::Plain, r" javax"),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Plain, r"servlet.*"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"import"),
-                    (TokenKind::Plain, r" javax.servlet"),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Plain, r"http.*"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"import"),
-                    (TokenKind::Plain, r" java"),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Plain, r"io.*"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-",
-                    ),
-                    (
-                        TokenKind::Comment,
-                        concat!(
-                            r"//
-// ",
-                            output_for_hello_world!(),
-                            r" Java Servlet
-//
-"
-                        ),
-                    ),
-                    (TokenKind::Keyword, r"public"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Type, r"class"),
-                    (TokenKind::Plain, r" HelloWorld "),
-                    (TokenKind::Keyword, r"extends"),
-                    (TokenKind::Plain, r" HttpServlet "),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"public"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Type, r"void"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"service"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"HttpServletRequest request"),
-                    (TokenKind::Punctuation, r","),
-                    (
-                        TokenKind::Plain,
-                        r"
-HttpServletResponse response",
-                    ),
-                    (TokenKind::Punctuation, r")"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"throws"),
-                    (TokenKind::Plain, r" IOException "),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-response",
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Function, r"setContentType"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::String, r#""text/html""#),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-PrintWriter out ",
-                    ),
-                    (TokenKind::Keyword, r"="),
-                    (TokenKind::Plain, r" response"),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Function, r"getWriter"),
-                    (TokenKind::Punctuation, r"();"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-out",
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Function, r"println"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::String, r#""<html><body>""#),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-out",
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Function, r"println"),
-                    (TokenKind::Punctuation, r"("),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                    ),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-out",
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Function, r"println"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::String, r#""</body></html>""#),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                ],
-            },
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::JavaSwing,
-                syntax: concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in Java using Swing GUI
+);
+const JAVA_SWING: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in Java using Swing GUI
 
 class HelloWorldSwing {
   static public void main(String args[]) {
     javax.swing.JOptionPane.showMessageDialog(null,""#,
-                    output_for_hello_world!(),
-                    r#"");
+    output_for_hello_world!(),
+    r#"");
   }
 }"#
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        concat!(
-                            r"// ",
-                            output_for_hello_world!(),
-                            r" in Java using Swing GUI
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Java,
+        extensions: &[FileExtension::Java],
+        categories: &[Compiled],
+        families: &[C, Java],
+        versions: &[
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::Java17,
+                syntax: JAVA17,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        JAVA17,
+                        [
+                            (TokenKind::Type, "class"),
+                            (TokenKind::Plain, " Main "),
+                            (TokenKind::Punctuation, "{"),
+                            (TokenKind::Plain, "\n    "),
+                            (TokenKind::Keyword, "public"),
+                            (TokenKind::Plain, " "),
+                            (TokenKind::Keyword, "static"),
+                            (TokenKind::Plain, " "),
+                            (TokenKind::Type, "void"),
+                            (TokenKind::Plain, " "),
+                            (TokenKind::Function, "main"),
+                            (TokenKind::Punctuation, "("),
+                            (TokenKind::Plain, "String"),
+                            (TokenKind::Keyword, "[]"),
+                            (TokenKind::Plain, " args"),
+                            (TokenKind::Punctuation, ")"),
+                            (TokenKind::Plain, " "),
+                            (TokenKind::Punctuation, "{"),
+                            (TokenKind::Plain, "\n        System"),
+                            (TokenKind::Punctuation, "."),
+                            (TokenKind::Plain, "out"),
+                            (TokenKind::Punctuation, "."),
+                            (TokenKind::Function, "println"),
+                            (TokenKind::Punctuation, "("),
+                            (
+                                TokenKind::String,
+                                concat!("\"", output_for_hello_world!(), "\""),
+                            ),
+                            (TokenKind::Punctuation, ");"),
+                            (TokenKind::Plain, "\n    "),
+                            (TokenKind::Punctuation, "}"),
+                            (TokenKind::Plain, "\n"),
+                            (TokenKind::Punctuation, "}"),
+                        ],
+                    )
+                },
+            },
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::Java25,
+                syntax: JAVA25,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        JAVA25,
+                        [
+                            (TokenKind::Type, "void"),
+                            (TokenKind::Plain, " "),
+                            (TokenKind::Function, "main"),
+                            (TokenKind::Punctuation, "()"),
+                            (TokenKind::Plain, " "),
+                            (TokenKind::Punctuation, "{"),
+                            (TokenKind::Plain, "\n    IO"),
+                            (TokenKind::Punctuation, "."),
+                            (TokenKind::Function, "println"),
+                            (TokenKind::Punctuation, "("),
+                            (
+                                TokenKind::String,
+                                concat!("\"", output_for_hello_world!(), "\""),
+                            ),
+                            (TokenKind::Punctuation, ");"),
+                            (TokenKind::Plain, "\n"),
+                            (TokenKind::Punctuation, "}"),
+                        ],
+                    )
+                },
+            },
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::JavaMobile,
+                syntax: JAVA_MOBILE,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        JAVA_MOBILE,
+                        [
+                            (
+                                TokenKind::Comment,
+                                concat!(
+                                    r"// ",
+                                    output_for_hello_world!(),
+                                    r" on a mobile Java device
 "
-                        ),
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r"
+                                ),
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r"
 ",
-                    ),
-                    (TokenKind::Type, r"class"),
-                    (TokenKind::Plain, r" HelloWorldSwing "),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Keyword, r"package"),
+                            (TokenKind::Plain, r" helloworld"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+",
+                            ),
+                            (TokenKind::Keyword, r"import"),
+                            (TokenKind::Plain, r" javax.microedition"),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Plain, r"midlet.*"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"import"),
+                            (TokenKind::Plain, r" javax.microedition"),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Plain, r"lcdui.*"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+",
+                            ),
+                            (TokenKind::Keyword, r"public"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Type, r"class"),
+                            (TokenKind::Plain, r" HelloWorld "),
+                            (TokenKind::Keyword, r"extends"),
+                            (TokenKind::Plain, r" MIDlet "),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
   ",
-                    ),
-                    (TokenKind::Keyword, r"static"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"public"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Type, r"void"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"main"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"String args"),
-                    (TokenKind::Keyword, r"[]"),
-                    (TokenKind::Punctuation, r")"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Keyword, r"public"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"HelloWorld"),
+                            (TokenKind::Punctuation, r"()"),
+                            (
+                                TokenKind::Plain,
+                                r"
+  ",
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    Form form ",
+                            ),
+                            (TokenKind::Keyword, r"="),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"new"),
+                            (TokenKind::Plain, r" Form"),
+                            (TokenKind::Punctuation, r"("),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                            ),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    form",
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Function, r"append"),
+                            (TokenKind::Punctuation, r"("),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                            ),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    Display",
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Function, r"getDisplay"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"this"),
+                            (TokenKind::Punctuation, r")."),
+                            (TokenKind::Function, r"setCurrent"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"form"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+  ",
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+  ",
+                            ),
+                            (TokenKind::Keyword, r"protected"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Type, r"void"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"pauseApp"),
+                            (TokenKind::Punctuation, r"()"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Punctuation, r"{"),
+                            (TokenKind::Plain, r"  "),
+                            (TokenKind::Punctuation, r"}"),
+                            (
+                                TokenKind::Plain,
+                                r"
+  ",
+                            ),
+                            (TokenKind::Keyword, r"protected"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Type, r"void"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"startApp"),
+                            (TokenKind::Punctuation, r"()"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"throws"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    javax.microedition.midlet",
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Plain, r"MIDletStateChangeException "),
+                            (TokenKind::Punctuation, r"{"),
+                            (TokenKind::Plain, r"  "),
+                            (TokenKind::Punctuation, r"}"),
+                            (
+                                TokenKind::Plain,
+                                r"
+  ",
+                            ),
+                            (TokenKind::Keyword, r"protected"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Type, r"void"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"destroyApp"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Type, r"boolean"),
+                            (TokenKind::Plain, r" parm1"),
+                            (TokenKind::Punctuation, r")"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"throws"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    javax.microedition.midlet",
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Plain, r"MIDletStateChangeException "),
+                            (TokenKind::Punctuation, r"{"),
+                            (TokenKind::Plain, r"  "),
+                            (TokenKind::Punctuation, r"}"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                        ],
+                    )
+                },
+            },
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::JavaServlet,
+                syntax: JAVA_SERVLET,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        JAVA_SERVLET,
+                        [
+                            (TokenKind::Keyword, r"import"),
+                            (TokenKind::Plain, r" javax"),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Plain, r"servlet.*"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"import"),
+                            (TokenKind::Plain, r" javax.servlet"),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Plain, r"http.*"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"import"),
+                            (TokenKind::Plain, r" java"),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Plain, r"io.*"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+",
+                            ),
+                            (
+                                TokenKind::Comment,
+                                concat!(
+                                    r"//
+// ",
+                                    output_for_hello_world!(),
+                                    r" Java Servlet
+//
+"
+                                ),
+                            ),
+                            (TokenKind::Keyword, r"public"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Type, r"class"),
+                            (TokenKind::Plain, r" HelloWorld "),
+                            (TokenKind::Keyword, r"extends"),
+                            (TokenKind::Plain, r" HttpServlet "),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"public"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Type, r"void"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"service"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"HttpServletRequest request"),
+                            (TokenKind::Punctuation, r","),
+                            (
+                                TokenKind::Plain,
+                                r"
+HttpServletResponse response",
+                            ),
+                            (TokenKind::Punctuation, r")"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"throws"),
+                            (TokenKind::Plain, r" IOException "),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+response",
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Function, r"setContentType"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::String, r#""text/html""#),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+PrintWriter out ",
+                            ),
+                            (TokenKind::Keyword, r"="),
+                            (TokenKind::Plain, r" response"),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Function, r"getWriter"),
+                            (TokenKind::Punctuation, r"();"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+out",
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Function, r"println"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::String, r#""<html><body>""#),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+out",
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Function, r"println"),
+                            (TokenKind::Punctuation, r"("),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                            ),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+out",
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Function, r"println"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::String, r#""</body></html>""#),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                        ],
+                    )
+                },
+            },
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::JavaSwing,
+                syntax: JAVA_SWING,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        JAVA_SWING,
+                        [
+                            (
+                                TokenKind::Comment,
+                                concat!(
+                                    r"// ",
+                                    output_for_hello_world!(),
+                                    r" in Java using Swing GUI
+"
+                                ),
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Type, r"class"),
+                            (TokenKind::Plain, r" HelloWorldSwing "),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+  ",
+                            ),
+                            (TokenKind::Keyword, r"static"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"public"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Type, r"void"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"main"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"String args"),
+                            (TokenKind::Keyword, r"[]"),
+                            (TokenKind::Punctuation, r")"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
     javax.swing",
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Plain, r"JOptionPane"),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Function, r"showMessageDialog"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"null"),
-                    (TokenKind::Punctuation, r","),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                    ),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Plain, r"JOptionPane"),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Function, r"showMessageDialog"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"null"),
+                            (TokenKind::Punctuation, r","),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                            ),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
   ",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                            (
+                                TokenKind::Plain,
+                                r"
 ",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                ],
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                        ],
+                    )
+                },
             },
         ],
     };

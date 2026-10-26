@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,19 @@ language_names! {
     versions: [IbmExec2 => "IBM-Exec2"],
     extensions: [],
 }
+
+const IBM_EXEC2: &str = concat!(
+    output_for_hello_world!(),
+    r" for IBM EXEC2 (under VM/CMS)
+
+&TRACE OFF
+*
+&TYPE ",
+    output_for_hello_world!(),
+    r"
+*
+&EXIT 0"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,32 +43,26 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::IbmExec2,
-            syntax: concat!(
-                output_for_hello_world!(),
-                r" for IBM EXEC2 (under VM/CMS)
+            syntax: IBM_EXEC2,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    IBM_EXEC2,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            output_for_hello_world!(),
+                            r" for IBM EXEC2 (under VM/CMS)
 
 &TRACE OFF
 *
 &TYPE ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 *
 &EXIT 0"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    output_for_hello_world!(),
-                    r" for IBM EXEC2 (under VM/CMS)
-
-&TRACE OFF
-*
-&TYPE ",
-                    output_for_hello_world!(),
-                    r"
-*
-&EXIT 0"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

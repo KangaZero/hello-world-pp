@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,13 @@ language_names! {
     versions: [Hsp => "HSP"],
     extensions: [Hsp => "hsp"],
 }
+
+const HSP: &str = concat!(
+    r#"mes ""#,
+    output_for_hello_world!(),
+    r#""
+stop"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,20 +36,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hsp,
-            syntax: concat!(
-                r#"mes ""#,
-                output_for_hello_world!(),
-                r#""
+            syntax: HSP,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    HSP,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"mes ""#,
+                            output_for_hello_world!(),
+                            r#""
 stop"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"mes ""#,
-                    output_for_hello_world!(),
-                    r#""
-stop"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -22,7 +22,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -30,6 +30,35 @@ language_names! {
     versions: [K => "K", K3 => "K3", K4 => "K4", K5 => "K5"],
     extensions: [K => "k"],
 }
+
+const K: &str = concat!(r#"""#, output_for_hello_world!(), r#"\n""#);
+const K3: &str = concat!(
+    r"/ ",
+    output_for_hello_world!(),
+    r#" in K3
+
+`0:""#,
+    output_for_hello_world!(),
+    r"\n"
+);
+const K4: &str = concat!(
+    r"/ ",
+    output_for_hello_world!(),
+    r#" in K4/Q/KDB
+
+1""#,
+    output_for_hello_world!(),
+    r#"\n""#
+);
+const K5: &str = concat!(
+    r"/ ",
+    output_for_hello_world!(),
+    r#" in K5
+
+1'""#,
+    output_for_hello_world!(),
+    r#"\n""#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -40,83 +69,79 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::K,
-                syntax: concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
-                )],
+                syntax: K,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        K,
+                        [(
+                            TokenKind::Plain,
+                            concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                        )],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::K3,
-                syntax: concat!(
-                    r"/ ",
-                    output_for_hello_world!(),
-                    r#" in K3
+                syntax: K3,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        K3,
+                        [(
+                            TokenKind::Plain,
+                            concat!(
+                                r"/ ",
+                                output_for_hello_world!(),
+                                r#" in K3
 
 `0:""#,
-                    output_for_hello_world!(),
-                    r"\n"
-                ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r"/ ",
-                        output_for_hello_world!(),
-                        r#" in K3
-
-`0:""#,
-                        output_for_hello_world!(),
-                        r"\n"
-                    ),
-                )],
+                                output_for_hello_world!(),
+                                r"\n"
+                            ),
+                        )],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::K4,
-                syntax: concat!(
-                    r"/ ",
-                    output_for_hello_world!(),
-                    r#" in K4/Q/KDB
+                syntax: K4,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        K4,
+                        [(
+                            TokenKind::Plain,
+                            concat!(
+                                r"/ ",
+                                output_for_hello_world!(),
+                                r#" in K4/Q/KDB
 
 1""#,
-                    output_for_hello_world!(),
-                    r#"\n""#
-                ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r"/ ",
-                        output_for_hello_world!(),
-                        r#" in K4/Q/KDB
-
-1""#,
-                        output_for_hello_world!(),
-                        r#"\n""#
-                    ),
-                )],
+                                output_for_hello_world!(),
+                                r#"\n""#
+                            ),
+                        )],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::K5,
-                syntax: concat!(
-                    r"/ ",
-                    output_for_hello_world!(),
-                    r#" in K5
+                syntax: K5,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        K5,
+                        [(
+                            TokenKind::Plain,
+                            concat!(
+                                r"/ ",
+                                output_for_hello_world!(),
+                                r#" in K5
 
 1'""#,
-                    output_for_hello_world!(),
-                    r#"\n""#
-                ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r"/ ",
-                        output_for_hello_world!(),
-                        r#" in K5
-
-1'""#,
-                        output_for_hello_world!(),
-                        r#"\n""#
-                    ),
-                )],
+                                output_for_hello_world!(),
+                                r#"\n""#
+                            ),
+                        )],
+                    )
+                },
             },
         ],
     };

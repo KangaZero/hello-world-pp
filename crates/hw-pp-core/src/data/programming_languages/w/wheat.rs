@@ -10,13 +10,23 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Wheat => "Wheat",
     versions: [Wheat => "Wheat"],
     extensions: [Wheat => "wheat"],
 }
+
+const WHEAT: &str = r#"input h
+if h "H":
+ output " world!"
+ output N
+ terminate
+output "Hello,""#;
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,20 +36,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Wheat,
-            syntax: r#"input h
+            syntax: WHEAT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    WHEAT,
+                    [(
+                        TokenKind::Plain,
+                        r#"input h
 if h "H":
  output " world!"
  output N
  terminate
 output "Hello,""#,
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r#"input h
-if h "H":
- output " world!"
- output N
- terminate
-output "Hello,""#,
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -11,13 +11,22 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: ClclcIntercal => "CLCLC-INTERCAL",
     versions: [ClclcIntercal => "CLCLC-INTERCAL"],
     extensions: [],
 }
+
+const CLCLC_INTERCAL: &str = r"PLEASE ;1 <- #2
+DO ;1 SUB #1 <- #17947$#20775
+DO ;1 SUB #2 <- #5204$#21386
+DO READ OUT ;1
+PLEASE GIVE UP";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,18 +36,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::ClclcIntercal,
-            syntax: r"PLEASE ;1 <- #2
+            syntax: CLCLC_INTERCAL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CLCLC_INTERCAL,
+                    [(
+                        TokenKind::Plain,
+                        r"PLEASE ;1 <- #2
 DO ;1 SUB #1 <- #17947$#20775
 DO ;1 SUB #2 <- #5204$#21386
 DO READ OUT ;1
 PLEASE GIVE UP",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"PLEASE ;1 <- #2
-DO ;1 SUB #1 <- #17947$#20775
-DO ;1 SUB #2 <- #5204$#21386
-DO READ OUT ;1
-PLEASE GIVE UP",
-            )],
+                    )],
+                )
+            },
         }],
     };

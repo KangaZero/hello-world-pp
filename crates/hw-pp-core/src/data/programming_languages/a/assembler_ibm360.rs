@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,19 @@ language_names! {
     versions: [AssemblerIbm360 => "Assembler IBM360"],
     extensions: [],
 }
+
+const ASSEMBLER_IBM360: &str = concat!(
+    r"         LA    1,MSGAREA     Point Register 1 to message area
+         SVC   35            Invoke SVC 35 (Write to Operator) 
+         BR    14            Return
+MSGAREA  EQU   *             Message Area
+         DC    AL2(19)       Total area length = 19 (Prefix length:4 + Data Length:15) 
+         DC    XL2'00'       2 bytes binary of zeros
+         DC    C'",
+    output_for_hello_world!(),
+    r"'  Text to be written to system console
+         END"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,32 +42,26 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblerIbm360,
-            syntax: concat!(
-                r"         LA    1,MSGAREA     Point Register 1 to message area
+            syntax: ASSEMBLER_IBM360,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_IBM360,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"         LA    1,MSGAREA     Point Register 1 to message area
          SVC   35            Invoke SVC 35 (Write to Operator) 
          BR    14            Return
 MSGAREA  EQU   *             Message Area
          DC    AL2(19)       Total area length = 19 (Prefix length:4 + Data Length:15) 
          DC    XL2'00'       2 bytes binary of zeros
          DC    C'",
-                output_for_hello_world!(),
-                r"'  Text to be written to system console
+                            output_for_hello_world!(),
+                            r"'  Text to be written to system console
          END"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"         LA    1,MSGAREA     Point Register 1 to message area
-         SVC   35            Invoke SVC 35 (Write to Operator) 
-         BR    14            Return
-MSGAREA  EQU   *             Message Area
-         DC    AL2(19)       Total area length = 19 (Prefix length:4 + Data Length:15) 
-         DC    XL2'00'       2 bytes binary of zeros
-         DC    C'",
-                    output_for_hello_world!(),
-                    r"'  Text to be written to system console
-         END"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

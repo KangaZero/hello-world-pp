@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,19 @@ language_names! {
     versions: [Fortraniv => "FortranIV"],
     extensions: [],
 }
+
+const FORTRANIV: &str = concat!(
+    r"       PROGRAM HELLO
+c
+C      ",
+    output_for_hello_world!(),
+    r" in Fortran IV (supposedly for a TR440)
+c
+       WRITE (6,'('' ",
+    output_for_hello_world!(),
+    r"'')')
+       END"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,32 +43,26 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Fortraniv,
-            syntax: concat!(
-                r"       PROGRAM HELLO
+            syntax: FORTRANIV,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FORTRANIV,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"       PROGRAM HELLO
 c
 C      ",
-                output_for_hello_world!(),
-                r" in Fortran IV (supposedly for a TR440)
+                            output_for_hello_world!(),
+                            r" in Fortran IV (supposedly for a TR440)
 c
        WRITE (6,'('' ",
-                output_for_hello_world!(),
-                r"'')')
+                            output_for_hello_world!(),
+                            r"'')')
        END"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"       PROGRAM HELLO
-c
-C      ",
-                    output_for_hello_world!(),
-                    r" in Fortran IV (supposedly for a TR440)
-c
-       WRITE (6,'('' ",
-                    output_for_hello_world!(),
-                    r"'')')
-       END"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

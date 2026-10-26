@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,17 @@ language_names! {
     versions: [Slim => "Slim"],
     extensions: [Slim => "slim"],
 }
+
+const SLIM: &str = concat!(
+    r"doctype html
+head
+  title ",
+    output_for_hello_world!(),
+    r"
+body
+  h1 ",
+    output_for_hello_world!()
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,28 +40,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Slim,
-            syntax: concat!(
-                r"doctype html
+            syntax: SLIM,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SLIM,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"doctype html
 head
   title ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 body
   h1 ",
-                output_for_hello_world!()
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"doctype html
-head
-  title ",
-                    output_for_hello_world!(),
-                    r"
-body
-  h1 ",
-                    output_for_hello_world!()
-                ),
-            )],
+                            output_for_hello_world!()
+                        ),
+                    )],
+                )
+            },
         }],
     };

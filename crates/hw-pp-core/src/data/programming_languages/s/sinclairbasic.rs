@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,15 @@ language_names! {
     versions: [Sinclairbasic => "SinclairBasic"],
     extensions: [],
 }
+
+const SINCLAIRBASIC: &str = concat!(
+    r"10 REM ",
+    output_for_hello_world!(),
+    r#" in Sinclair BASIC
+20 PRINT ""#,
+    output_for_hello_world!(),
+    r#"""#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,35 +39,33 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Basic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sinclairbasic,
-            syntax: concat!(
-                r"10 REM ",
-                output_for_hello_world!(),
-                r#" in Sinclair BASIC
-20 PRINT ""#,
-                output_for_hello_world!(),
-                r#"""#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Number, r"10"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"REM"),
-                (
-                    TokenKind::Plain,
-                    concat!(
-                        r" ",
-                        output_for_hello_world!(),
-                        r" in Sinclair BASIC
+            syntax: SINCLAIRBASIC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SINCLAIRBASIC,
+                    [
+                        (TokenKind::Number, r"10"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"REM"),
+                        (
+                            TokenKind::Plain,
+                            concat!(
+                                r" ",
+                                output_for_hello_world!(),
+                                r" in Sinclair BASIC
 "
-                    ),
-                ),
-                (TokenKind::Number, r"20"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"PRINT"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-            ],
+                            ),
+                        ),
+                        (TokenKind::Number, r"20"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"PRINT"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                    ],
+                )
+            },
         }],
     };

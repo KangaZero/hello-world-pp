@@ -18,7 +18,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -26,6 +26,17 @@ language_names! {
     versions: [CSharp10 => "C# 10", CSharp9 => "C# 9"],
     extensions: [Cs => "cs"],
 }
+
+const C_SHARP10: &str = concat!(
+    r#"Console.WriteLine(""#,
+    output_for_hello_world!(),
+    r#"");"#
+);
+const C_SHARP9: &str = concat!(
+    r#"System.Console.WriteLine(""#,
+    output_for_hello_world!(),
+    r#"");"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -36,43 +47,45 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::CSharp10,
-                syntax: concat!(
-                    r#"Console.WriteLine(""#,
-                    output_for_hello_world!(),
-                    r#"");"#
-                ),
-                tokenized_syntax: &[
-                    (TokenKind::Plain, "Console"),
-                    (TokenKind::Punctuation, "."),
-                    (TokenKind::Function, "WriteLine"),
-                    (TokenKind::Punctuation, "("),
-                    (
-                        TokenKind::String,
-                        concat!("\"", output_for_hello_world!(), "\""),
-                    ),
-                    (TokenKind::Punctuation, ");"),
-                ],
+                syntax: C_SHARP10,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        C_SHARP10,
+                        [
+                            (TokenKind::Plain, "Console"),
+                            (TokenKind::Punctuation, "."),
+                            (TokenKind::Function, "WriteLine"),
+                            (TokenKind::Punctuation, "("),
+                            (
+                                TokenKind::String,
+                                concat!("\"", output_for_hello_world!(), "\""),
+                            ),
+                            (TokenKind::Punctuation, ");"),
+                        ],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::CSharp9,
-                syntax: concat!(
-                    r#"System.Console.WriteLine(""#,
-                    output_for_hello_world!(),
-                    r#"");"#
-                ),
-                tokenized_syntax: &[
-                    (TokenKind::Plain, r"System"),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Plain, r"Console"),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Function, r"WriteLine"),
-                    (TokenKind::Punctuation, r"("),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                    ),
-                    (TokenKind::Punctuation, r");"),
-                ],
+                syntax: C_SHARP9,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        C_SHARP9,
+                        [
+                            (TokenKind::Plain, r"System"),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Plain, r"Console"),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Function, r"WriteLine"),
+                            (TokenKind::Punctuation, r"("),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                            ),
+                            (TokenKind::Punctuation, r");"),
+                        ],
+                    )
+                },
             },
         ],
     };

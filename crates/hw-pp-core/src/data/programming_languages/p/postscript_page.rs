@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,22 @@ language_names! {
     versions: [PostscriptPage => "PostScript Page"],
     extensions: [],
 }
+
+const POSTSCRIPT_PAGE: &str = concat!(
+    r"% run> gs -q postscript_page.ps
+/pt {72 div} def
+/y 9 def
+/textdraw {/Courier findfont 12 pt scalefont setfont 8 pt y moveto show} def
+
+72 72 scale
+0 0 0 setrgbcolor
+
+(",
+    output_for_hello_world!(),
+    r") textdraw
+showpage
+quit"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,8 +45,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PostscriptPage,
-            syntax: concat!(
-                r"% run> gs -q postscript_page.ps
+            syntax: POSTSCRIPT_PAGE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    POSTSCRIPT_PAGE,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"% run> gs -q postscript_page.ps
 /pt {72 div} def
 /y 9 def
 /textdraw {/Courier findfont 12 pt scalefont setfont 8 pt y moveto show} def
@@ -39,28 +61,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 0 0 0 setrgbcolor
 
 (",
-                output_for_hello_world!(),
-                r") textdraw
+                            output_for_hello_world!(),
+                            r") textdraw
 showpage
 quit"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"% run> gs -q postscript_page.ps
-/pt {72 div} def
-/y 9 def
-/textdraw {/Courier findfont 12 pt scalefont setfont 8 pt y moveto show} def
-
-72 72 scale
-0 0 0 setrgbcolor
-
-(",
-                    output_for_hello_world!(),
-                    r") textdraw
-showpage
-quit"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

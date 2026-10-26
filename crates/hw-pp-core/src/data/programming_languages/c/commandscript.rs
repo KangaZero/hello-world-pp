@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,21 @@ language_names! {
     versions: [Commandscript => "CommandScript"],
     extensions: [],
 }
+
+const COMMANDSCRIPT: &str = concat!(
+    r"#",
+    output_for_hello_world!(),
+    r#" in Command Script 3.1
+#Meta.Name: ""#,
+    output_for_hello_world!(),
+    r#""
+
+#Block(Main).Start
+    echo ""#,
+    output_for_hello_world!(),
+    r#""
+#Block(Main).End"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,36 +45,28 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Commandscript,
-            syntax: concat!(
-                r"#",
-                output_for_hello_world!(),
-                r#" in Command Script 3.1
+            syntax: COMMANDSCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    COMMANDSCRIPT,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"#",
+                            output_for_hello_world!(),
+                            r#" in Command Script 3.1
 #Meta.Name: ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 
 #Block(Main).Start
     echo ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 #Block(Main).End"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"#",
-                    output_for_hello_world!(),
-                    r#" in Command Script 3.1
-#Meta.Name: ""#,
-                    output_for_hello_world!(),
-                    r#""
-
-#Block(Main).Start
-    echo ""#,
-                    output_for_hello_world!(),
-                    r#""
-#Block(Main).End"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -20,7 +20,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -28,6 +28,63 @@ language_names! {
     versions: [Logo => "Logo", LogoGraphical => "Logo (graphical)"],
     extensions: [Lg => "lg"],
 }
+
+const LOGO: &str = concat!(r"print [", output_for_hello_world!(), r"]");
+const LOGO_GRAPHICAL: &str = concat!(
+    r"; ",
+    output_for_hello_world!(),
+    r" in LOGO, graphical output.
+
+go 20 , left 180,
+go 40 , left 180,
+go 20 , right 90,
+go 20 , left 90 ,
+go 20 , left 180,
+go 40 , left 90 ,
+go 20 , left 90 ,
+go 20 , right 90 ,
+go 20 , right 90 ,
+go 10 , right 90 ,
+go 20 , left 90 ,
+go 10 , left 90 ,
+go 30 , left 90 ,
+go 40 , left 180,
+go 40 , left 90 ,
+go 20 , left 90 ,
+go 40 , left 180,
+go 40 , left 90 ,
+go 40 , left 90 ,
+go 20 , left 90 ,
+go 20 , left 90 ,
+go 20 , left 90 ,
+go 60 , left 90 ,
+go 40 , left 180,
+go 40 , left 90 ,
+go 20 , left 90 ,
+go 20 , left 180,
+go 20 , left 90 ,
+go 20 , left 90 ,
+go 40 , left 180,
+go 40 , left 90 ,
+go 40 , left 90 ,
+go 20 , left 90 ,
+go 20 , left 90 ,
+go 20 , left 90 ,
+go 40 , left 90 ,
+go 20 , right 90,
+go 20 , right 90,
+go 5 , left 90  ,
+go 5 , left 90  ,
+go 25 , left 180,
+go 40 , left 90 ,
+go 40 , left 90 ,
+go 20 , left 90 ,
+go 20 , left 90 ,
+go 20 , left 90 ,
+go 20 , left 90 ,
+go 40 , left 180,
+go 40 ,"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -38,18 +95,29 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Logo,
-                syntax: concat!(r"print [", output_for_hello_world!(), r"]"),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(r"print [", output_for_hello_world!(), r"]"),
-                )],
+                syntax: LOGO,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        LOGO,
+                        [(
+                            TokenKind::Plain,
+                            concat!(r"print [", output_for_hello_world!(), r"]"),
+                        )],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::LogoGraphical,
-                syntax: concat!(
-                    r"; ",
-                    output_for_hello_world!(),
-                    r" in LOGO, graphical output.
+                syntax: LOGO_GRAPHICAL,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        LOGO_GRAPHICAL,
+                        [(
+                            TokenKind::Plain,
+                            concat!(
+                                r"; ",
+                                output_for_hello_world!(),
+                                r" in LOGO, graphical output.
 
 go 20 , left 180,
 go 40 , left 180,
@@ -100,65 +168,10 @@ go 20 , left 90 ,
 go 20 , left 90 ,
 go 40 , left 180,
 go 40 ,"
-                ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r"; ",
-                        output_for_hello_world!(),
-                        r" in LOGO, graphical output.
-
-go 20 , left 180,
-go 40 , left 180,
-go 20 , right 90,
-go 20 , left 90 ,
-go 20 , left 180,
-go 40 , left 90 ,
-go 20 , left 90 ,
-go 20 , right 90 ,
-go 20 , right 90 ,
-go 10 , right 90 ,
-go 20 , left 90 ,
-go 10 , left 90 ,
-go 30 , left 90 ,
-go 40 , left 180,
-go 40 , left 90 ,
-go 20 , left 90 ,
-go 40 , left 180,
-go 40 , left 90 ,
-go 40 , left 90 ,
-go 20 , left 90 ,
-go 20 , left 90 ,
-go 20 , left 90 ,
-go 60 , left 90 ,
-go 40 , left 180,
-go 40 , left 90 ,
-go 20 , left 90 ,
-go 20 , left 180,
-go 20 , left 90 ,
-go 20 , left 90 ,
-go 40 , left 180,
-go 40 , left 90 ,
-go 40 , left 90 ,
-go 20 , left 90 ,
-go 20 , left 90 ,
-go 20 , left 90 ,
-go 40 , left 90 ,
-go 20 , right 90,
-go 20 , right 90,
-go 5 , left 90  ,
-go 5 , left 90  ,
-go 25 , left 180,
-go 40 , left 90 ,
-go 40 , left 90 ,
-go 20 , left 90 ,
-go 20 , left 90 ,
-go 20 , left 90 ,
-go 20 , left 90 ,
-go 40 , left 180,
-go 40 ,"
-                    ),
-                )],
+                            ),
+                        )],
+                    )
+                },
             },
         ],
     };

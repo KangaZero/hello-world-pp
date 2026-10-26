@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,26 @@ language_names! {
     versions: [Newtonscript => "NewtonScript"],
     extensions: [Nwt => "nwt"],
 }
+
+const NEWTONSCRIPT: &str = concat!(
+    r#"baseview :=
+   {viewBounds: {left: -3, top: 71, right: 138, bottom: 137},
+    viewFlags: 581,
+    declareSelf: 'base,
+    _proto: protoFloatNGo,
+    debug: "baseview"
+   };
+
+textview := * child of baseview *
+   {text: ""#,
+    output_for_hello_world!(),
+    r#"",
+    viewBounds: {left: 33, top: 24, right: 113, bottom: 46},
+    viewFlags: 579,
+    _proto: protoStaticText,
+    debug: "textview"
+   };"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,8 +49,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Newtonscript,
-            syntax: concat!(
-                r#"baseview :=
+            syntax: NEWTONSCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    NEWTONSCRIPT,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"baseview :=
    {viewBounds: {left: -3, top: 71, right: 138, bottom: 137},
     viewFlags: 581,
     declareSelf: 'base,
@@ -40,35 +66,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 
 textview := * child of baseview *
    {text: ""#,
-                output_for_hello_world!(),
-                r#"",
+                            output_for_hello_world!(),
+                            r#"",
     viewBounds: {left: 33, top: 24, right: 113, bottom: 46},
     viewFlags: 579,
     _proto: protoStaticText,
     debug: "textview"
    };"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"baseview :=
-   {viewBounds: {left: -3, top: 71, right: 138, bottom: 137},
-    viewFlags: 581,
-    declareSelf: 'base,
-    _proto: protoFloatNGo,
-    debug: "baseview"
-   };
-
-textview := * child of baseview *
-   {text: ""#,
-                    output_for_hello_world!(),
-                    r#"",
-    viewBounds: {left: 33, top: 24, right: 113, bottom: 46},
-    viewFlags: 579,
-    _proto: protoStaticText,
-    debug: "textview"
-   };"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

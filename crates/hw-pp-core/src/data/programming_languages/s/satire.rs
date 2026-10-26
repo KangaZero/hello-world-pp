@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,20 @@ language_names! {
     versions: [Satire => "SATire"],
     extensions: [],
 }
+
+const SATIRE: &str = concat!(
+    r#"Please fill out the following form.
+greeting: ""#,
+    output_for_hello_world!(),
+    r#"\0A"
+Calculator section.
+
+(1) Evaluate 1. Round up.
+a. ([] # greeting) # 1
+b. ["",2,]
+c. ["",3,]
+d. ["",None-of-the-above,]"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,11 +44,17 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Satire,
-            syntax: concat!(
-                r#"Please fill out the following form.
+            syntax: SATIRE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SATIRE,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"Please fill out the following form.
 greeting: ""#,
-                output_for_hello_world!(),
-                r#"\0A"
+                            output_for_hello_world!(),
+                            r#"\0A"
 Calculator section.
 
 (1) Evaluate 1. Round up.
@@ -42,22 +62,9 @@ a. ([] # greeting) # 1
 b. ["",2,]
 c. ["",3,]
 d. ["",None-of-the-above,]"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"Please fill out the following form.
-greeting: ""#,
-                    output_for_hello_world!(),
-                    r#"\0A"
-Calculator section.
-
-(1) Evaluate 1. Round up.
-a. ([] # greeting) # 1
-b. ["",2,]
-c. ["",3,]
-d. ["",None-of-the-above,]"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

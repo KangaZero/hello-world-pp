@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,19 @@ language_names! {
     versions: [Mercury => "Mercury"],
     extensions: [],
 }
+
+const MERCURY: &str = concat!(
+    r#":- module hello.
+:- interface.
+:- import_module io.
+:- pred main(io::di, io::uo) is det.
+
+:- implementation.
+main(!IO) :-
+	io.write_string(""#,
+    output_for_hello_world!(),
+    r#"\n", !IO)."#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,103 +42,97 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Mercury,
-            syntax: concat!(
-                r#":- module hello.
-:- interface.
-:- import_module io.
-:- pred main(io::di, io::uo) is det.
-
-:- implementation.
-main(!IO) :-
-	io.write_string(""#,
-                output_for_hello_world!(),
-                r#"\n", !IO)."#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r"- "),
-                (TokenKind::Keyword, r"module"),
-                (TokenKind::Plain, r" hello"),
-                (TokenKind::Punctuation, r"."),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: MERCURY,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MERCURY,
+                    [
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r"- "),
+                        (TokenKind::Keyword, r"module"),
+                        (TokenKind::Plain, r" hello"),
+                        (TokenKind::Punctuation, r"."),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r"- "),
-                (TokenKind::Keyword, r"interface"),
-                (TokenKind::Punctuation, r"."),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r"- "),
+                        (TokenKind::Keyword, r"interface"),
+                        (TokenKind::Punctuation, r"."),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r"- import_module "),
-                (TokenKind::Keyword, r"io"),
-                (TokenKind::Punctuation, r"."),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r"- import_module "),
+                        (TokenKind::Keyword, r"io"),
+                        (TokenKind::Punctuation, r"."),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r"- "),
-                (TokenKind::Keyword, r"pred"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"main"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Keyword, r"io"),
-                (TokenKind::Punctuation, r"::"),
-                (TokenKind::Plain, r"di"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"io"),
-                (TokenKind::Punctuation, r"::"),
-                (TokenKind::Plain, r"uo"),
-                (TokenKind::Punctuation, r")"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"is"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"det"),
-                (TokenKind::Punctuation, r"."),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r"- "),
+                        (TokenKind::Keyword, r"pred"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"main"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Keyword, r"io"),
+                        (TokenKind::Punctuation, r"::"),
+                        (TokenKind::Plain, r"di"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"io"),
+                        (TokenKind::Punctuation, r"::"),
+                        (TokenKind::Plain, r"uo"),
+                        (TokenKind::Punctuation, r")"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"is"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"det"),
+                        (TokenKind::Punctuation, r"."),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r"- implementation"),
-                (TokenKind::Punctuation, r"."),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r"- implementation"),
+                        (TokenKind::Punctuation, r"."),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"main"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"!IO"),
-                (TokenKind::Punctuation, r")"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"-
+                        ),
+                        (TokenKind::Keyword, r"main"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"!IO"),
+                        (TokenKind::Punctuation, r")"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"-
 	",
-                ),
-                (TokenKind::Keyword, r"io"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"write_string"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
-                ),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" !IO"),
-                (TokenKind::Punctuation, r")."),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"io"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"write_string"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                        ),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" !IO"),
+                        (TokenKind::Punctuation, r")."),
+                    ],
+                )
+            },
         }],
     };

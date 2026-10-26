@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,18 +21,10 @@ language_names! {
     extensions: [Eiff => "eiff"],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::Eiffel,
-        extensions: &[FileExtension::Eiff],
-        categories: &[Compiled],
-        families: &[],
-        versions: &[ProgrammingLanguageVersion {
-            label: ProgrammingLanguageDialect::Eiffel,
-            syntax: concat!(
-                r#"indexing ""#,
-                output_for_hello_world!(),
-                r#" in Eiffel , from http://roesler-ac.de/wolfram/hello.htm#Eiffel"
+const EIFFEL: &str = concat!(
+    r#"indexing ""#,
+    output_for_hello_world!(),
+    r#" in Eiffel , from http://roesler-ac.de/wolfram/hello.htm#Eiffel"
 
 class HELLO
 
@@ -47,115 +39,130 @@ feature
 		do
 			!!io;
 			io.put_string(""#,
-                output_for_hello_world!(),
-                r#"");
+    output_for_hello_world!(),
+    r#"");
 			io.put_newline
 		end; -- run
 end; -- class HELLO"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"indexing"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(
-                        r#"""#,
-                        output_for_hello_world!(),
-                        r#" in Eiffel , from http://roesler-ac.de/wolfram/hello.htm#Eiffel""#
-                    ),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Eiffel,
+        extensions: &[FileExtension::Eiff],
+        categories: &[Compiled],
+        families: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Eiffel,
+            syntax: EIFFEL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    EIFFEL,
+                    [
+                        (TokenKind::Keyword, r"indexing"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(
+                                r#"""#,
+                                output_for_hello_world!(),
+                                r#" in Eiffel , from http://roesler-ac.de/wolfram/hello.htm#Eiffel""#
+                            ),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"class"),
-                (
-                    TokenKind::Plain,
-                    r" HELLO
+                        ),
+                        (TokenKind::Keyword, r"class"),
+                        (
+                            TokenKind::Plain,
+                            r" HELLO
 
 ",
-                ),
-                (TokenKind::Keyword, r"creation"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"creation"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	run
 
 ",
-                ),
-                (TokenKind::Keyword, r"feature"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"feature"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 	run ",
-                ),
-                (TokenKind::Keyword, r"is"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"is"),
+                        (
+                            TokenKind::Plain,
+                            r"
 		",
-                ),
-                (TokenKind::Keyword, r"local"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"local"),
+                        (
+                            TokenKind::Plain,
+                            r"
 			io ",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" BASIC_IO"),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" BASIC_IO"),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 		",
-                ),
-                (TokenKind::Keyword, r"do"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"do"),
+                        (
+                            TokenKind::Plain,
+                            r"
 			!!io",
-                ),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 			io",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"put_string"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"put_string"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
 			io",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (
-                    TokenKind::Plain,
-                    r"put_newline
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (
+                            TokenKind::Plain,
+                            r"put_newline
 		",
-                ),
-                (TokenKind::Keyword, r"end"),
-                (TokenKind::Punctuation, r";"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Comment, r"-- run"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"end"),
+                        (TokenKind::Punctuation, r";"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Comment, r"-- run"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"end"),
-                (TokenKind::Punctuation, r";"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Comment, r"-- class HELLO"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"end"),
+                        (TokenKind::Punctuation, r";"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Comment, r"-- class HELLO"),
+                    ],
+                )
+            },
         }],
     };

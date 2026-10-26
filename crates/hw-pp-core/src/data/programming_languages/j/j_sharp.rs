@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,20 @@ language_names! {
     versions: [JSharp => "J#"],
     extensions: [Jsl => "jsl"],
 }
+
+const J_SHARP: &str = concat!(
+    r#"package HelloWorld;
+
+public class HelloWorld
+{
+	public static void main(String[] args)
+	{
+		System.Console.Write(""#,
+    output_for_hello_world!(),
+    r#"");
+	}
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,34 +44,27 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::JSharp,
-            syntax: concat!(
-                r#"package HelloWorld;
+            syntax: J_SHARP,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    J_SHARP,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"package HelloWorld;
 
 public class HelloWorld
 {
 	public static void main(String[] args)
 	{
 		System.Console.Write(""#,
-                output_for_hello_world!(),
-                r#"");
+                            output_for_hello_world!(),
+                            r#"");
 	}
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"package HelloWorld;
-
-public class HelloWorld
-{
-	public static void main(String[] args)
-	{
-		System.Console.Write(""#,
-                    output_for_hello_world!(),
-                    r#"");
-	}
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

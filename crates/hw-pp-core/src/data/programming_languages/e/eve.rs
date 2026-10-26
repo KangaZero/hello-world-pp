@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,17 @@ language_names! {
     versions: [Eve => "Eve"],
     extensions: [],
 }
+
+const EVE: &str = concat!(
+    r"# ",
+    output_for_hello_world!(),
+    r#" in Eve
+
+bind @browser
+  [tag: "div", text: ""#,
+    output_for_hello_world!(),
+    r#""]"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,28 +41,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Eve,
-            syntax: concat!(
-                r"# ",
-                output_for_hello_world!(),
-                r#" in Eve
+            syntax: EVE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    EVE,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"# ",
+                            output_for_hello_world!(),
+                            r#" in Eve
 
 bind @browser
   [tag: "div", text: ""#,
-                output_for_hello_world!(),
-                r#""]"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"# ",
-                    output_for_hello_world!(),
-                    r#" in Eve
-
-bind @browser
-  [tag: "div", text: ""#,
-                    output_for_hello_world!(),
-                    r#""]"#
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r#""]"#
+                        ),
+                    )],
+                )
+            },
         }],
     };

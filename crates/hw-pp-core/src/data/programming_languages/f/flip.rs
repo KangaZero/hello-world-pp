@@ -11,13 +11,28 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Flip => "Flip",
     versions: [Flip => "Flip"],
     extensions: [],
 }
+
+const FLIP: &str = r" >0> 5+  \
+@'+  
+ >0>4*+\
++,  /    /
+vXv/   /
+  \   \  \  \  \  \  \  \  \  \  \  \  \  \ 
+      4@ 6@ 7@ 7@ 7@ 0@ 5@ 7@ 8@ 7@ 6@ 0@ 2@
+    *<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<~<<
+  P++<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<~<<
+   Q  0@ 9@ 6@ 6@ 9@ 0@ 5@ 9@ 2@ 6@ 8@ 1@ 2@
+\     /  /  /  /  /  /  /  /  /  /  /  /  /";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +42,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Flip,
-            syntax: r" >0> 5+  \
+            syntax: FLIP,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FLIP,
+                    [(
+                        TokenKind::Plain,
+                        r" >0> 5+  \
 @'+  
  >0>4*+\
 +,  /    /
@@ -38,19 +59,8 @@ vXv/   /
   P++<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<~<<
    Q  0@ 9@ 6@ 6@ 9@ 0@ 5@ 9@ 2@ 6@ 8@ 1@ 2@
 \     /  /  /  /  /  /  /  /  /  /  /  /  /",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r" >0> 5+  \
-@'+  
- >0>4*+\
-+,  /    /
-vXv/   /
-  \   \  \  \  \  \  \  \  \  \  \  \  \  \ 
-      4@ 6@ 7@ 7@ 7@ 0@ 5@ 7@ 8@ 7@ 6@ 0@ 2@
-    *<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<~<<
-  P++<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<~<<
-   Q  0@ 9@ 6@ 6@ 9@ 0@ 5@ 9@ 2@ 6@ 8@ 1@ 2@
-\     /  /  /  /  /  /  /  /  /  /  /  /  /",
-            )],
+                    )],
+                )
+            },
         }],
     };

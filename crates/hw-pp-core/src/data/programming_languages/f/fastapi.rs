@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,18 @@ language_names! {
     versions: [Fastapi => "FastAPI"],
     extensions: [],
 }
+
+const FASTAPI: &str = concat!(
+    r#"from fastapi import Body, FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+async def root():
+    return {"message": ""#,
+    output_for_hello_world!(),
+    r#""}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,73 +41,68 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Python],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Fastapi,
-            syntax: concat!(
-                r#"from fastapi import Body, FastAPI
-
-app = FastAPI()
-
-@app.get("/")
-async def root():
-    return {"message": ""#,
-                output_for_hello_world!(),
-                r#""}"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"from"),
-                (TokenKind::Plain, r" fastapi "),
-                (TokenKind::Keyword, r"import"),
-                (TokenKind::Plain, r" Body"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r" FastAPI
+            syntax: FASTAPI,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FASTAPI,
+                    [
+                        (TokenKind::Keyword, r"from"),
+                        (TokenKind::Plain, r" fastapi "),
+                        (TokenKind::Keyword, r"import"),
+                        (TokenKind::Plain, r" Body"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r" FastAPI
 
 app ",
-                ),
-                (TokenKind::Keyword, r"="),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"FastAPI"),
-                (TokenKind::Punctuation, r"()"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"="),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"FastAPI"),
+                        (TokenKind::Punctuation, r"()"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Punctuation, r"@"),
-                (TokenKind::Plain, r"app"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Plain, r"get"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::String, r#""/""#),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"@"),
+                        (TokenKind::Plain, r"app"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Plain, r"get"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::String, r#""/""#),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"async"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"def"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"root"),
-                (TokenKind::Punctuation, r"():"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"async"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"def"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"root"),
+                        (TokenKind::Punctuation, r"():"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"return"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"{"),
-                (TokenKind::String, r#""message""#),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r"}"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"return"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"{"),
+                        (TokenKind::String, r#""message""#),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                    ],
+                )
+            },
         }],
     };

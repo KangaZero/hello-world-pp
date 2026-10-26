@@ -10,13 +10,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: OnTheWayToWhoKnowsWhere => "ON THE WAY TO WHO KNOWS WHERE",
     versions: [OnTheWayToWhoKnowsWhere => "ON THE WAY TO WHO KNOWS WHERE"],
     extensions: [],
 }
+
+const ON_THE_WAY_TO_WHO_KNOWS_WHERE: &str = r"11";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +31,9 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::OnTheWayToWhoKnowsWhere,
-            syntax: r"11",
-            tokenized_syntax: &[(TokenKind::Plain, r"11")],
+            syntax: ON_THE_WAY_TO_WHO_KNOWS_WHERE,
+            tokenized_syntax: &const {
+                checked_token_lengths(ON_THE_WAY_TO_WHO_KNOWS_WHERE, [(TokenKind::Plain, r"11")])
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,16 @@ language_names! {
     versions: [HigherSubleq => "Higher Subleq"],
     extensions: [HigherSubleq => "higher_subleq"],
 }
+
+const HIGHER_SUBLEQ: &str = concat!(
+    r#"int printf();
+int main()
+{
+  printf(""#,
+    output_for_hello_world!(),
+    r#"\n");
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,26 +39,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::HigherSubleq,
-            syntax: concat!(
-                r#"int printf();
+            syntax: HIGHER_SUBLEQ,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    HIGHER_SUBLEQ,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"int printf();
 int main()
 {
   printf(""#,
-                output_for_hello_world!(),
-                r#"\n");
+                            output_for_hello_world!(),
+                            r#"\n");
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"int printf();
-int main()
-{
-  printf(""#,
-                    output_for_hello_world!(),
-                    r#"\n");
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

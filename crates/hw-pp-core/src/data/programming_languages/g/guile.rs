@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,16 @@ language_names! {
     versions: [Guile => "Guile"],
     extensions: [],
 }
+
+const GUILE: &str = concat!(
+    r"; ",
+    output_for_hello_world!(),
+    r#" in Guile
+
+(define do-hello (lambda () (display ""#,
+    output_for_hello_world!(),
+    r#".") (newline)))"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,48 +40,45 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Guile,
-            syntax: concat!(
-                r"; ",
-                output_for_hello_world!(),
-                r#" in Guile
-
-(define do-hello (lambda () (display ""#,
-                output_for_hello_world!(),
-                r#".") (newline)))"#
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Comment,
-                    concat!(r"; ", output_for_hello_world!(), r" in Guile"),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: GUILE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    GUILE,
+                    [
+                        (
+                            TokenKind::Comment,
+                            concat!(r"; ", output_for_hello_world!(), r" in Guile"),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Keyword, r"define"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"do-hello"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Keyword, r"lambda"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"()"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Function, r"display"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#".""#),
-                ),
-                (TokenKind::Punctuation, r")"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Function, r"newline"),
-                (TokenKind::Punctuation, r")))"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Keyword, r"define"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"do-hello"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Keyword, r"lambda"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"()"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Function, r"display"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#".""#),
+                        ),
+                        (TokenKind::Punctuation, r")"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Function, r"newline"),
+                        (TokenKind::Punctuation, r")))"),
+                    ],
+                )
+            },
         }],
     };

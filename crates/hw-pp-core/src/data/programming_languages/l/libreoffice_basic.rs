@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,13 @@ language_names! {
     versions: [LibreofficeBasic => "LibreOffice Basic"],
     extensions: [],
 }
+
+const LIBREOFFICE_BASIC: &str = concat!(
+    "\u{feff}REM  *****  BASIC  *****\n\nSub Main\n msgbox \"",
+    output_for_hello_world!(),
+    r#""
+End Sub"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,43 +36,43 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::LibreofficeBasic,
-            syntax: concat!(
-                "\u{feff}REM  *****  BASIC  *****\n\nSub Main\n msgbox \"",
-                output_for_hello_world!(),
-                r#""
-End Sub"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Plain, "\u{feff}"),
-                (TokenKind::Keyword, r"REM"),
-                (
-                    TokenKind::Plain,
-                    r"  *****  BASIC  *****
+            syntax: LIBREOFFICE_BASIC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LIBREOFFICE_BASIC,
+                    [
+                        (TokenKind::Plain, "\u{feff}"),
+                        (TokenKind::Keyword, r"REM"),
+                        (
+                            TokenKind::Plain,
+                            r"  *****  BASIC  *****
 
 ",
-                ),
-                (TokenKind::Keyword, r"Sub"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"Main"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"Sub"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"Main"),
+                        (
+                            TokenKind::Plain,
+                            r"
  ",
-                ),
-                (TokenKind::Keyword, r"msgbox"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"msgbox"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"End"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"Sub"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"End"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"Sub"),
+                    ],
+                )
+            },
         }],
     };

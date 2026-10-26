@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Sdotos => "SDOTOS",
     versions: [Sdotos => "SDOTOS"],
     extensions: [],
 }
+
+const SDOTOS: &str = r"iHfptiefptilofpiiofpti,fpti fptiWfptiofptirfptilfptidfpti!fpt ";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sdotos,
-            syntax: r"iHfptiefptilofpiiofpti,fpti fptiWfptiofptirfptilfptidfpti!fpt ",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"iHfptiefptilofpiiofpti,fpti fptiWfptiofptirfptilfptidfpti!fpt ",
-            )],
+            syntax: SDOTOS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SDOTOS,
+                    [(
+                        TokenKind::Plain,
+                        r"iHfptiefptilofpiiofpti,fpti fptiWfptiofptirfptilfptidfpti!fpt ",
+                    )],
+                )
+            },
         }],
     };

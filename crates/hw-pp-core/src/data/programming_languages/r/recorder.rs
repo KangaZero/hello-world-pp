@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,20 @@ language_names! {
     versions: [Recorder => "Recorder"],
     extensions: [],
 }
+
+const RECORDER: &str = concat!(
+    output_for_hello_world!(),
+    r#"
+#alternitave
+""#,
+    output_for_hello_world!(),
+    r#""
+#more alternative
+"some text ok ("#,
+    output_for_hello_world!(),
+    r#") yay wow" : () = a
+a"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,34 +44,27 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Recorder,
-            syntax: concat!(
-                output_for_hello_world!(),
-                r#"
+            syntax: RECORDER,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    RECORDER,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            output_for_hello_world!(),
+                            r#"
 #alternitave
 ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 #more alternative
 "some text ok ("#,
-                output_for_hello_world!(),
-                r#") yay wow" : () = a
+                            output_for_hello_world!(),
+                            r#") yay wow" : () = a
 a"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    output_for_hello_world!(),
-                    r#"
-#alternitave
-""#,
-                    output_for_hello_world!(),
-                    r#""
-#more alternative
-"some text ok ("#,
-                    output_for_hello_world!(),
-                    r#") yay wow" : () = a
-a"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

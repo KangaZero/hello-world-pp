@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,30 @@ language_names! {
     versions: [CSlashAl => "C/AL"],
     extensions: [],
 }
+
+const C_SLASH_AL: &str = concat!(
+    r"OBJECT Codeunit 50000 HelloWorld
+{
+  PROPERTIES
+  {
+    OnRun=BEGIN
+            //",
+    output_for_hello_world!(),
+    r" in C/AL (Microsoft Business Solutions-Navision)
+            MESSAGE(Txt001);
+          END;
+  }
+  CODE
+  {
+    VAR
+      Txt001@1000000000 : TextConst 'ENU=",
+    output_for_hello_world!(),
+    r"';
+    BEGIN
+    END.
+  }
+}"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,15 +54,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Pascal],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::CSlashAl,
-            syntax: concat!(
-                r"OBJECT Codeunit 50000 HelloWorld
+            syntax: C_SLASH_AL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    C_SLASH_AL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"OBJECT Codeunit 50000 HelloWorld
 {
   PROPERTIES
   {
     OnRun=BEGIN
             //",
-                output_for_hello_world!(),
-                r" in C/AL (Microsoft Business Solutions-Navision)
+                            output_for_hello_world!(),
+                            r" in C/AL (Microsoft Business Solutions-Navision)
             MESSAGE(Txt001);
           END;
   }
@@ -46,38 +76,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
   {
     VAR
       Txt001@1000000000 : TextConst 'ENU=",
-                output_for_hello_world!(),
-                r"';
+                            output_for_hello_world!(),
+                            r"';
     BEGIN
     END.
   }
 }"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"OBJECT Codeunit 50000 HelloWorld
-{
-  PROPERTIES
-  {
-    OnRun=BEGIN
-            //",
-                    output_for_hello_world!(),
-                    r" in C/AL (Microsoft Business Solutions-Navision)
-            MESSAGE(Txt001);
-          END;
-  }
-  CODE
-  {
-    VAR
-      Txt001@1000000000 : TextConst 'ENU=",
-                    output_for_hello_world!(),
-                    r"';
-    BEGIN
-    END.
-  }
-}"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

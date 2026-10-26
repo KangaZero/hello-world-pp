@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Keyf => "KeyF",
     versions: [Keyf => "KeyF"],
     extensions: [],
 }
+
+const KEYF: &str = r">v>v,<^<^<^<.v>v>v>v>v>v>v..<.^^<^^.<<<,v>v>v>v>v>v>v>.^<^<^<^<^<.v>v>v>v>v>v.<^<^<^<^<^<^.<^<^<<,vvv>v>v>v>v>v>v>";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Keyf,
-            syntax: r">v>v,<^<^<^<.v>v>v>v>v>v>v..<.^^<^^.<<<,v>v>v>v>v>v>v>.^<^<^<^<^<.v>v>v>v>v>v.<^<^<^<^<^<^.<^<^<<,vvv>v>v>v>v>v>v>",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r">v>v,<^<^<^<.v>v>v>v>v>v>v..<.^^<^^.<<<,v>v>v>v>v>v>v>.^<^<^<^<^<.v>v>v>v>v>v.<^<^<^<^<^<^.<^<^<<,vvv>v>v>v>v>v>v>",
-            )],
+            syntax: KEYF,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    KEYF,
+                    [(
+                        TokenKind::Plain,
+                        r">v>v,<^<^<^<.v>v>v>v>v>v>v..<.^^<^^.<<<,v>v>v>v>v>v>v>.^<^<^<^<^<.v>v>v>v>v>v.<^<^<^<^<^<^.<^<^<<,vvv>v>v>v>v>v>v>",
+                    )],
+                )
+            },
         }],
     };

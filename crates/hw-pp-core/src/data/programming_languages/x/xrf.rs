@@ -10,13 +10,29 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Xrf => "XRF",
     versions: [Xrf => "XRF"],
     extensions: [Xrf => "xrf"],
 }
+
+const XRF: &str = r"53374 54374 54374 545F4 54374
+54374 54374 41345 546F4 54374
+54374 54374 54374 54554 54554
+545F4 54314 54554 54554 54554
+545F4 54314 54314 54554 545F4
+54314 33745 54664 54664 54664
+54664 54314 54664 54664 54664
+54664 54664 54664 54314 54934
+54554 5454F 54374 5451F 54314
+54554 545F4 54314 54664 54664
+54664 54314 54664 54664 54664
+54664 9151B";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +42,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Xrf,
-            syntax: r"53374 54374 54374 545F4 54374
+            syntax: XRF,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    XRF,
+                    [(
+                        TokenKind::Plain,
+                        r"53374 54374 54374 545F4 54374
 54374 54374 41345 546F4 54374
 54374 54374 54374 54554 54554
 545F4 54314 54554 54554 54554
@@ -38,20 +60,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 54554 545F4 54314 54664 54664
 54664 54314 54664 54664 54664
 54664 9151B",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"53374 54374 54374 545F4 54374
-54374 54374 41345 546F4 54374
-54374 54374 54374 54554 54554
-545F4 54314 54554 54554 54554
-545F4 54314 54314 54554 545F4
-54314 33745 54664 54664 54664
-54664 54314 54664 54664 54664
-54664 54664 54664 54314 54934
-54554 5454F 54374 5451F 54314
-54554 545F4 54314 54664 54664
-54664 54314 54664 54664 54664
-54664 9151B",
-            )],
+                    )],
+                )
+            },
         }],
     };

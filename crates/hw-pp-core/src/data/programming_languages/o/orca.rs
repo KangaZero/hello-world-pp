@@ -11,13 +11,19 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Orca => "Orca",
     versions: [Orca => "Orca"],
     extensions: [],
 }
+
+const ORCA: &str = r"Cb............
+1bTHello.World";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,12 +33,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Orca,
-            syntax: r"Cb............
+            syntax: ORCA,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ORCA,
+                    [(
+                        TokenKind::Plain,
+                        r"Cb............
 1bTHello.World",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"Cb............
-1bTHello.World",
-            )],
+                    )],
+                )
+            },
         }],
     };

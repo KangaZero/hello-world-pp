@@ -10,13 +10,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Jelly => "Jelly",
     versions: [Jelly => "Jelly"],
     extensions: [],
 }
+
+const JELLY: &str = r"“½,⁾ẇṭ»";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +31,9 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Jelly,
-            syntax: r"“½,⁾ẇṭ»",
-            tokenized_syntax: &[(TokenKind::Plain, r"“½,⁾ẇṭ»")],
+            syntax: JELLY,
+            tokenized_syntax: &const {
+                checked_token_lengths(JELLY, [(TokenKind::Plain, r"“½,⁾ẇṭ»")])
+            },
         }],
     };

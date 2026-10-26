@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,16 @@ language_names! {
     versions: [CPlusPlusPlus => "C+++"],
     extensions: [],
 }
+
+const C_PLUS_PLUS_PLUS: &str = concat!(
+    r#"integer new main()
+{
+   println.format(""#,
+    output_for_hello_world!(),
+    r#"");
+   return 0;
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,26 +39,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::CPlusPlusPlus,
-            syntax: concat!(
-                r#"integer new main()
+            syntax: C_PLUS_PLUS_PLUS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    C_PLUS_PLUS_PLUS,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"integer new main()
 {
    println.format(""#,
-                output_for_hello_world!(),
-                r#"");
+                            output_for_hello_world!(),
+                            r#"");
    return 0;
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"integer new main()
-{
-   println.format(""#,
-                    output_for_hello_world!(),
-                    r#"");
-   return 0;
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

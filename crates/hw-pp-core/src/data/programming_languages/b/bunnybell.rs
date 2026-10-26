@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,14 @@ language_names! {
     versions: [Bunnybell => "BunnyBell"],
     extensions: [],
 }
+
+const BUNNYBELL: &str = concat!(
+    r"func main
+ print ",
+    output_for_hello_world!(),
+    r"
+ return"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,22 +38,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Bunnybell,
-            syntax: concat!(
-                r"func main
+            syntax: BUNNYBELL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BUNNYBELL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"func main
  print ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
  return"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"func main
- print ",
-                    output_for_hello_world!(),
-                    r"
- return"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

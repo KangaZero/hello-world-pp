@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,26 @@ language_names! {
     versions: [TuringMachine => "Turing Machine"],
     extensions: [],
 }
+
+const TURING_MACHINE: &str = concat!(
+    output_for_hello_world!(),
+    r" as a Turing machine.
+
+State   Read   |   Write     Step    Next state
+---------------|---------------------------------
+1       empty  |   H         >       2
+2       empty  |   e         >       3
+3       empty  |   l         >       4
+4       empty  |   l         >       5
+5       empty  |   o         >       6
+6       empty  |   blank     >       7
+7       empty  |   W         >       8
+8       empty  |   o         >       9
+9       empty  |   r         >       10
+10      empty  |   l         >       11
+11      empty  |   d         >       12
+12      empty  |   !         >       STOP"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,9 +50,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::TuringMachine,
-            syntax: concat!(
-                output_for_hello_world!(),
-                r" as a Turing machine.
+            syntax: TURING_MACHINE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    TURING_MACHINE,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            output_for_hello_world!(),
+                            r" as a Turing machine.
 
 State   Read   |   Write     Step    Next state
 ---------------|---------------------------------
@@ -48,28 +74,9 @@ State   Read   |   Write     Step    Next state
 10      empty  |   l         >       11
 11      empty  |   d         >       12
 12      empty  |   !         >       STOP"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    output_for_hello_world!(),
-                    r" as a Turing machine.
-
-State   Read   |   Write     Step    Next state
----------------|---------------------------------
-1       empty  |   H         >       2
-2       empty  |   e         >       3
-3       empty  |   l         >       4
-4       empty  |   l         >       5
-5       empty  |   o         >       6
-6       empty  |   blank     >       7
-7       empty  |   W         >       8
-8       empty  |   o         >       9
-9       empty  |   r         >       10
-10      empty  |   l         >       11
-11      empty  |   d         >       12
-12      empty  |   !         >       STOP"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

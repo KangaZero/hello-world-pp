@@ -11,13 +11,19 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: WordBangCpu => "Word!CPU",
     versions: [WordBangCpu => "Word!CPU"],
     extensions: [],
 }
+
+const WORD_BANG_CPU: &str = r"40 0A 88 02 40 01 68 02 E0 00 48 65 6C 6C 6F 2C 
+20 77 6F 72 6C 64 21 0A 00";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,12 +33,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::WordBangCpu,
-            syntax: r"40 0A 88 02 40 01 68 02 E0 00 48 65 6C 6C 6F 2C 
+            syntax: WORD_BANG_CPU,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    WORD_BANG_CPU,
+                    [(
+                        TokenKind::Plain,
+                        r"40 0A 88 02 40 01 68 02 E0 00 48 65 6C 6C 6F 2C 
 20 77 6F 72 6C 64 21 0A 00",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"40 0A 88 02 40 01 68 02 E0 00 48 65 6C 6C 6F 2C 
-20 77 6F 72 6C 64 21 0A 00",
-            )],
+                    )],
+                )
+            },
         }],
     };

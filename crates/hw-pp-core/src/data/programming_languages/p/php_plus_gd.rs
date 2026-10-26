@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,23 @@ language_names! {
     versions: [PhpPlusGd => "PHP+GD"],
     extensions: [],
 }
+
+const PHP_PLUS_GD: &str = concat!(
+    r"<?
+// ",
+    output_for_hello_world!(),
+    r#" in PHP + GD library
+header("Content-type: image/gif");
+$rscImage    = imagecreatetruecolor(80, 25);
+$intFontC    = imagecolorallocate($rscImage, 255, 255, 255);
+$intBGC        = imagecolorallocate($rscImage, 0, 0, 0);
+imagestring($rscImage, 2, 5, 5, ""#,
+    output_for_hello_world!(),
+    r#"", $intFontC);
+imagegif($rscImage);
+imagedestroy($rscImage);
+?>"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,40 +47,30 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PhpPlusGd,
-            syntax: concat!(
-                r"<?
+            syntax: PHP_PLUS_GD,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PHP_PLUS_GD,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"<?
 // ",
-                output_for_hello_world!(),
-                r#" in PHP + GD library
+                            output_for_hello_world!(),
+                            r#" in PHP + GD library
 header("Content-type: image/gif");
 $rscImage    = imagecreatetruecolor(80, 25);
 $intFontC    = imagecolorallocate($rscImage, 255, 255, 255);
 $intBGC        = imagecolorallocate($rscImage, 0, 0, 0);
 imagestring($rscImage, 2, 5, 5, ""#,
-                output_for_hello_world!(),
-                r#"", $intFontC);
+                            output_for_hello_world!(),
+                            r#"", $intFontC);
 imagegif($rscImage);
 imagedestroy($rscImage);
 ?>"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"<?
-// ",
-                    output_for_hello_world!(),
-                    r#" in PHP + GD library
-header("Content-type: image/gif");
-$rscImage    = imagecreatetruecolor(80, 25);
-$intFontC    = imagecolorallocate($rscImage, 255, 255, 255);
-$intBGC        = imagecolorallocate($rscImage, 0, 0, 0);
-imagestring($rscImage, 2, 5, 5, ""#,
-                    output_for_hello_world!(),
-                    r#"", $intFontC);
-imagegif($rscImage);
-imagedestroy($rscImage);
-?>"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

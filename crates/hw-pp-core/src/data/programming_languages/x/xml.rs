@@ -10,7 +10,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -18,6 +18,13 @@ language_names! {
     versions: [Xml10 => "XML 1.0"],
     extensions: [Xml => "xml"],
 }
+
+const XML10: &str = concat!(
+    r#"<?xml version="1.0" encoding="UTF-8"?>
+<greeting>"#,
+    output_for_hello_world!(),
+    r#"</greeting>"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,29 +34,29 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Xml10,
-            syntax: concat!(
-                r#"<?xml version="1.0" encoding="UTF-8"?>
-<greeting>"#,
-                output_for_hello_world!(),
-                r#"</greeting>"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Punctuation, "<?"),
-                (TokenKind::Plain, "xml version"),
-                (TokenKind::Punctuation, "="),
-                (TokenKind::String, "\"1.0\""),
-                (TokenKind::Plain, " encoding"),
-                (TokenKind::Punctuation, "="),
-                (TokenKind::String, "\"UTF-8\""),
-                (TokenKind::Punctuation, "?>"),
-                (TokenKind::Plain, "\n"),
-                (TokenKind::Punctuation, "<"),
-                (TokenKind::Plain, "greeting"),
-                (TokenKind::Punctuation, ">"),
-                (TokenKind::Plain, output_for_hello_world!()),
-                (TokenKind::Punctuation, "</"),
-                (TokenKind::Plain, "greeting"),
-                (TokenKind::Punctuation, ">"),
-            ],
+            syntax: XML10,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    XML10,
+                    [
+                        (TokenKind::Punctuation, "<?"),
+                        (TokenKind::Plain, "xml version"),
+                        (TokenKind::Punctuation, "="),
+                        (TokenKind::String, "\"1.0\""),
+                        (TokenKind::Plain, " encoding"),
+                        (TokenKind::Punctuation, "="),
+                        (TokenKind::String, "\"UTF-8\""),
+                        (TokenKind::Punctuation, "?>"),
+                        (TokenKind::Plain, "\n"),
+                        (TokenKind::Punctuation, "<"),
+                        (TokenKind::Plain, "greeting"),
+                        (TokenKind::Punctuation, ">"),
+                        (TokenKind::Plain, output_for_hello_world!()),
+                        (TokenKind::Punctuation, "</"),
+                        (TokenKind::Plain, "greeting"),
+                        (TokenKind::Punctuation, ">"),
+                    ],
+                )
+            },
         }],
     };

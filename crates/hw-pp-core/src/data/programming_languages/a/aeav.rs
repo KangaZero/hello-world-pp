@@ -11,13 +11,20 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Aeav => "AEAV",
     versions: [Aeav => "AEAV"],
     extensions: [],
 }
+
+const AEAV: &str = r#"helloworld = "Hello, "
+helloworld = $$ "World!"
+out helloworld"#;
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,14 +34,17 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Aeav,
-            syntax: r#"helloworld = "Hello, "
+            syntax: AEAV,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    AEAV,
+                    [(
+                        TokenKind::Plain,
+                        r#"helloworld = "Hello, "
 helloworld = $$ "World!"
 out helloworld"#,
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r#"helloworld = "Hello, "
-helloworld = $$ "World!"
-out helloworld"#,
-            )],
+                    )],
+                )
+            },
         }],
     };

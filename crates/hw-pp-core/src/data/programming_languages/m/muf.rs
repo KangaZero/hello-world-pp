@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [Muf => "Muf"],
     extensions: [Muf => "muf"],
 }
+
+const MUF: &str = concat!(
+    r#": main
+    me @ ""#,
+    output_for_hello_world!(),
+    r#"" notify
+;"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +37,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Muf,
-            syntax: concat!(
-                r#": main
+            syntax: MUF,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MUF,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#": main
     me @ ""#,
-                output_for_hello_world!(),
-                r#"" notify
+                            output_for_hello_world!(),
+                            r#"" notify
 ;"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#": main
-    me @ ""#,
-                    output_for_hello_world!(),
-                    r#"" notify
-;"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

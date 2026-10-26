@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,18 @@ language_names! {
     versions: [Pyside2 => "PySide2"],
     extensions: [],
 }
+
+const PYSIDE2: &str = concat!(
+    r#"import sys
+from PySide2.QtWidgets import QApplication, QLabel
+
+app = QApplication(sys.argv)
+label = QLabel(""#,
+    output_for_hello_world!(),
+    r#"")
+label.show()
+app.exec_()"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,75 +41,70 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Pyside2,
-            syntax: concat!(
-                r#"import sys
-from PySide2.QtWidgets import QApplication, QLabel
-
-app = QApplication(sys.argv)
-label = QLabel(""#,
-                output_for_hello_world!(),
-                r#"")
-label.show()
-app.exec_()"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"import"),
-                (
-                    TokenKind::Plain,
-                    r" sys
+            syntax: PYSIDE2,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PYSIDE2,
+                    [
+                        (TokenKind::Keyword, r"import"),
+                        (
+                            TokenKind::Plain,
+                            r" sys
 ",
-                ),
-                (TokenKind::Keyword, r"from"),
-                (TokenKind::Plain, r" PySide2"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Plain, r"QtWidgets "),
-                (TokenKind::Keyword, r"import"),
-                (TokenKind::Plain, r" QApplication"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r" QLabel
+                        ),
+                        (TokenKind::Keyword, r"from"),
+                        (TokenKind::Plain, r" PySide2"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Plain, r"QtWidgets "),
+                        (TokenKind::Keyword, r"import"),
+                        (TokenKind::Plain, r" QApplication"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r" QLabel
 
 app ",
-                ),
-                (TokenKind::Keyword, r"="),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"QApplication"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"sys"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Plain, r"argv"),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"="),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"QApplication"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"sys"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Plain, r"argv"),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
 label ",
-                ),
-                (TokenKind::Keyword, r"="),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"QLabel"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"="),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"QLabel"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
 label",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"show"),
-                (TokenKind::Punctuation, r"()"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"show"),
+                        (TokenKind::Punctuation, r"()"),
+                        (
+                            TokenKind::Plain,
+                            r"
 app",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"exec_"),
-                (TokenKind::Punctuation, r"()"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"exec_"),
+                        (TokenKind::Punctuation, r"()"),
+                    ],
+                )
+            },
         }],
     };

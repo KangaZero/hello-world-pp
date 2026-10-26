@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,8 @@ language_names! {
     versions: [Zenscript => "ZenScript"],
     extensions: [Zs => "zs"],
 }
+
+const ZENSCRIPT: &str = concat!(r#"println(""#, output_for_hello_world!(), r#"");"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,15 +31,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Zenscript,
-            syntax: concat!(r#"println(""#, output_for_hello_world!(), r#"");"#),
-            tokenized_syntax: &[
-                (TokenKind::Function, r"println"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r");"),
-            ],
+            syntax: ZENSCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ZENSCRIPT,
+                    [
+                        (TokenKind::Function, r"println"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r");"),
+                    ],
+                )
+            },
         }],
     };

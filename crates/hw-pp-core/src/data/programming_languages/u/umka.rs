@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [Umka => "Umka"],
     extensions: [Um => "um"],
 }
+
+const UMKA: &str = concat!(
+    r#"fn main() {
+    printf(""#,
+    output_for_hello_world!(),
+    r#"\n")
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,38 +37,37 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Umka,
-            syntax: concat!(
-                r#"fn main() {
-    printf(""#,
-                output_for_hello_world!(),
-                r#"\n")
-}"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"fn"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"main"),
-                (TokenKind::Punctuation, r"()"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: UMKA,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    UMKA,
+                    [
+                        (TokenKind::Keyword, r"fn"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"main"),
+                        (TokenKind::Punctuation, r"()"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Function, r"printf"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
-                ),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Function, r"printf"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                        ),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                    ],
+                )
+            },
         }],
     };

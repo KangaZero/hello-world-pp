@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,19 @@ language_names! {
     versions: [Realtext => "RealText"],
     extensions: [],
 }
+
+const REALTEXT: &str = concat!(
+    r#"<window width="320" height="160">
+<!-- "#,
+    output_for_hello_world!(),
+    r#" in RealText  -->
+	<font size="12" name="Arial">
+	<center>"#,
+    output_for_hello_world!(),
+    r"</center>
+	</font>
+</window>"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,32 +43,26 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Realtext,
-            syntax: concat!(
-                r#"<window width="320" height="160">
+            syntax: REALTEXT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    REALTEXT,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"<window width="320" height="160">
 <!-- "#,
-                output_for_hello_world!(),
-                r#" in RealText  -->
+                            output_for_hello_world!(),
+                            r#" in RealText  -->
 	<font size="12" name="Arial">
 	<center>"#,
-                output_for_hello_world!(),
-                r"</center>
+                            output_for_hello_world!(),
+                            r"</center>
 	</font>
 </window>"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"<window width="320" height="160">
-<!-- "#,
-                    output_for_hello_world!(),
-                    r#" in RealText  -->
-	<font size="12" name="Arial">
-	<center>"#,
-                    output_for_hello_world!(),
-                    r"</center>
-	</font>
-</window>"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

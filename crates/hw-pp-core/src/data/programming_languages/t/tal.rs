@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,28 @@ language_names! {
     versions: [Tal => "TAL"],
     extensions: [],
 }
+
+const TAL: &str = concat!(
+    r"!     ",
+    output_for_hello_world!(),
+    r#" in Tandem TAL (Transaction Application Language)
+      proc Hello^World main;
+            begin
+            int    .term[0:12] := [ 12 * [ "  " ] ],
+ .out [0:19];
+            string .sout := @out << 1, .sp;
+ 
+            call myterm ( term[1] );
+            call open ( term[1], term );
+if <> then call abend;
+ 
+sout := ""#,
+    output_for_hello_world!(),
+    r#"" -> @sp;
+            call write ( term, out, @sp-@sout );
+if <> then call abend;
+end;"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +52,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Tal,
-            syntax: concat!(
-                r"!     ",
-                output_for_hello_world!(),
-                r#" in Tandem TAL (Transaction Application Language)
+            syntax: TAL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    TAL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"!     ",
+                            output_for_hello_world!(),
+                            r#" in Tandem TAL (Transaction Application Language)
       proc Hello^World main;
             begin
             int    .term[0:12] := [ 12 * [ "  " ] ],
@@ -45,35 +73,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 if <> then call abend;
  
 sout := ""#,
-                output_for_hello_world!(),
-                r#"" -> @sp;
+                            output_for_hello_world!(),
+                            r#"" -> @sp;
             call write ( term, out, @sp-@sout );
 if <> then call abend;
 end;"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"!     ",
-                    output_for_hello_world!(),
-                    r#" in Tandem TAL (Transaction Application Language)
-      proc Hello^World main;
-            begin
-            int    .term[0:12] := [ 12 * [ "  " ] ],
- .out [0:19];
-            string .sout := @out << 1, .sp;
- 
-            call myterm ( term[1] );
-            call open ( term[1], term );
-if <> then call abend;
- 
-sout := ""#,
-                    output_for_hello_world!(),
-                    r#"" -> @sp;
-            call write ( term, out, @sp-@sout );
-if <> then call abend;
-end;"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

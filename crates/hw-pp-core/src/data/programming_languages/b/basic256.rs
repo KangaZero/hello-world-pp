@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,8 @@ language_names! {
     versions: [Basic256 => "BASIC 256"],
     extensions: [Kbs => "kbs"],
 }
+
+const BASIC256: &str = concat!(r#"Print ""#, output_for_hello_world!(), r#"""#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,14 +32,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Basic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Basic256,
-            syntax: concat!(r#"Print ""#, output_for_hello_world!(), r#"""#),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"Print"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-            ],
+            syntax: BASIC256,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BASIC256,
+                    [
+                        (TokenKind::Keyword, r"Print"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                    ],
+                )
+            },
         }],
     };

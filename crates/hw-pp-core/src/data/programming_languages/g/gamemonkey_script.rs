@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,18 @@ language_names! {
     versions: [GamemonkeyScript => "GameMonkey Script"],
     extensions: [Gm => "gm"],
 }
+
+const GAMEMONKEY_SCRIPT: &str = concat!(
+    r#"global HelloWorld = function()
+{
+    print(""#,
+    output_for_hello_world!(),
+    r#"");
+};
+
+// Execute the function
+HelloWorld();"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,59 +41,54 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::GamemonkeyScript,
-            syntax: concat!(
-                r#"global HelloWorld = function()
-{
-    print(""#,
-                output_for_hello_world!(),
-                r#"");
-};
-
-// Execute the function
-HelloWorld();"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Plain, r"global HelloWorld = "),
-                (TokenKind::Keyword, r"function"),
-                (TokenKind::Punctuation, r"()"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: GAMEMONKEY_SCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    GAMEMONKEY_SCRIPT,
+                    [
+                        (TokenKind::Plain, r"global HelloWorld = "),
+                        (TokenKind::Keyword, r"function"),
+                        (TokenKind::Punctuation, r"()"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Function, r"print"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Function, r"print"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"};"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"};"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Comment, r"// Execute the function"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"// Execute the function"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Function, r"HelloWorld"),
-                (TokenKind::Punctuation, r"();"),
-            ],
+                        ),
+                        (TokenKind::Function, r"HelloWorld"),
+                        (TokenKind::Punctuation, r"();"),
+                    ],
+                )
+            },
         }],
     };

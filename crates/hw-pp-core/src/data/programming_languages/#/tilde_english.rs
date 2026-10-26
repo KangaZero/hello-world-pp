@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,13 @@ language_names! {
     versions: [TildeEnglish => "~English"],
     extensions: [],
 }
+
+const TILDE_ENGLISH: &str = concat!(
+    r#"Display ""#,
+    output_for_hello_world!(),
+    r#"" and a newline.
+Stop the program."#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,20 +36,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::TildeEnglish,
-            syntax: concat!(
-                r#"Display ""#,
-                output_for_hello_world!(),
-                r#"" and a newline.
+            syntax: TILDE_ENGLISH,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    TILDE_ENGLISH,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"Display ""#,
+                            output_for_hello_world!(),
+                            r#"" and a newline.
 Stop the program."#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"Display ""#,
-                    output_for_hello_world!(),
-                    r#"" and a newline.
-Stop the program."#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

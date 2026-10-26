@@ -11,13 +11,123 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Brainchicken => "Brainchicken",
     versions: [Brainchicken => "Brainchicken"],
     extensions: [],
 }
+
+const BRAINCHICKEN: &str = r"chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken
+chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken
+chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken
+chicken chicken chicken
+chicken chicken
+chicken chicken
+chicken chicken
+chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken
+chicken
+chicken chicken chicken
+chicken
+chicken chicken chicken
+chicken
+chicken chicken chicken chicken
+chicken
+chicken
+chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken
+chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken
+chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken chicken chicken chicken chicken
+chicken
+chicken
+chicken chicken chicken chicken chicken
+chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken chicken chicken
+chicken chicken chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken chicken chicken
+chicken
+chicken
+chicken chicken chicken chicken chicken
+chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken chicken
+chicken chicken
+chicken chicken chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken
+chicken chicken chicken chicken chicken
+chicken
+chicken
+chicken chicken chicken
+chicken chicken chicken chicken chicken
+chicken
+chicken chicken chicken
+chicken chicken chicken
+chicken chicken chicken chicken chicken";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +137,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Brainchicken,
-            syntax: r"chicken chicken chicken
+            syntax: BRAINCHICKEN,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BRAINCHICKEN,
+                    [(
+                        TokenKind::Plain,
+                        r"chicken chicken chicken
 chicken chicken chicken
 chicken chicken chicken
 chicken chicken chicken
@@ -133,114 +249,8 @@ chicken
 chicken chicken chicken
 chicken chicken chicken
 chicken chicken chicken chicken chicken",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken
-chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken
-chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken
-chicken chicken chicken
-chicken chicken
-chicken chicken
-chicken chicken
-chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken
-chicken
-chicken chicken chicken
-chicken
-chicken chicken chicken
-chicken
-chicken chicken chicken chicken
-chicken
-chicken
-chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken
-chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken
-chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken chicken chicken chicken chicken
-chicken
-chicken
-chicken chicken chicken chicken chicken
-chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken chicken chicken
-chicken chicken chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken chicken chicken
-chicken
-chicken
-chicken chicken chicken chicken chicken
-chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken chicken
-chicken chicken
-chicken chicken chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken
-chicken chicken chicken chicken chicken
-chicken
-chicken
-chicken chicken chicken
-chicken chicken chicken chicken chicken
-chicken
-chicken chicken chicken
-chicken chicken chicken
-chicken chicken chicken chicken chicken",
-            )],
+                    )],
+                )
+            },
         }],
     };

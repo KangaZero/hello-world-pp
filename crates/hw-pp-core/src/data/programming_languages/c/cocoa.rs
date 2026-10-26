@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,24 @@ language_names! {
     versions: [Cocoa => "Cocoa"],
     extensions: [],
 }
+
+const COCOA: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in Cocoa Obj-C (OS X)
+
+#import <Foundation/Foundation.h>
+
+int main (int argc, const char * argv[]) {
+    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+
+    NSLog(@""#,
+    output_for_hello_world!(),
+    r#"");
+    [pool release];
+    return 0;
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +48,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cocoa,
-            syntax: concat!(
-                r"// ",
-                output_for_hello_world!(),
-                r#" in Cocoa Obj-C (OS X)
+            syntax: COCOA,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    COCOA,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"// ",
+                            output_for_hello_world!(),
+                            r#" in Cocoa Obj-C (OS X)
 
 #import <Foundation/Foundation.h>
 
@@ -41,31 +65,14 @@ int main (int argc, const char * argv[]) {
     NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
 
     NSLog(@""#,
-                output_for_hello_world!(),
-                r#"");
+                            output_for_hello_world!(),
+                            r#"");
     [pool release];
     return 0;
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in Cocoa Obj-C (OS X)
-
-#import <Foundation/Foundation.h>
-
-int main (int argc, const char * argv[]) {
-    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-
-    NSLog(@""#,
-                    output_for_hello_world!(),
-                    r#"");
-    [pool release];
-    return 0;
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

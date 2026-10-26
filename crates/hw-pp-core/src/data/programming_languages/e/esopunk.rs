@@ -10,13 +10,28 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Esopunk => "ESOPUNK",
     versions: [Esopunk => "ESOPUNK"],
     extensions: [Exa => "exa"],
 }
+
+const ESOPUNK: &str = r"COPY 72 #STDO
+COPY 101 #STDO
+COPY 108 #STDO
+COPY 108 #STDO
+COPY 111 #STDO
+COPY 32 #STDO
+COPY 119 #STDO
+COPY 111 #STDO
+COPY 114 #STDO
+COPY 108 #STDO
+COPY 100 #STDO";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +41,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Esopunk,
-            syntax: r"COPY 72 #STDO
+            syntax: ESOPUNK,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ESOPUNK,
+                    [(
+                        TokenKind::Plain,
+                        r"COPY 72 #STDO
 COPY 101 #STDO
 COPY 108 #STDO
 COPY 108 #STDO
@@ -37,19 +58,8 @@ COPY 111 #STDO
 COPY 114 #STDO
 COPY 108 #STDO
 COPY 100 #STDO",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"COPY 72 #STDO
-COPY 101 #STDO
-COPY 108 #STDO
-COPY 108 #STDO
-COPY 111 #STDO
-COPY 32 #STDO
-COPY 119 #STDO
-COPY 111 #STDO
-COPY 114 #STDO
-COPY 108 #STDO
-COPY 100 #STDO",
-            )],
+                    )],
+                )
+            },
         }],
     };

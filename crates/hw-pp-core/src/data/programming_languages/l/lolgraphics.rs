@@ -11,13 +11,21 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Lolgraphics => "LOLGraphics",
     versions: [Lolgraphics => "LOLGraphics"],
     extensions: [],
 }
+
+const LOLGRAPHICS: &str = r"HAI 0.1
+IM IN UR CODE EXECUTIN UR KOMANDZ
+PLZ PRINT TEXT HAI WORLD!
+IM OUTTA UR CODE";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,16 +35,18 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Lolgraphics,
-            syntax: r"HAI 0.1
+            syntax: LOLGRAPHICS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LOLGRAPHICS,
+                    [(
+                        TokenKind::Plain,
+                        r"HAI 0.1
 IM IN UR CODE EXECUTIN UR KOMANDZ
 PLZ PRINT TEXT HAI WORLD!
 IM OUTTA UR CODE",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"HAI 0.1
-IM IN UR CODE EXECUTIN UR KOMANDZ
-PLZ PRINT TEXT HAI WORLD!
-IM OUTTA UR CODE",
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -10,13 +10,33 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Byter => "Byter",
     versions: [Byter => "Byter"],
     extensions: [Byter => "byter"],
 }
+
+const BYTER: &str = r">>>>>>>>>V00V00V
+0#00A00V<V00V0VV
+-+>>A00VV<<0$0V>
+V0AA<00V>V<<<<V0
+>>V0V<<<-<000V<0
+0AV0VV<<<0000V<0
+0A>V+}>>>>>>}<V-
+0A{>>>>-000000>V
+00A0000>>>>>>>>A
+V0A<<<<<<<<<<<<>
+V000000000000000
+V000000000000000
+V000000000000000
+V000000000000000
+V000000000000000
+>>>>>>>>>>>>V000";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +46,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Byter,
-            syntax: r">>>>>>>>>V00V00V
+            syntax: BYTER,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BYTER,
+                    [(
+                        TokenKind::Plain,
+                        r">>>>>>>>>V00V00V
 0#00A00V<V00V0VV
 -+>>A00VV<<0$0V>
 V0AA<00V>V<<<<V0
@@ -42,24 +68,8 @@ V000000000000000
 V000000000000000
 V000000000000000
 >>>>>>>>>>>>V000",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r">>>>>>>>>V00V00V
-0#00A00V<V00V0VV
--+>>A00VV<<0$0V>
-V0AA<00V>V<<<<V0
->>V0V<<<-<000V<0
-0AV0VV<<<0000V<0
-0A>V+}>>>>>>}<V-
-0A{>>>>-000000>V
-00A0000>>>>>>>>A
-V0A<<<<<<<<<<<<>
-V000000000000000
-V000000000000000
-V000000000000000
-V000000000000000
-V000000000000000
->>>>>>>>>>>>V000",
-            )],
+                    )],
+                )
+            },
         }],
     };

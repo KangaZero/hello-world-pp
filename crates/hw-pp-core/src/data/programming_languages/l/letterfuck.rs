@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,13 @@ language_names! {
     versions: [Letterfuck => "Letterfuck"],
     extensions: [],
 }
+
+const LETTERFUCK: &str = concat!(
+    r#"out(char), ""#,
+    output_for_hello_world!(),
+    r#""
+end"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,20 +37,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Letterfuck,
-            syntax: concat!(
-                r#"out(char), ""#,
-                output_for_hello_world!(),
-                r#""
+            syntax: LETTERFUCK,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LETTERFUCK,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"out(char), ""#,
+                            output_for_hello_world!(),
+                            r#""
 end"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"out(char), ""#,
-                    output_for_hello_world!(),
-                    r#""
-end"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,9 @@ language_names! {
     versions: [Python2 => "Python 2", Python3 => "Python 3"],
     extensions: [Py => "py"],
 }
+
+const PYTHON2: &str = concat!(r#"print ""#, output_for_hello_world!(), r#"""#);
+const PYTHON3: &str = concat!(r#"print(""#, output_for_hello_world!(), r#"")"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,28 +33,38 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Python2,
-                syntax: concat!(r#"print ""#, output_for_hello_world!(), r#"""#),
-                tokenized_syntax: &[
-                    (TokenKind::Keyword, "print"),
-                    (TokenKind::Plain, " "),
-                    (
-                        TokenKind::String,
-                        concat!("\"", output_for_hello_world!(), "\""),
-                    ),
-                ],
+                syntax: PYTHON2,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        PYTHON2,
+                        [
+                            (TokenKind::Keyword, "print"),
+                            (TokenKind::Plain, " "),
+                            (
+                                TokenKind::String,
+                                concat!("\"", output_for_hello_world!(), "\""),
+                            ),
+                        ],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Python3,
-                syntax: concat!(r#"print(""#, output_for_hello_world!(), r#"")"#),
-                tokenized_syntax: &[
-                    (TokenKind::Function, "print"),
-                    (TokenKind::Punctuation, "("),
-                    (
-                        TokenKind::String,
-                        concat!("\"", output_for_hello_world!(), "\""),
-                    ),
-                    (TokenKind::Punctuation, ")"),
-                ],
+                syntax: PYTHON3,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        PYTHON3,
+                        [
+                            (TokenKind::Function, "print"),
+                            (TokenKind::Punctuation, "("),
+                            (
+                                TokenKind::String,
+                                concat!("\"", output_for_hello_world!(), "\""),
+                            ),
+                            (TokenKind::Punctuation, ")"),
+                        ],
+                    )
+                },
             },
         ],
     };

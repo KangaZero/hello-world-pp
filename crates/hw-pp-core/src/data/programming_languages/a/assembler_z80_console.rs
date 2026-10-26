@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -22,18 +22,10 @@ language_names! {
     extensions: [],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::AssemblerZ80Console,
-        extensions: &[],
-        categories: &[Assembly],
-        families: &[],
-        versions: &[ProgrammingLanguageVersion {
-            label: ProgrammingLanguageDialect::AssemblerZ80Console,
-            syntax: concat!(
-                r#"; This is a ""#,
-                output_for_hello_world!(),
-                r#"" program for Z80 and TMS9918 / TMS9928 / TMS9929 /
+const ASSEMBLER_Z80_CONSOLE: &str = concat!(
+    r#"; This is a ""#,
+    output_for_hello_world!(),
+    r#"" program for Z80 and TMS9918 / TMS9928 / TMS9929 /
 ; V9938 or V9958 VDP.
 ; That means that this should work on SVI, MSX, Colecovision, Memotech,
 ; and many other Z80 based home computers or game consoles.
@@ -42,8 +34,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 ; is, so we can't use stack in this program.
 ;
 ; This version of "#,
-                output_for_hello_world!(),
-                r#" was written by Timo "NYYRIKKI" Soilamaa
+    output_for_hello_world!(),
+    r#" was written by Timo "NYYRIKKI" Soilamaa
 ; 17.10.2001
 ;
 ;----------------------------------------------------------------------
@@ -260,1635 +252,1650 @@ DEFB %10011000
 DEFB %01101000
 DEFB %00000000
 chars_end:"#
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Comment,
-                    concat!(
-                        r#"; This is a ""#,
-                        output_for_hello_world!(),
-                        r#"" program for Z80 and TMS9918 / TMS9928 / TMS9929 /"#
-                    ),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::AssemblerZ80Console,
+        extensions: &[],
+        categories: &[Assembly],
+        families: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::AssemblerZ80Console,
+            syntax: ASSEMBLER_Z80_CONSOLE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_Z80_CONSOLE,
+                    [
+                        (
+                            TokenKind::Comment,
+                            concat!(
+                                r#"; This is a ""#,
+                                output_for_hello_world!(),
+                                r#"" program for Z80 and TMS9918 / TMS9928 / TMS9929 /"#
+                            ),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; V9938 or V9958 VDP."),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; V9938 or V9958 VDP."),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"; That means that this should work on SVI, MSX, Colecovision, Memotech,",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"; That means that this should work on SVI, MSX, Colecovision, Memotech,",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"; and many other Z80 based home computers or game consoles.",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"; and many other Z80 based home computers or game consoles.",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"; Because we don't know what system is used, we don't know where RAM",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"; Because we don't know what system is used, we don't know where RAM",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"; is, so we can't use stack in this program.",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"; is, so we can't use stack in this program.",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    concat!(
-                        r"; This version of ",
-                        output_for_hello_world!(),
-                        r#" was written by Timo "NYYRIKKI" Soilamaa"#
-                    ),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            concat!(
+                                r"; This version of ",
+                                output_for_hello_world!(),
+                                r#" was written by Timo "NYYRIKKI" Soilamaa"#
+                            ),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; 17.10.2001"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; 17.10.2001"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r";----------------------------------------------------------------------",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r";----------------------------------------------------------------------",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; Configure this part:"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; Configure this part:"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 DATAP",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"EQU"),
-                (TokenKind::Plain, r" #"),
-                (TokenKind::Number, r"98"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::Comment,
-                    r"; VDP Data port #98 works on all MSX models",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"EQU"),
+                        (TokenKind::Plain, r" #"),
+                        (TokenKind::Number, r"98"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::Comment,
+                            r"; VDP Data port #98 works on all MSX models",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; (TMS9918/TMS9929/V9938 or V9958)"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; (TMS9918/TMS9929/V9938 or V9958)"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; #80 works on SVI "),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; #80 works on SVI "),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"; (for other platforms you have to figure this out by your self)",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"; (for other platforms you have to figure this out by your self)",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 CMDP",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"EQU"),
-                (TokenKind::Plain, r" #"),
-                (TokenKind::Number, r"99"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::Comment,
-                    r"; VDP Command port #99 works on all MSX models",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"EQU"),
+                        (TokenKind::Plain, r" #"),
+                        (TokenKind::Number, r"99"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::Comment,
+                            r"; VDP Command port #99 works on all MSX models",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; (TMS9918/TMS9929/V9938 or V9958)"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; (TMS9918/TMS9929/V9938 or V9958)"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; #81 works on SVI"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; #81 works on SVI"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"; (for other platforms you have to figure this out by your self)",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"; (for other platforms you have to figure this out by your self)",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r";-----------------------------------------------------------------------",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r";-----------------------------------------------------------------------",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; Program starts here:"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; Program starts here:"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"ORG"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"0"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::Comment,
-                    r"; Z80 starts always from here when power is turned on",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"ORG"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"0"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::Comment,
+                            r"; Z80 starts always from here when power is turned on",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DI"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::Comment,
-                    r"; We don't know, how interrupts works in this system, so we disable them.",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DI"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::Comment,
+                            r"; We don't know, how interrupts works in this system, so we disable them.",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"; Let's set VDP write address to #0000",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"; Let's set VDP write address to #0000",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"XOR"),
-                (
-                    TokenKind::Plain,
-                    r" A
+                        ),
+                        (TokenKind::Keyword, r"XOR"),
+                        (
+                            TokenKind::Plain,
+                            r" A
 ",
-                ),
-                (TokenKind::Keyword, r"OUT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"CMDP"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"A
+                        ),
+                        (TokenKind::Keyword, r"OUT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"CMDP"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"A
 ",
-                ),
-                (TokenKind::Keyword, r"LD"),
-                (TokenKind::Plain, r" A"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"#"),
-                (TokenKind::Number, r"40"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"LD"),
+                        (TokenKind::Plain, r" A"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"#"),
+                        (TokenKind::Number, r"40"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"OUT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"CMDP"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"A
+                        ),
+                        (TokenKind::Keyword, r"OUT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"CMDP"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"A
 
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"; Now let's clear first 16Kb of VDP memory",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"; Now let's clear first 16Kb of VDP memory",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"LD"),
-                (TokenKind::Plain, r" B"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"0"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"LD"),
+                        (TokenKind::Plain, r" B"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"0"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"LD"),
-                (TokenKind::Plain, r" HL"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"#3FFF
+                        ),
+                        (TokenKind::Keyword, r"LD"),
+                        (TokenKind::Plain, r" HL"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"#3FFF
 ",
-                ),
-                (TokenKind::Keyword, r"LD"),
-                (TokenKind::Plain, r" C"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"DATAP
+                        ),
+                        (TokenKind::Keyword, r"LD"),
+                        (TokenKind::Plain, r" C"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"DATAP
 CLEAR",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"OUT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"C"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"B
+                        ),
+                        (TokenKind::Keyword, r"OUT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"C"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"B
 ",
-                ),
-                (TokenKind::Keyword, r"DEC"),
-                (
-                    TokenKind::Plain,
-                    r" HL
+                        ),
+                        (TokenKind::Keyword, r"DEC"),
+                        (
+                            TokenKind::Plain,
+                            r" HL
 ",
-                ),
-                (TokenKind::Keyword, r"LD"),
-                (TokenKind::Plain, r" A"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"H
+                        ),
+                        (TokenKind::Keyword, r"LD"),
+                        (TokenKind::Plain, r" A"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"H
 ",
-                ),
-                (TokenKind::Keyword, r"OR"),
-                (
-                    TokenKind::Plain,
-                    r" L
+                        ),
+                        (TokenKind::Keyword, r"OR"),
+                        (
+                            TokenKind::Plain,
+                            r" L
 ",
-                ),
-                (TokenKind::Keyword, r"NOP"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::Comment,
-                    r"; Let's wait 8 clock cycles just in case VDP is not quick enough.",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"NOP"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::Comment,
+                            r"; Let's wait 8 clock cycles just in case VDP is not quick enough.",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"NOP"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"NOP"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"JR"),
-                (TokenKind::Plain, r" NZ"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"CLEAR
+                        ),
+                        (TokenKind::Keyword, r"JR"),
+                        (TokenKind::Plain, r" NZ"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"CLEAR
 
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"; Now it is time to set up VDP registers:",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"; Now it is time to set up VDP registers:",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r";----------------------------------------",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r";----------------------------------------",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; Register 0 to #0"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; Register 0 to #0"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"; Set mode selection bit M3 (maybe also M4 & M5) to zero and ",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"; Set mode selection bit M3 (maybe also M4 & M5) to zero and ",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"; disable external video & horizontal interrupt",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"; disable external video & horizontal interrupt",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"LD"),
-                (TokenKind::Plain, r" C"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"CMDP
+                        ),
+                        (TokenKind::Keyword, r"LD"),
+                        (TokenKind::Plain, r" C"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"CMDP
 ",
-                ),
-                (TokenKind::Keyword, r"LD"),
-                (TokenKind::Plain, r" E"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"#"),
-                (TokenKind::Number, r"80"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"LD"),
+                        (TokenKind::Plain, r" E"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"#"),
+                        (TokenKind::Number, r"80"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"OUT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"C"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"A
+                        ),
+                        (TokenKind::Keyword, r"OUT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"C"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"A
 ",
-                ),
-                (TokenKind::Keyword, r"OUT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"C"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"E
+                        ),
+                        (TokenKind::Keyword, r"OUT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"C"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"E
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r";---------------------------------------- ",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r";---------------------------------------- ",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; Register 1 to #50"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; Register 1 to #50"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"; Select 40 column mode, enable screen and disable vertical interrupt",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"; Select 40 column mode, enable screen and disable vertical interrupt",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"LD"),
-                (TokenKind::Plain, r" A"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"#"),
-                (TokenKind::Number, r"50"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"LD"),
+                        (TokenKind::Plain, r" A"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"#"),
+                        (TokenKind::Number, r"50"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"INC"),
-                (
-                    TokenKind::Plain,
-                    r" E
+                        ),
+                        (TokenKind::Keyword, r"INC"),
+                        (
+                            TokenKind::Plain,
+                            r" E
 ",
-                ),
-                (TokenKind::Keyword, r"OUT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"C"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"A
+                        ),
+                        (TokenKind::Keyword, r"OUT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"C"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"A
 ",
-                ),
-                (TokenKind::Keyword, r"OUT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"C"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"E
+                        ),
+                        (TokenKind::Keyword, r"OUT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"C"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"E
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r";---------------------------------------- ",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r";---------------------------------------- ",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; Register 2 to #0"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; Register 2 to #0"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; Set pattern name table to #0000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; Set pattern name table to #0000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"XOR"),
-                (
-                    TokenKind::Plain,
-                    r" A
+                        ),
+                        (TokenKind::Keyword, r"XOR"),
+                        (
+                            TokenKind::Plain,
+                            r" A
 ",
-                ),
-                (TokenKind::Keyword, r"INC"),
-                (
-                    TokenKind::Plain,
-                    r" E
+                        ),
+                        (TokenKind::Keyword, r"INC"),
+                        (
+                            TokenKind::Plain,
+                            r" E
 ",
-                ),
-                (TokenKind::Keyword, r"OUT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"C"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"A
+                        ),
+                        (TokenKind::Keyword, r"OUT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"C"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"A
 ",
-                ),
-                (TokenKind::Keyword, r"OUT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"C"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"E
+                        ),
+                        (TokenKind::Keyword, r"OUT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"C"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"E
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r";---------------------------------------- ",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r";---------------------------------------- ",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"; Register 3 is ignored as 40 column mode does not need color table",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"; Register 3 is ignored as 40 column mode does not need color table",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"INC"),
-                (
-                    TokenKind::Plain,
-                    r" E
+                        ),
+                        (TokenKind::Keyword, r"INC"),
+                        (
+                            TokenKind::Plain,
+                            r" E
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r";---------------------------------------- ",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r";---------------------------------------- ",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; Register 4 to #1"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; Register 4 to #1"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; Set pattern generator table to #800"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; Set pattern generator table to #800"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"INC"),
-                (
-                    TokenKind::Plain,
-                    r" A
+                        ),
+                        (TokenKind::Keyword, r"INC"),
+                        (
+                            TokenKind::Plain,
+                            r" A
 ",
-                ),
-                (TokenKind::Keyword, r"INC"),
-                (
-                    TokenKind::Plain,
-                    r" E
+                        ),
+                        (TokenKind::Keyword, r"INC"),
+                        (
+                            TokenKind::Plain,
+                            r" E
 
 ",
-                ),
-                (TokenKind::Keyword, r"OUT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"C"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"A
+                        ),
+                        (TokenKind::Keyword, r"OUT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"C"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"A
 ",
-                ),
-                (TokenKind::Keyword, r"OUT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"C"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"E
+                        ),
+                        (TokenKind::Keyword, r"OUT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"C"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"E
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r";---------------------------------------- ",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r";---------------------------------------- ",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"; Registers 5 (Sprite attribute) & 6 (Sprite pattern) are ignored ",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"; Registers 5 (Sprite attribute) & 6 (Sprite pattern) are ignored ",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"; as 40 column mode does not have sprites",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"; as 40 column mode does not have sprites",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"INC"),
-                (
-                    TokenKind::Plain,
-                    r" E
+                        ),
+                        (TokenKind::Keyword, r"INC"),
+                        (
+                            TokenKind::Plain,
+                            r" E
 ",
-                ),
-                (TokenKind::Keyword, r"INC"),
-                (
-                    TokenKind::Plain,
-                    r" E
+                        ),
+                        (TokenKind::Keyword, r"INC"),
+                        (
+                            TokenKind::Plain,
+                            r" E
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r";---------------------------------------- ",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r";---------------------------------------- ",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; Register 7 to #F0"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; Register 7 to #F0"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; Set colors to white on black"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; Set colors to white on black"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"LD"),
-                (TokenKind::Plain, r" A"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"#F0
+                        ),
+                        (TokenKind::Keyword, r"LD"),
+                        (TokenKind::Plain, r" A"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"#F0
 ",
-                ),
-                (TokenKind::Keyword, r"INC"),
-                (
-                    TokenKind::Plain,
-                    r" E
+                        ),
+                        (TokenKind::Keyword, r"INC"),
+                        (
+                            TokenKind::Plain,
+                            r" E
 ",
-                ),
-                (TokenKind::Keyword, r"OUT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"C"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"A
+                        ),
+                        (TokenKind::Keyword, r"OUT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"C"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"A
 ",
-                ),
-                (TokenKind::Keyword, r"OUT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"C"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"E
+                        ),
+                        (TokenKind::Keyword, r"OUT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"C"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"E
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r";----------------------------------------",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r";----------------------------------------",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"; Let's set VDP write address to #808 so, that we can write",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"; Let's set VDP write address to #808 so, that we can write",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; character set to memory"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; character set to memory"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"; (No need to write SPACE it is clear char already)",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"; (No need to write SPACE it is clear char already)",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"LD"),
-                (TokenKind::Plain, r" A"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"8"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"LD"),
+                        (TokenKind::Plain, r" A"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"8"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"OUT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"C"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"A
+                        ),
+                        (TokenKind::Keyword, r"OUT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"C"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"A
 ",
-                ),
-                (TokenKind::Keyword, r"LD"),
-                (TokenKind::Plain, r" A"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"#"),
-                (TokenKind::Number, r"48"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"LD"),
+                        (TokenKind::Plain, r" A"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"#"),
+                        (TokenKind::Number, r"48"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"OUT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"C"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"A
+                        ),
+                        (TokenKind::Keyword, r"OUT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"C"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"A
 
 ",
-                ),
-                (TokenKind::Comment, r"; Let's copy character set"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; Let's copy character set"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"LD"),
-                (TokenKind::Plain, r" HL"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"CHARS
+                        ),
+                        (TokenKind::Keyword, r"LD"),
+                        (TokenKind::Plain, r" HL"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"CHARS
 ",
-                ),
-                (TokenKind::Keyword, r"LD"),
-                (TokenKind::Plain, r" B"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r" CHARS_END-CHARS
+                        ),
+                        (TokenKind::Keyword, r"LD"),
+                        (TokenKind::Plain, r" B"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r" CHARS_END-CHARS
 COPYCHARS",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"LD"),
-                (TokenKind::Plain, r" A"),
-                (TokenKind::Punctuation, r",("),
-                (TokenKind::Plain, r"HL"),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"LD"),
+                        (TokenKind::Plain, r" A"),
+                        (TokenKind::Punctuation, r",("),
+                        (TokenKind::Plain, r"HL"),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"OUT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"DATAP"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"A
+                        ),
+                        (TokenKind::Keyword, r"OUT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"DATAP"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"A
 ",
-                ),
-                (TokenKind::Keyword, r"INC"),
-                (
-                    TokenKind::Plain,
-                    r" HL
+                        ),
+                        (TokenKind::Keyword, r"INC"),
+                        (
+                            TokenKind::Plain,
+                            r" HL
 ",
-                ),
-                (TokenKind::Keyword, r"NOP"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::Comment,
-                    r"; Let's wait 8 clock cycles just in case VDP is not quick enough.",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"NOP"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::Comment,
+                            r"; Let's wait 8 clock cycles just in case VDP is not quick enough.",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"NOP"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"NOP"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DJNZ"),
-                (
-                    TokenKind::Plain,
-                    r" COPYCHARS
+                        ),
+                        (TokenKind::Keyword, r"DJNZ"),
+                        (
+                            TokenKind::Plain,
+                            r" COPYCHARS
 
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"; Let's set write address to start of name table",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"; Let's set write address to start of name table",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"XOR"),
-                (
-                    TokenKind::Plain,
-                    r" A
+                        ),
+                        (TokenKind::Keyword, r"XOR"),
+                        (
+                            TokenKind::Plain,
+                            r" A
 ",
-                ),
-                (TokenKind::Keyword, r"OUT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"C"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"A
+                        ),
+                        (TokenKind::Keyword, r"OUT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"C"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"A
 ",
-                ),
-                (TokenKind::Keyword, r"LD"),
-                (TokenKind::Plain, r" A"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"#"),
-                (TokenKind::Number, r"40"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"LD"),
+                        (TokenKind::Plain, r" A"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"#"),
+                        (TokenKind::Number, r"40"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"OUT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"C"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"A
+                        ),
+                        (TokenKind::Keyword, r"OUT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"C"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"A
 
 ",
-                ),
-                (TokenKind::Comment, r"; Let's put characters to screen"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; Let's put characters to screen"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"LD"),
-                (TokenKind::Plain, r" HL"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"ORDER
+                        ),
+                        (TokenKind::Keyword, r"LD"),
+                        (TokenKind::Plain, r" HL"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"ORDER
 ",
-                ),
-                (TokenKind::Keyword, r"LD"),
-                (TokenKind::Plain, r" B"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"ORDER_END-ORDER
+                        ),
+                        (TokenKind::Keyword, r"LD"),
+                        (TokenKind::Plain, r" B"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"ORDER_END-ORDER
 COPYORDER",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"LD"),
-                (TokenKind::Plain, r" A"),
-                (TokenKind::Punctuation, r",("),
-                (TokenKind::Plain, r"HL"),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"LD"),
+                        (TokenKind::Plain, r" A"),
+                        (TokenKind::Punctuation, r",("),
+                        (TokenKind::Plain, r"HL"),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"OUT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"DATAP"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"A
+                        ),
+                        (TokenKind::Keyword, r"OUT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"DATAP"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"A
 ",
-                ),
-                (TokenKind::Keyword, r"INC"),
-                (
-                    TokenKind::Plain,
-                    r" HL
+                        ),
+                        (TokenKind::Keyword, r"INC"),
+                        (
+                            TokenKind::Plain,
+                            r" HL
 
 ",
-                ),
-                (TokenKind::Keyword, r"JR"),
-                (
-                    TokenKind::Plain,
-                    r" OVERNMI
+                        ),
+                        (TokenKind::Keyword, r"JR"),
+                        (
+                            TokenKind::Plain,
+                            r" OVERNMI
 ",
-                ),
-                (TokenKind::Keyword, r"NOP"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"NOP"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"NOP"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"NOP"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"; Here is address #66, that is entry for NMI",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"; Here is address #66, that is entry for NMI",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"RETN"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Comment, r";Return from NMI"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"RETN"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Comment, r";Return from NMI"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 OVERNMI",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DJNZ"),
-                (
-                    TokenKind::Plain,
-                    r" COPYORDER
+                        ),
+                        (TokenKind::Keyword, r"DJNZ"),
+                        (
+                            TokenKind::Plain,
+                            r" COPYORDER
 
 ",
-                ),
-                (TokenKind::Comment, r"; The end"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; The end"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"HALT"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"HALT"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Comment, r"; Character set:"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; Character set:"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; --------------"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; --------------"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ORDER",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"1"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"2"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"3"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"3"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"4"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"0"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"5"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"4"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"6"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"3"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"7"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"1"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"2"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"3"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"3"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"4"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"0"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"5"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"4"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"6"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"3"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"7"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ORDER_END",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 CHARS",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Comment, r"; H"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; H"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10001000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10001000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10001000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10001000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10001000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10001000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"11111000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"11111000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10001000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10001000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10001000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10001000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10001000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10001000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"00000000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"00000000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; e"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; e"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"00000000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"00000000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"00000000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"00000000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"01110000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"01110000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10001000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10001000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"11111000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"11111000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10000000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10000000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"01110000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"01110000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"00000000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"00000000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; l"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; l"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"01100000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"01100000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"00100000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"00100000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"00100000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"00100000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"00100000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"00100000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"00100000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"00100000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"00100000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"00100000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"01110000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"01110000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"00000000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"00000000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; o"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; o"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"00000000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"00000000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"00000000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"00000000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"01110000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"01110000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10001000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10001000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10001000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10001000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10001000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10001000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"01110000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"01110000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"00000000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"00000000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; W"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; W"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10001000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10001000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10001000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10001000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10001000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10001000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10101000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10101000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10101000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10101000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"11011000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"11011000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10001000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10001000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"00000000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"00000000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Comment, r"; r"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; r"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"00000000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"00000000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"00000000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"00000000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10110000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10110000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"11001000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"11001000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10000000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10000000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10000000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10000000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10000000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10000000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"00000000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"00000000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"; d"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"; d"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"00001000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"00001000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"00001000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"00001000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"01101000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"01101000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10011000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10011000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10001000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10001000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"10011000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"10011000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"01101000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"01101000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (TokenKind::Plain, r" %"),
-                (TokenKind::Number, r"00000000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (TokenKind::Plain, r" %"),
+                        (TokenKind::Number, r"00000000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 chars_end",
-                ),
-                (TokenKind::Punctuation, r":"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                    ],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,8 @@ language_names! {
     versions: [Qi => "Qi"],
     extensions: [Qi => "qi"],
 }
+
+const QI: &str = concat!(r#"系统。打印行（""#, output_for_hello_world!(), r#""）"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,14 +31,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Qi,
-            syntax: concat!(r#"系统。打印行（""#, output_for_hello_world!(), r#""）"#),
-            tokenized_syntax: &[
-                (TokenKind::Plain, r"系统。打印行（"),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Plain, r"）"),
-            ],
+            syntax: QI,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    QI,
+                    [
+                        (TokenKind::Plain, r"系统。打印行（"),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Plain, r"）"),
+                    ],
+                )
+            },
         }],
     };

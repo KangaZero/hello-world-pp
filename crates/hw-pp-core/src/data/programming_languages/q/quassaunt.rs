@@ -11,13 +11,19 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Quassaunt => "Quassaunt",
     versions: [Quassaunt => "Quassaunt"],
     extensions: [],
 }
+
+const QUASSAUNT: &str = r"@@Hello       @@[Whitespace] %%Obtain      %%Head 
+%%Concatenate @@world!       %%Concatenate %%Printtoconsole";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,12 +33,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Quassaunt,
-            syntax: r"@@Hello       @@[Whitespace] %%Obtain      %%Head 
+            syntax: QUASSAUNT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    QUASSAUNT,
+                    [(
+                        TokenKind::Plain,
+                        r"@@Hello       @@[Whitespace] %%Obtain      %%Head 
 %%Concatenate @@world!       %%Concatenate %%Printtoconsole",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"@@Hello       @@[Whitespace] %%Obtain      %%Head 
-%%Concatenate @@world!       %%Concatenate %%Printtoconsole",
-            )],
+                    )],
+                )
+            },
         }],
     };

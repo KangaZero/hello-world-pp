@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,8 @@ language_names! {
     versions: [Uff01U4e2dU6587 => "！中文"],
     extensions: [],
 }
+
+const UFF01_U4E2D_U6587: &str = concat!(r"输出“", output_for_hello_world!(), r"”。");
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Uff01U4e2dU6587,
-            syntax: concat!(r"输出“", output_for_hello_world!(), r"”。"),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r"输出“", output_for_hello_world!(), r"”。"),
-            )],
+            syntax: UFF01_U4E2D_U6587,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    UFF01_U4E2D_U6587,
+                    [(
+                        TokenKind::Plain,
+                        concat!(r"输出“", output_for_hello_world!(), r"”。"),
+                    )],
+                )
+            },
         }],
     };

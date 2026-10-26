@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,16 @@ language_names! {
     versions: [Sal => "Sal"],
     extensions: [],
 }
+
+const SAL: &str = concat!(
+    r#"proc main()
+    loop
+        WriteLine(""#,
+    output_for_hello_world!(),
+    r#"")
+    endloop
+end"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,26 +39,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sal,
-            syntax: concat!(
-                r#"proc main()
+            syntax: SAL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SAL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"proc main()
     loop
         WriteLine(""#,
-                output_for_hello_world!(),
-                r#"")
+                            output_for_hello_world!(),
+                            r#"")
     endloop
 end"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"proc main()
-    loop
-        WriteLine(""#,
-                    output_for_hello_world!(),
-                    r#"")
-    endloop
-end"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

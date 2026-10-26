@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,23 @@ language_names! {
     versions: [Beef => "Beef"],
     extensions: [],
 }
+
+const BEEF: &str = concat!(
+    r#"using System;
+
+namespace HelloWorld
+{
+    class Program
+    {
+        static void Main()
+        {
+            Console.WriteLine(""#,
+    output_for_hello_world!(),
+    r#"");
+        }
+    }
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,8 +46,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Beef,
-            syntax: concat!(
-                r#"using System;
+            syntax: BEEF,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BEEF,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"using System;
 
 namespace HelloWorld
 {
@@ -39,30 +62,14 @@ namespace HelloWorld
         static void Main()
         {
             Console.WriteLine(""#,
-                output_for_hello_world!(),
-                r#"");
+                            output_for_hello_world!(),
+                            r#"");
         }
     }
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"using System;
-
-namespace HelloWorld
-{
-    class Program
-    {
-        static void Main()
-        {
-            Console.WriteLine(""#,
-                    output_for_hello_world!(),
-                    r#"");
-        }
-    }
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

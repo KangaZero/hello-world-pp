@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,8 @@ language_names! {
     versions: [Netrexx => "NetRexx"],
     extensions: [Nrx => "nrx"],
 }
+
+const NETREXX: &str = concat!(r"say '", output_for_hello_world!(), r"'");
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,14 +32,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Rexx],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Netrexx,
-            syntax: concat!(r"say '", output_for_hello_world!(), r"'"),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"say"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r"'", output_for_hello_world!(), r"'"),
-                ),
-            ],
+            syntax: NETREXX,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    NETREXX,
+                    [
+                        (TokenKind::Keyword, r"say"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r"'", output_for_hello_world!(), r"'"),
+                        ),
+                    ],
+                )
+            },
         }],
     };

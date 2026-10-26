@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Typeid => "Typeid",
     versions: [Typeid => "Typeid"],
     extensions: [],
 }
+
+const TYPEID: &str = r"N5Hello1_IK2aaI1aIhhhhE1bIhhhhhhhhhhhEEK2bbI1cIhhhhE1dIhhhhhhhhEE5worldK2ccI1eIhhhE1fIhhhhhhhhhhhEEEE";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Typeid,
-            syntax: r"N5Hello1_IK2aaI1aIhhhhE1bIhhhhhhhhhhhEEK2bbI1cIhhhhE1dIhhhhhhhhEE5worldK2ccI1eIhhhE1fIhhhhhhhhhhhEEEE",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"N5Hello1_IK2aaI1aIhhhhE1bIhhhhhhhhhhhEEK2bbI1cIhhhhE1dIhhhhhhhhEE5worldK2ccI1eIhhhE1fIhhhhhhhhhhhEEEE",
-            )],
+            syntax: TYPEID,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    TYPEID,
+                    [(
+                        TokenKind::Plain,
+                        r"N5Hello1_IK2aaI1aIhhhhE1bIhhhhhhhhhhhEEK2bbI1cIhhhhE1dIhhhhhhhhEE5worldK2ccI1eIhhhE1fIhhhhhhhhhhhEEEE",
+                    )],
+                )
+            },
         }],
     };

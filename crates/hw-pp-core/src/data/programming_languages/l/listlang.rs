@@ -10,13 +10,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Listlang => "ListLang",
     versions: [Listlang => "ListLang"],
     extensions: [],
 }
+
+const LISTLANG: &str = r#"0dlroW391+*2+491+*4+olleH["],"#;
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +31,12 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Listlang,
-            syntax: r#"0dlroW391+*2+491+*4+olleH["],"#,
-            tokenized_syntax: &[(TokenKind::Plain, r#"0dlroW391+*2+491+*4+olleH["],"#)],
+            syntax: LISTLANG,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LISTLANG,
+                    [(TokenKind::Plain, r#"0dlroW391+*2+491+*4+olleH["],"#)],
+                )
+            },
         }],
     };

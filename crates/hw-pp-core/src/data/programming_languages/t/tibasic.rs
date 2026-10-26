@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,14 @@ language_names! {
     versions: [Tibasic => "TIBasic"],
     extensions: [Ti => "ti"],
 }
+
+const TIBASIC: &str = concat!(
+    r#"PROGRAM:HELLOW
+:ClrHome
+:Disp ""#,
+    output_for_hello_world!(),
+    r#"""#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,22 +38,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Basic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Tibasic,
-            syntax: concat!(
-                r#"PROGRAM:HELLOW
+            syntax: TIBASIC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    TIBASIC,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"PROGRAM:HELLOW
 :ClrHome
 :Disp ""#,
-                output_for_hello_world!(),
-                r#"""#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"PROGRAM:HELLOW
-:ClrHome
-:Disp ""#,
-                    output_for_hello_world!(),
-                    r#"""#
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r#"""#
+                        ),
+                    )],
+                )
+            },
         }],
     };

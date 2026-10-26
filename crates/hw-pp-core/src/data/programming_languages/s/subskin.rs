@@ -11,13 +11,42 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Subskin => "Subskin",
     versions: [Subskin => "Subskin"],
     extensions: [],
 }
+
+const SUBSKIN: &str = r"2
+48
+18
+a
+1
+2
+4
+2
+a
+6
+0
+100
+a
+21
+64
+6c
+72
+6f
+77
+20
+2c
+6f
+6c
+6c
+65";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +56,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Subskin,
-            syntax: r"2
+            syntax: SUBSKIN,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SUBSKIN,
+                    [(
+                        TokenKind::Plain,
+                        r"2
 48
 18
 a
@@ -52,33 +87,8 @@ a
 6c
 6c
 65",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"2
-48
-18
-a
-1
-2
-4
-2
-a
-6
-0
-100
-a
-21
-64
-6c
-72
-6f
-77
-20
-2c
-6f
-6c
-6c
-65",
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [XbasePlusPlus => "XBase++"],
     extensions: [],
 }
+
+const XBASE_PLUS_PLUS: &str = concat!(
+    r#"func Main()
+    Qout(""#,
+    output_for_hello_world!(),
+    r#"")
+return 1"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +37,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::XbasePlusPlus,
-            syntax: concat!(
-                r#"func Main()
+            syntax: XBASE_PLUS_PLUS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    XBASE_PLUS_PLUS,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"func Main()
     Qout(""#,
-                output_for_hello_world!(),
-                r#"")
+                            output_for_hello_world!(),
+                            r#"")
 return 1"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"func Main()
-    Qout(""#,
-                    output_for_hello_world!(),
-                    r#"")
-return 1"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

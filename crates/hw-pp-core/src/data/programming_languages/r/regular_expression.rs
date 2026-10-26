@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,20 @@ language_names! {
     versions: [RegularExpression => "Regular Expression"],
     extensions: [],
 }
+
+const REGULAR_EXPRESSION: &str = concat!(
+    output_for_hello_world!(),
+    r#" as a regular expression.
+Replaces everything with ""#,
+    output_for_hello_world!(),
+    r#"".
+For use with vi, sed, etc.
+
+Search String :  ^.*$
+Replace String: '"#,
+    output_for_hello_world!(),
+    r"'"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,57 +44,50 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::RegularExpression,
-            syntax: concat!(
-                output_for_hello_world!(),
-                r#" as a regular expression.
+            syntax: REGULAR_EXPRESSION,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    REGULAR_EXPRESSION,
+                    [
+                        (
+                            TokenKind::Plain,
+                            concat!(output_for_hello_world!(), r" as a regular expression"),
+                        ),
+                        (TokenKind::Keyword, r"."),
+                        (
+                            TokenKind::Plain,
+                            concat!(
+                                r#"
 Replaces everything with ""#,
-                output_for_hello_world!(),
-                r#"".
-For use with vi, sed, etc.
-
-Search String :  ^.*$
-Replace String: '"#,
-                output_for_hello_world!(),
-                r"'"
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Plain,
-                    concat!(output_for_hello_world!(), r" as a regular expression"),
-                ),
-                (TokenKind::Keyword, r"."),
-                (
-                    TokenKind::Plain,
-                    concat!(
-                        r#"
-Replaces everything with ""#,
-                        output_for_hello_world!(),
-                        r#"""#
-                    ),
-                ),
-                (TokenKind::Keyword, r"."),
-                (
-                    TokenKind::Plain,
-                    r"
+                                output_for_hello_world!(),
+                                r#"""#
+                            ),
+                        ),
+                        (TokenKind::Keyword, r"."),
+                        (
+                            TokenKind::Plain,
+                            r"
 For use with vi, sed, etc",
-                ),
-                (TokenKind::Keyword, r"."),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"."),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 Search String :  ",
-                ),
-                (TokenKind::Keyword, r"^.*$"),
-                (
-                    TokenKind::Plain,
-                    concat!(
-                        r"
+                        ),
+                        (TokenKind::Keyword, r"^.*$"),
+                        (
+                            TokenKind::Plain,
+                            concat!(
+                                r"
 Replace String: '",
-                        output_for_hello_world!(),
-                        r"'"
-                    ),
-                ),
-            ],
+                                output_for_hello_world!(),
+                                r"'"
+                            ),
+                        ),
+                    ],
+                )
+            },
         }],
     };

@@ -10,13 +10,18 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Wowlang => "wowLang",
     versions: [Wowlang => "wowLang"],
     extensions: [Wow => "wow"],
 }
+
+const WOWLANG: &str = r"wow WOw wow wow wow wow wow wow wow woW WOW Wow wOW woW wow WoW wow WOw wow woW WOW WOW WOW WOW WOW Wow wOW woW WOW WOW WoW WOW WOW WOW WOW WOW WOW WOW WoW WoW WOW WOW WOW WoW WOw wow wow wow woW WOW Wow wOW woW wow wow wow wow wow WoW wow wow wow WOw wow woW WOW WOW WOW Wow wOW woW WoW wow WOw wow wow wow woW WOW Wow wOW woW wow wow wow WoW WOW WOW WOW WoW wow wow wow wow wow wow WoW wow wow wow wow wow wow wow wow WoW ";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,10 +31,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Wowlang,
-            syntax: r"wow WOw wow wow wow wow wow wow wow woW WOW Wow wOW woW wow WoW wow WOw wow woW WOW WOW WOW WOW WOW Wow wOW woW WOW WOW WoW WOW WOW WOW WOW WOW WOW WOW WoW WoW WOW WOW WOW WoW WOw wow wow wow woW WOW Wow wOW woW wow wow wow wow wow WoW wow wow wow WOw wow woW WOW WOW WOW Wow wOW woW WoW wow WOw wow wow wow woW WOW Wow wOW woW wow wow wow WoW WOW WOW WOW WoW wow wow wow wow wow wow WoW wow wow wow wow wow wow wow wow WoW ",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"wow WOw wow wow wow wow wow wow wow woW WOW Wow wOW woW wow WoW wow WOw wow woW WOW WOW WOW WOW WOW Wow wOW woW WOW WOW WoW WOW WOW WOW WOW WOW WOW WOW WoW WoW WOW WOW WOW WoW WOw wow wow wow woW WOW Wow wOW woW wow wow wow wow wow WoW wow wow wow WOw wow woW WOW WOW WOW Wow wOW woW WoW wow WOw wow wow wow woW WOW Wow wOW woW wow wow wow WoW WOW WOW WOW WoW wow wow wow wow wow wow WoW wow wow wow wow wow wow wow wow WoW ",
-            )],
+            syntax: WOWLANG,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    WOWLANG,
+                    [(
+                        TokenKind::Plain,
+                        r"wow WOw wow wow wow wow wow wow wow woW WOW Wow wOW woW wow WoW wow WOw wow woW WOW WOW WOW WOW WOW Wow wOW woW WOW WOW WoW WOW WOW WOW WOW WOW WOW WOW WoW WoW WOW WOW WOW WoW WOw wow wow wow woW WOW Wow wOW woW wow wow wow wow wow WoW wow wow wow WOw wow woW WOW WOW WOW Wow wOW woW WoW wow WOw wow wow wow woW WOW Wow wOW woW wow wow wow WoW WOW WOW WOW WoW wow wow wow wow wow wow WoW wow wow wow wow wow wow wow wow WoW ",
+                    )],
+                )
+            },
         }],
     };

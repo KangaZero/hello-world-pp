@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [KoberiC => "Kobeři-C"],
     extensions: [Koberice => "koberice"],
 }
+
+const KOBERI_C: &str = concat!(
+    r#"(int main()
+    (print ""#,
+    output_for_hello_world!(),
+    r#"")
+    (return 0))"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +37,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::KoberiC,
-            syntax: concat!(
-                r#"(int main()
+            syntax: KOBERI_C,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    KOBERI_C,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"(int main()
     (print ""#,
-                output_for_hello_world!(),
-                r#"")
+                            output_for_hello_world!(),
+                            r#"")
     (return 0))"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"(int main()
-    (print ""#,
-                    output_for_hello_world!(),
-                    r#"")
-    (return 0))"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

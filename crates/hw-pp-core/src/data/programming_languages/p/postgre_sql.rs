@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,12 @@ language_names! {
     versions: [PostgreSql => "Postgre SQL"],
     extensions: [],
 }
+
+const POSTGRE_SQL: &str = concat!(
+    r"SELECT '",
+    output_for_hello_world!(),
+    r"' AS hello_message;"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,21 +35,22 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PostgreSql,
-            syntax: concat!(
-                r"SELECT '",
-                output_for_hello_world!(),
-                r"' AS hello_message;"
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"SELECT"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r"'", output_for_hello_world!(), r"'"),
-                ),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"AS"),
-                (TokenKind::Plain, r" hello_message;"),
-            ],
+            syntax: POSTGRE_SQL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    POSTGRE_SQL,
+                    [
+                        (TokenKind::Keyword, r"SELECT"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r"'", output_for_hello_world!(), r"'"),
+                        ),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"AS"),
+                        (TokenKind::Plain, r" hello_message;"),
+                    ],
+                )
+            },
         }],
     };

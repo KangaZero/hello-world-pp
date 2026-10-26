@@ -11,13 +11,39 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Smatiny => "SMATINY",
     versions: [Smatiny => "SMATINY"],
     extensions: [],
 }
+
+const SMATINY: &str = r"1. Swap 1 with 71.
+10. Output this block's position.
+11. Swap 11 with 150.
+32. Output this block's position.
+34. Swap 33 with 32.
+35. Swap 35 with 118.
+36. Swap 36 with 9.
+72. Output this block's position.
+101. Output this block's position.
+102. Swap 101 with 100.
+103. Swap 103 with 107.
+104. Swap 104 with 32.
+108. Output this block's position.
+109. Swap 109 with 107.
+111. Output this block's position.
+112. Swap 112 with 31.
+114. Output this block's position.
+115. Swap 110 with 117.
+116. Swap 116 with 107.
+117. Swap 110 with 99.
+119. Output this block's position.
+120. Swap 120 with 110.";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +53,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Smatiny,
-            syntax: r"1. Swap 1 with 71.
+            syntax: SMATINY,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SMATINY,
+                    [(
+                        TokenKind::Plain,
+                        r"1. Swap 1 with 71.
 10. Output this block's position.
 11. Swap 11 with 150.
 32. Output this block's position.
@@ -49,30 +81,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 117. Swap 110 with 99.
 119. Output this block's position.
 120. Swap 120 with 110.",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"1. Swap 1 with 71.
-10. Output this block's position.
-11. Swap 11 with 150.
-32. Output this block's position.
-34. Swap 33 with 32.
-35. Swap 35 with 118.
-36. Swap 36 with 9.
-72. Output this block's position.
-101. Output this block's position.
-102. Swap 101 with 100.
-103. Swap 103 with 107.
-104. Swap 104 with 32.
-108. Output this block's position.
-109. Swap 109 with 107.
-111. Output this block's position.
-112. Swap 112 with 31.
-114. Output this block's position.
-115. Swap 110 with 117.
-116. Swap 116 with 107.
-117. Swap 110 with 99.
-119. Output this block's position.
-120. Swap 120 with 110.",
-            )],
+                    )],
+                )
+            },
         }],
     };

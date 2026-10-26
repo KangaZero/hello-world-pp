@@ -11,13 +11,20 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Swordfish => "Swordfish",
     versions: [Swordfish => "Swordfish"],
     extensions: [],
 }
+
+const SWORDFISH: &str = r"Hello:, \
+,,/#;,,,W
+,,\!dlro/";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,14 +34,17 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Swordfish,
-            syntax: r"Hello:, \
+            syntax: SWORDFISH,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SWORDFISH,
+                    [(
+                        TokenKind::Plain,
+                        r"Hello:, \
 ,,/#;,,,W
 ,,\!dlro/",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"Hello:, \
-,,/#;,,,W
-,,\!dlro/",
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,19 @@ language_names! {
     versions: [Pbwin => "PBWin"],
     extensions: [],
 }
+
+const PBWIN: &str = concat!(
+    r#"#COMPILE EXE
+#DIM ALL
+
+FUNCTION PBMAIN () AS LONG
+
+    MSGBOX ""#,
+    output_for_hello_world!(),
+    r#""
+
+END FUNCTION"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,61 +42,55 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Pbwin,
-            syntax: concat!(
-                r#"#COMPILE EXE
-#DIM ALL
-
-FUNCTION PBMAIN () AS LONG
-
-    MSGBOX ""#,
-                output_for_hello_world!(),
-                r#""
-
-END FUNCTION"#
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Plain,
-                    r"#COMPILE EXE
+            syntax: PBWIN,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PBWIN,
+                    [
+                        (
+                            TokenKind::Plain,
+                            r"#COMPILE EXE
 #",
-                ),
-                (TokenKind::Keyword, r"DIM"),
-                (
-                    TokenKind::Plain,
-                    r" ALL
+                        ),
+                        (TokenKind::Keyword, r"DIM"),
+                        (
+                            TokenKind::Plain,
+                            r" ALL
 
 ",
-                ),
-                (TokenKind::Keyword, r"FUNCTION"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"PBMAIN"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"()"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"AS"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Type, r"LONG"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"FUNCTION"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"PBMAIN"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"()"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"AS"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Type, r"LONG"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
     ",
-                ),
-                (TokenKind::Keyword, r"MSGBOX"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"MSGBOX"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"END"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"FUNCTION"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"END"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"FUNCTION"),
+                    ],
+                )
+            },
         }],
     };

@@ -15,7 +15,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -23,6 +23,19 @@ language_names! {
     versions: [Oxygene => "Oxygene"],
     extensions: [],
 }
+
+const OXYGENE: &str = concat!(
+    r"implementation
+
+class method ConsoleApp.Main;
+begin
+  Console.WriteLine('",
+    output_for_hello_world!(),
+    r"');
+end;
+
+end."
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -32,56 +45,50 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[DotNet, Pascal],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Oxygene,
-            syntax: concat!(
-                r"implementation
-
-class method ConsoleApp.Main;
-begin
-  Console.WriteLine('",
-                output_for_hello_world!(),
-                r"');
-end;
-
-end."
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"implementation"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: OXYGENE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    OXYGENE,
+                    [
+                        (TokenKind::Keyword, r"implementation"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"class"),
-                (
-                    TokenKind::Plain,
-                    r" method ConsoleApp.Main;
+                        ),
+                        (TokenKind::Keyword, r"class"),
+                        (
+                            TokenKind::Plain,
+                            r" method ConsoleApp.Main;
 ",
-                ),
-                (TokenKind::Keyword, r"begin"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"begin"),
+                        (
+                            TokenKind::Plain,
+                            r"
   Console.WriteLine(",
-                ),
-                (
-                    TokenKind::String,
-                    concat!(r"'", output_for_hello_world!(), r"'"),
-                ),
-                (
-                    TokenKind::Plain,
-                    r");
+                        ),
+                        (
+                            TokenKind::String,
+                            concat!(r"'", output_for_hello_world!(), r"'"),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r");
 ",
-                ),
-                (TokenKind::Keyword, r"end"),
-                (
-                    TokenKind::Plain,
-                    r";
+                        ),
+                        (TokenKind::Keyword, r"end"),
+                        (
+                            TokenKind::Plain,
+                            r";
 
 ",
-                ),
-                (TokenKind::Keyword, r"end"),
-                (TokenKind::Plain, r"."),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"end"),
+                        (TokenKind::Plain, r"."),
+                    ],
+                )
+            },
         }],
     };

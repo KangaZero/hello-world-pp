@@ -15,7 +15,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -23,6 +23,21 @@ language_names! {
     versions: [Modula2 => "Modula 2"],
     extensions: [Mod => "mod"],
 }
+
+const MODULA2: &str = concat!(
+    r#"MODULE HelloWorld;
+
+FROM Terminal2 IMPORT WriteString, WriteLn;
+
+BEGIN
+
+    WriteString(""#,
+    output_for_hello_world!(),
+    r#"");
+    WriteLn;
+    
+END HelloWorld."#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -32,75 +47,67 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Modula],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Modula2,
-            syntax: concat!(
-                r#"MODULE HelloWorld;
-
-FROM Terminal2 IMPORT WriteString, WriteLn;
-
-BEGIN
-
-    WriteString(""#,
-                output_for_hello_world!(),
-                r#"");
-    WriteLn;
-    
-END HelloWorld."#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"MODULE"),
-                (TokenKind::Plain, r" HelloWorld"),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: MODULA2,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MODULA2,
+                    [
+                        (TokenKind::Keyword, r"MODULE"),
+                        (TokenKind::Plain, r" HelloWorld"),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"FROM"),
-                (TokenKind::Plain, r" Terminal2 "),
-                (TokenKind::Keyword, r"IMPORT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"WriteString"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"WriteLn"),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"FROM"),
+                        (TokenKind::Plain, r" Terminal2 "),
+                        (TokenKind::Keyword, r"IMPORT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"WriteString"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"WriteLn"),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"BEGIN"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"BEGIN"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
     ",
-                ),
-                (TokenKind::Function, r"WriteString"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Function, r"WriteString"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Function, r"WriteLn"),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Function, r"WriteLn"),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
     
 ",
-                ),
-                (TokenKind::Keyword, r"END"),
-                (TokenKind::Plain, r" HelloWorld"),
-                (TokenKind::Punctuation, r"."),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"END"),
+                        (TokenKind::Plain, r" HelloWorld"),
+                        (TokenKind::Punctuation, r"."),
+                    ],
+                )
+            },
         }],
     };

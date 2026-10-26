@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,14 @@ language_names! {
     versions: [Fortran90 => "Fortran 90"],
     extensions: [F => "f", F90 => "f90", F95 => "f95"],
 }
+
+const FORTRAN90: &str = concat!(
+    r#"program hello
+    print *, ""#,
+    output_for_hello_world!(),
+    r#""
+end program hello"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,29 +38,28 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Fortran],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Fortran90,
-            syntax: concat!(
-                r#"program hello
-    print *, ""#,
-                output_for_hello_world!(),
-                r#""
-end program hello"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, "program"),
-                (TokenKind::Plain, " hello\n    "),
-                (TokenKind::Keyword, "print"),
-                (TokenKind::Plain, " "),
-                (TokenKind::Punctuation, "*,"),
-                (TokenKind::Plain, " "),
-                (
-                    TokenKind::String,
-                    concat!("\"", output_for_hello_world!(), "\""),
-                ),
-                (TokenKind::Plain, "\n"),
-                (TokenKind::Keyword, "end"),
-                (TokenKind::Plain, " "),
-                (TokenKind::Keyword, "program"),
-                (TokenKind::Plain, " hello"),
-            ],
+            syntax: FORTRAN90,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FORTRAN90,
+                    [
+                        (TokenKind::Keyword, "program"),
+                        (TokenKind::Plain, " hello\n    "),
+                        (TokenKind::Keyword, "print"),
+                        (TokenKind::Plain, " "),
+                        (TokenKind::Punctuation, "*,"),
+                        (TokenKind::Plain, " "),
+                        (
+                            TokenKind::String,
+                            concat!("\"", output_for_hello_world!(), "\""),
+                        ),
+                        (TokenKind::Plain, "\n"),
+                        (TokenKind::Keyword, "end"),
+                        (TokenKind::Plain, " "),
+                        (TokenKind::Keyword, "program"),
+                        (TokenKind::Plain, " hello"),
+                    ],
+                )
+            },
         }],
     };

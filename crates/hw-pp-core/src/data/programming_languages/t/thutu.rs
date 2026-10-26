@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,8 @@ language_names! {
     versions: [Thutu => "Thutu"],
     extensions: [],
 }
+
+const THUTU: &str = concat!(r"/^=1$/", output_for_hello_world!(), r"=n=x=9/");
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Thutu,
-            syntax: concat!(r"/^=1$/", output_for_hello_world!(), r"=n=x=9/"),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r"/^=1$/", output_for_hello_world!(), r"=n=x=9/"),
-            )],
+            syntax: THUTU,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    THUTU,
+                    [(
+                        TokenKind::Plain,
+                        concat!(r"/^=1$/", output_for_hello_world!(), r"=n=x=9/"),
+                    )],
+                )
+            },
         }],
     };

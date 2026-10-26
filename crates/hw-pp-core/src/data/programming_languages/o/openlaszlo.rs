@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [Openlaszlo => "OpenLaszlo"],
     extensions: [Lzx => "lzx"],
 }
+
+const OPENLASZLO: &str = concat!(
+    r"<canvas>
+    <text>",
+    output_for_hello_world!(),
+    r"</text>
+</canvas>"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,29 +37,28 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Openlaszlo,
-            syntax: concat!(
-                r"<canvas>
-    <text>",
-                output_for_hello_world!(),
-                r"</text>
-</canvas>"
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"<canvas>"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: OPENLASZLO,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    OPENLASZLO,
+                    [
+                        (TokenKind::Keyword, r"<canvas>"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"<text>"),
-                (TokenKind::Plain, output_for_hello_world!()),
-                (TokenKind::Keyword, r"</text>"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"<text>"),
+                        (TokenKind::Plain, output_for_hello_world!()),
+                        (TokenKind::Keyword, r"</text>"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"</canvas>"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"</canvas>"),
+                    ],
+                )
+            },
         }],
     };

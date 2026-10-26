@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Stackint => "Stackint",
     versions: [Stackint => "Stackint"],
     extensions: [],
 }
+
+const STACKINT: &str = r"98*99*54*+99*93*+99*93*+99*65*+84*99*6+99*65*+99*93*+6+99*93*+91+91+*";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Stackint,
-            syntax: r"98*99*54*+99*93*+99*93*+99*65*+84*99*6+99*65*+99*93*+6+99*93*+91+91+*",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"98*99*54*+99*93*+99*93*+99*65*+84*99*6+99*65*+99*93*+6+99*93*+91+91+*",
-            )],
+            syntax: STACKINT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    STACKINT,
+                    [(
+                        TokenKind::Plain,
+                        r"98*99*54*+99*93*+99*93*+99*65*+84*99*6+99*65*+99*93*+6+99*93*+91+91+*",
+                    )],
+                )
+            },
         }],
     };

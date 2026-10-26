@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,17 @@ language_names! {
     versions: [Xslt => "XSLT"],
     extensions: [Xslt => "xslt"],
 }
+
+const XSLT: &str = concat!(
+    r#"<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:template match="/">
+        <xsl:text>"#,
+    output_for_hello_world!(),
+    r"</xsl:text>
+    </xsl:template>
+</xsl:stylesheet>"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,93 +40,89 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Xslt,
-            syntax: concat!(
-                r#"<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-    <xsl:template match="/">
-        <xsl:text>"#,
-                output_for_hello_world!(),
-                r"</xsl:text>
-    </xsl:template>
-</xsl:stylesheet>"
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Punctuation, r"<?"),
-                (TokenKind::Plain, r"xml version"),
-                (TokenKind::Punctuation, r"="),
-                (TokenKind::String, r#""1.0""#),
-                (TokenKind::Plain, r" encoding"),
-                (TokenKind::Punctuation, r"="),
-                (TokenKind::String, r#""UTF-8""#),
-                (TokenKind::Punctuation, r"?>"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: XSLT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    XSLT,
+                    [
+                        (TokenKind::Punctuation, r"<?"),
+                        (TokenKind::Plain, r"xml version"),
+                        (TokenKind::Punctuation, r"="),
+                        (TokenKind::String, r#""1.0""#),
+                        (TokenKind::Plain, r" encoding"),
+                        (TokenKind::Punctuation, r"="),
+                        (TokenKind::String, r#""UTF-8""#),
+                        (TokenKind::Punctuation, r"?>"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"<"),
-                (TokenKind::Plain, r"xsl"),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r"stylesheet version"),
-                (TokenKind::Punctuation, r"="),
-                (TokenKind::String, r#""1.0""#),
-                (TokenKind::Plain, r" xmlns"),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r"xsl"),
-                (TokenKind::Punctuation, r"="),
-                (
-                    TokenKind::String,
-                    r#""http://www.w3.org/1999/XSL/Transform""#,
-                ),
-                (TokenKind::Punctuation, r">"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"<"),
+                        (TokenKind::Plain, r"xsl"),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r"stylesheet version"),
+                        (TokenKind::Punctuation, r"="),
+                        (TokenKind::String, r#""1.0""#),
+                        (TokenKind::Plain, r" xmlns"),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r"xsl"),
+                        (TokenKind::Punctuation, r"="),
+                        (
+                            TokenKind::String,
+                            r#""http://www.w3.org/1999/XSL/Transform""#,
+                        ),
+                        (TokenKind::Punctuation, r">"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Punctuation, r"<"),
-                (TokenKind::Plain, r"xsl"),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r"template match"),
-                (TokenKind::Punctuation, r"="),
-                (TokenKind::String, r#""/""#),
-                (TokenKind::Punctuation, r">"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"<"),
+                        (TokenKind::Plain, r"xsl"),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r"template match"),
+                        (TokenKind::Punctuation, r"="),
+                        (TokenKind::String, r#""/""#),
+                        (TokenKind::Punctuation, r">"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Punctuation, r"<"),
-                (TokenKind::Plain, r"xsl"),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r"text"),
-                (TokenKind::Punctuation, r">"),
-                (TokenKind::Plain, output_for_hello_world!()),
-                (TokenKind::Punctuation, r"</"),
-                (TokenKind::Plain, r"xsl"),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r"text"),
-                (TokenKind::Punctuation, r">"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"<"),
+                        (TokenKind::Plain, r"xsl"),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r"text"),
+                        (TokenKind::Punctuation, r">"),
+                        (TokenKind::Plain, output_for_hello_world!()),
+                        (TokenKind::Punctuation, r"</"),
+                        (TokenKind::Plain, r"xsl"),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r"text"),
+                        (TokenKind::Punctuation, r">"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Punctuation, r"</"),
-                (TokenKind::Plain, r"xsl"),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r"template"),
-                (TokenKind::Punctuation, r">"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"</"),
+                        (TokenKind::Plain, r"xsl"),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r"template"),
+                        (TokenKind::Punctuation, r">"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"</"),
-                (TokenKind::Plain, r"xsl"),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r"stylesheet"),
-                (TokenKind::Punctuation, r">"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"</"),
+                        (TokenKind::Plain, r"xsl"),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r"stylesheet"),
+                        (TokenKind::Punctuation, r">"),
+                    ],
+                )
+            },
         }],
     };

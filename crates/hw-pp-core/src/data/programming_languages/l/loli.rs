@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,16 @@ language_names! {
     versions: [Loli => "Loli"],
     extensions: [],
 }
+
+const LOLI: &str = concat!(
+    r"# ",
+    output_for_hello_world!(),
+    r#" in Loli
+
+sayln(""#,
+    output_for_hello_world!(),
+    r#"")"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,26 +40,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Loli,
-            syntax: concat!(
-                r"# ",
-                output_for_hello_world!(),
-                r#" in Loli
+            syntax: LOLI,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LOLI,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"# ",
+                            output_for_hello_world!(),
+                            r#" in Loli
 
 sayln(""#,
-                output_for_hello_world!(),
-                r#"")"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"# ",
-                    output_for_hello_world!(),
-                    r#" in Loli
-
-sayln(""#,
-                    output_for_hello_world!(),
-                    r#"")"#
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r#"")"#
+                        ),
+                    )],
+                )
+            },
         }],
     };

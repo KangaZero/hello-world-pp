@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,15 @@ language_names! {
     versions: [PqnProc => "PQN-PROC"],
     extensions: [],
 }
+
+const PQN_PROC: &str = concat!(
+    r"PQN
+C ",
+    output_for_hello_world!(),
+    r" in PQN/PROC
+O ",
+    output_for_hello_world!()
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,24 +39,22 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PqnProc,
-            syntax: concat!(
-                r"PQN
+            syntax: PQN_PROC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PQN_PROC,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"PQN
 C ",
-                output_for_hello_world!(),
-                r" in PQN/PROC
+                            output_for_hello_world!(),
+                            r" in PQN/PROC
 O ",
-                output_for_hello_world!()
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"PQN
-C ",
-                    output_for_hello_world!(),
-                    r" in PQN/PROC
-O ",
-                    output_for_hello_world!()
-                ),
-            )],
+                            output_for_hello_world!()
+                        ),
+                    )],
+                )
+            },
         }],
     };

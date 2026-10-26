@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -22,23 +22,15 @@ language_names! {
     extensions: [],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::AssemblerZx81,
-        extensions: &[],
-        categories: &[Assembly],
-        families: &[],
-        versions: &[ProgrammingLanguageVersion {
-            label: ProgrammingLanguageDialect::AssemblerZx81,
-            syntax: concat!(
-                r"; ",
-                output_for_hello_world!(),
-                r" in Assembler for the ZX81 (Zilog Z80)
+const ASSEMBLER_ZX81: &str = concat!(
+    r"; ",
+    output_for_hello_world!(),
+    r" in Assembler for the ZX81 (Zilog Z80)
 
           CALL SPRINT
           DEFM ",
-                output_for_hello_world!(),
-                r".
+    output_for_hello_world!(),
+    r".
           DEFB FF
           RET
 SPRINT    POP HL
@@ -49,96 +41,111 @@ SPRINT    POP HL
           RET Z
           CALL PRINT
           JR SPRINT"
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Comment,
-                    concat!(
-                        r"; ",
-                        output_for_hello_world!(),
-                        r" in Assembler for the ZX81 (Zilog Z80)"
-                    ),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::AssemblerZx81,
+        extensions: &[],
+        categories: &[Assembly],
+        families: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::AssemblerZx81,
+            syntax: ASSEMBLER_ZX81,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_ZX81,
+                    [
+                        (
+                            TokenKind::Comment,
+                            concat!(
+                                r"; ",
+                                output_for_hello_world!(),
+                                r" in Assembler for the ZX81 (Zilog Z80)"
+                            ),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
           ",
-                ),
-                (TokenKind::Keyword, r"CALL"),
-                (
-                    TokenKind::Plain,
-                    r" SPRINT
+                        ),
+                        (TokenKind::Keyword, r"CALL"),
+                        (
+                            TokenKind::Plain,
+                            r" SPRINT
           ",
-                ),
-                (TokenKind::Keyword, r"DEFM"),
-                (TokenKind::Plain, concat!(r" ", output_for_hello_world!())),
-                (TokenKind::Punctuation, r"."),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEFM"),
+                        (TokenKind::Plain, concat!(r" ", output_for_hello_world!())),
+                        (TokenKind::Punctuation, r"."),
+                        (
+                            TokenKind::Plain,
+                            r"
           ",
-                ),
-                (TokenKind::Keyword, r"DEFB"),
-                (
-                    TokenKind::Plain,
-                    r" FF
+                        ),
+                        (TokenKind::Keyword, r"DEFB"),
+                        (
+                            TokenKind::Plain,
+                            r" FF
           ",
-                ),
-                (TokenKind::Keyword, r"RET"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"RET"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"SPRINT"),
-                (
-                    TokenKind::Plain,
-                    r"    POP HL
+                        ),
+                        (TokenKind::Keyword, r"SPRINT"),
+                        (
+                            TokenKind::Plain,
+                            r"    POP HL
           ",
-                ),
-                (TokenKind::Keyword, r"LD"),
-                (TokenKind::Plain, r" A"),
-                (TokenKind::Punctuation, r",("),
-                (TokenKind::Plain, r"HL"),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"LD"),
+                        (TokenKind::Plain, r" A"),
+                        (TokenKind::Punctuation, r",("),
+                        (TokenKind::Plain, r"HL"),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
           ",
-                ),
-                (TokenKind::Keyword, r"INC"),
-                (
-                    TokenKind::Plain,
-                    r" HL
+                        ),
+                        (TokenKind::Keyword, r"INC"),
+                        (
+                            TokenKind::Plain,
+                            r" HL
           ",
-                ),
-                (TokenKind::Keyword, r"PUSH"),
-                (
-                    TokenKind::Plain,
-                    r" HL
+                        ),
+                        (TokenKind::Keyword, r"PUSH"),
+                        (
+                            TokenKind::Plain,
+                            r" HL
           ",
-                ),
-                (TokenKind::Keyword, r"CP"),
-                (
-                    TokenKind::Plain,
-                    r" FF
+                        ),
+                        (TokenKind::Keyword, r"CP"),
+                        (
+                            TokenKind::Plain,
+                            r" FF
           ",
-                ),
-                (TokenKind::Keyword, r"RET"),
-                (
-                    TokenKind::Plain,
-                    r" Z
+                        ),
+                        (TokenKind::Keyword, r"RET"),
+                        (
+                            TokenKind::Plain,
+                            r" Z
           ",
-                ),
-                (TokenKind::Keyword, r"CALL"),
-                (
-                    TokenKind::Plain,
-                    r" PRINT
+                        ),
+                        (TokenKind::Keyword, r"CALL"),
+                        (
+                            TokenKind::Plain,
+                            r" PRINT
           ",
-                ),
-                (TokenKind::Keyword, r"JR"),
-                (TokenKind::Plain, r" SPRINT"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"JR"),
+                        (TokenKind::Plain, r" SPRINT"),
+                    ],
+                )
+            },
         }],
     };

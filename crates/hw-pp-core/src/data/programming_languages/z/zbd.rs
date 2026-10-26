@@ -10,13 +10,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Zbd => "ZBD",
     versions: [Zbd => "ZBD"],
     extensions: [],
 }
+
+const ZBD: &str = r#" + Mr.B says "Hello Friend" "#;
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +31,9 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Zbd,
-            syntax: r#" + Mr.B says "Hello Friend" "#,
-            tokenized_syntax: &[(TokenKind::Plain, r#" + Mr.B says "Hello Friend" "#)],
+            syntax: ZBD,
+            tokenized_syntax: &const {
+                checked_token_lengths(ZBD, [(TokenKind::Plain, r#" + Mr.B says "Hello Friend" "#)])
+            },
         }],
     };

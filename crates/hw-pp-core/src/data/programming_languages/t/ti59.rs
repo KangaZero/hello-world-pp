@@ -11,13 +11,39 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Ti59 => "TI-59",
     versions: [Ti59 => "TI-59"],
     extensions: [],
 }
+
+const TI59: &str = r#"      Code        Comment
+
+      LBL A       Start of program: label A
+      OP 00       Clear the four print registers
+      23          "H"
+      17          "E"
+      OP 02       Write into print register 2
+      27          "L"
+      27          "L"
+      32          "O"
+      00          " "
+      43          "W"
+      OP 03       Write into print register 3
+      32          "O"
+      35          "R"
+      27          "L"
+      16          "D"
+      73          "!"
+      OP 04       Write into print register 4
+      OP 05       Start printing
+      ADV         Line feed (optional)
+      R/S         End program"#;
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +53,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ti59,
-            syntax: r#"      Code        Comment
+            syntax: TI59,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    TI59,
+                    [(
+                        TokenKind::Plain,
+                        r#"      Code        Comment
 
       LBL A       Start of program: label A
       OP 00       Clear the four print registers
@@ -49,30 +81,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
       OP 05       Start printing
       ADV         Line feed (optional)
       R/S         End program"#,
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r#"      Code        Comment
-
-      LBL A       Start of program: label A
-      OP 00       Clear the four print registers
-      23          "H"
-      17          "E"
-      OP 02       Write into print register 2
-      27          "L"
-      27          "L"
-      32          "O"
-      00          " "
-      43          "W"
-      OP 03       Write into print register 3
-      32          "O"
-      35          "R"
-      27          "L"
-      16          "D"
-      73          "!"
-      OP 04       Write into print register 4
-      OP 05       Start printing
-      ADV         Line feed (optional)
-      R/S         End program"#,
-            )],
+                    )],
+                )
+            },
         }],
     };

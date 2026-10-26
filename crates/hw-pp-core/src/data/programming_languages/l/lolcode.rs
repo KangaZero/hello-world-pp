@@ -10,7 +10,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -18,6 +18,14 @@ language_names! {
     versions: [Lolcode12 => "LOLCODE 1.2"],
     extensions: [Lol => "lol"],
 }
+
+const LOLCODE12: &str = concat!(
+    r#"HAI 1.2
+    VISIBLE ""#,
+    output_for_hello_world!(),
+    r#""
+KTHXBYE"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,26 +35,25 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Lolcode12,
-            syntax: concat!(
-                r#"HAI 1.2
-    VISIBLE ""#,
-                output_for_hello_world!(),
-                r#""
-KTHXBYE"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, "HAI"),
-                (TokenKind::Plain, " "),
-                (TokenKind::Number, "1.2"),
-                (TokenKind::Plain, "\n    "),
-                (TokenKind::Keyword, "VISIBLE"),
-                (TokenKind::Plain, " "),
-                (
-                    TokenKind::String,
-                    concat!("\"", output_for_hello_world!(), "\""),
-                ),
-                (TokenKind::Plain, "\n"),
-                (TokenKind::Keyword, "KTHXBYE"),
-            ],
+            syntax: LOLCODE12,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LOLCODE12,
+                    [
+                        (TokenKind::Keyword, "HAI"),
+                        (TokenKind::Plain, " "),
+                        (TokenKind::Number, "1.2"),
+                        (TokenKind::Plain, "\n    "),
+                        (TokenKind::Keyword, "VISIBLE"),
+                        (TokenKind::Plain, " "),
+                        (
+                            TokenKind::String,
+                            concat!("\"", output_for_hello_world!(), "\""),
+                        ),
+                        (TokenKind::Plain, "\n"),
+                        (TokenKind::Keyword, "KTHXBYE"),
+                    ],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,18 @@ language_names! {
     versions: [SimplPlus => "Simpl+"],
     extensions: [Usp => "usp"],
 }
+
+const SIMPL_PLUS: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in Crestron's SIMPL+
+Function Main
+{
+    Print(""#,
+    output_for_hello_world!(),
+    r#"\n");
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,30 +41,25 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::SimplPlus,
-            syntax: concat!(
-                r"// ",
-                output_for_hello_world!(),
-                r#" in Crestron's SIMPL+
+            syntax: SIMPL_PLUS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SIMPL_PLUS,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"// ",
+                            output_for_hello_world!(),
+                            r#" in Crestron's SIMPL+
 Function Main
 {
     Print(""#,
-                output_for_hello_world!(),
-                r#"\n");
+                            output_for_hello_world!(),
+                            r#"\n");
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in Crestron's SIMPL+
-Function Main
-{
-    Print(""#,
-                    output_for_hello_world!(),
-                    r#"\n");
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

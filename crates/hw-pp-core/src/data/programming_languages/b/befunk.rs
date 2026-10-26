@@ -11,13 +11,37 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Befunk => "Befunk",
     versions: [Befunk => "Befunk"],
     extensions: [],
 }
+
+const BEFUNK: &str = r"[code]x = 0, y = 0, rule = LifeColorful
+BQMDLROWFCO2LEHQJPNDIX!
+[[ COLOR 0 255 255 255 ]]
+[[ COLOR 2 0 0 0 ]]
+[[ COLOR 3 0 144 144 ]]
+[[ COLOR 4 171 0 0 ]]
+[[ COLOR 5 171 0 251 ]]
+[[ COLOR 6 0 243 192 ]]
+[[ COLOR 8 0 127 192 ]]
+[[ COLOR 9 0 255 144 ]]
+[[ COLOR 10 0 255 0 ]]
+[[ COLOR 12 171 0 128 ]]
+[[ COLOR 13 0 243 243 ]]
+[[ COLOR 14 192 0 0 ]]
+[[ COLOR 15 171 171 171 ]]
+[[ COLOR 16 171 127 255 ]]
+[[ COLOR 17 192 255 216 ]]
+[[ COLOR 18 171 171 144 ]]
+[[ COLOR 23 171 171 99 ]]
+[[ COLOR 24 249 99 249 ]][/code]";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +51,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Befunk,
-            syntax: r"[code]x = 0, y = 0, rule = LifeColorful
+            syntax: BEFUNK,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BEFUNK,
+                    [(
+                        TokenKind::Plain,
+                        r"[code]x = 0, y = 0, rule = LifeColorful
 BQMDLROWFCO2LEHQJPNDIX!
 [[ COLOR 0 255 255 255 ]]
 [[ COLOR 2 0 0 0 ]]
@@ -47,28 +77,8 @@ BQMDLROWFCO2LEHQJPNDIX!
 [[ COLOR 18 171 171 144 ]]
 [[ COLOR 23 171 171 99 ]]
 [[ COLOR 24 249 99 249 ]][/code]",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"[code]x = 0, y = 0, rule = LifeColorful
-BQMDLROWFCO2LEHQJPNDIX!
-[[ COLOR 0 255 255 255 ]]
-[[ COLOR 2 0 0 0 ]]
-[[ COLOR 3 0 144 144 ]]
-[[ COLOR 4 171 0 0 ]]
-[[ COLOR 5 171 0 251 ]]
-[[ COLOR 6 0 243 192 ]]
-[[ COLOR 8 0 127 192 ]]
-[[ COLOR 9 0 255 144 ]]
-[[ COLOR 10 0 255 0 ]]
-[[ COLOR 12 171 0 128 ]]
-[[ COLOR 13 0 243 243 ]]
-[[ COLOR 14 192 0 0 ]]
-[[ COLOR 15 171 171 171 ]]
-[[ COLOR 16 171 127 255 ]]
-[[ COLOR 17 192 255 216 ]]
-[[ COLOR 18 171 171 144 ]]
-[[ COLOR 23 171 171 99 ]]
-[[ COLOR 24 249 99 249 ]][/code]",
-            )],
+                    )],
+                )
+            },
         }],
     };

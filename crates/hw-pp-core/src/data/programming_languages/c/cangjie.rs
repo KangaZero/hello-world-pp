@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,15 @@ language_names! {
     versions: [Cangjie => "Cangjie"],
     extensions: [Cj => "cj"],
 }
+
+const CANGJIE: &str = concat!(
+    r#"main(): Int64 {
+    println(""#,
+    output_for_hello_world!(),
+    r#"")
+    return 0
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,45 +38,43 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cangjie,
-            syntax: concat!(
-                r#"main(): Int64 {
-    println(""#,
-                output_for_hello_world!(),
-                r#"")
-    return 0
-}"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Function, r"main"),
-                (TokenKind::Punctuation, r"():"),
-                (TokenKind::Plain, r" Int64 "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: CANGJIE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CANGJIE,
+                    [
+                        (TokenKind::Function, r"main"),
+                        (TokenKind::Punctuation, r"():"),
+                        (TokenKind::Plain, r" Int64 "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Function, r"println"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Function, r"println"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"return"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"0"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"return"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"0"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                    ],
+                )
+            },
         }],
     };

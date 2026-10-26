@@ -10,13 +10,19 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: U16b1U16a2U16beU16c5U16e6 => "ᚱᚢᚾᛅᛦ",
     versions: [U16b1U16a2U16beU16c5U16e6 => "ᚱᚢᚾᛅᛦ"],
     extensions: [],
 }
+
+const U16B1_U16A2_U16BE_U16C5_U16E6: &str = r"ᛋᚭᚭᚭᚭᚭᚭᚭᚭᚭᚭᚭ
+ᛁ͗̿ᛁ̊ᛁ̳͗̿ᛁ̹̊ᚹᛁ̿ᛁ̊ᛁ͗ᛁ̊ᛁ̹̊ᛁ̊̿ᛧ";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,12 +32,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::U16b1U16a2U16beU16c5U16e6,
-            syntax: r"ᛋᚭᚭᚭᚭᚭᚭᚭᚭᚭᚭᚭ
+            syntax: U16B1_U16A2_U16BE_U16C5_U16E6,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    U16B1_U16A2_U16BE_U16C5_U16E6,
+                    [(
+                        TokenKind::Plain,
+                        r"ᛋᚭᚭᚭᚭᚭᚭᚭᚭᚭᚭᚭ
 ᛁ͗̿ᛁ̊ᛁ̳͗̿ᛁ̹̊ᚹᛁ̿ᛁ̊ᛁ͗ᛁ̊ᛁ̹̊ᛁ̊̿ᛧ",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"ᛋᚭᚭᚭᚭᚭᚭᚭᚭᚭᚭᚭ
-ᛁ͗̿ᛁ̊ᛁ̳͗̿ᛁ̹̊ᚹᛁ̿ᛁ̊ᛁ͗ᛁ̊ᛁ̹̊ᛁ̊̿ᛧ",
-            )],
+                    )],
+                )
+            },
         }],
     };

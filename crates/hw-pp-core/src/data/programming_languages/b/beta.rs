@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,17 @@ language_names! {
     versions: [Beta => "Beta"],
     extensions: [Bet => "bet"],
 }
+
+const BETA: &str = concat!(
+    r"ORIGIN '~beta/basiclib/betaenv'
+-- program: Descriptor --
+(* ",
+    output_for_hello_world!(),
+    r" in BETA *)
+(# do '",
+    output_for_hello_world!(),
+    r"' -> putLine #)"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,28 +41,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Beta,
-            syntax: concat!(
-                r"ORIGIN '~beta/basiclib/betaenv'
+            syntax: BETA,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BETA,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"ORIGIN '~beta/basiclib/betaenv'
 -- program: Descriptor --
 (* ",
-                output_for_hello_world!(),
-                r" in BETA *)
+                            output_for_hello_world!(),
+                            r" in BETA *)
 (# do '",
-                output_for_hello_world!(),
-                r"' -> putLine #)"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"ORIGIN '~beta/basiclib/betaenv'
--- program: Descriptor --
-(* ",
-                    output_for_hello_world!(),
-                    r" in BETA *)
-(# do '",
-                    output_for_hello_world!(),
-                    r"' -> putLine #)"
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r"' -> putLine #)"
+                        ),
+                    )],
+                )
+            },
         }],
     };

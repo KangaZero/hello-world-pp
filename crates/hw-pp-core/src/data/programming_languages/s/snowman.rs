@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,8 @@ language_names! {
     versions: [Snowman => "Snowman"],
     extensions: [],
 }
+
+const SNOWMAN: &str = concat!(r#"~""#, output_for_hello_world!(), r#""sPvG"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,10 +31,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Snowman,
-            syntax: concat!(r#"~""#, output_for_hello_world!(), r#""sPvG"#),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r#"~""#, output_for_hello_world!(), r#""sPvG"#),
-            )],
+            syntax: SNOWMAN,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SNOWMAN,
+                    [(
+                        TokenKind::Plain,
+                        concat!(r#"~""#, output_for_hello_world!(), r#""sPvG"#),
+                    )],
+                )
+            },
         }],
     };

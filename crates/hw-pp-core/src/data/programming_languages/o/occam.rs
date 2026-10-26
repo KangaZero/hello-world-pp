@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,16 @@ language_names! {
     versions: [Occam => "occam"],
     extensions: [Occam => "occam"],
 }
+
+const OCCAM: &str = concat!(
+    r#"PROGRAM Hello
+#USE ioconv
+
+SEQ
+  write.full.string(screen,""#,
+    output_for_hello_world!(),
+    r#"")"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,26 +40,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Occam,
-            syntax: concat!(
-                r#"PROGRAM Hello
+            syntax: OCCAM,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    OCCAM,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"PROGRAM Hello
 #USE ioconv
 
 SEQ
   write.full.string(screen,""#,
-                output_for_hello_world!(),
-                r#"")"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"PROGRAM Hello
-#USE ioconv
-
-SEQ
-  write.full.string(screen,""#,
-                    output_for_hello_world!(),
-                    r#"")"#
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r#"")"#
+                        ),
+                    )],
+                )
+            },
         }],
     };

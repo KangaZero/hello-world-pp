@@ -11,13 +11,44 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Mineso => "Mineso",
     versions: [Mineso => "Mineso"],
     extensions: [],
 }
+
+const MINESO: &str = r"-1
+<111111111111111111111111111111111111111111111111111111111111111111111111
+>111111
+<11111111111111111111111111111
+>111111
+<1111111
+>111111
+>111111
+<111
+>111111
+=11111111111111111111111111111111
+>111111
+<1111111111111111111111111111111111111111111111111111111
+>111111
+<111111111111111111111111
+>111111
+<111
+>111111
+>11
+-11
+@111111
+<111111
+>111111
+<11111111
+>111111
+=111111111111111111111111111111111
+>111111";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +58,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Mineso,
-            syntax: r"-1
+            syntax: MINESO,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MINESO,
+                    [(
+                        TokenKind::Plain,
+                        r"-1
 <111111111111111111111111111111111111111111111111111111111111111111111111
 >111111
 <11111111111111111111111111111
@@ -54,35 +91,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 >111111
 =111111111111111111111111111111111
 >111111",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"-1
-<111111111111111111111111111111111111111111111111111111111111111111111111
->111111
-<11111111111111111111111111111
->111111
-<1111111
->111111
->111111
-<111
->111111
-=11111111111111111111111111111111
->111111
-<1111111111111111111111111111111111111111111111111111111
->111111
-<111111111111111111111111
->111111
-<111
->111111
->11
--11
-@111111
-<111111
->111111
-<11111111
->111111
-=111111111111111111111111111111111
->111111",
-            )],
+                    )],
+                )
+            },
         }],
     };

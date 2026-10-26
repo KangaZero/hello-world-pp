@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,30 @@ language_names! {
     versions: [AssemblerArmAarch64 => "Assembler ARM aarch64"],
     extensions: [],
 }
+
+const ASSEMBLER_ARM_AARCH64: &str = concat!(
+    r#".data
+
+msg:
+    .ascii        ""#,
+    output_for_hello_world!(),
+    r#"\n"
+len = . - msg
+
+.text
+
+.globl _start
+_start:
+    mov     x0, #1
+    ldr     x1, =msg
+    ldr     x2, =len
+    mov     w8, #64
+    svc     #0
+
+    mov     x0, #0
+    mov     w8, #93
+    svc     #0"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,13 +53,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblerArmAarch64,
-            syntax: concat!(
-                r#".data
+            syntax: ASSEMBLER_ARM_AARCH64,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_ARM_AARCH64,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#".data
 
 msg:
     .ascii        ""#,
-                output_for_hello_world!(),
-                r#"\n"
+                            output_for_hello_world!(),
+                            r#"\n"
 len = . - msg
 
 .text
@@ -51,32 +81,9 @@ _start:
     mov     x0, #0
     mov     w8, #93
     svc     #0"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#".data
-
-msg:
-    .ascii        ""#,
-                    output_for_hello_world!(),
-                    r#"\n"
-len = . - msg
-
-.text
-
-.globl _start
-_start:
-    mov     x0, #1
-    ldr     x1, =msg
-    ldr     x2, =len
-    mov     w8, #64
-    svc     #0
-
-    mov     x0, #0
-    mov     w8, #93
-    svc     #0"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

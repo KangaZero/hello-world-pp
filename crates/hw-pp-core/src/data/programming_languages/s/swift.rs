@@ -10,7 +10,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -18,6 +18,8 @@ language_names! {
     versions: [Swift5 => "Swift 5"],
     extensions: [Swift => "swift"],
 }
+
+const SWIFT5: &str = concat!(r#"print(""#, output_for_hello_world!(), r#"")"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,15 +29,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Swift5,
-            syntax: concat!(r#"print(""#, output_for_hello_world!(), r#"")"#),
-            tokenized_syntax: &[
-                (TokenKind::Function, "print"),
-                (TokenKind::Punctuation, "("),
-                (
-                    TokenKind::String,
-                    concat!("\"", output_for_hello_world!(), "\""),
-                ),
-                (TokenKind::Punctuation, ")"),
-            ],
+            syntax: SWIFT5,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SWIFT5,
+                    [
+                        (TokenKind::Function, "print"),
+                        (TokenKind::Punctuation, "("),
+                        (
+                            TokenKind::String,
+                            concat!("\"", output_for_hello_world!(), "\""),
+                        ),
+                        (TokenKind::Punctuation, ")"),
+                    ],
+                )
+            },
         }],
     };

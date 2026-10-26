@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,8 @@ language_names! {
     versions: [Eodermdrome => "Eodermdrome"],
     extensions: [],
 }
+
+const EODERMDROME: &str = concat!(r"this (", output_for_hello_world!(), r") says... hi!");
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Eodermdrome,
-            syntax: concat!(r"this (", output_for_hello_world!(), r") says... hi!"),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r"this (", output_for_hello_world!(), r") says... hi!"),
-            )],
+            syntax: EODERMDROME,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    EODERMDROME,
+                    [(
+                        TokenKind::Plain,
+                        concat!(r"this (", output_for_hello_world!(), r") says... hi!"),
+                    )],
+                )
+            },
         }],
     };

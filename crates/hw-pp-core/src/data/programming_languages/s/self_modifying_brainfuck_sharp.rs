@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,12 @@ language_names! {
     versions: [SelfModifyingBrainfuckSharp => "Self-modifying Brainfuck#"],
     extensions: [],
 }
+
+const SELF_MODIFYING_BRAINFUCK_SHARP: &str = concat!(
+    output_for_hello_world!(),
+    r"
+----------[++++++++++.>----------]++++++++++"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,18 +36,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::SelfModifyingBrainfuckSharp,
-            syntax: concat!(
-                output_for_hello_world!(),
-                r"
+            syntax: SELF_MODIFYING_BRAINFUCK_SHARP,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SELF_MODIFYING_BRAINFUCK_SHARP,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            output_for_hello_world!(),
+                            r"
 ----------[++++++++++.>----------]++++++++++"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    output_for_hello_world!(),
-                    r"
-----------[++++++++++.>----------]++++++++++"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

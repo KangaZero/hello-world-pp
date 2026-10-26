@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [CheesePlusPlus => "Cheese++"],
     extensions: [Cheese => "cheese"],
 }
+
+const CHEESE_PLUS_PLUS: &str = concat!(
+    r"Cheese
+    Wensleydale(Swiss",
+    output_for_hello_world!(),
+    r"Swiss)Brie
+NoCheese"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +37,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::CheesePlusPlus,
-            syntax: concat!(
-                r"Cheese
+            syntax: CHEESE_PLUS_PLUS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CHEESE_PLUS_PLUS,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"Cheese
     Wensleydale(Swiss",
-                output_for_hello_world!(),
-                r"Swiss)Brie
+                            output_for_hello_world!(),
+                            r"Swiss)Brie
 NoCheese"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"Cheese
-    Wensleydale(Swiss",
-                    output_for_hello_world!(),
-                    r"Swiss)Brie
-NoCheese"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

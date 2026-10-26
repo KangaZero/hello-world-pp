@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,31 @@ language_names! {
     versions: [Cpl => "cpl"],
     extensions: [],
 }
+
+const CPL: &str = concat!(
+    r"title '",
+    output_for_hello_world!(),
+    r" in cpl on a Warrex Centurion'
+system zhelloworld      (main,exp=d)
+;
+file crt:sysipt,class=0,seq
+;
+define m00:'",
+    output_for_hello_world!(),
+    r"'
+format f00:c132
+;
+entrypoint crt
+;
+entry
+;
+open io crt
+;
+write (crt, f00) m00
+stop 0
+;
+end"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,17 +55,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cpl,
-            syntax: concat!(
-                r"title '",
-                output_for_hello_world!(),
-                r" in cpl on a Warrex Centurion'
+            syntax: CPL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CPL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"title '",
+                            output_for_hello_world!(),
+                            r" in cpl on a Warrex Centurion'
 system zhelloworld      (main,exp=d)
 ;
 file crt:sysipt,class=0,seq
 ;
 define m00:'",
-                output_for_hello_world!(),
-                r"'
+                            output_for_hello_world!(),
+                            r"'
 format f00:c132
 ;
 entrypoint crt
@@ -53,33 +84,9 @@ write (crt, f00) m00
 stop 0
 ;
 end"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"title '",
-                    output_for_hello_world!(),
-                    r" in cpl on a Warrex Centurion'
-system zhelloworld      (main,exp=d)
-;
-file crt:sysipt,class=0,seq
-;
-define m00:'",
-                    output_for_hello_world!(),
-                    r"'
-format f00:c132
-;
-entrypoint crt
-;
-entry
-;
-open io crt
-;
-write (crt, f00) m00
-stop 0
-;
-end"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

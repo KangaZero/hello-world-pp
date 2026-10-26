@@ -10,7 +10,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -18,6 +18,8 @@ language_names! {
     versions: [Crystal1 => "Crystal 1"],
     extensions: [Cr => "cr"],
 }
+
+const CRYSTAL1: &str = concat!(r#"puts ""#, output_for_hello_world!(), r#"""#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,14 +29,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Crystal1,
-            syntax: concat!(r#"puts ""#, output_for_hello_world!(), r#"""#),
-            tokenized_syntax: &[
-                (TokenKind::Function, "puts"),
-                (TokenKind::Plain, " "),
-                (
-                    TokenKind::String,
-                    concat!("\"", output_for_hello_world!(), "\""),
-                ),
-            ],
+            syntax: CRYSTAL1,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CRYSTAL1,
+                    [
+                        (TokenKind::Function, "puts"),
+                        (TokenKind::Plain, " "),
+                        (
+                            TokenKind::String,
+                            concat!("\"", output_for_hello_world!(), "\""),
+                        ),
+                    ],
+                )
+            },
         }],
     };

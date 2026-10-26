@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,29 @@ language_names! {
     versions: [AssemblerVp => "Assembler (VP)"],
     extensions: [],
 }
+
+const ASSEMBLER_VP: &str = concat!(
+    r"; ",
+    output_for_hello_world!(),
+    r#" in VP Assembler for intent (Amiga Anywhere)
+
+.include 'tao'
+
+tool 'home/hello',VP,TF_MAIN,8192,0
+	ent (-:-)
+		qcall lib/print,(hello_world.p : i~)
+		ret ()
+	entend
+
+	data
+
+hello_world:
+	dc.b ""#,
+    output_for_hello_world!(),
+    r#"",ASCII_LF,0
+
+toolend"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +53,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblerVp,
-            syntax: concat!(
-                r"; ",
-                output_for_hello_world!(),
-                r#" in VP Assembler for intent (Amiga Anywhere)
+            syntax: ASSEMBLER_VP,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_VP,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"; ",
+                            output_for_hello_world!(),
+                            r#" in VP Assembler for intent (Amiga Anywhere)
 
 .include 'tao'
 
@@ -47,35 +76,13 @@ tool 'home/hello',VP,TF_MAIN,8192,0
 
 hello_world:
 	dc.b ""#,
-                output_for_hello_world!(),
-                r#"",ASCII_LF,0
+                            output_for_hello_world!(),
+                            r#"",ASCII_LF,0
 
 toolend"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"; ",
-                    output_for_hello_world!(),
-                    r#" in VP Assembler for intent (Amiga Anywhere)
-
-.include 'tao'
-
-tool 'home/hello',VP,TF_MAIN,8192,0
-	ent (-:-)
-		qcall lib/print,(hello_world.p : i~)
-		ret ()
-	entend
-
-	data
-
-hello_world:
-	dc.b ""#,
-                    output_for_hello_world!(),
-                    r#"",ASCII_LF,0
-
-toolend"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

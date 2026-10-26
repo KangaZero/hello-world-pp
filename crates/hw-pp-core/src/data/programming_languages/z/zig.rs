@@ -10,7 +10,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -18,6 +18,16 @@ language_names! {
     versions: [Zig013 => "Zig 0.13"],
     extensions: [Zig => "zig"],
 }
+
+const ZIG013: &str = concat!(
+    r#"const std = @import("std");
+
+pub fn main() !void {
+    try std.io.getStdOut().writer().print(""#,
+    output_for_hello_world!(),
+    r#"\n", .{});
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,57 +37,54 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Zig013,
-            syntax: concat!(
-                r#"const std = @import("std");
-
-pub fn main() !void {
-    try std.io.getStdOut().writer().print(""#,
-                output_for_hello_world!(),
-                r#"\n", .{});
-}"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, "const"),
-                (TokenKind::Plain, " std "),
-                (TokenKind::Punctuation, "="),
-                (TokenKind::Plain, " "),
-                (TokenKind::Macro, "@import"),
-                (TokenKind::Punctuation, "("),
-                (TokenKind::String, "\"std\""),
-                (TokenKind::Punctuation, ");"),
-                (TokenKind::Plain, "\n\n"),
-                (TokenKind::Keyword, "pub"),
-                (TokenKind::Plain, " "),
-                (TokenKind::Keyword, "fn"),
-                (TokenKind::Plain, " "),
-                (TokenKind::Function, "main"),
-                (TokenKind::Punctuation, "()"),
-                (TokenKind::Plain, " "),
-                (TokenKind::Punctuation, "!"),
-                (TokenKind::Type, "void"),
-                (TokenKind::Plain, " "),
-                (TokenKind::Punctuation, "{"),
-                (TokenKind::Plain, "\n    "),
-                (TokenKind::Keyword, "try"),
-                (TokenKind::Plain, " std"),
-                (TokenKind::Punctuation, "."),
-                (TokenKind::Plain, "io"),
-                (TokenKind::Punctuation, "."),
-                (TokenKind::Function, "getStdOut"),
-                (TokenKind::Punctuation, "()."),
-                (TokenKind::Function, "writer"),
-                (TokenKind::Punctuation, "()."),
-                (TokenKind::Function, "print"),
-                (TokenKind::Punctuation, "("),
-                (
-                    TokenKind::String,
-                    concat!("\"", output_for_hello_world!(), r#"\n""#),
-                ),
-                (TokenKind::Punctuation, ","),
-                (TokenKind::Plain, " "),
-                (TokenKind::Punctuation, ".{});"),
-                (TokenKind::Plain, "\n"),
-                (TokenKind::Punctuation, "}"),
-            ],
+            syntax: ZIG013,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ZIG013,
+                    [
+                        (TokenKind::Keyword, "const"),
+                        (TokenKind::Plain, " std "),
+                        (TokenKind::Punctuation, "="),
+                        (TokenKind::Plain, " "),
+                        (TokenKind::Macro, "@import"),
+                        (TokenKind::Punctuation, "("),
+                        (TokenKind::String, "\"std\""),
+                        (TokenKind::Punctuation, ");"),
+                        (TokenKind::Plain, "\n\n"),
+                        (TokenKind::Keyword, "pub"),
+                        (TokenKind::Plain, " "),
+                        (TokenKind::Keyword, "fn"),
+                        (TokenKind::Plain, " "),
+                        (TokenKind::Function, "main"),
+                        (TokenKind::Punctuation, "()"),
+                        (TokenKind::Plain, " "),
+                        (TokenKind::Punctuation, "!"),
+                        (TokenKind::Type, "void"),
+                        (TokenKind::Plain, " "),
+                        (TokenKind::Punctuation, "{"),
+                        (TokenKind::Plain, "\n    "),
+                        (TokenKind::Keyword, "try"),
+                        (TokenKind::Plain, " std"),
+                        (TokenKind::Punctuation, "."),
+                        (TokenKind::Plain, "io"),
+                        (TokenKind::Punctuation, "."),
+                        (TokenKind::Function, "getStdOut"),
+                        (TokenKind::Punctuation, "()."),
+                        (TokenKind::Function, "writer"),
+                        (TokenKind::Punctuation, "()."),
+                        (TokenKind::Function, "print"),
+                        (TokenKind::Punctuation, "("),
+                        (
+                            TokenKind::String,
+                            concat!("\"", output_for_hello_world!(), r#"\n""#),
+                        ),
+                        (TokenKind::Punctuation, ","),
+                        (TokenKind::Plain, " "),
+                        (TokenKind::Punctuation, ".{});"),
+                        (TokenKind::Plain, "\n"),
+                        (TokenKind::Punctuation, "}"),
+                    ],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,24 @@ language_names! {
     versions: [Flipjump => "FlipJump"],
     extensions: [],
 }
+
+const FLIPJUMP: &str = concat!(
+    r#"       ;start
+IO:    ;
+start:
+       output ""#,
+    output_for_hello_world!(),
+    r#"\n"
+end:   ;end
+
+def output_bit bit < IO {
+    bit ? IO+1 : IO;  // output (0/1) is done by flipping the 2w / 2w+1 bits.
+}
+
+def output str {
+    rep(((#str)+7)&(0-8), i) output_bit (str>>i)&1  // # is the number of bits needed to represent the number. calls strbitlen() times to output_bit.
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,13 +48,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Flipjump,
-            syntax: concat!(
-                r#"       ;start
+            syntax: FLIPJUMP,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FLIPJUMP,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"       ;start
 IO:    ;
 start:
        output ""#,
-                output_for_hello_world!(),
-                r#"\n"
+                            output_for_hello_world!(),
+                            r#"\n"
 end:   ;end
 
 def output_bit bit < IO {
@@ -46,26 +70,9 @@ def output_bit bit < IO {
 def output str {
     rep(((#str)+7)&(0-8), i) output_bit (str>>i)&1  // # is the number of bits needed to represent the number. calls strbitlen() times to output_bit.
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"       ;start
-IO:    ;
-start:
-       output ""#,
-                    output_for_hello_world!(),
-                    r#"\n"
-end:   ;end
-
-def output_bit bit < IO {
-    bit ? IO+1 : IO;  // output (0/1) is done by flipping the 2w / 2w+1 bits.
-}
-
-def output str {
-    rep(((#str)+7)&(0-8), i) output_bit (str>>i)&1  // # is the number of bits needed to represent the number. calls strbitlen() times to output_bit.
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

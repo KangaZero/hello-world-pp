@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,14 @@ language_names! {
     versions: [Ork => "ORK"],
     extensions: [],
 }
+
+const ORK: &str = concat!(
+    r#"When this program starts:
+There is a scribe called Writer.
+Writer is to write ""#,
+    output_for_hello_world!(),
+    r#"""#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,22 +38,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ork,
-            syntax: concat!(
-                r#"When this program starts:
+            syntax: ORK,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ORK,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"When this program starts:
 There is a scribe called Writer.
 Writer is to write ""#,
-                output_for_hello_world!(),
-                r#"""#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"When this program starts:
-There is a scribe called Writer.
-Writer is to write ""#,
-                    output_for_hello_world!(),
-                    r#"""#
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r#"""#
+                        ),
+                    )],
+                )
+            },
         }],
     };

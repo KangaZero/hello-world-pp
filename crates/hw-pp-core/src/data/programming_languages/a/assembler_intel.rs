@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,24 +21,16 @@ language_names! {
     extensions: [],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::AssemblerIntel,
-        extensions: &[],
-        categories: &[Assembly],
-        families: &[],
-        versions: &[ProgrammingLanguageVersion {
-            label: ProgrammingLanguageDialect::AssemblerIntel,
-            syntax: concat!(
-                r#"
+const ASSEMBLER_INTEL: &str = concat!(
+    r#"
 .model small
 
 .stack 100h
 
 .data
 msg db ""#,
-                output_for_hello_world!(),
-                r#"",'$'
+    output_for_hello_world!(),
+    r#"",'$'
 
 .code
 main proc
@@ -55,123 +47,138 @@ main proc
 
 main endp
 end main"#
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Plain,
-                    r"
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::AssemblerIntel,
+        extensions: &[],
+        categories: &[Assembly],
+        families: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::AssemblerIntel,
+            syntax: ASSEMBLER_INTEL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_INTEL,
+                    [
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Macro, r".model"),
-                (
-                    TokenKind::Plain,
-                    r" small
+                        ),
+                        (TokenKind::Macro, r".model"),
+                        (
+                            TokenKind::Plain,
+                            r" small
 
 ",
-                ),
-                (TokenKind::Macro, r".stack"),
-                (
-                    TokenKind::Plain,
-                    r" 100h
+                        ),
+                        (TokenKind::Macro, r".stack"),
+                        (
+                            TokenKind::Plain,
+                            r" 100h
 
 ",
-                ),
-                (TokenKind::Macro, r".data"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".data"),
+                        (
+                            TokenKind::Plain,
+                            r"
 msg ",
-                ),
-                (TokenKind::Keyword, r"db"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::String, r"'$'"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"db"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::String, r"'$'"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Macro, r".code"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".code"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"main"),
-                (
-                    TokenKind::Plain,
-                    r" proc
+                        ),
+                        (TokenKind::Keyword, r"main"),
+                        (
+                            TokenKind::Plain,
+                            r" proc
         ",
-                ),
-                (TokenKind::Keyword, r"mov"),
-                (TokenKind::Plain, r" ax"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"@data
+                        ),
+                        (TokenKind::Keyword, r"mov"),
+                        (TokenKind::Plain, r" ax"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"@data
         mov ",
-                ),
-                (TokenKind::Keyword, r"ds"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r" ax
+                        ),
+                        (TokenKind::Keyword, r"ds"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r" ax
 
 
         ",
-                ),
-                (TokenKind::Keyword, r"mov"),
-                (TokenKind::Plain, r" dx"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"offset msg
+                        ),
+                        (TokenKind::Keyword, r"mov"),
+                        (TokenKind::Plain, r" dx"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"offset msg
         ",
-                ),
-                (TokenKind::Keyword, r"mov"),
-                (TokenKind::Plain, r" ah"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"09"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"mov"),
+                        (TokenKind::Plain, r" ah"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"09"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"int"),
-                (
-                    TokenKind::Plain,
-                    r" 21h
+                        ),
+                        (TokenKind::Keyword, r"int"),
+                        (
+                            TokenKind::Plain,
+                            r" 21h
 
         ",
-                ),
-                (TokenKind::Keyword, r"mov"),
-                (TokenKind::Plain, r" ax"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"4c00h
+                        ),
+                        (TokenKind::Keyword, r"mov"),
+                        (TokenKind::Plain, r" ax"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"4c00h
         ",
-                ),
-                (TokenKind::Keyword, r"int"),
-                (
-                    TokenKind::Plain,
-                    r" 21h
+                        ),
+                        (TokenKind::Keyword, r"int"),
+                        (
+                            TokenKind::Plain,
+                            r" 21h
 
 ",
-                ),
-                (TokenKind::Keyword, r"main"),
-                (
-                    TokenKind::Plain,
-                    r" endp
+                        ),
+                        (TokenKind::Keyword, r"main"),
+                        (
+                            TokenKind::Plain,
+                            r" endp
 ",
-                ),
-                (TokenKind::Keyword, r"end"),
-                (TokenKind::Plain, r" main"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"end"),
+                        (TokenKind::Plain, r" main"),
+                    ],
+                )
+            },
         }],
     };

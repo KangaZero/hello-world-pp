@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,20 @@ language_names! {
     versions: [Dataflex => "DataFlex"],
     extensions: [],
 }
+
+const DATAFLEX: &str = concat!(
+    r"/tela
+
+",
+    output_for_hello_world!(),
+    r"
+
+/*
+
+clearscreen
+
+page tela"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,34 +43,27 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Dataflex,
-            syntax: concat!(
-                r"/tela
+            syntax: DATAFLEX,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    DATAFLEX,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"/tela
 
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 
 /*
 
 clearscreen
 
 page tela"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"/tela
-
-",
-                    output_for_hello_world!(),
-                    r"
-
-/*
-
-clearscreen
-
-page tela"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

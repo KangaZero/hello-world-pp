@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,20 @@ language_names! {
     versions: [AssemblerMmix => "Assembler MMIX"],
     extensions: [],
 }
+
+const ASSEMBLER_MMIX: &str = concat!(
+    r#"t	IS	$255
+	LOC	Data_Segment
+	GREG	@
+String	BYTE	""#,
+    output_for_hello_world!(),
+    r#"",#a,0
+
+	LOC	#100
+Main	LDA	t,String
+	TRAP	0,Fputs,StdOut
+	TRAP	0,Halt,0"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,34 +43,27 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblerMmix,
-            syntax: concat!(
-                r#"t	IS	$255
+            syntax: ASSEMBLER_MMIX,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_MMIX,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"t	IS	$255
 	LOC	Data_Segment
 	GREG	@
 String	BYTE	""#,
-                output_for_hello_world!(),
-                r#"",#a,0
+                            output_for_hello_world!(),
+                            r#"",#a,0
 
 	LOC	#100
 Main	LDA	t,String
 	TRAP	0,Fputs,StdOut
 	TRAP	0,Halt,0"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"t	IS	$255
-	LOC	Data_Segment
-	GREG	@
-String	BYTE	""#,
-                    output_for_hello_world!(),
-                    r#"",#a,0
-
-	LOC	#100
-Main	LDA	t,String
-	TRAP	0,Fputs,StdOut
-	TRAP	0,Halt,0"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

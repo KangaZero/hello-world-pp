@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,8 @@ language_names! {
     versions: [Euphoria => "Euphoria"],
     extensions: [],
 }
+
+const EUPHORIA: &str = concat!(r#"puts(1, ""#, output_for_hello_world!(), r#"")"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,18 +31,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Basic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Euphoria,
-            syntax: concat!(r#"puts(1, ""#, output_for_hello_world!(), r#"")"#),
-            tokenized_syntax: &[
-                (TokenKind::Function, r"puts"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Number, r"1"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r")"),
-            ],
+            syntax: EUPHORIA,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    EUPHORIA,
+                    [
+                        (TokenKind::Function, r"puts"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Number, r"1"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r")"),
+                    ],
+                )
+            },
         }],
     };

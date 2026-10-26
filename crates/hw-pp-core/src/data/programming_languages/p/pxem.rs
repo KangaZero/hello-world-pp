@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,8 @@ language_names! {
     versions: [Pxem => "Pxem"],
     extensions: [],
 }
+
+const PXEM: &str = concat!(output_for_hello_world!(), r".pxe");
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Pxem,
-            syntax: concat!(output_for_hello_world!(), r".pxe"),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(output_for_hello_world!(), r".pxe"),
-            )],
+            syntax: PXEM,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PXEM,
+                    [(
+                        TokenKind::Plain,
+                        concat!(output_for_hello_world!(), r".pxe"),
+                    )],
+                )
+            },
         }],
     };

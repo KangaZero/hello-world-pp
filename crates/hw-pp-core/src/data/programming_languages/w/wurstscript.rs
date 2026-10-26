@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,16 @@ language_names! {
     versions: [Wurstscript => "WurstScript"],
     extensions: [Wurst => "wurst"],
 }
+
+const WURSTSCRIPT: &str = concat!(
+    r#"package HelloWurst
+import Printing
+
+init
+	print(""#,
+    output_for_hello_world!(),
+    r#"")"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,42 +39,39 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Wurstscript,
-            syntax: concat!(
-                r#"package HelloWurst
-import Printing
-
-init
-	print(""#,
-                output_for_hello_world!(),
-                r#"")"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"package"),
-                (
-                    TokenKind::Plain,
-                    r" HelloWurst
+            syntax: WURSTSCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    WURSTSCRIPT,
+                    [
+                        (TokenKind::Keyword, r"package"),
+                        (
+                            TokenKind::Plain,
+                            r" HelloWurst
 ",
-                ),
-                (TokenKind::Keyword, r"import"),
-                (
-                    TokenKind::Plain,
-                    r" Printing
+                        ),
+                        (TokenKind::Keyword, r"import"),
+                        (
+                            TokenKind::Plain,
+                            r" Printing
 
 ",
-                ),
-                (TokenKind::Keyword, r"init"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"init"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	",
-                ),
-                (TokenKind::Function, r"print"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r")"),
-            ],
+                        ),
+                        (TokenKind::Function, r"print"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r")"),
+                    ],
+                )
+            },
         }],
     };

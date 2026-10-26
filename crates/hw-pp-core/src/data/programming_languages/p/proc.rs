@@ -14,7 +14,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -22,6 +22,37 @@ language_names! {
     versions: [Proc => "ProC"],
     extensions: [],
 }
+
+const PROC: &str = concat!(
+    r"/* ",
+    output_for_hello_world!(),
+    r#" in Pro*C, the Oracle's embedded SQL environment */
+
+#include <stdio.h>
+
+EXEC SQL INCLUDE SQLCA;
+
+int main() {
+   char hello[15];
+   char *user = "the_user";
+   char *password = "the_password";
+   char *sid = "the_sid";
+
+   EXEC SQL CONNECT :user IDENTIFIED BY :password USING :sid;
+
+   EXEC SQL
+      SELECT '"#,
+    output_for_hello_world!(),
+    r#"' INTO :hello
+      FROM DUAL;
+
+   printf("%s\n", hello);
+
+   EXEC SQL COMMIT RELEASE;
+ 
+   return 0;
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -31,10 +62,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[C, Cpp],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Proc,
-            syntax: concat!(
-                r"/* ",
-                output_for_hello_world!(),
-                r#" in Pro*C, the Oracle's embedded SQL environment */
+            syntax: PROC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PROC,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"/* ",
+                            output_for_hello_world!(),
+                            r#" in Pro*C, the Oracle's embedded SQL environment */
 
 #include <stdio.h>
 
@@ -50,8 +87,8 @@ int main() {
 
    EXEC SQL
       SELECT '"#,
-                output_for_hello_world!(),
-                r#"' INTO :hello
+                            output_for_hello_world!(),
+                            r#"' INTO :hello
       FROM DUAL;
 
    printf("%s\n", hello);
@@ -60,39 +97,9 @@ int main() {
  
    return 0;
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"/* ",
-                    output_for_hello_world!(),
-                    r#" in Pro*C, the Oracle's embedded SQL environment */
-
-#include <stdio.h>
-
-EXEC SQL INCLUDE SQLCA;
-
-int main() {
-   char hello[15];
-   char *user = "the_user";
-   char *password = "the_password";
-   char *sid = "the_sid";
-
-   EXEC SQL CONNECT :user IDENTIFIED BY :password USING :sid;
-
-   EXEC SQL
-      SELECT '"#,
-                    output_for_hello_world!(),
-                    r#"' INTO :hello
-      FROM DUAL;
-
-   printf("%s\n", hello);
-
-   EXEC SQL COMMIT RELEASE;
- 
-   return 0;
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

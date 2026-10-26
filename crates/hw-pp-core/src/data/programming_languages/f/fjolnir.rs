@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,24 @@ language_names! {
     versions: [Fjolnir => "Fjölnir"],
     extensions: [],
 }
+
+const FJOLNIR: &str = concat!(
+    r";; ",
+    output_for_hello_world!(),
+    r#" in Fjölnir (Icelandic programming language)
+
+"hello" < main
+{
+   main ->
+   stef(;)
+   stofn
+       skrifastreng(;"Halló Veröld!"),
+   stofnlok
+}
+*
+"GRUNNUR"
+;"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +48,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Fjolnir,
-            syntax: concat!(
-                r";; ",
-                output_for_hello_world!(),
-                r#" in Fjölnir (Icelandic programming language)
+            syntax: FJOLNIR,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FJOLNIR,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r";; ",
+                            output_for_hello_world!(),
+                            r#" in Fjölnir (Icelandic programming language)
 
 "hello" < main
 {
@@ -46,26 +70,9 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 *
 "GRUNNUR"
 ;"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r";; ",
-                    output_for_hello_world!(),
-                    r#" in Fjölnir (Icelandic programming language)
-
-"hello" < main
-{
-   main ->
-   stef(;)
-   stofn
-       skrifastreng(;"Halló Veröld!"),
-   stofnlok
-}
-*
-"GRUNNUR"
-;"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

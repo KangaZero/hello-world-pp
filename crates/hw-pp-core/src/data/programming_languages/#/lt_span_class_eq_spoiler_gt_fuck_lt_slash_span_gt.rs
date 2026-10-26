@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: LtSpanClassEqSpoilerGtFuckLtSlashSpanGt => "<span class=\"spoiler\">Fuck</span>",
     versions: [LtSpanClassEqSpoilerGtFuckLtSlashSpanGt => "<span class=\"spoiler\">Fuck</span>"],
     extensions: [],
 }
+
+const LT_SPAN_CLASS_EQ_SPOILER_GT_FUCK_LT_SLASH_SPAN_GT: &str = r#" ++++++++<span class="spoiler">>++++<span class="spoiler">>++>+++>+++>+<<<<-</span>>+>+>->>+<span class="spoiler"><</span><-</span>>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."#;
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::LtSpanClassEqSpoilerGtFuckLtSlashSpanGt,
-            syntax: r#" ++++++++<span class="spoiler">>++++<span class="spoiler">>++>+++>+++>+<<<<-</span>>+>+>->>+<span class="spoiler"><</span><-</span>>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."#,
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r#" ++++++++<span class="spoiler">>++++<span class="spoiler">>++>+++>+++>+<<<<-</span>>+>+>->>+<span class="spoiler"><</span><-</span>>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."#,
-            )],
+            syntax: LT_SPAN_CLASS_EQ_SPOILER_GT_FUCK_LT_SLASH_SPAN_GT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LT_SPAN_CLASS_EQ_SPOILER_GT_FUCK_LT_SLASH_SPAN_GT,
+                    [(
+                        TokenKind::Plain,
+                        r#" ++++++++<span class="spoiler">>++++<span class="spoiler">>++>+++>+++>+<<<<-</span>>+>+>->>+<span class="spoiler"><</span><-</span>>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."#,
+                    )],
+                )
+            },
         }],
     };

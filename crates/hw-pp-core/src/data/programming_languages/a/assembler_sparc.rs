@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,28 @@ language_names! {
     versions: [AssemblerSparc => "Assembler (SPARC)"],
     extensions: [],
 }
+
+const ASSEMBLER_SPARC: &str = concat!(
+    r"! ",
+    output_for_hello_world!(),
+    r#" in SPARC Assembly Language
+
+	.section			".data1"
+	.align		4
+.L16:
+	.ascii   ""#,
+    output_for_hello_world!(),
+    r#"\n\0"
+
+	.section  ".text"
+	.global  main
+main:
+	save  %sp,-96,%sp
+	set  .L16,%o0
+	call  printf,1
+	nop
+	restore"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,17 +52,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblerSparc,
-            syntax: concat!(
-                r"! ",
-                output_for_hello_world!(),
-                r#" in SPARC Assembly Language
+            syntax: ASSEMBLER_SPARC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_SPARC,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"! ",
+                            output_for_hello_world!(),
+                            r#" in SPARC Assembly Language
 
 	.section			".data1"
 	.align		4
 .L16:
 	.ascii   ""#,
-                output_for_hello_world!(),
-                r#"\n\0"
+                            output_for_hello_world!(),
+                            r#"\n\0"
 
 	.section  ".text"
 	.global  main
@@ -50,30 +78,9 @@ main:
 	call  printf,1
 	nop
 	restore"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"! ",
-                    output_for_hello_world!(),
-                    r#" in SPARC Assembly Language
-
-	.section			".data1"
-	.align		4
-.L16:
-	.ascii   ""#,
-                    output_for_hello_world!(),
-                    r#"\n\0"
-
-	.section  ".text"
-	.global  main
-main:
-	save  %sp,-96,%sp
-	set  .L16,%o0
-	call  printf,1
-	nop
-	restore"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

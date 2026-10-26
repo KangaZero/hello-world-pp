@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Zalgo => "Zalgo",
     versions: [Zalgo => "Zalgo"],
     extensions: [],
 }
+
+const ZALGO: &str = r"A̝̝̝̝̝̝̝̝̝̝̝̝̝̐̈̄̐̅̆̐̌̆̐̌̆̐̏̆̐̌̂̐̀̂̐̇̇̐̏̆̐̂̇̐̌̆̐̄̆̐́̂";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +32,9 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Zalgo,
-            syntax: r"A̝̝̝̝̝̝̝̝̝̝̝̝̝̐̈̄̐̅̆̐̌̆̐̌̆̐̏̆̐̌̂̐̀̂̐̇̇̐̏̆̐̂̇̐̌̆̐̄̆̐́̂",
-            tokenized_syntax: &[(TokenKind::Plain, r"A̝̝̝̝̝̝̝̝̝̝̝̝̝̐̈̄̐̅̆̐̌̆̐̌̆̐̏̆̐̌̂̐̀̂̐̇̇̐̏̆̐̂̇̐̌̆̐̄̆̐́̂")],
+            syntax: ZALGO,
+            tokenized_syntax: &const {
+                checked_token_lengths(ZALGO, [(TokenKind::Plain, r"A̝̝̝̝̝̝̝̝̝̝̝̝̝̐̈̄̐̅̆̐̌̆̐̌̆̐̏̆̐̌̂̐̀̂̐̇̇̐̏̆̐̂̇̐̌̆̐̄̆̐́̂")])
+            },
         }],
     };

@@ -11,13 +11,37 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: AssemblyLanguage => "Assembly language",
     versions: [AssemblyLanguage => "Assembly language"],
     extensions: [],
 }
+
+const ASSEMBLY_LANGUAGE: &str = r"DAT 01 48
+MOV 00 01
+DAT 01 65
+MOV 00 01
+DAT 01 6C
+MOV 00 01
+MOV 00 01
+DAT 02 6F
+MOV 00 02
+DAT 01 20
+MOV 00 01
+DAT 01 77
+MOV 00 01
+MOV 00 02
+DAT 01 72
+MOV 00 01
+DAT 01 6C
+MOV 00 01
+DAT 01 64
+MOV 00 01";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +51,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblyLanguage,
-            syntax: r"DAT 01 48
+            syntax: ASSEMBLY_LANGUAGE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLY_LANGUAGE,
+                    [(
+                        TokenKind::Plain,
+                        r"DAT 01 48
 MOV 00 01
 DAT 01 65
 MOV 00 01
@@ -47,28 +77,8 @@ DAT 01 6C
 MOV 00 01
 DAT 01 64
 MOV 00 01",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"DAT 01 48
-MOV 00 01
-DAT 01 65
-MOV 00 01
-DAT 01 6C
-MOV 00 01
-MOV 00 01
-DAT 02 6F
-MOV 00 02
-DAT 01 20
-MOV 00 01
-DAT 01 77
-MOV 00 01
-MOV 00 02
-DAT 01 72
-MOV 00 01
-DAT 01 6C
-MOV 00 01
-DAT 01 64
-MOV 00 01",
-            )],
+                    )],
+                )
+            },
         }],
     };

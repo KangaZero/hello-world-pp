@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,25 @@ language_names! {
     versions: [Clarion => "Clarion"],
     extensions: [],
 }
+
+const CLARION: &str = concat!(
+    r"!",
+    output_for_hello_world!(),
+    r" in Clarion 
+ 
+  PROGRAM
+ 
+ MAP
+ END
+ 
+ CODE
+ 
+ MESSAGE('",
+    output_for_hello_world!(),
+    r"')
+ 
+ RETURN"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +49,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Clarion,
-            syntax: concat!(
-                r"!",
-                output_for_hello_world!(),
-                r" in Clarion 
+            syntax: CLARION,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CLARION,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"!",
+                            output_for_hello_world!(),
+                            r" in Clarion 
  
   PROGRAM
  
@@ -43,31 +68,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
  CODE
  
  MESSAGE('",
-                output_for_hello_world!(),
-                r"')
+                            output_for_hello_world!(),
+                            r"')
  
  RETURN"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"!",
-                    output_for_hello_world!(),
-                    r" in Clarion 
- 
-  PROGRAM
- 
- MAP
- END
- 
- CODE
- 
- MESSAGE('",
-                    output_for_hello_world!(),
-                    r"')
- 
- RETURN"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,18 +21,10 @@ language_names! {
     extensions: [Yaml => "yaml"],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::GithubActions,
-        extensions: &[FileExtension::Yaml],
-        categories: &[Configuration],
-        families: &[],
-        versions: &[ProgrammingLanguageVersion {
-            label: ProgrammingLanguageDialect::GithubActions,
-            syntax: concat!(
-                r"name: ",
-                output_for_hello_world!(),
-                r#"
+const GITHUB_ACTIONS: &str = concat!(
+    r"name: ",
+    output_for_hello_world!(),
+    r#"
 
 on:
   workflow_dispatch
@@ -42,72 +34,87 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo ""#,
-                output_for_hello_world!(),
-                r#"""#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::String, r"name"),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::String, output_for_hello_world!()),
-                (
-                    TokenKind::Plain,
-                    r"
+    output_for_hello_world!(),
+    r#"""#
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::GithubActions,
+        extensions: &[FileExtension::Yaml],
+        categories: &[Configuration],
+        families: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::GithubActions,
+            syntax: GITHUB_ACTIONS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    GITHUB_ACTIONS,
+                    [
+                        (TokenKind::String, r"name"),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::String, output_for_hello_world!()),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 on",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::String, r"workflow_dispatch"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::String, r"workflow_dispatch"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::String, r"jobs"),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::String, r"jobs"),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::String, r"hello"),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::String, r"hello"),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::String, r"runs-on"),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::String, r"ubuntu-latest"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::String, r"runs-on"),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::String, r"ubuntu-latest"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::String, r"steps"),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::String, r"steps"),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
       ",
-                ),
-                (TokenKind::Punctuation, r"-"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::String, r"run"),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"echo ""#, output_for_hello_world!(), r#"""#),
-                ),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"-"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::String, r"run"),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"echo ""#, output_for_hello_world!(), r#"""#),
+                        ),
+                    ],
+                )
+            },
         }],
     };

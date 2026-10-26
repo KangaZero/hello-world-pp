@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,14 @@ language_names! {
     versions: [Lotusscript => "LotusScript"],
     extensions: [Lss => "lss"],
 }
+
+const LOTUSSCRIPT: &str = concat!(
+    r#"Sub Initialize
+	Print ""#,
+    output_for_hello_world!(),
+    r#""
+End Sub"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,34 +38,33 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Basic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Lotusscript,
-            syntax: concat!(
-                r#"Sub Initialize
-	Print ""#,
-                output_for_hello_world!(),
-                r#""
-End Sub"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"Sub"),
-                (
-                    TokenKind::Plain,
-                    r" Initialize
+            syntax: LOTUSSCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LOTUSSCRIPT,
+                    [
+                        (TokenKind::Keyword, r"Sub"),
+                        (
+                            TokenKind::Plain,
+                            r" Initialize
 	",
-                ),
-                (TokenKind::Keyword, r"Print"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"Print"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"End"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"Sub"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"End"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"Sub"),
+                    ],
+                )
+            },
         }],
     };

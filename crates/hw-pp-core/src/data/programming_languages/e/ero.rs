@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,13 @@ language_names! {
     versions: [Ero => "Ero"],
     extensions: [],
 }
+
+const ERO: &str = concat!(
+    r#":.1|::1>>""#,
+    output_for_hello_world!(),
+    r#"":|:
+:.8|::2>>1>>1:|:"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,20 +37,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ero,
-            syntax: concat!(
-                r#":.1|::1>>""#,
-                output_for_hello_world!(),
-                r#"":|:
+            syntax: ERO,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ERO,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#":.1|::1>>""#,
+                            output_for_hello_world!(),
+                            r#"":|:
 :.8|::2>>1>>1:|:"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#":.1|::1>>""#,
-                    output_for_hello_world!(),
-                    r#"":|:
-:.8|::2>>1>>1:|:"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

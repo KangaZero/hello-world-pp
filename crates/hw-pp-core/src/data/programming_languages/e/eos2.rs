@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,20 @@ language_names! {
     versions: [Eos2 => "EOS 2"],
     extensions: [],
 }
+
+const EOS2: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in EOS 2
+
+Fenster:Fenster
+Text:Textfeld
+
+Fenster.zeichne(Text)
+Text.zeileHinzufügen(""#,
+    output_for_hello_world!(),
+    r#"")"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,34 +44,27 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Eos2,
-            syntax: concat!(
-                r"// ",
-                output_for_hello_world!(),
-                r#" in EOS 2
+            syntax: EOS2,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    EOS2,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"// ",
+                            output_for_hello_world!(),
+                            r#" in EOS 2
 
 Fenster:Fenster
 Text:Textfeld
 
 Fenster.zeichne(Text)
 Text.zeileHinzufügen(""#,
-                output_for_hello_world!(),
-                r#"")"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in EOS 2
-
-Fenster:Fenster
-Text:Textfeld
-
-Fenster.zeichne(Text)
-Text.zeileHinzufügen(""#,
-                    output_for_hello_world!(),
-                    r#"")"#
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r#"")"#
+                        ),
+                    )],
+                )
+            },
         }],
     };

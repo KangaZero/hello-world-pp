@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,20 @@ language_names! {
     versions: [AssemblerLc3 => "Assembler lc3"],
     extensions: [],
 }
+
+const ASSEMBLER_LC3: &str = concat!(
+    r#"			.ORIG x3000
+
+			LEA R0, HELLOWORLD
+			PUTS
+			HALT
+	
+HELLOWORLD	.STRINGZ ""#,
+    output_for_hello_world!(),
+    r#"\n"
+
+			.END"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,64 +43,57 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblerLc3,
-            syntax: concat!(
-                r#"			.ORIG x3000
-
-			LEA R0, HELLOWORLD
-			PUTS
-			HALT
-	
-HELLOWORLD	.STRINGZ ""#,
-                output_for_hello_world!(),
-                r#"\n"
-
-			.END"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Plain, r"			"),
-                (TokenKind::Macro, r".ORIG"),
-                (
-                    TokenKind::Plain,
-                    r" x3000
+            syntax: ASSEMBLER_LC3,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_LC3,
+                    [
+                        (TokenKind::Plain, r"			"),
+                        (TokenKind::Macro, r".ORIG"),
+                        (
+                            TokenKind::Plain,
+                            r" x3000
 
 			",
-                ),
-                (TokenKind::Keyword, r"LEA"),
-                (TokenKind::Plain, r" R0"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r" HELLOWORLD
+                        ),
+                        (TokenKind::Keyword, r"LEA"),
+                        (TokenKind::Plain, r" R0"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r" HELLOWORLD
 			",
-                ),
-                (TokenKind::Keyword, r"PUTS"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"PUTS"),
+                        (
+                            TokenKind::Plain,
+                            r"
 			",
-                ),
-                (TokenKind::Keyword, r"HALT"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"HALT"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	
 ",
-                ),
-                (TokenKind::Keyword, r"HELLOWORLD"),
-                (TokenKind::Plain, r"	"),
-                (TokenKind::Macro, r".STRINGZ"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"HELLOWORLD"),
+                        (TokenKind::Plain, r"	"),
+                        (TokenKind::Macro, r".STRINGZ"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 			",
-                ),
-                (TokenKind::Macro, r".END"),
-            ],
+                        ),
+                        (TokenKind::Macro, r".END"),
+                    ],
+                )
+            },
         }],
     };

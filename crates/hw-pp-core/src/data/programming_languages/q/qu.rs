@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,13 @@ language_names! {
     versions: [Qu => "QU"],
     extensions: [Qu => "qu"],
 }
+
+const QU: &str = concat!(
+    r"'",
+    output_for_hello_world!(),
+    r"'
+test"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,20 +36,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Qu,
-            syntax: concat!(
-                r"'",
-                output_for_hello_world!(),
-                r"'
+            syntax: QU,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    QU,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"'",
+                            output_for_hello_world!(),
+                            r"'
 test"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"'",
-                    output_for_hello_world!(),
-                    r"'
-test"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

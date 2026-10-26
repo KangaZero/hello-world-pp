@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Acl => "ACL",
     versions: [Acl => "ACL"],
     extensions: [],
 }
+
+const ACL: &str = r"34344343444C3443443434343C34434344344C34434344344C34434344443C34344444C3434343434443C34434344443C34443443434C34434344344C34434434344C3434444343CC";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Acl,
-            syntax: r"34344343444C3443443434343C34434344344C34434344344C34434344443C34344444C3434343434443C34434344443C34443443434C34434344344C34434434344C3434444343CC",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"34344343444C3443443434343C34434344344C34434344344C34434344443C34344444C3434343434443C34434344443C34443443434C34434344344C34434434344C3434444343CC",
-            )],
+            syntax: ACL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ACL,
+                    [(
+                        TokenKind::Plain,
+                        r"34344343444C3443443434343C34434344344C34434344344C34434344443C34344444C3434343434443C34434344443C34443443434C34434344344C34434434344C3434444343CC",
+                    )],
+                )
+            },
         }],
     };

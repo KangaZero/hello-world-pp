@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,30 @@ language_names! {
     versions: [Sycpol => "SYCPOL"],
     extensions: [],
 }
+
+const SYCPOL: &str = concat!(
+    r#"COMMENT           CARD
+STANDARD SYSTEM CARD I
+
+THESE  CARDS  PROVIDED
+IN THIS  FILE  ARE THE
+IMPLEMENTATION  OF THE
+FAMOUS  ""#,
+    output_for_hello_world!(),
+    r#""
+PROGRAM   IN   SYCPOL.
+
+THE IMPLEMENTATION  OF
+THE  "PRINT TO STREAM"
+PROCEDURE     FROM THE
+STANDARD LIBRARY    IS
+INCLUDED FOR THOSE WHO
+DON'T HAVE IT ALREADY.
+
+THESE CARDS        ARE
+RELEASED  IN SO CALLED
+"PUBLIC DOMAIN"."#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,16 +54,22 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sycpol,
-            syntax: concat!(
-                r#"COMMENT           CARD
+            syntax: SYCPOL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SYCPOL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"COMMENT           CARD
 STANDARD SYSTEM CARD I
 
 THESE  CARDS  PROVIDED
 IN THIS  FILE  ARE THE
 IMPLEMENTATION  OF THE
 FAMOUS  ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 PROGRAM   IN   SYCPOL.
 
 THE IMPLEMENTATION  OF
@@ -52,32 +82,9 @@ DON'T HAVE IT ALREADY.
 THESE CARDS        ARE
 RELEASED  IN SO CALLED
 "PUBLIC DOMAIN"."#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"COMMENT           CARD
-STANDARD SYSTEM CARD I
-
-THESE  CARDS  PROVIDED
-IN THIS  FILE  ARE THE
-IMPLEMENTATION  OF THE
-FAMOUS  ""#,
-                    output_for_hello_world!(),
-                    r#""
-PROGRAM   IN   SYCPOL.
-
-THE IMPLEMENTATION  OF
-THE  "PRINT TO STREAM"
-PROCEDURE     FROM THE
-STANDARD LIBRARY    IS
-INCLUDED FOR THOSE WHO
-DON'T HAVE IT ALREADY.
-
-THESE CARDS        ARE
-RELEASED  IN SO CALLED
-"PUBLIC DOMAIN"."#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

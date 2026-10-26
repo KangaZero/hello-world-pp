@@ -10,13 +10,20 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Homespring => "Homespring",
     versions: [Homespring => "Homespring"],
     extensions: [Homespring => "homespring"],
 }
+
+const HOMESPRING: &str = r"Universe bear hatchery powers world.
+    bear hatchery powers o.      bear hatchery powers hell     marshy marshy marshy a snowmelt
+";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,14 +33,17 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Homespring,
-            syntax: r"Universe bear hatchery powers world.
+            syntax: HOMESPRING,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    HOMESPRING,
+                    [(
+                        TokenKind::Plain,
+                        r"Universe bear hatchery powers world.
     bear hatchery powers o.      bear hatchery powers hell     marshy marshy marshy a snowmelt
 ",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"Universe bear hatchery powers world.
-    bear hatchery powers o.      bear hatchery powers hell     marshy marshy marshy a snowmelt
-",
-            )],
+                    )],
+                )
+            },
         }],
     };

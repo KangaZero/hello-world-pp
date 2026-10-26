@@ -11,13 +11,20 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Anypl => "AnyPL",
     versions: [Anypl => "AnyPL"],
     extensions: [],
 }
+
+const ANYPL: &str = r"HelloWor 0001 .2.. S1.. .3.. .3.. Tr.. .1.c ---- ........ [ Put the strings to the tape. ]
+ld...... 0010 .<.. 1.0. .<.. .... .... .... 121= ........ [ Output.                      ]
+........ 0001 .... .... .... .... .... .... -11. ........ [ End execution.               ]";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,14 +34,17 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Anypl,
-            syntax: r"HelloWor 0001 .2.. S1.. .3.. .3.. Tr.. .1.c ---- ........ [ Put the strings to the tape. ]
+            syntax: ANYPL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ANYPL,
+                    [(
+                        TokenKind::Plain,
+                        r"HelloWor 0001 .2.. S1.. .3.. .3.. Tr.. .1.c ---- ........ [ Put the strings to the tape. ]
 ld...... 0010 .<.. 1.0. .<.. .... .... .... 121= ........ [ Output.                      ]
 ........ 0001 .... .... .... .... .... .... -11. ........ [ End execution.               ]",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"HelloWor 0001 .2.. S1.. .3.. .3.. Tr.. .1.c ---- ........ [ Put the strings to the tape. ]
-ld...... 0010 .<.. 1.0. .<.. .... .... .... 121= ........ [ Output.                      ]
-........ 0001 .... .... .... .... .... .... -11. ........ [ End execution.               ]",
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Minusintplus => "MinusIntPlus",
     versions: [Minusintplus => "MinusIntPlus"],
     extensions: [],
 }
+
+const MINUSINTPLUS: &str = r"-184+-228+-250+-+-254+-68+-13+-202+-233+-254+-7+-9+-68+";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Minusintplus,
-            syntax: r"-184+-228+-250+-+-254+-68+-13+-202+-233+-254+-7+-9+-68+",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"-184+-228+-250+-+-254+-68+-13+-202+-233+-254+-7+-9+-68+",
-            )],
+            syntax: MINUSINTPLUS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MINUSINTPLUS,
+                    [(
+                        TokenKind::Plain,
+                        r"-184+-228+-250+-+-254+-68+-13+-202+-233+-254+-7+-9+-68+",
+                    )],
+                )
+            },
         }],
     };

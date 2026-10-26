@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,12 @@ language_names! {
     versions: [Bolgefuck => "Bolgefuck"],
     extensions: [],
 }
+
+const BOLGEFUCK: &str = concat!(
+    r"wimpmodesHpsepslpslpsops psWpsopsrpslpsdpH     //",
+    output_for_hello_world!(),
+    r" without moving pointers in wimpmode"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,18 +35,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Bolgefuck,
-            syntax: concat!(
-                r"wimpmodesHpsepslpslpsops psWpsopsrpslpsdpH     //",
-                output_for_hello_world!(),
-                r" without moving pointers in wimpmode"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"wimpmodesHpsepslpslpsops psWpsopsrpslpsdpH     //",
-                    output_for_hello_world!(),
-                    r" without moving pointers in wimpmode"
-                ),
-            )],
+            syntax: BOLGEFUCK,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BOLGEFUCK,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"wimpmodesHpsepslpslpsops psWpsopsrpslpsdpH     //",
+                            output_for_hello_world!(),
+                            r" without moving pointers in wimpmode"
+                        ),
+                    )],
+                )
+            },
         }],
     };

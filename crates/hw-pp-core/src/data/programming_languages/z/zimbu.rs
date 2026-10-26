@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,15 @@ language_names! {
     versions: [Zimbu => "Zimbu"],
     extensions: [Zu => "zu"],
 }
+
+const ZIMBU: &str = concat!(
+    r#"FUNC Main() int
+  IO.write(""#,
+    output_for_hello_world!(),
+    r#"\n")
+  RETURN 0
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,43 +38,41 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Zimbu,
-            syntax: concat!(
-                r#"FUNC Main() int
-  IO.write(""#,
-                output_for_hello_world!(),
-                r#"\n")
-  RETURN 0
-}"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Plain, r"FUNC "),
-                (TokenKind::Function, r"Main"),
-                (TokenKind::Punctuation, r"()"),
-                (
-                    TokenKind::Plain,
-                    r" int
+            syntax: ZIMBU,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ZIMBU,
+                    [
+                        (TokenKind::Plain, r"FUNC "),
+                        (TokenKind::Function, r"Main"),
+                        (TokenKind::Punctuation, r"()"),
+                        (
+                            TokenKind::Plain,
+                            r" int
   IO",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"write"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
-                ),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"write"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                        ),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
   RETURN ",
-                ),
-                (TokenKind::Number, r"0"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Number, r"0"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                    ],
+                )
+            },
         }],
     };

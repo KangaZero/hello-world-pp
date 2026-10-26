@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Objlang => "ObjLang",
     versions: [Objlang => "ObjLang"],
     extensions: [],
 }
+
+const OBJLANG: &str = r"e9oFcHJpbnRbAQAAAPoNSGVsbG8sIFdvcmxkITA=";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Objlang,
-            syntax: r"e9oFcHJpbnRbAQAAAPoNSGVsbG8sIFdvcmxkITA=",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"e9oFcHJpbnRbAQAAAPoNSGVsbG8sIFdvcmxkITA=",
-            )],
+            syntax: OBJLANG,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    OBJLANG,
+                    [(
+                        TokenKind::Plain,
+                        r"e9oFcHJpbnRbAQAAAPoNSGVsbG8sIFdvcmxkITA=",
+                    )],
+                )
+            },
         }],
     };

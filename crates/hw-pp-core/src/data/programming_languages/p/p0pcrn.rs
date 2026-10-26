@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,34 @@ language_names! {
     versions: [P0pcrn => "P0pCrn"],
     extensions: [],
 }
+
+const P0PCRN: &str = concat!(
+    r#"_P    _0    _p    _!
+@o    #o    $o    st
+p_    p_    p_    r_
+Th    ms    P0    op
+is    g_    pC 
+is    op    rn
+wh    P0    =_
+at    pC    He
+co    rn    ll
+mm          o_
+en          wo
+ts          rl
+lo          d!
+ok
+li 
+ke 
+in
+P0
+pC
+rn
+!
+
+Outputs ""#,
+    output_for_hello_world!(),
+    r#"""#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,8 +58,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::P0pcrn,
-            syntax: concat!(
-                r#"_P    _0    _p    _!
+            syntax: P0PCRN,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    P0PCRN,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"_P    _0    _p    _!
 @o    #o    $o    st
 p_    p_    p_    r_
 Th    ms    P0    op
@@ -54,38 +88,11 @@ rn
 !
 
 Outputs ""#,
-                output_for_hello_world!(),
-                r#"""#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"_P    _0    _p    _!
-@o    #o    $o    st
-p_    p_    p_    r_
-Th    ms    P0    op
-is    g_    pC 
-is    op    rn
-wh    P0    =_
-at    pC    He
-co    rn    ll
-mm          o_
-en          wo
-ts          rl
-lo          d!
-ok
-li 
-ke 
-in
-P0
-pC
-rn
-!
-
-Outputs ""#,
-                    output_for_hello_world!(),
-                    r#"""#
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r#"""#
+                        ),
+                    )],
+                )
+            },
         }],
     };

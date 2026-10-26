@@ -11,13 +11,129 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Fakec => "FakeC",
     versions: [Fakec => "FakeC"],
     extensions: [],
 }
+
+const FAKEC: &str = r"#include<stdio.h>
+char tape[1000000];
+int p;
+int main(){
+++tape[p];
+++tape[p];
+++tape[p];
+++tape[p];
+++tape[p];
+++tape[p];
+++tape[p];
+++tape[p];
+while(tape[p]){
+++p;
+++tape[p];
+++tape[p];
+++tape[p];
+++tape[p];
+while(tape[p]){
+++p;
+++tape[p];
+++tape[p];
+++p;
+++tape[p];
+++tape[p];
+++tape[p];
+++p;
+++tape[p];
+++tape[p];
+++tape[p];
+++p;
+++tape[p];
+--p;
+--p;
+--p;
+--p;
+--tape[p];
+}
+++p;
+++tape[p];
+++p;
+++tape[p];
+++p;
+--tape[p];
+++p;
+++p;
+++tape[p];
+while(tape[p]){
+--p;
+}
+--p;
+--tape[p];
+}
+++p;
+++p;
+putchar(tape[p]);
+++p;
+--tape[p];
+--tape[p];
+--tape[p];
+putchar(tape[p]);
+++tape[p];
+++tape[p];
+++tape[p];
+++tape[p];
+++tape[p];
+++tape[p];
+++tape[p];
+putchar(tape[p]);
+putchar(tape[p]);
+++tape[p];
+++tape[p];
+++tape[p];
+putchar(tape[p]);
+++p;
+++p;
+putchar(tape[p]);
+--p;
+--tape[p];
+putchar(tape[p]);
+--p;
+putchar(tape[p]);
+++tape[p];
+++tape[p];
+++tape[p];
+putchar(tape[p]);
+--tape[p];
+--tape[p];
+--tape[p];
+--tape[p];
+--tape[p];
+--tape[p];
+putchar(tape[p]);
+--tape[p];
+--tape[p];
+--tape[p];
+--tape[p];
+--tape[p];
+--tape[p];
+--tape[p];
+--tape[p];
+putchar(tape[p]);
+++p;
+++p;
+++tape[p];
+putchar(tape[p]);
+++p;
+++tape[p];
+++tape[p];
+putchar(tape[p]);
+return 0;
+}";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +143,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Fakec,
-            syntax: r"#include<stdio.h>
+            syntax: FAKEC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FAKEC,
+                    [(
+                        TokenKind::Plain,
+                        r"#include<stdio.h>
 char tape[1000000];
 int p;
 int main(){
@@ -139,120 +261,8 @@ putchar(tape[p]);
 putchar(tape[p]);
 return 0;
 }",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"#include<stdio.h>
-char tape[1000000];
-int p;
-int main(){
-++tape[p];
-++tape[p];
-++tape[p];
-++tape[p];
-++tape[p];
-++tape[p];
-++tape[p];
-++tape[p];
-while(tape[p]){
-++p;
-++tape[p];
-++tape[p];
-++tape[p];
-++tape[p];
-while(tape[p]){
-++p;
-++tape[p];
-++tape[p];
-++p;
-++tape[p];
-++tape[p];
-++tape[p];
-++p;
-++tape[p];
-++tape[p];
-++tape[p];
-++p;
-++tape[p];
---p;
---p;
---p;
---p;
---tape[p];
-}
-++p;
-++tape[p];
-++p;
-++tape[p];
-++p;
---tape[p];
-++p;
-++p;
-++tape[p];
-while(tape[p]){
---p;
-}
---p;
---tape[p];
-}
-++p;
-++p;
-putchar(tape[p]);
-++p;
---tape[p];
---tape[p];
---tape[p];
-putchar(tape[p]);
-++tape[p];
-++tape[p];
-++tape[p];
-++tape[p];
-++tape[p];
-++tape[p];
-++tape[p];
-putchar(tape[p]);
-putchar(tape[p]);
-++tape[p];
-++tape[p];
-++tape[p];
-putchar(tape[p]);
-++p;
-++p;
-putchar(tape[p]);
---p;
---tape[p];
-putchar(tape[p]);
---p;
-putchar(tape[p]);
-++tape[p];
-++tape[p];
-++tape[p];
-putchar(tape[p]);
---tape[p];
---tape[p];
---tape[p];
---tape[p];
---tape[p];
---tape[p];
-putchar(tape[p]);
---tape[p];
---tape[p];
---tape[p];
---tape[p];
---tape[p];
---tape[p];
---tape[p];
---tape[p];
-putchar(tape[p]);
-++p;
-++p;
-++tape[p];
-putchar(tape[p]);
-++p;
-++tape[p];
-++tape[p];
-putchar(tape[p]);
-return 0;
-}",
-            )],
+                    )],
+                )
+            },
         }],
     };

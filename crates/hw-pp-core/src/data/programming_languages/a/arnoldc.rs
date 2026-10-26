@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [Arnoldc => "ArnoldC"],
     extensions: [Arnoldc => "arnoldc"],
 }
+
+const ARNOLDC: &str = concat!(
+    r#"IT'S SHOWTIME
+TALK TO THE HAND ""#,
+    output_for_hello_world!(),
+    r#""
+YOU HAVE BEEN TERMINATED"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +37,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Arnoldc,
-            syntax: concat!(
-                r#"IT'S SHOWTIME
+            syntax: ARNOLDC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ARNOLDC,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"IT'S SHOWTIME
 TALK TO THE HAND ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 YOU HAVE BEEN TERMINATED"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"IT'S SHOWTIME
-TALK TO THE HAND ""#,
-                    output_for_hello_world!(),
-                    r#""
-YOU HAVE BEEN TERMINATED"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

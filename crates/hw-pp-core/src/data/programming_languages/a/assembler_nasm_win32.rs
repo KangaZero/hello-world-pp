@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,16 +21,8 @@ language_names! {
     extensions: [],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::AssemblerNasmWin32,
-        extensions: &[],
-        categories: &[Assembly],
-        families: &[],
-        versions: &[ProgrammingLanguageVersion {
-            label: ProgrammingLanguageDialect::AssemblerNasmWin32,
-            syntax: concat!(
-                r#"BITS	32
+const ASSEMBLER_NASM_WIN32: &str = concat!(
+    r#"BITS	32
 global	_main
 extern	_printf
 section	.text
@@ -40,85 +32,100 @@ section	.text
 	ret
 section	.data
 	msg:	db	""#,
-                output_for_hello_world!(),
-                r#"",0Ah,0"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"BITS"),
-                (TokenKind::Plain, r"	"),
-                (TokenKind::Number, r"32"),
-                (
-                    TokenKind::Plain,
-                    r"
+    output_for_hello_world!(),
+    r#"",0Ah,0"#
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::AssemblerNasmWin32,
+        extensions: &[],
+        categories: &[Assembly],
+        families: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::AssemblerNasmWin32,
+            syntax: ASSEMBLER_NASM_WIN32,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_NASM_WIN32,
+                    [
+                        (TokenKind::Keyword, r"BITS"),
+                        (TokenKind::Plain, r"	"),
+                        (TokenKind::Number, r"32"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"global"),
-                (
-                    TokenKind::Plain,
-                    r"	_main
+                        ),
+                        (TokenKind::Keyword, r"global"),
+                        (
+                            TokenKind::Plain,
+                            r"	_main
 ",
-                ),
-                (TokenKind::Keyword, r"extern"),
-                (
-                    TokenKind::Plain,
-                    r"	_printf
+                        ),
+                        (TokenKind::Keyword, r"extern"),
+                        (
+                            TokenKind::Plain,
+                            r"	_printf
 ",
-                ),
-                (TokenKind::Keyword, r"section"),
-                (TokenKind::Plain, r"	"),
-                (TokenKind::Macro, r".text"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"section"),
+                        (TokenKind::Plain, r"	"),
+                        (TokenKind::Macro, r".text"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	",
-                ),
-                (TokenKind::Keyword, r"push"),
-                (
-                    TokenKind::Plain,
-                    r"	msg
+                        ),
+                        (TokenKind::Keyword, r"push"),
+                        (
+                            TokenKind::Plain,
+                            r"	msg
 	",
-                ),
-                (TokenKind::Keyword, r"call"),
-                (
-                    TokenKind::Plain,
-                    r"	_printf
+                        ),
+                        (TokenKind::Keyword, r"call"),
+                        (
+                            TokenKind::Plain,
+                            r"	_printf
 	",
-                ),
-                (TokenKind::Keyword, r"add"),
-                (TokenKind::Plain, r"		esp"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"4"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"add"),
+                        (TokenKind::Plain, r"		esp"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"4"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	",
-                ),
-                (TokenKind::Keyword, r"ret"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"ret"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"section"),
-                (TokenKind::Plain, r"	"),
-                (TokenKind::Macro, r".data"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"section"),
+                        (TokenKind::Plain, r"	"),
+                        (TokenKind::Macro, r".data"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	msg",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r"	"),
-                (TokenKind::Keyword, r"db"),
-                (TokenKind::Plain, r"	"),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"0Ah"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"0"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r"	"),
+                        (TokenKind::Keyword, r"db"),
+                        (TokenKind::Plain, r"	"),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"0Ah"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"0"),
+                    ],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,21 @@ language_names! {
     versions: [Kix => "Kix"],
     extensions: [],
 }
+
+const KIX: &str = concat!(
+    r"; ",
+    output_for_hello_world!(),
+    r#" in Kix
+  
+Run( "Notepad.exe" )
+Sleep 1
+SetFocus( "Untitled - Notepad" )
+$ReturnCode = SendKeys(""#,
+    output_for_hello_world!(),
+    r#"")
+Sleep( 2 )
+$ReturnCode = SendKeys("~{F4}Y")"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,36 +45,28 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Kix,
-            syntax: concat!(
-                r"; ",
-                output_for_hello_world!(),
-                r#" in Kix
+            syntax: KIX,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    KIX,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"; ",
+                            output_for_hello_world!(),
+                            r#" in Kix
   
 Run( "Notepad.exe" )
 Sleep 1
 SetFocus( "Untitled - Notepad" )
 $ReturnCode = SendKeys(""#,
-                output_for_hello_world!(),
-                r#"")
+                            output_for_hello_world!(),
+                            r#"")
 Sleep( 2 )
 $ReturnCode = SendKeys("~{F4}Y")"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"; ",
-                    output_for_hello_world!(),
-                    r#" in Kix
-  
-Run( "Notepad.exe" )
-Sleep 1
-SetFocus( "Untitled - Notepad" )
-$ReturnCode = SendKeys(""#,
-                    output_for_hello_world!(),
-                    r#"")
-Sleep( 2 )
-$ReturnCode = SendKeys("~{F4}Y")"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

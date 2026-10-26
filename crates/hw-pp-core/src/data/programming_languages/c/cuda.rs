@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,21 @@ language_names! {
     versions: [Cuda => "Cuda"],
     extensions: [Cu => "cu"],
 }
+
+const CUDA: &str = concat!(
+    r#"#include <stdio.h>
+
+__global__ void hello_world(){
+    printf(""#,
+    output_for_hello_world!(),
+    r#"\n");
+}
+
+int main() {
+    hello_world<<<1,1>>>();
+    return 0;
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,87 +44,79 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cuda,
-            syntax: concat!(
-                r#"#include <stdio.h>
-
-__global__ void hello_world(){
-    printf(""#,
-                output_for_hello_world!(),
-                r#"\n");
-}
-
-int main() {
-    hello_world<<<1,1>>>();
-    return 0;
-}"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Macro, r"#include <stdio.h>"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: CUDA,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CUDA,
+                    [
+                        (TokenKind::Macro, r"#include <stdio.h>"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 __global__ ",
-                ),
-                (TokenKind::Keyword, r"void"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"hello_world"),
-                (TokenKind::Punctuation, r"(){"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"void"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"hello_world"),
+                        (TokenKind::Punctuation, r"(){"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Function, r"printf"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
-                ),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Function, r"printf"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                        ),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Type, r"int"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"main"),
-                (TokenKind::Punctuation, r"()"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Type, r"int"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"main"),
+                        (TokenKind::Punctuation, r"()"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
     hello_world<<<",
-                ),
-                (TokenKind::Number, r"1"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"1"),
-                (TokenKind::Plain, r">>>"),
-                (TokenKind::Punctuation, r"();"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Number, r"1"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"1"),
+                        (TokenKind::Plain, r">>>"),
+                        (TokenKind::Punctuation, r"();"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"return"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"0"),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"return"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"0"),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                    ],
+                )
+            },
         }],
     };

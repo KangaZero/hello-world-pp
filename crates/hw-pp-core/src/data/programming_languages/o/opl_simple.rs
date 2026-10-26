@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,20 @@ language_names! {
     versions: [OplSimple => "OPL.simple"],
     extensions: [],
 }
+
+const OPL_SIMPLE: &str = concat!(
+    r"REM ",
+    output_for_hello_world!(),
+    r#" for OPL (Psion Organizer 3a)
+REM Simple version
+
+PROC HELLO:
+  PRINT ""#,
+    output_for_hello_world!(),
+    r#""
+  GET
+ENDP"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,34 +44,27 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::OplSimple,
-            syntax: concat!(
-                r"REM ",
-                output_for_hello_world!(),
-                r#" for OPL (Psion Organizer 3a)
+            syntax: OPL_SIMPLE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    OPL_SIMPLE,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"REM ",
+                            output_for_hello_world!(),
+                            r#" for OPL (Psion Organizer 3a)
 REM Simple version
 
 PROC HELLO:
   PRINT ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
   GET
 ENDP"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"REM ",
-                    output_for_hello_world!(),
-                    r#" for OPL (Psion Organizer 3a)
-REM Simple version
-
-PROC HELLO:
-  PRINT ""#,
-                    output_for_hello_world!(),
-                    r#""
-  GET
-ENDP"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

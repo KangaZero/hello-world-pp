@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Aewnn => "AEWNN",
     versions: [Aewnn => "AEWNN"],
     extensions: [],
 }
+
+const AEWNN: &str = r"[8+]cpar2[5+]cpa[7+]cpacpa+++cpa [8+]cpar2[15+]cpa+++cpar2[12+]cpar2++++cpa";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Aewnn,
-            syntax: r"[8+]cpar2[5+]cpa[7+]cpacpa+++cpa [8+]cpar2[15+]cpa+++cpar2[12+]cpar2++++cpa",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"[8+]cpar2[5+]cpa[7+]cpacpa+++cpa [8+]cpar2[15+]cpa+++cpar2[12+]cpar2++++cpa",
-            )],
+            syntax: AEWNN,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    AEWNN,
+                    [(
+                        TokenKind::Plain,
+                        r"[8+]cpar2[5+]cpa[7+]cpacpa+++cpa [8+]cpar2[15+]cpa+++cpar2[12+]cpar2++++cpa",
+                    )],
+                )
+            },
         }],
     };

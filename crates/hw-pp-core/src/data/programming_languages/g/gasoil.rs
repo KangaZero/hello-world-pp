@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,13 @@ language_names! {
     versions: [Gasoil => "GASOIL"],
     extensions: [Gasoil => "gasoil"],
 }
+
+const GASOIL: &str = concat!(
+    r#"main
+(""#,
+    output_for_hello_world!(),
+    r#""; WRITE)"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,20 +36,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Gasoil,
-            syntax: concat!(
-                r#"main
+            syntax: GASOIL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    GASOIL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"main
 (""#,
-                output_for_hello_world!(),
-                r#""; WRITE)"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"main
-(""#,
-                    output_for_hello_world!(),
-                    r#""; WRITE)"#
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r#""; WRITE)"#
+                        ),
+                    )],
+                )
+            },
         }],
     };

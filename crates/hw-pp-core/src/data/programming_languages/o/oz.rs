@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,23 @@ language_names! {
     versions: [Oz => "Oz"],
     extensions: [],
 }
+
+const OZ: &str = concat!(
+    r"% ",
+    output_for_hello_world!(),
+    r#" in Oz
+
+functor
+import
+  System
+  Application
+define
+  {System.showInfo ""#,
+    output_for_hello_world!(),
+    r#""}
+  {Application.exit 0}
+end"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +47,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Oz,
-            syntax: concat!(
-                r"% ",
-                output_for_hello_world!(),
-                r#" in Oz
+            syntax: OZ,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    OZ,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"% ",
+                            output_for_hello_world!(),
+                            r#" in Oz
 
 functor
 import
@@ -41,29 +64,13 @@ import
   Application
 define
   {System.showInfo ""#,
-                output_for_hello_world!(),
-                r#""}
+                            output_for_hello_world!(),
+                            r#""}
   {Application.exit 0}
 end"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"% ",
-                    output_for_hello_world!(),
-                    r#" in Oz
-
-functor
-import
-  System
-  Application
-define
-  {System.showInfo ""#,
-                    output_for_hello_world!(),
-                    r#""}
-  {Application.exit 0}
-end"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

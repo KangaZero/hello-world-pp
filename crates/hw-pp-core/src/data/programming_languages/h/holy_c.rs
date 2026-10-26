@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,17 @@ language_names! {
     versions: [HolyC => "Holy C"],
     extensions: [Hc => "HC"],
 }
+
+const HOLY_C: &str = concat!(
+    r#"U0 main() {
+    print(""#,
+    output_for_hello_world!(),
+    r#"\n");
+    return 0;
+}
+
+main();"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,57 +41,53 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[C],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::HolyC,
-            syntax: concat!(
-                r#"U0 main() {
-    print(""#,
-                output_for_hello_world!(),
-                r#"\n");
-    return 0;
-}
-
-main();"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Plain, r"U0 "),
-                (TokenKind::Function, r"main"),
-                (TokenKind::Punctuation, r"()"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: HOLY_C,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    HOLY_C,
+                    [
+                        (TokenKind::Plain, r"U0 "),
+                        (TokenKind::Function, r"main"),
+                        (TokenKind::Punctuation, r"()"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Function, r"print"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
-                ),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Function, r"print"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                        ),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"return"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"0"),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"return"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"0"),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Function, r"main"),
-                (TokenKind::Punctuation, r"();"),
-            ],
+                        ),
+                        (TokenKind::Function, r"main"),
+                        (TokenKind::Punctuation, r"();"),
+                    ],
+                )
+            },
         }],
     };

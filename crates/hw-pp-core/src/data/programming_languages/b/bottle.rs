@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,18 @@ language_names! {
     versions: [Bottle => "Bottle"],
     extensions: [],
 }
+
+const BOTTLE: &str = concat!(
+    r#"from bottle import route, run
+
+@route('/')
+def hello():
+    return ""#,
+    output_for_hello_world!(),
+    r#""
+
+run()"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,62 +41,57 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Bottle,
-            syntax: concat!(
-                r#"from bottle import route, run
-
-@route('/')
-def hello():
-    return ""#,
-                output_for_hello_world!(),
-                r#""
-
-run()"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"from"),
-                (TokenKind::Plain, r" bottle "),
-                (TokenKind::Keyword, r"import"),
-                (TokenKind::Plain, r" route"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r" run
+            syntax: BOTTLE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BOTTLE,
+                    [
+                        (TokenKind::Keyword, r"from"),
+                        (TokenKind::Plain, r" bottle "),
+                        (TokenKind::Keyword, r"import"),
+                        (TokenKind::Plain, r" route"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r" run
 
 ",
-                ),
-                (TokenKind::Punctuation, r"@"),
-                (TokenKind::Plain, r"route"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::String, r"'/'"),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"@"),
+                        (TokenKind::Plain, r"route"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::String, r"'/'"),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"def"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"hello"),
-                (TokenKind::Punctuation, r"():"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"def"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"hello"),
+                        (TokenKind::Punctuation, r"():"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"return"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"return"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Function, r"run"),
-                (TokenKind::Punctuation, r"()"),
-            ],
+                        ),
+                        (TokenKind::Function, r"run"),
+                        (TokenKind::Punctuation, r"()"),
+                    ],
+                )
+            },
         }],
     };

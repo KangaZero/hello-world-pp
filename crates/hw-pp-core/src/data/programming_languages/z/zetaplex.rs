@@ -10,13 +10,26 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Zetaplex => "Zetaplex",
     versions: [Zetaplex => "Zetaplex"],
     extensions: [Zeta => "zeta"],
 }
+
+const ZETAPLEX: &str = r"\      / #111#87\ #        #         ######
+3      4 #        #        #        #      #
+3      1 #        #        #        #      #
+#      1 #        #        #        #      #
+1####### /44#23#/ #        #        #      #
+0      8 #        #        #        #      #
+0      0 1        #        #        #      #
+#      1 1        #        #        #      #
+\      / \1#108sy 101#72Os DrFe####  ######";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +39,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Zetaplex,
-            syntax: r"\      / #111#87\ #        #         ######
+            syntax: ZETAPLEX,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ZETAPLEX,
+                    [(
+                        TokenKind::Plain,
+                        r"\      / #111#87\ #        #         ######
 3      4 #        #        #        #      #
 3      1 #        #        #        #      #
 #      1 #        #        #        #      #
@@ -35,17 +54,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 0      0 1        #        #        #      #
 #      1 1        #        #        #      #
 \      / \1#108sy 101#72Os DrFe####  ######",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"\      / #111#87\ #        #         ######
-3      4 #        #        #        #      #
-3      1 #        #        #        #      #
-#      1 #        #        #        #      #
-1####### /44#23#/ #        #        #      #
-0      8 #        #        #        #      #
-0      0 1        #        #        #      #
-#      1 1        #        #        #      #
-\      / \1#108sy 101#72Os DrFe####  ######",
-            )],
+                    )],
+                )
+            },
         }],
     };

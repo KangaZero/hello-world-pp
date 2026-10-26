@@ -10,13 +10,30 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Sendstuff => "SendStuff",
     versions: [Sendstuff => "SendStuff"],
     extensions: [],
 }
+
+const SENDSTUFF: &str = r">(Add      72 >(Output) 
+>(Add      29 >(Output)
+>(Add      7  >(Output) 
+              >(Output)
+>(Add      3  >(Output)
+>(Subtract 67 >(Output)
+>(Subtract 12 >(Output) 
+>(Add      55 >(Output)
+>(Add      24 >(Output)
+>(Add      3  >(Output)
+>(Subtract 6  >(Output)
+>(Subtract 8  >(Output)
+>(Subtract 67 >(Output)";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +43,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sendstuff,
-            syntax: r">(Add      72 >(Output) 
+            syntax: SENDSTUFF,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SENDSTUFF,
+                    [(
+                        TokenKind::Plain,
+                        r">(Add      72 >(Output) 
 >(Add      29 >(Output)
 >(Add      7  >(Output) 
               >(Output)
@@ -39,21 +62,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 >(Subtract 6  >(Output)
 >(Subtract 8  >(Output)
 >(Subtract 67 >(Output)",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r">(Add      72 >(Output) 
->(Add      29 >(Output)
->(Add      7  >(Output) 
-              >(Output)
->(Add      3  >(Output)
->(Subtract 67 >(Output)
->(Subtract 12 >(Output) 
->(Add      55 >(Output)
->(Add      24 >(Output)
->(Add      3  >(Output)
->(Subtract 6  >(Output)
->(Subtract 8  >(Output)
->(Subtract 67 >(Output)",
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,18 @@ language_names! {
     versions: [IngresAbf => "Ingres ABF"],
     extensions: [],
 }
+
+const INGRES_ABF: &str = concat!(
+    r"/* ",
+    output_for_hello_world!(),
+    r" in Ingres ABF */
+procedure hello =
+begin
+  message '",
+    output_for_hello_world!(),
+    r"' with style=popup;
+end"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,30 +42,25 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::IngresAbf,
-            syntax: concat!(
-                r"/* ",
-                output_for_hello_world!(),
-                r" in Ingres ABF */
+            syntax: INGRES_ABF,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    INGRES_ABF,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"/* ",
+                            output_for_hello_world!(),
+                            r" in Ingres ABF */
 procedure hello =
 begin
   message '",
-                output_for_hello_world!(),
-                r"' with style=popup;
+                            output_for_hello_world!(),
+                            r"' with style=popup;
 end"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"/* ",
-                    output_for_hello_world!(),
-                    r" in Ingres ABF */
-procedure hello =
-begin
-  message '",
-                    output_for_hello_world!(),
-                    r"' with style=popup;
-end"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

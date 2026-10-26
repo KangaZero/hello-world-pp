@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,14 @@ language_names! {
     versions: [Desrever => "Desrever"],
     extensions: [],
 }
+
+const DESREVER: &str = concat!(
+    r#"{
+  ;(""#,
+    output_for_hello_world!(),
+    r#"")print
+} ()main func"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,22 +38,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Desrever,
-            syntax: concat!(
-                r#"{
+            syntax: DESREVER,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    DESREVER,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"{
   ;(""#,
-                output_for_hello_world!(),
-                r#"")print
+                            output_for_hello_world!(),
+                            r#"")print
 } ()main func"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"{
-  ;(""#,
-                    output_for_hello_world!(),
-                    r#"")print
-} ()main func"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

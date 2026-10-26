@@ -10,13 +10,77 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: N420 => "420",
     versions: [N420 => "420"],
     extensions: [E420 => "420"],
 }
+
+const N420: &str = r"420
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it
+
+blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it
+
+blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it
+blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it
+
+blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it
+
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it
+
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
+blaze it blaze it blaze it blaze it blaze it blaze it";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +90,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::N420,
-            syntax: r"420
+            syntax: N420,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    N420,
+                    [(
+                        TokenKind::Plain,
+                        r"420
 blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
 blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
 blaze it blaze it blaze it blaze it
@@ -86,68 +156,8 @@ blaze it blaze it blaze it
 blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
 blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
 blaze it blaze it blaze it blaze it blaze it blaze it",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"420
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it
-
-blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it
-
-blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it
-blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it
-
-blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it
-
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it
-
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it blaze it
-blaze it blaze it blaze it blaze it blaze it blaze it",
-            )],
+                    )],
+                )
+            },
         }],
     };

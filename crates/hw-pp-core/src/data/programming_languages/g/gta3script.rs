@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,19 @@ language_names! {
     versions: [Gta3script => "GTA3Script"],
     extensions: [],
 }
+
+const GTA3SCRIPT: &str = concat!(
+    r#"SCRIPT_START
+{
+NOP
+
+WAIT 0
+PRINT_STRING_NOW ""#,
+    output_for_hello_world!(),
+    r#""
+}
+SCRIPT_END"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,32 +42,26 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Gta3script,
-            syntax: concat!(
-                r#"SCRIPT_START
+            syntax: GTA3SCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    GTA3SCRIPT,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"SCRIPT_START
 {
 NOP
 
 WAIT 0
 PRINT_STRING_NOW ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 }
 SCRIPT_END"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"SCRIPT_START
-{
-NOP
-
-WAIT 0
-PRINT_STRING_NOW ""#,
-                    output_for_hello_world!(),
-                    r#""
-}
-SCRIPT_END"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

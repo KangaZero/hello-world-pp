@@ -10,13 +10,18 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: M4 => "M4",
     versions: [M4 => "M4"],
     extensions: [M4 => "m4"],
 }
+
+const M4: &str = r"Hello";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::M4,
-            syntax: r"Hello",
-            tokenized_syntax: &[(TokenKind::Plain, r"Hello")],
+            syntax: M4,
+            tokenized_syntax: &const { checked_token_lengths(M4, [(TokenKind::Plain, r"Hello")]) },
         }],
     };

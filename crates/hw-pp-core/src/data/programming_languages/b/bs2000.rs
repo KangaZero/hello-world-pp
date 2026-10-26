@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,20 @@ language_names! {
     versions: [Bs2000 => "BS2000"],
     extensions: [],
 }
+
+const BS2000: &str = concat!(
+    r#"/BEGIN-PROCEDURE LOGGING=N
+/REMARK ""#,
+    output_for_hello_world!(),
+    r#"" IN BS2000 (SDF)
+/ASSIGN-SYSDTA TO-FILE=*SYSCMD
+/WRITE-TEXT '"#,
+    output_for_hello_world!(),
+    r"'
+/SET-JOB-STEP
+/ASSIGN-SYSDTA TO-FILE=*PRIMARY
+/END-PROCEDURE"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,34 +44,27 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Bs2000,
-            syntax: concat!(
-                r#"/BEGIN-PROCEDURE LOGGING=N
+            syntax: BS2000,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BS2000,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"/BEGIN-PROCEDURE LOGGING=N
 /REMARK ""#,
-                output_for_hello_world!(),
-                r#"" IN BS2000 (SDF)
+                            output_for_hello_world!(),
+                            r#"" IN BS2000 (SDF)
 /ASSIGN-SYSDTA TO-FILE=*SYSCMD
 /WRITE-TEXT '"#,
-                output_for_hello_world!(),
-                r"'
+                            output_for_hello_world!(),
+                            r"'
 /SET-JOB-STEP
 /ASSIGN-SYSDTA TO-FILE=*PRIMARY
 /END-PROCEDURE"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"/BEGIN-PROCEDURE LOGGING=N
-/REMARK ""#,
-                    output_for_hello_world!(),
-                    r#"" IN BS2000 (SDF)
-/ASSIGN-SYSDTA TO-FILE=*SYSCMD
-/WRITE-TEXT '"#,
-                    output_for_hello_world!(),
-                    r"'
-/SET-JOB-STEP
-/ASSIGN-SYSDTA TO-FILE=*PRIMARY
-/END-PROCEDURE"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

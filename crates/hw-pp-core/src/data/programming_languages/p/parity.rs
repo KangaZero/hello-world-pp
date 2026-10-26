@@ -11,13 +11,30 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Parity => "Parity",
     versions: [Parity => "Parity"],
     extensions: [],
 }
+
+const PARITY: &str = r"72
+101
+108
+108
+111
+32
+87
+111
+114
+108
+100
+33
+10";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +44,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Parity,
-            syntax: r"72
+            syntax: PARITY,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PARITY,
+                    [(
+                        TokenKind::Plain,
+                        r"72
 101
 108
 108
@@ -40,21 +63,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 100
 33
 10",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"72
-101
-108
-108
-111
-32
-87
-111
-114
-108
-100
-33
-10",
-            )],
+                    )],
+                )
+            },
         }],
     };

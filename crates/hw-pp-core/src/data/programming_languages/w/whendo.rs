@@ -11,13 +11,30 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Whendo => "Whendo",
     versions: [Whendo => "Whendo"],
     extensions: [],
 }
+
+const WHENDO: &str = r"a==0=>a+=1=>72
+a==1=>a+=1=>101
+a==2=>a+=1=>108
+a==3=>a+=1=>108
+a==4=>a+=1=>111
+a==5=>a+=1=>44
+a==6=>a+=1=>32
+a==7=>a+=1=>87
+a==8=>a+=1=>111
+a==9=>a+=1=>114
+a==10=>a+=1=>108
+a==11=>a+=1=>100
+a==12=>a+=1=>33";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +44,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Whendo,
-            syntax: r"a==0=>a+=1=>72
+            syntax: WHENDO,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    WHENDO,
+                    [(
+                        TokenKind::Plain,
+                        r"a==0=>a+=1=>72
 a==1=>a+=1=>101
 a==2=>a+=1=>108
 a==3=>a+=1=>108
@@ -40,21 +63,8 @@ a==9=>a+=1=>114
 a==10=>a+=1=>108
 a==11=>a+=1=>100
 a==12=>a+=1=>33",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"a==0=>a+=1=>72
-a==1=>a+=1=>101
-a==2=>a+=1=>108
-a==3=>a+=1=>108
-a==4=>a+=1=>111
-a==5=>a+=1=>44
-a==6=>a+=1=>32
-a==7=>a+=1=>87
-a==8=>a+=1=>111
-a==9=>a+=1=>114
-a==10=>a+=1=>108
-a==11=>a+=1=>100
-a==12=>a+=1=>33",
-            )],
+                    )],
+                )
+            },
         }],
     };

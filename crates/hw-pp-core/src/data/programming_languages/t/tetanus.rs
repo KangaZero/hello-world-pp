@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,13 @@ language_names! {
     versions: [Tetanus => "Tetanus"],
     extensions: [],
 }
+
+const TETANUS: &str = concat!(
+    r"^(H.+)
+!\1~
+",
+    output_for_hello_world!()
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,20 +37,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Tetanus,
-            syntax: concat!(
-                r"^(H.+)
+            syntax: TETANUS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    TETANUS,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"^(H.+)
 !\1~
 ",
-                output_for_hello_world!()
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"^(H.+)
-!\1~
-",
-                    output_for_hello_world!()
-                ),
-            )],
+                            output_for_hello_world!()
+                        ),
+                    )],
+                )
+            },
         }],
     };

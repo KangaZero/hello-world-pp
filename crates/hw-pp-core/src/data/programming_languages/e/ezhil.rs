@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,17 @@ language_names! {
     versions: [Ezhil => "Ezhil"],
     extensions: [],
 }
+
+const EZHIL: &str = concat!(
+    r"# ",
+    output_for_hello_world!(),
+    r#" in Ezhil
+
+பதிப்பி "வணக்கம்!"
+பதிப்பி "உலகே வணக்கம்"
+பதிப்பி "******* நன்றி!. *******"
+exit()"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,28 +41,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ezhil,
-            syntax: concat!(
-                r"# ",
-                output_for_hello_world!(),
-                r#" in Ezhil
+            syntax: EZHIL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    EZHIL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"# ",
+                            output_for_hello_world!(),
+                            r#" in Ezhil
 
 பதிப்பி "வணக்கம்!"
 பதிப்பி "உலகே வணக்கம்"
 பதிப்பி "******* நன்றி!. *******"
 exit()"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"# ",
-                    output_for_hello_world!(),
-                    r#" in Ezhil
-
-பதிப்பி "வணக்கம்!"
-பதிப்பி "உலகே வணக்கம்"
-பதிப்பி "******* நன்றி!. *******"
-exit()"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

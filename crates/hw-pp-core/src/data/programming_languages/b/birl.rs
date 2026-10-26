@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,17 @@ language_names! {
     versions: [Birl => "BIRL"],
     extensions: [],
 }
+
+const BIRL: &str = concat!(
+    r#"HORA DO SHOW // main code block
+    CE QUER VER ESSA PORRA? (""#,
+    output_for_hello_world!(),
+    r#"\n"); // print ""#,
+    output_for_hello_world!(),
+    r#"""
+    BORA CUMPADE 0; // end function
+BIRL"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,28 +40,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Birl,
-            syntax: concat!(
-                r#"HORA DO SHOW // main code block
+            syntax: BIRL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BIRL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"HORA DO SHOW // main code block
     CE QUER VER ESSA PORRA? (""#,
-                output_for_hello_world!(),
-                r#"\n"); // print ""#,
-                output_for_hello_world!(),
-                r#"""
+                            output_for_hello_world!(),
+                            r#"\n"); // print ""#,
+                            output_for_hello_world!(),
+                            r#"""
     BORA CUMPADE 0; // end function
 BIRL"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"HORA DO SHOW // main code block
-    CE QUER VER ESSA PORRA? (""#,
-                    output_for_hello_world!(),
-                    r#"\n"); // print ""#,
-                    output_for_hello_world!(),
-                    r#"""
-    BORA CUMPADE 0; // end function
-BIRL"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

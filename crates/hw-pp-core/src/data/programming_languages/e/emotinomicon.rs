@@ -10,13 +10,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Emotinomicon => "Emotinomicon",
     versions: [Emotinomicon => "Emotinomicon"],
     extensions: [],
 }
+
+const EMOTINOMICON: &str = r"😭dlroW olleH😲⏪⏬⏩";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +31,9 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Emotinomicon,
-            syntax: r"😭dlroW olleH😲⏪⏬⏩",
-            tokenized_syntax: &[(TokenKind::Plain, r"😭dlroW olleH😲⏪⏬⏩")],
+            syntax: EMOTINOMICON,
+            tokenized_syntax: &const {
+                checked_token_lengths(EMOTINOMICON, [(TokenKind::Plain, r"😭dlroW olleH😲⏪⏬⏩")])
+            },
         }],
     };

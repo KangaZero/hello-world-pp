@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,18 @@ language_names! {
     versions: [Sisal => "Sisal"],
     extensions: [Sis => "sis"],
 }
+
+const SISAL: &str = concat!(
+    r#"define main
+
+type string = array[character];
+
+function main(returns string)
+  ""#,
+    output_for_hello_world!(),
+    r#""
+end function"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,30 +42,25 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sisal,
-            syntax: concat!(
-                r#"define main
+            syntax: SISAL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SISAL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"define main
 
 type string = array[character];
 
 function main(returns string)
   ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 end function"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"define main
-
-type string = array[character];
-
-function main(returns string)
-  ""#,
-                    output_for_hello_world!(),
-                    r#""
-end function"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

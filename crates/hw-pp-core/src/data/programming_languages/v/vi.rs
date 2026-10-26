@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,28 @@ language_names! {
     versions: [Vi => "Vi"],
     extensions: [],
 }
+
+const VI: &str = concat!(
+    r#"The following tab indented lines will cause a true vi with modelines
+activated to infinitely loop putting ""#,
+    output_for_hello_world!(),
+    r#"" in the buffer. Hit
+ to abort the loop and see the output. None of the vi clones
+support modelines this powerful, and modelines are disabled by default.
+Set the environment variable EXINIT to "set ml" to activate modelines.
+
+	vi: $  y a :
+	vi: $-1y b :
+	vi: @b :
+	put a |@b
+	"#,
+    output_for_hello_world!(),
+    r#"
+
+Whitespace is largely insignificant, but these must be the last five
+lines in the file to work properly. Unless it is in "vi: ... :" or
+"ex: ... :" format, any preceeding text will be ignored."#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,11 +51,17 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Vi,
-            syntax: concat!(
-                r#"The following tab indented lines will cause a true vi with modelines
+            syntax: VI,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    VI,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"The following tab indented lines will cause a true vi with modelines
 activated to infinitely loop putting ""#,
-                output_for_hello_world!(),
-                r#"" in the buffer. Hit
+                            output_for_hello_world!(),
+                            r#"" in the buffer. Hit
  to abort the loop and see the output. None of the vi clones
 support modelines this powerful, and modelines are disabled by default.
 Set the environment variable EXINIT to "set ml" to activate modelines.
@@ -43,36 +71,15 @@ Set the environment variable EXINIT to "set ml" to activate modelines.
 	vi: @b :
 	put a |@b
 	"#,
-                output_for_hello_world!(),
-                r#"
+                            output_for_hello_world!(),
+                            r#"
 
 Whitespace is largely insignificant, but these must be the last five
 lines in the file to work properly. Unless it is in "vi: ... :" or
 "ex: ... :" format, any preceeding text will be ignored."#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"The following tab indented lines will cause a true vi with modelines
-activated to infinitely loop putting ""#,
-                    output_for_hello_world!(),
-                    r#"" in the buffer. Hit
- to abort the loop and see the output. None of the vi clones
-support modelines this powerful, and modelines are disabled by default.
-Set the environment variable EXINIT to "set ml" to activate modelines.
-
-	vi: $  y a :
-	vi: $-1y b :
-	vi: @b :
-	put a |@b
-	"#,
-                    output_for_hello_world!(),
-                    r#"
-
-Whitespace is largely insignificant, but these must be the last five
-lines in the file to work properly. Unless it is in "vi: ... :" or
-"ex: ... :" format, any preceeding text will be ignored."#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

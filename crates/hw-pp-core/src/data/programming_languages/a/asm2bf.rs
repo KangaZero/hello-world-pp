@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,23 @@ language_names! {
     versions: [Asm2bf => "Asm2bf"],
     extensions: [],
 }
+
+const ASM2BF: &str = concat!(
+    r#"STK 2
+ORG 0
+
+TXT ""#,
+    output_for_hello_world!(),
+    r#""
+DB_ 0
+
+@LOOP
+	RCL R2, R1
+	JZ_ R2, 0
+	OUT R2
+	INC R1
+	JMP %LOOPs"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,13 +46,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Asm2bf,
-            syntax: concat!(
-                r#"STK 2
+            syntax: ASM2BF,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASM2BF,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"STK 2
 ORG 0
 
 TXT ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 DB_ 0
 
 @LOOP
@@ -44,25 +67,9 @@ DB_ 0
 	OUT R2
 	INC R1
 	JMP %LOOPs"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"STK 2
-ORG 0
-
-TXT ""#,
-                    output_for_hello_world!(),
-                    r#""
-DB_ 0
-
-@LOOP
-	RCL R2, R1
-	JZ_ R2, 0
-	OUT R2
-	INC R1
-	JMP %LOOPs"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

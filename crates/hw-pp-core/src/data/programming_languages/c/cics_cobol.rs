@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,28 @@ language_names! {
     versions: [CicsCobol => "CICS-COBOL"],
     extensions: [],
 }
+
+const CICS_COBOL: &str = concat!(
+    r"-- ",
+    output_for_hello_world!(),
+    r" in CICS COBOL
+
+000100        IDENTIFICATION DIVISION.                           
+000200        PROGRAM-ID. HELLO.                                 
+000300       * ",
+    output_for_hello_world!(),
+    r#" IN CICS COBOL.                        
+000400        AUTHOR. ROBERT GOSLING.                            
+000500        ENVIRONMENT DIVISION.                              
+000600        DATA DIVISION.                                     
+000700        WORKING-STORAGE SECTION.                           
+000800        01 WS-DATA-AREA PIC X(80) VALUE ""#,
+    output_for_hello_world!(),
+    r#"".    
+000900        PROCEDURE DIVISION.                                
+001000            EXEC CICS SEND FROM (WS-DATA-AREA) END-EXEC.   
+001100            EXEC CICS RETURN END-EXEC."#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,50 +52,35 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::CicsCobol,
-            syntax: concat!(
-                r"-- ",
-                output_for_hello_world!(),
-                r" in CICS COBOL
+            syntax: CICS_COBOL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CICS_COBOL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"-- ",
+                            output_for_hello_world!(),
+                            r" in CICS COBOL
 
 000100        IDENTIFICATION DIVISION.                           
 000200        PROGRAM-ID. HELLO.                                 
 000300       * ",
-                output_for_hello_world!(),
-                r#" IN CICS COBOL.                        
+                            output_for_hello_world!(),
+                            r#" IN CICS COBOL.                        
 000400        AUTHOR. ROBERT GOSLING.                            
 000500        ENVIRONMENT DIVISION.                              
 000600        DATA DIVISION.                                     
 000700        WORKING-STORAGE SECTION.                           
 000800        01 WS-DATA-AREA PIC X(80) VALUE ""#,
-                output_for_hello_world!(),
-                r#"".    
+                            output_for_hello_world!(),
+                            r#"".    
 000900        PROCEDURE DIVISION.                                
 001000            EXEC CICS SEND FROM (WS-DATA-AREA) END-EXEC.   
 001100            EXEC CICS RETURN END-EXEC."#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"-- ",
-                    output_for_hello_world!(),
-                    r" in CICS COBOL
-
-000100        IDENTIFICATION DIVISION.                           
-000200        PROGRAM-ID. HELLO.                                 
-000300       * ",
-                    output_for_hello_world!(),
-                    r#" IN CICS COBOL.                        
-000400        AUTHOR. ROBERT GOSLING.                            
-000500        ENVIRONMENT DIVISION.                              
-000600        DATA DIVISION.                                     
-000700        WORKING-STORAGE SECTION.                           
-000800        01 WS-DATA-AREA PIC X(80) VALUE ""#,
-                    output_for_hello_world!(),
-                    r#"".    
-000900        PROCEDURE DIVISION.                                
-001000            EXEC CICS SEND FROM (WS-DATA-AREA) END-EXEC.   
-001100            EXEC CICS RETURN END-EXEC."#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

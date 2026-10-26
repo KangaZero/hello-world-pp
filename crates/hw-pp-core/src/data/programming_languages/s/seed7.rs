@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,17 @@ language_names! {
     versions: [Seed7 => "Seed7"],
     extensions: [S7 => "s7"],
 }
+
+const SEED7: &str = concat!(
+    r#"$ include "seed7_05.s7i";
+
+const proc: main is func
+  begin
+    writeln(""#,
+    output_for_hello_world!(),
+    r#"");
+  end func;"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,28 +40,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Seed7,
-            syntax: concat!(
-                r#"$ include "seed7_05.s7i";
+            syntax: SEED7,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SEED7,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"$ include "seed7_05.s7i";
 
 const proc: main is func
   begin
     writeln(""#,
-                output_for_hello_world!(),
-                r#"");
+                            output_for_hello_world!(),
+                            r#"");
   end func;"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"$ include "seed7_05.s7i";
-
-const proc: main is func
-  begin
-    writeln(""#,
-                    output_for_hello_world!(),
-                    r#"");
-  end func;"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

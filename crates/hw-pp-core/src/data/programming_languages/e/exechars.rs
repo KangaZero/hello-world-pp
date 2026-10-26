@@ -11,13 +11,19 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Exechars => "Exechars",
     versions: [Exechars => "Exechars"],
     extensions: [],
 }
+
+const EXECHARS: &str =
+    r"r48+0o0r65+1o1r6c+2o2o2r6f+3o3r2c+4o4r20+5o5r57+6o6o3r72+7o7o2r64+8o8+5o5t";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +33,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Exechars,
-            syntax: r"r48+0o0r65+1o1r6c+2o2o2r6f+3o3r2c+4o4r20+5o5r57+6o6o3r72+7o7o2r64+8o8+5o5t",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"r48+0o0r65+1o1r6c+2o2o2r6f+3o3r2c+4o4r20+5o5r57+6o6o3r72+7o7o2r64+8o8+5o5t",
-            )],
+            syntax: EXECHARS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    EXECHARS,
+                    [(
+                        TokenKind::Plain,
+                        r"r48+0o0r65+1o1r6c+2o2o2r6f+3o3r2c+4o4r20+5o5r57+6o6o3r72+7o7o2r64+8o8+5o5t",
+                    )],
+                )
+            },
         }],
     };

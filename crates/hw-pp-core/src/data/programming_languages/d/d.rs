@@ -11,7 +11,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -19,6 +19,16 @@ language_names! {
     versions: [D2 => "D 2"],
     extensions: [D => "d"],
 }
+
+const D2: &str = concat!(
+    r#"import std.stdio;
+
+void main() {
+    writeln(""#,
+    output_for_hello_world!(),
+    r#"");
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -28,29 +38,26 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[C],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::D2,
-            syntax: concat!(
-                r#"import std.stdio;
-
-void main() {
-    writeln(""#,
-                output_for_hello_world!(),
-                r#"");
-}"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, "import"),
-                (TokenKind::Plain, " "),
-                (TokenKind::Type, "std.stdio"),
-                (TokenKind::Plain, ";\n\n"),
-                (TokenKind::Type, "void"),
-                (TokenKind::Plain, " "),
-                (TokenKind::Function, "main"),
-                (TokenKind::Plain, "() {\n    writeln("),
-                (
-                    TokenKind::String,
-                    concat!("\"", output_for_hello_world!(), "\""),
-                ),
-                (TokenKind::Plain, ");\n}"),
-            ],
+            syntax: D2,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    D2,
+                    [
+                        (TokenKind::Keyword, "import"),
+                        (TokenKind::Plain, " "),
+                        (TokenKind::Type, "std.stdio"),
+                        (TokenKind::Plain, ";\n\n"),
+                        (TokenKind::Type, "void"),
+                        (TokenKind::Plain, " "),
+                        (TokenKind::Function, "main"),
+                        (TokenKind::Plain, "() {\n    writeln("),
+                        (
+                            TokenKind::String,
+                            concat!("\"", output_for_hello_world!(), "\""),
+                        ),
+                        (TokenKind::Plain, ");\n}"),
+                    ],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,17 @@ language_names! {
     versions: [Cobolscript => "CobolScript"],
     extensions: [],
 }
+
+const COBOLSCRIPT: &str = concat!(
+    r"DISPLAY `Content-type: text/html `.
+DISPLAY LINEFEED.
+DISPLAY `<HTML><BODY>`.
+DISPLAY `<CENTER>",
+    output_for_hello_world!(),
+    r"</CENTER>`.
+DISPLAY `</BODY></HTML>`.
+GOBACK."
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,28 +40,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cobolscript,
-            syntax: concat!(
-                r"DISPLAY `Content-type: text/html `.
+            syntax: COBOLSCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    COBOLSCRIPT,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"DISPLAY `Content-type: text/html `.
 DISPLAY LINEFEED.
 DISPLAY `<HTML><BODY>`.
 DISPLAY `<CENTER>",
-                output_for_hello_world!(),
-                r"</CENTER>`.
+                            output_for_hello_world!(),
+                            r"</CENTER>`.
 DISPLAY `</BODY></HTML>`.
 GOBACK."
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"DISPLAY `Content-type: text/html `.
-DISPLAY LINEFEED.
-DISPLAY `<HTML><BODY>`.
-DISPLAY `<CENTER>",
-                    output_for_hello_world!(),
-                    r"</CENTER>`.
-DISPLAY `</BODY></HTML>`.
-GOBACK."
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

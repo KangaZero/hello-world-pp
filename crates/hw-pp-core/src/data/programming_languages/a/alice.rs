@@ -10,13 +10,18 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Alice => "Alice",
     versions: [Alice => "Alice"],
     extensions: [Alice => "alice"],
 }
+
+const ALICE: &str = r#""dlroW olleH"d&O`@"#;
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +31,9 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Alice,
-            syntax: r#""dlroW olleH"d&O`@"#,
-            tokenized_syntax: &[(TokenKind::Plain, r#""dlroW olleH"d&O`@"#)],
+            syntax: ALICE,
+            tokenized_syntax: &const {
+                checked_token_lengths(ALICE, [(TokenKind::Plain, r#""dlroW olleH"d&O`@"#)])
+            },
         }],
     };

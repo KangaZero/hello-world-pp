@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [Nuxt => "Nuxt"],
     extensions: [Vue => "vue"],
 }
+
+const NUXT: &str = concat!(
+    r"<template>
+  <h1>",
+    output_for_hello_world!(),
+    r"</h1>
+</template>"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,29 +37,28 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Nuxt,
-            syntax: concat!(
-                r"<template>
-  <h1>",
-                output_for_hello_world!(),
-                r"</h1>
-</template>"
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"<template>"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: NUXT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    NUXT,
+                    [
+                        (TokenKind::Keyword, r"<template>"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Keyword, r"<h1>"),
-                (TokenKind::Plain, output_for_hello_world!()),
-                (TokenKind::Keyword, r"</h1>"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"<h1>"),
+                        (TokenKind::Plain, output_for_hello_world!()),
+                        (TokenKind::Keyword, r"</h1>"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"</template>"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"</template>"),
+                    ],
+                )
+            },
         }],
     };

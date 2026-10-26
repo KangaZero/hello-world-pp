@@ -11,13 +11,57 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Grass => "Grass",
     versions: [Grass => "Grass"],
     extensions: [],
 }
+
+const GRASS: &str = r"wv
+wwWWwWWWwv
+Wwwww
+WWw
+WWWw
+WWWWw
+WWWWWw
+WWWWWWw
+WWWWWWWw 
+Wwwwwwwwwwwww
+WWWWw
+WWWWWWWw
+WWWWWWWWWWWWWWw
+WWWWWWWWWWWww
+WWWWWWWWWWww
+WWWWWWWWWWWWw
+WWWWWWWWWWww
+WWWWWWWWWWwwwwwww
+WWWWWWWWWWWWWWw
+WWWWWWWWWWWWWWWWw
+WWWWWWWWWWWWWWWWWWWWWWw
+WWWWWWWWWWWWWWWWWWWww
+WWWWWWWWWWWWWWWWWWww
+WWWWWWWWWWWWWWWWWWwwwww
+WWWWWWWWWWWWWWWWWWWWWww
+WWWWWWWWWWWWWWWWWWWWWWWw
+WWWWWWWWWWWWWWWWWWWWWWWWWWwwwwwwwwwwwwwwwwwwwwwwwwwww
+Wwwwwwwwwwww
+WWwwwwwww
+WWWwwwwwww
+WWWWw
+WWWWWwwwwwwww
+WWWWWWwwwwwwwwwwwwwwwww
+WWWWWWWwwwwwwwwwwwwwwwwwwwww
+WWWWWWWWwwwwwwwwwwwwwwwww
+WWWWWWWWWwwww
+WWWWWWWWWWwwwwwwwwwww
+WWWWWWWWWWWwwwwwww
+WWWWWWWWWWWWwwwwwwwwwwwwwwwwww
+WWWWWWWWWWWWWwwwwwwwwwwwwwwwwwwwwwwwwww";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +71,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Grass,
-            syntax: r"wv
+            syntax: GRASS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    GRASS,
+                    [(
+                        TokenKind::Plain,
+                        r"wv
 wwWWwWWWwv
 Wwwww
 WWw
@@ -67,48 +117,8 @@ WWWWWWWWWWwwwwwwwwwww
 WWWWWWWWWWWwwwwwww
 WWWWWWWWWWWWwwwwwwwwwwwwwwwwww
 WWWWWWWWWWWWWwwwwwwwwwwwwwwwwwwwwwwwwww",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"wv
-wwWWwWWWwv
-Wwwww
-WWw
-WWWw
-WWWWw
-WWWWWw
-WWWWWWw
-WWWWWWWw 
-Wwwwwwwwwwwww
-WWWWw
-WWWWWWWw
-WWWWWWWWWWWWWWw
-WWWWWWWWWWWww
-WWWWWWWWWWww
-WWWWWWWWWWWWw
-WWWWWWWWWWww
-WWWWWWWWWWwwwwwww
-WWWWWWWWWWWWWWw
-WWWWWWWWWWWWWWWWw
-WWWWWWWWWWWWWWWWWWWWWWw
-WWWWWWWWWWWWWWWWWWWww
-WWWWWWWWWWWWWWWWWWww
-WWWWWWWWWWWWWWWWWWwwwww
-WWWWWWWWWWWWWWWWWWWWWww
-WWWWWWWWWWWWWWWWWWWWWWWw
-WWWWWWWWWWWWWWWWWWWWWWWWWWwwwwwwwwwwwwwwwwwwwwwwwwwww
-Wwwwwwwwwwww
-WWwwwwwww
-WWWwwwwwww
-WWWWw
-WWWWWwwwwwwww
-WWWWWWwwwwwwwwwwwwwwwww
-WWWWWWWwwwwwwwwwwwwwwwwwwwww
-WWWWWWWWwwwwwwwwwwwwwwwww
-WWWWWWWWWwwww
-WWWWWWWWWWwwwwwwwwwww
-WWWWWWWWWWWwwwwwww
-WWWWWWWWWWWWwwwwwwwwwwwwwwwwww
-WWWWWWWWWWWWWwwwwwwwwwwwwwwwwwwwwwwwwww",
-            )],
+                    )],
+                )
+            },
         }],
     };

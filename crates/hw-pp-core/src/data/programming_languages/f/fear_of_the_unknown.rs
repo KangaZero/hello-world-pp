@@ -11,13 +11,22 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: FearOfTheUnknown => "Fear of the Unknown",
     versions: [FearOfTheUnknown => "Fear of the Unknown"],
     extensions: [],
 }
+
+const FEAR_OF_THE_UNKNOWN: &str = r"$IO=$IO; $IO+72; $IO=$IO; $IO+101; $IO=$IO; $IO+108;
+$IO=$IO; $IO+108; $IO=$IO; $IO+111; $IO=$IO; $IO+44;
+$IO=$IO; $IO+32; $IO=$IO; $IO+87; $IO=$IO; $IO+111;
+$IO=$IO; $IO+114; $IO=$IO; $IO+108; $IO=$IO; $IO+100;
+$IO=$IO; $IO+33; HALT-99;";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,18 +36,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::FearOfTheUnknown,
-            syntax: r"$IO=$IO; $IO+72; $IO=$IO; $IO+101; $IO=$IO; $IO+108;
+            syntax: FEAR_OF_THE_UNKNOWN,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FEAR_OF_THE_UNKNOWN,
+                    [(
+                        TokenKind::Plain,
+                        r"$IO=$IO; $IO+72; $IO=$IO; $IO+101; $IO=$IO; $IO+108;
 $IO=$IO; $IO+108; $IO=$IO; $IO+111; $IO=$IO; $IO+44;
 $IO=$IO; $IO+32; $IO=$IO; $IO+87; $IO=$IO; $IO+111;
 $IO=$IO; $IO+114; $IO=$IO; $IO+108; $IO=$IO; $IO+100;
 $IO=$IO; $IO+33; HALT-99;",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"$IO=$IO; $IO+72; $IO=$IO; $IO+101; $IO=$IO; $IO+108;
-$IO=$IO; $IO+108; $IO=$IO; $IO+111; $IO=$IO; $IO+44;
-$IO=$IO; $IO+32; $IO=$IO; $IO+87; $IO=$IO; $IO+111;
-$IO=$IO; $IO+114; $IO=$IO; $IO+108; $IO=$IO; $IO+100;
-$IO=$IO; $IO+33; HALT-99;",
-            )],
+                    )],
+                )
+            },
         }],
     };

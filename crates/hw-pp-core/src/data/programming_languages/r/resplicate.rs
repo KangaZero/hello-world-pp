@@ -11,13 +11,19 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Resplicate => "ResPlicate",
     versions: [Resplicate => "ResPlicate"],
     extensions: [],
 }
+
+const RESPLICATE: &str =
+    r" 0 72 0 101 0 108 0 108 0 111 0 32 0 87 0 111 0 114 0 108 0 100 0 33 0 10";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +33,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Resplicate,
-            syntax: r" 0 72 0 101 0 108 0 108 0 111 0 32 0 87 0 111 0 114 0 108 0 100 0 33 0 10",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r" 0 72 0 101 0 108 0 108 0 111 0 32 0 87 0 111 0 114 0 108 0 100 0 33 0 10",
-            )],
+            syntax: RESPLICATE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    RESPLICATE,
+                    [(
+                        TokenKind::Plain,
+                        r" 0 72 0 101 0 108 0 108 0 111 0 32 0 87 0 111 0 114 0 108 0 100 0 33 0 10",
+                    )],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,12 @@ language_names! {
     versions: [Francescript => "FranceScript"],
     extensions: [Fr => "fr"],
 }
+
+const FRANCESCRIPT: &str = concat!(
+    r#"console->log(""#,
+    output_for_hello_world!(),
+    r#" !") fin"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,18 +35,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Francescript,
-            syntax: concat!(
-                r#"console->log(""#,
-                output_for_hello_world!(),
-                r#" !") fin"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"console->log(""#,
-                    output_for_hello_world!(),
-                    r#" !") fin"#
-                ),
-            )],
+            syntax: FRANCESCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FRANCESCRIPT,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"console->log(""#,
+                            output_for_hello_world!(),
+                            r#" !") fin"#
+                        ),
+                    )],
+                )
+            },
         }],
     };

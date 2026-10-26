@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,14 @@ language_names! {
     versions: [Mulisp => "MuLisp"],
     extensions: [],
 }
+
+const MULISP: &str = concat!(
+    r"; ",
+    output_for_hello_world!(),
+    r" in MuLisp
+
+(print 'Hello\,\ world\!)"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,30 +38,29 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Mulisp,
-            syntax: concat!(
-                r"; ",
-                output_for_hello_world!(),
-                r" in MuLisp
-
-(print 'Hello\,\ world\!)"
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Comment,
-                    concat!(r"; ", output_for_hello_world!(), r" in MuLisp"),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: MULISP,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MULISP,
+                    [
+                        (
+                            TokenKind::Comment,
+                            concat!(r"; ", output_for_hello_world!(), r" in MuLisp"),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Function, r"print"),
-                (TokenKind::Plain, r" 'Hello\"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"\ world\!"),
-                (TokenKind::Punctuation, r")"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Function, r"print"),
+                        (TokenKind::Plain, r" 'Hello\"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"\ world\!"),
+                        (TokenKind::Punctuation, r")"),
+                    ],
+                )
+            },
         }],
     };

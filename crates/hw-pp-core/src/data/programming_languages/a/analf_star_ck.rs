@@ -10,13 +10,75 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: AnalfStarCk => "AnalF∗ck",
     versions: [AnalfStarCk => "AnalF∗ck"],
     extensions: [Af => "af"],
 }
+
+const ANALF_STAR_CK: &str = r"あくしろよ
+いいよ！
+アーッ！アーッ！
+あのさぁ…あのさぁ…あのさぁ…あくしろよ
+アーッ！アーッ！
+あのさぁ…あのさぁ…あくしろよ
+あのさぁ…あのさぁ…あくしろよ
+あのさぁ…あのさぁ…あくしろよ
+あくしろよ
+アーッ！アーッ！
+あのさぁ…あのさぁ…あくしろよ
+あのさぁ…あのさぁ…あくしろよ
+あのさぁ…あのさぁ…あくしろよ
+あくしろよ
+アーッ！アーッ！
+あのさぁ…あのさぁ…あくしろよ
+あのさぁ…あのさぁ…あくしろよ
+あのさぁ…あのさぁ…あくしろよ
+あくしろよ
+ｱｰｯ!ｱｰｯ!ｱｰｯ!
+ｱｰｯ!ｱｰｯ!ｱｰｯ!
+ｱｰｯ!ｱｰｯ!ｱｰｯ!
+ｱｰｯ!ｱｰｯ!ｱｰｯ!
+あくしろよ
+来いよ！
+アーッ！アーッ！あのさぁ…あのさぁ…あくしろよあくしろよ
+あのさぁ…あくしろよ
+ファッ！？
+アーッ！アーッ！
+あのさぁ…あくしろよ
+ファッ！？
+あのさぁ…あくしろよ
+ファッ！？ファッ！？
+あのさぁ…
+ファッ！？
+アーッ！アーッ！
+アーッ！アーッ！
+アーッ！アーッ！
+あくしろよあくしろよあくしろよあくしろよ
+あくしろよあくしろよあくしろよあくしろよ
+ファッ！？
+ｱｰｯ!ｱｰｯ!ｱｰｯ!
+ｱｰｯ!ｱｰｯ!ｱｰｯ!
+ｱｰｯ!ｱｰｯ!ｱｰｯ!
+ｱｰｯ!ｱｰｯ!ｱｰｯ!
+あのさぁ…あのさぁ…あのさぁ…あのさぁ…あのさぁ…
+ファッ！？
+アーッ！アーッ！
+ファッ！？
+あのさぁ…
+ファッ！？
+アーッ！アーッ！
+あのさぁ…あくしろよ
+あのさぁ…あくしろよ
+ファッ！？
+アーッ！アーッ！
+あのさぁ…あのさぁ…
+ファッ！？";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +88,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AnalfStarCk,
-            syntax: r"あくしろよ
+            syntax: ANALF_STAR_CK,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ANALF_STAR_CK,
+                    [(
+                        TokenKind::Plain,
+                        r"あくしろよ
 いいよ！
 アーッ！アーッ！
 あのさぁ…あのさぁ…あのさぁ…あくしろよ
@@ -84,66 +152,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 アーッ！アーッ！
 あのさぁ…あのさぁ…
 ファッ！？",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"あくしろよ
-いいよ！
-アーッ！アーッ！
-あのさぁ…あのさぁ…あのさぁ…あくしろよ
-アーッ！アーッ！
-あのさぁ…あのさぁ…あくしろよ
-あのさぁ…あのさぁ…あくしろよ
-あのさぁ…あのさぁ…あくしろよ
-あくしろよ
-アーッ！アーッ！
-あのさぁ…あのさぁ…あくしろよ
-あのさぁ…あのさぁ…あくしろよ
-あのさぁ…あのさぁ…あくしろよ
-あくしろよ
-アーッ！アーッ！
-あのさぁ…あのさぁ…あくしろよ
-あのさぁ…あのさぁ…あくしろよ
-あのさぁ…あのさぁ…あくしろよ
-あくしろよ
-ｱｰｯ!ｱｰｯ!ｱｰｯ!
-ｱｰｯ!ｱｰｯ!ｱｰｯ!
-ｱｰｯ!ｱｰｯ!ｱｰｯ!
-ｱｰｯ!ｱｰｯ!ｱｰｯ!
-あくしろよ
-来いよ！
-アーッ！アーッ！あのさぁ…あのさぁ…あくしろよあくしろよ
-あのさぁ…あくしろよ
-ファッ！？
-アーッ！アーッ！
-あのさぁ…あくしろよ
-ファッ！？
-あのさぁ…あくしろよ
-ファッ！？ファッ！？
-あのさぁ…
-ファッ！？
-アーッ！アーッ！
-アーッ！アーッ！
-アーッ！アーッ！
-あくしろよあくしろよあくしろよあくしろよ
-あくしろよあくしろよあくしろよあくしろよ
-ファッ！？
-ｱｰｯ!ｱｰｯ!ｱｰｯ!
-ｱｰｯ!ｱｰｯ!ｱｰｯ!
-ｱｰｯ!ｱｰｯ!ｱｰｯ!
-ｱｰｯ!ｱｰｯ!ｱｰｯ!
-あのさぁ…あのさぁ…あのさぁ…あのさぁ…あのさぁ…
-ファッ！？
-アーッ！アーッ！
-ファッ！？
-あのさぁ…
-ファッ！？
-アーッ！アーッ！
-あのさぁ…あくしろよ
-あのさぁ…あくしろよ
-ファッ！？
-アーッ！アーッ！
-あのさぁ…あのさぁ…
-ファッ！？",
-            )],
+                    )],
+                )
+            },
         }],
     };

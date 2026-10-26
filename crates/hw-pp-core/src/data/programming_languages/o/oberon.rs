@@ -15,7 +15,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -23,6 +23,19 @@ language_names! {
     versions: [Oberon => "Oberon"],
     extensions: [O => "o"],
 }
+
+const OBERON: &str = concat!(
+    r"MODULE HelloWorld;
+
+IMPORT Out;
+
+BEGIN
+   Out.Open;
+   Out.String('",
+    output_for_hello_world!(),
+    r"');
+END HelloWorld."
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -32,67 +45,61 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Modula, Oberon],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Oberon,
-            syntax: concat!(
-                r"MODULE HelloWorld;
-
-IMPORT Out;
-
-BEGIN
-   Out.Open;
-   Out.String('",
-                output_for_hello_world!(),
-                r"');
-END HelloWorld."
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"MODULE"),
-                (TokenKind::Plain, r" HelloWorld"),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: OBERON,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    OBERON,
+                    [
+                        (TokenKind::Keyword, r"MODULE"),
+                        (TokenKind::Plain, r" HelloWorld"),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"IMPORT"),
-                (TokenKind::Plain, r" Out"),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"IMPORT"),
+                        (TokenKind::Plain, r" Out"),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"BEGIN"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"BEGIN"),
+                        (
+                            TokenKind::Plain,
+                            r"
    Out",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Plain, r"Open"),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Plain, r"Open"),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
    Out",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"String"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r"'", output_for_hello_world!(), r"'"),
-                ),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"String"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r"'", output_for_hello_world!(), r"'"),
+                        ),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"END"),
-                (TokenKind::Plain, r" HelloWorld"),
-                (TokenKind::Punctuation, r"."),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"END"),
+                        (TokenKind::Plain, r" HelloWorld"),
+                        (TokenKind::Punctuation, r"."),
+                    ],
+                )
+            },
         }],
     };

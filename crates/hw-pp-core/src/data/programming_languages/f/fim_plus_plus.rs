@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,24 @@ language_names! {
     versions: [FimPlusPlus => "Fim++"],
     extensions: [Fimpp => "fimpp"],
 }
+
+const FIM_PLUS_PLUS: &str = concat!(
+    r"Dear Princess Celestia: ",
+    output_for_hello_world!(),
+    r"
+
+Today I learned how to say ",
+    output_for_hello_world!(),
+    r#"
+I said ""#,
+    output_for_hello_world!(),
+    r#"".
+That's all about how to say "#,
+    output_for_hello_world!(),
+    r".
+
+Your faithful student, Twilight Sparkle. "
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,42 +47,31 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::FimPlusPlus,
-            syntax: concat!(
-                r"Dear Princess Celestia: ",
-                output_for_hello_world!(),
-                r"
+            syntax: FIM_PLUS_PLUS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FIM_PLUS_PLUS,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"Dear Princess Celestia: ",
+                            output_for_hello_world!(),
+                            r"
 
 Today I learned how to say ",
-                output_for_hello_world!(),
-                r#"
+                            output_for_hello_world!(),
+                            r#"
 I said ""#,
-                output_for_hello_world!(),
-                r#"".
+                            output_for_hello_world!(),
+                            r#"".
 That's all about how to say "#,
-                output_for_hello_world!(),
-                r".
+                            output_for_hello_world!(),
+                            r".
 
 Your faithful student, Twilight Sparkle. "
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"Dear Princess Celestia: ",
-                    output_for_hello_world!(),
-                    r"
-
-Today I learned how to say ",
-                    output_for_hello_world!(),
-                    r#"
-I said ""#,
-                    output_for_hello_world!(),
-                    r#"".
-That's all about how to say "#,
-                    output_for_hello_world!(),
-                    r".
-
-Your faithful student, Twilight Sparkle. "
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

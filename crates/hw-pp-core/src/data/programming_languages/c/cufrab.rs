@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,13 @@ language_names! {
     versions: [Cufrab => "Cufrab"],
     extensions: [],
 }
+
+const CUFRAB: &str = concat!(
+    r#":PRINT[-]~\.;
+""#,
+    output_for_hello_world!(),
+    r#"\n"PRINT"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,20 +37,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cufrab,
-            syntax: concat!(
-                r#":PRINT[-]~\.;
+            syntax: CUFRAB,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CUFRAB,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#":PRINT[-]~\.;
 ""#,
-                output_for_hello_world!(),
-                r#"\n"PRINT"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#":PRINT[-]~\.;
-""#,
-                    output_for_hello_world!(),
-                    r#"\n"PRINT"#
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r#"\n"PRINT"#
+                        ),
+                    )],
+                )
+            },
         }],
     };

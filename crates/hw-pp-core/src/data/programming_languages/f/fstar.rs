@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [Fstar => "FStar"],
     extensions: [Fst => "fst"],
 }
+
+const FSTAR: &str = concat!(
+    r#"module Hello
+
+let main = FStar.IO.print_string ""#,
+    output_for_hello_world!(),
+    r#"\n""#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,34 +37,33 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Fstar,
-            syntax: concat!(
-                r#"module Hello
-
-let main = FStar.IO.print_string ""#,
-                output_for_hello_world!(),
-                r#"\n""#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"module"),
-                (
-                    TokenKind::Plain,
-                    r" Hello
+            syntax: FSTAR,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FSTAR,
+                    [
+                        (TokenKind::Keyword, r"module"),
+                        (
+                            TokenKind::Plain,
+                            r" Hello
 
 ",
-                ),
-                (TokenKind::Keyword, r"let"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"main"),
-                (TokenKind::Plain, r" = FStar"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Keyword, r"IO"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"print_string"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
-                ),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"let"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"main"),
+                        (TokenKind::Plain, r" = FStar"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Keyword, r"IO"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"print_string"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                        ),
+                    ],
+                )
+            },
         }],
     };

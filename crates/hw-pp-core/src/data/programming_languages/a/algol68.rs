@@ -15,7 +15,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -23,6 +23,14 @@ language_names! {
     versions: [Algol68 => "ALGOL 68"],
     extensions: [Algol68 => "algol68"],
 }
+
+const ALGOL68: &str = concat!(
+    r#"begin
+  print((""#,
+    output_for_hello_world!(),
+    r#"",newline))
+end"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -32,22 +40,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Algol],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Algol68,
-            syntax: concat!(
-                r#"begin
+            syntax: ALGOL68,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ALGOL68,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"begin
   print((""#,
-                output_for_hello_world!(),
-                r#"",newline))
+                            output_for_hello_world!(),
+                            r#"",newline))
 end"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"begin
-  print((""#,
-                    output_for_hello_world!(),
-                    r#"",newline))
-end"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -11,13 +11,28 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Rando => "RANDo",
     versions: [Rando => "RANDo"],
     extensions: [],
 }
+
+const RANDO: &str = r"rrrrrrrrrrnrrrrrrrrrrnrrrrrrrrrrnrrrrrrrrrrndo
+rrrrrrrrrrnrrrrrrrrrrnrrrrrrrrrrnrrrnrnanananrnando
+rrrrrrrrrrnrrrrrrrrrrnrrrrrrrrrrrrrrrnaaaaaanaaaaaando
+rrrrrrrrrrrrrrrrrrrrnrrrrrrrrrrnrrrrrnrrnrndo
+rrrrrrrrrrrrrrrrrrrrnrrrrrrrrrrnrrrrrnrrnrndo
+ond
+rrrrrrrrrrrrrrrrrrrrrrrrrnrrrrrrrrrrnrrrrrnrrrrnrnaananando
+rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrnrrrrrnrnrnaanananrnaanananando
+rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrnrrrrrrrrrrnrnananrnrnando
+rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrnaaaaanaaaaanrnrnando
+rrrrrrrrrrrrrrrrrrrrnrrrrrrrnrnrnanananando";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +42,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rando,
-            syntax: r"rrrrrrrrrrnrrrrrrrrrrnrrrrrrrrrrnrrrrrrrrrrndo
+            syntax: RANDO,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    RANDO,
+                    [(
+                        TokenKind::Plain,
+                        r"rrrrrrrrrrnrrrrrrrrrrnrrrrrrrrrrnrrrrrrrrrrndo
 rrrrrrrrrrnrrrrrrrrrrnrrrrrrrrrrnrrrnrnanananrnando
 rrrrrrrrrrnrrrrrrrrrrnrrrrrrrrrrrrrrrnaaaaaanaaaaaando
 rrrrrrrrrrrrrrrrrrrrnrrrrrrrrrrnrrrrrnrrnrndo
@@ -38,19 +59,8 @@ rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrnrrrrrnrnrnaanananrnaanananando
 rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrnrrrrrrrrrrnrnananrnrnando
 rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrnaaaaanaaaaanrnrnando
 rrrrrrrrrrrrrrrrrrrrnrrrrrrrnrnrnanananando",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"rrrrrrrrrrnrrrrrrrrrrnrrrrrrrrrrnrrrrrrrrrrndo
-rrrrrrrrrrnrrrrrrrrrrnrrrrrrrrrrnrrrnrnanananrnando
-rrrrrrrrrrnrrrrrrrrrrnrrrrrrrrrrrrrrrnaaaaaanaaaaaando
-rrrrrrrrrrrrrrrrrrrrnrrrrrrrrrrnrrrrrnrrnrndo
-rrrrrrrrrrrrrrrrrrrrnrrrrrrrrrrnrrrrrnrrnrndo
-ond
-rrrrrrrrrrrrrrrrrrrrrrrrrnrrrrrrrrrrnrrrrrnrrrrnrnaananando
-rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrnrrrrrnrnrnaanananrnaanananando
-rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrnrrrrrrrrrrnrnananrnrnando
-rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrnaaaaanaaaaanrnrnando
-rrrrrrrrrrrrrrrrrrrrnrrrrrrrnrnrnanananando",
-            )],
+                    )],
+                )
+            },
         }],
     };

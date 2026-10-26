@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,18 @@ language_names! {
     versions: [AlphaFiveXbasic => "Alpha-Five-Xbasic"],
     extensions: [],
 }
+
+const ALPHA_FIVE_XBASIC: &str = concat!(
+    r"' ",
+    output_for_hello_world!(),
+    r#" in Alpha Five Xbasic
+
+ui_msg_box("The '"#,
+    output_for_hello_world!(),
+    r#"' Collection", ""#,
+    output_for_hello_world!(),
+    r#"", UI_ATTENTION_SYMBOL)"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,43 +42,38 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AlphaFiveXbasic,
-            syntax: concat!(
-                r"' ",
-                output_for_hello_world!(),
-                r#" in Alpha Five Xbasic
-
-ui_msg_box("The '"#,
-                output_for_hello_world!(),
-                r#"' Collection", ""#,
-                output_for_hello_world!(),
-                r#"", UI_ATTENTION_SYMBOL)"#
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Comment,
-                    concat!(r"' ", output_for_hello_world!(), r" in Alpha Five Xbasic"),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: ALPHA_FIVE_XBASIC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ALPHA_FIVE_XBASIC,
+                    [
+                        (
+                            TokenKind::Comment,
+                            concat!(r"' ", output_for_hello_world!(), r" in Alpha Five Xbasic"),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Function, r"ui_msg_box"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#""The '"#, output_for_hello_world!(), r#"' Collection""#),
-                ),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" UI_ATTENTION_SYMBOL"),
-                (TokenKind::Punctuation, r")"),
-            ],
+                        ),
+                        (TokenKind::Function, r"ui_msg_box"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#""The '"#, output_for_hello_world!(), r#"' Collection""#),
+                        ),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" UI_ATTENTION_SYMBOL"),
+                        (TokenKind::Punctuation, r")"),
+                    ],
+                )
+            },
         }],
     };

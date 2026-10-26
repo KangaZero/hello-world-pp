@@ -10,13 +10,30 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Smil => "Smil",
     versions: [Smil => "Smil"],
     extensions: [Smil => "smil"],
 }
+
+const SMIL: &str = r#"<smil>
+ <head>
+  <layout>
+   <root-layout width="300" height="160" background-color="white"/>
+   <region id="text_region" left="115" top="60"/>
+  </layout>
+ </head>
+ <body>
+  <text src="data:,Hello%20World!" region="text_region">
+   <param name="fontFace" value="Arial"/>
+  </text>
+ </body>
+</smil>"#;
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +43,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Smil,
-            syntax: r#"<smil>
+            syntax: SMIL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SMIL,
+                    [(
+                        TokenKind::Plain,
+                        r#"<smil>
  <head>
   <layout>
    <root-layout width="300" height="160" background-color="white"/>
@@ -39,21 +62,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
   </text>
  </body>
 </smil>"#,
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r#"<smil>
- <head>
-  <layout>
-   <root-layout width="300" height="160" background-color="white"/>
-   <region id="text_region" left="115" top="60"/>
-  </layout>
- </head>
- <body>
-  <text src="data:,Hello%20World!" region="text_region">
-   <param name="fontFace" value="Arial"/>
-  </text>
- </body>
-</smil>"#,
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,14 @@ language_names! {
     versions: [Ceylon => "Ceylon"],
     extensions: [Ceylon => "ceylon"],
 }
+
+const CEYLON: &str = concat!(
+    r#"shared void hello() {
+    print(""#,
+    output_for_hello_world!(),
+    r#"");
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,39 +38,38 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Java],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ceylon,
-            syntax: concat!(
-                r#"shared void hello() {
-    print(""#,
-                output_for_hello_world!(),
-                r#"");
-}"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Plain, r"shared "),
-                (TokenKind::Keyword, r"void"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"hello"),
-                (TokenKind::Punctuation, r"()"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: CEYLON,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CEYLON,
+                    [
+                        (TokenKind::Plain, r"shared "),
+                        (TokenKind::Keyword, r"void"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"hello"),
+                        (TokenKind::Punctuation, r"()"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Function, r"print"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Function, r"print"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                    ],
+                )
+            },
         }],
     };

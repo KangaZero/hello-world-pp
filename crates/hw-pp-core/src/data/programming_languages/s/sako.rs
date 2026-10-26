@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,15 @@ language_names! {
     versions: [Sako => "SAKO"],
     extensions: [Sako => "sako"],
 }
+
+const SAKO: &str = concat!(
+    r"TEKST:
+",
+    output_for_hello_world!(),
+    r"
+STOP NASTEPNY
+KONIEC"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,24 +38,22 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sako,
-            syntax: concat!(
-                r"TEKST:
+            syntax: SAKO,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SAKO,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"TEKST:
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 STOP NASTEPNY
 KONIEC"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"TEKST:
-",
-                    output_for_hello_world!(),
-                    r"
-STOP NASTEPNY
-KONIEC"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

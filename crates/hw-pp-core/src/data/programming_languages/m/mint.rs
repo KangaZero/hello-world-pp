@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,16 @@ language_names! {
     versions: [Mint => "Mint"],
     extensions: [Mint => "mint"],
 }
+
+const MINT: &str = concat!(
+    r#"component Main {
+  fun render : Html {
+    <div>""#,
+    output_for_hello_world!(),
+    r#""</div>
+  }
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,49 +39,46 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Mint,
-            syntax: concat!(
-                r#"component Main {
-  fun render : Html {
-    <div>""#,
-                output_for_hello_world!(),
-                r#""</div>
-  }
-}"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Plain, r"component Main "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: MINT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MINT,
+                    [
+                        (TokenKind::Plain, r"component Main "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Keyword, r"fun"),
-                (TokenKind::Plain, r" render "),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" Html "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"fun"),
+                        (TokenKind::Plain, r" render "),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" Html "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
     <div>",
-                ),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"</div>
+                        ),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"</div>
   ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                    ],
+                )
+            },
         }],
     };

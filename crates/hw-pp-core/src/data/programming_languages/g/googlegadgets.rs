@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,26 @@ language_names! {
     versions: [Googlegadgets => "GoogleGadgets"],
     extensions: [],
 }
+
+const GOOGLEGADGETS: &str = concat!(
+    r#"<?xml version="1.0" encoding="UTF-8" ?> 
+<!-- "#,
+    output_for_hello_world!(),
+    r#" as a Google gadget -->
+
+<Module>
+  <ModulePrefs title=""#,
+    output_for_hello_world!(),
+    r#" example" /> 
+  <Content type="html">
+     <![CDATA[ 
+       "#,
+    output_for_hello_world!(),
+    r"
+     ]]>
+  </Content> 
+</Module>"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,46 +50,33 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Googlegadgets,
-            syntax: concat!(
-                r#"<?xml version="1.0" encoding="UTF-8" ?> 
+            syntax: GOOGLEGADGETS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    GOOGLEGADGETS,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"<?xml version="1.0" encoding="UTF-8" ?> 
 <!-- "#,
-                output_for_hello_world!(),
-                r#" as a Google gadget -->
+                            output_for_hello_world!(),
+                            r#" as a Google gadget -->
 
 <Module>
   <ModulePrefs title=""#,
-                output_for_hello_world!(),
-                r#" example" /> 
+                            output_for_hello_world!(),
+                            r#" example" /> 
   <Content type="html">
      <![CDATA[ 
        "#,
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
      ]]>
   </Content> 
 </Module>"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"<?xml version="1.0" encoding="UTF-8" ?> 
-<!-- "#,
-                    output_for_hello_world!(),
-                    r#" as a Google gadget -->
-
-<Module>
-  <ModulePrefs title=""#,
-                    output_for_hello_world!(),
-                    r#" example" /> 
-  <Content type="html">
-     <![CDATA[ 
-       "#,
-                    output_for_hello_world!(),
-                    r"
-     ]]>
-  </Content> 
-</Module>"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

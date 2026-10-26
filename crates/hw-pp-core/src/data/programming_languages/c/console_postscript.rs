@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,23 @@ language_names! {
     versions: [ConsolePostscript => "Console Postscript"],
     extensions: [],
 }
+
+const CONSOLE_POSTSCRIPT: &str = concat!(
+    r"%% ",
+    output_for_hello_world!(),
+    r" in Console PostScript
+
+serverdict begin 0 exitserver
+/Courier findfont
+48 scalefont setfont
+22 22 moveto
+(",
+    output_for_hello_world!(),
+    r") show
+showpage
+
+%% End"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,40 +47,30 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::ConsolePostscript,
-            syntax: concat!(
-                r"%% ",
-                output_for_hello_world!(),
-                r" in Console PostScript
+            syntax: CONSOLE_POSTSCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CONSOLE_POSTSCRIPT,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"%% ",
+                            output_for_hello_world!(),
+                            r" in Console PostScript
 
 serverdict begin 0 exitserver
 /Courier findfont
 48 scalefont setfont
 22 22 moveto
 (",
-                output_for_hello_world!(),
-                r") show
+                            output_for_hello_world!(),
+                            r") show
 showpage
 
 %% End"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"%% ",
-                    output_for_hello_world!(),
-                    r" in Console PostScript
-
-serverdict begin 0 exitserver
-/Courier findfont
-48 scalefont setfont
-22 22 moveto
-(",
-                    output_for_hello_world!(),
-                    r") show
-showpage
-
-%% End"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,13 @@ language_names! {
     versions: [LocomotiveBasic => "Locomotive Basic"],
     extensions: [],
 }
+
+const LOCOMOTIVE_BASIC: &str = concat!(
+    r#"10 print ""#,
+    output_for_hello_world!(),
+    r#""
+run"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,26 +36,26 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Basic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::LocomotiveBasic,
-            syntax: concat!(
-                r#"10 print ""#,
-                output_for_hello_world!(),
-                r#""
-run"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Number, r"10"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"print"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: LOCOMOTIVE_BASIC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LOCOMOTIVE_BASIC,
+                    [
+                        (TokenKind::Number, r"10"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"print"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 run",
-                ),
-            ],
+                        ),
+                    ],
+                )
+            },
         }],
     };

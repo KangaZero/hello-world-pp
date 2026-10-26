@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,18 @@ language_names! {
     versions: [VbaExcel => "VBA (Excel)"],
     extensions: [],
 }
+
+const VBA_EXCEL: &str = concat!(
+    r"' ",
+    output_for_hello_world!(),
+    r#" in Visual Basic for Applications, Excel version
+
+Private Sub Workbook_Open()
+    MsgBox ""#,
+    output_for_hello_world!(),
+    r#""
+End Sub"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,57 +42,52 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::VbaExcel,
-            syntax: concat!(
-                r"' ",
-                output_for_hello_world!(),
-                r#" in Visual Basic for Applications, Excel version
-
-Private Sub Workbook_Open()
-    MsgBox ""#,
-                output_for_hello_world!(),
-                r#""
-End Sub"#
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Comment,
-                    concat!(
-                        r"' ",
-                        output_for_hello_world!(),
-                        r" in Visual Basic for Applications, Excel version"
-                    ),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: VBA_EXCEL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    VBA_EXCEL,
+                    [
+                        (
+                            TokenKind::Comment,
+                            concat!(
+                                r"' ",
+                                output_for_hello_world!(),
+                                r" in Visual Basic for Applications, Excel version"
+                            ),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"Private"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"Sub"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"Workbook_Open"),
-                (TokenKind::Punctuation, r"()"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"Private"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"Sub"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"Workbook_Open"),
+                        (TokenKind::Punctuation, r"()"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"MsgBox"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"MsgBox"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"End"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"Sub"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"End"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"Sub"),
+                    ],
+                )
+            },
         }],
     };

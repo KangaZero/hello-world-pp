@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [Lingo => "Lingo"],
     extensions: [Lg4 => "lg4"],
 }
+
+const LINGO: &str = concat!(
+    r#"on startmovie
+  alert ""#,
+    output_for_hello_world!(),
+    r#""
+end"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,30 +37,29 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Lingo,
-            syntax: concat!(
-                r#"on startmovie
-  alert ""#,
-                output_for_hello_world!(),
-                r#""
-end"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"on"),
-                (
-                    TokenKind::Plain,
-                    r" startmovie
+            syntax: LINGO,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LINGO,
+                    [
+                        (TokenKind::Keyword, r"on"),
+                        (
+                            TokenKind::Plain,
+                            r" startmovie
   alert ",
-                ),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"end"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"end"),
+                    ],
+                )
+            },
         }],
     };

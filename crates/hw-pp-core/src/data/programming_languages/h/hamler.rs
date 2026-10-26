@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [Hamler => "Hamler"],
     extensions: [Hm => "hm"],
 }
+
+const HAMLER: &str = concat!(
+    r#"module Main where
+import Prelude
+main = print ""#,
+    output_for_hello_world!(),
+    r#"""#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,34 +37,33 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hamler,
-            syntax: concat!(
-                r#"module Main where
-import Prelude
-main = print ""#,
-                output_for_hello_world!(),
-                r#"""#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"module"),
-                (TokenKind::Plain, r" Main "),
-                (TokenKind::Keyword, r"where"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: HAMLER,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    HAMLER,
+                    [
+                        (TokenKind::Keyword, r"module"),
+                        (TokenKind::Plain, r" Main "),
+                        (TokenKind::Keyword, r"where"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"import"),
-                (
-                    TokenKind::Plain,
-                    r" Prelude
+                        ),
+                        (TokenKind::Keyword, r"import"),
+                        (
+                            TokenKind::Plain,
+                            r" Prelude
 main = ",
-                ),
-                (TokenKind::Function, r"print"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-            ],
+                        ),
+                        (TokenKind::Function, r"print"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                    ],
+                )
+            },
         }],
     };

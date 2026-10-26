@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,16 +21,8 @@ language_names! {
     extensions: [],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::AssemblerZ80Knightos,
-        extensions: &[],
-        categories: &[Assembly],
-        families: &[],
-        versions: &[ProgrammingLanguageVersion {
-            label: ProgrammingLanguageDialect::AssemblerZ80Knightos,
-            syntax: concat!(
-                r#"#include "kernel.inc"
+const ASSEMBLER_Z80_KNIGHTOS: &str = concat!(
+    r#"#include "kernel.inc"
     .db "KEXC"
     .db KEXC_ENTRY_POINT
     .dw start
@@ -46,118 +38,133 @@ start:
 
 message:
     .db ""#,
-                output_for_hello_world!(),
-                r#"", 0"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Plain, r"#include "),
-                (TokenKind::String, r#""kernel.inc""#),
-                (
-                    TokenKind::Plain,
-                    r"
+    output_for_hello_world!(),
+    r#"", 0"#
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::AssemblerZ80Knightos,
+        extensions: &[],
+        categories: &[Assembly],
+        families: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::AssemblerZ80Knightos,
+            syntax: ASSEMBLER_Z80_KNIGHTOS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_Z80_KNIGHTOS,
+                    [
+                        (TokenKind::Plain, r"#include "),
+                        (TokenKind::String, r#""kernel.inc""#),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Macro, r".db"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::String, r#""KEXC""#),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".db"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::String, r#""KEXC""#),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Macro, r".db"),
-                (
-                    TokenKind::Plain,
-                    r" KEXC_ENTRY_POINT
+                        ),
+                        (TokenKind::Macro, r".db"),
+                        (
+                            TokenKind::Plain,
+                            r" KEXC_ENTRY_POINT
     ",
-                ),
-                (TokenKind::Macro, r".dw"),
-                (
-                    TokenKind::Plain,
-                    r" start
+                        ),
+                        (TokenKind::Macro, r".dw"),
+                        (
+                            TokenKind::Plain,
+                            r" start
 start",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"pcall"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"getLcdLock"),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"pcall"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"getLcdLock"),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
     ",
-                ),
-                (TokenKind::Keyword, r"pcall"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"allocScreenBuffer"),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"pcall"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"allocScreenBuffer"),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"pcall"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"clearScreen"),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"pcall"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"clearScreen"),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
     ",
-                ),
-                (TokenKind::Keyword, r"kld"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"hl"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" message"),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"kld"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"hl"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" message"),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"ld"),
-                (TokenKind::Plain, r" de"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"0"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"ld"),
+                        (TokenKind::Plain, r" de"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"0"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"pcall"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"drawStr"),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"pcall"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"drawStr"),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 message",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Macro, r".db"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"0"),
-            ],
+                        ),
+                        (TokenKind::Macro, r".db"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"0"),
+                    ],
+                )
+            },
         }],
     };

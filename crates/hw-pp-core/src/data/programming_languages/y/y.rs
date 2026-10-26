@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,21 @@ language_names! {
     versions: [Y => "Y"],
     extensions: [],
 }
+
+const Y: &str = concat!(
+    r#"module helloworld
+
+	define(EOF,(-1))
+	
+	import printf from "ylib.d"
+
+	main()
+		printf(""#,
+    output_for_hello_world!(),
+    r#"\n")
+	end
+end"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,8 +44,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Y,
-            syntax: concat!(
-                r#"module helloworld
+            syntax: Y,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    Y,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"module helloworld
 
 	define(EOF,(-1))
 	
@@ -38,27 +59,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 
 	main()
 		printf(""#,
-                output_for_hello_world!(),
-                r#"\n")
+                            output_for_hello_world!(),
+                            r#"\n")
 	end
 end"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"module helloworld
-
-	define(EOF,(-1))
-	
-	import printf from "ylib.d"
-
-	main()
-		printf(""#,
-                    output_for_hello_world!(),
-                    r#"\n")
-	end
-end"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

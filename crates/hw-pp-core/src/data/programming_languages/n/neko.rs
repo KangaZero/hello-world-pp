@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,8 @@ language_names! {
     versions: [Neko => "Neko"],
     extensions: [Neko => "neko"],
 }
+
+const NEKO: &str = concat!(r#"$print(""#, output_for_hello_world!(), r#"\n");"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,15 +31,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Neko,
-            syntax: concat!(r#"$print(""#, output_for_hello_world!(), r#"\n");"#),
-            tokenized_syntax: &[
-                (TokenKind::Function, r"$print"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
-                ),
-                (TokenKind::Punctuation, r");"),
-            ],
+            syntax: NEKO,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    NEKO,
+                    [
+                        (TokenKind::Function, r"$print"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                        ),
+                        (TokenKind::Punctuation, r");"),
+                    ],
+                )
+            },
         }],
     };

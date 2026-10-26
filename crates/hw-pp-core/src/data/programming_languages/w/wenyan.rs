@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,13 @@ language_names! {
     versions: [Wenyan => "wenyan"],
     extensions: [],
 }
+
+const WENYAN: &str = concat!(
+    r"注曰。「「 ",
+    output_for_hello_world!(),
+    r" in wenyan 」」。
+吾有一言。曰「「問天地好在。」」。書之。"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,20 +37,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Wenyan,
-            syntax: concat!(
-                r"注曰。「「 ",
-                output_for_hello_world!(),
-                r" in wenyan 」」。
+            syntax: WENYAN,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    WENYAN,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"注曰。「「 ",
+                            output_for_hello_world!(),
+                            r" in wenyan 」」。
 吾有一言。曰「「問天地好在。」」。書之。"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"注曰。「「 ",
-                    output_for_hello_world!(),
-                    r" in wenyan 」」。
-吾有一言。曰「「問天地好在。」」。書之。"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Wsad => "wsad",
     versions: [Wsad => "wsad"],
     extensions: [],
 }
+
+const WSAD: &str = r"wwwwwwwwwwwwwwwwwasdwwwwwwwwwasdwwwwsdwwwwwwsdwwwwwwsdwwsasasasawswdsdwwsdwwsdwssdsdwwwasawdsawswdsdsdsssdwswswssswwwwwwwwwwwwwwsssswwwwwwsssdsdsssawssssasswwwwwwsswswswswswswssswswswswswswswswssssdsdwwsssdwwwwss";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Wsad,
-            syntax: r"wwwwwwwwwwwwwwwwwasdwwwwwwwwwasdwwwwsdwwwwwwsdwwwwwwsdwwsasasasawswdsdwwsdwwsdwssdsdwwwasawdsawswdsdsdsssdwswswssswwwwwwwwwwwwwwsssswwwwwwsssdsdsssawssssasswwwwwwsswswswswswswssswswswswswswswswssssdsdwwsssdwwwwss",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"wwwwwwwwwwwwwwwwwasdwwwwwwwwwasdwwwwsdwwwwwwsdwwwwwwsdwwsasasasawswdsdwwsdwwsdwssdsdwwwasawdsawswdsdsdsssdwswswssswwwwwwwwwwwwwwsssswwwwwwsssdsdsssawssssasswwwwwwsswswswswswswssswswswswswswswswssssdsdwwsssdwwwwss",
-            )],
+            syntax: WSAD,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    WSAD,
+                    [(
+                        TokenKind::Plain,
+                        r"wwwwwwwwwwwwwwwwwasdwwwwwwwwwasdwwwwsdwwwwwwsdwwwwwwsdwwsasasasawswdsdwwsdwwsdwssdsdwwwasawdsawswdsdsdsssdwswswssswwwwwwwwwwwwwwsssswwwwwwsssdsdsssawssssasswwwwwwsswswswswswswssswswswswswswswswssssdsdwwsssdwwwwss",
+                    )],
+                )
+            },
         }],
     };

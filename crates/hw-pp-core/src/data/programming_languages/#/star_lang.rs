@@ -11,13 +11,149 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: StarLang => "*lang",
     versions: [StarLang => "*lang"],
     extensions: [],
 }
+
+const STAR_LANG: &str = r"new *_;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+new * ;
+new *!;
+
+
+
+
+
+
+
+
+
+
+new *,;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+new *H;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+new *d;
+new *e;
+
+
+
+
+
+
+new *l;
+
+
+new *o;
+
+
+new *r;
+
+
+
+
+new *w;
+out H;
+out e;
+out l;
+out l;
+out o;
+out ,;
+out  ;
+out w;
+out o;
+out r;
+out l;
+out d;
+out !;";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +163,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::StarLang,
-            syntax: r"new *_;
+            syntax: STAR_LANG,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    STAR_LANG,
+                    [(
+                        TokenKind::Plain,
+                        r"new *_;
 
 
 
@@ -159,140 +301,8 @@ out r;
 out l;
 out d;
 out !;",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"new *_;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-new * ;
-new *!;
-
-
-
-
-
-
-
-
-
-
-new *,;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-new *H;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-new *d;
-new *e;
-
-
-
-
-
-
-new *l;
-
-
-new *o;
-
-
-new *r;
-
-
-
-
-new *w;
-out H;
-out e;
-out l;
-out l;
-out o;
-out ,;
-out  ;
-out w;
-out o;
-out r;
-out l;
-out d;
-out !;",
-            )],
+                    )],
+                )
+            },
         }],
     };

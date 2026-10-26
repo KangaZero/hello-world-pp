@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,16 @@ language_names! {
     versions: [T9 => "T9"],
     extensions: [],
 }
+
+const T9: &str = concat!(
+    r"How to enter ",
+    output_for_hello_world!(),
+    r" on a standard T9 numeric
+keypad of an SMS-enabled mobile phone.
+T9 predictive text has to be off.
+
+44 33 555 555 666 0 9 666 777 555 3 11111"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,26 +40,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::T9,
-            syntax: concat!(
-                r"How to enter ",
-                output_for_hello_world!(),
-                r" on a standard T9 numeric
+            syntax: T9,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    T9,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"How to enter ",
+                            output_for_hello_world!(),
+                            r" on a standard T9 numeric
 keypad of an SMS-enabled mobile phone.
 T9 predictive text has to be off.
 
 44 33 555 555 666 0 9 666 777 555 3 11111"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"How to enter ",
-                    output_for_hello_world!(),
-                    r" on a standard T9 numeric
-keypad of an SMS-enabled mobile phone.
-T9 predictive text has to be off.
-
-44 33 555 555 666 0 9 666 777 555 3 11111"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

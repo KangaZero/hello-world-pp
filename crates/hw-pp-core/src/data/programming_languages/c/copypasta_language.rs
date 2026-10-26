@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,14 @@ language_names! {
     versions: [CopypastaLanguage => "CopyPasta Language"],
     extensions: [],
 }
+
+const COPYPASTA_LANGUAGE: &str = concat!(
+    r"Copy
+",
+    output_for_hello_world!(),
+    r"
+Pasta!"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,22 +38,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::CopypastaLanguage,
-            syntax: concat!(
-                r"Copy
+            syntax: COPYPASTA_LANGUAGE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    COPYPASTA_LANGUAGE,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"Copy
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 Pasta!"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"Copy
-",
-                    output_for_hello_world!(),
-                    r"
-Pasta!"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,13 @@ language_names! {
     versions: [Licorne => "Licorne"],
     extensions: [],
 }
+
+const LICORNE: &str = concat!(
+    r"hurler.$.aux licornes; $",
+    output_for_hello_world!(),
+    r"
+s'arrêter discrétos"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,20 +37,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Licorne,
-            syntax: concat!(
-                r"hurler.$.aux licornes; $",
-                output_for_hello_world!(),
-                r"
+            syntax: LICORNE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LICORNE,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"hurler.$.aux licornes; $",
+                            output_for_hello_world!(),
+                            r"
 s'arrêter discrétos"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"hurler.$.aux licornes; $",
-                    output_for_hello_world!(),
-                    r"
-s'arrêter discrétos"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

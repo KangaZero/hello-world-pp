@@ -11,13 +11,19 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: LeftRightMarch => "Left-Right March",
     versions: [LeftRightMarch => "Left-Right March"],
     extensions: [],
 }
+
+const LEFT_RIGHT_MARCH: &str =
+    r"c09p00c32p00c39p00p00c42p00c88p00c01p00c50p00c42p00c45p00c39p00c31p00c64p00";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +33,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::LeftRightMarch,
-            syntax: r"c09p00c32p00c39p00p00c42p00c88p00c01p00c50p00c42p00c45p00c39p00c31p00c64p00",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"c09p00c32p00c39p00p00c42p00c88p00c01p00c50p00c42p00c45p00c39p00c31p00c64p00",
-            )],
+            syntax: LEFT_RIGHT_MARCH,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LEFT_RIGHT_MARCH,
+                    [(
+                        TokenKind::Plain,
+                        r"c09p00c32p00c39p00p00c42p00c88p00c01p00c50p00c42p00c45p00c39p00c31p00c64p00",
+                    )],
+                )
+            },
         }],
     };

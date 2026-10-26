@@ -11,13 +11,28 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: ScratchIsDumb => "Scratch is dumb",
     versions: [ScratchIsDumb => "Scratch is dumb"],
     extensions: [],
 }
+
+const SCRATCH_IS_DUMB: &str = r"00 00 00 00 00 00 00 00 06 05 
+00 00 00 00 06 05 00 00 05 00 
+00 00 05 00 00 00 05 00 04 04 
+04 04 01 07 05 00 05 00 05 01 
+05 05 00 06 04 07 04 01 07 05 
+05 03 05 01 01 01 03 00 00 00 
+00 00 00 00 03 03 00 00 00 03 
+05 05 03 04 01 03 04 03 00 00 
+00 03 01 01 01 01 01 01 03 01 
+01 01 01 01 01 01 01 03 05 05 
+00 03 05 00 00 03";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +42,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::ScratchIsDumb,
-            syntax: r"00 00 00 00 00 00 00 00 06 05 
+            syntax: SCRATCH_IS_DUMB,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SCRATCH_IS_DUMB,
+                    [(
+                        TokenKind::Plain,
+                        r"00 00 00 00 00 00 00 00 06 05 
 00 00 00 00 06 05 00 00 05 00 
 00 00 05 00 00 00 05 00 04 04 
 04 04 01 07 05 00 05 00 05 01 
@@ -38,19 +59,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 00 03 01 01 01 01 01 01 03 01 
 01 01 01 01 01 01 01 03 05 05 
 00 03 05 00 00 03",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"00 00 00 00 00 00 00 00 06 05 
-00 00 00 00 06 05 00 00 05 00 
-00 00 05 00 00 00 05 00 04 04 
-04 04 01 07 05 00 05 00 05 01 
-05 05 00 06 04 07 04 01 07 05 
-05 03 05 01 01 01 03 00 00 00 
-00 00 00 00 03 03 00 00 00 03 
-05 05 03 04 01 03 04 03 00 00 
-00 03 01 01 01 01 01 01 03 01 
-01 01 01 01 01 01 01 03 05 05 
-00 03 05 00 00 03",
-            )],
+                    )],
+                )
+            },
         }],
     };

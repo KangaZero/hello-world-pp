@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,8 @@ language_names! {
     versions: [Leszek => "Leszek"],
     extensions: [Leszek => "leszek"],
 }
+
+const LESZEK: &str = concat!(r"\O\C\.1.", output_for_hello_world!());
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,10 +31,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Leszek,
-            syntax: concat!(r"\O\C\.1.", output_for_hello_world!()),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r"\O\C\.1.", output_for_hello_world!()),
-            )],
+            syntax: LESZEK,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LESZEK,
+                    [(
+                        TokenKind::Plain,
+                        concat!(r"\O\C\.1.", output_for_hello_world!()),
+                    )],
+                )
+            },
         }],
     };

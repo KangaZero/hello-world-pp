@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [Love => "Löve"],
     extensions: [],
 }
+
+const LOVE: &str = concat!(
+    r#"function love.draw()
+    love.graphics.print(""#,
+    output_for_hello_world!(),
+    r#"", 400, 300)
+end"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,37 +37,36 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Love,
-            syntax: concat!(
-                r#"function love.draw()
-    love.graphics.print(""#,
-                output_for_hello_world!(),
-                r#"", 400, 300)
-end"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"function"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"love.draw"),
-                (TokenKind::Punctuation, r"()"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: LOVE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LOVE,
+                    [
+                        (TokenKind::Keyword, r"function"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"love.draw"),
+                        (TokenKind::Punctuation, r"()"),
+                        (
+                            TokenKind::Plain,
+                            r"
     love.graphics.print(",
-                ),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Plain, r", "),
-                (TokenKind::Number, r"400"),
-                (TokenKind::Plain, r", "),
-                (TokenKind::Number, r"300"),
-                (
-                    TokenKind::Plain,
-                    r")
+                        ),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Plain, r", "),
+                        (TokenKind::Number, r"400"),
+                        (TokenKind::Plain, r", "),
+                        (TokenKind::Number, r"300"),
+                        (
+                            TokenKind::Plain,
+                            r")
 ",
-                ),
-                (TokenKind::Keyword, r"end"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"end"),
+                    ],
+                )
+            },
         }],
     };

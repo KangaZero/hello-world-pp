@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,17 @@ language_names! {
     versions: [Qwerty => "QWERTY"],
     extensions: [Qwerty => "qwerty"],
 }
+
+const QWERTY: &str = concat!(
+    r#"begin
+	?hello = ""#,
+    output_for_hello_world!(),
+    r#""
+	if 1 == 1 then
+		output ?hello
+	fi
+end"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,28 +40,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Qwerty,
-            syntax: concat!(
-                r#"begin
+            syntax: QWERTY,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    QWERTY,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"begin
 	?hello = ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 	if 1 == 1 then
 		output ?hello
 	fi
 end"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"begin
-	?hello = ""#,
-                    output_for_hello_world!(),
-                    r#""
-	if 1 == 1 then
-		output ?hello
-	fi
-end"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

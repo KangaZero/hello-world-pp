@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,15 @@ language_names! {
     versions: [Apc => "APC"],
     extensions: [Apc => "apc"],
 }
+
+const APC: &str = concat!(
+    r#"probe program
+{
+	on_entry log (""#,
+    output_for_hello_world!(),
+    r#"\n");
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,24 +38,22 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Apc,
-            syntax: concat!(
-                r#"probe program
+            syntax: APC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    APC,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"probe program
 {
 	on_entry log (""#,
-                output_for_hello_world!(),
-                r#"\n");
+                            output_for_hello_world!(),
+                            r#"\n");
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"probe program
-{
-	on_entry log (""#,
-                    output_for_hello_world!(),
-                    r#"\n");
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

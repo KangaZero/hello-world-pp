@@ -10,13 +10,34 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Vowels => "Vowels",
     versions: [Vowels => "Vowels"],
     extensions: [Vw => "vw"],
 }
+
+const VOWELS: &str = r"ue
+yeouo
+euea
+euai
+euai
+euoa
+eaiu
+eaao
+eioo
+euoa
+euou
+euai
+euee
+eaai
+eeoe
+eeee
+y";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +47,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Vowels,
-            syntax: r"ue
+            syntax: VOWELS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    VOWELS,
+                    [(
+                        TokenKind::Plain,
+                        r"ue
 yeouo
 euea
 euai
@@ -43,25 +70,8 @@ eaai
 eeoe
 eeee
 y",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"ue
-yeouo
-euea
-euai
-euai
-euoa
-eaiu
-eaao
-eioo
-euoa
-euou
-euai
-euee
-eaai
-eeoe
-eeee
-y",
-            )],
+                    )],
+                )
+            },
         }],
     };

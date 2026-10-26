@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,17 @@ language_names! {
     versions: [Tacl => "TACL"],
     extensions: [],
 }
+
+const TACL: &str = concat!(
+    r"Comment -- ",
+    output_for_hello_world!(),
+    r" for TACL (Tandem Advanced Command Language)
+
+?tacl macro
+
+#OUTPUT ",
+    output_for_hello_world!()
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,28 +41,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Tacl,
-            syntax: concat!(
-                r"Comment -- ",
-                output_for_hello_world!(),
-                r" for TACL (Tandem Advanced Command Language)
+            syntax: TACL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    TACL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"Comment -- ",
+                            output_for_hello_world!(),
+                            r" for TACL (Tandem Advanced Command Language)
 
 ?tacl macro
 
 #OUTPUT ",
-                output_for_hello_world!()
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"Comment -- ",
-                    output_for_hello_world!(),
-                    r" for TACL (Tandem Advanced Command Language)
-
-?tacl macro
-
-#OUTPUT ",
-                    output_for_hello_world!()
-                ),
-            )],
+                            output_for_hello_world!()
+                        ),
+                    )],
+                )
+            },
         }],
     };

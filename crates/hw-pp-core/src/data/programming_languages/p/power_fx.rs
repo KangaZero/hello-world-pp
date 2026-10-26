@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,8 @@ language_names! {
     versions: [PowerFx => "Power Fx"],
     extensions: [Pfx => "pfx"],
 }
+
+const POWER_FX: &str = concat!(r#"Text(""#, output_for_hello_world!(), r#"")"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,10 +31,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PowerFx,
-            syntax: concat!(r#"Text(""#, output_for_hello_world!(), r#"")"#),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r#"Text(""#, output_for_hello_world!(), r#"")"#),
-            )],
+            syntax: POWER_FX,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    POWER_FX,
+                    [(
+                        TokenKind::Plain,
+                        concat!(r#"Text(""#, output_for_hello_world!(), r#"")"#),
+                    )],
+                )
+            },
         }],
     };

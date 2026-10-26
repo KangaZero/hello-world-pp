@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,24 @@ language_names! {
     versions: [Taktentus => "Taktentus"],
     extensions: [],
 }
+
+const TAKTENTUS: &str = concat!(
+    r#"%% Write ""#,
+    output_for_hello_world!(),
+    r#""
+h:=72
+ @wy := h
+h+=29  @wy := h
+h+=7   @wy := h @wy := h
+h:=111 @wy := h
+h:=44  @wy := h @wy := @spacja
+h:=87  @wy := h
+h+=24  @wy := h
+h+=3   @wy := h
+h+=-6  @wy := h
+h-=8   @wy := h
+h:=33  @wy := h"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +48,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Taktentus,
-            syntax: concat!(
-                r#"%% Write ""#,
-                output_for_hello_world!(),
-                r#""
+            syntax: TAKTENTUS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    TAKTENTUS,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"%% Write ""#,
+                            output_for_hello_world!(),
+                            r#""
 h:=72
  @wy := h
 h+=29  @wy := h
@@ -46,26 +70,9 @@ h+=3   @wy := h
 h+=-6  @wy := h
 h-=8   @wy := h
 h:=33  @wy := h"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"%% Write ""#,
-                    output_for_hello_world!(),
-                    r#""
-h:=72
- @wy := h
-h+=29  @wy := h
-h+=7   @wy := h @wy := h
-h:=111 @wy := h
-h:=44  @wy := h @wy := @spacja
-h:=87  @wy := h
-h+=24  @wy := h
-h+=3   @wy := h
-h+=-6  @wy := h
-h-=8   @wy := h
-h:=33  @wy := h"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

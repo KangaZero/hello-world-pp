@@ -11,13 +11,28 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Sokolang => "Sokolang",
     versions: [Sokolang => "Sokolang"],
     extensions: [],
 }
+
+const SOKOLANG: &str = r" ###    
+##*##
+#@H*#
+#####
+
+---
+
+h:10,13,72,101,108,108,111,44,32,119,111,114,108,100,33
+
+---
+rwu";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +42,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sokolang,
-            syntax: r" ###    
+            syntax: SOKOLANG,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SOKOLANG,
+                    [(
+                        TokenKind::Plain,
+                        r" ###    
 ##*##
 #@H*#
 #####
@@ -38,19 +59,8 @@ h:10,13,72,101,108,108,111,44,32,119,111,114,108,100,33
 
 ---
 rwu",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r" ###    
-##*##
-#@H*#
-#####
-
----
-
-h:10,13,72,101,108,108,111,44,32,119,111,114,108,100,33
-
----
-rwu",
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,9 @@ language_names! {
     versions: [PythonButItReceivedTheWorstTranslation => "Python, but it received the worst translation."],
     extensions: [],
 }
+
+const PYTHON_BUT_IT_RECEIVED_THE_WORST_TRANSLATION: &str =
+    concat!(r#"version(""#, output_for_hello_world!(), r#"")"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +33,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PythonButItReceivedTheWorstTranslation,
-            syntax: concat!(r#"version(""#, output_for_hello_world!(), r#"")"#),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r#"version(""#, output_for_hello_world!(), r#"")"#),
-            )],
+            syntax: PYTHON_BUT_IT_RECEIVED_THE_WORST_TRANSLATION,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PYTHON_BUT_IT_RECEIVED_THE_WORST_TRANSLATION,
+                    [(
+                        TokenKind::Plain,
+                        concat!(r#"version(""#, output_for_hello_world!(), r#"")"#),
+                    )],
+                )
+            },
         }],
     };

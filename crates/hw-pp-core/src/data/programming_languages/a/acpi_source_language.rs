@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,21 @@ language_names! {
     versions: [AcpiSourceLanguage => "ACPI Source Language"],
     extensions: [],
 }
+
+const ACPI_SOURCE_LANGUAGE: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in ACPI Source Language
+
+Scope(\) {
+	Method(_WAK) {
+		Store (""#,
+    output_for_hello_world!(),
+    r#"", Debug)
+		Return(Package(2){0x00000000,0})
+	}	
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,36 +45,28 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AcpiSourceLanguage,
-            syntax: concat!(
-                r"// ",
-                output_for_hello_world!(),
-                r#" in ACPI Source Language
+            syntax: ACPI_SOURCE_LANGUAGE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ACPI_SOURCE_LANGUAGE,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"// ",
+                            output_for_hello_world!(),
+                            r#" in ACPI Source Language
 
 Scope(\) {
 	Method(_WAK) {
 		Store (""#,
-                output_for_hello_world!(),
-                r#"", Debug)
+                            output_for_hello_world!(),
+                            r#"", Debug)
 		Return(Package(2){0x00000000,0})
 	}	
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in ACPI Source Language
-
-Scope(\) {
-	Method(_WAK) {
-		Store (""#,
-                    output_for_hello_world!(),
-                    r#"", Debug)
-		Return(Package(2){0x00000000,0})
-	}	
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

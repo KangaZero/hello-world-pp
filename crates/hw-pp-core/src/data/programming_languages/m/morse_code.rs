@@ -14,13 +14,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: MorseCode => "Morse code",
     versions: [MorseCode => "Morse code"],
     extensions: [],
 }
+
+const MORSE_CODE: &str = r".... . .-.. .-.. --- --..--   .-- --- .-. .-.. -.. -.-.--";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +35,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::MorseCode,
-            syntax: r".... . .-.. .-.. --- --..--   .-- --- .-. .-.. -.. -.-.--",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r".... . .-.. .-.. --- --..--   .-- --- .-. .-.. -.. -.-.--",
-            )],
+            syntax: MORSE_CODE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MORSE_CODE,
+                    [(
+                        TokenKind::Plain,
+                        r".... . .-.. .-.. --- --..--   .-- --- .-. .-.. -.. -.-.--",
+                    )],
+                )
+            },
         }],
     };

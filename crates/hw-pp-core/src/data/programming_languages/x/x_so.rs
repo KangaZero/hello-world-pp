@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,22 @@ language_names! {
     versions: [XSo => "X.so"],
     extensions: [],
 }
+
+const X_SO: &str = concat!(
+    r"/**
+ * ",
+    output_for_hello_world!(),
+    r#" in X.so.
+ */
+$HelloWorld (
+    $Main(
+        !Include("X")
+        !X.Show(""#,
+    output_for_hello_world!(),
+    r#"\n")
+    )
+)"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,38 +46,29 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::XSo,
-            syntax: concat!(
-                r"/**
+            syntax: X_SO,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    X_SO,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"/**
  * ",
-                output_for_hello_world!(),
-                r#" in X.so.
+                            output_for_hello_world!(),
+                            r#" in X.so.
  */
 $HelloWorld (
     $Main(
         !Include("X")
         !X.Show(""#,
-                output_for_hello_world!(),
-                r#"\n")
+                            output_for_hello_world!(),
+                            r#"\n")
     )
 )"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"/**
- * ",
-                    output_for_hello_world!(),
-                    r#" in X.so.
- */
-$HelloWorld (
-    $Main(
-        !Include("X")
-        !X.Show(""#,
-                    output_for_hello_world!(),
-                    r#"\n")
-    )
-)"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

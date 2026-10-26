@@ -14,7 +14,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -22,6 +22,8 @@ language_names! {
     versions: [Clojure111 => "Clojure 1.11"],
     extensions: [Clj => "clj", Cljs => "cljs", Cljc => "cljc"],
 }
+
+const CLOJURE111: &str = concat!(r#"(println ""#, output_for_hello_world!(), r#"")"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -31,16 +33,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Lisp],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Clojure111,
-            syntax: concat!(r#"(println ""#, output_for_hello_world!(), r#"")"#),
-            tokenized_syntax: &[
-                (TokenKind::Plain, "("),
-                (TokenKind::Keyword, "println"),
-                (TokenKind::Plain, " "),
-                (
-                    TokenKind::String,
-                    concat!("\"", output_for_hello_world!(), "\""),
-                ),
-                (TokenKind::Plain, ")"),
-            ],
+            syntax: CLOJURE111,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CLOJURE111,
+                    [
+                        (TokenKind::Plain, "("),
+                        (TokenKind::Keyword, "println"),
+                        (TokenKind::Plain, " "),
+                        (
+                            TokenKind::String,
+                            concat!("\"", output_for_hello_world!(), "\""),
+                        ),
+                        (TokenKind::Plain, ")"),
+                    ],
+                )
+            },
         }],
     };

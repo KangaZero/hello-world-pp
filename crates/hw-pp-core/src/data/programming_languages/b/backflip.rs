@@ -11,13 +11,19 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Backflip => "BackFlip",
     versions: [Backflip => "BackFlip"],
     extensions: [],
 }
+
+const BACKFLIP: &str = r"\72N101N108N108N111N44N32N119N111N114N108N100N33N10N
+\///////////////////////////////////////////////////";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,12 +33,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Backflip,
-            syntax: r"\72N101N108N108N111N44N32N119N111N114N108N100N33N10N
+            syntax: BACKFLIP,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BACKFLIP,
+                    [(
+                        TokenKind::Plain,
+                        r"\72N101N108N108N111N44N32N119N111N114N108N100N33N10N
 \///////////////////////////////////////////////////",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"\72N101N108N108N111N44N32N119N111N114N108N100N33N10N
-\///////////////////////////////////////////////////",
-            )],
+                    )],
+                )
+            },
         }],
     };

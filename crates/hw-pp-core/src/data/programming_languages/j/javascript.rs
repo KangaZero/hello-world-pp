@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,8 @@ language_names! {
     versions: [JavaScriptEs2020 => "ES2020"],
     extensions: [Js => "js", Mjs => "mjs", Cjs => "cjs"],
 }
+
+const JAVA_SCRIPT_ES2020: &str = concat!(r#"console.log(""#, output_for_hello_world!(), r#"");"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,17 +31,22 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[JavaScript],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::JavaScriptEs2020,
-            syntax: concat!(r#"console.log(""#, output_for_hello_world!(), r#"");"#),
-            tokenized_syntax: &[
-                (TokenKind::Type, "console"),
-                (TokenKind::Punctuation, "."),
-                (TokenKind::Function, "log"),
-                (TokenKind::Punctuation, "("),
-                (
-                    TokenKind::String,
-                    concat!("\"", output_for_hello_world!(), "\""),
-                ),
-                (TokenKind::Punctuation, ");"),
-            ],
+            syntax: JAVA_SCRIPT_ES2020,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    JAVA_SCRIPT_ES2020,
+                    [
+                        (TokenKind::Type, "console"),
+                        (TokenKind::Punctuation, "."),
+                        (TokenKind::Function, "log"),
+                        (TokenKind::Punctuation, "("),
+                        (
+                            TokenKind::String,
+                            concat!("\"", output_for_hello_world!(), "\""),
+                        ),
+                        (TokenKind::Punctuation, ");"),
+                    ],
+                )
+            },
         }],
     };

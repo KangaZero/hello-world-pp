@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,26 @@ language_names! {
     versions: [MysqlFunction => "MySQL FUNCTION"],
     extensions: [],
 }
+
+const MYSQL_FUNCTION: &str = concat!(
+    r"-- ",
+    output_for_hello_world!(),
+    r" in MySQL FUNCTION
+
+DELIMITER $$
+CREATE FUNCTION hello_world() RETURNS TEXT COMMENT '",
+    output_for_hello_world!(),
+    r"'
+BEGIN
+  RETURN '",
+    output_for_hello_world!(),
+    r"';
+END;
+$$
+DELIMITER ;
+ 
+SELECT hello_world();"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,94 +50,81 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::MysqlFunction,
-            syntax: concat!(
-                r"-- ",
-                output_for_hello_world!(),
-                r" in MySQL FUNCTION
-
-DELIMITER $$
-CREATE FUNCTION hello_world() RETURNS TEXT COMMENT '",
-                output_for_hello_world!(),
-                r"'
-BEGIN
-  RETURN '",
-                output_for_hello_world!(),
-                r"';
-END;
-$$
-DELIMITER ;
- 
-SELECT hello_world();"
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Comment,
-                    concat!(r"-- ", output_for_hello_world!(), r" in MySQL FUNCTION"),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: MYSQL_FUNCTION,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MYSQL_FUNCTION,
+                    [
+                        (
+                            TokenKind::Comment,
+                            concat!(r"-- ", output_for_hello_world!(), r" in MySQL FUNCTION"),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 DELIMITER $$
 ",
-                ),
-                (TokenKind::Keyword, r"CREATE"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"FUNCTION"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"hello_world"),
-                (TokenKind::Punctuation, r"()"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"RETURNS"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Type, r"TEXT"),
-                (TokenKind::Plain, r" COMMENT "),
-                (
-                    TokenKind::String,
-                    concat!(r"'", output_for_hello_world!(), r"'"),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"CREATE"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"FUNCTION"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"hello_world"),
+                        (TokenKind::Punctuation, r"()"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"RETURNS"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Type, r"TEXT"),
+                        (TokenKind::Plain, r" COMMENT "),
+                        (
+                            TokenKind::String,
+                            concat!(r"'", output_for_hello_world!(), r"'"),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"BEGIN"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"BEGIN"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Keyword, r"RETURN"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r"'", output_for_hello_world!(), r"'"),
-                ),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"RETURN"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r"'", output_for_hello_world!(), r"'"),
+                        ),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"END"),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"END"),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 $$
 DELIMITER ",
-                ),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
  
 ",
-                ),
-                (TokenKind::Keyword, r"SELECT"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"hello_world"),
-                (TokenKind::Punctuation, r"();"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"SELECT"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"hello_world"),
+                        (TokenKind::Punctuation, r"();"),
+                    ],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,17 @@ language_names! {
     versions: [Zombie => "Zombie"],
     extensions: [Zombie => "zombie"],
 }
+
+const ZOMBIE: &str = concat!(
+    r#"HelloWorld is a zombie
+summon
+  task SayHello
+      say ""#,
+    output_for_hello_world!(),
+    r#""
+  animate
+animate"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,28 +40,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Zombie,
-            syntax: concat!(
-                r#"HelloWorld is a zombie
+            syntax: ZOMBIE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ZOMBIE,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"HelloWorld is a zombie
 summon
   task SayHello
       say ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
   animate
 animate"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"HelloWorld is a zombie
-summon
-  task SayHello
-      say ""#,
-                    output_for_hello_world!(),
-                    r#""
-  animate
-animate"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

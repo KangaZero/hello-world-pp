@@ -11,13 +11,21 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Dfs => "DFS",
     versions: [Dfs => "DFS"],
     extensions: [],
 }
+
+const DFS: &str = r"iiisdsiiiiiiiiOiiiiiiiiiiiiiiiiiiiiiiiiiiiiiOiiiiiiiOOiiiO
+dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddOddddddddddddO
+dddddddddddddddddddddsddOddddddddOiiiOddddddOddddddddO
+dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddO";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,16 +35,18 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Dfs,
-            syntax: r"iiisdsiiiiiiiiOiiiiiiiiiiiiiiiiiiiiiiiiiiiiiOiiiiiiiOOiiiO
+            syntax: DFS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    DFS,
+                    [(
+                        TokenKind::Plain,
+                        r"iiisdsiiiiiiiiOiiiiiiiiiiiiiiiiiiiiiiiiiiiiiOiiiiiiiOOiiiO
 dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddOddddddddddddO
 dddddddddddddddddddddsddOddddddddOiiiOddddddOddddddddO
 dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddO",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"iiisdsiiiiiiiiOiiiiiiiiiiiiiiiiiiiiiiiiiiiiiOiiiiiiiOOiiiO
-dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddOddddddddddddO
-dddddddddddddddddddddsddOddddddddOiiiOddddddOddddddddO
-dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddO",
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,17 @@ language_names! {
     versions: [Blitz3d => "Blitz3D"],
     extensions: [Bb => "bb"],
 }
+
+const BLITZ3D: &str = concat!(
+    r";Blitz3D ",
+    output_for_hello_world!(),
+    r#" demo by MANIAK_dobrii
+Print ""#,
+    output_for_hello_world!(),
+    r#""
+WaitKey
+End"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,45 +40,41 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Blitz3d,
-            syntax: concat!(
-                r";Blitz3D ",
-                output_for_hello_world!(),
-                r#" demo by MANIAK_dobrii
-Print ""#,
-                output_for_hello_world!(),
-                r#""
-WaitKey
-End"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    concat!(
-                        r"Blitz3D ",
-                        output_for_hello_world!(),
-                        r" demo by MANIAK_dobrii
+            syntax: BLITZ3D,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BLITZ3D,
+                    [
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            concat!(
+                                r"Blitz3D ",
+                                output_for_hello_world!(),
+                                r" demo by MANIAK_dobrii
 "
-                    ),
-                ),
-                (TokenKind::Keyword, r"Print"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                            ),
+                        ),
+                        (TokenKind::Keyword, r"Print"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"WaitKey"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"WaitKey"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"End"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"End"),
+                    ],
+                )
+            },
         }],
     };

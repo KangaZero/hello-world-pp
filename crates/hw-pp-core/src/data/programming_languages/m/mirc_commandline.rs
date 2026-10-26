@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,15 @@ language_names! {
     versions: [MircCommandline => "mIRC-Commandline"],
     extensions: [],
 }
+
+const MIRC_COMMANDLINE: &str = concat!(
+    r"; ",
+    output_for_hello_world!(),
+    r" for mIRC (command line version)
+
+echo ",
+    output_for_hello_world!()
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,24 +39,22 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::MircCommandline,
-            syntax: concat!(
-                r"; ",
-                output_for_hello_world!(),
-                r" for mIRC (command line version)
+            syntax: MIRC_COMMANDLINE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MIRC_COMMANDLINE,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"; ",
+                            output_for_hello_world!(),
+                            r" for mIRC (command line version)
 
 echo ",
-                output_for_hello_world!()
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"; ",
-                    output_for_hello_world!(),
-                    r" for mIRC (command line version)
-
-echo ",
-                    output_for_hello_world!()
-                ),
-            )],
+                            output_for_hello_world!()
+                        ),
+                    )],
+                )
+            },
         }],
     };

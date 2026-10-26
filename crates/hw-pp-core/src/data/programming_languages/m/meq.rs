@@ -10,13 +10,19 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Meq => "Meq",
     versions: [Meq => "Meq"],
     extensions: [Meq => "meq"],
 }
+
+const MEQ: &str =
+    r".==++>:+>+[>:++++++++]>:=+>===++>.===+++++++>:=+>:=++++>:++++++++>:rp>p>>p>p>p>p>p>p>p>p>p!";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Meq,
-            syntax: r".==++>:+>+[>:++++++++]>:=+>===++>.===+++++++>:=+>:=++++>:++++++++>:rp>p>>p>p>p>p>p>p>p>p>p!",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r".==++>:+>+[>:++++++++]>:=+>===++>.===+++++++>:=+>:=++++>:++++++++>:rp>p>>p>p>p>p>p>p>p>p>p!",
-            )],
+            syntax: MEQ,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MEQ,
+                    [(
+                        TokenKind::Plain,
+                        r".==++>:+>+[>:++++++++]>:=+>===++>.===+++++++>:=+>:=++++>:++++++++>:rp>p>>p>p>p>p>p>p>p>p>p!",
+                    )],
+                )
+            },
         }],
     };

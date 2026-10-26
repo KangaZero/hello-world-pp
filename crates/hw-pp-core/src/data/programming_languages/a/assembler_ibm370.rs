@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,24 @@ language_names! {
     versions: [AssemblerIbm370 => "Assembler (IBM 370)"],
     extensions: [],
 }
+
+const ASSEMBLER_IBM370: &str = concat!(
+    r"ITLE '",
+    output_for_hello_world!(),
+    r" for IBM Assembler/370 (VM/CMS)'
+HELLO    START
+BALR  12,0
+USING *,12
+*
+WRTERM '",
+    output_for_hello_world!(),
+    r"'
+*
+SR    15,15
+BR    14
+*
+END   HELLO"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,42 +48,31 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblerIbm370,
-            syntax: concat!(
-                r"ITLE '",
-                output_for_hello_world!(),
-                r" for IBM Assembler/370 (VM/CMS)'
+            syntax: ASSEMBLER_IBM370,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_IBM370,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"ITLE '",
+                            output_for_hello_world!(),
+                            r" for IBM Assembler/370 (VM/CMS)'
 HELLO    START
 BALR  12,0
 USING *,12
 *
 WRTERM '",
-                output_for_hello_world!(),
-                r"'
+                            output_for_hello_world!(),
+                            r"'
 *
 SR    15,15
 BR    14
 *
 END   HELLO"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"ITLE '",
-                    output_for_hello_world!(),
-                    r" for IBM Assembler/370 (VM/CMS)'
-HELLO    START
-BALR  12,0
-USING *,12
-*
-WRTERM '",
-                    output_for_hello_world!(),
-                    r"'
-*
-SR    15,15
-BR    14
-*
-END   HELLO"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

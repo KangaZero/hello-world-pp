@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,14 @@ language_names! {
     versions: [Sucro => "Sucro"],
     extensions: [],
 }
+
+const SUCRO: &str = concat!(
+    output_for_hello_world!(),
+    r" in Sucro
+{R}",
+    output_for_hello_world!(),
+    r"{end}"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,22 +38,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sucro,
-            syntax: concat!(
-                output_for_hello_world!(),
-                r" in Sucro
+            syntax: SUCRO,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SUCRO,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            output_for_hello_world!(),
+                            r" in Sucro
 {R}",
-                output_for_hello_world!(),
-                r"{end}"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    output_for_hello_world!(),
-                    r" in Sucro
-{R}",
-                    output_for_hello_world!(),
-                    r"{end}"
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r"{end}"
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,13 @@ language_names! {
     versions: [Tk => "Tk"],
     extensions: [Tk => "tk"],
 }
+
+const TK: &str = concat!(
+    r#"label .l -text ""#,
+    output_for_hello_world!(),
+    r#""
+pack .l"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,30 +37,30 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Tcl],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Tk,
-            syntax: concat!(
-                r#"label .l -text ""#,
-                output_for_hello_world!(),
-                r#""
-pack .l"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"label"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Plain, r"l -text "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: TK,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    TK,
+                    [
+                        (TokenKind::Keyword, r"label"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Plain, r"l -text "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"pack"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Plain, r"l"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"pack"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Plain, r"l"),
+                    ],
+                )
+            },
         }],
     };

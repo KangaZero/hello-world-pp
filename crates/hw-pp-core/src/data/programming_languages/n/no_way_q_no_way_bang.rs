@@ -11,13 +11,38 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: NoWayQNoWayBang => "NO WAY? NO WAY!",
     versions: [NoWayQNoWayBang => "NO WAY? NO WAY!"],
     extensions: [],
 }
+
+const NO_WAY_Q_NO_WAY_BANG: &str = r"push 0
+push 00100001
+push 01100100
+push 01101100
+push 01110010
+push 01101111
+push 01110111
+push 00100000
+push 00101100
+push 01101111
+push 01101100
+push 01101100
+push 01100101
+push 01001000
+dup
+que
+if
+  out 1
+  jmp 1110
+end
+halt";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +52,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::NoWayQNoWayBang,
-            syntax: r"push 0
+            syntax: NO_WAY_Q_NO_WAY_BANG,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    NO_WAY_Q_NO_WAY_BANG,
+                    [(
+                        TokenKind::Plain,
+                        r"push 0
 push 00100001
 push 01100100
 push 01101100
@@ -48,29 +79,8 @@ if
   jmp 1110
 end
 halt",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"push 0
-push 00100001
-push 01100100
-push 01101100
-push 01110010
-push 01101111
-push 01110111
-push 00100000
-push 00101100
-push 01101111
-push 01101100
-push 01101100
-push 01100101
-push 01001000
-dup
-que
-if
-  out 1
-  jmp 1110
-end
-halt",
-            )],
+                    )],
+                )
+            },
         }],
     };

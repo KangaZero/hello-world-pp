@@ -11,13 +11,21 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Bugsophia => "bugSophia",
     versions: [Bugsophia => "bugSophia"],
     extensions: [],
 }
+
+const BUGSOPHIA: &str = r#" "+-+-+-+-+-+-+-+-+-+-+-+-+
+  ` ` ` ` ` ` ` ` ` ` ` ` `
+  H e l l o ,   W o r l d !
+ᛥ'<-<-<-<-<-<-<-<-<-<-<-<-<"#;
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,16 +35,18 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Bugsophia,
-            syntax: r#" "+-+-+-+-+-+-+-+-+-+-+-+-+
+            syntax: BUGSOPHIA,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BUGSOPHIA,
+                    [(
+                        TokenKind::Plain,
+                        r#" "+-+-+-+-+-+-+-+-+-+-+-+-+
   ` ` ` ` ` ` ` ` ` ` ` ` `
   H e l l o ,   W o r l d !
 ᛥ'<-<-<-<-<-<-<-<-<-<-<-<-<"#,
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r#" "+-+-+-+-+-+-+-+-+-+-+-+-+
-  ` ` ` ` ` ` ` ` ` ` ` ` `
-  H e l l o ,   W o r l d !
-ᛥ'<-<-<-<-<-<-<-<-<-<-<-<-<"#,
-            )],
+                    )],
+                )
+            },
         }],
     };

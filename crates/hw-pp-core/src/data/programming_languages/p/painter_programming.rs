@@ -10,13 +10,77 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: PainterProgramming => "Painter Programming",
     versions: [PainterProgramming => "Painter Programming"],
     extensions: [],
 }
+
+const PAINTER_PROGRAMMING: &str = r"H=11
+W=22
+
+R!F!F!F!F!
+LLFF
+RF!F!F
+RFF
+LL![F!]
+
+RFF F!F!F!
+RFF R!F!F!
+LFF L!F!F!
+LLFFFR![F!]
+RFFFFF
+
+R!F!F!F!F!
+LF!F!
+FF
+
+L![F!]
+LLFFFF
+LF!F!
+F
+
+F!F!F!
+L[F!]
+LF!F!
+LF!F!F!
+FFFR[F]
+
+L![F!]!
+LF!F
+LF!F!
+LL[F]
+LF!F
+LF!F!F!F!
+RFF
+
+R![F!]
+LF!F!
+LF!F!F!F!
+LF!
+RRFFF
+
+R![F!]
+LFFF
+L!FLF!RFLF!
+RFF
+R!F!
+RF!
+LFFFLF
+
+LL![F!]
+LF!F!
+FF
+
+L!F!F!F!F!
+RF!F
+R[F!]!
+RF!";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +90,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PainterProgramming,
-            syntax: r"H=11
+            syntax: PAINTER_PROGRAMMING,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PAINTER_PROGRAMMING,
+                    [(
+                        TokenKind::Plain,
+                        r"H=11
 W=22
 
 R!F!F!F!F!
@@ -86,68 +156,8 @@ L!F!F!F!F!
 RF!F
 R[F!]!
 RF!",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"H=11
-W=22
-
-R!F!F!F!F!
-LLFF
-RF!F!F
-RFF
-LL![F!]
-
-RFF F!F!F!
-RFF R!F!F!
-LFF L!F!F!
-LLFFFR![F!]
-RFFFFF
-
-R!F!F!F!F!
-LF!F!
-FF
-
-L![F!]
-LLFFFF
-LF!F!
-F
-
-F!F!F!
-L[F!]
-LF!F!
-LF!F!F!
-FFFR[F]
-
-L![F!]!
-LF!F
-LF!F!
-LL[F]
-LF!F
-LF!F!F!F!
-RFF
-
-R![F!]
-LF!F!
-LF!F!F!F!
-LF!
-RRFFF
-
-R![F!]
-LFFF
-L!FLF!RFLF!
-RFF
-R!F!
-RF!
-LFFFLF
-
-LL![F!]
-LF!F!
-FF
-
-L!F!F!F!F!
-RF!F
-R[F!]!
-RF!",
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,26 @@ language_names! {
     versions: [AmazonStatesLanguage => "Amazon States Language"],
     extensions: [],
 }
+
+const AMAZON_STATES_LANGUAGE: &str = concat!(
+    r#"{
+    "Comment": ""#,
+    output_for_hello_world!(),
+    r#" in Amazon States Language",
+    "StartAt": ""#,
+    output_for_hello_world!(),
+    r#"",
+    "States": {
+    ""#,
+    output_for_hello_world!(),
+    r#"": { 
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:123456789012:function:HelloWorld",
+      "End": true
+    }
+  }
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,46 +50,33 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AmazonStatesLanguage,
-            syntax: concat!(
-                r#"{
+            syntax: AMAZON_STATES_LANGUAGE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    AMAZON_STATES_LANGUAGE,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"{
     "Comment": ""#,
-                output_for_hello_world!(),
-                r#" in Amazon States Language",
+                            output_for_hello_world!(),
+                            r#" in Amazon States Language",
     "StartAt": ""#,
-                output_for_hello_world!(),
-                r#"",
+                            output_for_hello_world!(),
+                            r#"",
     "States": {
     ""#,
-                output_for_hello_world!(),
-                r#"": { 
+                            output_for_hello_world!(),
+                            r#"": { 
       "Type": "Task",
       "Resource": "arn:aws:lambda:us-east-1:123456789012:function:HelloWorld",
       "End": true
     }
   }
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"{
-    "Comment": ""#,
-                    output_for_hello_world!(),
-                    r#" in Amazon States Language",
-    "StartAt": ""#,
-                    output_for_hello_world!(),
-                    r#"",
-    "States": {
-    ""#,
-                    output_for_hello_world!(),
-                    r#"": { 
-      "Type": "Task",
-      "Resource": "arn:aws:lambda:us-east-1:123456789012:function:HelloWorld",
-      "End": true
-    }
-  }
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -11,13 +11,19 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: UclangStar => "UClang*",
     versions: [UclangStar => "UClang*"],
     extensions: [],
 }
+
+const UCLANG_STAR: &str = r"A0 48 A1 A0 65 A1 A0 6C A1 A0 6C A1 A0 6F A1 A0 20 A1 A0 77 A1 A0 6F A1
+A0 72 A1 A0 6C A1 A0 64 A1 AA";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,12 +33,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::UclangStar,
-            syntax: r"A0 48 A1 A0 65 A1 A0 6C A1 A0 6C A1 A0 6F A1 A0 20 A1 A0 77 A1 A0 6F A1
+            syntax: UCLANG_STAR,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    UCLANG_STAR,
+                    [(
+                        TokenKind::Plain,
+                        r"A0 48 A1 A0 65 A1 A0 6C A1 A0 6C A1 A0 6F A1 A0 20 A1 A0 77 A1 A0 6F A1
 A0 72 A1 A0 6C A1 A0 64 A1 AA",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"A0 48 A1 A0 65 A1 A0 6C A1 A0 6C A1 A0 6F A1 A0 20 A1 A0 77 A1 A0 6F A1
-A0 72 A1 A0 6C A1 A0 64 A1 AA",
-            )],
+                    )],
+                )
+            },
         }],
     };

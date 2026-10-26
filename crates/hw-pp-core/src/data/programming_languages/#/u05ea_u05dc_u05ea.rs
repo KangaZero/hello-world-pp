@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: U05eaU05dcU05ea => "תלת",
     versions: [U05eaU05dcU05ea => "תלת"],
     extensions: [],
 }
+
+const U05EA_U05DC_U05EA: &str = r"אכטב  יטא  יכטב לאטר לוטאר ילטר סאכף וסאכאף אכלט ק יכלט אסוכף אסיכף יליטאר כאטאב אסמח א יסמח אכוטאב וסיכף עב קא קח קח קיא לב קיט קיא קיד קח ק לג י";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::U05eaU05dcU05ea,
-            syntax: r"אכטב  יטא  יכטב לאטר לוטאר ילטר סאכף וסאכאף אכלט ק יכלט אסוכף אסיכף יליטאר כאטאב אסמח א יסמח אכוטאב וסיכף עב קא קח קח קיא לב קיט קיא קיד קח ק לג י",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"אכטב  יטא  יכטב לאטר לוטאר ילטר סאכף וסאכאף אכלט ק יכלט אסוכף אסיכף יליטאר כאטאב אסמח א יסמח אכוטאב וסיכף עב קא קח קח קיא לב קיט קיא קיד קח ק לג י",
-            )],
+            syntax: U05EA_U05DC_U05EA,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    U05EA_U05DC_U05EA,
+                    [(
+                        TokenKind::Plain,
+                        r"אכטב  יטא  יכטב לאטר לוטאר ילטר סאכף וסאכאף אכלט ק יכלט אסוכף אסיכף יליטאר כאטאב אסמח א יסמח אכוטאב וסיכף עב קא קח קח קיא לב קיט קיא קיד קח ק לג י",
+                    )],
+                )
+            },
         }],
     };

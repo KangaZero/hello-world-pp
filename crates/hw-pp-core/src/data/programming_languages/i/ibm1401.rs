@@ -11,13 +11,19 @@ use crate::data::programming_languages::{
     ProgrammingLanguageCategory::{Assembly, Historical},
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Ibm1401 => "IBM1401",
     versions: [Ibm1401 => "IBM1401"],
     extensions: [],
 }
+
+const IBM1401: &str = r",008015,022029,036043,050054,055062,063065,066077/333/M0762502F1.HELLO
+WORLD";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,12 +33,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ibm1401,
-            syntax: r",008015,022029,036043,050054,055062,063065,066077/333/M0762502F1.HELLO
+            syntax: IBM1401,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    IBM1401,
+                    [(
+                        TokenKind::Plain,
+                        r",008015,022029,036043,050054,055062,063065,066077/333/M0762502F1.HELLO
 WORLD",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r",008015,022029,036043,050054,055062,063065,066077/333/M0762502F1.HELLO
-WORLD",
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -10,13 +10,19 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Incal => "INCAL",
     versions: [Incal => "INCAL"],
     extensions: [Incal => "incal"],
 }
+
+const INCAL: &str = r"send,66#111#102#<101#42#93#101#120#102#110#43#
+die";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,12 +32,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Incal,
-            syntax: r"send,66#111#102#<101#42#93#101#120#102#110#43#
+            syntax: INCAL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    INCAL,
+                    [(
+                        TokenKind::Plain,
+                        r"send,66#111#102#<101#42#93#101#120#102#110#43#
 die",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"send,66#111#102#<101#42#93#101#120#102#110#43#
-die",
-            )],
+                    )],
+                )
+            },
         }],
     };

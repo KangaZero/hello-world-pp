@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -22,18 +22,10 @@ language_names! {
     extensions: [],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::AssemblerPdp11,
-        extensions: &[],
-        categories: &[Assembly],
-        families: &[],
-        versions: &[ProgrammingLanguageVersion {
-            label: ProgrammingLanguageDialect::AssemblerPdp11,
-            syntax: concat!(
-                r";       ",
-                output_for_hello_world!(),
-                r" in Assembler for the DEC PDP-11 with the
+const ASSEMBLER_PDP11: &str = concat!(
+    r";       ",
+    output_for_hello_world!(),
+    r" in Assembler for the DEC PDP-11 with the
 ;	RSX-11M-PLUS operating system
 ;
         .title Hello
@@ -44,123 +36,138 @@ start:  qiow$s #5,#5,,,,<#str, #len, #40>
         exit$s
         .psect $data,ro,d
 str:    .ascii / ",
-                output_for_hello_world!(),
-                r"/
+    output_for_hello_world!(),
+    r"/
         len=.-str
         .end start"
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Comment,
-                    concat!(
-                        r";       ",
-                        output_for_hello_world!(),
-                        r" in Assembler for the DEC PDP-11 with the"
-                    ),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::AssemblerPdp11,
+        extensions: &[],
+        categories: &[Assembly],
+        families: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::AssemblerPdp11,
+            syntax: ASSEMBLER_PDP11,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_PDP11,
+                    [
+                        (
+                            TokenKind::Comment,
+                            concat!(
+                                r";       ",
+                                output_for_hello_world!(),
+                                r" in Assembler for the DEC PDP-11 with the"
+                            ),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r";	RSX-11M-PLUS operating system"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r";	RSX-11M-PLUS operating system"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Macro, r".title"),
-                (
-                    TokenKind::Plain,
-                    r" Hello
+                        ),
+                        (TokenKind::Macro, r".title"),
+                        (
+                            TokenKind::Plain,
+                            r" Hello
         ",
-                ),
-                (TokenKind::Macro, r".ident"),
-                (
-                    TokenKind::Plain,
-                    r" /V0001A/
+                        ),
+                        (TokenKind::Macro, r".ident"),
+                        (
+                            TokenKind::Plain,
+                            r" /V0001A/
         ",
-                ),
-                (TokenKind::Macro, r".mcall"),
-                (TokenKind::Plain, r" qiow$s"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r" exit$s
+                        ),
+                        (TokenKind::Macro, r".mcall"),
+                        (TokenKind::Plain, r" qiow$s"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r" exit$s
         ",
-                ),
-                (TokenKind::Macro, r".psect"),
-                (TokenKind::Plain, r" $code"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"ro"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"i
+                        ),
+                        (TokenKind::Macro, r".psect"),
+                        (TokenKind::Plain, r" $code"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"ro"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"i
 start",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r"  qiow$s #"),
-                (TokenKind::Number, r"5"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"#"),
-                (TokenKind::Number, r"5"),
-                (TokenKind::Punctuation, r",,,,"),
-                (TokenKind::Plain, r"<#str"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" #len"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" #"),
-                (TokenKind::Number, r"40"),
-                (
-                    TokenKind::Plain,
-                    r">
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r"  qiow$s #"),
+                        (TokenKind::Number, r"5"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"#"),
+                        (TokenKind::Number, r"5"),
+                        (TokenKind::Punctuation, r",,,,"),
+                        (TokenKind::Plain, r"<#str"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" #len"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" #"),
+                        (TokenKind::Number, r"40"),
+                        (
+                            TokenKind::Plain,
+                            r">
         ",
-                ),
-                (TokenKind::Keyword, r"exit"),
-                (
-                    TokenKind::Plain,
-                    r"$s
+                        ),
+                        (TokenKind::Keyword, r"exit"),
+                        (
+                            TokenKind::Plain,
+                            r"$s
         ",
-                ),
-                (TokenKind::Macro, r".psect"),
-                (TokenKind::Plain, r" $data"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"ro"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"d
+                        ),
+                        (TokenKind::Macro, r".psect"),
+                        (TokenKind::Plain, r" $data"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"ro"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"d
 str",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r"    "),
-                (TokenKind::Macro, r".ascii"),
-                (
-                    TokenKind::Plain,
-                    concat!(
-                        r" / ",
-                        output_for_hello_world!(),
-                        r"/
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r"    "),
+                        (TokenKind::Macro, r".ascii"),
+                        (
+                            TokenKind::Plain,
+                            concat!(
+                                r" / ",
+                                output_for_hello_world!(),
+                                r"/
         "
-                    ),
-                ),
-                (TokenKind::Keyword, r"len"),
-                (TokenKind::Plain, r"="),
-                (TokenKind::Punctuation, r"."),
-                (
-                    TokenKind::Plain,
-                    r"-str
+                            ),
+                        ),
+                        (TokenKind::Keyword, r"len"),
+                        (TokenKind::Plain, r"="),
+                        (TokenKind::Punctuation, r"."),
+                        (
+                            TokenKind::Plain,
+                            r"-str
         ",
-                ),
-                (TokenKind::Macro, r".end"),
-                (TokenKind::Plain, r" start"),
-            ],
+                        ),
+                        (TokenKind::Macro, r".end"),
+                        (TokenKind::Plain, r" start"),
+                    ],
+                )
+            },
         }],
     };

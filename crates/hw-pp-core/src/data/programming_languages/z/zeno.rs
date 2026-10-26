@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [Zeno => "Zeno"],
     extensions: [Zno => "zno"],
 }
+
+const ZENO: &str = concat!(
+    r#"program print_hello
+  put ""#,
+    output_for_hello_world!(),
+    r#""
+end program"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +37,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Zeno,
-            syntax: concat!(
-                r#"program print_hello
+            syntax: ZENO,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ZENO,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"program print_hello
   put ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 end program"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"program print_hello
-  put ""#,
-                    output_for_hello_world!(),
-                    r#""
-end program"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

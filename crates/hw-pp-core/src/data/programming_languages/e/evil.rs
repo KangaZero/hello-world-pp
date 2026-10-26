@@ -10,13 +10,30 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Evil => "Evil",
     versions: [Evil => "Evil"],
     extensions: [],
 }
+
+const EVIL: &str = r"zaeeeaeeew   (H)
+zaeeaeeaeaw  (e)
+zuueeueueaw  (l)
+zuueeueueaw  (l)
+zuueeueew    (o)
+zaeeeeew     ( )
+zaeeeeeue    (W)
+zuueeueew    (o)
+zuueeueeaaaw (r)
+zuueeueueaw  (l)
+zaeeaeeaew   (d)
+zaeeuuuw     (\r)
+zaeaaaaaaw   (\n)";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +43,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Evil,
-            syntax: r"zaeeeaeeew   (H)
+            syntax: EVIL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    EVIL,
+                    [(
+                        TokenKind::Plain,
+                        r"zaeeeaeeew   (H)
 zaeeaeeaeaw  (e)
 zuueeueueaw  (l)
 zuueeueueaw  (l)
@@ -39,21 +62,8 @@ zuueeueueaw  (l)
 zaeeaeeaew   (d)
 zaeeuuuw     (\r)
 zaeaaaaaaw   (\n)",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"zaeeeaeeew   (H)
-zaeeaeeaeaw  (e)
-zuueeueueaw  (l)
-zuueeueueaw  (l)
-zuueeueew    (o)
-zaeeeeew     ( )
-zaeeeeeue    (W)
-zuueeueew    (o)
-zuueeueeaaaw (r)
-zuueeueueaw  (l)
-zaeeaeeaew   (d)
-zaeeuuuw     (\r)
-zaeaaaaaaw   (\n)",
-            )],
+                    )],
+                )
+            },
         }],
     };

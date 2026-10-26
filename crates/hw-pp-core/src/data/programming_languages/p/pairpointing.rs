@@ -11,13 +11,28 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Pairpointing => "Pairpointing",
     versions: [Pairpointing => "Pairpointing"],
     extensions: [],
 }
+
+const PAIRPOINTING: &str = r"H = 0, 0, 0, 1, 0, 0, 1, 0, ;
+e = 1, 0, 1, 0, 0, 1, 1, 0, ;
+l = 0, 0, 1, 1, 0, 1, 1, 0, ;
+o = 1, 1, 1, 1, 0, 1, 1, 0, ;
+c = 0, 0, 1, 1, 0, 1, 0, 0, ;
+s = 0, 0, 0, 0, 0, 1, 0, 0, ;
+w = 1, 1, 1, 0, 1, 1, 1, 0, ;
+r = 0, 1, 0, 0, 1, 1, 1, 0, ;
+d = 0, 0, 1, 0, 0, 1, 1, 0, ;
+x = 1, 0, 0, 0, 0, 1, 0, 0, ;
+output H,e,l,l,o,c,s,w,o,r,l,d,x,;";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +42,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Pairpointing,
-            syntax: r"H = 0, 0, 0, 1, 0, 0, 1, 0, ;
+            syntax: PAIRPOINTING,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PAIRPOINTING,
+                    [(
+                        TokenKind::Plain,
+                        r"H = 0, 0, 0, 1, 0, 0, 1, 0, ;
 e = 1, 0, 1, 0, 0, 1, 1, 0, ;
 l = 0, 0, 1, 1, 0, 1, 1, 0, ;
 o = 1, 1, 1, 1, 0, 1, 1, 0, ;
@@ -38,19 +59,8 @@ r = 0, 1, 0, 0, 1, 1, 1, 0, ;
 d = 0, 0, 1, 0, 0, 1, 1, 0, ;
 x = 1, 0, 0, 0, 0, 1, 0, 0, ;
 output H,e,l,l,o,c,s,w,o,r,l,d,x,;",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"H = 0, 0, 0, 1, 0, 0, 1, 0, ;
-e = 1, 0, 1, 0, 0, 1, 1, 0, ;
-l = 0, 0, 1, 1, 0, 1, 1, 0, ;
-o = 1, 1, 1, 1, 0, 1, 1, 0, ;
-c = 0, 0, 1, 1, 0, 1, 0, 0, ;
-s = 0, 0, 0, 0, 0, 1, 0, 0, ;
-w = 1, 1, 1, 0, 1, 1, 1, 0, ;
-r = 0, 1, 0, 0, 1, 1, 1, 0, ;
-d = 0, 0, 1, 0, 0, 1, 1, 0, ;
-x = 1, 0, 0, 0, 0, 1, 0, 0, ;
-output H,e,l,l,o,c,s,w,o,r,l,d,x,;",
-            )],
+                    )],
+                )
+            },
         }],
     };

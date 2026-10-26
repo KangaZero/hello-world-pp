@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,15 @@ language_names! {
     versions: [N4thDimension => "4th Dimension"],
     extensions: [E4dd => "4dd"],
 }
+
+const N4TH_DIMENSION: &str = concat!(
+    r#"OPEN WINDOW (10;45;500;330;0;"Hello Window")
+While (True)
+  MESSAGE (""#,
+    output_for_hello_world!(),
+    r#"")
+End while"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,24 +38,22 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::N4thDimension,
-            syntax: concat!(
-                r#"OPEN WINDOW (10;45;500;330;0;"Hello Window")
+            syntax: N4TH_DIMENSION,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    N4TH_DIMENSION,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"OPEN WINDOW (10;45;500;330;0;"Hello Window")
 While (True)
   MESSAGE (""#,
-                output_for_hello_world!(),
-                r#"")
+                            output_for_hello_world!(),
+                            r#"")
 End while"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"OPEN WINDOW (10;45;500;330;0;"Hello Window")
-While (True)
-  MESSAGE (""#,
-                    output_for_hello_world!(),
-                    r#"")
-End while"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

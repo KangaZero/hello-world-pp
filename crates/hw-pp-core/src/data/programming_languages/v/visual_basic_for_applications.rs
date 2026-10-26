@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,14 @@ language_names! {
     versions: [VisualBasicForApplications => "Visual Basic for Applications"],
     extensions: [Vba => "vba"],
 }
+
+const VISUAL_BASIC_FOR_APPLICATIONS: &str = concat!(
+    r#"Sub HelloWorld()
+    Call MsgBox(""#,
+    output_for_hello_world!(),
+    r#"")
+End Sub"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,40 +38,39 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Basic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::VisualBasicForApplications,
-            syntax: concat!(
-                r#"Sub HelloWorld()
-    Call MsgBox(""#,
-                output_for_hello_world!(),
-                r#"")
-End Sub"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"Sub"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"HelloWorld"),
-                (TokenKind::Punctuation, r"()"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: VISUAL_BASIC_FOR_APPLICATIONS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    VISUAL_BASIC_FOR_APPLICATIONS,
+                    [
+                        (TokenKind::Keyword, r"Sub"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"HelloWorld"),
+                        (TokenKind::Punctuation, r"()"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"Call"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"MsgBox"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"Call"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"MsgBox"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"End"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"Sub"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"End"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"Sub"),
+                    ],
+                )
+            },
         }],
     };

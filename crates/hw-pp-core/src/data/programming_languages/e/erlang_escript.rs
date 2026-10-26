@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,15 @@ language_names! {
     versions: [ErlangEscript => "Erlang EScript"],
     extensions: [],
 }
+
+const ERLANG_ESCRIPT: &str = concat!(
+    r#"#!/usr/bin/env escript
+
+main(_) ->
+    io:format(""#,
+    output_for_hello_world!(),
+    r#"~n")."#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,47 +38,45 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::ErlangEscript,
-            syntax: concat!(
-                r#"#!/usr/bin/env escript
-
-main(_) ->
-    io:format(""#,
-                output_for_hello_world!(),
-                r#"~n")."#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Plain, r"#"),
-                (TokenKind::Keyword, r"!/"),
-                (TokenKind::Plain, r"usr"),
-                (TokenKind::Keyword, r"/"),
-                (TokenKind::Plain, r"bin"),
-                (TokenKind::Keyword, r"/"),
-                (
-                    TokenKind::Plain,
-                    r"env escript
+            syntax: ERLANG_ESCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ERLANG_ESCRIPT,
+                    [
+                        (TokenKind::Plain, r"#"),
+                        (TokenKind::Keyword, r"!/"),
+                        (TokenKind::Plain, r"usr"),
+                        (TokenKind::Keyword, r"/"),
+                        (TokenKind::Plain, r"bin"),
+                        (TokenKind::Keyword, r"/"),
+                        (
+                            TokenKind::Plain,
+                            r"env escript
 
 ",
-                ),
-                (TokenKind::Function, r"main"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"_"),
-                (TokenKind::Punctuation, r")"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"->"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Function, r"main"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"_"),
+                        (TokenKind::Punctuation, r")"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"->"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Type, r"io"),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Function, r"format"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"~n""#),
-                ),
-                (TokenKind::Punctuation, r")."),
-            ],
+                        ),
+                        (TokenKind::Type, r"io"),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Function, r"format"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"~n""#),
+                        ),
+                        (TokenKind::Punctuation, r")."),
+                    ],
+                )
+            },
         }],
     };

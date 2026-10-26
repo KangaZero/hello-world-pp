@@ -10,13 +10,34 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Alphabet => "AlPhAbEt",
     versions: [Alphabet => "AlPhAbEt"],
     extensions: [],
 }
+
+const ALPHABET: &str = r"{
+
+  0>,
+
+  1>. 2>, 3>. 4>. 5>, 6>. 7>. 8>. 9>,
+  1>. 2>, 3>, 4>. 5>. 6>, 7>. 8>, 9>,
+  1>. 2>, 3>, 4>. 5>, 6>, 7>. 8>. 9>,
+  1>. 2>, 3>, 4>. 5>, 6>, 7>. 8>. 9>,
+  1>. 2>, 3>, 4>. 5>, 6>, 7>, 8>, 9>,
+  1>. 2>. 3>, 4>. 5>. 6>. 7>. 8>. 9>,
+  1>. 2>, 3>. 4>, 5>. 6>, 7>, 8>, 9>,
+  1>. 2>, 3>, 4>. 5>, 6>, 7>, 8>, 9>,
+  1>. 2>, 3>, 4>, 5>. 6>. 7>, 8>. 9>,
+  1>. 2>, 3>, 4>. 5>, 6>, 7>. 8>. 9>,
+  1>. 2>, 3>, 4>. 5>. 6>, 7>. 8>. 9>,
+
+}";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +47,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Alphabet,
-            syntax: r"{
+            syntax: ALPHABET,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ALPHABET,
+                    [(
+                        TokenKind::Plain,
+                        r"{
 
   0>,
 
@@ -43,25 +70,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
   1>. 2>, 3>, 4>. 5>. 6>, 7>. 8>. 9>,
 
 }",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"{
-
-  0>,
-
-  1>. 2>, 3>. 4>. 5>, 6>. 7>. 8>. 9>,
-  1>. 2>, 3>, 4>. 5>. 6>, 7>. 8>, 9>,
-  1>. 2>, 3>, 4>. 5>, 6>, 7>. 8>. 9>,
-  1>. 2>, 3>, 4>. 5>, 6>, 7>. 8>. 9>,
-  1>. 2>, 3>, 4>. 5>, 6>, 7>, 8>, 9>,
-  1>. 2>. 3>, 4>. 5>. 6>. 7>. 8>. 9>,
-  1>. 2>, 3>. 4>, 5>. 6>, 7>, 8>, 9>,
-  1>. 2>, 3>, 4>. 5>, 6>, 7>, 8>, 9>,
-  1>. 2>, 3>, 4>, 5>. 6>. 7>, 8>. 9>,
-  1>. 2>, 3>, 4>. 5>, 6>, 7>. 8>. 9>,
-  1>. 2>, 3>, 4>. 5>. 6>, 7>. 8>. 9>,
-
-}",
-            )],
+                    )],
+                )
+            },
         }],
     };

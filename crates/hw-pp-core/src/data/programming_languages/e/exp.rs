@@ -11,13 +11,28 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Exp => "Exp",
     versions: [Exp => "Exp"],
     extensions: [],
 }
+
+const EXP: &str = r"{<|^^^^^^^^^| x |^^^^^^^^|>}
+{<|^^^^^^^^^^| x |^^^^^^^| - |^|>}
+{<|^^^^^^^^^| x |^^^^^^^^| + |^^^^|>}
+{<|^^^^^^^^^| x |^^^^^^^^| + |^^^^|>}
+{<|^^^^^^^^^^| x |^^^^^^^^| - |^|>}
+{<|^^^^^^^^| x |^^^^| - |^|>}
+{<|^^^^^^^^^^| x |^^^^^^^^^| - |^^^|>}
+{<|^^^^^^^^^^| x |^^^^^^^^| - |^|>}
+{<|^^^^^^^^^^| x |^^^^^^^^| + |^^|>}
+{<|^^^^^^^^^| x |^^^^^^^^| + |^^^^|>}
+{<|^^^^^^^^^^^^^^^^^| x |^^^^|>}";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +42,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Exp,
-            syntax: r"{<|^^^^^^^^^| x |^^^^^^^^|>}
+            syntax: EXP,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    EXP,
+                    [(
+                        TokenKind::Plain,
+                        r"{<|^^^^^^^^^| x |^^^^^^^^|>}
 {<|^^^^^^^^^^| x |^^^^^^^| - |^|>}
 {<|^^^^^^^^^| x |^^^^^^^^| + |^^^^|>}
 {<|^^^^^^^^^| x |^^^^^^^^| + |^^^^|>}
@@ -38,19 +59,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 {<|^^^^^^^^^^| x |^^^^^^^^| + |^^|>}
 {<|^^^^^^^^^| x |^^^^^^^^| + |^^^^|>}
 {<|^^^^^^^^^^^^^^^^^| x |^^^^|>}",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"{<|^^^^^^^^^| x |^^^^^^^^|>}
-{<|^^^^^^^^^^| x |^^^^^^^| - |^|>}
-{<|^^^^^^^^^| x |^^^^^^^^| + |^^^^|>}
-{<|^^^^^^^^^| x |^^^^^^^^| + |^^^^|>}
-{<|^^^^^^^^^^| x |^^^^^^^^| - |^|>}
-{<|^^^^^^^^| x |^^^^| - |^|>}
-{<|^^^^^^^^^^| x |^^^^^^^^^| - |^^^|>}
-{<|^^^^^^^^^^| x |^^^^^^^^| - |^|>}
-{<|^^^^^^^^^^| x |^^^^^^^^| + |^^|>}
-{<|^^^^^^^^^| x |^^^^^^^^| + |^^^^|>}
-{<|^^^^^^^^^^^^^^^^^| x |^^^^|>}",
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,16 +21,8 @@ language_names! {
     extensions: [Dasm => "dasm"],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::Dcpu,
-        extensions: &[FileExtension::Dasm],
-        categories: &[Assembly],
-        families: &[],
-        versions: &[ProgrammingLanguageVersion {
-            label: ProgrammingLanguageDialect::Dcpu,
-            syntax: concat!(
-                r#"  set i, 0xf615
+const DCPU: &str = concat!(
+    r#"  set i, 0xf615
   set j, 0x7349
   hwn z
   sub z, 1
@@ -66,280 +58,295 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 :display dat 0
 :vidmem dat 0x8000
 :string dat ""#,
-                output_for_hello_world!(),
-                r#"""#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Plain, r"  "),
-                (TokenKind::Keyword, r"set"),
-                (TokenKind::Plain, r" i"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"0xf615"),
-                (
-                    TokenKind::Plain,
-                    r"
+    output_for_hello_world!(),
+    r#"""#
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Dcpu,
+        extensions: &[FileExtension::Dasm],
+        categories: &[Assembly],
+        families: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Dcpu,
+            syntax: DCPU,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    DCPU,
+                    [
+                        (TokenKind::Plain, r"  "),
+                        (TokenKind::Keyword, r"set"),
+                        (TokenKind::Plain, r" i"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"0xf615"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Keyword, r"set"),
-                (TokenKind::Plain, r" j"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"0x7349"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"set"),
+                        (TokenKind::Plain, r" j"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"0x7349"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Keyword, r"hwn"),
-                (
-                    TokenKind::Plain,
-                    r" z
+                        ),
+                        (TokenKind::Keyword, r"hwn"),
+                        (
+                            TokenKind::Plain,
+                            r" z
   ",
-                ),
-                (TokenKind::Keyword, r"sub"),
-                (TokenKind::Plain, r" z"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"1"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"sub"),
+                        (TokenKind::Plain, r" z"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"1"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"device_detect_loop
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"device_detect_loop
   ",
-                ),
-                (TokenKind::Keyword, r"hwq"),
-                (
-                    TokenKind::Plain,
-                    r" z
+                        ),
+                        (TokenKind::Keyword, r"hwq"),
+                        (
+                            TokenKind::Plain,
+                            r" z
 
   ",
-                ),
-                (TokenKind::Keyword, r"ife"),
-                (TokenKind::Plain, r" a"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r" i
+                        ),
+                        (TokenKind::Keyword, r"ife"),
+                        (TokenKind::Plain, r" a"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r" i
     ",
-                ),
-                (TokenKind::Keyword, r"ife"),
-                (TokenKind::Plain, r" b"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r" j
+                        ),
+                        (TokenKind::Keyword, r"ife"),
+                        (TokenKind::Plain, r" b"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r" j
       ",
-                ),
-                (TokenKind::Keyword, r"set"),
-                (TokenKind::Plain, r" pc"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r" device_detect_ret
+                        ),
+                        (TokenKind::Keyword, r"set"),
+                        (TokenKind::Plain, r" pc"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r" device_detect_ret
 
   ",
-                ),
-                (TokenKind::Keyword, r"sub"),
-                (TokenKind::Plain, r" z"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"1"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"sub"),
+                        (TokenKind::Plain, r" z"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"1"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Keyword, r"ifa"),
-                (TokenKind::Plain, r" z"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"0xffff"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"ifa"),
+                        (TokenKind::Plain, r" z"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"0xffff"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"set"),
-                (TokenKind::Plain, r" pc"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r" device_detect_loop
+                        ),
+                        (TokenKind::Keyword, r"set"),
+                        (TokenKind::Plain, r" pc"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r" device_detect_loop
 
 ",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"device_detect_ret
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"device_detect_ret
   ",
-                ),
-                (TokenKind::Keyword, r"set"),
-                (TokenKind::Plain, r" a"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"0"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"set"),
+                        (TokenKind::Plain, r" a"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"0"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Keyword, r"set"),
-                (TokenKind::Plain, r" b"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"["),
-                (TokenKind::Plain, r"vidmem"),
-                (TokenKind::Punctuation, r"]"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"set"),
+                        (TokenKind::Plain, r" b"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"["),
+                        (TokenKind::Plain, r"vidmem"),
+                        (TokenKind::Punctuation, r"]"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Keyword, r"hwi"),
-                (
-                    TokenKind::Plain,
-                    r" z
+                        ),
+                        (TokenKind::Keyword, r"hwi"),
+                        (
+                            TokenKind::Plain,
+                            r" z
 
   ",
-                ),
-                (TokenKind::Keyword, r"set"),
-                (TokenKind::Plain, r" i"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"["),
-                (TokenKind::Plain, r"vidmem"),
-                (TokenKind::Punctuation, r"]"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"set"),
+                        (TokenKind::Plain, r" i"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"["),
+                        (TokenKind::Plain, r"vidmem"),
+                        (TokenKind::Punctuation, r"]"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Keyword, r"set"),
-                (TokenKind::Plain, r" j"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"string"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"set"),
+                        (TokenKind::Plain, r" j"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"string"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Keyword, r"set"),
-                (TokenKind::Plain, r" c"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"0xc"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"set"),
+                        (TokenKind::Plain, r" c"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"0xc"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"memcpy_loop
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"memcpy_loop
   ",
-                ),
-                (TokenKind::Keyword, r"bor"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"["),
-                (TokenKind::Plain, r"j"),
-                (TokenKind::Punctuation, r"],"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"0xf000"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Comment, r"; OR with font style."),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"bor"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"["),
+                        (TokenKind::Plain, r"j"),
+                        (TokenKind::Punctuation, r"],"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"0xf000"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Comment, r"; OR with font style."),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Keyword, r"sti"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"["),
-                (TokenKind::Plain, r"i"),
-                (TokenKind::Punctuation, r"],"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"["),
-                (TokenKind::Plain, r"j"),
-                (TokenKind::Punctuation, r"]"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"sti"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"["),
+                        (TokenKind::Plain, r"i"),
+                        (TokenKind::Punctuation, r"],"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"["),
+                        (TokenKind::Plain, r"j"),
+                        (TokenKind::Punctuation, r"]"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Keyword, r"sub"),
-                (TokenKind::Plain, r" c"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"1"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"sub"),
+                        (TokenKind::Plain, r" c"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"1"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Keyword, r"ife"),
-                (TokenKind::Plain, r" c"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"0"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"ife"),
+                        (TokenKind::Plain, r" c"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"0"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"sub"),
-                (TokenKind::Plain, r" pc"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"1"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"sub"),
+                        (TokenKind::Plain, r" pc"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"1"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Keyword, r"set"),
-                (TokenKind::Plain, r" pc"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r" memcpy_loop
+                        ),
+                        (TokenKind::Keyword, r"set"),
+                        (TokenKind::Plain, r" pc"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r" memcpy_loop
 
 ",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Function, r"display"),
-                (TokenKind::Plain, r" dat "),
-                (TokenKind::Number, r"0"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Function, r"display"),
+                        (TokenKind::Plain, r" dat "),
+                        (TokenKind::Number, r"0"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r"vidmem dat "),
-                (TokenKind::Number, r"0x8000"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r"vidmem dat "),
+                        (TokenKind::Number, r"0x8000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Keyword, r"string"),
-                (TokenKind::Plain, r" dat "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Keyword, r"string"),
+                        (TokenKind::Plain, r" dat "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                    ],
+                )
+            },
         }],
     };

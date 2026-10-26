@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,13 @@ language_names! {
     versions: [Creativeasm => "CreativeASM"],
     extensions: [],
 }
+
+const CREATIVEASM: &str = concat!(
+    r#"put rax ""#,
+    output_for_hello_world!(),
+    r#""
+int rax 01h"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,20 +37,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Creativeasm,
-            syntax: concat!(
-                r#"put rax ""#,
-                output_for_hello_world!(),
-                r#""
+            syntax: CREATIVEASM,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CREATIVEASM,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"put rax ""#,
+                            output_for_hello_world!(),
+                            r#""
 int rax 01h"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"put rax ""#,
-                    output_for_hello_world!(),
-                    r#""
-int rax 01h"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

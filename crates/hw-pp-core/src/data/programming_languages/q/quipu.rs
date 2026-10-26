@@ -11,13 +11,31 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Quipu => "Quipu",
     versions: [Quipu => "Quipu"],
     extensions: [],
 }
+
+const QUIPU: &str = r"'H
+'e
+'l
+'l
+'o
+' 
+'W
+'o
+'r
+'l
+'d
+'!
+\n
+/\";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +45,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Quipu,
-            syntax: r"'H
+            syntax: QUIPU,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    QUIPU,
+                    [(
+                        TokenKind::Plain,
+                        r"'H
 'e
 'l
 'l
@@ -41,22 +65,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 '!
 \n
 /\",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"'H
-'e
-'l
-'l
-'o
-' 
-'W
-'o
-'r
-'l
-'d
-'!
-\n
-/\",
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,19 @@ language_names! {
     versions: [Gui4cli => "Gui4Cli"],
     extensions: [],
 }
+
+const GUI4CLI: &str = concat!(
+    r#"G4C MyGui
+Window 10 10 200 300 "My window"
+
+xOnLoad
+   GuiOpen MyGui
+
+xButton 10 10 100 20 ""#,
+    output_for_hello_world!(),
+    r#""
+   GuiQuit MyGui"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,32 +42,26 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Gui4cli,
-            syntax: concat!(
-                r#"G4C MyGui
+            syntax: GUI4CLI,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    GUI4CLI,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"G4C MyGui
 Window 10 10 200 300 "My window"
 
 xOnLoad
    GuiOpen MyGui
 
 xButton 10 10 100 20 ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
    GuiQuit MyGui"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"G4C MyGui
-Window 10 10 200 300 "My window"
-
-xOnLoad
-   GuiOpen MyGui
-
-xButton 10 10 100 20 ""#,
-                    output_for_hello_world!(),
-                    r#""
-   GuiQuit MyGui"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

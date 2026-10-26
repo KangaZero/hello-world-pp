@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,23 @@ language_names! {
     versions: [Centura => "Centura"],
     extensions: [Centura => "centura"],
 }
+
+const CENTURA: &str = concat!(
+    r"! ",
+    output_for_hello_world!(),
+    r#" in Centura
+
+Function: HelloWorld
+Description:
+Returns
+Parameters
+Static Variables
+Local variables
+Actions
+ Call SalMessageBox( ""#,
+    output_for_hello_world!(),
+    r#"",'Message',MB_Ok)"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,10 +46,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Centura,
-            syntax: concat!(
-                r"! ",
-                output_for_hello_world!(),
-                r#" in Centura
+            syntax: CENTURA,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CENTURA,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"! ",
+                            output_for_hello_world!(),
+                            r#" in Centura
 
 Function: HelloWorld
 Description:
@@ -42,27 +65,11 @@ Static Variables
 Local variables
 Actions
  Call SalMessageBox( ""#,
-                output_for_hello_world!(),
-                r#"",'Message',MB_Ok)"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"! ",
-                    output_for_hello_world!(),
-                    r#" in Centura
-
-Function: HelloWorld
-Description:
-Returns
-Parameters
-Static Variables
-Local variables
-Actions
- Call SalMessageBox( ""#,
-                    output_for_hello_world!(),
-                    r#"",'Message',MB_Ok)"#
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r#"",'Message',MB_Ok)"#
+                        ),
+                    )],
+                )
+            },
         }],
     };

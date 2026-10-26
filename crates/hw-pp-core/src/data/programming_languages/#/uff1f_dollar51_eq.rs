@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,8 @@ language_names! {
     versions: [Uff1fDollar51Eq => "？$51="],
     extensions: [],
 }
+
+const UFF1F_DOLLAR51_EQ: &str = concat!(r"$? 5 ", output_for_hello_world!(), r" 5");
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,10 +31,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Uff1fDollar51Eq,
-            syntax: concat!(r"$? 5 ", output_for_hello_world!(), r" 5"),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r"$? 5 ", output_for_hello_world!(), r" 5"),
-            )],
+            syntax: UFF1F_DOLLAR51_EQ,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    UFF1F_DOLLAR51_EQ,
+                    [(
+                        TokenKind::Plain,
+                        concat!(r"$? 5 ", output_for_hello_world!(), r" 5"),
+                    )],
+                )
+            },
         }],
     };

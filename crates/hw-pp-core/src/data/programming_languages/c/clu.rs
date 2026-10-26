@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,15 @@ language_names! {
     versions: [Clu => "CLU"],
     extensions: [Clu => "clu"],
 }
+
+const CLU: &str = concat!(
+    r#"start_up = proc ()
+    po: stream := stream$primary_output ()
+    stream$putl (po, ""#,
+    output_for_hello_world!(),
+    r#"")
+    end start_up"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,24 +39,22 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Clu,
-            syntax: concat!(
-                r#"start_up = proc ()
+            syntax: CLU,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CLU,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"start_up = proc ()
     po: stream := stream$primary_output ()
     stream$putl (po, ""#,
-                output_for_hello_world!(),
-                r#"")
+                            output_for_hello_world!(),
+                            r#"")
     end start_up"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"start_up = proc ()
-    po: stream := stream$primary_output ()
-    stream$putl (po, ""#,
-                    output_for_hello_world!(),
-                    r#"")
-    end start_up"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

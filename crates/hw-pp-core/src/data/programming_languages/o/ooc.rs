@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,15 @@ language_names! {
     versions: [Ooc => "Ooc"],
     extensions: [Ooc => "ooc"],
 }
+
+const OOC: &str = concat!(
+    r#"main: func {
+    ""#,
+    output_for_hello_world!(),
+    r#"" println()
+}
+"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,44 +38,42 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ooc,
-            syntax: concat!(
-                r#"main: func {
-    ""#,
-                output_for_hello_world!(),
-                r#"" println()
-}
-"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Plain, r"main"),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"func"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: OOC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    OOC,
+                    [
+                        (TokenKind::Plain, r"main"),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"func"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"println"),
-                (TokenKind::Punctuation, r"()"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"println"),
+                        (TokenKind::Punctuation, r"()"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-            ],
+                        ),
+                    ],
+                )
+            },
         }],
     };

@@ -11,7 +11,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -19,6 +19,8 @@ language_names! {
     versions: [PowerShell7 => "PowerShell 7"],
     extensions: [Ps1 => "ps1", Psm1 => "psm1"],
 }
+
+const POWER_SHELL7: &str = concat!(r#"Write-Host ""#, output_for_hello_world!(), r#"""#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -28,14 +30,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[DotNet],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PowerShell7,
-            syntax: concat!(r#"Write-Host ""#, output_for_hello_world!(), r#"""#),
-            tokenized_syntax: &[
-                (TokenKind::Function, "Write-Host"),
-                (TokenKind::Plain, " "),
-                (
-                    TokenKind::String,
-                    concat!("\"", output_for_hello_world!(), "\""),
-                ),
-            ],
+            syntax: POWER_SHELL7,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    POWER_SHELL7,
+                    [
+                        (TokenKind::Function, "Write-Host"),
+                        (TokenKind::Plain, " "),
+                        (
+                            TokenKind::String,
+                            concat!("\"", output_for_hello_world!(), "\""),
+                        ),
+                    ],
+                )
+            },
         }],
     };

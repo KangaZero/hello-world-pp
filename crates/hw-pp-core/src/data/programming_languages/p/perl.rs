@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,8 @@ language_names! {
     versions: [Perl5 => "Perl 5"],
     extensions: [Pl => "pl", Pm => "pm"],
 }
+
+const PERL5: &str = concat!(r#"print ""#, output_for_hello_world!(), r#"\n";"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,15 +32,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[C, Perl],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Perl5,
-            syntax: concat!(r#"print ""#, output_for_hello_world!(), r#"\n";"#),
-            tokenized_syntax: &[
-                (TokenKind::Function, "print"),
-                (TokenKind::Plain, " "),
-                (
-                    TokenKind::String,
-                    concat!("\"", output_for_hello_world!(), r#"\n""#),
-                ),
-                (TokenKind::Plain, ";"),
-            ],
+            syntax: PERL5,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PERL5,
+                    [
+                        (TokenKind::Function, "print"),
+                        (TokenKind::Plain, " "),
+                        (
+                            TokenKind::String,
+                            concat!("\"", output_for_hello_world!(), r#"\n""#),
+                        ),
+                        (TokenKind::Plain, ";"),
+                    ],
+                )
+            },
         }],
     };

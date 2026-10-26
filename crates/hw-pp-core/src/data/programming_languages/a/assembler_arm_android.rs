@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,33 @@ language_names! {
     versions: [AssemblerArmAndroid => "Assembler (ARM, Android)"],
     extensions: [],
 }
+
+const ASSEMBLER_ARM_ANDROID: &str = concat!(
+    r"/* ",
+    output_for_hello_world!(),
+    r#" in ARM assembly (Android devices) */
+
+.data
+
+msg:
+    .ascii      ""#,
+    output_for_hello_world!(),
+    r#"\n"
+len = . - msg
+
+.text
+
+.globl _start
+_start:
+    mov     %r0, $1
+    ldr     %r1, =msg
+    ldr     %r2, =len
+    mov     %r7, $4
+    swi     $0
+    mov     %r0, $0
+    mov     %r7, $1
+    swi     $0"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,17 +57,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblerArmAndroid,
-            syntax: concat!(
-                r"/* ",
-                output_for_hello_world!(),
-                r#" in ARM assembly (Android devices) */
+            syntax: ASSEMBLER_ARM_ANDROID,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_ARM_ANDROID,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"/* ",
+                            output_for_hello_world!(),
+                            r#" in ARM assembly (Android devices) */
 
 .data
 
 msg:
     .ascii      ""#,
-                output_for_hello_world!(),
-                r#"\n"
+                            output_for_hello_world!(),
+                            r#"\n"
 len = . - msg
 
 .text
@@ -55,35 +88,9 @@ _start:
     mov     %r0, $0
     mov     %r7, $1
     swi     $0"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"/* ",
-                    output_for_hello_world!(),
-                    r#" in ARM assembly (Android devices) */
-
-.data
-
-msg:
-    .ascii      ""#,
-                    output_for_hello_world!(),
-                    r#"\n"
-len = . - msg
-
-.text
-
-.globl _start
-_start:
-    mov     %r0, $1
-    ldr     %r1, =msg
-    ldr     %r2, =len
-    mov     %r7, $4
-    swi     $0
-    mov     %r0, $0
-    mov     %r7, $1
-    swi     $0"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

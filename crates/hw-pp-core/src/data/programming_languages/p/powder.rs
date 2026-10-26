@@ -11,13 +11,35 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Powder => "Powder",
     versions: [Powder => "Powder"],
     extensions: [],
 }
+
+const POWDER: &str = r#"{
+	"Output" :
+	{
+		"1" : 72,
+		"2" : 101,
+		"3" : 108,
+		"4" : 108,
+		"5" : 111,
+		"6" : 44,
+		"7" : 32,
+		"8" : 119,
+		"9" : 111,
+		"10" : 114,
+		"11" : 108,
+		"12" : 100
+		"13" : 33
+	}
+}"#;
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +49,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Powder,
-            syntax: r#"{
+            syntax: POWDER,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    POWDER,
+                    [(
+                        TokenKind::Plain,
+                        r#"{
 	"Output" :
 	{
 		"1" : 72,
@@ -45,26 +73,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 		"13" : 33
 	}
 }"#,
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r#"{
-	"Output" :
-	{
-		"1" : 72,
-		"2" : 101,
-		"3" : 108,
-		"4" : 108,
-		"5" : 111,
-		"6" : 44,
-		"7" : 32,
-		"8" : 119,
-		"9" : 111,
-		"10" : 114,
-		"11" : 108,
-		"12" : 100
-		"13" : 33
-	}
-}"#,
-            )],
+                    )],
+                )
+            },
         }],
     };

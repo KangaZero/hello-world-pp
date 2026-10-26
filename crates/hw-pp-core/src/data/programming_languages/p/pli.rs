@@ -15,7 +15,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -23,6 +23,14 @@ language_names! {
     versions: [Pli => "PLI"],
     extensions: [Pl1 => "pl1"],
 }
+
+const PLI: &str = concat!(
+    r"Hello2: proc options(main);
+     put list ('",
+    output_for_hello_world!(),
+    r"');
+end Hello2;"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -32,22 +40,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[PlI],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Pli,
-            syntax: concat!(
-                r"Hello2: proc options(main);
+            syntax: PLI,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PLI,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"Hello2: proc options(main);
      put list ('",
-                output_for_hello_world!(),
-                r"');
+                            output_for_hello_world!(),
+                            r"');
 end Hello2;"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"Hello2: proc options(main);
-     put list ('",
-                    output_for_hello_world!(),
-                    r"');
-end Hello2;"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

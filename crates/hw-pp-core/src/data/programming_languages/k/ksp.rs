@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [Ksp => "KSP"],
     extensions: [Ksp => "ksp"],
 }
+
+const KSP: &str = concat!(
+    r#"on init
+	message(""#,
+    output_for_hello_world!(),
+    r#"")
+end on"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +37,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ksp,
-            syntax: concat!(
-                r#"on init
+            syntax: KSP,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    KSP,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"on init
 	message(""#,
-                output_for_hello_world!(),
-                r#"")
+                            output_for_hello_world!(),
+                            r#"")
 end on"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"on init
-	message(""#,
-                    output_for_hello_world!(),
-                    r#"")
-end on"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

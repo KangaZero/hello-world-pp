@@ -10,13 +10,21 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: N0815 => "0815",
     versions: [N0815 => "0815"],
     extensions: [E0815 => "0815"],
 }
+
+const N0815: &str = r"<:48:x<:65:=<:6C:$=$=$$~<:03:+
+$~<:ffffffffffffffb1:+$<:77:~$
+~<:fffffffffffff8:x+$~<:03:+$~
+<:06:x-$x<:0e:x-$=x<:43:x-$";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,16 +34,18 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::N0815,
-            syntax: r"<:48:x<:65:=<:6C:$=$=$$~<:03:+
+            syntax: N0815,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    N0815,
+                    [(
+                        TokenKind::Plain,
+                        r"<:48:x<:65:=<:6C:$=$=$$~<:03:+
 $~<:ffffffffffffffb1:+$<:77:~$
 ~<:fffffffffffff8:x+$~<:03:+$~
 <:06:x-$x<:0e:x-$=x<:43:x-$",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"<:48:x<:65:=<:6C:$=$=$$~<:03:+
-$~<:ffffffffffffffb1:+$<:77:~$
-~<:fffffffffffff8:x+$~<:03:+$~
-<:06:x-$x<:0e:x-$=x<:43:x-$",
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,17 @@ language_names! {
     versions: [Acs => "ACS"],
     extensions: [Acs => "acs"],
 }
+
+const ACS: &str = concat!(
+    r#"#include "zcommon.acs"
+
+Script 1 OPEN
+{
+  Print(s: ""#,
+    output_for_hello_world!(),
+    r#"");
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,28 +40,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Acs,
-            syntax: concat!(
-                r#"#include "zcommon.acs"
+            syntax: ACS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ACS,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"#include "zcommon.acs"
 
 Script 1 OPEN
 {
   Print(s: ""#,
-                output_for_hello_world!(),
-                r#"");
+                            output_for_hello_world!(),
+                            r#"");
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"#include "zcommon.acs"
-
-Script 1 OPEN
-{
-  Print(s: ""#,
-                    output_for_hello_world!(),
-                    r#"");
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

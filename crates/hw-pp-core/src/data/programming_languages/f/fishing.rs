@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,13 @@ language_names! {
     versions: [Fishing => "Fishing"],
     extensions: [],
 }
+
+const FISHING: &str = concat!(
+    r"v+CCCCCCCCCCCCCCCC
+  `",
+    output_for_hello_world!(),
+    r"`N"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,20 +37,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Fishing,
-            syntax: concat!(
-                r"v+CCCCCCCCCCCCCCCC
+            syntax: FISHING,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FISHING,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"v+CCCCCCCCCCCCCCCC
   `",
-                output_for_hello_world!(),
-                r"`N"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"v+CCCCCCCCCCCCCCCC
-  `",
-                    output_for_hello_world!(),
-                    r"`N"
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r"`N"
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -10,13 +10,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Cubix => "Cubix",
     versions: [Cubix => "Cubix"],
     extensions: [],
 }
+
+const CUBIX: &str = r#"./v.o;@?/."dlroW"S..u/"Hello""#;
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +31,12 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cubix,
-            syntax: r#"./v.o;@?/."dlroW"S..u/"Hello""#,
-            tokenized_syntax: &[(TokenKind::Plain, r#"./v.o;@?/."dlroW"S..u/"Hello""#)],
+            syntax: CUBIX,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CUBIX,
+                    [(TokenKind::Plain, r#"./v.o;@?/."dlroW"S..u/"Hello""#)],
+                )
+            },
         }],
     };

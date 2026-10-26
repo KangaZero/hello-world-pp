@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,19 @@ language_names! {
     versions: [Rpl => "RPL"],
     extensions: [],
 }
+
+const RPL: &str = concat!(
+    output_for_hello_world!(),
+    r#" in RPL for the HP-28, HP-48, HP-49 and HP-50 series pocket calculators. No comments possible.
+
+<<
+    ""#,
+    output_for_hello_world!(),
+    r#""
+    1 DISP
+    60 FREEZE
+>>"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,32 +43,26 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Lisp],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rpl,
-            syntax: concat!(
-                output_for_hello_world!(),
-                r#" in RPL for the HP-28, HP-48, HP-49 and HP-50 series pocket calculators. No comments possible.
+            syntax: RPL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    RPL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            output_for_hello_world!(),
+                            r#" in RPL for the HP-28, HP-48, HP-49 and HP-50 series pocket calculators. No comments possible.
 
 <<
     ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
     1 DISP
     60 FREEZE
 >>"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    output_for_hello_world!(),
-                    r#" in RPL for the HP-28, HP-48, HP-49 and HP-50 series pocket calculators. No comments possible.
-
-<<
-    ""#,
-                    output_for_hello_world!(),
-                    r#""
-    1 DISP
-    60 FREEZE
->>"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

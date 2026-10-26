@@ -10,13 +10,18 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Markup,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Json => "JSON",
     versions: [Json => "JSON"],
     extensions: [Json => "json"],
 }
+
+const JSON: &str = r#"{ "hello": "world" }"#;
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,16 +31,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Json,
-            syntax: r#"{ "hello": "world" }"#,
-            tokenized_syntax: &[
-                (TokenKind::Punctuation, r"{"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::String, r#""hello""#),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::String, r#""world""#),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"}"),
-            ],
+            syntax: JSON,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    JSON,
+                    [
+                        (TokenKind::Punctuation, r"{"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::String, r#""hello""#),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::String, r#""world""#),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"}"),
+                    ],
+                )
+            },
         }],
     };

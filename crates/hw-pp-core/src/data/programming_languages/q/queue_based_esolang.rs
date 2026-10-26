@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: QueueBasedEsolang => "queue-based esolang",
     versions: [QueueBasedEsolang => "queue-based esolang"],
     extensions: [],
 }
+
+const QUEUE_BASED_ESOLANG: &str = r"pHpeplplpop,p pWpoprplpdp!QQQQQQQQQQQQQ";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +32,12 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::QueueBasedEsolang,
-            syntax: r"pHpeplplpop,p pWpoprplpdp!QQQQQQQQQQQQQ",
-            tokenized_syntax: &[(TokenKind::Plain, r"pHpeplplpop,p pWpoprplpdp!QQQQQQQQQQQQQ")],
+            syntax: QUEUE_BASED_ESOLANG,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    QUEUE_BASED_ESOLANG,
+                    [(TokenKind::Plain, r"pHpeplplpop,p pWpoprplpdp!QQQQQQQQQQQQQ")],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [DpatlPython => "DPATL Python"],
     extensions: [Dpatl => "dpatl"],
 }
+
+const DPATL_PYTHON: &str = concat!(
+    r#"{start python}
+print(""#,
+    output_for_hello_world!(),
+    r#"")
+{end python}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +37,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::DpatlPython,
-            syntax: concat!(
-                r#"{start python}
+            syntax: DPATL_PYTHON,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    DPATL_PYTHON,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"{start python}
 print(""#,
-                output_for_hello_world!(),
-                r#"")
+                            output_for_hello_world!(),
+                            r#"")
 {end python}"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"{start python}
-print(""#,
-                    output_for_hello_world!(),
-                    r#"")
-{end python}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -22,22 +22,14 @@ language_names! {
     extensions: [],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::VaxMacro,
-        extensions: &[],
-        categories: &[],
-        families: &[],
-        versions: &[ProgrammingLanguageVersion {
-            label: ProgrammingLanguageDialect::VaxMacro,
-            syntax: concat!(
-                output_for_hello_world!(),
-                r" in VAX Macro.
+const VAX_MACRO: &str = concat!(
+    output_for_hello_world!(),
+    r" in VAX Macro.
 
         .title  helloworld
         .ident  /",
-                output_for_hello_world!(),
-                r"/
+    output_for_hello_world!(),
+    r"/
 ;
         .library        /sys$library:lib/
         $libdef
@@ -47,8 +39,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         .psect  $data,wrt,noshr,noexe,long
 
 hello:  .ascid  /",
-                output_for_hello_world!(),
-                r"/
+    output_for_hello_world!(),
+    r"/
 
         .psect  $code,nowrt,shr,exe,long
 
@@ -60,146 +52,161 @@ message
 
         ret                             ; GTFOH
         .end    helloworld              ;"
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Keyword,
-                    concat!(output_for_hello_world!(), r" in VAX Macro"),
-                ),
-                (TokenKind::Punctuation, r"."),
-                (
-                    TokenKind::Plain,
-                    r"
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::VaxMacro,
+        extensions: &[],
+        categories: &[],
+        families: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::VaxMacro,
+            syntax: VAX_MACRO,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    VAX_MACRO,
+                    [
+                        (
+                            TokenKind::Keyword,
+                            concat!(output_for_hello_world!(), r" in VAX Macro"),
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (
+                            TokenKind::Plain,
+                            r"
 
         ",
-                ),
-                (TokenKind::Macro, r".title"),
-                (
-                    TokenKind::Plain,
-                    r"  helloworld
+                        ),
+                        (TokenKind::Macro, r".title"),
+                        (
+                            TokenKind::Plain,
+                            r"  helloworld
         ",
-                ),
-                (TokenKind::Macro, r".ident"),
-                (
-                    TokenKind::Plain,
-                    concat!(
-                        r"  /",
-                        output_for_hello_world!(),
-                        r"/
+                        ),
+                        (TokenKind::Macro, r".ident"),
+                        (
+                            TokenKind::Plain,
+                            concat!(
+                                r"  /",
+                                output_for_hello_world!(),
+                                r"/
 "
-                    ),
-                ),
-                (TokenKind::Comment, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                            ),
+                        ),
+                        (TokenKind::Comment, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Macro, r".library"),
-                (TokenKind::Plain, r"        /sys$library"),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"lib/
+                        ),
+                        (TokenKind::Macro, r".library"),
+                        (TokenKind::Plain, r"        /sys$library"),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"lib/
         $libdef
         $lib$routinesdef
 
 
         ",
-                ),
-                (TokenKind::Macro, r".psect"),
-                (TokenKind::Plain, r"  $data"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"wrt"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"noshr"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"noexe"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"long
+                        ),
+                        (TokenKind::Macro, r".psect"),
+                        (TokenKind::Plain, r"  $data"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"wrt"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"noshr"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"noexe"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"long
 
 hello",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r"  "),
-                (TokenKind::Macro, r".ascid"),
-                (
-                    TokenKind::Plain,
-                    concat!(
-                        r"  /",
-                        output_for_hello_world!(),
-                        r"/
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r"  "),
+                        (TokenKind::Macro, r".ascid"),
+                        (
+                            TokenKind::Plain,
+                            concat!(
+                                r"  /",
+                                output_for_hello_world!(),
+                                r"/
 
         "
-                    ),
-                ),
-                (TokenKind::Macro, r".psect"),
-                (TokenKind::Plain, r"  $code"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"nowrt"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"shr"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"exe"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"long
+                            ),
+                        ),
+                        (TokenKind::Macro, r".psect"),
+                        (TokenKind::Plain, r"  $code"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"nowrt"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"shr"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"exe"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"long
 
         ",
-                ),
-                (TokenKind::Macro, r".entry"),
-                (TokenKind::Plain, r"  helloworld"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"^m<r9"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"r10"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"r11>
+                        ),
+                        (TokenKind::Macro, r".entry"),
+                        (TokenKind::Plain, r"  helloworld"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"^m<r9"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"r10"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"r11>
 
         ",
-                ),
-                (TokenKind::Keyword, r"pushaq"),
-                (TokenKind::Plain, r"  hello                   "),
-                (TokenKind::Comment, r"; output the"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"pushaq"),
+                        (TokenKind::Plain, r"  hello                   "),
+                        (TokenKind::Comment, r"; output the"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"message"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"message"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"calls"),
-                (TokenKind::Plain, r"   #"),
-                (TokenKind::Number, r"1"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"g^lib$put_output     "),
-                (TokenKind::Comment, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"calls"),
+                        (TokenKind::Plain, r"   #"),
+                        (TokenKind::Number, r"1"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"g^lib$put_output     "),
+                        (TokenKind::Comment, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
         ",
-                ),
-                (TokenKind::Keyword, r"ret"),
-                (TokenKind::Plain, r"                             "),
-                (TokenKind::Comment, r"; GTFOH"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"ret"),
+                        (TokenKind::Plain, r"                             "),
+                        (TokenKind::Comment, r"; GTFOH"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Macro, r".end"),
-                (TokenKind::Plain, r"    helloworld              "),
-                (TokenKind::Comment, r";"),
-            ],
+                        ),
+                        (TokenKind::Macro, r".end"),
+                        (TokenKind::Plain, r"    helloworld              "),
+                        (TokenKind::Comment, r";"),
+                    ],
+                )
+            },
         }],
     };

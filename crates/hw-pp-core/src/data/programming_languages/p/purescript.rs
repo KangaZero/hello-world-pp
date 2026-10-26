@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,16 @@ language_names! {
     versions: [Purescript => "PureScript"],
     extensions: [Purs => "purs"],
 }
+
+const PURESCRIPT: &str = concat!(
+    r#"module Main where
+
+import Debug.Trace
+
+main = trace ""#,
+    output_for_hello_world!(),
+    r#"""#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,38 +40,35 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Haskell],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Purescript,
-            syntax: concat!(
-                r#"module Main where
-
-import Debug.Trace
-
-main = trace ""#,
-                output_for_hello_world!(),
-                r#"""#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"module"),
-                (TokenKind::Plain, r" Main "),
-                (TokenKind::Keyword, r"where"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: PURESCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PURESCRIPT,
+                    [
+                        (TokenKind::Keyword, r"module"),
+                        (TokenKind::Plain, r" Main "),
+                        (TokenKind::Keyword, r"where"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"import"),
-                (TokenKind::Plain, r" Debug"),
-                (TokenKind::Punctuation, r"."),
-                (
-                    TokenKind::Plain,
-                    r"Trace
+                        ),
+                        (TokenKind::Keyword, r"import"),
+                        (TokenKind::Plain, r" Debug"),
+                        (TokenKind::Punctuation, r"."),
+                        (
+                            TokenKind::Plain,
+                            r"Trace
 
 main = trace ",
-                ),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-            ],
+                        ),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                    ],
+                )
+            },
         }],
     };

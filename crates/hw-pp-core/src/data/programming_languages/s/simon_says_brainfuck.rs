@@ -11,13 +11,20 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: SimonSaysBrainfuck => "Simon says brainfuck",
     versions: [SimonSaysBrainfuck => "Simon says brainfuck"],
     extensions: [],
 }
+
+const SIMON_SAYS_BRAINFUCK: &str = r"Simon says: +++++++++[>++++++++<-]>.>++++++++++
+Simon says: [>++++++++++<-]>+.+++++++..+++.>++++
+Simon says: [>++++++++<-]>.<<<<+++++++++++++++.>>.+++.------.--------.";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,14 +34,17 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::SimonSaysBrainfuck,
-            syntax: r"Simon says: +++++++++[>++++++++<-]>.>++++++++++
+            syntax: SIMON_SAYS_BRAINFUCK,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SIMON_SAYS_BRAINFUCK,
+                    [(
+                        TokenKind::Plain,
+                        r"Simon says: +++++++++[>++++++++<-]>.>++++++++++
 Simon says: [>++++++++++<-]>+.+++++++..+++.>++++
 Simon says: [>++++++++<-]>.<<<<+++++++++++++++.>>.+++.------.--------.",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"Simon says: +++++++++[>++++++++<-]>.>++++++++++
-Simon says: [>++++++++++<-]>+.+++++++..+++.>++++
-Simon says: [>++++++++<-]>.<<<<+++++++++++++++.>>.+++.------.--------.",
-            )],
+                    )],
+                )
+            },
         }],
     };

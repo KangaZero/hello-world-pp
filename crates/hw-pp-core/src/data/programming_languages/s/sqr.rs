@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,17 @@ language_names! {
     versions: [Sqr => "SQR"],
     extensions: [],
 }
+
+const SQR: &str = concat!(
+    r"! ",
+    output_for_hello_world!(),
+    r" in SQR
+begin-program
+   print '",
+    output_for_hello_world!(),
+    r".' (1,1)
+end-program"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,28 +41,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sqr,
-            syntax: concat!(
-                r"! ",
-                output_for_hello_world!(),
-                r" in SQR
+            syntax: SQR,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SQR,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"! ",
+                            output_for_hello_world!(),
+                            r" in SQR
 begin-program
    print '",
-                output_for_hello_world!(),
-                r".' (1,1)
+                            output_for_hello_world!(),
+                            r".' (1,1)
 end-program"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"! ",
-                    output_for_hello_world!(),
-                    r" in SQR
-begin-program
-   print '",
-                    output_for_hello_world!(),
-                    r".' (1,1)
-end-program"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [Assemblyscript => "AssemblyScript"],
     extensions: [],
 }
+
+const ASSEMBLYSCRIPT: &str = concat!(
+    r#"export function hello(): string {
+  return ""#,
+    output_for_hello_world!(),
+    r#"";
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,42 +37,41 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[JavaScript],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Assemblyscript,
-            syntax: concat!(
-                r#"export function hello(): string {
-  return ""#,
-                output_for_hello_world!(),
-                r#"";
-}"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"export"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"function"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"hello"),
-                (TokenKind::Punctuation, r"():"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Type, r"string"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: ASSEMBLYSCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLYSCRIPT,
+                    [
+                        (TokenKind::Keyword, r"export"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"function"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"hello"),
+                        (TokenKind::Punctuation, r"():"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Type, r"string"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Keyword, r"return"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"return"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                    ],
+                )
+            },
         }],
     };

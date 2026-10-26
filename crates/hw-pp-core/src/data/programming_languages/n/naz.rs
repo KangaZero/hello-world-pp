@@ -11,13 +11,29 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Naz => "naz",
     versions: [Naz => "naz"],
     extensions: [],
 }
+
+const NAZ: &str = r"9a8m1o
+9a9a9a2a1o
+7a2o
+3a1o
+3d7a1o
+9s3s1o
+8a2m7a1o
+9a9a6a1o
+3a1o
+6s1o
+8s1o
+3d1o";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +43,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Naz,
-            syntax: r"9a8m1o
+            syntax: NAZ,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    NAZ,
+                    [(
+                        TokenKind::Plain,
+                        r"9a8m1o
 9a9a9a2a1o
 7a2o
 3a1o
@@ -39,20 +61,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 6s1o
 8s1o
 3d1o",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"9a8m1o
-9a9a9a2a1o
-7a2o
-3a1o
-3d7a1o
-9s3s1o
-8a2m7a1o
-9a9a6a1o
-3a1o
-6s1o
-8s1o
-3d1o",
-            )],
+                    )],
+                )
+            },
         }],
     };

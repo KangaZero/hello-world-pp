@@ -10,13 +10,18 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: DdDd => "DD DD",
     versions: [DdDd => "DD DD"],
     extensions: [Dd => "dd"],
 }
+
+const DD_DD: &str = r"<!Hello\ World\0A;";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +31,9 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::DdDd,
-            syntax: r"<!Hello\ World\0A;",
-            tokenized_syntax: &[(TokenKind::Plain, r"<!Hello\ World\0A;")],
+            syntax: DD_DD,
+            tokenized_syntax: &const {
+                checked_token_lengths(DD_DD, [(TokenKind::Plain, r"<!Hello\ World\0A;")])
+            },
         }],
     };

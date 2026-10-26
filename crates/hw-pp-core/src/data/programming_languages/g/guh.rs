@@ -11,13 +11,22 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Guh => "guh",
     versions: [Guh => "guh"],
     extensions: [],
 }
+
+const GUH: &str = r"guh d l r o W _ o l l e H
+
+guhguhguhguhguh
+guhguh
+11";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,18 +36,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Guh,
-            syntax: r"guh d l r o W _ o l l e H
+            syntax: GUH,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    GUH,
+                    [(
+                        TokenKind::Plain,
+                        r"guh d l r o W _ o l l e H
 
 guhguhguhguhguh
 guhguh
 11",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"guh d l r o W _ o l l e H
-
-guhguhguhguhguh
-guhguh
-11",
-            )],
+                    )],
+                )
+            },
         }],
     };

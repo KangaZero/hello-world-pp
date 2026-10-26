@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,16 @@ language_names! {
     versions: [Mailbox => "MailBox"],
     extensions: [],
 }
+
+const MAILBOX: &str = concat!(
+    r#"box 0
+(once)
+send "output"#,
+    output_for_hello_world!(),
+    r#"" to 0
+(contains "output")
+output without "output""#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,26 +40,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Mailbox,
-            syntax: concat!(
-                r#"box 0
+            syntax: MAILBOX,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MAILBOX,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"box 0
 (once)
 send "output"#,
-                output_for_hello_world!(),
-                r#"" to 0
+                            output_for_hello_world!(),
+                            r#"" to 0
 (contains "output")
 output without "output""#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"box 0
-(once)
-send "output"#,
-                    output_for_hello_world!(),
-                    r#"" to 0
-(contains "output")
-output without "output""#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

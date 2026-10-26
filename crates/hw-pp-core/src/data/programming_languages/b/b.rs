@@ -11,13 +11,20 @@ use crate::data::programming_languages::{
     ProgrammingLanguageCategory::{Compiled, Historical},
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: B => "B",
     versions: [B => "B"],
     extensions: [B => "b"],
 }
+
+const B: &str = r"main() {
+    putchar ('Hell'); putchar ('o Wo'); putchar ('rld'); putchar ('*n');
+}";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,14 +34,17 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::B,
-            syntax: r"main() {
+            syntax: B,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    B,
+                    [(
+                        TokenKind::Plain,
+                        r"main() {
     putchar ('Hell'); putchar ('o Wo'); putchar ('rld'); putchar ('*n');
 }",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"main() {
-    putchar ('Hell'); putchar ('o Wo'); putchar ('rld'); putchar ('*n');
-}",
-            )],
+                    )],
+                )
+            },
         }],
     };

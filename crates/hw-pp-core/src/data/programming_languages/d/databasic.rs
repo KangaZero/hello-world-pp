@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,15 @@ language_names! {
     versions: [Databasic => "Databasic"],
     extensions: [],
 }
+
+const DATABASIC: &str = concat!(
+    r"PROGRAM HELLO.B
+# ",
+    output_for_hello_world!(),
+    r#" in Databasic
+CRT "HELLOW WORLD"
+END"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,24 +39,22 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Databasic,
-            syntax: concat!(
-                r"PROGRAM HELLO.B
+            syntax: DATABASIC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    DATABASIC,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"PROGRAM HELLO.B
 # ",
-                output_for_hello_world!(),
-                r#" in Databasic
+                            output_for_hello_world!(),
+                            r#" in Databasic
 CRT "HELLOW WORLD"
 END"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"PROGRAM HELLO.B
-# ",
-                    output_for_hello_world!(),
-                    r#" in Databasic
-CRT "HELLOW WORLD"
-END"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

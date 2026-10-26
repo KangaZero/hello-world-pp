@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,17 @@ language_names! {
     versions: [Myrddin => "Myrddin"],
     extensions: [Myr => "myr"],
 }
+
+const MYRDDIN: &str = concat!(
+    r#"use std
+
+const main = {
+    std.put(""#,
+    output_for_hello_world!(),
+    r#"\n")
+}
+"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,51 +40,47 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Myrddin,
-            syntax: concat!(
-                r#"use std
-
-const main = {
-    std.put(""#,
-                output_for_hello_world!(),
-                r#"\n")
-}
-"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"use"),
-                (
-                    TokenKind::Plain,
-                    r" std
+            syntax: MYRDDIN,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MYRDDIN,
+                    [
+                        (TokenKind::Keyword, r"use"),
+                        (
+                            TokenKind::Plain,
+                            r" std
 
 ",
-                ),
-                (TokenKind::Keyword, r"const"),
-                (TokenKind::Plain, r" main = "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"const"),
+                        (TokenKind::Plain, r" main = "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
     std",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"put"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
-                ),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"put"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"\n""#),
+                        ),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-            ],
+                        ),
+                    ],
+                )
+            },
         }],
     };

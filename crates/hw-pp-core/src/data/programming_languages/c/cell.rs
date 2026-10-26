@@ -11,13 +11,19 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Cell => "Cell",
     versions: [Cell => "Cell"],
     extensions: [],
 }
+
+const CELL: &str =
+    r"j0 a72 . a101 . a108 . . a111 . a44 . a32 . a87 . a111 . a114 . a108 . a100 . a33 .";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +33,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cell,
-            syntax: r"j0 a72 . a101 . a108 . . a111 . a44 . a32 . a87 . a111 . a114 . a108 . a100 . a33 .",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"j0 a72 . a101 . a108 . . a111 . a44 . a32 . a87 . a111 . a114 . a108 . a100 . a33 .",
-            )],
+            syntax: CELL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CELL,
+                    [(
+                        TokenKind::Plain,
+                        r"j0 a72 . a101 . a108 . . a111 . a44 . a32 . a87 . a111 . a114 . a108 . a100 . a33 .",
+                    )],
+                )
+            },
         }],
     };

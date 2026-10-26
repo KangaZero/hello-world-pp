@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Wheel => "Wheel",
     versions: [Wheel => "Wheel"],
     extensions: [],
 }
+
+const WHEEL: &str = r"C72C69C76C76C79C32C87C79C82C76C68";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +32,12 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Wheel,
-            syntax: r"C72C69C76C76C79C32C87C79C82C76C68",
-            tokenized_syntax: &[(TokenKind::Plain, r"C72C69C76C76C79C32C87C79C82C76C68")],
+            syntax: WHEEL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    WHEEL,
+                    [(TokenKind::Plain, r"C72C69C76C76C79C32C87C79C82C76C68")],
+                )
+            },
         }],
     };

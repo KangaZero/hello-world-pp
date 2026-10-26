@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Choon => "Choon",
     versions: [Choon => "Choon"],
     extensions: [],
 }
+
+const CHOON: &str = r"AGb-A#A#+A+%A#DF-AC#";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +32,9 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Choon,
-            syntax: r"AGb-A#A#+A+%A#DF-AC#",
-            tokenized_syntax: &[(TokenKind::Plain, r"AGb-A#A#+A+%A#DF-AC#")],
+            syntax: CHOON,
+            tokenized_syntax: &const {
+                checked_token_lengths(CHOON, [(TokenKind::Plain, r"AGb-A#A#+A+%A#DF-AC#")])
+            },
         }],
     };

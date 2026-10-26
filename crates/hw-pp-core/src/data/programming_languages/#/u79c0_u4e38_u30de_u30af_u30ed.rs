@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,9 @@ language_names! {
     versions: [U79c0U4e38U30deU30afU30ed => "秀丸マクロ"],
     extensions: [],
 }
+
+const U79C0_U4E38_U30DE_U30AF_U30ED: &str =
+    concat!(r#"message ""#, output_for_hello_world!(), r#"";"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::U79c0U4e38U30deU30afU30ed,
-            syntax: concat!(r#"message ""#, output_for_hello_world!(), r#"";"#),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r#"message ""#, output_for_hello_world!(), r#"";"#),
-            )],
+            syntax: U79C0_U4E38_U30DE_U30AF_U30ED,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    U79C0_U4E38_U30DE_U30AF_U30ED,
+                    [(
+                        TokenKind::Plain,
+                        concat!(r#"message ""#, output_for_hello_world!(), r#"";"#),
+                    )],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,19 @@ language_names! {
     versions: [Flet => "Flet"],
     extensions: [],
 }
+
+const FLET: &str = concat!(
+    r#"import flet as ft
+
+def main(page: ft.Page):
+    t = ft.Text(value=""#,
+    output_for_hello_world!(),
+    r#"")
+    page.controls.append(t)
+    page.update()
+
+ft.app(target=main)"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,88 +42,82 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Flet,
-            syntax: concat!(
-                r#"import flet as ft
-
-def main(page: ft.Page):
-    t = ft.Text(value=""#,
-                output_for_hello_world!(),
-                r#"")
-    page.controls.append(t)
-    page.update()
-
-ft.app(target=main)"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"import"),
-                (TokenKind::Plain, r" flet "),
-                (TokenKind::Keyword, r"as"),
-                (
-                    TokenKind::Plain,
-                    r" ft
+            syntax: FLET,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FLET,
+                    [
+                        (TokenKind::Keyword, r"import"),
+                        (TokenKind::Plain, r" flet "),
+                        (TokenKind::Keyword, r"as"),
+                        (
+                            TokenKind::Plain,
+                            r" ft
 
 ",
-                ),
-                (TokenKind::Keyword, r"def"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"main"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"page"),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" ft"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Plain, r"Page"),
-                (TokenKind::Punctuation, r"):"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"def"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"main"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"page"),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" ft"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Plain, r"Page"),
+                        (TokenKind::Punctuation, r"):"),
+                        (
+                            TokenKind::Plain,
+                            r"
     t ",
-                ),
-                (TokenKind::Keyword, r"="),
-                (TokenKind::Plain, r" ft"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"Text"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"value"),
-                (TokenKind::Keyword, r"="),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"="),
+                        (TokenKind::Plain, r" ft"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"Text"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"value"),
+                        (TokenKind::Keyword, r"="),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
     page",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Plain, r"controls"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"append"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"t"),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Plain, r"controls"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"append"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"t"),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
     page",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"update"),
-                (TokenKind::Punctuation, r"()"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"update"),
+                        (TokenKind::Punctuation, r"()"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ft",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"app"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"target"),
-                (TokenKind::Keyword, r"="),
-                (TokenKind::Plain, r"main"),
-                (TokenKind::Punctuation, r")"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"app"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"target"),
+                        (TokenKind::Keyword, r"="),
+                        (TokenKind::Plain, r"main"),
+                        (TokenKind::Punctuation, r")"),
+                    ],
+                )
+            },
         }],
     };

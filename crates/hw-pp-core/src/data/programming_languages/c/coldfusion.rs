@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,13 @@ language_names! {
     versions: [Coldfusion => "ColdFusion"],
     extensions: [Cfm => "cfm"],
 }
+
+const COLDFUSION: &str = concat!(
+    r#"<cfset message = ""#,
+    output_for_hello_world!(),
+    r#"">
+<cfoutput> #message#</cfoutput>"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,28 +36,28 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Coldfusion,
-            syntax: concat!(
-                r#"<cfset message = ""#,
-                output_for_hello_world!(),
-                r#"">
-<cfoutput> #message#</cfoutput>"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"<cfset"),
-                (TokenKind::Plain, r" message = "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Keyword, r">"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: COLDFUSION,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    COLDFUSION,
+                    [
+                        (TokenKind::Keyword, r"<cfset"),
+                        (TokenKind::Plain, r" message = "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Keyword, r">"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"<cfoutput>"),
-                (TokenKind::Plain, r" #message#"),
-                (TokenKind::Keyword, r"</cfoutput>"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"<cfoutput>"),
+                        (TokenKind::Plain, r" #message#"),
+                        (TokenKind::Keyword, r"</cfoutput>"),
+                    ],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,17 @@ language_names! {
     versions: [MdmZinc => "MDM Zinc"],
     extensions: [],
 }
+
+const MDM_ZINC: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in MDM Zinc
+
+mdm.Dialogs.prompt(""#,
+    output_for_hello_world!(),
+    r#"");
+mdm.Application.exit();"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,28 +41,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::MdmZinc,
-            syntax: concat!(
-                r"// ",
-                output_for_hello_world!(),
-                r#" in MDM Zinc
+            syntax: MDM_ZINC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MDM_ZINC,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"// ",
+                            output_for_hello_world!(),
+                            r#" in MDM Zinc
 
 mdm.Dialogs.prompt(""#,
-                output_for_hello_world!(),
-                r#"");
+                            output_for_hello_world!(),
+                            r#"");
 mdm.Application.exit();"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in MDM Zinc
-
-mdm.Dialogs.prompt(""#,
-                    output_for_hello_world!(),
-                    r#"");
-mdm.Application.exit();"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

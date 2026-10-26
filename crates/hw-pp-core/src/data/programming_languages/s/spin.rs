@@ -11,13 +11,20 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Spin => "Spin",
     versions: [Spin => "Spin"],
     extensions: [],
 }
+
+const SPIN: &str = r"START TO SPIN!
+SPIN THIS ALL! High end lock likes offering. With old red lamps dodged.
+STOP SPINNING!";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,14 +34,17 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Spin,
-            syntax: r"START TO SPIN!
+            syntax: SPIN,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SPIN,
+                    [(
+                        TokenKind::Plain,
+                        r"START TO SPIN!
 SPIN THIS ALL! High end lock likes offering. With old red lamps dodged.
 STOP SPINNING!",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"START TO SPIN!
-SPIN THIS ALL! High end lock likes offering. With old red lamps dodged.
-STOP SPINNING!",
-            )],
+                    )],
+                )
+            },
         }],
     };

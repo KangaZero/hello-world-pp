@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,24 @@ language_names! {
     versions: [Bibtex => "BibTex"],
     extensions: [],
 }
+
+const BIBTEX: &str = concat!(
+    r"%",
+    output_for_hello_world!(),
+    r#" in BibTex
+
+ENTRY{author}{}{}
+
+FUNCTION {hello.world}
+{ 
+  ""#,
+    output_for_hello_world!(),
+    r#"" write$ newline$
+}
+
+READ 
+EXECUTE {hello.world}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,42 +48,31 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Bibtex,
-            syntax: concat!(
-                r"%",
-                output_for_hello_world!(),
-                r#" in BibTex
+            syntax: BIBTEX,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BIBTEX,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"%",
+                            output_for_hello_world!(),
+                            r#" in BibTex
 
 ENTRY{author}{}{}
 
 FUNCTION {hello.world}
 { 
   ""#,
-                output_for_hello_world!(),
-                r#"" write$ newline$
+                            output_for_hello_world!(),
+                            r#"" write$ newline$
 }
 
 READ 
 EXECUTE {hello.world}"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"%",
-                    output_for_hello_world!(),
-                    r#" in BibTex
-
-ENTRY{author}{}{}
-
-FUNCTION {hello.world}
-{ 
-  ""#,
-                    output_for_hello_world!(),
-                    r#"" write$ newline$
-}
-
-READ 
-EXECUTE {hello.world}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

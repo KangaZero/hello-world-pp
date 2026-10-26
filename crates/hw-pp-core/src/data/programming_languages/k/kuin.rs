@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [Kuin => "Kuin"],
     extensions: [Kn => "kn"],
 }
+
+const KUIN: &str = concat!(
+    r#"func main()
+  do cui@print(""#,
+    output_for_hello_world!(),
+    r#"\n")
+end func"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +37,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Kuin,
-            syntax: concat!(
-                r#"func main()
+            syntax: KUIN,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    KUIN,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"func main()
   do cui@print(""#,
-                output_for_hello_world!(),
-                r#"\n")
+                            output_for_hello_world!(),
+                            r#"\n")
 end func"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"func main()
-  do cui@print(""#,
-                    output_for_hello_world!(),
-                    r#"\n")
-end func"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

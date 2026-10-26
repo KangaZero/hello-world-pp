@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Zucchini => "Zucchini",
     versions: [Zucchini => "Zucchini"],
     extensions: [],
 }
+
+const ZUCCHINI: &str = r"=0,1.2./.0,1./.3.17. ` /.4.17.`../.5.17.`: /.6.17.`: /.7.17.`::/.8.17`: /.9.17`  /.10.17.:.:/.11.17.`::/.12.17.: `/.13.17.`: /.14.17.`. /.15.17` ./.16.17``/.19.";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Zucchini,
-            syntax: r"=0,1.2./.0,1./.3.17. ` /.4.17.`../.5.17.`: /.6.17.`: /.7.17.`::/.8.17`: /.9.17`  /.10.17.:.:/.11.17.`::/.12.17.: `/.13.17.`: /.14.17.`. /.15.17` ./.16.17``/.19.",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"=0,1.2./.0,1./.3.17. ` /.4.17.`../.5.17.`: /.6.17.`: /.7.17.`::/.8.17`: /.9.17`  /.10.17.:.:/.11.17.`::/.12.17.: `/.13.17.`: /.14.17.`. /.15.17` ./.16.17``/.19.",
-            )],
+            syntax: ZUCCHINI,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ZUCCHINI,
+                    [(
+                        TokenKind::Plain,
+                        r"=0,1.2./.0,1./.3.17. ` /.4.17.`../.5.17.`: /.6.17.`: /.7.17.`::/.8.17`: /.9.17`  /.10.17.:.:/.11.17.`::/.12.17.: `/.13.17.`: /.14.17.`. /.15.17` ./.16.17``/.19.",
+                    )],
+                )
+            },
         }],
     };

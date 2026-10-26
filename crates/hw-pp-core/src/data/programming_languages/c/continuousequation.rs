@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Continuousequation => "ContinuousEquation",
     versions: [Continuousequation => "ContinuousEquation"],
     extensions: [],
 }
+
+const CONTINUOUSEQUATION: &str = r"0 0 o'H'e'l'l'o',' 'w'o'r'l'd'!";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +32,12 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Continuousequation,
-            syntax: r"0 0 o'H'e'l'l'o',' 'w'o'r'l'd'!",
-            tokenized_syntax: &[(TokenKind::Plain, r"0 0 o'H'e'l'l'o',' 'w'o'r'l'd'!")],
+            syntax: CONTINUOUSEQUATION,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CONTINUOUSEQUATION,
+                    [(TokenKind::Plain, r"0 0 o'H'e'l'l'o',' 'w'o'r'l'd'!")],
+                )
+            },
         }],
     };

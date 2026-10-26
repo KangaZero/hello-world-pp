@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,51 @@ language_names! {
     versions: [MplabIde => "MPLAB IDE"],
     extensions: [],
 }
+
+const MPLAB_IDE: &str = concat!(
+    r"; ",
+    output_for_hello_world!(),
+    r#" in MPLAB IDE
+
+load_HELLO_W
+lfsr2,0x100
+movlwd'11'
+movwfPOSTINC2
+movlw"H"
+movwfPOSTINC2
+movlw"E"
+movwfPOSTINC2
+movlw"L"
+movwfPOSTINC2
+movwfPOSTINC2
+movlw"O"
+movwfPOSTINC2
+movlw" "
+movwfPOSTINC2
+movlw"W"
+movwfPOSTINC2
+movlw"O"
+movwfPOSTINC2
+movlw"R"
+movwfPOSTINC2
+movlw"L"
+movwfPOSTINC2
+movlw"D"
+movwfPOSTINC2
+SEND_HELLO_WORLD
+lfsr1,0x100
+movf    POSTINC1,w
+movwfstr_length
+SLmovf       POSTINC1,w
+movwfTXREG
+TX_wait
+btfss      TXSTA,TRMT
+braTX_wait
+decfszstr_length,f
+braSL
+DONE_MESSAGE
+nop"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +75,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::MplabIde,
-            syntax: concat!(
-                r"; ",
-                output_for_hello_world!(),
-                r#" in MPLAB IDE
+            syntax: MPLAB_IDE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MPLAB_IDE,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"; ",
+                            output_for_hello_world!(),
+                            r#" in MPLAB IDE
 
 load_HELLO_W
 lfsr2,0x100
@@ -73,53 +124,9 @@ decfszstr_length,f
 braSL
 DONE_MESSAGE
 nop"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"; ",
-                    output_for_hello_world!(),
-                    r#" in MPLAB IDE
-
-load_HELLO_W
-lfsr2,0x100
-movlwd'11'
-movwfPOSTINC2
-movlw"H"
-movwfPOSTINC2
-movlw"E"
-movwfPOSTINC2
-movlw"L"
-movwfPOSTINC2
-movwfPOSTINC2
-movlw"O"
-movwfPOSTINC2
-movlw" "
-movwfPOSTINC2
-movlw"W"
-movwfPOSTINC2
-movlw"O"
-movwfPOSTINC2
-movlw"R"
-movwfPOSTINC2
-movlw"L"
-movwfPOSTINC2
-movlw"D"
-movwfPOSTINC2
-SEND_HELLO_WORLD
-lfsr1,0x100
-movf    POSTINC1,w
-movwfstr_length
-SLmovf       POSTINC1,w
-movwfTXREG
-TX_wait
-btfss      TXSTA,TRMT
-braTX_wait
-decfszstr_length,f
-braSL
-DONE_MESSAGE
-nop"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,28 @@ language_names! {
     versions: [Brightscript => "BrightScript"],
     extensions: [],
 }
+
+const BRIGHTSCRIPT: &str = concat!(
+    r"' ",
+    output_for_hello_world!(),
+    r#" in BrightScript
+
+sub Main()
+port = CreateObject("roMessagePort")
+screen = CreateObject("roTextScreen")
+screen.SetText(""#,
+    output_for_hello_world!(),
+    r#"")
+screen.setMessagePort(port)
+screen.Show()
+while true
+  msg = wait(0, port)
+  if(msg.isScreenClosed())
+    return -1
+  end if
+end while
+end sub"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,17 +52,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Brightscript,
-            syntax: concat!(
-                r"' ",
-                output_for_hello_world!(),
-                r#" in BrightScript
+            syntax: BRIGHTSCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BRIGHTSCRIPT,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"' ",
+                            output_for_hello_world!(),
+                            r#" in BrightScript
 
 sub Main()
 port = CreateObject("roMessagePort")
 screen = CreateObject("roTextScreen")
 screen.SetText(""#,
-                output_for_hello_world!(),
-                r#"")
+                            output_for_hello_world!(),
+                            r#"")
 screen.setMessagePort(port)
 screen.Show()
 while true
@@ -50,30 +78,9 @@ while true
   end if
 end while
 end sub"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"' ",
-                    output_for_hello_world!(),
-                    r#" in BrightScript
-
-sub Main()
-port = CreateObject("roMessagePort")
-screen = CreateObject("roTextScreen")
-screen.SetText(""#,
-                    output_for_hello_world!(),
-                    r#"")
-screen.setMessagePort(port)
-screen.Show()
-while true
-  msg = wait(0, port)
-  if(msg.isScreenClosed())
-    return -1
-  end if
-end while
-end sub"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

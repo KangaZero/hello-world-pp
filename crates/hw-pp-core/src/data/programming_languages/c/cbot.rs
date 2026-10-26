@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,17 @@ language_names! {
     versions: [Cbot => "Cbot"],
     extensions: [Txt => "txt"],
 }
+
+const CBOT: &str = concat!(
+    r#"extern void object::New()
+{
+
+message(""#,
+    output_for_hello_world!(),
+    r#"");
+
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,51 +40,47 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cbot,
-            syntax: concat!(
-                r#"extern void object::New()
-{
-
-message(""#,
-                output_for_hello_world!(),
-                r#"");
-
-}"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"extern"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"void"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"object"),
-                (TokenKind::Punctuation, r"::"),
-                (TokenKind::Function, r"New"),
-                (TokenKind::Punctuation, r"()"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: CBOT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CBOT,
+                    [
+                        (TokenKind::Keyword, r"extern"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"void"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"object"),
+                        (TokenKind::Punctuation, r"::"),
+                        (TokenKind::Function, r"New"),
+                        (TokenKind::Punctuation, r"()"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Function, r"message"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Function, r"message"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                    ],
+                )
+            },
         }],
     };

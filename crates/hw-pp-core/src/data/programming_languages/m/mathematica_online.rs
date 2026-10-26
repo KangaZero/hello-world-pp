@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [MathematicaOnline => "Mathematica Online"],
     extensions: [],
 }
+
+const MATHEMATICA_ONLINE: &str = concat!(
+    r#"Notebook[{Cell[
+BoxData[RowBox[{"Print","[","\""#,
+    output_for_hello_world!(),
+    r#"\"","]"}]],"Input",CellID->1]},
+StyleDefinitions->"Default.nb",FrontEndVersion->"10.0 for Wolfram Cloud Platform (June 2 2014)"]"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +37,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::MathematicaOnline,
-            syntax: concat!(
-                r#"Notebook[{Cell[
+            syntax: MATHEMATICA_ONLINE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MATHEMATICA_ONLINE,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"Notebook[{Cell[
 BoxData[RowBox[{"Print","[","\""#,
-                output_for_hello_world!(),
-                r#"\"","]"}]],"Input",CellID->1]},
+                            output_for_hello_world!(),
+                            r#"\"","]"}]],"Input",CellID->1]},
 StyleDefinitions->"Default.nb",FrontEndVersion->"10.0 for Wolfram Cloud Platform (June 2 2014)"]"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"Notebook[{Cell[
-BoxData[RowBox[{"Print","[","\""#,
-                    output_for_hello_world!(),
-                    r#"\"","]"}]],"Input",CellID->1]},
-StyleDefinitions->"Default.nb",FrontEndVersion->"10.0 for Wolfram Cloud Platform (June 2 2014)"]"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

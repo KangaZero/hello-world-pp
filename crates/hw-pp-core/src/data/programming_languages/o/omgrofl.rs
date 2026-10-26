@@ -10,13 +10,40 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Omgrofl => "Omgrofl",
     versions: [Omgrofl => "Omgrofl"],
     extensions: [Omgrofl => "omgrofl"],
 }
+
+const OMGROFL: &str = r"lol iz 72
+rofl lol
+lol iz 101
+rofl lol
+lol iz 108
+rofl lol
+rofl lol
+lool iz 111
+rofl lool
+loool iz 44
+rofl loool
+loool iz 32
+rofl loool
+loool iz 87
+rofl loool
+rofl lool
+lool iz 114
+rofl lool
+rofl lol
+lol iz 100
+rofl lol
+lol iz 33
+rofl lol";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +53,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Omgrofl,
-            syntax: r"lol iz 72
+            syntax: OMGROFL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    OMGROFL,
+                    [(
+                        TokenKind::Plain,
+                        r"lol iz 72
 rofl lol
 lol iz 101
 rofl lol
@@ -49,31 +82,8 @@ lol iz 100
 rofl lol
 lol iz 33
 rofl lol",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"lol iz 72
-rofl lol
-lol iz 101
-rofl lol
-lol iz 108
-rofl lol
-rofl lol
-lool iz 111
-rofl lool
-loool iz 44
-rofl loool
-loool iz 32
-rofl loool
-loool iz 87
-rofl loool
-rofl lool
-lool iz 114
-rofl lool
-rofl lol
-lol iz 100
-rofl lol
-lol iz 33
-rofl lol",
-            )],
+                    )],
+                )
+            },
         }],
     };

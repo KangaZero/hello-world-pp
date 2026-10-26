@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,31 @@ language_names! {
     versions: [Visualfoxpro => "VisualFoxPro"],
     extensions: [],
 }
+
+const VISUALFOXPRO: &str = concat!(
+    r#"MESSAGEBOX(""#,
+    output_for_hello_world!(),
+    r#"")
+
+? ""#,
+    output_for_hello_world!(),
+    r#""
+
+loForm = CREATEOBJECT("HiForm")
+loForm.Show(1)
+
+DEFINE CLASS HiForm AS Form
+	AutoCenter	= .T.
+	Caption		= ""#,
+    output_for_hello_world!(),
+    r#""
+	
+	ADD OBJECT lblHi as Label ;
+		WITH Caption = ""#,
+    output_for_hello_world!(),
+    r#""
+ENDDEFINE"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,14 +54,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[XBase],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Visualfoxpro,
-            syntax: concat!(
-                r#"MESSAGEBOX(""#,
-                output_for_hello_world!(),
-                r#"")
+            syntax: VISUALFOXPRO,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    VISUALFOXPRO,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"MESSAGEBOX(""#,
+                            output_for_hello_world!(),
+                            r#"")
 
 ? ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 
 loForm = CREATEOBJECT("HiForm")
 loForm.Show(1)
@@ -44,41 +75,17 @@ loForm.Show(1)
 DEFINE CLASS HiForm AS Form
 	AutoCenter	= .T.
 	Caption		= ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 	
 	ADD OBJECT lblHi as Label ;
 		WITH Caption = ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 ENDDEFINE"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"MESSAGEBOX(""#,
-                    output_for_hello_world!(),
-                    r#"")
-
-? ""#,
-                    output_for_hello_world!(),
-                    r#""
-
-loForm = CREATEOBJECT("HiForm")
-loForm.Show(1)
-
-DEFINE CLASS HiForm AS Form
-	AutoCenter	= .T.
-	Caption		= ""#,
-                    output_for_hello_world!(),
-                    r#""
-	
-	ADD OBJECT lblHi as Label ;
-		WITH Caption = ""#,
-                    output_for_hello_world!(),
-                    r#""
-ENDDEFINE"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

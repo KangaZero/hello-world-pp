@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,21 @@ language_names! {
     versions: [Elliott => "Elliott"],
     extensions: [],
 }
+
+const ELLIOTT: &str = concat!(
+    r":: ",
+    output_for_hello_world!(),
+    r" in Elliott Autocode
+SETF PUNCH
+SETR 1
+1)TELEPRINTER
+LINE
+TITLE ",
+    output_for_hello_world!(),
+    r".;
+STOP
+START 1"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,36 +45,28 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Elliott,
-            syntax: concat!(
-                r":: ",
-                output_for_hello_world!(),
-                r" in Elliott Autocode
+            syntax: ELLIOTT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ELLIOTT,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r":: ",
+                            output_for_hello_world!(),
+                            r" in Elliott Autocode
 SETF PUNCH
 SETR 1
 1)TELEPRINTER
 LINE
 TITLE ",
-                output_for_hello_world!(),
-                r".;
+                            output_for_hello_world!(),
+                            r".;
 STOP
 START 1"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r":: ",
-                    output_for_hello_world!(),
-                    r" in Elliott Autocode
-SETF PUNCH
-SETR 1
-1)TELEPRINTER
-LINE
-TITLE ",
-                    output_for_hello_world!(),
-                    r".;
-STOP
-START 1"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

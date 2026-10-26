@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,28 @@ language_names! {
     versions: [AssemblerArm => "Assembler ARM"],
     extensions: [],
 }
+
+const ASSEMBLER_ARM: &str = concat!(
+    r#".data
+message:                .asciz ""#,
+    output_for_hello_world!(),
+    r#""
+len = .-message
+
+.text
+.global main
+main:
+    mov r0, #1  
+    ldr r1, =message
+    ldr r2, =len
+    mov r7, #4    
+    swi 0           
+
+    mov r7, #1
+    swi 0
+    bx lr
+"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,11 +51,17 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblerArm,
-            syntax: concat!(
-                r#".data
+            syntax: ASSEMBLER_ARM,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_ARM,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#".data
 message:                .asciz ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 len = .-message
 
 .text
@@ -49,30 +77,9 @@ main:
     swi 0
     bx lr
 "#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#".data
-message:                .asciz ""#,
-                    output_for_hello_world!(),
-                    r#""
-len = .-message
-
-.text
-.global main
-main:
-    mov r0, #1  
-    ldr r1, =message
-    ldr r2, =len
-    mov r7, #4    
-    swi 0           
-
-    mov r7, #1
-    swi 0
-    bx lr
-"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

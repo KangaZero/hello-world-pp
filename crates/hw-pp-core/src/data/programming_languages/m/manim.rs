@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,16 @@ language_names! {
     versions: [Manim => "Manim"],
     extensions: [],
 }
+
+const MANIM: &str = concat!(
+    r#"from manim import *
+
+class HelloWorld(Scene):
+  def construct(self):
+    self.add(Text(""#,
+    output_for_hello_world!(),
+    r#""))"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,56 +39,53 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Manim,
-            syntax: concat!(
-                r#"from manim import *
-
-class HelloWorld(Scene):
-  def construct(self):
-    self.add(Text(""#,
-                output_for_hello_world!(),
-                r#""))"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"from"),
-                (TokenKind::Plain, r" manim "),
-                (TokenKind::Keyword, r"import"),
-                (
-                    TokenKind::Plain,
-                    r" *
+            syntax: MANIM,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MANIM,
+                    [
+                        (TokenKind::Keyword, r"from"),
+                        (TokenKind::Plain, r" manim "),
+                        (TokenKind::Keyword, r"import"),
+                        (
+                            TokenKind::Plain,
+                            r" *
 
 ",
-                ),
-                (TokenKind::Keyword, r"class"),
-                (TokenKind::Plain, r" HelloWorld"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"Scene"),
-                (TokenKind::Punctuation, r"):"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"class"),
+                        (TokenKind::Plain, r" HelloWorld"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"Scene"),
+                        (TokenKind::Punctuation, r"):"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Keyword, r"def"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"construct"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"self"),
-                (TokenKind::Punctuation, r"):"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"def"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"construct"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"self"),
+                        (TokenKind::Punctuation, r"):"),
+                        (
+                            TokenKind::Plain,
+                            r"
     self",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"add"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Function, r"Text"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r"))"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"add"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Function, r"Text"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r"))"),
+                    ],
+                )
+            },
         }],
     };

@@ -11,13 +11,31 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: ByteSyze => "Byte Syze",
     versions: [ByteSyze => "Byte Syze"],
     extensions: [],
 }
+
+const BYTE_SYZE: &str = r"000000: c7 3c 2a 3c 2a 2b 2a 5c  3c 29 5c 2a 2b 2a 5c 3c  .<*<*+*\<)\*+*\<
+000010: 29 5c 2a 2b 2a 5c 3c 29  5c 2a 2b 2a 5c 3c 29 5c  )\*+*\<)\*+*\<)\
+000020: 2a 2b 2a 5c 3c 29 5c 2a  2b 2a 5c 3c 29 5c 2a 2b  *+*\<)\*+*\<)\*+
+000030: 2a 5c 3c 29 5c 2a 2b 2a  5c 3c 29 5c 2a 2b 2a 5c  *\<)\*+*\<)\*+*\
+000040: 3c 29 5c 2a 2b 2a 5c 3c  29 5c 2a 2b 2a 5c 3c 29  <)\*+*\<)\*+*\<)
+000050: 5c 2a 2b 2a 5c 3c 29 5c  2a 2b 2a 5c 3c 29 5c 2a  \*+*\<)\*+*\<)\*
+000060: 2b 2a 00 00 01 00 00 00  00 00 00 00 00 00 00 00  +*..............
+000070: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+000080: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+000090: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+0000a0: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+0000b0: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+0000c0: 00 00 00 00 00 00 00 64  48 65 6c 6c 6f 2c 20 57  .......dHello,.W
+0000d0: 6f 72 6c 64 21 00 00 00  00 00 00 00 00 00 00 00  orld!...........";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +45,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::ByteSyze,
-            syntax: r"000000: c7 3c 2a 3c 2a 2b 2a 5c  3c 29 5c 2a 2b 2a 5c 3c  .<*<*+*\<)\*+*\<
+            syntax: BYTE_SYZE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BYTE_SYZE,
+                    [(
+                        TokenKind::Plain,
+                        r"000000: c7 3c 2a 3c 2a 2b 2a 5c  3c 29 5c 2a 2b 2a 5c 3c  .<*<*+*\<)\*+*\<
 000010: 29 5c 2a 2b 2a 5c 3c 29  5c 2a 2b 2a 5c 3c 29 5c  )\*+*\<)\*+*\<)\
 000020: 2a 2b 2a 5c 3c 29 5c 2a  2b 2a 5c 3c 29 5c 2a 2b  *+*\<)\*+*\<)\*+
 000030: 2a 5c 3c 29 5c 2a 2b 2a  5c 3c 29 5c 2a 2b 2a 5c  *\<)\*+*\<)\*+*\
@@ -41,22 +65,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 0000b0: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
 0000c0: 00 00 00 00 00 00 00 64  48 65 6c 6c 6f 2c 20 57  .......dHello,.W
 0000d0: 6f 72 6c 64 21 00 00 00  00 00 00 00 00 00 00 00  orld!...........",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"000000: c7 3c 2a 3c 2a 2b 2a 5c  3c 29 5c 2a 2b 2a 5c 3c  .<*<*+*\<)\*+*\<
-000010: 29 5c 2a 2b 2a 5c 3c 29  5c 2a 2b 2a 5c 3c 29 5c  )\*+*\<)\*+*\<)\
-000020: 2a 2b 2a 5c 3c 29 5c 2a  2b 2a 5c 3c 29 5c 2a 2b  *+*\<)\*+*\<)\*+
-000030: 2a 5c 3c 29 5c 2a 2b 2a  5c 3c 29 5c 2a 2b 2a 5c  *\<)\*+*\<)\*+*\
-000040: 3c 29 5c 2a 2b 2a 5c 3c  29 5c 2a 2b 2a 5c 3c 29  <)\*+*\<)\*+*\<)
-000050: 5c 2a 2b 2a 5c 3c 29 5c  2a 2b 2a 5c 3c 29 5c 2a  \*+*\<)\*+*\<)\*
-000060: 2b 2a 00 00 01 00 00 00  00 00 00 00 00 00 00 00  +*..............
-000070: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
-000080: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
-000090: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
-0000a0: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
-0000b0: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
-0000c0: 00 00 00 00 00 00 00 64  48 65 6c 6c 6f 2c 20 57  .......dHello,.W
-0000d0: 6f 72 6c 64 21 00 00 00  00 00 00 00 00 00 00 00  orld!...........",
-            )],
+                    )],
+                )
+            },
         }],
     };

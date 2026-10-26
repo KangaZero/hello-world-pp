@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,34 @@ language_names! {
     versions: [Iptscrae => "Iptscrae"],
     extensions: [],
 }
+
+const IPTSCRAE: &str = concat!(
+    r"; ",
+    output_for_hello_world!(),
+    r#" in Iptscrae.
+; 1. from the chat prompt:
+
+/ ""#,
+    output_for_hello_world!(),
+    r#"" SAY
+
+; 2. in a cyborg:
+
+ON OUTCHAT {
+    {  ""#,
+    output_for_hello_world!(),
+    r#"" SAY
+    } CHATSTR "say it" == IF
+}
+
+; 3. in a room script:
+
+ON SELECT {
+    ""#,
+    output_for_hello_world!(),
+    r#"" SAY
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,22 +58,28 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Iptscrae,
-            syntax: concat!(
-                r"; ",
-                output_for_hello_world!(),
-                r#" in Iptscrae.
+            syntax: IPTSCRAE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    IPTSCRAE,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"; ",
+                            output_for_hello_world!(),
+                            r#" in Iptscrae.
 ; 1. from the chat prompt:
 
 / ""#,
-                output_for_hello_world!(),
-                r#"" SAY
+                            output_for_hello_world!(),
+                            r#"" SAY
 
 ; 2. in a cyborg:
 
 ON OUTCHAT {
     {  ""#,
-                output_for_hello_world!(),
-                r#"" SAY
+                            output_for_hello_world!(),
+                            r#"" SAY
     } CHATSTR "say it" == IF
 }
 
@@ -53,39 +87,12 @@ ON OUTCHAT {
 
 ON SELECT {
     ""#,
-                output_for_hello_world!(),
-                r#"" SAY
+                            output_for_hello_world!(),
+                            r#"" SAY
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"; ",
-                    output_for_hello_world!(),
-                    r#" in Iptscrae.
-; 1. from the chat prompt:
-
-/ ""#,
-                    output_for_hello_world!(),
-                    r#"" SAY
-
-; 2. in a cyborg:
-
-ON OUTCHAT {
-    {  ""#,
-                    output_for_hello_world!(),
-                    r#"" SAY
-    } CHATSTR "say it" == IF
-}
-
-; 3. in a room script:
-
-ON SELECT {
-    ""#,
-                    output_for_hello_world!(),
-                    r#"" SAY
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

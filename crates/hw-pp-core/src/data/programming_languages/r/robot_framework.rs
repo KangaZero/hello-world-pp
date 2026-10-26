@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,13 @@ language_names! {
     versions: [RobotFramework => "Robot Framework"],
     extensions: [Robot => "robot"],
 }
+
+const ROBOT_FRAMEWORK: &str = concat!(
+    r"*** Task ***
+Display Greeting
+    Log To Console    ",
+    output_for_hello_world!()
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,20 +36,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::RobotFramework,
-            syntax: concat!(
-                r"*** Task ***
+            syntax: ROBOT_FRAMEWORK,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ROBOT_FRAMEWORK,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"*** Task ***
 Display Greeting
     Log To Console    ",
-                output_for_hello_world!()
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"*** Task ***
-Display Greeting
-    Log To Console    ",
-                    output_for_hello_world!()
-                ),
-            )],
+                            output_for_hello_world!()
+                        ),
+                    )],
+                )
+            },
         }],
     };

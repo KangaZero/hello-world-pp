@@ -32,7 +32,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -41,181 +41,43 @@ language_names! {
     extensions: [Cpp => "cpp", Cc => "cc", Cxx => "cxx", Hpp => "hpp"],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::Cpp,
-        extensions: &[
-            FileExtension::Cpp,
-            FileExtension::Cc,
-            FileExtension::Cxx,
-            FileExtension::Hpp,
-        ],
-        categories: &[Compiled],
-        families: &[Algol, C, Cpp],
-        versions: &[
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::Cpp98,
-                syntax: concat!(
-                    r#"#include <iostream>
+const CPP98: &str = concat!(
+    r#"#include <iostream>
 
 int main() {
     std::cout << ""#,
-                    output_for_hello_world!(),
-                    r#"" << std::endl;
+    output_for_hello_world!(),
+    r#"" << std::endl;
     return 0;
 }"#
-                ),
-                tokenized_syntax: &[
-                    (TokenKind::Keyword, "#include"),
-                    (TokenKind::Plain, " "),
-                    (TokenKind::String, "<iostream>"),
-                    (TokenKind::Plain, "\n\n"),
-                    (TokenKind::Type, "int"),
-                    (TokenKind::Plain, " "),
-                    (TokenKind::Function, "main"),
-                    (TokenKind::Punctuation, "()"),
-                    (TokenKind::Plain, " "),
-                    (TokenKind::Punctuation, "{"),
-                    (TokenKind::Plain, "\n    std"),
-                    (TokenKind::Punctuation, "::"),
-                    (TokenKind::Plain, "cout "),
-                    (TokenKind::Keyword, "<<"),
-                    (TokenKind::Plain, " "),
-                    (
-                        TokenKind::String,
-                        concat!("\"", output_for_hello_world!(), "\""),
-                    ),
-                    (TokenKind::Plain, " "),
-                    (TokenKind::Keyword, "<<"),
-                    (TokenKind::Plain, " std"),
-                    (TokenKind::Punctuation, "::"),
-                    (TokenKind::Plain, "endl"),
-                    (TokenKind::Punctuation, ";"),
-                    (TokenKind::Plain, "\n    "),
-                    (TokenKind::Keyword, "return"),
-                    (TokenKind::Plain, " "),
-                    (TokenKind::Number, "0"),
-                    (TokenKind::Punctuation, ";"),
-                    (TokenKind::Plain, "\n"),
-                    (TokenKind::Punctuation, "}"),
-                ],
-            },
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::Cpp20,
-                syntax: concat!(
-                    r#"#include <iostream>
+);
+const CPP20: &str = concat!(
+    r#"#include <iostream>
 
 int main() {
     std::cout << ""#,
-                    output_for_hello_world!(),
-                    r#"\n";
+    output_for_hello_world!(),
+    r#"\n";
 }"#
-                ),
-                tokenized_syntax: &[
-                    (TokenKind::Keyword, "#include"),
-                    (TokenKind::Plain, " "),
-                    (TokenKind::String, "<iostream>"),
-                    (TokenKind::Plain, "\n\n"),
-                    (TokenKind::Type, "int"),
-                    (TokenKind::Plain, " "),
-                    (TokenKind::Function, "main"),
-                    (TokenKind::Punctuation, "()"),
-                    (TokenKind::Plain, " "),
-                    (TokenKind::Punctuation, "{"),
-                    (TokenKind::Plain, "\n    std"),
-                    (TokenKind::Punctuation, "::"),
-                    (TokenKind::Plain, "cout "),
-                    (TokenKind::Keyword, "<<"),
-                    (TokenKind::Plain, " "),
-                    (
-                        TokenKind::String,
-                        concat!("\"", output_for_hello_world!(), r#"\n""#),
-                    ),
-                    (TokenKind::Punctuation, ";"),
-                    (TokenKind::Plain, "\n"),
-                    (TokenKind::Punctuation, "}"),
-                ],
-            },
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::CPlusPlusNetCli,
-                syntax: concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in C++/CLI for .NET
+);
+const C_PLUS_PLUS_NET_CLI: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in C++/CLI for .NET
 
 using namespace System;
 
 void main()
 {
     Console::WriteLine(""#,
-                    output_for_hello_world!(),
-                    r#"");
+    output_for_hello_world!(),
+    r#"");
 }"#
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        concat!(
-                            r"// ",
-                            output_for_hello_world!(),
-                            r" in C++/CLI for .NET
-"
-                        ),
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"using"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"namespace"),
-                    (TokenKind::Plain, r" System"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-",
-                    ),
-                    (TokenKind::Type, r"void"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"main"),
-                    (TokenKind::Punctuation, r"()"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Function, r"Console"),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Function, r"WriteLine"),
-                    (TokenKind::Punctuation, r"("),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                    ),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                ],
-            },
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::CPlusPlusEpoc,
-                syntax: concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in C++, Epoc style (for Symbian OS)
+);
+const C_PLUS_PLUS_EPOC: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in C++, Epoc style (for Symbian OS)
 
 #include <eikapp.h>
 #include <eikdoc.h>
@@ -306,704 +168,11 @@ void CHelloWorldAppUi::ConstructL()
     CAknInformationNote* informationNote = new (ELeave) CAknInformationNote;
     informationNote->ExecuteLD(message);
     }"#
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        concat!(
-                            r"// ",
-                            output_for_hello_world!(),
-                            r" in C++, Epoc style (for Symbian OS)
-"
-                        ),
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"#include"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"<eikapp.h>"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"#include"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"<eikdoc.h>"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"#include"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"<eikappui.h>"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-",
-                    ),
-                    (TokenKind::Type, r"class"),
-                    (TokenKind::Plain, r" CHelloWorldAppUi"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Type, r"class"),
-                    (TokenKind::Plain, r" CEikApplication"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Type, r"class"),
-                    (TokenKind::Plain, r" CHelloWorldAppView"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-",
-                    ),
-                    (TokenKind::Type, r"class"),
-                    (TokenKind::Plain, r" CHelloWorldApplication "),
-                    (TokenKind::Punctuation, r":"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"public"),
-                    (
-                        TokenKind::Plain,
-                        r" CEikApplication
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-        ",
-                    ),
-                    (TokenKind::Keyword, r"public"),
-                    (TokenKind::Punctuation, r":"),
-                    (
-                        TokenKind::Plain,
-                        r"
-            TUid ",
-                    ),
-                    (TokenKind::Function, r"AppDllUid"),
-                    (TokenKind::Punctuation, r"()"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"const"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-        ",
-                    ),
-                    (TokenKind::Keyword, r"protected"),
-                    (TokenKind::Punctuation, r":"),
-                    (
-                        TokenKind::Plain,
-                        r"
-            CApaDocument",
-                    ),
-                    (TokenKind::Keyword, r"*"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"CreateDocumentL"),
-                    (TokenKind::Punctuation, r"();"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"};"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-",
-                    ),
-                    (TokenKind::Type, r"class"),
-                    (TokenKind::Plain, r" CHelloWorldDocument "),
-                    (TokenKind::Punctuation, r":"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"public"),
-                    (
-                        TokenKind::Plain,
-                        r" CEikDocument
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-        ",
-                    ),
-                    (TokenKind::Keyword, r"public"),
-                    (TokenKind::Punctuation, r":"),
-                    (
-                        TokenKind::Plain,
-                        r"
-            ",
-                    ),
-                    (TokenKind::Keyword, r"static"),
-                    (TokenKind::Plain, r" CHelloWorldDocument"),
-                    (TokenKind::Keyword, r"*"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"NewL"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"CEikApplication"),
-                    (TokenKind::Keyword, r"&"),
-                    (TokenKind::Plain, r" aApp"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-            ",
-                    ),
-                    (TokenKind::Keyword, r"static"),
-                    (TokenKind::Plain, r" CHelloWorldDocument"),
-                    (TokenKind::Keyword, r"*"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"NewLC"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"CEikApplication"),
-                    (TokenKind::Keyword, r"&"),
-                    (TokenKind::Plain, r" aApp"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-            ",
-                    ),
-                    (TokenKind::Function, r"~CHelloWorldDocument"),
-                    (TokenKind::Punctuation, r"(){};"),
-                    (
-                        TokenKind::Plain,
-                        r"
-        ",
-                    ),
-                    (TokenKind::Keyword, r"public"),
-                    (TokenKind::Punctuation, r":"),
-                    (
-                        TokenKind::Plain,
-                        r"
-            CEikAppUi",
-                    ),
-                    (TokenKind::Keyword, r"*"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"CreateAppUiL"),
-                    (TokenKind::Punctuation, r"();"),
-                    (
-                        TokenKind::Plain,
-                        r"
-        ",
-                    ),
-                    (TokenKind::Keyword, r"private"),
-                    (TokenKind::Punctuation, r":"),
-                    (
-                        TokenKind::Plain,
-                        r"
-            ",
-                    ),
-                    (TokenKind::Type, r"void"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"ConstructL"),
-                    (TokenKind::Punctuation, r"()"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Punctuation, r"{};"),
-                    (
-                        TokenKind::Plain,
-                        r"
-            ",
-                    ),
-                    (TokenKind::Function, r"CHelloWorldDocument"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"CEikApplication"),
-                    (TokenKind::Keyword, r"&"),
-                    (TokenKind::Plain, r" aApp"),
-                    (TokenKind::Punctuation, r"){};"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"};"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-",
-                    ),
-                    (TokenKind::Type, r"class"),
-                    (TokenKind::Plain, r" CHelloWorldAppUi "),
-                    (TokenKind::Punctuation, r":"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"public"),
-                    (
-                        TokenKind::Plain,
-                        r" CEikAppUi
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-        ",
-                    ),
-                    (TokenKind::Keyword, r"public"),
-                    (TokenKind::Punctuation, r":"),
-                    (
-                        TokenKind::Plain,
-                        r"
-                ",
-                    ),
-                    (TokenKind::Type, r"void"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"ConstructL"),
-                    (TokenKind::Punctuation, r"();"),
-                    (
-                        TokenKind::Plain,
-                        r"
-                ",
-                    ),
-                    (TokenKind::Function, r"CHelloWorldAppUi"),
-                    (TokenKind::Punctuation, r"(){};"),
-                    (
-                        TokenKind::Plain,
-                        r"
-                ",
-                    ),
-                    (TokenKind::Function, r"~CHelloWorldAppUi"),
-                    (TokenKind::Punctuation, r"(){};"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"};"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-",
-                    ),
-                    (TokenKind::Keyword, r"static"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"const"),
-                    (TokenKind::Plain, r" TUid KUidHelloWorldApp "),
-                    (TokenKind::Keyword, r"="),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Punctuation, r"{"),
-                    (TokenKind::Number, r"0x10005B91"),
-                    (TokenKind::Punctuation, r"};"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-GLDEF_C TInt ",
-                    ),
-                    (TokenKind::Function, r"E32Dll"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"TDllReason "),
-                    (TokenKind::Punctuation, r")"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Keyword, r"return"),
-                    (TokenKind::Plain, r" KErrNone"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-EXPORT_C CApaApplication",
-                    ),
-                    (TokenKind::Keyword, r"*"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"NewApplication"),
-                    (TokenKind::Punctuation, r"()"),
-                    (
-                        TokenKind::Plain,
-                        r" 
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Keyword, r"return"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Keyword, r"new"),
-                    (TokenKind::Plain, r" CHelloWorldApplication"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-CApaDocument",
-                    ),
-                    (TokenKind::Keyword, r"*"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"CHelloWorldApplication"),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Function, r"CreateDocumentL"),
-                    (TokenKind::Punctuation, r"()"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"  
-    CApaDocument",
-                    ),
-                    (TokenKind::Keyword, r"*"),
-                    (TokenKind::Plain, r" document "),
-                    (TokenKind::Keyword, r"="),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"CHelloWorldDocument"),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Function, r"NewL"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Keyword, r"*"),
-                    (TokenKind::Plain, r"this"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Keyword, r"return"),
-                    (TokenKind::Plain, r" document"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-TUid ",
-                    ),
-                    (TokenKind::Function, r"CHelloWorldApplication"),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Function, r"AppDllUid"),
-                    (TokenKind::Punctuation, r"()"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"const"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Keyword, r"return"),
-                    (TokenKind::Plain, r" KUidHelloWorldApp"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    
-CHelloWorldDocument",
-                    ),
-                    (TokenKind::Keyword, r"*"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"CHelloWorldDocument"),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Function, r"NewL"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"CEikApplication"),
-                    (TokenKind::Keyword, r"&"),
-                    (TokenKind::Plain, r" aApp"),
-                    (TokenKind::Punctuation, r")"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    CHelloWorldDocument",
-                    ),
-                    (TokenKind::Keyword, r"*"),
-                    (TokenKind::Plain, r" self "),
-                    (TokenKind::Keyword, r"="),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"NewLC"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"aApp"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Function, r"CleanupStack"),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Function, r"Pop"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"self"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Keyword, r"return"),
-                    (TokenKind::Plain, r" self"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-CHelloWorldDocument",
-                    ),
-                    (TokenKind::Keyword, r"*"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"CHelloWorldDocument"),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Function, r"NewLC"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"CEikApplication"),
-                    (TokenKind::Keyword, r"&"),
-                    (TokenKind::Plain, r" aApp"),
-                    (TokenKind::Punctuation, r")"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    CHelloWorldDocument",
-                    ),
-                    (TokenKind::Keyword, r"*"),
-                    (TokenKind::Plain, r" self "),
-                    (TokenKind::Keyword, r"="),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"new"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"ELeave"),
-                    (TokenKind::Punctuation, r")"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"CHelloWorldDocument"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"aApp"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Function, r"CleanupStack"),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Function, r"PushL"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"self"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    self",
-                    ),
-                    (TokenKind::Punctuation, r"->"),
-                    (TokenKind::Function, r"ConstructL"),
-                    (TokenKind::Punctuation, r"();"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Keyword, r"return"),
-                    (TokenKind::Plain, r" self"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-CEikAppUi",
-                    ),
-                    (TokenKind::Keyword, r"*"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"CHelloWorldDocument"),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Function, r"CreateAppUiL"),
-                    (TokenKind::Punctuation, r"()"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    CEikAppUi",
-                    ),
-                    (TokenKind::Keyword, r"*"),
-                    (TokenKind::Plain, r" appUi "),
-                    (TokenKind::Keyword, r"="),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"new"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"ELeave"),
-                    (TokenKind::Punctuation, r")"),
-                    (TokenKind::Plain, r" CHelloWorldAppUi"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Keyword, r"return"),
-                    (TokenKind::Plain, r" appUi"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-",
-                    ),
-                    (TokenKind::Type, r"void"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"CHelloWorldAppUi"),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Function, r"ConstructL"),
-                    (TokenKind::Punctuation, r"()"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Function, r"BaseConstructL"),
-                    (TokenKind::Punctuation, r"();"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-    ",
-                    ),
-                    (TokenKind::Function, r"_LIT"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"message"),
-                    (TokenKind::Punctuation, r","),
-                    (TokenKind::String, r#""Hello!""#),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    CAknInformationNote",
-                    ),
-                    (TokenKind::Keyword, r"*"),
-                    (TokenKind::Plain, r" informationNote "),
-                    (TokenKind::Keyword, r"="),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"new"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"ELeave"),
-                    (TokenKind::Punctuation, r")"),
-                    (TokenKind::Plain, r" CAknInformationNote"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    informationNote",
-                    ),
-                    (TokenKind::Punctuation, r"->"),
-                    (TokenKind::Function, r"ExecuteLD"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"message"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                ],
-            },
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::CPlusPlusFltk,
-                syntax: concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in C++-FLTK
+);
+const C_PLUS_PLUS_FLTK: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in C++-FLTK
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
@@ -1013,175 +182,18 @@ int main(int argc, char **argv) {
    Fl_Window *ventana = new Fl_Window(300,180);
    ventana->begin();
    Fl_Box *box = new Fl_Box(20,40,260,100,""#,
-                    output_for_hello_world!(),
-                    r#"");
+    output_for_hello_world!(),
+    r#"");
    box->labelsize(50);
    ventana->end();
    ventana->show(argc, argv);
    return Fl::run();
 }"#
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        concat!(
-                            r"// ",
-                            output_for_hello_world!(),
-                            r" in C++-FLTK
-"
-                        ),
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"#include"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"<FL/Fl.H>"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"#include"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"<FL/Fl_Window.H>"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"#include"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"<FL/Fl_Box.H>"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-",
-                    ),
-                    (TokenKind::Type, r"int"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"main"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Type, r"int"),
-                    (TokenKind::Plain, r" argc"),
-                    (TokenKind::Punctuation, r","),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Type, r"char"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"**"),
-                    (TokenKind::Plain, r"argv"),
-                    (TokenKind::Punctuation, r")"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-   Fl_Window ",
-                    ),
-                    (TokenKind::Keyword, r"*"),
-                    (TokenKind::Plain, r"ventana "),
-                    (TokenKind::Keyword, r"="),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"new"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"Fl_Window"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Number, r"300"),
-                    (TokenKind::Punctuation, r","),
-                    (TokenKind::Number, r"180"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-   ventana",
-                    ),
-                    (TokenKind::Punctuation, r"->"),
-                    (TokenKind::Function, r"begin"),
-                    (TokenKind::Punctuation, r"();"),
-                    (
-                        TokenKind::Plain,
-                        r"
-   Fl_Box ",
-                    ),
-                    (TokenKind::Keyword, r"*"),
-                    (TokenKind::Plain, r"box "),
-                    (TokenKind::Keyword, r"="),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"new"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"Fl_Box"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Number, r"20"),
-                    (TokenKind::Punctuation, r","),
-                    (TokenKind::Number, r"40"),
-                    (TokenKind::Punctuation, r","),
-                    (TokenKind::Number, r"260"),
-                    (TokenKind::Punctuation, r","),
-                    (TokenKind::Number, r"100"),
-                    (TokenKind::Punctuation, r","),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                    ),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-   box",
-                    ),
-                    (TokenKind::Punctuation, r"->"),
-                    (TokenKind::Function, r"labelsize"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Number, r"50"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-   ventana",
-                    ),
-                    (TokenKind::Punctuation, r"->"),
-                    (TokenKind::Function, r"end"),
-                    (TokenKind::Punctuation, r"();"),
-                    (
-                        TokenKind::Plain,
-                        r"
-   ventana",
-                    ),
-                    (TokenKind::Punctuation, r"->"),
-                    (TokenKind::Function, r"show"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"argc"),
-                    (TokenKind::Punctuation, r","),
-                    (TokenKind::Plain, r" argv"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-   ",
-                    ),
-                    (TokenKind::Keyword, r"return"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"Fl"),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Function, r"run"),
-                    (TokenKind::Punctuation, r"();"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                ],
-            },
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::CPlusPlusGtkPlusPlus,
-                syntax: concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in C++ for the Gtk+ toolkit
+);
+const C_PLUS_PLUS_GTK_PLUS_PLUS: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in C++ for the Gtk+ toolkit
 
 #include <gtkmm/main.h>
 #include <gtkmm/button.h>
@@ -1191,8 +203,8 @@ int main(int argc, char **argv) {
 void button_clicked()
 {
 	std::cout << ""#,
-                    output_for_hello_world!(),
-                    r#" !" << std::endl;
+    output_for_hello_world!(),
+    r#" !" << std::endl;
 }
 
 int main (int argc, char *argv[])
@@ -1200,8 +212,8 @@ int main (int argc, char *argv[])
 	Gtk::Main kit(argc, argv);
 	Gtk::Window hello_window;
 	Gtk::Button hello_button(""#,
-                    output_for_hello_world!(),
-                    r#"");
+    output_for_hello_world!(),
+    r#"");
 	
 	hello_window.set_border_width(10);
 	hello_window.add(hello_button);
@@ -1211,310 +223,25 @@ int main (int argc, char *argv[])
 	Gtk::Main::run(hello_window);
 	return 0;
 }"#
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        concat!(
-                            r"// ",
-                            output_for_hello_world!(),
-                            r" in C++ for the Gtk+ toolkit
-"
-                        ),
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"#include"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"<gtkmm/main.h>"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"#include"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"<gtkmm/button.h>"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"#include"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"<gtkmm/window.h>"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"#include"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"<iostream>"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-",
-                    ),
-                    (TokenKind::Type, r"void"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"button_clicked"),
-                    (TokenKind::Punctuation, r"()"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-	std",
-                    ),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Plain, r"cout "),
-                    (TokenKind::Keyword, r"<<"),
-                    (TokenKind::Plain, r" "),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#" !""#),
-                    ),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"<<"),
-                    (TokenKind::Plain, r" std"),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Plain, r"endl"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-",
-                    ),
-                    (TokenKind::Type, r"int"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"main "),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Type, r"int"),
-                    (TokenKind::Plain, r" argc"),
-                    (TokenKind::Punctuation, r","),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Type, r"char"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"*"),
-                    (TokenKind::Plain, r"argv"),
-                    (TokenKind::Punctuation, r"[])"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-	Gtk",
-                    ),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Plain, r"Main "),
-                    (TokenKind::Function, r"kit"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"argc"),
-                    (TokenKind::Punctuation, r","),
-                    (TokenKind::Plain, r" argv"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-	Gtk",
-                    ),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Plain, r"Window hello_window"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-	Gtk",
-                    ),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Plain, r"Button "),
-                    (TokenKind::Function, r"hello_button"),
-                    (TokenKind::Punctuation, r"("),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                    ),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-	
-	hello_window",
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Function, r"set_border_width"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Number, r"10"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-	hello_window",
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Function, r"add"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"hello_button"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-	hello_button",
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Function, r"signal_clicked"),
-                    (TokenKind::Punctuation, r"()."),
-                    (TokenKind::Function, r"connect"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Function, r"sigc"),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Function, r"ptr_fun"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Keyword, r"&"),
-                    (TokenKind::Plain, r"button_clicked"),
-                    (TokenKind::Punctuation, r"));"),
-                    (
-                        TokenKind::Plain,
-                        r"
-	hello_button",
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Function, r"show"),
-                    (TokenKind::Punctuation, r"();"),
-                    (
-                        TokenKind::Plain,
-                        r"
-	
-	",
-                    ),
-                    (TokenKind::Function, r"Gtk"),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Function, r"Main"),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Function, r"run"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"hello_window"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-	",
-                    ),
-                    (TokenKind::Keyword, r"return"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Number, r"0"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                ],
-            },
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::CPlusPlusIso,
-                syntax: concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in ISO C++
+);
+const C_PLUS_PLUS_ISO: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in ISO C++
 
 #include <iostream>
 
 int main()
 {
     std::cout << ""#,
-                    output_for_hello_world!(),
-                    r#"" << std::endl;
+    output_for_hello_world!(),
+    r#"" << std::endl;
 }"#
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        concat!(
-                            r"// ",
-                            output_for_hello_world!(),
-                            r" in ISO C++
-"
-                        ),
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"#include"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"<iostream>"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-",
-                    ),
-                    (TokenKind::Type, r"int"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"main"),
-                    (TokenKind::Punctuation, r"()"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    std",
-                    ),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Plain, r"cout "),
-                    (TokenKind::Keyword, r"<<"),
-                    (TokenKind::Plain, r" "),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                    ),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"<<"),
-                    (TokenKind::Plain, r" std"),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Plain, r"endl"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                ],
-            },
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::CPlusPlusMfc,
-                syntax: concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in C++ for Microsoft Foundation Classes
+);
+const C_PLUS_PLUS_MFC: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in C++ for Microsoft Foundation Classes
 // (Microsoft Visual C++).
 
 #include <afxwin.h>
@@ -1525,8 +252,8 @@ public:
     CHello()
     {
         Create(NULL,_T(""#,
-                    output_for_hello_world!(),
-                    r#""),WS_OVERLAPPEDWINDOW,rectDefault);
+    output_for_hello_world!(),
+    r#""),WS_OVERLAPPEDWINDOW,rectDefault);
     }
 };
 
@@ -1545,210 +272,11 @@ BOOL CHelloApp::InitInstance()
 }
 
 CHelloApp theApp;"#
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        concat!(
-                            r"// ",
-                            output_for_hello_world!(),
-                            r" in C++ for Microsoft Foundation Classes
-// (Microsoft Visual C++).
-"
-                        ),
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"#include"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"<afxwin.h>"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-",
-                    ),
-                    (TokenKind::Type, r"class"),
-                    (TokenKind::Plain, r" CHello "),
-                    (TokenKind::Punctuation, r":"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"public"),
-                    (
-                        TokenKind::Plain,
-                        r" CFrameWnd
-",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"public"),
-                    (TokenKind::Punctuation, r":"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Function, r"CHello"),
-                    (TokenKind::Punctuation, r"()"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-        ",
-                    ),
-                    (TokenKind::Function, r"Create"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"NULL"),
-                    (TokenKind::Punctuation, r","),
-                    (TokenKind::Function, r"_T"),
-                    (TokenKind::Punctuation, r"("),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                    ),
-                    (TokenKind::Punctuation, r"),"),
-                    (TokenKind::Plain, r"WS_OVERLAPPEDWINDOW"),
-                    (TokenKind::Punctuation, r","),
-                    (TokenKind::Plain, r"rectDefault"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Punctuation, r"};"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-",
-                    ),
-                    (TokenKind::Type, r"class"),
-                    (TokenKind::Plain, r" CHelloApp "),
-                    (TokenKind::Punctuation, r":"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"public"),
-                    (
-                        TokenKind::Plain,
-                        r" CWinApp
-",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"public"),
-                    (TokenKind::Punctuation, r":"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Keyword, r"virtual"),
-                    (TokenKind::Plain, r" BOOL "),
-                    (TokenKind::Function, r"InitInstance"),
-                    (TokenKind::Punctuation, r"();"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Punctuation, r"};"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-",
-                    ),
-                    (TokenKind::Type, r"BOOL"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"CHelloApp"),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Function, r"InitInstance"),
-                    (TokenKind::Punctuation, r"()"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    m_pMainWnd ",
-                    ),
-                    (TokenKind::Keyword, r"="),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"new"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"CHello"),
-                    (TokenKind::Punctuation, r"();"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    m_pMainWnd",
-                    ),
-                    (TokenKind::Punctuation, r"->"),
-                    (TokenKind::Function, r"ShowWindow"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"m_nCmdShow"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    m_pMainWnd",
-                    ),
-                    (TokenKind::Punctuation, r"->"),
-                    (TokenKind::Function, r"UpdateWindow"),
-                    (TokenKind::Punctuation, r"();"),
-                    (
-                        TokenKind::Plain,
-                        r"
-    ",
-                    ),
-                    (TokenKind::Keyword, r"return"),
-                    (TokenKind::Plain, r" TRUE"),
-                    (TokenKind::Punctuation, r";"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-CHelloApp theApp",
-                    ),
-                    (TokenKind::Punctuation, r";"),
-                ],
-            },
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::CPlusPlusQt,
-                syntax: concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in C++ for the Qt framework
+);
+const C_PLUS_PLUS_QT: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in C++ for the Qt framework
 
 #include <qapplication.h>
 #include <qlabel.h>
@@ -1757,8 +285,8 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   QLabel l(""#,
-                    output_for_hello_world!(),
-                    r#"", 0);
+    output_for_hello_world!(),
+    r#"", 0);
   l.setCaption("Test");
   l.setAlignment(Qt::AlignCenter);
   l.resize(300, 200);
@@ -1766,156 +294,1683 @@ int main(int argc, char *argv[])
   l.show();
   return(a.exec());
 }"#
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        concat!(
-                            r"// ",
-                            output_for_hello_world!(),
-                            r" in C++ for the Qt framework
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Cpp,
+        extensions: &[
+            FileExtension::Cpp,
+            FileExtension::Cc,
+            FileExtension::Cxx,
+            FileExtension::Hpp,
+        ],
+        categories: &[Compiled],
+        families: &[Algol, C, Cpp],
+        versions: &[
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::Cpp98,
+                syntax: CPP98,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        CPP98,
+                        [
+                            (TokenKind::Keyword, "#include"),
+                            (TokenKind::Plain, " "),
+                            (TokenKind::String, "<iostream>"),
+                            (TokenKind::Plain, "\n\n"),
+                            (TokenKind::Type, "int"),
+                            (TokenKind::Plain, " "),
+                            (TokenKind::Function, "main"),
+                            (TokenKind::Punctuation, "()"),
+                            (TokenKind::Plain, " "),
+                            (TokenKind::Punctuation, "{"),
+                            (TokenKind::Plain, "\n    std"),
+                            (TokenKind::Punctuation, "::"),
+                            (TokenKind::Plain, "cout "),
+                            (TokenKind::Keyword, "<<"),
+                            (TokenKind::Plain, " "),
+                            (
+                                TokenKind::String,
+                                concat!("\"", output_for_hello_world!(), "\""),
+                            ),
+                            (TokenKind::Plain, " "),
+                            (TokenKind::Keyword, "<<"),
+                            (TokenKind::Plain, " std"),
+                            (TokenKind::Punctuation, "::"),
+                            (TokenKind::Plain, "endl"),
+                            (TokenKind::Punctuation, ";"),
+                            (TokenKind::Plain, "\n    "),
+                            (TokenKind::Keyword, "return"),
+                            (TokenKind::Plain, " "),
+                            (TokenKind::Number, "0"),
+                            (TokenKind::Punctuation, ";"),
+                            (TokenKind::Plain, "\n"),
+                            (TokenKind::Punctuation, "}"),
+                        ],
+                    )
+                },
+            },
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::Cpp20,
+                syntax: CPP20,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        CPP20,
+                        [
+                            (TokenKind::Keyword, "#include"),
+                            (TokenKind::Plain, " "),
+                            (TokenKind::String, "<iostream>"),
+                            (TokenKind::Plain, "\n\n"),
+                            (TokenKind::Type, "int"),
+                            (TokenKind::Plain, " "),
+                            (TokenKind::Function, "main"),
+                            (TokenKind::Punctuation, "()"),
+                            (TokenKind::Plain, " "),
+                            (TokenKind::Punctuation, "{"),
+                            (TokenKind::Plain, "\n    std"),
+                            (TokenKind::Punctuation, "::"),
+                            (TokenKind::Plain, "cout "),
+                            (TokenKind::Keyword, "<<"),
+                            (TokenKind::Plain, " "),
+                            (
+                                TokenKind::String,
+                                concat!("\"", output_for_hello_world!(), r#"\n""#),
+                            ),
+                            (TokenKind::Punctuation, ";"),
+                            (TokenKind::Plain, "\n"),
+                            (TokenKind::Punctuation, "}"),
+                        ],
+                    )
+                },
+            },
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::CPlusPlusNetCli,
+                syntax: C_PLUS_PLUS_NET_CLI,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        C_PLUS_PLUS_NET_CLI,
+                        [
+                            (
+                                TokenKind::Comment,
+                                concat!(
+                                    r"// ",
+                                    output_for_hello_world!(),
+                                    r" in C++/CLI for .NET
 "
-                        ),
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r"
+                                ),
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r"
 ",
-                    ),
-                    (TokenKind::Keyword, r"#include"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"<qapplication.h>"),
-                    (
-                        TokenKind::Plain,
-                        r"
-",
-                    ),
-                    (TokenKind::Keyword, r"#include"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"<qlabel.h>"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Keyword, r"using"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"namespace"),
+                            (TokenKind::Plain, r" System"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
 
 ",
-                    ),
-                    (TokenKind::Type, r"int"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"main"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Type, r"int"),
-                    (TokenKind::Plain, r" argc"),
-                    (TokenKind::Punctuation, r","),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Type, r"char"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"*"),
-                    (TokenKind::Plain, r"argv"),
-                    (TokenKind::Punctuation, r"[])"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Type, r"void"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"main"),
+                            (TokenKind::Punctuation, r"()"),
+                            (
+                                TokenKind::Plain,
+                                r"
 ",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Function, r"Console"),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Function, r"WriteLine"),
+                            (TokenKind::Punctuation, r"("),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                            ),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                        ],
+                    )
+                },
+            },
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::CPlusPlusEpoc,
+                syntax: C_PLUS_PLUS_EPOC,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        C_PLUS_PLUS_EPOC,
+                        [
+                            (
+                                TokenKind::Comment,
+                                concat!(
+                                    r"// ",
+                                    output_for_hello_world!(),
+                                    r" in C++, Epoc style (for Symbian OS)
+"
+                                ),
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"#include"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"<eikapp.h>"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"#include"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"<eikdoc.h>"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"#include"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"<eikappui.h>"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+",
+                            ),
+                            (TokenKind::Type, r"class"),
+                            (TokenKind::Plain, r" CHelloWorldAppUi"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Type, r"class"),
+                            (TokenKind::Plain, r" CEikApplication"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Type, r"class"),
+                            (TokenKind::Plain, r" CHelloWorldAppView"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+",
+                            ),
+                            (TokenKind::Type, r"class"),
+                            (TokenKind::Plain, r" CHelloWorldApplication "),
+                            (TokenKind::Punctuation, r":"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"public"),
+                            (
+                                TokenKind::Plain,
+                                r" CEikApplication
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+        ",
+                            ),
+                            (TokenKind::Keyword, r"public"),
+                            (TokenKind::Punctuation, r":"),
+                            (
+                                TokenKind::Plain,
+                                r"
+            TUid ",
+                            ),
+                            (TokenKind::Function, r"AppDllUid"),
+                            (TokenKind::Punctuation, r"()"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"const"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+        ",
+                            ),
+                            (TokenKind::Keyword, r"protected"),
+                            (TokenKind::Punctuation, r":"),
+                            (
+                                TokenKind::Plain,
+                                r"
+            CApaDocument",
+                            ),
+                            (TokenKind::Keyword, r"*"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"CreateDocumentL"),
+                            (TokenKind::Punctuation, r"();"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"};"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+",
+                            ),
+                            (TokenKind::Type, r"class"),
+                            (TokenKind::Plain, r" CHelloWorldDocument "),
+                            (TokenKind::Punctuation, r":"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"public"),
+                            (
+                                TokenKind::Plain,
+                                r" CEikDocument
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+        ",
+                            ),
+                            (TokenKind::Keyword, r"public"),
+                            (TokenKind::Punctuation, r":"),
+                            (
+                                TokenKind::Plain,
+                                r"
+            ",
+                            ),
+                            (TokenKind::Keyword, r"static"),
+                            (TokenKind::Plain, r" CHelloWorldDocument"),
+                            (TokenKind::Keyword, r"*"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"NewL"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"CEikApplication"),
+                            (TokenKind::Keyword, r"&"),
+                            (TokenKind::Plain, r" aApp"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+            ",
+                            ),
+                            (TokenKind::Keyword, r"static"),
+                            (TokenKind::Plain, r" CHelloWorldDocument"),
+                            (TokenKind::Keyword, r"*"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"NewLC"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"CEikApplication"),
+                            (TokenKind::Keyword, r"&"),
+                            (TokenKind::Plain, r" aApp"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+            ",
+                            ),
+                            (TokenKind::Function, r"~CHelloWorldDocument"),
+                            (TokenKind::Punctuation, r"(){};"),
+                            (
+                                TokenKind::Plain,
+                                r"
+        ",
+                            ),
+                            (TokenKind::Keyword, r"public"),
+                            (TokenKind::Punctuation, r":"),
+                            (
+                                TokenKind::Plain,
+                                r"
+            CEikAppUi",
+                            ),
+                            (TokenKind::Keyword, r"*"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"CreateAppUiL"),
+                            (TokenKind::Punctuation, r"();"),
+                            (
+                                TokenKind::Plain,
+                                r"
+        ",
+                            ),
+                            (TokenKind::Keyword, r"private"),
+                            (TokenKind::Punctuation, r":"),
+                            (
+                                TokenKind::Plain,
+                                r"
+            ",
+                            ),
+                            (TokenKind::Type, r"void"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"ConstructL"),
+                            (TokenKind::Punctuation, r"()"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Punctuation, r"{};"),
+                            (
+                                TokenKind::Plain,
+                                r"
+            ",
+                            ),
+                            (TokenKind::Function, r"CHelloWorldDocument"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"CEikApplication"),
+                            (TokenKind::Keyword, r"&"),
+                            (TokenKind::Plain, r" aApp"),
+                            (TokenKind::Punctuation, r"){};"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"};"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+",
+                            ),
+                            (TokenKind::Type, r"class"),
+                            (TokenKind::Plain, r" CHelloWorldAppUi "),
+                            (TokenKind::Punctuation, r":"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"public"),
+                            (
+                                TokenKind::Plain,
+                                r" CEikAppUi
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+        ",
+                            ),
+                            (TokenKind::Keyword, r"public"),
+                            (TokenKind::Punctuation, r":"),
+                            (
+                                TokenKind::Plain,
+                                r"
+                ",
+                            ),
+                            (TokenKind::Type, r"void"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"ConstructL"),
+                            (TokenKind::Punctuation, r"();"),
+                            (
+                                TokenKind::Plain,
+                                r"
+                ",
+                            ),
+                            (TokenKind::Function, r"CHelloWorldAppUi"),
+                            (TokenKind::Punctuation, r"(){};"),
+                            (
+                                TokenKind::Plain,
+                                r"
+                ",
+                            ),
+                            (TokenKind::Function, r"~CHelloWorldAppUi"),
+                            (TokenKind::Punctuation, r"(){};"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"};"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+",
+                            ),
+                            (TokenKind::Keyword, r"static"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"const"),
+                            (TokenKind::Plain, r" TUid KUidHelloWorldApp "),
+                            (TokenKind::Keyword, r"="),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Punctuation, r"{"),
+                            (TokenKind::Number, r"0x10005B91"),
+                            (TokenKind::Punctuation, r"};"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+GLDEF_C TInt ",
+                            ),
+                            (TokenKind::Function, r"E32Dll"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"TDllReason "),
+                            (TokenKind::Punctuation, r")"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Keyword, r"return"),
+                            (TokenKind::Plain, r" KErrNone"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+EXPORT_C CApaApplication",
+                            ),
+                            (TokenKind::Keyword, r"*"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"NewApplication"),
+                            (TokenKind::Punctuation, r"()"),
+                            (
+                                TokenKind::Plain,
+                                r" 
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Keyword, r"return"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Keyword, r"new"),
+                            (TokenKind::Plain, r" CHelloWorldApplication"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+CApaDocument",
+                            ),
+                            (TokenKind::Keyword, r"*"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"CHelloWorldApplication"),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Function, r"CreateDocumentL"),
+                            (TokenKind::Punctuation, r"()"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"  
+    CApaDocument",
+                            ),
+                            (TokenKind::Keyword, r"*"),
+                            (TokenKind::Plain, r" document "),
+                            (TokenKind::Keyword, r"="),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"CHelloWorldDocument"),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Function, r"NewL"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Keyword, r"*"),
+                            (TokenKind::Plain, r"this"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Keyword, r"return"),
+                            (TokenKind::Plain, r" document"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+TUid ",
+                            ),
+                            (TokenKind::Function, r"CHelloWorldApplication"),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Function, r"AppDllUid"),
+                            (TokenKind::Punctuation, r"()"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"const"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Keyword, r"return"),
+                            (TokenKind::Plain, r" KUidHelloWorldApp"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    
+CHelloWorldDocument",
+                            ),
+                            (TokenKind::Keyword, r"*"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"CHelloWorldDocument"),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Function, r"NewL"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"CEikApplication"),
+                            (TokenKind::Keyword, r"&"),
+                            (TokenKind::Plain, r" aApp"),
+                            (TokenKind::Punctuation, r")"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    CHelloWorldDocument",
+                            ),
+                            (TokenKind::Keyword, r"*"),
+                            (TokenKind::Plain, r" self "),
+                            (TokenKind::Keyword, r"="),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"NewLC"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"aApp"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Function, r"CleanupStack"),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Function, r"Pop"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"self"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Keyword, r"return"),
+                            (TokenKind::Plain, r" self"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+CHelloWorldDocument",
+                            ),
+                            (TokenKind::Keyword, r"*"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"CHelloWorldDocument"),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Function, r"NewLC"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"CEikApplication"),
+                            (TokenKind::Keyword, r"&"),
+                            (TokenKind::Plain, r" aApp"),
+                            (TokenKind::Punctuation, r")"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    CHelloWorldDocument",
+                            ),
+                            (TokenKind::Keyword, r"*"),
+                            (TokenKind::Plain, r" self "),
+                            (TokenKind::Keyword, r"="),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"new"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"ELeave"),
+                            (TokenKind::Punctuation, r")"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"CHelloWorldDocument"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"aApp"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Function, r"CleanupStack"),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Function, r"PushL"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"self"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    self",
+                            ),
+                            (TokenKind::Punctuation, r"->"),
+                            (TokenKind::Function, r"ConstructL"),
+                            (TokenKind::Punctuation, r"();"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Keyword, r"return"),
+                            (TokenKind::Plain, r" self"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+CEikAppUi",
+                            ),
+                            (TokenKind::Keyword, r"*"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"CHelloWorldDocument"),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Function, r"CreateAppUiL"),
+                            (TokenKind::Punctuation, r"()"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    CEikAppUi",
+                            ),
+                            (TokenKind::Keyword, r"*"),
+                            (TokenKind::Plain, r" appUi "),
+                            (TokenKind::Keyword, r"="),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"new"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"ELeave"),
+                            (TokenKind::Punctuation, r")"),
+                            (TokenKind::Plain, r" CHelloWorldAppUi"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Keyword, r"return"),
+                            (TokenKind::Plain, r" appUi"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+",
+                            ),
+                            (TokenKind::Type, r"void"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"CHelloWorldAppUi"),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Function, r"ConstructL"),
+                            (TokenKind::Punctuation, r"()"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Function, r"BaseConstructL"),
+                            (TokenKind::Punctuation, r"();"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+    ",
+                            ),
+                            (TokenKind::Function, r"_LIT"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"message"),
+                            (TokenKind::Punctuation, r","),
+                            (TokenKind::String, r#""Hello!""#),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    CAknInformationNote",
+                            ),
+                            (TokenKind::Keyword, r"*"),
+                            (TokenKind::Plain, r" informationNote "),
+                            (TokenKind::Keyword, r"="),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"new"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"ELeave"),
+                            (TokenKind::Punctuation, r")"),
+                            (TokenKind::Plain, r" CAknInformationNote"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    informationNote",
+                            ),
+                            (TokenKind::Punctuation, r"->"),
+                            (TokenKind::Function, r"ExecuteLD"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"message"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                        ],
+                    )
+                },
+            },
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::CPlusPlusFltk,
+                syntax: C_PLUS_PLUS_FLTK,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        C_PLUS_PLUS_FLTK,
+                        [
+                            (
+                                TokenKind::Comment,
+                                concat!(
+                                    r"// ",
+                                    output_for_hello_world!(),
+                                    r" in C++-FLTK
+"
+                                ),
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"#include"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"<FL/Fl.H>"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"#include"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"<FL/Fl_Window.H>"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"#include"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"<FL/Fl_Box.H>"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+",
+                            ),
+                            (TokenKind::Type, r"int"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"main"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Type, r"int"),
+                            (TokenKind::Plain, r" argc"),
+                            (TokenKind::Punctuation, r","),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Type, r"char"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"**"),
+                            (TokenKind::Plain, r"argv"),
+                            (TokenKind::Punctuation, r")"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+   Fl_Window ",
+                            ),
+                            (TokenKind::Keyword, r"*"),
+                            (TokenKind::Plain, r"ventana "),
+                            (TokenKind::Keyword, r"="),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"new"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"Fl_Window"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Number, r"300"),
+                            (TokenKind::Punctuation, r","),
+                            (TokenKind::Number, r"180"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+   ventana",
+                            ),
+                            (TokenKind::Punctuation, r"->"),
+                            (TokenKind::Function, r"begin"),
+                            (TokenKind::Punctuation, r"();"),
+                            (
+                                TokenKind::Plain,
+                                r"
+   Fl_Box ",
+                            ),
+                            (TokenKind::Keyword, r"*"),
+                            (TokenKind::Plain, r"box "),
+                            (TokenKind::Keyword, r"="),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"new"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"Fl_Box"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Number, r"20"),
+                            (TokenKind::Punctuation, r","),
+                            (TokenKind::Number, r"40"),
+                            (TokenKind::Punctuation, r","),
+                            (TokenKind::Number, r"260"),
+                            (TokenKind::Punctuation, r","),
+                            (TokenKind::Number, r"100"),
+                            (TokenKind::Punctuation, r","),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                            ),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+   box",
+                            ),
+                            (TokenKind::Punctuation, r"->"),
+                            (TokenKind::Function, r"labelsize"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Number, r"50"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+   ventana",
+                            ),
+                            (TokenKind::Punctuation, r"->"),
+                            (TokenKind::Function, r"end"),
+                            (TokenKind::Punctuation, r"();"),
+                            (
+                                TokenKind::Plain,
+                                r"
+   ventana",
+                            ),
+                            (TokenKind::Punctuation, r"->"),
+                            (TokenKind::Function, r"show"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"argc"),
+                            (TokenKind::Punctuation, r","),
+                            (TokenKind::Plain, r" argv"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+   ",
+                            ),
+                            (TokenKind::Keyword, r"return"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"Fl"),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Function, r"run"),
+                            (TokenKind::Punctuation, r"();"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                        ],
+                    )
+                },
+            },
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::CPlusPlusGtkPlusPlus,
+                syntax: C_PLUS_PLUS_GTK_PLUS_PLUS,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        C_PLUS_PLUS_GTK_PLUS_PLUS,
+                        [
+                            (
+                                TokenKind::Comment,
+                                concat!(
+                                    r"// ",
+                                    output_for_hello_world!(),
+                                    r" in C++ for the Gtk+ toolkit
+"
+                                ),
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"#include"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"<gtkmm/main.h>"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"#include"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"<gtkmm/button.h>"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"#include"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"<gtkmm/window.h>"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"#include"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"<iostream>"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+",
+                            ),
+                            (TokenKind::Type, r"void"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"button_clicked"),
+                            (TokenKind::Punctuation, r"()"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+	std",
+                            ),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Plain, r"cout "),
+                            (TokenKind::Keyword, r"<<"),
+                            (TokenKind::Plain, r" "),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#" !""#),
+                            ),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"<<"),
+                            (TokenKind::Plain, r" std"),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Plain, r"endl"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+",
+                            ),
+                            (TokenKind::Type, r"int"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"main "),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Type, r"int"),
+                            (TokenKind::Plain, r" argc"),
+                            (TokenKind::Punctuation, r","),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Type, r"char"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"*"),
+                            (TokenKind::Plain, r"argv"),
+                            (TokenKind::Punctuation, r"[])"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+	Gtk",
+                            ),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Plain, r"Main "),
+                            (TokenKind::Function, r"kit"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"argc"),
+                            (TokenKind::Punctuation, r","),
+                            (TokenKind::Plain, r" argv"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+	Gtk",
+                            ),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Plain, r"Window hello_window"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+	Gtk",
+                            ),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Plain, r"Button "),
+                            (TokenKind::Function, r"hello_button"),
+                            (TokenKind::Punctuation, r"("),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                            ),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+	
+	hello_window",
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Function, r"set_border_width"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Number, r"10"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+	hello_window",
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Function, r"add"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"hello_button"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+	hello_button",
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Function, r"signal_clicked"),
+                            (TokenKind::Punctuation, r"()."),
+                            (TokenKind::Function, r"connect"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Function, r"sigc"),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Function, r"ptr_fun"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Keyword, r"&"),
+                            (TokenKind::Plain, r"button_clicked"),
+                            (TokenKind::Punctuation, r"));"),
+                            (
+                                TokenKind::Plain,
+                                r"
+	hello_button",
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Function, r"show"),
+                            (TokenKind::Punctuation, r"();"),
+                            (
+                                TokenKind::Plain,
+                                r"
+	
+	",
+                            ),
+                            (TokenKind::Function, r"Gtk"),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Function, r"Main"),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Function, r"run"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"hello_window"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+	",
+                            ),
+                            (TokenKind::Keyword, r"return"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Number, r"0"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                        ],
+                    )
+                },
+            },
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::CPlusPlusIso,
+                syntax: C_PLUS_PLUS_ISO,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        C_PLUS_PLUS_ISO,
+                        [
+                            (
+                                TokenKind::Comment,
+                                concat!(
+                                    r"// ",
+                                    output_for_hello_world!(),
+                                    r" in ISO C++
+"
+                                ),
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"#include"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"<iostream>"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+",
+                            ),
+                            (TokenKind::Type, r"int"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"main"),
+                            (TokenKind::Punctuation, r"()"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    std",
+                            ),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Plain, r"cout "),
+                            (TokenKind::Keyword, r"<<"),
+                            (TokenKind::Plain, r" "),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                            ),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"<<"),
+                            (TokenKind::Plain, r" std"),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Plain, r"endl"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                        ],
+                    )
+                },
+            },
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::CPlusPlusMfc,
+                syntax: C_PLUS_PLUS_MFC,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        C_PLUS_PLUS_MFC,
+                        [
+                            (
+                                TokenKind::Comment,
+                                concat!(
+                                    r"// ",
+                                    output_for_hello_world!(),
+                                    r" in C++ for Microsoft Foundation Classes
+// (Microsoft Visual C++).
+"
+                                ),
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"#include"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"<afxwin.h>"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+",
+                            ),
+                            (TokenKind::Type, r"class"),
+                            (TokenKind::Plain, r" CHello "),
+                            (TokenKind::Punctuation, r":"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"public"),
+                            (
+                                TokenKind::Plain,
+                                r" CFrameWnd
+",
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"public"),
+                            (TokenKind::Punctuation, r":"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Function, r"CHello"),
+                            (TokenKind::Punctuation, r"()"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+        ",
+                            ),
+                            (TokenKind::Function, r"Create"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"NULL"),
+                            (TokenKind::Punctuation, r","),
+                            (TokenKind::Function, r"_T"),
+                            (TokenKind::Punctuation, r"("),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                            ),
+                            (TokenKind::Punctuation, r"),"),
+                            (TokenKind::Plain, r"WS_OVERLAPPEDWINDOW"),
+                            (TokenKind::Punctuation, r","),
+                            (TokenKind::Plain, r"rectDefault"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Punctuation, r"};"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+",
+                            ),
+                            (TokenKind::Type, r"class"),
+                            (TokenKind::Plain, r" CHelloApp "),
+                            (TokenKind::Punctuation, r":"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"public"),
+                            (
+                                TokenKind::Plain,
+                                r" CWinApp
+",
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"public"),
+                            (TokenKind::Punctuation, r":"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Keyword, r"virtual"),
+                            (TokenKind::Plain, r" BOOL "),
+                            (TokenKind::Function, r"InitInstance"),
+                            (TokenKind::Punctuation, r"();"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Punctuation, r"};"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+",
+                            ),
+                            (TokenKind::Type, r"BOOL"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"CHelloApp"),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Function, r"InitInstance"),
+                            (TokenKind::Punctuation, r"()"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    m_pMainWnd ",
+                            ),
+                            (TokenKind::Keyword, r"="),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"new"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"CHello"),
+                            (TokenKind::Punctuation, r"();"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    m_pMainWnd",
+                            ),
+                            (TokenKind::Punctuation, r"->"),
+                            (TokenKind::Function, r"ShowWindow"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"m_nCmdShow"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    m_pMainWnd",
+                            ),
+                            (TokenKind::Punctuation, r"->"),
+                            (TokenKind::Function, r"UpdateWindow"),
+                            (TokenKind::Punctuation, r"();"),
+                            (
+                                TokenKind::Plain,
+                                r"
+    ",
+                            ),
+                            (TokenKind::Keyword, r"return"),
+                            (TokenKind::Plain, r" TRUE"),
+                            (TokenKind::Punctuation, r";"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+CHelloApp theApp",
+                            ),
+                            (TokenKind::Punctuation, r";"),
+                        ],
+                    )
+                },
+            },
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::CPlusPlusQt,
+                syntax: C_PLUS_PLUS_QT,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        C_PLUS_PLUS_QT,
+                        [
+                            (
+                                TokenKind::Comment,
+                                concat!(
+                                    r"// ",
+                                    output_for_hello_world!(),
+                                    r" in C++ for the Qt framework
+"
+                                ),
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"#include"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"<qapplication.h>"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Keyword, r"#include"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"<qlabel.h>"),
+                            (
+                                TokenKind::Plain,
+                                r"
+
+",
+                            ),
+                            (TokenKind::Type, r"int"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"main"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Type, r"int"),
+                            (TokenKind::Plain, r" argc"),
+                            (TokenKind::Punctuation, r","),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Type, r"char"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"*"),
+                            (TokenKind::Plain, r"argv"),
+                            (TokenKind::Punctuation, r"[])"),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
   QApplication ",
-                    ),
-                    (TokenKind::Function, r"a"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"argc"),
-                    (TokenKind::Punctuation, r","),
-                    (TokenKind::Plain, r" argv"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Function, r"a"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"argc"),
+                            (TokenKind::Punctuation, r","),
+                            (TokenKind::Plain, r" argv"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
   QLabel ",
-                    ),
-                    (TokenKind::Function, r"l"),
-                    (TokenKind::Punctuation, r"("),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                    ),
-                    (TokenKind::Punctuation, r","),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Number, r"0"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Function, r"l"),
+                            (TokenKind::Punctuation, r"("),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                            ),
+                            (TokenKind::Punctuation, r","),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Number, r"0"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
   l",
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Function, r"setCaption"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::String, r#""Test""#),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Function, r"setCaption"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::String, r#""Test""#),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
   l",
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Function, r"setAlignment"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"Qt"),
-                    (TokenKind::Punctuation, r"::"),
-                    (TokenKind::Plain, r"AlignCenter"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Function, r"setAlignment"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"Qt"),
+                            (TokenKind::Punctuation, r"::"),
+                            (TokenKind::Plain, r"AlignCenter"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
   l",
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Function, r"resize"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Number, r"300"),
-                    (TokenKind::Punctuation, r","),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Number, r"200"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Function, r"resize"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Number, r"300"),
+                            (TokenKind::Punctuation, r","),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Number, r"200"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
   a",
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Function, r"setMainWidget"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Keyword, r"&"),
-                    (TokenKind::Plain, r"l"),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Function, r"setMainWidget"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Keyword, r"&"),
+                            (TokenKind::Plain, r"l"),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
   l",
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Function, r"show"),
-                    (TokenKind::Punctuation, r"();"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Function, r"show"),
+                            (TokenKind::Punctuation, r"();"),
+                            (
+                                TokenKind::Plain,
+                                r"
   ",
-                    ),
-                    (TokenKind::Keyword, r"return"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r"a"),
-                    (TokenKind::Punctuation, r"."),
-                    (TokenKind::Function, r"exec"),
-                    (TokenKind::Punctuation, r"());"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Keyword, r"return"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r"a"),
+                            (TokenKind::Punctuation, r"."),
+                            (TokenKind::Function, r"exec"),
+                            (TokenKind::Punctuation, r"());"),
+                            (
+                                TokenKind::Plain,
+                                r"
 ",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                ],
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                        ],
+                    )
+                },
             },
         ],
     };

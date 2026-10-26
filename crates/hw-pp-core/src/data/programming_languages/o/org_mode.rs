@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,8 @@ language_names! {
     versions: [OrgMode => "Org-mode"],
     extensions: [Org => "org"],
 }
+
+const ORG_MODE: &str = output_for_hello_world!();
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,7 +31,9 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::OrgMode,
-            syntax: output_for_hello_world!(),
-            tokenized_syntax: &[(TokenKind::Plain, output_for_hello_world!())],
+            syntax: ORG_MODE,
+            tokenized_syntax: &const {
+                checked_token_lengths(ORG_MODE, [(TokenKind::Plain, output_for_hello_world!())])
+            },
         }],
     };

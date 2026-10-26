@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,23 @@ language_names! {
     versions: [Simple => "SIMPLE"],
     extensions: [],
 }
+
+const SIMPLE: &str = concat!(
+    r"[::PROGRAM:",
+    output_for_hello_world!(),
+    r" program in SIMPLE
+A EQL @0
+MSG A
+END
+]
+{::DATA:Data part
+@0:T
+",
+    output_for_hello_world!(),
+    r"$$M
+$$@
+}"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +47,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Simple,
-            syntax: concat!(
-                r"[::PROGRAM:",
-                output_for_hello_world!(),
-                r" program in SIMPLE
+            syntax: SIMPLE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SIMPLE,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"[::PROGRAM:",
+                            output_for_hello_world!(),
+                            r" program in SIMPLE
 A EQL @0
 MSG A
 END
@@ -41,29 +64,13 @@ END
 {::DATA:Data part
 @0:T
 ",
-                output_for_hello_world!(),
-                r"$$M
+                            output_for_hello_world!(),
+                            r"$$M
 $$@
 }"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"[::PROGRAM:",
-                    output_for_hello_world!(),
-                    r" program in SIMPLE
-A EQL @0
-MSG A
-END
-]
-{::DATA:Data part
-@0:T
-",
-                    output_for_hello_world!(),
-                    r"$$M
-$$@
-}"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

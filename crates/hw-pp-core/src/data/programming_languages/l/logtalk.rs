@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,8 @@ language_names! {
     versions: [Logtalk => "Logtalk"],
     extensions: [Lgt => "lgt"],
 }
+
+const LOGTALK: &str = concat!(r"write('", output_for_hello_world!(), r"')");
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,15 +32,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Prolog],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Logtalk,
-            syntax: concat!(r"write('", output_for_hello_world!(), r"')"),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"write"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r"'", output_for_hello_world!(), r"'"),
-                ),
-                (TokenKind::Punctuation, r")"),
-            ],
+            syntax: LOGTALK,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LOGTALK,
+                    [
+                        (TokenKind::Keyword, r"write"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r"'", output_for_hello_world!(), r"'"),
+                        ),
+                        (TokenKind::Punctuation, r")"),
+                    ],
+                )
+            },
         }],
     };

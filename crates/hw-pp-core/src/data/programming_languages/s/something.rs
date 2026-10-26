@@ -11,13 +11,50 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Something => "Something",
     versions: [Something => "Something"],
     extensions: [],
 }
+
+const SOMETHING: &str = r"ADD 72
+CHR 
+ZER
+ADD 69
+CHR 
+ZER
+ADD 76
+CHR 
+ZER
+ADD 76
+CHR 
+ZER
+ADD 79
+CHR 
+ZER
+ADD 32
+CHR 
+ZER
+ADD 87
+CHR 
+ZER
+ADD 79
+CHR 
+ZER
+ADD 82
+CHR 
+ZER
+ADD 76
+CHR 
+ZER
+ADD 68
+CHR 
+ZER";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +64,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Something,
-            syntax: r"ADD 72
+            syntax: SOMETHING,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SOMETHING,
+                    [(
+                        TokenKind::Plain,
+                        r"ADD 72
 CHR 
 ZER
 ADD 69
@@ -60,41 +103,8 @@ ZER
 ADD 68
 CHR 
 ZER",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"ADD 72
-CHR 
-ZER
-ADD 69
-CHR 
-ZER
-ADD 76
-CHR 
-ZER
-ADD 76
-CHR 
-ZER
-ADD 79
-CHR 
-ZER
-ADD 32
-CHR 
-ZER
-ADD 87
-CHR 
-ZER
-ADD 79
-CHR 
-ZER
-ADD 82
-CHR 
-ZER
-ADD 76
-CHR 
-ZER
-ADD 68
-CHR 
-ZER",
-            )],
+                    )],
+                )
+            },
         }],
     };

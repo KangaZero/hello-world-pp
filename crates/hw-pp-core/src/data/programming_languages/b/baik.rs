@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,8 @@ language_names! {
     versions: [Baik => "BAIK"],
     extensions: [Ina => "ina"],
 }
+
+const BAIK: &str = concat!(r#"tulis ""#, output_for_hello_world!(), r#"""#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,10 +31,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Baik,
-            syntax: concat!(r#"tulis ""#, output_for_hello_world!(), r#"""#),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r#"tulis ""#, output_for_hello_world!(), r#"""#),
-            )],
+            syntax: BAIK,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BAIK,
+                    [(
+                        TokenKind::Plain,
+                        concat!(r#"tulis ""#, output_for_hello_world!(), r#"""#),
+                    )],
+                )
+            },
         }],
     };

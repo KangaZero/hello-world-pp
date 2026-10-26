@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Sclipting => "Sclipting",
     versions: [Sclipting => "Sclipting"],
     extensions: [],
 }
+
+const SCLIPTING: &str = r"丟낆녬닆묬긅덯댦롤긐뤊";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +32,9 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sclipting,
-            syntax: r"丟낆녬닆묬긅덯댦롤긐뤊",
-            tokenized_syntax: &[(TokenKind::Plain, r"丟낆녬닆묬긅덯댦롤긐뤊")],
+            syntax: SCLIPTING,
+            tokenized_syntax: &const {
+                checked_token_lengths(SCLIPTING, [(TokenKind::Plain, r"丟낆녬닆묬긅덯댦롤긐뤊")])
+            },
         }],
     };

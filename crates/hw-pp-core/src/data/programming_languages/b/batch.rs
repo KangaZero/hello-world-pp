@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,12 @@ language_names! {
     versions: [Batch => "Batch"],
     extensions: [Bat => "bat"],
 }
+
+const BATCH: &str = concat!(
+    r"@echo off
+echo ",
+    output_for_hello_world!()
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,20 +35,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Batch,
-            syntax: concat!(
-                r"@echo off
-echo ",
-                output_for_hello_world!()
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"@echo"),
-                (
-                    TokenKind::Plain,
-                    r" off
+            syntax: BATCH,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BATCH,
+                    [
+                        (TokenKind::Keyword, r"@echo"),
+                        (
+                            TokenKind::Plain,
+                            r" off
 ",
-                ),
-                (TokenKind::Keyword, r"echo"),
-                (TokenKind::Plain, concat!(r" ", output_for_hello_world!())),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"echo"),
+                        (TokenKind::Plain, concat!(r" ", output_for_hello_world!())),
+                    ],
+                )
+            },
         }],
     };

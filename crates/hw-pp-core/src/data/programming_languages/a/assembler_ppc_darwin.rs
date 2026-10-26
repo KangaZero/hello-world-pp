@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,34 @@ language_names! {
     versions: [AssemblerPpcDarwin => "Assembler (PPC, Darwin)"],
     extensions: [],
 }
+
+const ASSEMBLER_PPC_DARWIN: &str = concat!(
+    r"; ",
+    output_for_hello_world!(),
+    r#" in Assembler for the Darwin Power-PC
+
+.data
+.cstring
+.align 2
+msg:
+.asciz ""#,
+    output_for_hello_world!(),
+    r#"\n"
+len = . - msg
+.text
+.align 2
+.globl _start
+_start:
+li r0,4
+li r3,1
+lis r4,ha16(msg)
+ori r4,r4,lo16(msg)
+li r5,len
+sc
+li r0,1
+li r3,0
+sc"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,18 +58,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblerPpcDarwin,
-            syntax: concat!(
-                r"; ",
-                output_for_hello_world!(),
-                r#" in Assembler for the Darwin Power-PC
+            syntax: ASSEMBLER_PPC_DARWIN,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_PPC_DARWIN,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"; ",
+                            output_for_hello_world!(),
+                            r#" in Assembler for the Darwin Power-PC
 
 .data
 .cstring
 .align 2
 msg:
 .asciz ""#,
-                output_for_hello_world!(),
-                r#"\n"
+                            output_for_hello_world!(),
+                            r#"\n"
 len = . - msg
 .text
 .align 2
@@ -56,36 +90,9 @@ sc
 li r0,1
 li r3,0
 sc"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"; ",
-                    output_for_hello_world!(),
-                    r#" in Assembler for the Darwin Power-PC
-
-.data
-.cstring
-.align 2
-msg:
-.asciz ""#,
-                    output_for_hello_world!(),
-                    r#"\n"
-len = . - msg
-.text
-.align 2
-.globl _start
-_start:
-li r0,4
-li r3,1
-lis r4,ha16(msg)
-ori r4,r4,lo16(msg)
-li r5,len
-sc
-li r0,1
-li r3,0
-sc"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

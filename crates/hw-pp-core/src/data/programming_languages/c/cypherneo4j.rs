@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,13 @@ language_names! {
     versions: [Cypherneo4j => "CypherNeo4j"],
     extensions: [Cypher => "cypher"],
 }
+
+const CYPHERNEO4J: &str = concat!(
+    r"CREATE (Hello:Word { val: 'Hello' }), (World:Word { val: 'World' }),
+(Hello)-[:SPACE]->(World)
+RETURN ",
+    output_for_hello_world!()
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,20 +36,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cypherneo4j,
-            syntax: concat!(
-                r"CREATE (Hello:Word { val: 'Hello' }), (World:Word { val: 'World' }),
+            syntax: CYPHERNEO4J,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CYPHERNEO4J,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"CREATE (Hello:Word { val: 'Hello' }), (World:Word { val: 'World' }),
 (Hello)-[:SPACE]->(World)
 RETURN ",
-                output_for_hello_world!()
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"CREATE (Hello:Word { val: 'Hello' }), (World:Word { val: 'World' }),
-(Hello)-[:SPACE]->(World)
-RETURN ",
-                    output_for_hello_world!()
-                ),
-            )],
+                            output_for_hello_world!()
+                        ),
+                    )],
+                )
+            },
         }],
     };

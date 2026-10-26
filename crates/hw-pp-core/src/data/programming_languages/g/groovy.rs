@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,8 @@ language_names! {
     versions: [Groovy4 => "Groovy 4"],
     extensions: [Groovy => "groovy", Gvy => "gvy"],
 }
+
+const GROOVY4: &str = concat!(r#"println ""#, output_for_hello_world!(), r#"""#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,14 +31,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Groovy4,
-            syntax: concat!(r#"println ""#, output_for_hello_world!(), r#"""#),
-            tokenized_syntax: &[
-                (TokenKind::Function, "println"),
-                (TokenKind::Plain, " "),
-                (
-                    TokenKind::String,
-                    concat!("\"", output_for_hello_world!(), "\""),
-                ),
-            ],
+            syntax: GROOVY4,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    GROOVY4,
+                    [
+                        (TokenKind::Function, "println"),
+                        (TokenKind::Plain, " "),
+                        (
+                            TokenKind::String,
+                            concat!("\"", output_for_hello_world!(), "\""),
+                        ),
+                    ],
+                )
+            },
         }],
     };

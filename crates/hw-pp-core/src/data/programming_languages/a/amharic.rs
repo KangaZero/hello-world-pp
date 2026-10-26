@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,21 @@ language_names! {
     versions: [Amharic => "amharic"],
     extensions: [],
 }
+
+const AMHARIC: &str = concat!(
+    output_for_hello_world!(),
+    r#" in amharic (in JavaScript)
+
+ 
+<%@ language="javascript" %>
+<html><body>
+<%
+Response.Write('"#,
+    output_for_hello_world!(),
+    r"');
+%>
+</body></html>"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,36 +45,28 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Amharic,
-            syntax: concat!(
-                output_for_hello_world!(),
-                r#" in amharic (in JavaScript)
+            syntax: AMHARIC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    AMHARIC,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            output_for_hello_world!(),
+                            r#" in amharic (in JavaScript)
 
  
 <%@ language="javascript" %>
 <html><body>
 <%
 Response.Write('"#,
-                output_for_hello_world!(),
-                r"');
+                            output_for_hello_world!(),
+                            r"');
 %>
 </body></html>"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    output_for_hello_world!(),
-                    r#" in amharic (in JavaScript)
-
- 
-<%@ language="javascript" %>
-<html><body>
-<%
-Response.Write('"#,
-                    output_for_hello_world!(),
-                    r"');
-%>
-</body></html>"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

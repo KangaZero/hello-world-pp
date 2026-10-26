@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,20 @@ language_names! {
     versions: [AssemblerMips => "Assembler MIPS"],
     extensions: [],
 }
+
+const ASSEMBLER_MIPS: &str = concat!(
+    r#".data
+    hw:        .asciiz        ""#,
+    output_for_hello_world!(),
+    r#""
+.text
+main:
+    la $a0, hw  
+    li $v0, 4      
+    syscall
+    li $v0, 10  
+    syscall    "#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,87 +43,80 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblerMips,
-            syntax: concat!(
-                r#".data
-    hw:        .asciiz        ""#,
-                output_for_hello_world!(),
-                r#""
-.text
-main:
-    la $a0, hw  
-    li $v0, 4      
-    syscall
-    li $v0, 10  
-    syscall    "#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Macro, r".data"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: ASSEMBLER_MIPS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_MIPS,
+                    [
+                        (TokenKind::Macro, r".data"),
+                        (
+                            TokenKind::Plain,
+                            r"
     hw",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r"        "),
-                (TokenKind::Macro, r".asciiz"),
-                (TokenKind::Plain, r"        "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r"        "),
+                        (TokenKind::Macro, r".asciiz"),
+                        (TokenKind::Plain, r"        "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Macro, r".text"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".text"),
+                        (
+                            TokenKind::Plain,
+                            r"
 main",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"la"),
-                (TokenKind::Plain, r" $a0"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r" hw  
+                        ),
+                        (TokenKind::Keyword, r"la"),
+                        (TokenKind::Plain, r" $a0"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r" hw  
     ",
-                ),
-                (TokenKind::Keyword, r"li"),
-                (TokenKind::Plain, r" $v0"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"4"),
-                (
-                    TokenKind::Plain,
-                    r"      
+                        ),
+                        (TokenKind::Keyword, r"li"),
+                        (TokenKind::Plain, r" $v0"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"4"),
+                        (
+                            TokenKind::Plain,
+                            r"      
     ",
-                ),
-                (TokenKind::Keyword, r"syscall"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"syscall"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"li"),
-                (TokenKind::Plain, r" $v0"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"10"),
-                (
-                    TokenKind::Plain,
-                    r"  
+                        ),
+                        (TokenKind::Keyword, r"li"),
+                        (TokenKind::Plain, r" $v0"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"10"),
+                        (
+                            TokenKind::Plain,
+                            r"  
     ",
-                ),
-                (TokenKind::Keyword, r"syscall"),
-                (TokenKind::Plain, r"    "),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"syscall"),
+                        (TokenKind::Plain, r"    "),
+                    ],
+                )
+            },
         }],
     };

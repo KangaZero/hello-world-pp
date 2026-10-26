@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,18 @@ language_names! {
     versions: [AssemblerHla => "Assembler hla"],
     extensions: [Hla => "hla"],
 }
+
+const ASSEMBLER_HLA: &str = concat!(
+    r#"program HelloWorld;
+
+#include( "stdlib.hhf" );
+
+begin HelloWorld;
+  stdout.put( ""#,
+    output_for_hello_world!(),
+    r#"", nl );
+end HelloWorld;"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,30 +41,25 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblerHla,
-            syntax: concat!(
-                r#"program HelloWorld;
+            syntax: ASSEMBLER_HLA,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_HLA,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"program HelloWorld;
 
 #include( "stdlib.hhf" );
 
 begin HelloWorld;
   stdout.put( ""#,
-                output_for_hello_world!(),
-                r#"", nl );
+                            output_for_hello_world!(),
+                            r#"", nl );
 end HelloWorld;"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"program HelloWorld;
-
-#include( "stdlib.hhf" );
-
-begin HelloWorld;
-  stdout.put( ""#,
-                    output_for_hello_world!(),
-                    r#"", nl );
-end HelloWorld;"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

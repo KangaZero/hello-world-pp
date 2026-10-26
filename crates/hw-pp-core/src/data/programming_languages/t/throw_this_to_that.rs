@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,8 @@ language_names! {
     versions: [ThrowThisToThat => "THROW THIS TO THAT"],
     extensions: [],
 }
+
+const THROW_THIS_TO_THAT: &str = concat!(r#"   THROW ""#, output_for_hello_world!(), r#"" TO OUT"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,10 +31,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::ThrowThisToThat,
-            syntax: concat!(r#"   THROW ""#, output_for_hello_world!(), r#"" TO OUT"#),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r#"   THROW ""#, output_for_hello_world!(), r#"" TO OUT"#),
-            )],
+            syntax: THROW_THIS_TO_THAT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    THROW_THIS_TO_THAT,
+                    [(
+                        TokenKind::Plain,
+                        concat!(r#"   THROW ""#, output_for_hello_world!(), r#"" TO OUT"#),
+                    )],
+                )
+            },
         }],
     };

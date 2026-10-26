@@ -10,13 +10,19 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Labyrinth => "Labyrinth",
     versions: [Labyrinth => "Labyrinth"],
     extensions: [Labyrinth => "labyrinth"],
 }
+
+const LABYRINTH: &str = r"33_100_108:}_114_111:}_87_32_44{{:_101_72.......
+@";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,12 +32,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Labyrinth,
-            syntax: r"33_100_108:}_114_111:}_87_32_44{{:_101_72.......
+            syntax: LABYRINTH,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LABYRINTH,
+                    [(
+                        TokenKind::Plain,
+                        r"33_100_108:}_114_111:}_87_32_44{{:_101_72.......
 @",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"33_100_108:}_114_111:}_87_32_44{{:_101_72.......
-@",
-            )],
+                    )],
+                )
+            },
         }],
     };

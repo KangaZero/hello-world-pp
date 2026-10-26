@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,16 +21,8 @@ language_names! {
     extensions: [],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::J2me,
-        extensions: &[],
-        categories: &[Framework],
-        families: &[],
-        versions: &[ProgrammingLanguageVersion {
-            label: ProgrammingLanguageDialect::J2me,
-            syntax: concat!(
-                r#"import javax.microedition.lcdui.*;
+const J2ME: &str = concat!(
+    r#"import javax.microedition.lcdui.*;
 import javax.microedition.midlet.*;
 
 public class HelloMIDlet extends MIDlet {
@@ -39,8 +31,8 @@ public class HelloMIDlet extends MIDlet {
 
 	public HelloMIDlet() {
 		helloFrm = new Form(""#,
-                output_for_hello_world!(),
-                r#"");
+    output_for_hello_world!(),
+    r#"");
 	}
 
 	protected void startApp() {
@@ -54,176 +46,191 @@ public class HelloMIDlet extends MIDlet {
 	protected void destroyApp(boolean unconditional) {
 	}
 }"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"import"),
-                (TokenKind::Plain, r" javax.microedition"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Plain, r"lcdui.*"),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::J2me,
+        extensions: &[],
+        categories: &[Framework],
+        families: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::J2me,
+            syntax: J2ME,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    J2ME,
+                    [
+                        (TokenKind::Keyword, r"import"),
+                        (TokenKind::Plain, r" javax.microedition"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Plain, r"lcdui.*"),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"import"),
-                (TokenKind::Plain, r" javax.microedition"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Plain, r"midlet.*"),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"import"),
+                        (TokenKind::Plain, r" javax.microedition"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Plain, r"midlet.*"),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"public"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Type, r"class"),
-                (TokenKind::Plain, r" HelloMIDlet "),
-                (TokenKind::Keyword, r"extends"),
-                (TokenKind::Plain, r" MIDlet "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"public"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Type, r"class"),
+                        (TokenKind::Plain, r" HelloMIDlet "),
+                        (TokenKind::Keyword, r"extends"),
+                        (TokenKind::Plain, r" MIDlet "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	",
-                ),
-                (TokenKind::Keyword, r"private"),
-                (TokenKind::Plain, r" Display display"),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"private"),
+                        (TokenKind::Plain, r" Display display"),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	",
-                ),
-                (TokenKind::Keyword, r"private"),
-                (TokenKind::Plain, r" Form helloFrm"),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"private"),
+                        (TokenKind::Plain, r" Form helloFrm"),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 	",
-                ),
-                (TokenKind::Keyword, r"public"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"HelloMIDlet"),
-                (TokenKind::Punctuation, r"()"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"public"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"HelloMIDlet"),
+                        (TokenKind::Punctuation, r"()"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
 		helloFrm ",
-                ),
-                (TokenKind::Keyword, r"="),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"new"),
-                (TokenKind::Plain, r" Form"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"="),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"new"),
+                        (TokenKind::Plain, r" Form"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	",
-                ),
-                (TokenKind::Punctuation, r"}"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 	",
-                ),
-                (TokenKind::Keyword, r"protected"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Type, r"void"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"startApp"),
-                (TokenKind::Punctuation, r"()"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"protected"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Type, r"void"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"startApp"),
+                        (TokenKind::Punctuation, r"()"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
 		display ",
-                ),
-                (TokenKind::Keyword, r"="),
-                (TokenKind::Plain, r" Display"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"getDisplay"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"this"),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"="),
+                        (TokenKind::Plain, r" Display"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"getDisplay"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"this"),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
 		display",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"setCurrent"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"helloFrm"),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"setCurrent"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"helloFrm"),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	",
-                ),
-                (TokenKind::Punctuation, r"}"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 	",
-                ),
-                (TokenKind::Keyword, r"protected"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Type, r"void"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"pauseApp"),
-                (TokenKind::Punctuation, r"()"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"protected"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Type, r"void"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"pauseApp"),
+                        (TokenKind::Punctuation, r"()"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	",
-                ),
-                (TokenKind::Punctuation, r"}"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 	",
-                ),
-                (TokenKind::Keyword, r"protected"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Type, r"void"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"destroyApp"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Type, r"boolean"),
-                (TokenKind::Plain, r" unconditional"),
-                (TokenKind::Punctuation, r")"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"protected"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Type, r"void"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"destroyApp"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Type, r"boolean"),
+                        (TokenKind::Plain, r" unconditional"),
+                        (TokenKind::Punctuation, r")"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	",
-                ),
-                (TokenKind::Punctuation, r"}"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                    ],
+                )
+            },
         }],
     };

@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Xenbln => "XENBLN",
     versions: [Xenbln => "XENBLN"],
     extensions: [],
 }
+
+const XENBLN: &str = r"š";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +32,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Xenbln,
-            syntax: r"š",
-            tokenized_syntax: &[(TokenKind::Plain, r"š")],
+            syntax: XENBLN,
+            tokenized_syntax: &const { checked_token_lengths(XENBLN, [(TokenKind::Plain, r"š")]) },
         }],
     };

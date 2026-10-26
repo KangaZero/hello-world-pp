@@ -14,7 +14,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -22,6 +22,9 @@ language_names! {
     versions: [GosuGosu => "Gosu (.gosu)", GosuGs => "Gosu (.gs)"],
     extensions: [Gosu => "gosu"],
 }
+
+const GOSU_GOSU: &str = concat!(r#"print(""#, output_for_hello_world!(), r#" from Gosu!!")"#);
+const GOSU_GS: &str = concat!(r#"print(""#, output_for_hello_world!(), r#"")"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -32,29 +35,39 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::GosuGosu,
-                syntax: concat!(r#"print(""#, output_for_hello_world!(), r#" from Gosu!!")"#),
-                tokenized_syntax: &[
-                    (TokenKind::Function, r"print"),
-                    (TokenKind::Punctuation, r"("),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#" from Gosu!!""#),
-                    ),
-                    (TokenKind::Punctuation, r")"),
-                ],
+                syntax: GOSU_GOSU,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        GOSU_GOSU,
+                        [
+                            (TokenKind::Function, r"print"),
+                            (TokenKind::Punctuation, r"("),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#" from Gosu!!""#),
+                            ),
+                            (TokenKind::Punctuation, r")"),
+                        ],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::GosuGs,
-                syntax: concat!(r#"print(""#, output_for_hello_world!(), r#"")"#),
-                tokenized_syntax: &[
-                    (TokenKind::Function, r"print"),
-                    (TokenKind::Punctuation, r"("),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                    ),
-                    (TokenKind::Punctuation, r")"),
-                ],
+                syntax: GOSU_GS,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        GOSU_GS,
+                        [
+                            (TokenKind::Function, r"print"),
+                            (TokenKind::Punctuation, r"("),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                            ),
+                            (TokenKind::Punctuation, r")"),
+                        ],
+                    )
+                },
             },
         ],
     };

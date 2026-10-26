@@ -20,7 +20,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -28,6 +28,34 @@ language_names! {
     versions: [Sql2016 => "SQL:2016", SqlAdvantage => "SQL (Advantage)", SqlDb2 => "SQL (DB2)", SqlOracle => "SQL (Oracle)"],
     extensions: [Sql => "sql"],
 }
+
+const SQL2016: &str = concat!(r"SELECT '", output_for_hello_world!(), r"' AS greeting;");
+const SQL_ADVANTAGE: &str = concat!(
+    r"-- ",
+    output_for_hello_world!(),
+    r" in SQL for Advantage Database
+ 
+select '",
+    output_for_hello_world!(),
+    r"' from system.iota"
+);
+const SQL_DB2: &str = concat!(
+    r"-- ",
+    output_for_hello_world!(),
+    r" in SQL for DB2
+VALUES('",
+    output_for_hello_world!(),
+    r"')"
+);
+const SQL_ORACLE: &str = concat!(
+    r"# ",
+    output_for_hello_world!(),
+    r" in SQL for Oracle
+
+SELECT '",
+    output_for_hello_world!(),
+    r"' FROM dual;"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -38,121 +66,118 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Sql2016,
-                syntax: concat!(r"SELECT '", output_for_hello_world!(), r"' AS greeting;"),
-                tokenized_syntax: &[
-                    (TokenKind::Keyword, "SELECT"),
-                    (TokenKind::Plain, " "),
-                    (
-                        TokenKind::String,
-                        concat!("'", output_for_hello_world!(), "'"),
-                    ),
-                    (TokenKind::Plain, " "),
-                    (TokenKind::Keyword, "AS"),
-                    (TokenKind::Plain, " greeting;"),
-                ],
+                syntax: SQL2016,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        SQL2016,
+                        [
+                            (TokenKind::Keyword, "SELECT"),
+                            (TokenKind::Plain, " "),
+                            (
+                                TokenKind::String,
+                                concat!("'", output_for_hello_world!(), "'"),
+                            ),
+                            (TokenKind::Plain, " "),
+                            (TokenKind::Keyword, "AS"),
+                            (TokenKind::Plain, " greeting;"),
+                        ],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::SqlAdvantage,
-                syntax: concat!(
-                    r"-- ",
-                    output_for_hello_world!(),
-                    r" in SQL for Advantage Database
- 
-select '",
-                    output_for_hello_world!(),
-                    r"' from system.iota"
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        concat!(
-                            r"-- ",
-                            output_for_hello_world!(),
-                            r" in SQL for Advantage Database
+                syntax: SQL_ADVANTAGE,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        SQL_ADVANTAGE,
+                        [
+                            (
+                                TokenKind::Comment,
+                                concat!(
+                                    r"-- ",
+                                    output_for_hello_world!(),
+                                    r" in SQL for Advantage Database
 "
-                        ),
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r" 
+                                ),
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r" 
 ",
-                    ),
-                    (TokenKind::Keyword, r"select"),
-                    (TokenKind::Plain, r" "),
-                    (
-                        TokenKind::String,
-                        concat!(r"'", output_for_hello_world!(), r"'"),
-                    ),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"from"),
-                    (TokenKind::Plain, r" system.iota"),
-                ],
+                            ),
+                            (TokenKind::Keyword, r"select"),
+                            (TokenKind::Plain, r" "),
+                            (
+                                TokenKind::String,
+                                concat!(r"'", output_for_hello_world!(), r"'"),
+                            ),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"from"),
+                            (TokenKind::Plain, r" system.iota"),
+                        ],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::SqlDb2,
-                syntax: concat!(
-                    r"-- ",
-                    output_for_hello_world!(),
-                    r" in SQL for DB2
-VALUES('",
-                    output_for_hello_world!(),
-                    r"')"
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        concat!(
-                            r"-- ",
-                            output_for_hello_world!(),
-                            r" in SQL for DB2
+                syntax: SQL_DB2,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        SQL_DB2,
+                        [
+                            (
+                                TokenKind::Comment,
+                                concat!(
+                                    r"-- ",
+                                    output_for_hello_world!(),
+                                    r" in SQL for DB2
 "
-                        ),
-                    ),
-                    (TokenKind::Keyword, r"VALUES"),
-                    (TokenKind::Plain, r"("),
-                    (
-                        TokenKind::String,
-                        concat!(r"'", output_for_hello_world!(), r"'"),
-                    ),
-                    (TokenKind::Plain, r")"),
-                ],
+                                ),
+                            ),
+                            (TokenKind::Keyword, r"VALUES"),
+                            (TokenKind::Plain, r"("),
+                            (
+                                TokenKind::String,
+                                concat!(r"'", output_for_hello_world!(), r"'"),
+                            ),
+                            (TokenKind::Plain, r")"),
+                        ],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::SqlOracle,
-                syntax: concat!(
-                    r"# ",
-                    output_for_hello_world!(),
-                    r" in SQL for Oracle
-
-SELECT '",
-                    output_for_hello_world!(),
-                    r"' FROM dual;"
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        concat!(
-                            r"# ",
-                            output_for_hello_world!(),
-                            r" in SQL for Oracle
+                syntax: SQL_ORACLE,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        SQL_ORACLE,
+                        [
+                            (
+                                TokenKind::Comment,
+                                concat!(
+                                    r"# ",
+                                    output_for_hello_world!(),
+                                    r" in SQL for Oracle
 "
-                        ),
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r"
+                                ),
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r"
 ",
-                    ),
-                    (TokenKind::Keyword, r"SELECT"),
-                    (TokenKind::Plain, r" "),
-                    (
-                        TokenKind::String,
-                        concat!(r"'", output_for_hello_world!(), r"'"),
-                    ),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"FROM"),
-                    (TokenKind::Plain, r" dual;"),
-                ],
+                            ),
+                            (TokenKind::Keyword, r"SELECT"),
+                            (TokenKind::Plain, r" "),
+                            (
+                                TokenKind::String,
+                                concat!(r"'", output_for_hello_world!(), r"'"),
+                            ),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"FROM"),
+                            (TokenKind::Plain, r" dual;"),
+                        ],
+                    )
+                },
             },
         ],
     };

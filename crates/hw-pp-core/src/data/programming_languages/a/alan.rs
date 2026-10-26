@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,17 @@ language_names! {
     versions: [Alan => "Alan"],
     extensions: [Ln => "ln"],
 }
+
+const ALAN: &str = concat!(
+    r#"import @std/app
+
+on app.start {
+  app.print(""#,
+    output_for_hello_world!(),
+    r#"");
+  emit app.exit 0;
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,28 +40,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Alan,
-            syntax: concat!(
-                r#"import @std/app
+            syntax: ALAN,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ALAN,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"import @std/app
 
 on app.start {
   app.print(""#,
-                output_for_hello_world!(),
-                r#"");
+                            output_for_hello_world!(),
+                            r#"");
   emit app.exit 0;
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"import @std/app
-
-on app.start {
-  app.print(""#,
-                    output_for_hello_world!(),
-                    r#"");
-  emit app.exit 0;
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

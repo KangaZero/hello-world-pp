@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,18 @@ language_names! {
     versions: [Glbasic => "GLBasic"],
     extensions: [],
 }
+
+const GLBASIC: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in GLBasic
+
+PRINT ""#,
+    output_for_hello_world!(),
+    r#"",1,1
+SHOWSCREEN
+MOUSEWAIT"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,44 +42,39 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Basic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Glbasic,
-            syntax: concat!(
-                r"// ",
-                output_for_hello_world!(),
-                r#" in GLBasic
-
-PRINT ""#,
-                output_for_hello_world!(),
-                r#"",1,1
-SHOWSCREEN
-MOUSEWAIT"#
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Plain,
-                    concat!(
-                        r"// ",
-                        output_for_hello_world!(),
-                        r" in GLBasic
+            syntax: GLBASIC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    GLBASIC,
+                    [
+                        (
+                            TokenKind::Plain,
+                            concat!(
+                                r"// ",
+                                output_for_hello_world!(),
+                                r" in GLBasic
 
 "
-                    ),
-                ),
-                (TokenKind::Keyword, r"PRINT"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"1"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"1"),
-                (
-                    TokenKind::Plain,
-                    r"
+                            ),
+                        ),
+                        (TokenKind::Keyword, r"PRINT"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"1"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"1"),
+                        (
+                            TokenKind::Plain,
+                            r"
 SHOWSCREEN
 MOUSEWAIT",
-                ),
-            ],
+                        ),
+                    ],
+                )
+            },
         }],
     };

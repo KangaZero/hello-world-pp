@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,20 @@ language_names! {
     versions: [Imba => "Imba"],
     extensions: [],
 }
+
+const IMBA: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in Imba
+
+console.log ""#,
+    output_for_hello_world!(),
+    r#""
+
+$$(body).append <h1> ""#,
+    output_for_hello_world!(),
+    r#"""#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,52 +44,45 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Imba,
-            syntax: concat!(
-                r"// ",
-                output_for_hello_world!(),
-                r#" in Imba
-
-console.log ""#,
-                output_for_hello_world!(),
-                r#""
-
-$$(body).append <h1> ""#,
-                output_for_hello_world!(),
-                r#"""#
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Plain,
-                    concat!(r"// ", output_for_hello_world!(), r" "),
-                ),
-                (TokenKind::Keyword, r"in"),
-                (
-                    TokenKind::Plain,
-                    r" Imba
+            syntax: IMBA,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    IMBA,
+                    [
+                        (
+                            TokenKind::Plain,
+                            concat!(r"// ", output_for_hello_world!(), r" "),
+                        ),
+                        (TokenKind::Keyword, r"in"),
+                        (
+                            TokenKind::Plain,
+                            r" Imba
 
 console",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"log"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"log"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 $$",
-                ),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"body"),
-                (TokenKind::Punctuation, r")."),
-                (TokenKind::Plain, r"append <h1> "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"body"),
+                        (TokenKind::Punctuation, r")."),
+                        (TokenKind::Plain, r"append <h1> "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                    ],
+                )
+            },
         }],
     };

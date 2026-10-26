@@ -11,13 +11,26 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Funciton => "Funciton",
     versions: [Funciton => "Funciton"],
     extensions: [],
 }
+
+const FUNCITON: &str = r"   ╔═══════════════╗
+   ║ 2388215291394 ║
+   ║ 5970717094395 ║
+   ║ 9830070909071 ║
+   ║ 3359207734160 ║
+   ║ 6896177782105 ║
+   ║ 7169552834632 ║
+   ╚═══════╤═══════╝
+           │";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +40,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Funciton,
-            syntax: r"   ╔═══════════════╗
+            syntax: FUNCITON,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FUNCITON,
+                    [(
+                        TokenKind::Plain,
+                        r"   ╔═══════════════╗
    ║ 2388215291394 ║
    ║ 5970717094395 ║
    ║ 9830070909071 ║
@@ -36,17 +55,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
    ║ 7169552834632 ║
    ╚═══════╤═══════╝
            │",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"   ╔═══════════════╗
-   ║ 2388215291394 ║
-   ║ 5970717094395 ║
-   ║ 9830070909071 ║
-   ║ 3359207734160 ║
-   ║ 6896177782105 ║
-   ║ 7169552834632 ║
-   ╚═══════╤═══════╝
-           │",
-            )],
+                    )],
+                )
+            },
         }],
     };

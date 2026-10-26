@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,18 @@ language_names! {
     versions: [CamlLight => "CAML-Light"],
     extensions: [],
 }
+
+const CAML_LIGHT: &str = concat!(
+    r"(* ",
+    output_for_hello_world!(),
+    r#" in CAML Light *)
+
+let hello =
+   print_string ""#,
+    output_for_hello_world!(),
+    r#"";
+;;"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,47 +42,42 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::CamlLight,
-            syntax: concat!(
-                r"(* ",
-                output_for_hello_world!(),
-                r#" in CAML Light *)
-
-let hello =
-   print_string ""#,
-                output_for_hello_world!(),
-                r#"";
-;;"#
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Comment,
-                    concat!(r"(* ", output_for_hello_world!(), r" in CAML Light *)"),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: CAML_LIGHT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CAML_LIGHT,
+                    [
+                        (
+                            TokenKind::Comment,
+                            concat!(r"(* ", output_for_hello_world!(), r" in CAML Light *)"),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"let"),
-                (
-                    TokenKind::Plain,
-                    r" hello =
+                        ),
+                        (TokenKind::Keyword, r"let"),
+                        (
+                            TokenKind::Plain,
+                            r" hello =
    ",
-                ),
-                (TokenKind::Function, r"print_string"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Function, r"print_string"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r";;"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r";;"),
+                    ],
+                )
+            },
         }],
     };

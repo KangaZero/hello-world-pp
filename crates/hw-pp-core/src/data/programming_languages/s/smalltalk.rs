@@ -20,7 +20,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -29,73 +29,20 @@ language_names! {
     extensions: [Sm => "sm"],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::Smalltalk,
-        extensions: &[FileExtension::Sm],
-        categories: &[Scripting],
-        families: &[Smalltalk],
-        versions: &[
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::Smalltalk,
-                syntax: concat!(r"Transcript show: '", output_for_hello_world!(), r"'."),
-                tokenized_syntax: &[
-                    (TokenKind::Keyword, r"Transcript"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"show"),
-                    (TokenKind::Punctuation, r":"),
-                    (TokenKind::Plain, r" "),
-                    (
-                        TokenKind::String,
-                        concat!(r"'", output_for_hello_world!(), r"'"),
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                ],
-            },
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::SmalltalkSimple,
-                syntax: concat!(
-                    r#"""#,
-                    output_for_hello_world!(),
-                    r#" in Smalltalk (simple version)"
+const SMALLTALK: &str = concat!(r"Transcript show: '", output_for_hello_world!(), r"'.");
+const SMALLTALK_SIMPLE: &str = concat!(
+    r#"""#,
+    output_for_hello_world!(),
+    r#" in Smalltalk (simple version)"
 
 Transcript show: '"#,
-                    output_for_hello_world!(),
-                    r"'."
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        concat!(
-                            r#"""#,
-                            output_for_hello_world!(),
-                            r#" in Smalltalk (simple version)""#
-                        ),
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r"
-
-",
-                    ),
-                    (TokenKind::Keyword, r"Transcript"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"show"),
-                    (TokenKind::Punctuation, r":"),
-                    (TokenKind::Plain, r" "),
-                    (
-                        TokenKind::String,
-                        concat!(r"'", output_for_hello_world!(), r"'"),
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                ],
-            },
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::SmalltalkWindow,
-                syntax: concat!(
-                    r#"""#,
-                    output_for_hello_world!(),
-                    r#" in Smalltalk (in an own window)"
+    output_for_hello_world!(),
+    r"'."
+);
+const SMALLTALK_WINDOW: &str = concat!(
+    r#"""#,
+    output_for_hello_world!(),
+    r#" in Smalltalk (in an own window)"
 "(to be entered in a special browser)"
 
 VisualComponent subclass: #HelloWorldView
@@ -107,146 +54,218 @@ VisualComponent subclass: #HelloWorldView
 displayOn: aGraphicsContext
 
 	'"#,
-                    output_for_hello_world!(),
-                    r"' asComposedText displayOn: aGraphicsContext.
+    output_for_hello_world!(),
+    r"' asComposedText displayOn: aGraphicsContext.
 
 open
 
 	|window|
 	window := ScheduledWindow new.
 	window label: '",
-                    output_for_hello_world!(),
-                    r" Demo:'.
+    output_for_hello_world!(),
+    r" Demo:'.
 	window component: self new.
 	window open."
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        concat!(
-                            r#"""#,
-                            output_for_hello_world!(),
-                            r#" in Smalltalk (in an own window)""#
-                        ),
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r"
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Smalltalk,
+        extensions: &[FileExtension::Sm],
+        categories: &[Scripting],
+        families: &[Smalltalk],
+        versions: &[
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::Smalltalk,
+                syntax: SMALLTALK,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        SMALLTALK,
+                        [
+                            (TokenKind::Keyword, r"Transcript"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"show"),
+                            (TokenKind::Punctuation, r":"),
+                            (TokenKind::Plain, r" "),
+                            (
+                                TokenKind::String,
+                                concat!(r"'", output_for_hello_world!(), r"'"),
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                        ],
+                    )
+                },
+            },
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::SmalltalkSimple,
+                syntax: SMALLTALK_SIMPLE,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        SMALLTALK_SIMPLE,
+                        [
+                            (
+                                TokenKind::Comment,
+                                concat!(
+                                    r#"""#,
+                                    output_for_hello_world!(),
+                                    r#" in Smalltalk (simple version)""#
+                                ),
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r"
+
 ",
-                    ),
-                    (
-                        TokenKind::Comment,
-                        r#""(to be entered in a special browser)""#,
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Keyword, r"Transcript"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"show"),
+                            (TokenKind::Punctuation, r":"),
+                            (TokenKind::Plain, r" "),
+                            (
+                                TokenKind::String,
+                                concat!(r"'", output_for_hello_world!(), r"'"),
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                        ],
+                    )
+                },
+            },
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::SmalltalkWindow,
+                syntax: SMALLTALK_WINDOW,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        SMALLTALK_WINDOW,
+                        [
+                            (
+                                TokenKind::Comment,
+                                concat!(
+                                    r#"""#,
+                                    output_for_hello_world!(),
+                                    r#" in Smalltalk (in an own window)""#
+                                ),
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r"
+",
+                            ),
+                            (
+                                TokenKind::Comment,
+                                r#""(to be entered in a special browser)""#,
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r"
 
 VisualComponent subclass",
-                    ),
-                    (TokenKind::Punctuation, r":"),
-                    (
-                        TokenKind::Plain,
-                        r" #HelloWorldView
+                            ),
+                            (TokenKind::Punctuation, r":"),
+                            (
+                                TokenKind::Plain,
+                                r" #HelloWorldView
 	instanceVariableNames",
-                    ),
-                    (TokenKind::Punctuation, r":"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"''"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Punctuation, r":"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"''"),
+                            (
+                                TokenKind::Plain,
+                                r"
 	classVariableNames",
-                    ),
-                    (TokenKind::Punctuation, r":"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"''"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Punctuation, r":"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"''"),
+                            (
+                                TokenKind::Plain,
+                                r"
 	poolDictionaries",
-                    ),
-                    (TokenKind::Punctuation, r":"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"''"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Punctuation, r":"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"''"),
+                            (
+                                TokenKind::Plain,
+                                r"
 	category",
-                    ),
-                    (TokenKind::Punctuation, r":"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"'test'"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Punctuation, r":"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"'test'"),
+                            (
+                                TokenKind::Plain,
+                                r"
 
 displayOn",
-                    ),
-                    (TokenKind::Punctuation, r":"),
-                    (
-                        TokenKind::Plain,
-                        r" aGraphicsContext
+                            ),
+                            (TokenKind::Punctuation, r":"),
+                            (
+                                TokenKind::Plain,
+                                r" aGraphicsContext
 
 	",
-                    ),
-                    (
-                        TokenKind::String,
-                        concat!(r"'", output_for_hello_world!(), r"'"),
-                    ),
-                    (TokenKind::Plain, r" asComposedText displayOn"),
-                    (TokenKind::Punctuation, r":"),
-                    (TokenKind::Plain, r" aGraphicsContext"),
-                    (TokenKind::Punctuation, r"."),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (
+                                TokenKind::String,
+                                concat!(r"'", output_for_hello_world!(), r"'"),
+                            ),
+                            (TokenKind::Plain, r" asComposedText displayOn"),
+                            (TokenKind::Punctuation, r":"),
+                            (TokenKind::Plain, r" aGraphicsContext"),
+                            (TokenKind::Punctuation, r"."),
+                            (
+                                TokenKind::Plain,
+                                r"
 
 ",
-                    ),
-                    (TokenKind::Keyword, r"open"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Keyword, r"open"),
+                            (
+                                TokenKind::Plain,
+                                r"
 
 	|window|
 	window ",
-                    ),
-                    (TokenKind::Punctuation, r":"),
-                    (TokenKind::Plain, r"= ScheduledWindow "),
-                    (TokenKind::Keyword, r"new"),
-                    (TokenKind::Punctuation, r"."),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Punctuation, r":"),
+                            (TokenKind::Plain, r"= ScheduledWindow "),
+                            (TokenKind::Keyword, r"new"),
+                            (TokenKind::Punctuation, r"."),
+                            (
+                                TokenKind::Plain,
+                                r"
 	window label",
-                    ),
-                    (TokenKind::Punctuation, r":"),
-                    (TokenKind::Plain, r" "),
-                    (
-                        TokenKind::String,
-                        concat!(r"'", output_for_hello_world!(), r" Demo:'"),
-                    ),
-                    (TokenKind::Punctuation, r"."),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Punctuation, r":"),
+                            (TokenKind::Plain, r" "),
+                            (
+                                TokenKind::String,
+                                concat!(r"'", output_for_hello_world!(), r" Demo:'"),
+                            ),
+                            (TokenKind::Punctuation, r"."),
+                            (
+                                TokenKind::Plain,
+                                r"
 	window component",
-                    ),
-                    (TokenKind::Punctuation, r":"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"self"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"new"),
-                    (TokenKind::Punctuation, r"."),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Punctuation, r":"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"self"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"new"),
+                            (TokenKind::Punctuation, r"."),
+                            (
+                                TokenKind::Plain,
+                                r"
 	window ",
-                    ),
-                    (TokenKind::Keyword, r"open"),
-                    (TokenKind::Punctuation, r"."),
-                ],
+                            ),
+                            (TokenKind::Keyword, r"open"),
+                            (TokenKind::Punctuation, r"."),
+                        ],
+                    )
+                },
             },
         ],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [Hp41c => "HP_41C"],
     extensions: [],
 }
+
+const HP41C: &str = concat!(
+    r#"01 LBL "HELLO"
+02 ""#,
+    output_for_hello_world!(),
+    r#""
+03 AVIEW"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +37,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hp41c,
-            syntax: concat!(
-                r#"01 LBL "HELLO"
+            syntax: HP41C,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    HP41C,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"01 LBL "HELLO"
 02 ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 03 AVIEW"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"01 LBL "HELLO"
-02 ""#,
-                    output_for_hello_world!(),
-                    r#""
-03 AVIEW"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -10,13 +10,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: U02f8SharpUff1fBang => "()˸;#？!",
     versions: [U02f8SharpUff1fBang => "()˸;#？!"],
     extensions: [],
 }
+
+const U02F8_SHARP_UFF1F_BANG: &str = r":H:e:l:l:o: :W:o:r:l:d!";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +31,12 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::U02f8SharpUff1fBang,
-            syntax: r":H:e:l:l:o: :W:o:r:l:d!",
-            tokenized_syntax: &[(TokenKind::Plain, r":H:e:l:l:o: :W:o:r:l:d!")],
+            syntax: U02F8_SHARP_UFF1F_BANG,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    U02F8_SHARP_UFF1F_BANG,
+                    [(TokenKind::Plain, r":H:e:l:l:o: :W:o:r:l:d!")],
+                )
+            },
         }],
     };

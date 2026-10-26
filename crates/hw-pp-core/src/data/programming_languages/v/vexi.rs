@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,22 @@ language_names! {
     versions: [Vexi => "Vexi"],
     extensions: [],
 }
+
+const VEXI: &str = concat!(
+    r"<!-- ",
+    output_for_hello_world!(),
+    r#" in Vexi. -->
+
+<vexi xmlns:ui="vexi://ui">
+    <ui:box framewidth="200" frameheight="100">
+        <ui:box text=""#,
+    output_for_hello_world!(),
+    r#"" />
+        vexi.ui.frame = thisbox;
+    </ui:box>
+</vexi>
+/<"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,38 +46,29 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Vexi,
-            syntax: concat!(
-                r"<!-- ",
-                output_for_hello_world!(),
-                r#" in Vexi. -->
+            syntax: VEXI,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    VEXI,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"<!-- ",
+                            output_for_hello_world!(),
+                            r#" in Vexi. -->
 
 <vexi xmlns:ui="vexi://ui">
     <ui:box framewidth="200" frameheight="100">
         <ui:box text=""#,
-                output_for_hello_world!(),
-                r#"" />
+                            output_for_hello_world!(),
+                            r#"" />
         vexi.ui.frame = thisbox;
     </ui:box>
 </vexi>
 /<"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"<!-- ",
-                    output_for_hello_world!(),
-                    r#" in Vexi. -->
-
-<vexi xmlns:ui="vexi://ui">
-    <ui:box framewidth="200" frameheight="100">
-        <ui:box text=""#,
-                    output_for_hello_world!(),
-                    r#"" />
-        vexi.ui.frame = thisbox;
-    </ui:box>
-</vexi>
-/<"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,14 @@ language_names! {
     versions: [J => "J"],
     extensions: [Ijs => "ijs"],
 }
+
+const J: &str = concat!(
+    r"#!/opt/local/bin/jc
+echo '",
+    output_for_hello_world!(),
+    r"'
+exit ''"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,22 +38,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Apl],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::J,
-            syntax: concat!(
-                r"#!/opt/local/bin/jc
+            syntax: J,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    J,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"#!/opt/local/bin/jc
 echo '",
-                output_for_hello_world!(),
-                r"'
+                            output_for_hello_world!(),
+                            r"'
 exit ''"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"#!/opt/local/bin/jc
-echo '",
-                    output_for_hello_world!(),
-                    r"'
-exit ''"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

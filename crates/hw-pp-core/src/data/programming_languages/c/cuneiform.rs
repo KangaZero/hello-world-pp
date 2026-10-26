@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,17 @@ language_names! {
     versions: [Cuneiform => "Cuneiform"],
     extensions: [Cfl => "cfl"],
 }
+
+const CUNEIFORM: &str = concat!(
+    r#"def greet() -> <out : Str>
+in Bash *{
+  out=""#,
+    output_for_hello_world!(),
+    r#""
+}*
+
+( greet()|out );"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,28 +40,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cuneiform,
-            syntax: concat!(
-                r#"def greet() -> <out : Str>
+            syntax: CUNEIFORM,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CUNEIFORM,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"def greet() -> <out : Str>
 in Bash *{
   out=""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 }*
 
 ( greet()|out );"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"def greet() -> <out : Str>
-in Bash *{
-  out=""#,
-                    output_for_hello_world!(),
-                    r#""
-}*
-
-( greet()|out );"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

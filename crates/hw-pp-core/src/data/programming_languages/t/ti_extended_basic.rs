@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,16 @@ language_names! {
     versions: [TiExtendedBasic => "TI Extended BASIC"],
     extensions: [],
 }
+
+const TI_EXTENDED_BASIC: &str = concat!(
+    r"10 REM ",
+    output_for_hello_world!(),
+    r#" in Extended BASIC
+20 REM for the TI99 series computer
+100 CALL CLEAR :: DISPLAY AT(10,5):""#,
+    output_for_hello_world!(),
+    r#"" :: ACCEPT AT(20,4):A$"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,26 +40,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::TiExtendedBasic,
-            syntax: concat!(
-                r"10 REM ",
-                output_for_hello_world!(),
-                r#" in Extended BASIC
+            syntax: TI_EXTENDED_BASIC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    TI_EXTENDED_BASIC,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"10 REM ",
+                            output_for_hello_world!(),
+                            r#" in Extended BASIC
 20 REM for the TI99 series computer
 100 CALL CLEAR :: DISPLAY AT(10,5):""#,
-                output_for_hello_world!(),
-                r#"" :: ACCEPT AT(20,4):A$"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"10 REM ",
-                    output_for_hello_world!(),
-                    r#" in Extended BASIC
-20 REM for the TI99 series computer
-100 CALL CLEAR :: DISPLAY AT(10,5):""#,
-                    output_for_hello_world!(),
-                    r#"" :: ACCEPT AT(20,4):A$"#
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r#"" :: ACCEPT AT(20,4):A$"#
+                        ),
+                    )],
+                )
+            },
         }],
     };

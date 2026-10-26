@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,20 @@ language_names! {
     versions: [Informix4gl => "Informix 4GL"],
     extensions: [],
 }
+
+const INFORMIX4GL: &str = concat!(
+    r"# ",
+    output_for_hello_world!(),
+    r#" in Informix 4GL
+
+MAIN
+
+  DISPLAY ""#,
+    output_for_hello_world!(),
+    r#""
+
+END MAIN"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,34 +44,27 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Informix4gl,
-            syntax: concat!(
-                r"# ",
-                output_for_hello_world!(),
-                r#" in Informix 4GL
+            syntax: INFORMIX4GL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    INFORMIX4GL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"# ",
+                            output_for_hello_world!(),
+                            r#" in Informix 4GL
 
 MAIN
 
   DISPLAY ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 
 END MAIN"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"# ",
-                    output_for_hello_world!(),
-                    r#" in Informix 4GL
-
-MAIN
-
-  DISPLAY ""#,
-                    output_for_hello_world!(),
-                    r#""
-
-END MAIN"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

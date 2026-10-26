@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,23 @@ language_names! {
     versions: [Spl4 => "SPL4"],
     extensions: [],
 }
+
+const SPL4: &str = concat!(
+    r" HELLO: PROCEDURE OPTIONS(MAIN);
+*
+ /* ",
+    output_for_hello_world!(),
+    r" in SPL4 (Siemens) */
+*
+ DCL PRINTC ENTRY;
+*
+ CALL PRINTC('",
+    output_for_hello_world!(),
+    r"', 12);
+ RETURN;
+*
+ END HELLO;"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,40 +47,30 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Spl4,
-            syntax: concat!(
-                r" HELLO: PROCEDURE OPTIONS(MAIN);
+            syntax: SPL4,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SPL4,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r" HELLO: PROCEDURE OPTIONS(MAIN);
 *
  /* ",
-                output_for_hello_world!(),
-                r" in SPL4 (Siemens) */
+                            output_for_hello_world!(),
+                            r" in SPL4 (Siemens) */
 *
  DCL PRINTC ENTRY;
 *
  CALL PRINTC('",
-                output_for_hello_world!(),
-                r"', 12);
+                            output_for_hello_world!(),
+                            r"', 12);
  RETURN;
 *
  END HELLO;"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r" HELLO: PROCEDURE OPTIONS(MAIN);
-*
- /* ",
-                    output_for_hello_world!(),
-                    r" in SPL4 (Siemens) */
-*
- DCL PRINTC ENTRY;
-*
- CALL PRINTC('",
-                    output_for_hello_world!(),
-                    r"', 12);
- RETURN;
-*
- END HELLO;"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

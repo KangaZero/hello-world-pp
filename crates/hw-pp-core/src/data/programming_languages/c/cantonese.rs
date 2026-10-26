@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,13 @@ language_names! {
     versions: [Cantonese => "Cantonese"],
     extensions: [Cantonese => "cantonese"],
 }
+
+const CANTONESE: &str = concat!(
+    r#"畀我睇下 " "#,
+    output_for_hello_world!(),
+    r#" " 点样先?
+收工"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,20 +36,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cantonese,
-            syntax: concat!(
-                r#"畀我睇下 " "#,
-                output_for_hello_world!(),
-                r#" " 点样先?
+            syntax: CANTONESE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CANTONESE,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"畀我睇下 " "#,
+                            output_for_hello_world!(),
+                            r#" " 点样先?
 收工"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"畀我睇下 " "#,
-                    output_for_hello_world!(),
-                    r#" " 点样先?
-收工"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

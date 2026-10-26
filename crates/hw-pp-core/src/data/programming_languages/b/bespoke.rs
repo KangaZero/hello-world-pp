@@ -11,13 +11,31 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Bespoke => "Bespoke",
     versions: [Bespoke => "Bespoke"],
     extensions: [],
 }
+
+const BESPOKE: &str = r"more peppermint tea?
+ah yes, it's not bad
+I appreciate peppermint tea
+it's a refreshing beverage
+
+but you immediately must try the gingerbread
+I had it sometime, forever ago
+oh, and it was so good!
+made the way a gingerbread must clearly be baked
+
+in fact, I've got a suggestion
+I may go outside
+to Marshal Mellow's Bakery
+so we both receive one";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +45,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Bespoke,
-            syntax: r"more peppermint tea?
+            syntax: BESPOKE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BESPOKE,
+                    [(
+                        TokenKind::Plain,
+                        r"more peppermint tea?
 ah yes, it's not bad
 I appreciate peppermint tea
 it's a refreshing beverage
@@ -41,22 +65,8 @@ in fact, I've got a suggestion
 I may go outside
 to Marshal Mellow's Bakery
 so we both receive one",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"more peppermint tea?
-ah yes, it's not bad
-I appreciate peppermint tea
-it's a refreshing beverage
-
-but you immediately must try the gingerbread
-I had it sometime, forever ago
-oh, and it was so good!
-made the way a gingerbread must clearly be baked
-
-in fact, I've got a suggestion
-I may go outside
-to Marshal Mellow's Bakery
-so we both receive one",
-            )],
+                    )],
+                )
+            },
         }],
     };

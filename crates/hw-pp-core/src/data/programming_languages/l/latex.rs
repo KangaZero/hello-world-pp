@@ -10,7 +10,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -18,6 +18,15 @@ language_names! {
     versions: [Latex2e => "LaTeX2e"],
     extensions: [Tex => "tex"],
 }
+
+const LATEX2E: &str = concat!(
+    r"\documentclass{article}
+\begin{document}
+",
+    output_for_hello_world!(),
+    r"
+\end{document}"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,35 +36,33 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Latex2e,
-            syntax: concat!(
-                r"\documentclass{article}
-\begin{document}
-",
-                output_for_hello_world!(),
-                r"
-\end{document}"
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Punctuation, "\\"),
-                (TokenKind::Keyword, "documentclass"),
-                (TokenKind::Punctuation, "{"),
-                (TokenKind::Plain, "article"),
-                (TokenKind::Punctuation, "}"),
-                (TokenKind::Plain, "\n"),
-                (TokenKind::Punctuation, "\\"),
-                (TokenKind::Keyword, "begin"),
-                (TokenKind::Punctuation, "{"),
-                (TokenKind::Plain, "document"),
-                (TokenKind::Punctuation, "}"),
-                (
-                    TokenKind::Plain,
-                    concat!("\n", output_for_hello_world!(), "\n"),
-                ),
-                (TokenKind::Punctuation, "\\"),
-                (TokenKind::Keyword, "end"),
-                (TokenKind::Punctuation, "{"),
-                (TokenKind::Plain, "document"),
-                (TokenKind::Punctuation, "}"),
-            ],
+            syntax: LATEX2E,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LATEX2E,
+                    [
+                        (TokenKind::Punctuation, "\\"),
+                        (TokenKind::Keyword, "documentclass"),
+                        (TokenKind::Punctuation, "{"),
+                        (TokenKind::Plain, "article"),
+                        (TokenKind::Punctuation, "}"),
+                        (TokenKind::Plain, "\n"),
+                        (TokenKind::Punctuation, "\\"),
+                        (TokenKind::Keyword, "begin"),
+                        (TokenKind::Punctuation, "{"),
+                        (TokenKind::Plain, "document"),
+                        (TokenKind::Punctuation, "}"),
+                        (
+                            TokenKind::Plain,
+                            concat!("\n", output_for_hello_world!(), "\n"),
+                        ),
+                        (TokenKind::Punctuation, "\\"),
+                        (TokenKind::Keyword, "end"),
+                        (TokenKind::Punctuation, "{"),
+                        (TokenKind::Plain, "document"),
+                        (TokenKind::Punctuation, "}"),
+                    ],
+                )
+            },
         }],
     };

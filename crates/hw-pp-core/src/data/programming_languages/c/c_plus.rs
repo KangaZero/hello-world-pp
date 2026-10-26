@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,12 @@ language_names! {
     versions: [CPlus => "C+"],
     extensions: [],
 }
+
+const C_PLUS: &str = concat!(
+    r"THATSCPLUSCODENONOTCPLUSPLUSCPLUS{includ =iostrea; usin namespac st> in mai()|cou == ^^",
+    output_for_hello_world!(),
+    r"^^ == en>retur -1>?"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,18 +35,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::CPlus,
-            syntax: concat!(
-                r"THATSCPLUSCODENONOTCPLUSPLUSCPLUS{includ =iostrea; usin namespac st> in mai()|cou == ^^",
-                output_for_hello_world!(),
-                r"^^ == en>retur -1>?"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"THATSCPLUSCODENONOTCPLUSPLUSCPLUS{includ =iostrea; usin namespac st> in mai()|cou == ^^",
-                    output_for_hello_world!(),
-                    r"^^ == en>retur -1>?"
-                ),
-            )],
+            syntax: C_PLUS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    C_PLUS,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"THATSCPLUSCODENONOTCPLUSPLUSCPLUS{includ =iostrea; usin namespac st> in mai()|cou == ^^",
+                            output_for_hello_world!(),
+                            r"^^ == en>retur -1>?"
+                        ),
+                    )],
+                )
+            },
         }],
     };

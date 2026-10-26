@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,20 @@ language_names! {
     versions: [Velocity => "Velocity"],
     extensions: [],
 }
+
+const VELOCITY: &str = concat!(
+    r"<HTML>
+<!-- ",
+    output_for_hello_world!(),
+    r#" in Velocity -->
+<BODY>
+  #set( $foo = ""#,
+    output_for_hello_world!(),
+    r#"" )
+  $foo
+</BODY>
+</HTML>"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,34 +44,27 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Velocity,
-            syntax: concat!(
-                r"<HTML>
+            syntax: VELOCITY,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    VELOCITY,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"<HTML>
 <!-- ",
-                output_for_hello_world!(),
-                r#" in Velocity -->
+                            output_for_hello_world!(),
+                            r#" in Velocity -->
 <BODY>
   #set( $foo = ""#,
-                output_for_hello_world!(),
-                r#"" )
+                            output_for_hello_world!(),
+                            r#"" )
   $foo
 </BODY>
 </HTML>"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"<HTML>
-<!-- ",
-                    output_for_hello_world!(),
-                    r#" in Velocity -->
-<BODY>
-  #set( $foo = ""#,
-                    output_for_hello_world!(),
-                    r#"" )
-  $foo
-</BODY>
-</HTML>"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

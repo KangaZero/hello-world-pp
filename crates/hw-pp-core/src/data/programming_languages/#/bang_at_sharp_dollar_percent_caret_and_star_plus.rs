@@ -10,13 +10,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: BangAtSharpDollarPercentCaretAndStarPlus => "!@#$%^&∗()_+",
     versions: [BangAtSharpDollarPercentCaretAndStarPlus => "!@#$%^&∗()_+"],
     extensions: [],
 }
+
+const BANG_AT_SHARP_DOLLAR_PERCENT_CARET_AND_STAR_PLUS: &str = r"dlroW olleH(@)";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +31,12 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::BangAtSharpDollarPercentCaretAndStarPlus,
-            syntax: r"dlroW olleH(@)",
-            tokenized_syntax: &[(TokenKind::Plain, r"dlroW olleH(@)")],
+            syntax: BANG_AT_SHARP_DOLLAR_PERCENT_CARET_AND_STAR_PLUS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BANG_AT_SHARP_DOLLAR_PERCENT_CARET_AND_STAR_PLUS,
+                    [(TokenKind::Plain, r"dlroW olleH(@)")],
+                )
+            },
         }],
     };

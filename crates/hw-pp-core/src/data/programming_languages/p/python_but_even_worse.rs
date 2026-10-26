@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,13 @@ language_names! {
     versions: [PythonButEvenWorse => "Python but even worse"],
     extensions: [],
 }
+
+const PYTHON_BUT_EVEN_WORSE: &str = concat!(
+    r#"print(""#,
+    output_for_hello_world!(),
+    r#"")
+1/0"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,20 +37,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PythonButEvenWorse,
-            syntax: concat!(
-                r#"print(""#,
-                output_for_hello_world!(),
-                r#"")
+            syntax: PYTHON_BUT_EVEN_WORSE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PYTHON_BUT_EVEN_WORSE,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"print(""#,
+                            output_for_hello_world!(),
+                            r#"")
 1/0"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"print(""#,
-                    output_for_hello_world!(),
-                    r#"")
-1/0"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

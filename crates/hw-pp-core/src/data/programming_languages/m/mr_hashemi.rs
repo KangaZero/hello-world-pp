@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [MrHashemi => "Mr Hashemi"],
     extensions: [Hashemi => "hashemi"],
 }
+
+const MR_HASHEMI: &str = concat!(
+    r#"bebin azinja() {
+  bechap(""#,
+    output_for_hello_world!(),
+    r#"");
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +37,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::MrHashemi,
-            syntax: concat!(
-                r#"bebin azinja() {
+            syntax: MR_HASHEMI,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MR_HASHEMI,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"bebin azinja() {
   bechap(""#,
-                output_for_hello_world!(),
-                r#"");
+                            output_for_hello_world!(),
+                            r#"");
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"bebin azinja() {
-  bechap(""#,
-                    output_for_hello_world!(),
-                    r#"");
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,9 @@ language_names! {
     versions: [SuicidLtSupGtELtSlashSupGt => "suicid<sup>e</sup>"],
     extensions: [],
 }
+
+const SUICID_LT_SUP_GT_E_LT_SLASH_SUP_GT: &str =
+    concat!(r#"<*vAA:""#, output_for_hello_world!(), r#"""#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +33,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::SuicidLtSupGtELtSlashSupGt,
-            syntax: concat!(r#"<*vAA:""#, output_for_hello_world!(), r#"""#),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r#"<*vAA:""#, output_for_hello_world!(), r#"""#),
-            )],
+            syntax: SUICID_LT_SUP_GT_E_LT_SLASH_SUP_GT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SUICID_LT_SUP_GT_E_LT_SLASH_SUP_GT,
+                    [(
+                        TokenKind::Plain,
+                        concat!(r#"<*vAA:""#, output_for_hello_world!(), r#"""#),
+                    )],
+                )
+            },
         }],
     };

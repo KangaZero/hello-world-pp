@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,23 @@ language_names! {
     versions: [Dynamorph => "DynaMorph"],
     extensions: [],
 }
+
+const DYNAMORPH: &str = concat!(
+    r"<<!! ",
+    output_for_hello_world!(),
+    r" in DynaMorph >>
+<#setString foo {",
+    output_for_hello_world!(),
+    r"}#>
+<html>
+<head>
+	<title>DynaMorph</title>
+</head>
+<body>
+<#getString foo#>
+</body>
+</html>"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,13 +47,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Dynamorph,
-            syntax: concat!(
-                r"<<!! ",
-                output_for_hello_world!(),
-                r" in DynaMorph >>
+            syntax: DYNAMORPH,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    DYNAMORPH,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"<<!! ",
+                            output_for_hello_world!(),
+                            r" in DynaMorph >>
 <#setString foo {",
-                output_for_hello_world!(),
-                r"}#>
+                            output_for_hello_world!(),
+                            r"}#>
 <html>
 <head>
 	<title>DynaMorph</title>
@@ -45,25 +68,9 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 <#getString foo#>
 </body>
 </html>"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"<<!! ",
-                    output_for_hello_world!(),
-                    r" in DynaMorph >>
-<#setString foo {",
-                    output_for_hello_world!(),
-                    r"}#>
-<html>
-<head>
-	<title>DynaMorph</title>
-</head>
-<body>
-<#getString foo#>
-</body>
-</html>"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

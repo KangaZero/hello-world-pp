@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,13 @@ language_names! {
     versions: [Postscript => "PostScript"],
     extensions: [Ps => "ps"],
 }
+
+const POSTSCRIPT: &str = concat!(
+    r"% run> gs -q -sDEVICE=nullpage postscript.ps
+(",
+    output_for_hello_world!(),
+    r"\n) print quit"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,20 +36,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Postscript,
-            syntax: concat!(
-                r"% run> gs -q -sDEVICE=nullpage postscript.ps
+            syntax: POSTSCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    POSTSCRIPT,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"% run> gs -q -sDEVICE=nullpage postscript.ps
 (",
-                output_for_hello_world!(),
-                r"\n) print quit"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"% run> gs -q -sDEVICE=nullpage postscript.ps
-(",
-                    output_for_hello_world!(),
-                    r"\n) print quit"
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r"\n) print quit"
+                        ),
+                    )],
+                )
+            },
         }],
     };

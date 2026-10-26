@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,13 @@ language_names! {
     versions: [Yorick => "Yorick"],
     extensions: [],
 }
+
+const YORICK: &str = concat!(
+    r#"#!/usr/bin/yorick -batch
+print, ""#,
+    output_for_hello_world!(),
+    r#"";"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,27 +36,27 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Yorick,
-            syntax: concat!(
-                r#"#!/usr/bin/yorick -batch
-print, ""#,
-                output_for_hello_world!(),
-                r#"";"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Macro, r"#!/usr/bin/yorick -batch"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: YORICK,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    YORICK,
+                    [
+                        (TokenKind::Macro, r"#!/usr/bin/yorick -batch"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Function, r"print"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r";"),
-            ],
+                        ),
+                        (TokenKind::Function, r"print"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r";"),
+                    ],
+                )
+            },
         }],
     };

@@ -11,13 +11,19 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Aubergine => "Aubergine",
     versions: [Aubergine => "Aubergine"],
     extensions: [],
 }
+
+const AUBERGINE: &str = r"=aA-a1=oA=bi+b1-Ab-bb:bA+B1=iBGolf by Quintopia
+!dlroW ,olleH";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,12 +33,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Aubergine,
-            syntax: r"=aA-a1=oA=bi+b1-Ab-bb:bA+B1=iBGolf by Quintopia
+            syntax: AUBERGINE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    AUBERGINE,
+                    [(
+                        TokenKind::Plain,
+                        r"=aA-a1=oA=bi+b1-Ab-bb:bA+B1=iBGolf by Quintopia
 !dlroW ,olleH",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"=aA-a1=oA=bi+b1-Ab-bb:bA+B1=iBGolf by Quintopia
-!dlroW ,olleH",
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,24 @@ language_names! {
     versions: [RpgIvV34 => "RPG IV v3-4"],
     extensions: [],
 }
+
+const RPG_IV_V34: &str = concat!(
+    r"H* ",
+    output_for_hello_world!(),
+    r" in RPG IV versions 3 and 4
+
+D msg             S             32    inz(*blank)
+D wait            S              1
+
+C                   eval      msg = '",
+    output_for_hello_world!(),
+    r"'
+
+C     msg           dsply                   wait
+
+
+C                   eval      *inlr = *on"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,42 +48,31 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::RpgIvV34,
-            syntax: concat!(
-                r"H* ",
-                output_for_hello_world!(),
-                r" in RPG IV versions 3 and 4
+            syntax: RPG_IV_V34,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    RPG_IV_V34,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"H* ",
+                            output_for_hello_world!(),
+                            r" in RPG IV versions 3 and 4
 
 D msg             S             32    inz(*blank)
 D wait            S              1
 
 C                   eval      msg = '",
-                output_for_hello_world!(),
-                r"'
+                            output_for_hello_world!(),
+                            r"'
 
 C     msg           dsply                   wait
 
 
 C                   eval      *inlr = *on"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"H* ",
-                    output_for_hello_world!(),
-                    r" in RPG IV versions 3 and 4
-
-D msg             S             32    inz(*blank)
-D wait            S              1
-
-C                   eval      msg = '",
-                    output_for_hello_world!(),
-                    r"'
-
-C     msg           dsply                   wait
-
-
-C                   eval      *inlr = *on"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

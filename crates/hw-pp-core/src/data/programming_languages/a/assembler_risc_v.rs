@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,21 @@ language_names! {
     versions: [AssemblerRiscV => "Assembler RISC-V"],
     extensions: [],
 }
+
+const ASSEMBLER_RISC_V: &str = concat!(
+    r#".data
+hello_world: .asciiz ""#,
+    output_for_hello_world!(),
+    r#""
+
+.text
+main:   la      a1, hello_world
+        li      a0, 4
+        ecall
+
+        li      a0, 10
+        ecall"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,83 +44,75 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblerRiscV,
-            syntax: concat!(
-                r#".data
-hello_world: .asciiz ""#,
-                output_for_hello_world!(),
-                r#""
-
-.text
-main:   la      a1, hello_world
-        li      a0, 4
-        ecall
-
-        li      a0, 10
-        ecall"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Macro, r".data"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: ASSEMBLER_RISC_V,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_RISC_V,
+                    [
+                        (TokenKind::Macro, r".data"),
+                        (
+                            TokenKind::Plain,
+                            r"
 hello_world",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Macro, r".asciiz"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Macro, r".asciiz"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Macro, r".text"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".text"),
+                        (
+                            TokenKind::Plain,
+                            r"
 main",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r"   la      a1"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r" hello_world
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r"   la      a1"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r" hello_world
         ",
-                ),
-                (TokenKind::Keyword, r"li"),
-                (TokenKind::Plain, r"      a0"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"4"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"li"),
+                        (TokenKind::Plain, r"      a0"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"4"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"ecall"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"ecall"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
         ",
-                ),
-                (TokenKind::Keyword, r"li"),
-                (TokenKind::Plain, r"      a0"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"10"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"li"),
+                        (TokenKind::Plain, r"      a0"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"10"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"ecall"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"ecall"),
+                    ],
+                )
+            },
         }],
     };

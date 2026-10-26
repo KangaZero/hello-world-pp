@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,21 @@ language_names! {
     versions: [Cybol => "CYBOL"],
     extensions: [],
 }
+
+const CYBOL: &str = concat!(
+    r"<!-- ",
+    output_for_hello_world!(),
+    r#" in Cybernetics Oriented Language (CYBOL) -->
+<model>
+    <part name="send_message" channel="inline" abstraction="operation" model="send">
+        <property name="channel" channel="inline" abstraction="character" model="shell"/>
+        <property name="message" channel="inline" abstraction="character" model=""#,
+    output_for_hello_world!(),
+    r#""/>
+    </part>
+    <part name="exit_application" channel="inline" abstraction="operation" model="exit"/>
+</model>"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,36 +45,28 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cybol,
-            syntax: concat!(
-                r"<!-- ",
-                output_for_hello_world!(),
-                r#" in Cybernetics Oriented Language (CYBOL) -->
+            syntax: CYBOL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CYBOL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"<!-- ",
+                            output_for_hello_world!(),
+                            r#" in Cybernetics Oriented Language (CYBOL) -->
 <model>
     <part name="send_message" channel="inline" abstraction="operation" model="send">
         <property name="channel" channel="inline" abstraction="character" model="shell"/>
         <property name="message" channel="inline" abstraction="character" model=""#,
-                output_for_hello_world!(),
-                r#""/>
+                            output_for_hello_world!(),
+                            r#""/>
     </part>
     <part name="exit_application" channel="inline" abstraction="operation" model="exit"/>
 </model>"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"<!-- ",
-                    output_for_hello_world!(),
-                    r#" in Cybernetics Oriented Language (CYBOL) -->
-<model>
-    <part name="send_message" channel="inline" abstraction="operation" model="send">
-        <property name="channel" channel="inline" abstraction="character" model="shell"/>
-        <property name="message" channel="inline" abstraction="character" model=""#,
-                    output_for_hello_world!(),
-                    r#""/>
-    </part>
-    <part name="exit_application" channel="inline" abstraction="operation" model="exit"/>
-</model>"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

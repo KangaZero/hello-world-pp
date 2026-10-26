@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,17 @@ language_names! {
     versions: [Metapost => "MetaPost"],
     extensions: [],
 }
+
+const METAPOST: &str = concat!(
+    r"% ",
+    output_for_hello_world!(),
+    r#" in MetaPost
+beginfig(0);
+  label(""#,
+    output_for_hello_world!(),
+    r#"", (10,10));
+endfig;"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,28 +41,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Metapost,
-            syntax: concat!(
-                r"% ",
-                output_for_hello_world!(),
-                r#" in MetaPost
+            syntax: METAPOST,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    METAPOST,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"% ",
+                            output_for_hello_world!(),
+                            r#" in MetaPost
 beginfig(0);
   label(""#,
-                output_for_hello_world!(),
-                r#"", (10,10));
+                            output_for_hello_world!(),
+                            r#"", (10,10));
 endfig;"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"% ",
-                    output_for_hello_world!(),
-                    r#" in MetaPost
-beginfig(0);
-  label(""#,
-                    output_for_hello_world!(),
-                    r#"", (10,10));
-endfig;"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,16 +21,8 @@ language_names! {
     extensions: [],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::AssemblerZ80Ti83calculator,
-        extensions: &[],
-        categories: &[Assembly],
-        families: &[],
-        versions: &[ProgrammingLanguageVersion {
-            label: ProgrammingLanguageDialect::AssemblerZ80Ti83calculator,
-            syntax: concat!(
-                r#".NOLIST
+const ASSEMBLER_Z80_TI83CALCULATOR: &str = concat!(
+    r#".NOLIST
 #define   EQU   .equ
 #define   equ   .equ
 #define   END   .end
@@ -48,160 +40,175 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
       ret
 text:
       .db ""#,
-                output_for_hello_world!(),
-                r#"",0
+    output_for_hello_world!(),
+    r#"",0
 .end
 end"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Macro, r".NOLIST"),
-                (
-                    TokenKind::Plain,
-                    r"
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::AssemblerZ80Ti83calculator,
+        extensions: &[],
+        categories: &[Assembly],
+        families: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::AssemblerZ80Ti83calculator,
+            syntax: ASSEMBLER_Z80_TI83CALCULATOR,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_Z80_TI83CALCULATOR,
+                    [
+                        (TokenKind::Macro, r".NOLIST"),
+                        (
+                            TokenKind::Plain,
+                            r"
 #define   ",
-                ),
-                (TokenKind::Keyword, r"EQU"),
-                (TokenKind::Plain, r"   "),
-                (TokenKind::Macro, r".equ"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"EQU"),
+                        (TokenKind::Plain, r"   "),
+                        (TokenKind::Macro, r".equ"),
+                        (
+                            TokenKind::Plain,
+                            r"
 #define   ",
-                ),
-                (TokenKind::Keyword, r"equ"),
-                (TokenKind::Plain, r"   "),
-                (TokenKind::Macro, r".equ"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"equ"),
+                        (TokenKind::Plain, r"   "),
+                        (TokenKind::Macro, r".equ"),
+                        (
+                            TokenKind::Plain,
+                            r"
 #define   END   ",
-                ),
-                (TokenKind::Macro, r".end"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".end"),
+                        (
+                            TokenKind::Plain,
+                            r"
 #define   end   ",
-                ),
-                (TokenKind::Macro, r".end"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".end"),
+                        (
+                            TokenKind::Plain,
+                            r"
 #include ",
-                ),
-                (TokenKind::String, r#""ti83plus.inc""#),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::String, r#""ti83plus.inc""#),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Macro, r".LIST"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".LIST"),
+                        (
+                            TokenKind::Plain,
+                            r"
      ",
-                ),
-                (TokenKind::Macro, r".org"),
-                (
-                    TokenKind::Plain,
-                    r" 9D93h
+                        ),
+                        (TokenKind::Macro, r".org"),
+                        (
+                            TokenKind::Plain,
+                            r" 9D93h
       ",
-                ),
-                (TokenKind::Macro, r".db"),
-                (TokenKind::Plain, r" $BB"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"$6D
+                        ),
+                        (TokenKind::Macro, r".db"),
+                        (TokenKind::Plain, r" $BB"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"$6D
       ",
-                ),
-                (TokenKind::Keyword, r"ld"),
-                (TokenKind::Plain, r" a"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"0"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"ld"),
+                        (TokenKind::Plain, r" a"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"0"),
+                        (
+                            TokenKind::Plain,
+                            r"
       ",
-                ),
-                (TokenKind::Keyword, r"ld"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"CURCOL"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"a
+                        ),
+                        (TokenKind::Keyword, r"ld"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"CURCOL"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"a
       ",
-                ),
-                (TokenKind::Keyword, r"ld"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"CURROW"),
-                (TokenKind::Punctuation, r"),"),
-                (
-                    TokenKind::Plain,
-                    r"a
+                        ),
+                        (TokenKind::Keyword, r"ld"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"CURROW"),
+                        (TokenKind::Punctuation, r"),"),
+                        (
+                            TokenKind::Plain,
+                            r"a
       ",
-                ),
-                (TokenKind::Keyword, r"ld"),
-                (TokenKind::Plain, r" hl"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Keyword, r"text"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"ld"),
+                        (TokenKind::Plain, r" hl"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Keyword, r"text"),
+                        (
+                            TokenKind::Plain,
+                            r"
       ",
-                ),
-                (TokenKind::Keyword, r"B_CALL"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"_PutS"),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"B_CALL"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"_PutS"),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
       ",
-                ),
-                (TokenKind::Keyword, r"B_CALL"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"_NewLine"),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"B_CALL"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"_NewLine"),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
       ",
-                ),
-                (TokenKind::Keyword, r"ret"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"ret"),
+                        (
+                            TokenKind::Plain,
+                            r"
 text",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
       ",
-                ),
-                (TokenKind::Macro, r".db"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"0"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".db"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"0"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Macro, r".end"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Macro, r".end"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"end"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"end"),
+                    ],
+                )
+            },
         }],
     };

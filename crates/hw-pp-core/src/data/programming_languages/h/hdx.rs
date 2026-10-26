@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,26 @@ language_names! {
     versions: [Hdx => "HDX"],
     extensions: [],
 }
+
+const HDX: &str = concat!(
+    r"# ",
+    output_for_hello_world!(),
+    r#" as bdehaldia.exe external command
+
+proc hdx_info {} {
+  set ::Titel [TRA "&"#,
+    output_for_hello_world!(),
+    r#""]
+  set ::Menu GMA
+}
+
+proc hdx_run {} {
+  tk_messageBox -type ok -message [TRA ""#,
+    output_for_hello_world!(),
+    r#""]
+  destroy .
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,46 +50,33 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hdx,
-            syntax: concat!(
-                r"# ",
-                output_for_hello_world!(),
-                r#" as bdehaldia.exe external command
+            syntax: HDX,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    HDX,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"# ",
+                            output_for_hello_world!(),
+                            r#" as bdehaldia.exe external command
 
 proc hdx_info {} {
   set ::Titel [TRA "&"#,
-                output_for_hello_world!(),
-                r#""]
+                            output_for_hello_world!(),
+                            r#""]
   set ::Menu GMA
 }
 
 proc hdx_run {} {
   tk_messageBox -type ok -message [TRA ""#,
-                output_for_hello_world!(),
-                r#""]
+                            output_for_hello_world!(),
+                            r#""]
   destroy .
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"# ",
-                    output_for_hello_world!(),
-                    r#" as bdehaldia.exe external command
-
-proc hdx_info {} {
-  set ::Titel [TRA "&"#,
-                    output_for_hello_world!(),
-                    r#""]
-  set ::Menu GMA
-}
-
-proc hdx_run {} {
-  tk_messageBox -type ok -message [TRA ""#,
-                    output_for_hello_world!(),
-                    r#""]
-  destroy .
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

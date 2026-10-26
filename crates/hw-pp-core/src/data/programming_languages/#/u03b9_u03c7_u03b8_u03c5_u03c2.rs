@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: U03b9U03c7U03b8U03c5U03c2 => "ΙΧΘΥΣ",
     versions: [U03b9U03c7U03b8U03c5U03c2 => "ΙΧΘΥΣ"],
     extensions: [],
 }
+
+const U03B9_U03C7_U03B8_U03C5_U03C2: &str = r" ιιιθχθιιιιιιιιΥΧιιιθιθιΥιιιιιιιΥΥιιιΥΧιιιθχχθχχχχχΥΧιιθιιθχχχχΥΧιιιθθιιιιιιΥΧιιιθιιθχχχχχχχχχχΥιιιΥχχχχχχΥΧιιιθιθΥΧιιθιιθχχχΥ";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::U03b9U03c7U03b8U03c5U03c2,
-            syntax: r" ιιιθχθιιιιιιιιΥΧιιιθιθιΥιιιιιιιΥΥιιιΥΧιιιθχχθχχχχχΥΧιιθιιθχχχχΥΧιιιθθιιιιιιΥΧιιιθιιθχχχχχχχχχχΥιιιΥχχχχχχΥΧιιιθιθΥΧιιθιιθχχχΥ",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r" ιιιθχθιιιιιιιιΥΧιιιθιθιΥιιιιιιιΥΥιιιΥΧιιιθχχθχχχχχΥΧιιθιιθχχχχΥΧιιιθθιιιιιιΥΧιιιθιιθχχχχχχχχχχΥιιιΥχχχχχχΥΧιιιθιθΥΧιιθιιθχχχΥ",
-            )],
+            syntax: U03B9_U03C7_U03B8_U03C5_U03C2,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    U03B9_U03C7_U03B8_U03C5_U03C2,
+                    [(
+                        TokenKind::Plain,
+                        r" ιιιθχθιιιιιιιιΥΧιιιθιθιΥιιιιιιιΥΥιιιΥΧιιιθχχθχχχχχΥΧιιθιιθχχχχΥΧιιιθθιιιιιιΥΧιιιθιιθχχχχχχχχχχΥιιιΥχχχχχχΥΧιιιθιθΥΧιιθιιθχχχΥ",
+                    )],
+                )
+            },
         }],
     };

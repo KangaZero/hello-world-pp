@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,12 @@ language_names! {
     versions: [WikiSlashWikiSlashWikiSlashWikiSlashWikiSlashWikiSlash => "Wiki/wiki/wiki/wiki/wiki/wiki/"],
     extensions: [],
 }
+
+const WIKI_SLASH_WIKI_SLASH_WIKI_SLASH_WIKI_SLASH_WIKI_SLASH_WIKI_SLASH: &str = concat!(
+    r"esolangs.org/w/wiki/w.php?title=",
+    output_for_hello_world!(),
+    r"/Talk:[[a]]"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -31,18 +37,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[ProgrammingLanguageVersion {
             label:
                 ProgrammingLanguageDialect::WikiSlashWikiSlashWikiSlashWikiSlashWikiSlashWikiSlash,
-            syntax: concat!(
-                r"esolangs.org/w/wiki/w.php?title=",
-                output_for_hello_world!(),
-                r"/Talk:[[a]]"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"esolangs.org/w/wiki/w.php?title=",
-                    output_for_hello_world!(),
-                    r"/Talk:[[a]]"
-                ),
-            )],
+            syntax: WIKI_SLASH_WIKI_SLASH_WIKI_SLASH_WIKI_SLASH_WIKI_SLASH_WIKI_SLASH,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    WIKI_SLASH_WIKI_SLASH_WIKI_SLASH_WIKI_SLASH_WIKI_SLASH_WIKI_SLASH,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"esolangs.org/w/wiki/w.php?title=",
+                            output_for_hello_world!(),
+                            r"/Talk:[[a]]"
+                        ),
+                    )],
+                )
+            },
         }],
     };

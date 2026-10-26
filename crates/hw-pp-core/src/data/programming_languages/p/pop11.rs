@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,21 @@ language_names! {
     versions: [Pop11 => "POP-11"],
     extensions: [],
 }
+
+const POP11: &str = concat!(
+    r";;; ",
+    output_for_hello_world!(),
+    r#" in POP-11
+
+: vars outputtext;
+: ""#,
+    output_for_hello_world!(),
+    r#"" -> outputtext;
+: outputtext =>
+
+** "#,
+    output_for_hello_world!()
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,36 +45,28 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Lisp],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Pop11,
-            syntax: concat!(
-                r";;; ",
-                output_for_hello_world!(),
-                r#" in POP-11
+            syntax: POP11,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    POP11,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r";;; ",
+                            output_for_hello_world!(),
+                            r#" in POP-11
 
 : vars outputtext;
 : ""#,
-                output_for_hello_world!(),
-                r#"" -> outputtext;
+                            output_for_hello_world!(),
+                            r#"" -> outputtext;
 : outputtext =>
 
 ** "#,
-                output_for_hello_world!()
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r";;; ",
-                    output_for_hello_world!(),
-                    r#" in POP-11
-
-: vars outputtext;
-: ""#,
-                    output_for_hello_world!(),
-                    r#"" -> outputtext;
-: outputtext =>
-
-** "#,
-                    output_for_hello_world!()
-                ),
-            )],
+                            output_for_hello_world!()
+                        ),
+                    )],
+                )
+            },
         }],
     };

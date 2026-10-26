@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,24 @@ language_names! {
     versions: [Rey => "Rey"],
     extensions: [],
 }
+
+const REY: &str = concat!(
+    r"//beginning ",
+    output_for_hello_world!(),
+    r#" in Rey:
+ 
+korzystaj "Konsola";
+ 
+program
+{
+    PiszLinia(""#,
+    output_for_hello_world!(),
+    r#"");
+}
+//end "#,
+    output_for_hello_world!(),
+    r" in Rey"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,42 +48,31 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rey,
-            syntax: concat!(
-                r"//beginning ",
-                output_for_hello_world!(),
-                r#" in Rey:
+            syntax: REY,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    REY,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"//beginning ",
+                            output_for_hello_world!(),
+                            r#" in Rey:
  
 korzystaj "Konsola";
  
 program
 {
     PiszLinia(""#,
-                output_for_hello_world!(),
-                r#"");
+                            output_for_hello_world!(),
+                            r#"");
 }
 //end "#,
-                output_for_hello_world!(),
-                r" in Rey"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"//beginning ",
-                    output_for_hello_world!(),
-                    r#" in Rey:
- 
-korzystaj "Konsola";
- 
-program
-{
-    PiszLinia(""#,
-                    output_for_hello_world!(),
-                    r#"");
-}
-//end "#,
-                    output_for_hello_world!(),
-                    r" in Rey"
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r" in Rey"
+                        ),
+                    )],
+                )
+            },
         }],
     };

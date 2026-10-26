@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [TransDimensional => "Trans-dimensional"],
     extensions: [],
 }
+
+const TRANS_DIMENSIONAL: &str = concat!(
+    r#"dimension X;
+put [X:1] -> ""#,
+    output_for_hello_world!(),
+    r#"";
+output get [X:1];"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +37,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::TransDimensional,
-            syntax: concat!(
-                r#"dimension X;
+            syntax: TRANS_DIMENSIONAL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    TRANS_DIMENSIONAL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"dimension X;
 put [X:1] -> ""#,
-                output_for_hello_world!(),
-                r#"";
+                            output_for_hello_world!(),
+                            r#"";
 output get [X:1];"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"dimension X;
-put [X:1] -> ""#,
-                    output_for_hello_world!(),
-                    r#"";
-output get [X:1];"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

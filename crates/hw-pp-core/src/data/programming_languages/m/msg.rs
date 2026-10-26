@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,8 @@ language_names! {
     versions: [Msg => "MSG"],
     extensions: [],
 }
+
+const MSG: &str = concat!(r"main 'passon stdout '", output_for_hello_world!(), r"' '");
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Msg,
-            syntax: concat!(r"main 'passon stdout '", output_for_hello_world!(), r"' '"),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r"main 'passon stdout '", output_for_hello_world!(), r"' '"),
-            )],
+            syntax: MSG,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MSG,
+                    [(
+                        TokenKind::Plain,
+                        concat!(r"main 'passon stdout '", output_for_hello_world!(), r"' '"),
+                    )],
+                )
+            },
         }],
     };

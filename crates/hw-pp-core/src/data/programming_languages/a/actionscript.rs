@@ -22,7 +22,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -31,17 +31,8 @@ language_names! {
     extensions: [As => "as"],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::Actionscript,
-        extensions: &[FileExtension::As],
-        categories: &[Scripting],
-        families: &[JavaScript],
-        versions: &[
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::Actionscript,
-                syntax: concat!(
-                    r#"package 
+const ACTIONSCRIPT: &str = concat!(
+    r#"package 
 {
 	import flash.display.Sprite;
 	import flash.text.TextField;
@@ -52,98 +43,17 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 		
 		public function actionscript(){
 			hello.text = ""#,
-                    output_for_hello_world!(),
-                    r#"";
+    output_for_hello_world!(),
+    r#"";
 			addChild(hello);
 		}
 	}
 }"#
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Plain,
-                        r"package 
-{
-	",
-                    ),
-                    (TokenKind::Keyword, r"import"),
-                    (
-                        TokenKind::Plain,
-                        r" flash.display.Sprite;
-	",
-                    ),
-                    (TokenKind::Keyword, r"import"),
-                    (TokenKind::Plain, r" flash."),
-                    (TokenKind::Function, r"text"),
-                    (
-                        TokenKind::Plain,
-                        r".TextField;
-	
-	",
-                    ),
-                    (TokenKind::Keyword, r"public"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"class"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Type, r"actionscript"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"extends"),
-                    (
-                        TokenKind::Plain,
-                        r" Sprite
-	{
-		",
-                    ),
-                    (TokenKind::Keyword, r"private"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"var"),
-                    (TokenKind::Plain, r" hello"),
-                    (TokenKind::Keyword, r":"),
-                    (TokenKind::Plain, r"TextField "),
-                    (TokenKind::Keyword, r"="),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"new"),
-                    (
-                        TokenKind::Plain,
-                        r" TextField();
-		
-		",
-                    ),
-                    (TokenKind::Keyword, r"public"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"function"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"actionscript"),
-                    (TokenKind::Punctuation, r"()"),
-                    (
-                        TokenKind::Plain,
-                        r"{
-			hello.",
-                    ),
-                    (TokenKind::Function, r"text"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"="),
-                    (TokenKind::Plain, r" "),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r";
-			addChild(hello);
-		}
-	}
-}",
-                    ),
-                ],
-            },
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::ActionscriptFlash8,
-                syntax: concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r##" in ActionScript 2.0 (Flash 8)
+);
+const ACTIONSCRIPT_FLASH8: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r##" in ActionScript 2.0 (Flash 8)
 class HelloWorld
 {
     private var helloWorldField:TextField;
@@ -154,219 +64,334 @@ class HelloWorld
         mc.helloWorldField.autoSize = "left";
 	mc.helloWorldField.html = true;
         mc.helloWorldField.htmlText = '<font size="20" color="#0000FF">"##,
-                    output_for_hello_world!(),
-                    r"</font>';
+    output_for_hello_world!(),
+    r"</font>';
     }
 }
 
 // on a frame
 import HelloWorld;
 var hw:HelloWorld = new HelloWorld( this );"
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        concat!(
-                            r"// ",
-                            output_for_hello_world!(),
-                            r" in ActionScript 2.0 (Flash 8)
+);
+const ACTIONSCRIPT30: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in ActionScript 3. Place code in the first frame Actions.
+var t:TextField=new TextField();
+t.text=""#,
+    output_for_hello_world!(),
+    r#"";
+addChild(t);"#
+);
+const ACTIONSCRIPT_FLASH5: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in Actionscript (up to Flash 5, IDE only)
+
+trace (""#,
+    output_for_hello_world!(),
+    r#"");"#
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Actionscript,
+        extensions: &[FileExtension::As],
+        categories: &[Scripting],
+        families: &[JavaScript],
+        versions: &[
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::Actionscript,
+                syntax: ACTIONSCRIPT,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        ACTIONSCRIPT,
+                        [
+                            (
+                                TokenKind::Plain,
+                                r"package 
+{
+	",
+                            ),
+                            (TokenKind::Keyword, r"import"),
+                            (
+                                TokenKind::Plain,
+                                r" flash.display.Sprite;
+	",
+                            ),
+                            (TokenKind::Keyword, r"import"),
+                            (TokenKind::Plain, r" flash."),
+                            (TokenKind::Function, r"text"),
+                            (
+                                TokenKind::Plain,
+                                r".TextField;
+	
+	",
+                            ),
+                            (TokenKind::Keyword, r"public"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"class"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Type, r"actionscript"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"extends"),
+                            (
+                                TokenKind::Plain,
+                                r" Sprite
+	{
+		",
+                            ),
+                            (TokenKind::Keyword, r"private"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"var"),
+                            (TokenKind::Plain, r" hello"),
+                            (TokenKind::Keyword, r":"),
+                            (TokenKind::Plain, r"TextField "),
+                            (TokenKind::Keyword, r"="),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"new"),
+                            (
+                                TokenKind::Plain,
+                                r" TextField();
+		
+		",
+                            ),
+                            (TokenKind::Keyword, r"public"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"function"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"actionscript"),
+                            (TokenKind::Punctuation, r"()"),
+                            (
+                                TokenKind::Plain,
+                                r"{
+			hello.",
+                            ),
+                            (TokenKind::Function, r"text"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"="),
+                            (TokenKind::Plain, r" "),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r";
+			addChild(hello);
+		}
+	}
+}",
+                            ),
+                        ],
+                    )
+                },
+            },
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::ActionscriptFlash8,
+                syntax: ACTIONSCRIPT_FLASH8,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        ACTIONSCRIPT_FLASH8,
+                        [
+                            (
+                                TokenKind::Comment,
+                                concat!(
+                                    r"// ",
+                                    output_for_hello_world!(),
+                                    r" in ActionScript 2.0 (Flash 8)
 "
-                        ),
-                    ),
-                    (TokenKind::Keyword, r"class"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Type, r"HelloWorld"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                                ),
+                            ),
+                            (TokenKind::Keyword, r"class"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Type, r"HelloWorld"),
+                            (
+                                TokenKind::Plain,
+                                r"
 {
     ",
-                    ),
-                    (TokenKind::Keyword, r"private"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"var"),
-                    (TokenKind::Plain, r" helloWorldField"),
-                    (TokenKind::Keyword, r":"),
-                    (
-                        TokenKind::Plain,
-                        r"TextField;
+                            ),
+                            (TokenKind::Keyword, r"private"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"var"),
+                            (TokenKind::Plain, r" helloWorldField"),
+                            (TokenKind::Keyword, r":"),
+                            (
+                                TokenKind::Plain,
+                                r"TextField;
  
     ",
-                    ),
-                    (TokenKind::Keyword, r"public"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"function"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"HelloWorld"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Plain, r" mc:MovieClip "),
-                    (TokenKind::Punctuation, r")"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Keyword, r"public"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"function"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"HelloWorld"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Plain, r" mc:MovieClip "),
+                            (TokenKind::Punctuation, r")"),
+                            (
+                                TokenKind::Plain,
+                                r"
     {
         mc.helloWorldField ",
-                    ),
-                    (TokenKind::Keyword, r"="),
-                    (TokenKind::Plain, r" mc."),
-                    (TokenKind::Function, r"createTextField"),
-                    (TokenKind::Plain, r"("),
-                    (TokenKind::String, r#""helloWorldField""#),
-                    (TokenKind::Plain, r", mc."),
-                    (TokenKind::Function, r"getNextHighestDepth"),
-                    (TokenKind::Plain, r"(), "),
-                    (TokenKind::Number, r"0"),
-                    (TokenKind::Plain, r", "),
-                    (TokenKind::Number, r"0"),
-                    (TokenKind::Plain, r", "),
-                    (TokenKind::Number, r"100"),
-                    (TokenKind::Plain, r", "),
-                    (TokenKind::Number, r"100"),
-                    (
-                        TokenKind::Plain,
-                        r");
+                            ),
+                            (TokenKind::Keyword, r"="),
+                            (TokenKind::Plain, r" mc."),
+                            (TokenKind::Function, r"createTextField"),
+                            (TokenKind::Plain, r"("),
+                            (TokenKind::String, r#""helloWorldField""#),
+                            (TokenKind::Plain, r", mc."),
+                            (TokenKind::Function, r"getNextHighestDepth"),
+                            (TokenKind::Plain, r"(), "),
+                            (TokenKind::Number, r"0"),
+                            (TokenKind::Plain, r", "),
+                            (TokenKind::Number, r"0"),
+                            (TokenKind::Plain, r", "),
+                            (TokenKind::Number, r"100"),
+                            (TokenKind::Plain, r", "),
+                            (TokenKind::Number, r"100"),
+                            (
+                                TokenKind::Plain,
+                                r");
         mc.helloWorldField.",
-                    ),
-                    (TokenKind::Function, r"autoSize"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"="),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r#""left""#),
-                    (
-                        TokenKind::Plain,
-                        r";
+                            ),
+                            (TokenKind::Function, r"autoSize"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"="),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r#""left""#),
+                            (
+                                TokenKind::Plain,
+                                r";
 	mc.helloWorldField.",
-                    ),
-                    (TokenKind::Function, r"html"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"="),
-                    (
-                        TokenKind::Plain,
-                        r" true;
+                            ),
+                            (TokenKind::Function, r"html"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"="),
+                            (
+                                TokenKind::Plain,
+                                r" true;
         mc.helloWorldField.",
-                    ),
-                    (TokenKind::Function, r"htmlText"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"="),
-                    (TokenKind::Plain, r" "),
-                    (
-                        TokenKind::String,
-                        concat!(
-                            r##"'<font size="20" color="#0000FF">"##,
-                            output_for_hello_world!(),
-                            r"</font>'"
-                        ),
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r";
+                            ),
+                            (TokenKind::Function, r"htmlText"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"="),
+                            (TokenKind::Plain, r" "),
+                            (
+                                TokenKind::String,
+                                concat!(
+                                    r##"'<font size="20" color="#0000FF">"##,
+                                    output_for_hello_world!(),
+                                    r"</font>'"
+                                ),
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r";
     }
 }
 
 ",
-                    ),
-                    (
-                        TokenKind::Comment,
-                        r"// on a frame
+                            ),
+                            (
+                                TokenKind::Comment,
+                                r"// on a frame
 ",
-                    ),
-                    (TokenKind::Keyword, r"import"),
-                    (
-                        TokenKind::Plain,
-                        r" HelloWorld;
+                            ),
+                            (TokenKind::Keyword, r"import"),
+                            (
+                                TokenKind::Plain,
+                                r" HelloWorld;
 ",
-                    ),
-                    (TokenKind::Keyword, r"var"),
-                    (TokenKind::Plain, r" hw"),
-                    (TokenKind::Keyword, r":"),
-                    (TokenKind::Plain, r"HelloWorld "),
-                    (TokenKind::Keyword, r"="),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"new"),
-                    (TokenKind::Plain, r" HelloWorld( "),
-                    (TokenKind::Function, r"this"),
-                    (TokenKind::Plain, r" );"),
-                ],
+                            ),
+                            (TokenKind::Keyword, r"var"),
+                            (TokenKind::Plain, r" hw"),
+                            (TokenKind::Keyword, r":"),
+                            (TokenKind::Plain, r"HelloWorld "),
+                            (TokenKind::Keyword, r"="),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"new"),
+                            (TokenKind::Plain, r" HelloWorld( "),
+                            (TokenKind::Function, r"this"),
+                            (TokenKind::Plain, r" );"),
+                        ],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Actionscript30,
-                syntax: concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in ActionScript 3. Place code in the first frame Actions.
-var t:TextField=new TextField();
-t.text=""#,
-                    output_for_hello_world!(),
-                    r#"";
-addChild(t);"#
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        concat!(
-                            r"// ",
-                            output_for_hello_world!(),
-                            r" in ActionScript 3. Place code in the first frame Actions.
+                syntax: ACTIONSCRIPT30,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        ACTIONSCRIPT30,
+                        [
+                            (
+                                TokenKind::Comment,
+                                concat!(
+                                    r"// ",
+                                    output_for_hello_world!(),
+                                    r" in ActionScript 3. Place code in the first frame Actions.
 "
-                        ),
-                    ),
-                    (TokenKind::Keyword, r"var"),
-                    (TokenKind::Plain, r" t"),
-                    (TokenKind::Keyword, r":"),
-                    (TokenKind::Plain, r"TextField"),
-                    (TokenKind::Keyword, r"=new"),
-                    (
-                        TokenKind::Plain,
-                        r" TextField();
+                                ),
+                            ),
+                            (TokenKind::Keyword, r"var"),
+                            (TokenKind::Plain, r" t"),
+                            (TokenKind::Keyword, r":"),
+                            (TokenKind::Plain, r"TextField"),
+                            (TokenKind::Keyword, r"=new"),
+                            (
+                                TokenKind::Plain,
+                                r" TextField();
 t.",
-                    ),
-                    (TokenKind::Function, r"text"),
-                    (TokenKind::Keyword, r"="),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r";
+                            ),
+                            (TokenKind::Function, r"text"),
+                            (TokenKind::Keyword, r"="),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r";
 addChild(t);",
-                    ),
-                ],
+                            ),
+                        ],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::ActionscriptFlash5,
-                syntax: concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in Actionscript (up to Flash 5, IDE only)
-
-trace (""#,
-                    output_for_hello_world!(),
-                    r#"");"#
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        concat!(
-                            r"// ",
-                            output_for_hello_world!(),
-                            r" in Actionscript (up to Flash 5, IDE only)
+                syntax: ACTIONSCRIPT_FLASH5,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        ACTIONSCRIPT_FLASH5,
+                        [
+                            (
+                                TokenKind::Comment,
+                                concat!(
+                                    r"// ",
+                                    output_for_hello_world!(),
+                                    r" in Actionscript (up to Flash 5, IDE only)
 "
-                        ),
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r"
+                                ),
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r"
 ",
-                    ),
-                    (TokenKind::Function, r"trace"),
-                    (TokenKind::Plain, r" ("),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                    ),
-                    (TokenKind::Plain, r");"),
-                ],
+                            ),
+                            (TokenKind::Function, r"trace"),
+                            (TokenKind::Plain, r" ("),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                            ),
+                            (TokenKind::Plain, r");"),
+                        ],
+                    )
+                },
             },
         ],
     };

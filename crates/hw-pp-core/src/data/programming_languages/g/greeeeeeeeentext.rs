@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [Greeeeeeeeentext => "GreeeeeeeeenText"],
     extensions: [],
 }
+
+const GREEEEEEEEENTEXT: &str = concat!(
+    r">be me
+>says ",
+    output_for_hello_world!(),
+    r"
+>*gets output*"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +37,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Greeeeeeeeentext,
-            syntax: concat!(
-                r">be me
+            syntax: GREEEEEEEEENTEXT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    GREEEEEEEEENTEXT,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r">be me
 >says ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 >*gets output*"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r">be me
->says ",
-                    output_for_hello_world!(),
-                    r"
->*gets output*"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

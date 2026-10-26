@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,62 @@ language_names! {
     versions: [Lnusp => "LNUSP"],
     extensions: [Lnusp => "lnusp"],
 }
+
+const LNUSP: &str = concat!(
+    r"--- ",
+    output_for_hello_world!(),
+    r"
+---
+000        .INPUT          .OUTPUT          .STOP
+001 .                      .                .
+001  .                     .                .
+001   .                    .                .
+001    . !.!               .                .
+001     .   !              .                .
+001    ! .  !              .                .
+001    .  !!               .                .
+001    *                   .                .
+072    + H                 .                .
+001    *                   .                .
+101    + e                 .                .
+001    *                   .                .
+108    + l                 .                .
+001    *                   .                .
+108    + l                 .                .
+001    *                   .                .
+111    + o                 .                .
+001    *                   .                .
+032    + (sp)              .                .
+001    *                   .                .
+087    + W                 .                .
+001    *                   .                .
+111    + o                 .                .
+001    *                   .                .
+114    + r                 .                .
+001    *                   .                .
+108    + l                 .                .
+001    *                   .                .
+100    + d                 .                .
+001    *                   .                .
+033    + !                 .                .
+001    *                   .                .
+013    + (cr)              . -------------- .
+001    *                   .                .
+001    !                   .                .
+001     .                  .                .
+001      .        !!       .                .
+001       . !.!  !  !      .    !......!    .
+001        .   ! .  !   ?......!.....?  !   .
+001       ! .  ! . @   ?   .   .??    ? .   .
+001       .  !!  ./.   .   .   ?  ?   . .   .
+016       .      . * --.-- . --.  .---.-.-- .
+001       .      ! .   ?   .   *  ?   . !   .
+001       .       !.....?..@.....?.....!....@
+001       .        .           ?      ?    .
+001       !        !           ..    .    .
+001        !......!            ! ?..?    .
+001                             !.......!"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,10 +85,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Lnusp,
-            syntax: concat!(
-                r"--- ",
-                output_for_hello_world!(),
-                r"
+            syntax: LNUSP,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LNUSP,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"--- ",
+                            output_for_hello_world!(),
+                            r"
 ---
 000        .INPUT          .OUTPUT          .STOP
 001 .                      .                .
@@ -83,64 +145,9 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 001       !        !           ..    .    .
 001        !......!            ! ?..?    .
 001                             !.......!"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"--- ",
-                    output_for_hello_world!(),
-                    r"
----
-000        .INPUT          .OUTPUT          .STOP
-001 .                      .                .
-001  .                     .                .
-001   .                    .                .
-001    . !.!               .                .
-001     .   !              .                .
-001    ! .  !              .                .
-001    .  !!               .                .
-001    *                   .                .
-072    + H                 .                .
-001    *                   .                .
-101    + e                 .                .
-001    *                   .                .
-108    + l                 .                .
-001    *                   .                .
-108    + l                 .                .
-001    *                   .                .
-111    + o                 .                .
-001    *                   .                .
-032    + (sp)              .                .
-001    *                   .                .
-087    + W                 .                .
-001    *                   .                .
-111    + o                 .                .
-001    *                   .                .
-114    + r                 .                .
-001    *                   .                .
-108    + l                 .                .
-001    *                   .                .
-100    + d                 .                .
-001    *                   .                .
-033    + !                 .                .
-001    *                   .                .
-013    + (cr)              . -------------- .
-001    *                   .                .
-001    !                   .                .
-001     .                  .                .
-001      .        !!       .                .
-001       . !.!  !  !      .    !......!    .
-001        .   ! .  !   ?......!.....?  !   .
-001       ! .  ! . @   ?   .   .??    ? .   .
-001       .  !!  ./.   .   .   ?  ?   . .   .
-016       .      . * --.-- . --.  .---.-.-- .
-001       .      ! .   ?   .   *  ?   . !   .
-001       .       !.....?..@.....?.....!....@
-001       .        .           ?      ?    .
-001       !        !           ..    .    .
-001        !......!            ! ?..?    .
-001                             !.......!"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,18 @@ language_names! {
     versions: [RebolView => "Rebol-view"],
     extensions: [],
 }
+
+const REBOL_VIEW: &str = concat!(
+    output_for_hello_world!(),
+    r#" in Rebol-view.
+
+rebol[]
+view layout[
+text ""#,
+    output_for_hello_world!(),
+    r#""
+]"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,30 +42,25 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::RebolView,
-            syntax: concat!(
-                output_for_hello_world!(),
-                r#" in Rebol-view.
+            syntax: REBOL_VIEW,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    REBOL_VIEW,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            output_for_hello_world!(),
+                            r#" in Rebol-view.
 
 rebol[]
 view layout[
 text ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 ]"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    output_for_hello_world!(),
-                    r#" in Rebol-view.
-
-rebol[]
-view layout[
-text ""#,
-                    output_for_hello_world!(),
-                    r#""
-]"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

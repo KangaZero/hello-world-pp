@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,18 @@ language_names! {
     versions: [Zinc => "Zinc"],
     extensions: [Zn => "zn"],
 }
+
+const ZINC: &str = concat!(
+    r#"//! zinc
+library HelloWorld {
+    private function onInit() {
+        DisplayTimedTextToPlayer(GetLocalPlayer(), 0, 0, 0, ""#,
+    output_for_hello_world!(),
+    r#"");
+    }
+}
+//! endzinc"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,80 +41,75 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Zinc,
-            syntax: concat!(
-                r#"//! zinc
-library HelloWorld {
-    private function onInit() {
-        DisplayTimedTextToPlayer(GetLocalPlayer(), 0, 0, 0, ""#,
-                output_for_hello_world!(),
-                r#"");
-    }
-}
-//! endzinc"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Comment, r"//! zinc"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: ZINC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ZINC,
+                    [
+                        (TokenKind::Comment, r"//! zinc"),
+                        (
+                            TokenKind::Plain,
+                            r"
 library HelloWorld ",
-                ),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Keyword, r"private"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"function"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"onInit"),
-                (TokenKind::Punctuation, r"()"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"private"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"function"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"onInit"),
+                        (TokenKind::Punctuation, r"()"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Function, r"DisplayTimedTextToPlayer"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Function, r"GetLocalPlayer"),
-                (TokenKind::Punctuation, r"(),"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"0"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"0"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"0"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Function, r"DisplayTimedTextToPlayer"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Function, r"GetLocalPlayer"),
+                        (TokenKind::Punctuation, r"(),"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"0"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"0"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"0"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"//! endzinc"),
-            ],
+                        ),
+                        (TokenKind::Comment, r"//! endzinc"),
+                    ],
+                )
+            },
         }],
     };

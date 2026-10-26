@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Rubic => "Rubic",
     versions: [Rubic => "Rubic"],
     extensions: [],
 }
+
+const RUBIC: &str = r".ww ( +ww ) ! +ww +ww +ww +ww r -wg ! +oo b -og ! ! +wo' ! b' .wg *oo +oo ! *wg -oo b -og ! b' +oo +oo +oo ! +wg ! l' -wg ! -oo ! .wg *wg r -wg ! .oo +ww !";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rubic,
-            syntax: r".ww ( +ww ) ! +ww +ww +ww +ww r -wg ! +oo b -og ! ! +wo' ! b' .wg *oo +oo ! *wg -oo b -og ! b' +oo +oo +oo ! +wg ! l' -wg ! -oo ! .wg *wg r -wg ! .oo +ww !",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r".ww ( +ww ) ! +ww +ww +ww +ww r -wg ! +oo b -og ! ! +wo' ! b' .wg *oo +oo ! *wg -oo b -og ! b' +oo +oo +oo ! +wg ! l' -wg ! -oo ! .wg *wg r -wg ! .oo +ww !",
-            )],
+            syntax: RUBIC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    RUBIC,
+                    [(
+                        TokenKind::Plain,
+                        r".ww ( +ww ) ! +ww +ww +ww +ww r -wg ! +oo b -og ! ! +wo' ! b' .wg *oo +oo ! *wg -oo b -og ! b' +oo +oo +oo ! +wg ! l' -wg ! -oo ! .wg *wg r -wg ! .oo +ww !",
+                    )],
+                )
+            },
         }],
     };

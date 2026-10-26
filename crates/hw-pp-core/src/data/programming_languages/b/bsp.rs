@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,23 @@ language_names! {
     versions: [Bsp => "BSP"],
     extensions: [],
 }
+
+const BSP: &str = concat!(
+    r"<!— ",
+    output_for_hello_world!(),
+    r#" in  SAP Business Server Pages (BSP)
+<%@page language="abap"%>
+<%@extension name="htmlb" prefix="htmlb"%>
+<html><body>
+<%
+  CONSTANTS lv_hworld TYPE string VALUE `"#,
+    output_for_hello_world!(),
+    r#"`.
+%>
+<%=lv_hworld%>">
+</body>
+</html>"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,40 +47,30 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Bsp,
-            syntax: concat!(
-                r"<!— ",
-                output_for_hello_world!(),
-                r#" in  SAP Business Server Pages (BSP)
+            syntax: BSP,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BSP,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"<!— ",
+                            output_for_hello_world!(),
+                            r#" in  SAP Business Server Pages (BSP)
 <%@page language="abap"%>
 <%@extension name="htmlb" prefix="htmlb"%>
 <html><body>
 <%
   CONSTANTS lv_hworld TYPE string VALUE `"#,
-                output_for_hello_world!(),
-                r#"`.
+                            output_for_hello_world!(),
+                            r#"`.
 %>
 <%=lv_hworld%>">
 </body>
 </html>"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"<!— ",
-                    output_for_hello_world!(),
-                    r#" in  SAP Business Server Pages (BSP)
-<%@page language="abap"%>
-<%@extension name="htmlb" prefix="htmlb"%>
-<html><body>
-<%
-  CONSTANTS lv_hworld TYPE string VALUE `"#,
-                    output_for_hello_world!(),
-                    r#"`.
-%>
-<%=lv_hworld%>">
-</body>
-</html>"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

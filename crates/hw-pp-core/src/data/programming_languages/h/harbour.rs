@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,16 @@ language_names! {
     versions: [Harbour => "Harbour"],
     extensions: [],
 }
+
+const HARBOUR: &str = concat!(
+    r#"PROCEDURE Main()
+
+   ? ""#,
+    output_for_hello_world!(),
+    r#""
+
+   RETURN"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,26 +39,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[XBase],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Harbour,
-            syntax: concat!(
-                r#"PROCEDURE Main()
+            syntax: HARBOUR,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    HARBOUR,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"PROCEDURE Main()
 
    ? ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 
    RETURN"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"PROCEDURE Main()
-
-   ? ""#,
-                    output_for_hello_world!(),
-                    r#""
-
-   RETURN"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

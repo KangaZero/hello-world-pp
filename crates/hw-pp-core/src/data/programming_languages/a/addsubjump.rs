@@ -11,13 +11,22 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Addsubjump => "AddSubJump",
     versions: [Addsubjump => "AddSubJump"],
     extensions: [],
 }
+
+const ADDSUBJUMP: &str = r"IO H
+1 @1
+CMP 1 E
+IFZ temp IO 0
+.data H: 72 101 108 108 111 44 32 119 111 114 108 100 33 E:E";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,18 +36,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Addsubjump,
-            syntax: r"IO H
+            syntax: ADDSUBJUMP,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ADDSUBJUMP,
+                    [(
+                        TokenKind::Plain,
+                        r"IO H
 1 @1
 CMP 1 E
 IFZ temp IO 0
 .data H: 72 101 108 108 111 44 32 119 111 114 108 100 33 E:E",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"IO H
-1 @1
-CMP 1 E
-IFZ temp IO 0
-.data H: 72 101 108 108 111 44 32 119 111 114 108 100 33 E:E",
-            )],
+                    )],
+                )
+            },
         }],
     };

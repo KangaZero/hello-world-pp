@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,26 @@ language_names! {
     versions: [Xblite => "xblite"],
     extensions: [],
 }
+
+const XBLITE: &str = concat!(
+    r"' ",
+    output_for_hello_world!(),
+    r#" in xblite, Windows GUI mode
+
+	IMPORT "gdi32"
+	IMPORT "user32"
+
+DECLARE FUNCTION Entry ()
+
+FUNCTION Entry ()
+	MessageBoxA (0, &""#,
+    output_for_hello_world!(),
+    r#"", &""#,
+    output_for_hello_world!(),
+    r#" Window", $$MB_OK)
+END FUNCTION
+END PROGRAM"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,110 +50,97 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Basic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Xblite,
-            syntax: concat!(
-                r"' ",
-                output_for_hello_world!(),
-                r#" in xblite, Windows GUI mode
-
-	IMPORT "gdi32"
-	IMPORT "user32"
-
-DECLARE FUNCTION Entry ()
-
-FUNCTION Entry ()
-	MessageBoxA (0, &""#,
-                output_for_hello_world!(),
-                r#"", &""#,
-                output_for_hello_world!(),
-                r#" Window", $$MB_OK)
-END FUNCTION
-END PROGRAM"#
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Comment,
-                    concat!(
-                        r"' ",
-                        output_for_hello_world!(),
-                        r" in xblite, Windows GUI mode"
-                    ),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: XBLITE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    XBLITE,
+                    [
+                        (
+                            TokenKind::Comment,
+                            concat!(
+                                r"' ",
+                                output_for_hello_world!(),
+                                r" in xblite, Windows GUI mode"
+                            ),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 	IMPORT ",
-                ),
-                (TokenKind::String, r#""gdi32""#),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::String, r#""gdi32""#),
+                        (
+                            TokenKind::Plain,
+                            r"
 	IMPORT ",
-                ),
-                (TokenKind::String, r#""user32""#),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::String, r#""user32""#),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"DECLARE"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"FUNCTION"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"Entry"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"()"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DECLARE"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"FUNCTION"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"Entry"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"()"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"FUNCTION"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"Entry"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"()"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"FUNCTION"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"Entry"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"()"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	",
-                ),
-                (TokenKind::Function, r"MessageBoxA"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Number, r"0"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" &"),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" &"),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#" Window""#),
-                ),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" $$MB_OK"),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Function, r"MessageBoxA"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Number, r"0"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" &"),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" &"),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#" Window""#),
+                        ),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" $$MB_OK"),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"END"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"FUNCTION"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"END"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"FUNCTION"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"END"),
-                (TokenKind::Plain, r" PROGRAM"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"END"),
+                        (TokenKind::Plain, r" PROGRAM"),
+                    ],
+                )
+            },
         }],
     };

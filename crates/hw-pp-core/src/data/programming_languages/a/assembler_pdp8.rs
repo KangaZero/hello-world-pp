@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,49 @@ language_names! {
     versions: [AssemblerPdp8 => "Assembler (PDP-8)"],
     extensions: [],
 }
+
+const ASSEMBLER_PDP8: &str = concat!(
+    r"/ ",
+    output_for_hello_world!(),
+    r" in Assembler for the DEC PDP-8
+*200
+hello,    cla cll
+        tls            / tls to set printer flag.
+        tad charac    / set up index register
+        dca ir1        / for getting characters.
+        tad m6        / set up counter for
+        dca count    / typing characters.
+next,    tad i ir1    / get a character.
+        jms type    / type it.
+        isz count    / done yet?
+        jmp next    / no: type another.
+        hlt
+
+type,    0            / type subroutine
+        tsf
+        jmp .-1
+        tls
+        cla
+        jmp i type
+charac,    .            / used as initial value of ir1
+        310 / H
+        305 / E
+        314 / L
+        314 / L
+        317 / O
+        254 / ,
+        240 /
+        327 / W
+        317 / O
+        322 / R
+        314 / L
+        304 / D
+        241 / !
+m6,        -15
+count,    0
+ir1 = 10
+$"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +73,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblerPdp8,
-            syntax: concat!(
-                r"/ ",
-                output_for_hello_world!(),
-                r" in Assembler for the DEC PDP-8
+            syntax: ASSEMBLER_PDP8,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_PDP8,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"/ ",
+                            output_for_hello_world!(),
+                            r" in Assembler for the DEC PDP-8
 *200
 hello,    cla cll
         tls            / tls to set printer flag.
@@ -71,51 +120,9 @@ m6,        -15
 count,    0
 ir1 = 10
 $"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"/ ",
-                    output_for_hello_world!(),
-                    r" in Assembler for the DEC PDP-8
-*200
-hello,    cla cll
-        tls            / tls to set printer flag.
-        tad charac    / set up index register
-        dca ir1        / for getting characters.
-        tad m6        / set up counter for
-        dca count    / typing characters.
-next,    tad i ir1    / get a character.
-        jms type    / type it.
-        isz count    / done yet?
-        jmp next    / no: type another.
-        hlt
-
-type,    0            / type subroutine
-        tsf
-        jmp .-1
-        tls
-        cla
-        jmp i type
-charac,    .            / used as initial value of ir1
-        310 / H
-        305 / E
-        314 / L
-        314 / L
-        317 / O
-        254 / ,
-        240 /
-        327 / W
-        317 / O
-        322 / R
-        314 / L
-        304 / D
-        241 / !
-m6,        -15
-count,    0
-ir1 = 10
-$"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

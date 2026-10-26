@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,12 @@ language_names! {
     versions: [Egison => "Egison"],
     extensions: [Egi => "egi"],
 }
+
+const EGISON: &str = concat!(
+    r#"def main args := write ""#,
+    output_for_hello_world!(),
+    r#"\n""#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,18 +35,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Egison,
-            syntax: concat!(
-                r#"def main args := write ""#,
-                output_for_hello_world!(),
-                r#"\n""#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"def main args := write ""#,
-                    output_for_hello_world!(),
-                    r#"\n""#
-                ),
-            )],
+            syntax: EGISON,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    EGISON,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"def main args := write ""#,
+                            output_for_hello_world!(),
+                            r#"\n""#
+                        ),
+                    )],
+                )
+            },
         }],
     };

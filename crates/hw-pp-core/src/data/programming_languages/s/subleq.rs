@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,19 @@ language_names! {
     versions: [Subleq => "SubleQ"],
     extensions: [Sq => "sq"],
 }
+
+const SUBLEQ: &str = concat!(
+    r#"loop:       hello (-1)
+            minusOne loop
+            minusOne checkEnd+1
+checkEnd:   Z hello (-1) 
+            Z Z loop
+				
+. minusOne: -1
+. hello: ""#,
+    output_for_hello_world!(),
+    r#"\n" Z: 0"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,8 +42,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Subleq,
-            syntax: concat!(
-                r#"loop:       hello (-1)
+            syntax: SUBLEQ,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SUBLEQ,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"loop:       hello (-1)
             minusOne loop
             minusOne checkEnd+1
 checkEnd:   Z hello (-1) 
@@ -38,23 +57,11 @@ checkEnd:   Z hello (-1)
 				
 . minusOne: -1
 . hello: ""#,
-                output_for_hello_world!(),
-                r#"\n" Z: 0"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"loop:       hello (-1)
-            minusOne loop
-            minusOne checkEnd+1
-checkEnd:   Z hello (-1) 
-            Z Z loop
-				
-. minusOne: -1
-. hello: ""#,
-                    output_for_hello_world!(),
-                    r#"\n" Z: 0"#
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r#"\n" Z: 0"#
+                        ),
+                    )],
+                )
+            },
         }],
     };

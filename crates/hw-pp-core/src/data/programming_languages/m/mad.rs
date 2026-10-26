@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,18 @@ language_names! {
     versions: [Mad => "MAD"],
     extensions: [],
 }
+
+const MAD: &str = concat!(
+    r"         R ",
+    output_for_hello_world!(),
+    r" in MAD
+
+PRINT FORMAT HELLOW
+VECTOR VALUES HELLOW=$13h0",
+    output_for_hello_world!(),
+    r"*$
+END OF PROGRAM"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,30 +42,25 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Algol],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Mad,
-            syntax: concat!(
-                r"         R ",
-                output_for_hello_world!(),
-                r" in MAD
+            syntax: MAD,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MAD,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"         R ",
+                            output_for_hello_world!(),
+                            r" in MAD
 
 PRINT FORMAT HELLOW
 VECTOR VALUES HELLOW=$13h0",
-                output_for_hello_world!(),
-                r"*$
+                            output_for_hello_world!(),
+                            r"*$
 END OF PROGRAM"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"         R ",
-                    output_for_hello_world!(),
-                    r" in MAD
-
-PRINT FORMAT HELLOW
-VECTOR VALUES HELLOW=$13h0",
-                    output_for_hello_world!(),
-                    r"*$
-END OF PROGRAM"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

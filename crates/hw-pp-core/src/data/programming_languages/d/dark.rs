@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,23 @@ language_names! {
     versions: [Dark => "dark"],
     extensions: [],
 }
+
+const DARK: &str = concat!(
+    r#"+helloworld hell
+helloworld$twist stalker io
+helloworld$twist sign string
+io$stalk
+io$personal
+string$scrawl " "#,
+    output_for_hello_world!(),
+    r"
+string$read ~
+io$echo
+helloworld$consume io
+helloworld$consume string
+helloworld$empty
+helloworld$apocalypse"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,40 +46,30 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Dark,
-            syntax: concat!(
-                r#"+helloworld hell
+            syntax: DARK,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    DARK,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"+helloworld hell
 helloworld$twist stalker io
 helloworld$twist sign string
 io$stalk
 io$personal
 string$scrawl " "#,
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 string$read ~
 io$echo
 helloworld$consume io
 helloworld$consume string
 helloworld$empty
 helloworld$apocalypse"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"+helloworld hell
-helloworld$twist stalker io
-helloworld$twist sign string
-io$stalk
-io$personal
-string$scrawl " "#,
-                    output_for_hello_world!(),
-                    r"
-string$read ~
-io$echo
-helloworld$consume io
-helloworld$consume string
-helloworld$empty
-helloworld$apocalypse"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

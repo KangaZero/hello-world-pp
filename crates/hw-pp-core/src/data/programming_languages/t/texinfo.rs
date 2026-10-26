@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,35 @@ language_names! {
     versions: [Texinfo => "Texinfo"],
     extensions: [],
 }
+
+const TEXINFO: &str = concat!(
+    r"\input texinfo
+@c ",
+    output_for_hello_world!(),
+    r" for Texinfo
+
+@setfilename hello
+@settitle ",
+    output_for_hello_world!(),
+    r"
+
+@node Top, Hello, (dir), (dir)
+
+@menu
+* Hello:: ",
+    output_for_hello_world!(),
+    r"
+@end menu
+
+@node Hello, , Top, Top
+
+",
+    output_for_hello_world!(),
+    r"
+
+@contents
+@bye"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,64 +59,42 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Texinfo,
-            syntax: concat!(
-                r"\input texinfo
+            syntax: TEXINFO,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    TEXINFO,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"\input texinfo
 @c ",
-                output_for_hello_world!(),
-                r" for Texinfo
+                            output_for_hello_world!(),
+                            r" for Texinfo
 
 @setfilename hello
 @settitle ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 
 @node Top, Hello, (dir), (dir)
 
 @menu
 * Hello:: ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 @end menu
 
 @node Hello, , Top, Top
 
 ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 
 @contents
 @bye"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"\input texinfo
-@c ",
-                    output_for_hello_world!(),
-                    r" for Texinfo
-
-@setfilename hello
-@settitle ",
-                    output_for_hello_world!(),
-                    r"
-
-@node Top, Hello, (dir), (dir)
-
-@menu
-* Hello:: ",
-                    output_for_hello_world!(),
-                    r"
-@end menu
-
-@node Hello, , Top, Top
-
-",
-                    output_for_hello_world!(),
-                    r"
-
-@contents
-@bye"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

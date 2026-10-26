@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,12 @@ language_names! {
     versions: [SoIsYourFace => "So is your face."],
     extensions: [],
 }
+
+const SO_IS_YOUR_FACE: &str = concat!(
+    output_for_hello_world!(),
+    r"
+So is your face."
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,18 +36,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::SoIsYourFace,
-            syntax: concat!(
-                output_for_hello_world!(),
-                r"
+            syntax: SO_IS_YOUR_FACE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SO_IS_YOUR_FACE,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            output_for_hello_world!(),
+                            r"
 So is your face."
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    output_for_hello_world!(),
-                    r"
-So is your face."
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

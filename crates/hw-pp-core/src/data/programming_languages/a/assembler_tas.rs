@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,21 @@ language_names! {
     versions: [AssemblerTas => "Assembler (TAS)"],
     extensions: [],
 }
+
+const ASSEMBLER_TAS: &str = concat!(
+    r"-- ",
+    output_for_hello_world!(),
+    r" in TAS Assembler for the TR 440 --
+
+HELLO.=SEGM,XBA VB616, SSR 6 16,
+FB616=R&ENDE,
+ 
+VB616=FB616/AG, 3/H, TEXT/AG, 3/H,
+TEXT=''*020",
+    output_for_hello_world!(),
+    r"'',
+ENDE,"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,36 +45,28 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblerTas,
-            syntax: concat!(
-                r"-- ",
-                output_for_hello_world!(),
-                r" in TAS Assembler for the TR 440 --
+            syntax: ASSEMBLER_TAS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_TAS,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"-- ",
+                            output_for_hello_world!(),
+                            r" in TAS Assembler for the TR 440 --
 
 HELLO.=SEGM,XBA VB616, SSR 6 16,
 FB616=R&ENDE,
  
 VB616=FB616/AG, 3/H, TEXT/AG, 3/H,
 TEXT=''*020",
-                output_for_hello_world!(),
-                r"'',
+                            output_for_hello_world!(),
+                            r"'',
 ENDE,"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"-- ",
-                    output_for_hello_world!(),
-                    r" in TAS Assembler for the TR 440 --
-
-HELLO.=SEGM,XBA VB616, SSR 6 16,
-FB616=R&ENDE,
- 
-VB616=FB616/AG, 3/H, TEXT/AG, 3/H,
-TEXT=''*020",
-                    output_for_hello_world!(),
-                    r"'',
-ENDE,"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

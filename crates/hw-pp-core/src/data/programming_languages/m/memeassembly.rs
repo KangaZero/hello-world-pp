@@ -10,13 +10,32 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Assembly,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Memeassembly => "MemeAssembly",
     versions: [Memeassembly => "MemeAssembly"],
     extensions: [Memeasm => "memeasm"],
 }
+
+const MEMEASSEMBLY: &str = r"I like to have fun, fun, fun, fun, fun, fun, fun, fun, fun, fun main
+    what can I say except H
+    what can I say except e
+    what can I say except l
+    what can I say except l
+    what can I say except o
+    what can I say except \s
+    what can I say except W
+    what can I say except o
+    what can I say except r
+    what can I say except l
+    what can I say except d
+    what can I say except \n
+
+    I see this as an absolute win";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +45,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Memeassembly,
-            syntax: r"I like to have fun, fun, fun, fun, fun, fun, fun, fun, fun, fun main
+            syntax: MEMEASSEMBLY,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MEMEASSEMBLY,
+                    [(
+                        TokenKind::Plain,
+                        r"I like to have fun, fun, fun, fun, fun, fun, fun, fun, fun, fun main
     what can I say except H
     what can I say except e
     what can I say except l
@@ -41,23 +66,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     what can I say except \n
 
     I see this as an absolute win",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"I like to have fun, fun, fun, fun, fun, fun, fun, fun, fun, fun main
-    what can I say except H
-    what can I say except e
-    what can I say except l
-    what can I say except l
-    what can I say except o
-    what can I say except \s
-    what can I say except W
-    what can I say except o
-    what can I say except r
-    what can I say except l
-    what can I say except d
-    what can I say except \n
-
-    I see this as an absolute win",
-            )],
+                    )],
+                )
+            },
         }],
     };

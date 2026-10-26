@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Ursl => "URSL",
     versions: [Ursl => "URSL"],
     extensions: [],
 }
+
+const URSL: &str = r"v072-w0v0101-w0v0108-w0w0v0111-w0v044-w0v032-w0v0119-w0v0111-w0v0114-w0v0108-w0v0100-w0v033-w0";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ursl,
-            syntax: r"v072-w0v0101-w0v0108-w0w0v0111-w0v044-w0v032-w0v0119-w0v0111-w0v0114-w0v0108-w0v0100-w0v033-w0",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"v072-w0v0101-w0v0108-w0w0v0111-w0v044-w0v032-w0v0119-w0v0111-w0v0114-w0v0108-w0v0100-w0v033-w0",
-            )],
+            syntax: URSL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    URSL,
+                    [(
+                        TokenKind::Plain,
+                        r"v072-w0v0101-w0v0108-w0w0v0111-w0v044-w0v032-w0v0119-w0v0111-w0v0114-w0v0108-w0v0100-w0v033-w0",
+                    )],
+                )
+            },
         }],
     };

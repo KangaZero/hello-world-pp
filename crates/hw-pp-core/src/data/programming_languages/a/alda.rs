@@ -10,13 +10,18 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Music,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Alda => "Alda",
     versions: [Alda => "Alda"],
     extensions: [Alda => "alda"],
 }
+
+const ALDA: &str = r"piano: c8 d e f g f e d c2.";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +31,9 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Alda,
-            syntax: r"piano: c8 d e f g f e d c2.",
-            tokenized_syntax: &[(TokenKind::Plain, r"piano: c8 d e f g f e d c2.")],
+            syntax: ALDA,
+            tokenized_syntax: &const {
+                checked_token_lengths(ALDA, [(TokenKind::Plain, r"piano: c8 d e f g f e d c2.")])
+            },
         }],
     };

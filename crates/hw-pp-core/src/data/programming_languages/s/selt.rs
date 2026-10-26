@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Selt => "Selt",
     versions: [Selt => "Selt"],
     extensions: [],
 }
+
+const SELT: &str = r"println Hello,\ World\!";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +32,9 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Selt,
-            syntax: r"println Hello,\ World\!",
-            tokenized_syntax: &[(TokenKind::Plain, r"println Hello,\ World\!")],
+            syntax: SELT,
+            tokenized_syntax: &const {
+                checked_token_lengths(SELT, [(TokenKind::Plain, r"println Hello,\ World\!")])
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,16 @@ language_names! {
     versions: [Emerald => "Emerald"],
     extensions: [],
 }
+
+const EMERALD: &str = concat!(
+    r#"const main <- object mainProgram
+    initially
+		stdout.putString[""#,
+    output_for_hello_world!(),
+    r#"\n"]
+	end initially
+end mainProgram"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,26 +40,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Emerald,
-            syntax: concat!(
-                r#"const main <- object mainProgram
+            syntax: EMERALD,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    EMERALD,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"const main <- object mainProgram
     initially
 		stdout.putString[""#,
-                output_for_hello_world!(),
-                r#"\n"]
+                            output_for_hello_world!(),
+                            r#"\n"]
 	end initially
 end mainProgram"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"const main <- object mainProgram
-    initially
-		stdout.putString[""#,
-                    output_for_hello_world!(),
-                    r#"\n"]
-	end initially
-end mainProgram"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

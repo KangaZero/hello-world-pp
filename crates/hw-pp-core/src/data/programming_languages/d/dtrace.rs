@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,16 @@ language_names! {
     versions: [Dtrace => "DTrace"],
     extensions: [],
 }
+
+const DTRACE: &str = concat!(
+    r#"#!/usr/sbin/dtrace -qs
+BEGIN {
+	printf(""#,
+    output_for_hello_world!(),
+    r#"");
+	exit(0);
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,26 +39,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Dtrace,
-            syntax: concat!(
-                r#"#!/usr/sbin/dtrace -qs
+            syntax: DTRACE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    DTRACE,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"#!/usr/sbin/dtrace -qs
 BEGIN {
 	printf(""#,
-                output_for_hello_world!(),
-                r#"");
+                            output_for_hello_world!(),
+                            r#"");
 	exit(0);
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"#!/usr/sbin/dtrace -qs
-BEGIN {
-	printf(""#,
-                    output_for_hello_world!(),
-                    r#"");
-	exit(0);
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

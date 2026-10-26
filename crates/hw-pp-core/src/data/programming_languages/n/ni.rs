@@ -10,13 +10,18 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Ni => "Ni",
     versions: [Ni => "Ni"],
     extensions: [Nic => "nic"],
 }
+
+const NI: &str = r"#48!#65!#6c!#6c!#6f!#20!#57!#6f!#72!#6c!#64!";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,10 +31,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ni,
-            syntax: r"#48!#65!#6c!#6c!#6f!#20!#57!#6f!#72!#6c!#64!",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"#48!#65!#6c!#6c!#6f!#20!#57!#6f!#72!#6c!#64!",
-            )],
+            syntax: NI,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    NI,
+                    [(
+                        TokenKind::Plain,
+                        r"#48!#65!#6c!#6c!#6f!#20!#57!#6f!#72!#6c!#64!",
+                    )],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,21 @@ language_names! {
     versions: [Ansible => "Ansible"],
     extensions: [Yml => "yml"],
 }
+
+const ANSIBLE: &str = concat!(
+    r"---
+- name: Print 
+  hosts: 127.0.0.1
+  connection: local
+
+  tasks:
+  - name: Print ",
+    output_for_hello_world!(),
+    r"
+    debug:
+      msg: ",
+    output_for_hello_world!()
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,88 +44,80 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ansible,
-            syntax: concat!(
-                r"---
-- name: Print 
-  hosts: 127.0.0.1
-  connection: local
-
-  tasks:
-  - name: Print ",
-                output_for_hello_world!(),
-                r"
-    debug:
-      msg: ",
-                output_for_hello_world!()
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Plain,
-                    r"---
+            syntax: ANSIBLE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ANSIBLE,
+                    [
+                        (
+                            TokenKind::Plain,
+                            r"---
 ",
-                ),
-                (TokenKind::Punctuation, r"-"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::String, r"name"),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::String, r"Print"),
-                (
-                    TokenKind::Plain,
-                    r" 
+                        ),
+                        (TokenKind::Punctuation, r"-"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::String, r"name"),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::String, r"Print"),
+                        (
+                            TokenKind::Plain,
+                            r" 
   ",
-                ),
-                (TokenKind::String, r"hosts"),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"127.0.0.1"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::String, r"hosts"),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"127.0.0.1"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::String, r"connection"),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::String, r"local"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::String, r"connection"),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::String, r"local"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
   ",
-                ),
-                (TokenKind::String, r"tasks"),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::String, r"tasks"),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Punctuation, r"-"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::String, r"name"),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r"Print ", output_for_hello_world!()),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"-"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::String, r"name"),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r"Print ", output_for_hello_world!()),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::String, r"debug"),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::String, r"debug"),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
       ",
-                ),
-                (TokenKind::String, r"msg"),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::String, output_for_hello_world!()),
-            ],
+                        ),
+                        (TokenKind::String, r"msg"),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::String, output_for_hello_world!()),
+                    ],
+                )
+            },
         }],
     };

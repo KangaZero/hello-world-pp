@@ -10,13 +10,18 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Fourier => "Fourier",
     versions: [Fourier => "Fourier"],
     extensions: [Fourier => "fourier"],
 }
+
+const FOURIER: &str = r"72a101a108aa111a44a32a119a111a114a108a100a33a10a";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,10 +31,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Fourier,
-            syntax: r"72a101a108aa111a44a32a119a111a114a108a100a33a10a",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"72a101a108aa111a44a32a119a111a114a108a100a33a10a",
-            )],
+            syntax: FOURIER,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FOURIER,
+                    [(
+                        TokenKind::Plain,
+                        r"72a101a108aa111a44a32a119a111a114a108a100a33a10a",
+                    )],
+                )
+            },
         }],
     };

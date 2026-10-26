@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,20 @@ language_names! {
     versions: [Ostrajava => "OSTRAJava"],
     extensions: [Cyp => "cyp"],
 }
+
+const OSTRAJAVA: &str = concat!(
+    r#"banik pyco
+
+tryda Ostrava{
+    rynek(){
+        Konzola.pravit(""#,
+    output_for_hello_world!(),
+    r#"") pyco
+    }
+} 
+
+fajront pyco"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,34 +43,27 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ostrajava,
-            syntax: concat!(
-                r#"banik pyco
+            syntax: OSTRAJAVA,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    OSTRAJAVA,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"banik pyco
 
 tryda Ostrava{
     rynek(){
         Konzola.pravit(""#,
-                output_for_hello_world!(),
-                r#"") pyco
+                            output_for_hello_world!(),
+                            r#"") pyco
     }
 } 
 
 fajront pyco"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"banik pyco
-
-tryda Ostrava{
-    rynek(){
-        Konzola.pravit(""#,
-                    output_for_hello_world!(),
-                    r#"") pyco
-    }
-} 
-
-fajront pyco"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

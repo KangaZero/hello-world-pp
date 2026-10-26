@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,22 @@ language_names! {
     versions: [L => "L"],
     extensions: [],
 }
+
+const L: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in L
+
+namespace Hello is
+    class Main is
+        void init is()
+            IO.Std.out.println(""#,
+    output_for_hello_world!(),
+    r#"");
+        end
+    end
+end"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,38 +46,29 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::L,
-            syntax: concat!(
-                r"// ",
-                output_for_hello_world!(),
-                r#" in L
+            syntax: L,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    L,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"// ",
+                            output_for_hello_world!(),
+                            r#" in L
 
 namespace Hello is
     class Main is
         void init is()
             IO.Std.out.println(""#,
-                output_for_hello_world!(),
-                r#"");
+                            output_for_hello_world!(),
+                            r#"");
         end
     end
 end"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in L
-
-namespace Hello is
-    class Main is
-        void init is()
-            IO.Std.out.println(""#,
-                    output_for_hello_world!(),
-                    r#"");
-        end
-    end
-end"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

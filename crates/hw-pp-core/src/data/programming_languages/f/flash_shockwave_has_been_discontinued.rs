@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: FlashShockwaveHasBeenDiscontinued => "Flash shockwave has been discontinued.",
     versions: [FlashShockwaveHasBeenDiscontinued => "Flash shockwave has been discontinued."],
     extensions: [],
 }
+
+const FLASH_SHOCKWAVE_HAS_BEEN_DISCONTINUED: &str = r"aueI90ds¢£³m%#oiDijij@¨!&#&#IO21(()=§§ªD@@";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::FlashShockwaveHasBeenDiscontinued,
-            syntax: r"aueI90ds¢£³m%#oiDijij@¨!&#&#IO21(()=§§ªD@@",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"aueI90ds¢£³m%#oiDijij@¨!&#&#IO21(()=§§ªD@@",
-            )],
+            syntax: FLASH_SHOCKWAVE_HAS_BEEN_DISCONTINUED,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FLASH_SHOCKWAVE_HAS_BEEN_DISCONTINUED,
+                    [(
+                        TokenKind::Plain,
+                        r"aueI90ds¢£³m%#oiDijij@¨!&#&#IO21(()=§§ªD@@",
+                    )],
+                )
+            },
         }],
     };

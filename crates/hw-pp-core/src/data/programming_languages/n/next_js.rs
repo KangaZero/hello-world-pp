@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,21 @@ language_names! {
     versions: [NextJsJs => "Next.js (.js)", NextJsTsx => "Next.js (.tsx)"],
     extensions: [Tsx => "tsx"],
 }
+
+const NEXT_JS_JS: &str = concat!(
+    r"export default function Home() {
+  return <h1>",
+    output_for_hello_world!(),
+    r"</h1>;
+}"
+);
+const NEXT_JS_TSX: &str = concat!(
+    r"export default function Home(): JSX.Element {
+  return <h1>",
+    output_for_hello_world!(),
+    r"</h1>;
+}"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,62 +45,60 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::NextJsJs,
-                syntax: concat!(
-                    r"export default function Home() {
-  return <h1>",
-                    output_for_hello_world!(),
-                    r"</h1>;
-}"
-                ),
-                tokenized_syntax: &[
-                    (TokenKind::Keyword, r"export"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"default"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"function"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"Home"),
-                    (TokenKind::Punctuation, r"()"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                syntax: NEXT_JS_JS,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        NEXT_JS_JS,
+                        [
+                            (TokenKind::Keyword, r"export"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"default"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"function"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"Home"),
+                            (TokenKind::Punctuation, r"()"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
   ",
-                    ),
-                    (TokenKind::Keyword, r"return"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Keyword, r"<"),
-                    (TokenKind::Plain, r"h1"),
-                    (TokenKind::Keyword, r">"),
-                    (TokenKind::Plain, output_for_hello_world!()),
-                    (TokenKind::Keyword, r"<"),
-                    (
-                        TokenKind::String,
-                        r"/h1>;
+                            ),
+                            (TokenKind::Keyword, r"return"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Keyword, r"<"),
+                            (TokenKind::Plain, r"h1"),
+                            (TokenKind::Keyword, r">"),
+                            (TokenKind::Plain, output_for_hello_world!()),
+                            (TokenKind::Keyword, r"<"),
+                            (
+                                TokenKind::String,
+                                r"/h1>;
 }",
-                    ),
-                ],
+                            ),
+                        ],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::NextJsTsx,
-                syntax: concat!(
-                    r"export default function Home(): JSX.Element {
+                syntax: NEXT_JS_TSX,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        NEXT_JS_TSX,
+                        [(
+                            TokenKind::Plain,
+                            concat!(
+                                r"export default function Home(): JSX.Element {
   return <h1>",
-                    output_for_hello_world!(),
-                    r"</h1>;
+                                output_for_hello_world!(),
+                                r"</h1>;
 }"
-                ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r"export default function Home(): JSX.Element {
-  return <h1>",
-                        output_for_hello_world!(),
-                        r"</h1>;
-}"
-                    ),
-                )],
+                            ),
+                        )],
+                    )
+                },
             },
         ],
     };

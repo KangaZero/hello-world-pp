@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [Moo => "Moo"],
     extensions: [Moo => "moo"],
 }
+
+const MOO: &str = concat!(
+    r#"@program hello:run
+player:tell(""#,
+    output_for_hello_world!(),
+    r#"");
+."#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +37,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Moo,
-            syntax: concat!(
-                r#"@program hello:run
+            syntax: MOO,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MOO,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"@program hello:run
 player:tell(""#,
-                output_for_hello_world!(),
-                r#"");
+                            output_for_hello_world!(),
+                            r#"");
 ."#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"@program hello:run
-player:tell(""#,
-                    output_for_hello_world!(),
-                    r#"");
-."#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

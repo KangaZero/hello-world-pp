@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,16 @@ language_names! {
     versions: [Algobox => "Algobox"],
     extensions: [],
 }
+
+const ALGOBOX: &str = concat!(
+    r#"FONCTIONS_UTILISEES
+VARIABLES
+DEBUT_ALGORITHME
+  AFFICHER ""#,
+    output_for_hello_world!(),
+    r#""
+FIN_ALGORITHME"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,26 +39,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Algobox,
-            syntax: concat!(
-                r#"FONCTIONS_UTILISEES
+            syntax: ALGOBOX,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ALGOBOX,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"FONCTIONS_UTILISEES
 VARIABLES
 DEBUT_ALGORITHME
   AFFICHER ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 FIN_ALGORITHME"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"FONCTIONS_UTILISEES
-VARIABLES
-DEBUT_ALGORITHME
-  AFFICHER ""#,
-                    output_for_hello_world!(),
-                    r#""
-FIN_ALGORITHME"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

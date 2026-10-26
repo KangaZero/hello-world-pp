@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,9 @@ language_names! {
     versions: [U30c8U30eaU30c8U30eb => "ドリトル"],
     extensions: [Dtl => "dtl"],
 }
+
+const U30C8_U30EA_U30C8_U30EB: &str =
+    concat!(r#"ラベル！（""#, output_for_hello_world!(), r#""）作る。"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::U30c8U30eaU30c8U30eb,
-            syntax: concat!(r#"ラベル！（""#, output_for_hello_world!(), r#""）作る。"#),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r#"ラベル！（""#, output_for_hello_world!(), r#""）作る。"#),
-            )],
+            syntax: U30C8_U30EA_U30C8_U30EB,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    U30C8_U30EA_U30C8_U30EB,
+                    [(
+                        TokenKind::Plain,
+                        concat!(r#"ラベル！（""#, output_for_hello_world!(), r#""）作る。"#),
+                    )],
+                )
+            },
         }],
     };

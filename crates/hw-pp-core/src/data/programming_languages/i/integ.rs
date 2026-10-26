@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Integ => "Integ",
     versions: [Integ => "Integ"],
     extensions: [],
 }
+
+const INTEG: &str = r"](104)](101)](108)](108)](111)](44)](32)](119)](111)](114)](108)](100)](10)";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Integ,
-            syntax: r"](104)](101)](108)](108)](111)](44)](32)](119)](111)](114)](108)](100)](10)",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"](104)](101)](108)](108)](111)](44)](32)](119)](111)](114)](108)](100)](10)",
-            )],
+            syntax: INTEG,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    INTEG,
+                    [(
+                        TokenKind::Plain,
+                        r"](104)](101)](108)](108)](111)](44)](32)](119)](111)](114)](108)](100)](10)",
+                    )],
+                )
+            },
         }],
     };

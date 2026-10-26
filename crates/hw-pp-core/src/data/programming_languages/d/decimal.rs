@@ -10,13 +10,35 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Decimal => "Decimal",
     versions: [Decimal => "Decimal"],
     extensions: [Dec => "dec"],
 }
+
+const DECIMAL: &str = r" 13072101108108111044032087111114108100033010D301
+ ;13                                               push string
+ ;  072                                            'H'
+ ;     101                                         'e'
+ ;        108                                      'l'
+ ;           108                                   'l'
+ ;              111                                'o'
+ ;                 044                             ','
+ ;                    032                          ' '
+ ;                       087                       'W'
+ ;                          111                    'o'
+ ;                             114                 'r'
+ ;                                108              'l'
+ ;                                   100           'd'
+ ;                                      033        '!'
+ ;                                         010     '\n'
+ ;                                            D    end string
+ ;                                             301 print";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +48,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Decimal,
-            syntax: r" 13072101108108111044032087111114108100033010D301
+            syntax: DECIMAL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    DECIMAL,
+                    [(
+                        TokenKind::Plain,
+                        r" 13072101108108111044032087111114108100033010D301
  ;13                                               push string
  ;  072                                            'H'
  ;     101                                         'e'
@@ -44,26 +72,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
  ;                                         010     '\n'
  ;                                            D    end string
  ;                                             301 print",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r" 13072101108108111044032087111114108100033010D301
- ;13                                               push string
- ;  072                                            'H'
- ;     101                                         'e'
- ;        108                                      'l'
- ;           108                                   'l'
- ;              111                                'o'
- ;                 044                             ','
- ;                    032                          ' '
- ;                       087                       'W'
- ;                          111                    'o'
- ;                             114                 'r'
- ;                                108              'l'
- ;                                   100           'd'
- ;                                      033        '!'
- ;                                         010     '\n'
- ;                                            D    end string
- ;                                             301 print",
-            )],
+                    )],
+                )
+            },
         }],
     };

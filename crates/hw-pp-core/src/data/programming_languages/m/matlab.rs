@@ -9,7 +9,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -17,6 +17,8 @@ language_names! {
     versions: [Matlab => "MATLAB"],
     extensions: [M => "m"],
 }
+
+const MATLAB: &str = concat!(r"disp('", output_for_hello_world!(), r"')");
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,15 +28,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Matlab,
-            syntax: concat!(r"disp('", output_for_hello_world!(), r"')"),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, "disp"),
-                (TokenKind::Punctuation, "("),
-                (
-                    TokenKind::String,
-                    concat!("'", output_for_hello_world!(), "'"),
-                ),
-                (TokenKind::Punctuation, ")"),
-            ],
+            syntax: MATLAB,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MATLAB,
+                    [
+                        (TokenKind::Keyword, "disp"),
+                        (TokenKind::Punctuation, "("),
+                        (
+                            TokenKind::String,
+                            concat!("'", output_for_hello_world!(), "'"),
+                        ),
+                        (TokenKind::Punctuation, ")"),
+                    ],
+                )
+            },
         }],
     };

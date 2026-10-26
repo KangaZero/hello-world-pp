@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,17 @@ language_names! {
     versions: [IclScl => "ICL SCL"],
     extensions: [],
 }
+
+const ICL_SCL: &str = concat!(
+    r"@ ",
+    output_for_hello_world!(),
+    r#" IN ICL SCL
+BEGIN
+    SEND_MESSAGE(""#,
+    output_for_hello_world!(),
+    r#"")
+END"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,28 +41,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::IclScl,
-            syntax: concat!(
-                r"@ ",
-                output_for_hello_world!(),
-                r#" IN ICL SCL
+            syntax: ICL_SCL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ICL_SCL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"@ ",
+                            output_for_hello_world!(),
+                            r#" IN ICL SCL
 BEGIN
     SEND_MESSAGE(""#,
-                output_for_hello_world!(),
-                r#"")
+                            output_for_hello_world!(),
+                            r#"")
 END"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"@ ",
-                    output_for_hello_world!(),
-                    r#" IN ICL SCL
-BEGIN
-    SEND_MESSAGE(""#,
-                    output_for_hello_world!(),
-                    r#"")
-END"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

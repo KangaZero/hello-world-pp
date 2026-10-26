@@ -10,13 +10,49 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Dogo => "DOGO",
     versions: [Dogo => "DOGO"],
     extensions: [Dogo => "dogo"],
 }
+
+const DOGO: &str = r"roll-over roll-over heel roll-over roll-over roll-over roll-over heel heel heel 
+heel heel heel heel heel heel sit roll-over roll-over roll-over heel roll-over 
+roll-over roll-over heel heel heel heel heel heel heel heel roll-over roll-over 
+heel roll-over roll-over roll-over roll-over roll-over heel roll-over roll-over 
+roll-over roll-over roll-over stay roll-over roll-over roll-over heel roll-over 
+roll-over heel roll-over roll-over roll-over heel roll-over roll-over roll-over 
+roll-over heel heel heel heel heel heel heel sit roll-over roll-over roll-over 
+heel roll-over roll-over roll-over heel heel heel heel roll-over roll-over heel 
+roll-over roll-over roll-over roll-over roll-over heel roll-over roll-over 
+roll-over roll-over roll-over stay roll-over roll-over roll-over heel roll-over  
+roll-over roll-over heel roll-over roll-over roll-over roll-over roll-over heel 
+roll-over heel heel heel heel heel heel heel roll-over roll-over roll-over 
+roll-over roll-over heel heel roll-over heel heel heel roll-over roll-over 
+roll-over roll-over roll-over heel roll-over roll-over roll-over heel heel heel 
+roll-over roll-over roll-over roll-over heel heel heel heel heel heel heel heel 
+sit roll-over roll-over roll-over heel roll-over roll-over roll-over heel heel 
+heel heel roll-over roll-over heel roll-over roll-over roll-over roll-over 
+roll-over heel roll-over roll-over roll-over roll-over roll-over stay roll-over 
+roll-over roll-over heel roll-over roll-over heel roll-over roll-over roll-over 
+heel heel heel roll-over roll-over roll-over roll-over heel heel heel heel heel 
+heel heel heel heel heel sit roll-over roll-over roll-over heel roll-over 
+roll-over roll-over heel heel heel heel heel heel heel heel heel roll-over 
+roll-over heel roll-over roll-over roll-over roll-over roll-over heel roll-over 
+roll-over roll-over roll-over roll-over stay roll-over roll-over roll-over heel 
+roll-over roll-over roll-over roll-over heel heel heel roll-over roll-over 
+roll-over roll-over heel roll-over roll-over roll-over roll-over heel heel heel 
+heel roll-over roll-over heel roll-over heel heel heel roll-over roll-over 
+roll-over roll-over roll-over heel roll-over roll-over heel heel heel heel heel 
+heel roll-over roll-over roll-over roll-over heel roll-over roll-over heel heel 
+heel heel heel heel heel heel roll-over roll-over roll-over roll-over heel 
+roll-over roll-over roll-over heel heel roll-over roll-over roll-over roll-over 
+heel roll-over roll-over roll-over roll-over roll-over heel";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +62,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Dogo,
-            syntax: r"roll-over roll-over heel roll-over roll-over roll-over roll-over heel heel heel 
+            syntax: DOGO,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    DOGO,
+                    [(
+                        TokenKind::Plain,
+                        r"roll-over roll-over heel roll-over roll-over roll-over roll-over heel heel heel 
 heel heel heel heel heel heel sit roll-over roll-over roll-over heel roll-over 
 roll-over roll-over heel heel heel heel heel heel heel heel roll-over roll-over 
 heel roll-over roll-over roll-over roll-over roll-over heel roll-over roll-over 
@@ -58,40 +100,8 @@ heel roll-over roll-over roll-over roll-over heel roll-over roll-over heel heel
 heel heel heel heel heel heel roll-over roll-over roll-over roll-over heel 
 roll-over roll-over roll-over heel heel roll-over roll-over roll-over roll-over 
 heel roll-over roll-over roll-over roll-over roll-over heel",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"roll-over roll-over heel roll-over roll-over roll-over roll-over heel heel heel 
-heel heel heel heel heel heel sit roll-over roll-over roll-over heel roll-over 
-roll-over roll-over heel heel heel heel heel heel heel heel roll-over roll-over 
-heel roll-over roll-over roll-over roll-over roll-over heel roll-over roll-over 
-roll-over roll-over roll-over stay roll-over roll-over roll-over heel roll-over 
-roll-over heel roll-over roll-over roll-over heel roll-over roll-over roll-over 
-roll-over heel heel heel heel heel heel heel sit roll-over roll-over roll-over 
-heel roll-over roll-over roll-over heel heel heel heel roll-over roll-over heel 
-roll-over roll-over roll-over roll-over roll-over heel roll-over roll-over 
-roll-over roll-over roll-over stay roll-over roll-over roll-over heel roll-over  
-roll-over roll-over heel roll-over roll-over roll-over roll-over roll-over heel 
-roll-over heel heel heel heel heel heel heel roll-over roll-over roll-over 
-roll-over roll-over heel heel roll-over heel heel heel roll-over roll-over 
-roll-over roll-over roll-over heel roll-over roll-over roll-over heel heel heel 
-roll-over roll-over roll-over roll-over heel heel heel heel heel heel heel heel 
-sit roll-over roll-over roll-over heel roll-over roll-over roll-over heel heel 
-heel heel roll-over roll-over heel roll-over roll-over roll-over roll-over 
-roll-over heel roll-over roll-over roll-over roll-over roll-over stay roll-over 
-roll-over roll-over heel roll-over roll-over heel roll-over roll-over roll-over 
-heel heel heel roll-over roll-over roll-over roll-over heel heel heel heel heel 
-heel heel heel heel heel sit roll-over roll-over roll-over heel roll-over 
-roll-over roll-over heel heel heel heel heel heel heel heel heel roll-over 
-roll-over heel roll-over roll-over roll-over roll-over roll-over heel roll-over 
-roll-over roll-over roll-over roll-over stay roll-over roll-over roll-over heel 
-roll-over roll-over roll-over roll-over heel heel heel roll-over roll-over 
-roll-over roll-over heel roll-over roll-over roll-over roll-over heel heel heel 
-heel roll-over roll-over heel roll-over heel heel heel roll-over roll-over 
-roll-over roll-over roll-over heel roll-over roll-over heel heel heel heel heel 
-heel roll-over roll-over roll-over roll-over heel roll-over roll-over heel heel 
-heel heel heel heel heel heel roll-over roll-over roll-over roll-over heel 
-roll-over roll-over roll-over heel heel roll-over roll-over roll-over roll-over 
-heel roll-over roll-over roll-over roll-over roll-over heel",
-            )],
+                    )],
+                )
+            },
         }],
     };

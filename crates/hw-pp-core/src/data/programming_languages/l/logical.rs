@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Logical => "Logical",
     versions: [Logical => "Logical"],
     extensions: [],
 }
+
+const LOGICAL: &str = r"COMET DEFN !DLROW_,OLLEH";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +32,9 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Logical,
-            syntax: r"COMET DEFN !DLROW_,OLLEH",
-            tokenized_syntax: &[(TokenKind::Plain, r"COMET DEFN !DLROW_,OLLEH")],
+            syntax: LOGICAL,
+            tokenized_syntax: &const {
+                checked_token_lengths(LOGICAL, [(TokenKind::Plain, r"COMET DEFN !DLROW_,OLLEH")])
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,15 @@ language_names! {
     versions: [Brainrot => "Brainrot"],
     extensions: [Brainrot => "brainrot"],
 }
+
+const BRAINROT: &str = concat!(
+    r#"skibidi main {
+    yapping(""#,
+    output_for_hello_world!(),
+    r#"");
+    bussin 0;
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,24 +38,22 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Brainrot,
-            syntax: concat!(
-                r#"skibidi main {
+            syntax: BRAINROT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BRAINROT,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"skibidi main {
     yapping(""#,
-                output_for_hello_world!(),
-                r#"");
+                            output_for_hello_world!(),
+                            r#"");
     bussin 0;
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"skibidi main {
-    yapping(""#,
-                    output_for_hello_world!(),
-                    r#"");
-    bussin 0;
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,16 +21,8 @@ language_names! {
     extensions: [],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::Assembler8051,
-        extensions: &[],
-        categories: &[Assembly],
-        families: &[],
-        versions: &[ProgrammingLanguageVersion {
-            label: ProgrammingLanguageDialect::Assembler8051,
-            syntax: concat!(
-                r"ORG 00H
+const ASSEMBLER8051: &str = concat!(
+    r"ORG 00H
 SJMP INIT
 
 INIT:
@@ -56,203 +48,218 @@ DONE:
 
 ORG 20H
 DB '",
-                output_for_hello_world!(),
-                r"', 0
+    output_for_hello_world!(),
+    r"', 0
 
 END"
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"ORG"),
-                (
-                    TokenKind::Plain,
-                    r" 00H
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Assembler8051,
+        extensions: &[],
+        categories: &[Assembly],
+        families: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Assembler8051,
+            syntax: ASSEMBLER8051,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER8051,
+                    [
+                        (TokenKind::Keyword, r"ORG"),
+                        (
+                            TokenKind::Plain,
+                            r" 00H
 ",
-                ),
-                (TokenKind::Keyword, r"SJMP"),
-                (
-                    TokenKind::Plain,
-                    r" INIT
+                        ),
+                        (TokenKind::Keyword, r"SJMP"),
+                        (
+                            TokenKind::Plain,
+                            r" INIT
 
 INIT",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"; Timer1 as the UART1 buadrate generator",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"; Timer1 as the UART1 buadrate generator",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"MOV"),
-                (TokenKind::Plain, r" TMOD"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" #20H  "),
-                (TokenKind::Comment, r"; Timer1, 8-bit auto-reload mode"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"MOV"),
+                        (TokenKind::Plain, r" TMOD"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" #20H  "),
+                        (TokenKind::Comment, r"; Timer1, 8-bit auto-reload mode"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"MOV"),
-                (TokenKind::Plain, r" TH1"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"  #0FDH "),
-                (TokenKind::Comment, r"; 9600 baudrate at 11.0592MHz"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"MOV"),
+                        (TokenKind::Plain, r" TH1"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"  #0FDH "),
+                        (TokenKind::Comment, r"; 9600 baudrate at 11.0592MHz"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"MOV"),
-                (TokenKind::Plain, r" SCON"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" #50H  "),
-                (TokenKind::Comment, r"; Serial mode 1, enable reception"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"MOV"),
+                        (TokenKind::Plain, r" SCON"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" #50H  "),
+                        (TokenKind::Comment, r"; Serial mode 1, enable reception"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"SETB"),
-                (TokenKind::Plain, r" TR1        "),
-                (TokenKind::Comment, r"; Start Timer1"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"SETB"),
+                        (TokenKind::Plain, r" TR1        "),
+                        (TokenKind::Comment, r"; Start Timer1"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"MOV"),
-                (TokenKind::Plain, r" DPTR"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" #20H  "),
-                (
-                    TokenKind::Comment,
-                    r"; Point DPTR to the start of the string",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"MOV"),
+                        (TokenKind::Plain, r" DPTR"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" #20H  "),
+                        (
+                            TokenKind::Comment,
+                            r"; Point DPTR to the start of the string",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 SEND",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"CLR"),
-                (
-                    TokenKind::Plain,
-                    r" A
+                        ),
+                        (TokenKind::Keyword, r"CLR"),
+                        (
+                            TokenKind::Plain,
+                            r" A
         ",
-                ),
-                (TokenKind::Keyword, r"MOVC"),
-                (TokenKind::Plain, r" A"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" @A+DPTR "),
-                (TokenKind::Comment, r"; Get the next character"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"MOVC"),
+                        (TokenKind::Plain, r" A"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" @A+DPTR "),
+                        (TokenKind::Comment, r"; Get the next character"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"INC"),
-                (
-                    TokenKind::Plain,
-                    r" DPTR
+                        ),
+                        (TokenKind::Keyword, r"INC"),
+                        (
+                            TokenKind::Plain,
+                            r" DPTR
         ",
-                ),
-                (TokenKind::Keyword, r"JZ"),
-                (TokenKind::Plain, r" DONE         "),
-                (
-                    TokenKind::Comment,
-                    r"; End program if the character is null",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"JZ"),
+                        (TokenKind::Plain, r" DONE         "),
+                        (
+                            TokenKind::Comment,
+                            r"; End program if the character is null",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"MOV"),
-                (TokenKind::Plain, r" SBUF"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" A     "),
-                (TokenKind::Comment, r"; Send the character"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"MOV"),
+                        (TokenKind::Plain, r" SBUF"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" A     "),
+                        (TokenKind::Comment, r"; Send the character"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"JNB"),
-                (TokenKind::Plain, r" TI"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" $       "),
-                (TokenKind::Comment, r"; Wait for transmission to complete"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"JNB"),
+                        (TokenKind::Plain, r" TI"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" $       "),
+                        (TokenKind::Comment, r"; Wait for transmission to complete"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"CLR"),
-                (TokenKind::Plain, r" TI          "),
-                (TokenKind::Comment, r"; Clear TI flag"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"CLR"),
+                        (TokenKind::Plain, r" TI          "),
+                        (TokenKind::Comment, r"; Clear TI flag"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"SJMP"),
-                (
-                    TokenKind::Plain,
-                    r" SEND
+                        ),
+                        (TokenKind::Keyword, r"SJMP"),
+                        (
+                            TokenKind::Plain,
+                            r" SEND
 
 DONE",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"SJMP"),
-                (TokenKind::Plain, r" $          "),
-                (TokenKind::Comment, r"; Endless loop"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"SJMP"),
+                        (TokenKind::Plain, r" $          "),
+                        (TokenKind::Comment, r"; Endless loop"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"ORG"),
-                (
-                    TokenKind::Plain,
-                    r" 20H
+                        ),
+                        (TokenKind::Keyword, r"ORG"),
+                        (
+                            TokenKind::Plain,
+                            r" 20H
 ",
-                ),
-                (TokenKind::Keyword, r"DB"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r"'", output_for_hello_world!(), r"'"),
-                ),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"0"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DB"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r"'", output_for_hello_world!(), r"'"),
+                        ),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"0"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"END"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"END"),
+                    ],
+                )
+            },
         }],
     };

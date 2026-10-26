@@ -11,13 +11,19 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Enigma2d => "Enigma-2D",
     versions: [Enigma2d => "Enigma-2D"],
     extensions: [],
 }
+
+const ENIGMA2D: &str = r"  >+++++++++[<++++++++>-]<.>+++++++[<++++>-]<+.+++++++..+++.>>>++++++++[<++++>-]D
+                 .+>>.--------.------.+++.<<<<.---<]->+++++++++<[++++++++++>>>.<L";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,12 +33,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Enigma2d,
-            syntax: r"  >+++++++++[<++++++++>-]<.>+++++++[<++++>-]<+.+++++++..+++.>>>++++++++[<++++>-]D
+            syntax: ENIGMA2D,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ENIGMA2D,
+                    [(
+                        TokenKind::Plain,
+                        r"  >+++++++++[<++++++++>-]<.>+++++++[<++++>-]<+.+++++++..+++.>>>++++++++[<++++>-]D
                  .+>>.--------.------.+++.<<<<.---<]->+++++++++<[++++++++++>>>.<L",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"  >+++++++++[<++++++++>-]<.>+++++++[<++++>-]<+.+++++++..+++.>>>++++++++[<++++>-]D
-                 .+>>.--------.------.+++.<<<<.---<]->+++++++++<[++++++++++>>>.<L",
-            )],
+                    )],
+                )
+            },
         }],
     };

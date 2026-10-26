@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: LookBang => "Look!",
     versions: [LookBang => "Look!"],
     extensions: [],
 }
+
+const LOOK_BANG: &str = r"C D# C C D# D# D# D# B G D# D# C D# F# G# C C G D# C C G C C C G# C A A A A D C# G# C G# D# G# D G G C B A C# A D C# G G F G D D D F C C D# D# C D# C F F C C D# F G# G F A D F A F C C D# F D D D D D D F D D D D D D D D F G# G D# F G D# D# F";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::LookBang,
-            syntax: r"C D# C C D# D# D# D# B G D# D# C D# F# G# C C G D# C C G C C C G# C A A A A D C# G# C G# D# G# D G G C B A C# A D C# G G F G D D D F C C D# D# C D# C F F C C D# F G# G F A D F A F C C D# F D D D D D D F D D D D D D D D F G# G D# F G D# D# F",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"C D# C C D# D# D# D# B G D# D# C D# F# G# C C G D# C C G C C C G# C A A A A D C# G# C G# D# G# D G G C B A C# A D C# G G F G D D D F C C D# D# C D# C F F C C D# F G# G F A D F A F C C D# F D D D D D D F D D D D D D D D F G# G D# F G D# D# F",
-            )],
+            syntax: LOOK_BANG,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LOOK_BANG,
+                    [(
+                        TokenKind::Plain,
+                        r"C D# C C D# D# D# D# B G D# D# C D# F# G# C C G D# C C G C C C G# C A A A A D C# G# C G# D# G# D G G C B A C# A D C# G G F G D D D F C C D# D# C D# C F F C C D# F G# G F A D F A F C C D# F D D D D D D F D D D D D D D D F G# G D# F G D# D# F",
+                    )],
+                )
+            },
         }],
     };

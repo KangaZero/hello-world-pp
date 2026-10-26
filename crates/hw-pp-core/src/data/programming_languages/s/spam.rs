@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,14 @@ language_names! {
     versions: [Spam => "Spam"],
     extensions: [],
 }
+
+const SPAM: &str = concat!(
+    r#"I want to tell you a secret, please read line 2.
+Print ""#,
+    output_for_hello_world!(),
+    r#"", please read line 3.
+I just want to say, you are fooled."#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,22 +38,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Spam,
-            syntax: concat!(
-                r#"I want to tell you a secret, please read line 2.
+            syntax: SPAM,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SPAM,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"I want to tell you a secret, please read line 2.
 Print ""#,
-                output_for_hello_world!(),
-                r#"", please read line 3.
+                            output_for_hello_world!(),
+                            r#"", please read line 3.
 I just want to say, you are fooled."#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"I want to tell you a secret, please read line 2.
-Print ""#,
-                    output_for_hello_world!(),
-                    r#"", please read line 3.
-I just want to say, you are fooled."#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

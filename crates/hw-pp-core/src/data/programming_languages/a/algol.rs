@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,14 @@ language_names! {
     versions: [Algol60 => "ALGOL 60"],
     extensions: [Alg => "alg"],
 }
+
+const ALGOL60: &str = concat!(
+    r#"begin
+    outstring(1, ""#,
+    output_for_hello_world!(),
+    r#"\n")
+end"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,28 +38,27 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Algol],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Algol60,
-            syntax: concat!(
-                r#"begin
-    outstring(1, ""#,
-                output_for_hello_world!(),
-                r#"\n")
-end"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, "begin"),
-                (TokenKind::Plain, "\n    "),
-                (TokenKind::Function, "outstring"),
-                (TokenKind::Punctuation, "("),
-                (TokenKind::Number, "1"),
-                (TokenKind::Punctuation, ","),
-                (TokenKind::Plain, " "),
-                (
-                    TokenKind::String,
-                    concat!("\"", output_for_hello_world!(), r#"\n""#),
-                ),
-                (TokenKind::Punctuation, ")"),
-                (TokenKind::Plain, "\n"),
-                (TokenKind::Keyword, "end"),
-            ],
+            syntax: ALGOL60,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ALGOL60,
+                    [
+                        (TokenKind::Keyword, "begin"),
+                        (TokenKind::Plain, "\n    "),
+                        (TokenKind::Function, "outstring"),
+                        (TokenKind::Punctuation, "("),
+                        (TokenKind::Number, "1"),
+                        (TokenKind::Punctuation, ","),
+                        (TokenKind::Plain, " "),
+                        (
+                            TokenKind::String,
+                            concat!("\"", output_for_hello_world!(), r#"\n""#),
+                        ),
+                        (TokenKind::Punctuation, ")"),
+                        (TokenKind::Plain, "\n"),
+                        (TokenKind::Keyword, "end"),
+                    ],
+                )
+            },
         }],
     };

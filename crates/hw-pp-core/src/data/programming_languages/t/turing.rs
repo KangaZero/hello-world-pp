@@ -14,7 +14,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -22,6 +22,9 @@ language_names! {
     versions: [TuringOot => "Turing (.oot)", TuringT => "Turing (.t)"],
     extensions: [Oot => "oot"],
 }
+
+const TURING_OOT: &str = concat!(r#"put ""#, output_for_hello_world!(), r#"""#);
+const TURING_T: &str = concat!(r#"put ""#, output_for_hello_world!(), r#"""#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -32,27 +35,37 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::TuringOot,
-                syntax: concat!(r#"put ""#, output_for_hello_world!(), r#"""#),
-                tokenized_syntax: &[
-                    (TokenKind::Keyword, r"put"),
-                    (TokenKind::Plain, r" "),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                    ),
-                ],
+                syntax: TURING_OOT,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        TURING_OOT,
+                        [
+                            (TokenKind::Keyword, r"put"),
+                            (TokenKind::Plain, r" "),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                            ),
+                        ],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::TuringT,
-                syntax: concat!(r#"put ""#, output_for_hello_world!(), r#"""#),
-                tokenized_syntax: &[
-                    (TokenKind::Keyword, r"put"),
-                    (TokenKind::Plain, r" "),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                    ),
-                ],
+                syntax: TURING_T,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        TURING_T,
+                        [
+                            (TokenKind::Keyword, r"put"),
+                            (TokenKind::Plain, r" "),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                            ),
+                        ],
+                    )
+                },
             },
         ],
     };

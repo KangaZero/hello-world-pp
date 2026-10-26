@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,13 @@ language_names! {
     versions: [BcGnu => "BC GNU"],
     extensions: [],
 }
+
+const BC_GNU: &str = concat!(
+    r#"print ""#,
+    output_for_hello_world!(),
+    r#""
+quit"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,20 +36,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::BcGnu,
-            syntax: concat!(
-                r#"print ""#,
-                output_for_hello_world!(),
-                r#""
+            syntax: BC_GNU,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BC_GNU,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"print ""#,
+                            output_for_hello_world!(),
+                            r#""
 quit"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"print ""#,
-                    output_for_hello_world!(),
-                    r#""
-quit"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

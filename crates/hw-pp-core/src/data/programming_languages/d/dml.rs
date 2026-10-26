@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,18 @@ language_names! {
     versions: [Dml => "DML"],
     extensions: [],
 }
+
+const DML: &str = concat!(
+    r"! ",
+    output_for_hello_world!(),
+    r#" in DML (Gembase database language)
+
+PROCEDURE_FORM MAIN
+        PRINT/NOWAIT (""#,
+    output_for_hello_world!(),
+    r#"")
+END_FORM"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,30 +42,25 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Dml,
-            syntax: concat!(
-                r"! ",
-                output_for_hello_world!(),
-                r#" in DML (Gembase database language)
+            syntax: DML,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    DML,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"! ",
+                            output_for_hello_world!(),
+                            r#" in DML (Gembase database language)
 
 PROCEDURE_FORM MAIN
         PRINT/NOWAIT (""#,
-                output_for_hello_world!(),
-                r#"")
+                            output_for_hello_world!(),
+                            r#"")
 END_FORM"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"! ",
-                    output_for_hello_world!(),
-                    r#" in DML (Gembase database language)
-
-PROCEDURE_FORM MAIN
-        PRINT/NOWAIT (""#,
-                    output_for_hello_world!(),
-                    r#"")
-END_FORM"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

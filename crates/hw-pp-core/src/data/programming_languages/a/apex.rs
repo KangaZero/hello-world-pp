@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,16 @@ language_names! {
     versions: [Apex => "Apex"],
     extensions: [Cls => "cls"],
 }
+
+const APEX: &str = concat!(
+    r"global with sharing class HelloWorld {
+  global static void main() {
+    System.debug('",
+    output_for_hello_world!(),
+    r"');
+  }
+}"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,58 +39,55 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Apex,
-            syntax: concat!(
-                r"global with sharing class HelloWorld {
-  global static void main() {
-    System.debug('",
-                output_for_hello_world!(),
-                r"');
-  }
-}"
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Plain, r"global with sharing "),
-                (TokenKind::Type, r"class"),
-                (TokenKind::Plain, r" HelloWorld "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: APEX,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    APEX,
+                    [
+                        (TokenKind::Plain, r"global with sharing "),
+                        (TokenKind::Type, r"class"),
+                        (TokenKind::Plain, r" HelloWorld "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
   global ",
-                ),
-                (TokenKind::Keyword, r"static"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Type, r"void"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Function, r"main"),
-                (TokenKind::Punctuation, r"()"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"static"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Type, r"void"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Function, r"main"),
+                        (TokenKind::Punctuation, r"()"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
     System",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"debug"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r"'", output_for_hello_world!(), r"'"),
-                ),
-                (TokenKind::Punctuation, r");"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"debug"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r"'", output_for_hello_world!(), r"'"),
+                        ),
+                        (TokenKind::Punctuation, r");"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                    ],
+                )
+            },
         }],
     };

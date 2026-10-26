@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,18 @@ language_names! {
     versions: [Aime => "Aime"],
     extensions: [Aime => "aime"],
 }
+
+const AIME: &str = concat!(
+    r#"integer
+main(void)
+{
+    o_text(""#,
+    output_for_hello_world!(),
+    r#"\n");
+ 
+    return 0;
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,30 +41,25 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Aime,
-            syntax: concat!(
-                r#"integer
+            syntax: AIME,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    AIME,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"integer
 main(void)
 {
     o_text(""#,
-                output_for_hello_world!(),
-                r#"\n");
+                            output_for_hello_world!(),
+                            r#"\n");
  
     return 0;
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"integer
-main(void)
-{
-    o_text(""#,
-                    output_for_hello_world!(),
-                    r#"\n");
- 
-    return 0;
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

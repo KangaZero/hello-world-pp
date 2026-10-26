@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,16 @@ language_names! {
     versions: [MacromediaFlex => "Macromedia-Flex"],
     extensions: [],
 }
+
+const MACROMEDIA_FLEX: &str = concat!(
+    r#"<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.macromedia.com/2003/mxml">
+     <!-- Hello Word in Macromedia Flex -->
+     <mx:Label text=""#,
+    output_for_hello_world!(),
+    r#""/>
+</mx:Application>"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,62 +40,59 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::MacromediaFlex,
-            syntax: concat!(
-                r#"<?xml version="1.0" encoding="utf-8"?>
-<mx:Application xmlns:mx="http://www.macromedia.com/2003/mxml">
-     <!-- Hello Word in Macromedia Flex -->
-     <mx:Label text=""#,
-                output_for_hello_world!(),
-                r#""/>
-</mx:Application>"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"<"),
-                (TokenKind::Plain, r"?xml version="),
-                (TokenKind::String, r#""1.0""#),
-                (TokenKind::Plain, r" encoding="),
-                (TokenKind::String, r#""utf-8""#),
-                (TokenKind::Plain, r"?"),
-                (TokenKind::Keyword, r">"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: MACROMEDIA_FLEX,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MACROMEDIA_FLEX,
+                    [
+                        (TokenKind::Keyword, r"<"),
+                        (TokenKind::Plain, r"?xml version="),
+                        (TokenKind::String, r#""1.0""#),
+                        (TokenKind::Plain, r" encoding="),
+                        (TokenKind::String, r#""utf-8""#),
+                        (TokenKind::Plain, r"?"),
+                        (TokenKind::Keyword, r">"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"<mx:Application"),
-                (TokenKind::Plain, r" xmlns:mx="),
-                (
-                    TokenKind::String,
-                    r#""http://www.macromedia.com/2003/mxml""#,
-                ),
-                (TokenKind::Keyword, r">"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"<mx:Application"),
+                        (TokenKind::Plain, r" xmlns:mx="),
+                        (
+                            TokenKind::String,
+                            r#""http://www.macromedia.com/2003/mxml""#,
+                        ),
+                        (TokenKind::Keyword, r">"),
+                        (
+                            TokenKind::Plain,
+                            r"
      ",
-                ),
-                (
-                    TokenKind::Comment,
-                    r"<!-- Hello Word in Macromedia Flex -->",
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::Comment,
+                            r"<!-- Hello Word in Macromedia Flex -->",
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
      ",
-                ),
-                (TokenKind::Keyword, r"<mx:Label"),
-                (TokenKind::Plain, r" text="),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Keyword, r"/>"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"<mx:Label"),
+                        (TokenKind::Plain, r" text="),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Keyword, r"/>"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"</mx:Application>"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"</mx:Application>"),
+                    ],
+                )
+            },
         }],
     };

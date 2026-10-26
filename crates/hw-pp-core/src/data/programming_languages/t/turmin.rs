@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Turmin => "Turmin",
     versions: [Turmin => "Turmin"],
     extensions: [],
 }
+
+const TURMIN: &str = r"sHrserslrslrsors,rs rsWrsorsrrslrsdrs!";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +32,12 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Turmin,
-            syntax: r"sHrserslrslrsors,rs rsWrsorsrrslrsdrs!",
-            tokenized_syntax: &[(TokenKind::Plain, r"sHrserslrslrsors,rs rsWrsorsrrslrsdrs!")],
+            syntax: TURMIN,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    TURMIN,
+                    [(TokenKind::Plain, r"sHrserslrslrsors,rs rsWrsorsrrslrsdrs!")],
+                )
+            },
         }],
     };

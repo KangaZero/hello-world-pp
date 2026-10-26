@@ -17,7 +17,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -25,6 +25,23 @@ language_names! {
     versions: [Ats2 => "ATS2", Ats => "ATS"],
     extensions: [Dats => "dats"],
 }
+
+const ATS2: &str = concat!(
+    r#"implement main0 () = println! ""#,
+    output_for_hello_world!(),
+    r#"""#
+);
+const ATS: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r#" in ATS
+
+implement main () = begin
+  print (""#,
+    output_for_hello_world!(),
+    r#""); print_newline ()
+end"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -35,75 +52,71 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Ats2,
-                syntax: concat!(
-                    r#"implement main0 () = println! ""#,
-                    output_for_hello_world!(),
-                    r#"""#
-                ),
-                tokenized_syntax: &[
-                    (TokenKind::Plain, r"implement "),
-                    (TokenKind::Function, r"main0"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Punctuation, r"()"),
-                    (TokenKind::Plain, r" = "),
-                    (TokenKind::Function, r"println"),
-                    (TokenKind::Plain, r"! "),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                    ),
-                ],
+                syntax: ATS2,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        ATS2,
+                        [
+                            (TokenKind::Plain, r"implement "),
+                            (TokenKind::Function, r"main0"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Punctuation, r"()"),
+                            (TokenKind::Plain, r" = "),
+                            (TokenKind::Function, r"println"),
+                            (TokenKind::Plain, r"! "),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                            ),
+                        ],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Ats,
-                syntax: concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r#" in ATS
-
-implement main () = begin
-  print (""#,
-                    output_for_hello_world!(),
-                    r#""); print_newline ()
-end"#
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        concat!(r"// ", output_for_hello_world!(), r" in ATS"),
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r"
+                syntax: ATS,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        ATS,
+                        [
+                            (
+                                TokenKind::Comment,
+                                concat!(r"// ", output_for_hello_world!(), r" in ATS"),
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r"
 
 implement ",
-                    ),
-                    (TokenKind::Function, r"main"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Punctuation, r"()"),
-                    (
-                        TokenKind::Plain,
-                        r" = begin
+                            ),
+                            (TokenKind::Function, r"main"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Punctuation, r"()"),
+                            (
+                                TokenKind::Plain,
+                                r" = begin
   ",
-                    ),
-                    (TokenKind::Function, r"print"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Punctuation, r"("),
-                    (
-                        TokenKind::String,
-                        concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                    ),
-                    (TokenKind::Punctuation, r");"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"print_newline"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Punctuation, r"()"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Function, r"print"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Punctuation, r"("),
+                            (
+                                TokenKind::String,
+                                concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                            ),
+                            (TokenKind::Punctuation, r");"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"print_newline"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Punctuation, r"()"),
+                            (
+                                TokenKind::Plain,
+                                r"
 end",
-                    ),
-                ],
+                            ),
+                        ],
+                    )
+                },
             },
         ],
     };

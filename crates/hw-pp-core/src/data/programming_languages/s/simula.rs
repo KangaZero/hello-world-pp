@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,15 @@ language_names! {
     versions: [Simula => "Simula"],
     extensions: [Sim => "sim"],
 }
+
+const SIMULA: &str = concat!(
+    r#"Begin
+   OutText (""#,
+    output_for_hello_world!(),
+    r#"");
+   Outimage;
+End;"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,24 +39,22 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Simula,
-            syntax: concat!(
-                r#"Begin
+            syntax: SIMULA,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SIMULA,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"Begin
    OutText (""#,
-                output_for_hello_world!(),
-                r#"");
+                            output_for_hello_world!(),
+                            r#"");
    Outimage;
 End;"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"Begin
-   OutText (""#,
-                    output_for_hello_world!(),
-                    r#"");
-   Outimage;
-End;"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

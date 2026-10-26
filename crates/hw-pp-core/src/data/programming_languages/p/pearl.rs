@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,29 @@ language_names! {
     versions: [Pearl => "PEARL"],
     extensions: [],
 }
+
+const PEARL: &str = concat!(
+    r"MODULE (HELLO);
+/* ",
+    output_for_hello_world!(),
+    r" in PEARL (Process and Experiment Automation Realtime Language) */
+  SYSTEM;
+   TERMINAL:DIS<->SDVLS(2);
+  PROBLEM;
+   SPC TERMINAL DATION INOUT
+         ALPHIC DIM(,) TFU MAX
+         FORWARD CONTROL (ALL);
+   MAIN:TASK;
+     DCL TEXT INV CHAR(30)
+          INIT('",
+    output_for_hello_world!(),
+    r"');
+    OPEN TERMINAL;
+    PUT TEXT TO TERMINAL;
+    CLOSE TERMINAL;
+   END;
+MODEND;"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,11 +53,17 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Pearl,
-            syntax: concat!(
-                r"MODULE (HELLO);
+            syntax: PEARL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PEARL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"MODULE (HELLO);
 /* ",
-                output_for_hello_world!(),
-                r" in PEARL (Process and Experiment Automation Realtime Language) */
+                            output_for_hello_world!(),
+                            r" in PEARL (Process and Experiment Automation Realtime Language) */
   SYSTEM;
    TERMINAL:DIS<->SDVLS(2);
   PROBLEM;
@@ -44,38 +73,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
    MAIN:TASK;
      DCL TEXT INV CHAR(30)
           INIT('",
-                output_for_hello_world!(),
-                r"');
+                            output_for_hello_world!(),
+                            r"');
     OPEN TERMINAL;
     PUT TEXT TO TERMINAL;
     CLOSE TERMINAL;
    END;
 MODEND;"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"MODULE (HELLO);
-/* ",
-                    output_for_hello_world!(),
-                    r" in PEARL (Process and Experiment Automation Realtime Language) */
-  SYSTEM;
-   TERMINAL:DIS<->SDVLS(2);
-  PROBLEM;
-   SPC TERMINAL DATION INOUT
-         ALPHIC DIM(,) TFU MAX
-         FORWARD CONTROL (ALL);
-   MAIN:TASK;
-     DCL TEXT INV CHAR(30)
-          INIT('",
-                    output_for_hello_world!(),
-                    r"');
-    OPEN TERMINAL;
-    PUT TEXT TO TERMINAL;
-    CLOSE TERMINAL;
-   END;
-MODEND;"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

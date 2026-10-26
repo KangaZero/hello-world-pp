@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,17 @@ language_names! {
     versions: [Acpi => "Acpi"],
     extensions: [],
 }
+
+const ACPI: &str = concat!(
+    r#"Scope(\) {
+	Method(_WAK) {
+		Store (""#,
+    output_for_hello_world!(),
+    r#"", Debug)
+		Return(Package(2){0x00000000,0})
+	}	
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,28 +40,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Acpi,
-            syntax: concat!(
-                r#"Scope(\) {
+            syntax: ACPI,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ACPI,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"Scope(\) {
 	Method(_WAK) {
 		Store (""#,
-                output_for_hello_world!(),
-                r#"", Debug)
+                            output_for_hello_world!(),
+                            r#"", Debug)
 		Return(Package(2){0x00000000,0})
 	}	
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"Scope(\) {
-	Method(_WAK) {
-		Store (""#,
-                    output_for_hello_world!(),
-                    r#"", Debug)
-		Return(Package(2){0x00000000,0})
-	}	
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

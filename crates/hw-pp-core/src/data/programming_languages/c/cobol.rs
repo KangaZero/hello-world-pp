@@ -11,7 +11,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -19,6 +19,16 @@ language_names! {
     versions: [Cobol85 => "COBOL 85"],
     extensions: [Cob => "cob", Cbl => "cbl"],
 }
+
+const COBOL85: &str = concat!(
+    r#"       IDENTIFICATION DIVISION.
+       PROGRAM-ID. HELLO.
+       PROCEDURE DIVISION.
+           DISPLAY ""#,
+    output_for_hello_world!(),
+    r#"".
+           STOP RUN."#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -28,38 +38,35 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cobol85,
-            syntax: concat!(
-                r#"       IDENTIFICATION DIVISION.
-       PROGRAM-ID. HELLO.
-       PROCEDURE DIVISION.
-           DISPLAY ""#,
-                output_for_hello_world!(),
-                r#"".
-           STOP RUN."#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Plain, "       "),
-                (TokenKind::Keyword, "IDENTIFICATION DIVISION"),
-                (TokenKind::Punctuation, "."),
-                (TokenKind::Plain, "\n       "),
-                (TokenKind::Keyword, "PROGRAM-ID"),
-                (TokenKind::Punctuation, "."),
-                (TokenKind::Plain, " HELLO"),
-                (TokenKind::Punctuation, "."),
-                (TokenKind::Plain, "\n       "),
-                (TokenKind::Keyword, "PROCEDURE DIVISION"),
-                (TokenKind::Punctuation, "."),
-                (TokenKind::Plain, "\n           "),
-                (TokenKind::Keyword, "DISPLAY"),
-                (TokenKind::Plain, " "),
-                (
-                    TokenKind::String,
-                    concat!("\"", output_for_hello_world!(), "\""),
-                ),
-                (TokenKind::Punctuation, "."),
-                (TokenKind::Plain, "\n           "),
-                (TokenKind::Keyword, "STOP RUN"),
-                (TokenKind::Punctuation, "."),
-            ],
+            syntax: COBOL85,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    COBOL85,
+                    [
+                        (TokenKind::Plain, "       "),
+                        (TokenKind::Keyword, "IDENTIFICATION DIVISION"),
+                        (TokenKind::Punctuation, "."),
+                        (TokenKind::Plain, "\n       "),
+                        (TokenKind::Keyword, "PROGRAM-ID"),
+                        (TokenKind::Punctuation, "."),
+                        (TokenKind::Plain, " HELLO"),
+                        (TokenKind::Punctuation, "."),
+                        (TokenKind::Plain, "\n       "),
+                        (TokenKind::Keyword, "PROCEDURE DIVISION"),
+                        (TokenKind::Punctuation, "."),
+                        (TokenKind::Plain, "\n           "),
+                        (TokenKind::Keyword, "DISPLAY"),
+                        (TokenKind::Plain, " "),
+                        (
+                            TokenKind::String,
+                            concat!("\"", output_for_hello_world!(), "\""),
+                        ),
+                        (TokenKind::Punctuation, "."),
+                        (TokenKind::Plain, "\n           "),
+                        (TokenKind::Keyword, "STOP RUN"),
+                        (TokenKind::Punctuation, "."),
+                    ],
+                )
+            },
         }],
     };

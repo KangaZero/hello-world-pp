@@ -11,13 +11,42 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Spiral => "Spiral",
     versions: [Spiral => "Spiral"],
     extensions: [],
 }
+
+const SPIRAL: &str = r"e0v ***   *eXlv**   *lX      *2X       **oXi
+v * * *   *     *   * 2      * o      **   v*
+* * * *   * *****   * v      * v      * *iX *
+* * * *   * *       * ^      v *      * * w *
+* *** *   * *****   * v      * *      * * v *
+*     *   *     ^   * ^      * *      * * * *
+* *** *   * ****v   * v      * *      v * * *
+* * * *   * *       * *      * *      ^ * * *
+* * * *   * *****   * *****  * *****  * *** *
+* * * *   *     *   *     *  *     *  **   **
+*** ***   *******   *****v^  *******   *****
+
+
+*wX ***    **3Xp    *rX4..   d5*      qd**  
+* 3 * *   **   v^   *    ..  * *      *  ***
+* v * ^   * #pX v   * ..  .  * *      *    **
+* *** v   * # r #   * ..  .  * *      * !q* *
+* * * *   * # v #   * 54 ..  * *      * * * *
+* * * *   * # * #   *   @X   * *      * * * *
+* * * *   * # * #   *   v    * *      * * * *
+* * * *   * # * #   * * **   * *      * * * *
+*  *  *   * # * #   * ** **  * *      * *** *
+*  *  *   * #v* ^   * *** *  * *****  *    **
+** * **   **   *v   * * * *  *     *  *  ***
+ *****     *v^**    *** ***  *******  **** ";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +56,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Spiral,
-            syntax: r"e0v ***   *eXlv**   *lX      *2X       **oXi
+            syntax: SPIRAL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SPIRAL,
+                    [(
+                        TokenKind::Plain,
+                        r"e0v ***   *eXlv**   *lX      *2X       **oXi
 v * * *   *     *   * 2      * o      **   v*
 * * * *   * *****   * v      * v      * *iX *
 * * * *   * *       * ^      v *      * * w *
@@ -52,33 +87,8 @@ v * * *   *     *   * 2      * o      **   v*
 *  *  *   * #v* ^   * *** *  * *****  *    **
 ** * **   **   *v   * * * *  *     *  *  ***
  *****     *v^**    *** ***  *******  **** ",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"e0v ***   *eXlv**   *lX      *2X       **oXi
-v * * *   *     *   * 2      * o      **   v*
-* * * *   * *****   * v      * v      * *iX *
-* * * *   * *       * ^      v *      * * w *
-* *** *   * *****   * v      * *      * * v *
-*     *   *     ^   * ^      * *      * * * *
-* *** *   * ****v   * v      * *      v * * *
-* * * *   * *       * *      * *      ^ * * *
-* * * *   * *****   * *****  * *****  * *** *
-* * * *   *     *   *     *  *     *  **   **
-*** ***   *******   *****v^  *******   *****
-
-
-*wX ***    **3Xp    *rX4..   d5*      qd**  
-* 3 * *   **   v^   *    ..  * *      *  ***
-* v * ^   * #pX v   * ..  .  * *      *    **
-* *** v   * # r #   * ..  .  * *      * !q* *
-* * * *   * # v #   * 54 ..  * *      * * * *
-* * * *   * # * #   *   @X   * *      * * * *
-* * * *   * # * #   *   v    * *      * * * *
-* * * *   * # * #   * * **   * *      * * * *
-*  *  *   * # * #   * ** **  * *      * *** *
-*  *  *   * #v* ^   * *** *  * *****  *    **
-** * **   **   *v   * * * *  *     *  *  ***
- *****     *v^**    *** ***  *******  **** ",
-            )],
+                    )],
+                )
+            },
         }],
     };

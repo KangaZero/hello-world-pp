@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,8 @@ language_names! {
     versions: [GibberishSlashJavascript => "Gibberish/JavaScript"],
     extensions: [],
 }
+
+const GIBBERISH_SLASH_JAVASCRIPT: &str = concat!(r"${echo:", output_for_hello_world!(), r"}");
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::GibberishSlashJavascript,
-            syntax: concat!(r"${echo:", output_for_hello_world!(), r"}"),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r"${echo:", output_for_hello_world!(), r"}"),
-            )],
+            syntax: GIBBERISH_SLASH_JAVASCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    GIBBERISH_SLASH_JAVASCRIPT,
+                    [(
+                        TokenKind::Plain,
+                        concat!(r"${echo:", output_for_hello_world!(), r"}"),
+                    )],
+                )
+            },
         }],
     };

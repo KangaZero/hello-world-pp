@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,8 @@ language_names! {
     versions: [Kinx => "Kinx"],
     extensions: [Kx => "kx"],
 }
+
+const KINX: &str = concat!(r#"System.println(""#, output_for_hello_world!(), r#"");"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,17 +31,22 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Kinx,
-            syntax: concat!(r#"System.println(""#, output_for_hello_world!(), r#"");"#),
-            tokenized_syntax: &[
-                (TokenKind::Plain, r"System"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"println"),
-                (TokenKind::Punctuation, r"("),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r");"),
-            ],
+            syntax: KINX,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    KINX,
+                    [
+                        (TokenKind::Plain, r"System"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"println"),
+                        (TokenKind::Punctuation, r"("),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r");"),
+                    ],
+                )
+            },
         }],
     };

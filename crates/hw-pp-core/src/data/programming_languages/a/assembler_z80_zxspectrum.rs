@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,16 +21,8 @@ language_names! {
     extensions: [],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::AssemblerZ80Zxspectrum,
-        extensions: &[],
-        categories: &[Assembly],
-        families: &[],
-        versions: &[ProgrammingLanguageVersion {
-            label: ProgrammingLanguageDialect::AssemblerZ80Zxspectrum,
-            syntax: concat!(
-                r#"org $6000
+const ASSEMBLER_Z80_ZXSPECTRUM: &str = concat!(
+    r#"org $6000
 	ld bc, STRING
 	ld de, SCR
 
@@ -50,144 +42,159 @@ SCR equ 16384
 
 STRING
 	defb ""#,
-                output_for_hello_world!(),
-                r#""
+    output_for_hello_world!(),
+    r#""
 	defb 13, 0"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"org"),
-                (TokenKind::Plain, r" $"),
-                (TokenKind::Number, r"6000"),
-                (
-                    TokenKind::Plain,
-                    r"
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::AssemblerZ80Zxspectrum,
+        extensions: &[],
+        categories: &[Assembly],
+        families: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::AssemblerZ80Zxspectrum,
+            syntax: ASSEMBLER_Z80_ZXSPECTRUM,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_Z80_ZXSPECTRUM,
+                    [
+                        (TokenKind::Keyword, r"org"),
+                        (TokenKind::Plain, r" $"),
+                        (TokenKind::Number, r"6000"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	",
-                ),
-                (TokenKind::Keyword, r"ld"),
-                (TokenKind::Plain, r" bc"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Keyword, r"STRING"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"ld"),
+                        (TokenKind::Plain, r" bc"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Keyword, r"STRING"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	",
-                ),
-                (TokenKind::Keyword, r"ld"),
-                (TokenKind::Plain, r" de"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r" SCR
+                        ),
+                        (TokenKind::Keyword, r"ld"),
+                        (TokenKind::Plain, r" de"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r" SCR
 
 ",
-                ),
-                (TokenKind::Keyword, r"LOOP"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"LOOP"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	",
-                ),
-                (TokenKind::Keyword, r"ld"),
-                (TokenKind::Plain, r" a"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"bc"),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"ld"),
+                        (TokenKind::Plain, r" a"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"bc"),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	",
-                ),
-                (TokenKind::Keyword, r"cp"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"0"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"cp"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"0"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	",
-                ),
-                (TokenKind::Keyword, r"jr"),
-                (TokenKind::Plain, r" z"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r" EXIT
+                        ),
+                        (TokenKind::Keyword, r"jr"),
+                        (TokenKind::Plain, r" z"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r" EXIT
 	",
-                ),
-                (TokenKind::Keyword, r"rst"),
-                (TokenKind::Plain, r" $"),
-                (TokenKind::Number, r"10"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"rst"),
+                        (TokenKind::Plain, r" $"),
+                        (TokenKind::Number, r"10"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	",
-                ),
-                (TokenKind::Keyword, r"inc"),
-                (
-                    TokenKind::Plain,
-                    r" bc
+                        ),
+                        (TokenKind::Keyword, r"inc"),
+                        (
+                            TokenKind::Plain,
+                            r" bc
 	",
-                ),
-                (TokenKind::Keyword, r"inc"),
-                (
-                    TokenKind::Plain,
-                    r" de
+                        ),
+                        (TokenKind::Keyword, r"inc"),
+                        (
+                            TokenKind::Plain,
+                            r" de
 	",
-                ),
-                (TokenKind::Keyword, r"jr"),
-                (
-                    TokenKind::Plain,
-                    r" LOOP
+                        ),
+                        (TokenKind::Keyword, r"jr"),
+                        (
+                            TokenKind::Plain,
+                            r" LOOP
 
 ",
-                ),
-                (TokenKind::Keyword, r"EXIT"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"EXIT"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	",
-                ),
-                (TokenKind::Keyword, r"ret"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"ret"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	
 SCR ",
-                ),
-                (TokenKind::Keyword, r"equ"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"16384"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"equ"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"16384"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"STRING"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"STRING"),
+                        (
+                            TokenKind::Plain,
+                            r"
 	",
-                ),
-                (TokenKind::Keyword, r"defb"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"defb"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 	",
-                ),
-                (TokenKind::Keyword, r"defb"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"13"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Number, r"0"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"defb"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"13"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Number, r"0"),
+                    ],
+                )
+            },
         }],
     };

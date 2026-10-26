@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,21 @@ language_names! {
     versions: [Coral66 => "Coral 66"],
     extensions: [],
 }
+
+const CORAL66: &str = concat!(
+    r#"'external' (
+   'procedure' write (
+      'value''integer', 'byte''array', 'value''integer');
+)
+
+'begin'
+   'byte''array' Buf [1:12] := ""#,
+    output_for_hello_world!(),
+    r#"", 10;
+
+   write (1, Buf, 12);
+'end'"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,36 +45,28 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Coral66,
-            syntax: concat!(
-                r#"'external' (
+            syntax: CORAL66,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CORAL66,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"'external' (
    'procedure' write (
       'value''integer', 'byte''array', 'value''integer');
 )
 
 'begin'
    'byte''array' Buf [1:12] := ""#,
-                output_for_hello_world!(),
-                r#"", 10;
+                            output_for_hello_world!(),
+                            r#"", 10;
 
    write (1, Buf, 12);
 'end'"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"'external' (
-   'procedure' write (
-      'value''integer', 'byte''array', 'value''integer');
-)
-
-'begin'
-   'byte''array' Buf [1:12] := ""#,
-                    output_for_hello_world!(),
-                    r#"", 10;
-
-   write (1, Buf, 12);
-'end'"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

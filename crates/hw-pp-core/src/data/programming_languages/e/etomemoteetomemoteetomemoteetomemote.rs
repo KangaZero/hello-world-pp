@@ -11,13 +11,127 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Etomemoteetomemoteetomemoteetomemote => "EtomemoteetomemoteetomemoteetomemotE",
     versions: [Etomemoteetomemoteetomemoteetomemote => "EtomemoteetomemoteetomemoteetomemotE"],
     extensions: [],
 }
+
+const ETOMEMOTEETOMEMOTEETOMEMOTEETOMEMOTE: &str = r"clear;
+move forwards; 
+flip bit; 
+move forwards; 
+move forwards;  
+move forwards; 
+flip bit; 
+move forwards; 
+move forwards; 
+move forwards; 
+move forwards; 
+flip copy; 
+move forwards; 
+move forwards; 
+move forwards; 
+flip bit; 
+move forwards; 
+flip bit; 
+move forwards;
+move forwards; 
+flip copy; 
+move forwards; 
+move forwards; 
+flip copy; 
+move forwards; 
+move forwards; 
+move forwards; 
+move forwards;
+move forwards; 
+flip copy; 
+move forwards; 
+move forwards; 
+flip copy; 
+move forwards; 
+move forwards; 
+move forwards;  
+move forwards;
+move forwards; 
+flip copy; 
+move forwards; 
+move forwards; 
+flip copy; 
+move forwards; 
+flip bit; 
+move forwards; 
+flip bit; 
+move forwards; 
+flip bit; 
+move forwards;
+move forwards; 
+move forwards; 
+flip bit; 
+move forwards; 
+move forwards; 
+move forwards; 
+move forwards; 
+move forwards;
+move forwards; 
+flip bit; 
+move forwards; 
+flip bit; 
+move forwards; 
+flip copy; 
+move forwards; 
+flip bit; 
+move forwards;
+move forwards; 
+flip copy; 
+move forwards; 
+move forwards; 
+move forwards; 
+flip copy; 
+move forwards; 
+flip bit; 
+move forwards; 
+flip bit; 
+move forwards; 
+flip bit; 
+move forwards;
+move forwards; 
+flip copy; 
+move forwards; 
+flip bit; 
+move forwards; 
+move forwards; 
+move forwards; 
+flip bit; 
+move forwards; 
+move forwards;
+move forwards; 
+flip bit; 
+move forwards; 
+move forwards; 
+move forwards; 
+flip bit; 
+move forwards; 
+move forwards; 
+move forwards; 
+move forwards;
+move forwards; 
+flip copy; 
+move forwards; 
+move forwards; 
+move forwards; 
+move forwards; 
+flip bit; 
+move forwards; 
+move forwards;
+print;
+end;";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +141,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Etomemoteetomemoteetomemoteetomemote,
-            syntax: r"clear;
+            syntax: ETOMEMOTEETOMEMOTEETOMEMOTEETOMEMOTE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ETOMEMOTEETOMEMOTEETOMEMOTEETOMEMOTE,
+                    [(
+                        TokenKind::Plain,
+                        r"clear;
 move forwards; 
 flip bit; 
 move forwards; 
@@ -137,118 +257,8 @@ move forwards;
 move forwards;
 print;
 end;",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"clear;
-move forwards; 
-flip bit; 
-move forwards; 
-move forwards;  
-move forwards; 
-flip bit; 
-move forwards; 
-move forwards; 
-move forwards; 
-move forwards; 
-flip copy; 
-move forwards; 
-move forwards; 
-move forwards; 
-flip bit; 
-move forwards; 
-flip bit; 
-move forwards;
-move forwards; 
-flip copy; 
-move forwards; 
-move forwards; 
-flip copy; 
-move forwards; 
-move forwards; 
-move forwards; 
-move forwards;
-move forwards; 
-flip copy; 
-move forwards; 
-move forwards; 
-flip copy; 
-move forwards; 
-move forwards; 
-move forwards;  
-move forwards;
-move forwards; 
-flip copy; 
-move forwards; 
-move forwards; 
-flip copy; 
-move forwards; 
-flip bit; 
-move forwards; 
-flip bit; 
-move forwards; 
-flip bit; 
-move forwards;
-move forwards; 
-move forwards; 
-flip bit; 
-move forwards; 
-move forwards; 
-move forwards; 
-move forwards; 
-move forwards;
-move forwards; 
-flip bit; 
-move forwards; 
-flip bit; 
-move forwards; 
-flip copy; 
-move forwards; 
-flip bit; 
-move forwards;
-move forwards; 
-flip copy; 
-move forwards; 
-move forwards; 
-move forwards; 
-flip copy; 
-move forwards; 
-flip bit; 
-move forwards; 
-flip bit; 
-move forwards; 
-flip bit; 
-move forwards;
-move forwards; 
-flip copy; 
-move forwards; 
-flip bit; 
-move forwards; 
-move forwards; 
-move forwards; 
-flip bit; 
-move forwards; 
-move forwards;
-move forwards; 
-flip bit; 
-move forwards; 
-move forwards; 
-move forwards; 
-flip bit; 
-move forwards; 
-move forwards; 
-move forwards; 
-move forwards;
-move forwards; 
-flip copy; 
-move forwards; 
-move forwards; 
-move forwards; 
-move forwards; 
-flip bit; 
-move forwards; 
-move forwards;
-print;
-end;",
-            )],
+                    )],
+                )
+            },
         }],
     };

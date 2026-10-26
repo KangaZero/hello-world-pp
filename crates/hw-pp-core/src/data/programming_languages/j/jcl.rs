@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,23 @@ language_names! {
     versions: [Jcl => "JCL"],
     extensions: [],
 }
+
+const JCL: &str = concat!(
+    r"//HERIB    JOB  ,'HERIBERT OTTEN',PRTY=12
+//* ",
+    output_for_hello_world!(),
+    r" FOR MVS            
+ //HALLO    EXEC PGM=IEBGENER       
+ //SYSIN    DD DUMMY                
+ //SYSPRINT DD SYSOUT=*             
+ //SYSUT2   DD SYSOUT=T             
+ //SYSUT1   DD *                    
+ ",
+    output_for_hello_world!(),
+    r"                       
+ /*                                 
+ //    "
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,40 +47,30 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Jcl,
-            syntax: concat!(
-                r"//HERIB    JOB  ,'HERIBERT OTTEN',PRTY=12
+            syntax: JCL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    JCL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"//HERIB    JOB  ,'HERIBERT OTTEN',PRTY=12
 //* ",
-                output_for_hello_world!(),
-                r" FOR MVS            
+                            output_for_hello_world!(),
+                            r" FOR MVS            
  //HALLO    EXEC PGM=IEBGENER       
  //SYSIN    DD DUMMY                
  //SYSPRINT DD SYSOUT=*             
  //SYSUT2   DD SYSOUT=T             
  //SYSUT1   DD *                    
  ",
-                output_for_hello_world!(),
-                r"                       
+                            output_for_hello_world!(),
+                            r"                       
  /*                                 
  //    "
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"//HERIB    JOB  ,'HERIBERT OTTEN',PRTY=12
-//* ",
-                    output_for_hello_world!(),
-                    r" FOR MVS            
- //HALLO    EXEC PGM=IEBGENER       
- //SYSIN    DD DUMMY                
- //SYSPRINT DD SYSOUT=*             
- //SYSUT2   DD SYSOUT=T             
- //SYSUT1   DD *                    
- ",
-                    output_for_hello_world!(),
-                    r"                       
- /*                                 
- //    "
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

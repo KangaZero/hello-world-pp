@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,22 @@ language_names! {
     versions: [Maxscript => "MaxScript"],
     extensions: [Ms => "ms"],
 }
+
+const MAXSCRIPT: &str = concat!(
+    r#"print ""#,
+    output_for_hello_world!(),
+    r#""
+-- ""#,
+    output_for_hello_world!(),
+    r#""
+
+
+-- Note that MAXScript is expression-based, so simply writing ""#,
+    output_for_hello_world!(),
+    r#"" is
+-- sufficient to echo it for the reader. Like Haskell, all MAXScript expressions
+-- *must* return values, even if they're unused."#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,38 +45,29 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Maxscript,
-            syntax: concat!(
-                r#"print ""#,
-                output_for_hello_world!(),
-                r#""
+            syntax: MAXSCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MAXSCRIPT,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"print ""#,
+                            output_for_hello_world!(),
+                            r#""
 -- ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 
 
 -- Note that MAXScript is expression-based, so simply writing ""#,
-                output_for_hello_world!(),
-                r#"" is
+                            output_for_hello_world!(),
+                            r#"" is
 -- sufficient to echo it for the reader. Like Haskell, all MAXScript expressions
 -- *must* return values, even if they're unused."#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"print ""#,
-                    output_for_hello_world!(),
-                    r#""
--- ""#,
-                    output_for_hello_world!(),
-                    r#""
-
-
--- Note that MAXScript is expression-based, so simply writing ""#,
-                    output_for_hello_world!(),
-                    r#"" is
--- sufficient to echo it for the reader. Like Haskell, all MAXScript expressions
--- *must* return values, even if they're unused."#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

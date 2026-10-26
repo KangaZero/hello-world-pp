@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,14 @@ language_names! {
     versions: [Aardvark => "Aardvark"],
     extensions: [],
 }
+
+const AARDVARK: &str = concat!(
+    r#"async main() {
+    println ""#,
+    output_for_hello_world!(),
+    r#""
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,22 +38,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Aardvark,
-            syntax: concat!(
-                r#"async main() {
+            syntax: AARDVARK,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    AARDVARK,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"async main() {
     println ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"async main() {
-    println ""#,
-                    output_for_hello_world!(),
-                    r#""
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -10,13 +10,27 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Wierd => "Wierd",
     versions: [Wierd => "Wierd"],
     extensions: [W => "w"],
 }
+
+const WIERD: &str = r"-*******************           dlroW olleH
+ *
+ R*   *    *     *
+ E*  **    **   *
+ T*  **    **  *
+ U ***   ***  ****
+ R   *  *  *      *
+ N  *    *  ********
+    *  ****
+ 0   **";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +40,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Wierd,
-            syntax: r"-*******************           dlroW olleH
+            syntax: WIERD,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    WIERD,
+                    [(
+                        TokenKind::Plain,
+                        r"-*******************           dlroW olleH
  *
  R*   *    *     *
  E*  **    **   *
@@ -36,18 +56,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
  N  *    *  ********
     *  ****
  0   **",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"-*******************           dlroW olleH
- *
- R*   *    *     *
- E*  **    **   *
- T*  **    **  *
- U ***   ***  ****
- R   *  *  *      *
- N  *    *  ********
-    *  ****
- 0   **",
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,13 @@ language_names! {
     versions: [Racket8 => "Racket 8"],
     extensions: [Rkt => "rkt"],
 }
+
+const RACKET8: &str = concat!(
+    r#"#lang racket
+(displayln ""#,
+    output_for_hello_world!(),
+    r#"")"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,23 +37,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Lisp],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Racket8,
-            syntax: concat!(
-                r#"#lang racket
-(displayln ""#,
-                output_for_hello_world!(),
-                r#"")"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, "#lang"),
-                (TokenKind::Plain, " racket\n"),
-                (TokenKind::Punctuation, "("),
-                (TokenKind::Function, "displayln"),
-                (TokenKind::Plain, " "),
-                (
-                    TokenKind::String,
-                    concat!("\"", output_for_hello_world!(), "\""),
-                ),
-                (TokenKind::Punctuation, ")"),
-            ],
+            syntax: RACKET8,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    RACKET8,
+                    [
+                        (TokenKind::Keyword, "#lang"),
+                        (TokenKind::Plain, " racket\n"),
+                        (TokenKind::Punctuation, "("),
+                        (TokenKind::Function, "displayln"),
+                        (TokenKind::Plain, " "),
+                        (
+                            TokenKind::String,
+                            concat!("\"", output_for_hello_world!(), "\""),
+                        ),
+                        (TokenKind::Punctuation, ")"),
+                    ],
+                )
+            },
         }],
     };

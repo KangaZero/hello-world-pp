@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,13 @@ language_names! {
     versions: [Qugord => "Qugord"],
     extensions: [Qugord => "qugord"],
 }
+
+const QUGORD: &str = concat!(
+    r#"~group hello from %2 to %14 also affect hello into ""#,
+    output_for_hello_world!(),
+    r#"" also each hello into 0 task give 0 to 1 also at 1 join 1 and %1
+~publish also split hello"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,20 +36,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Qugord,
-            syntax: concat!(
-                r#"~group hello from %2 to %14 also affect hello into ""#,
-                output_for_hello_world!(),
-                r#"" also each hello into 0 task give 0 to 1 also at 1 join 1 and %1
+            syntax: QUGORD,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    QUGORD,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"~group hello from %2 to %14 also affect hello into ""#,
+                            output_for_hello_world!(),
+                            r#"" also each hello into 0 task give 0 to 1 also at 1 join 1 and %1
 ~publish also split hello"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"~group hello from %2 to %14 also affect hello into ""#,
-                    output_for_hello_world!(),
-                    r#"" also each hello into 0 task give 0 to 1 also at 1 join 1 and %1
-~publish also split hello"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -11,13 +11,29 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: GurYvsr => "gur yvsr",
     versions: [GurYvsr => "gur yvsr"],
     extensions: [],
 }
+
+const GUR_YVSR: &str = r"#72U   `H`
+#101U  `e`
+#108uU `ll`
+#111U  `o`
+#32U   ` `
+#87U   `W`
+#111U  `o`
+#114U  `r`
+#108U  `l`
+#100U  `d`
+#0k    `go to cell 0`
+sssssssssss. `print out characters`";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +43,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::GurYvsr,
-            syntax: r"#72U   `H`
+            syntax: GUR_YVSR,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    GUR_YVSR,
+                    [(
+                        TokenKind::Plain,
+                        r"#72U   `H`
 #101U  `e`
 #108uU `ll`
 #111U  `o`
@@ -39,20 +61,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 #100U  `d`
 #0k    `go to cell 0`
 sssssssssss. `print out characters`",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"#72U   `H`
-#101U  `e`
-#108uU `ll`
-#111U  `o`
-#32U   ` `
-#87U   `W`
-#111U  `o`
-#114U  `r`
-#108U  `l`
-#100U  `d`
-#0k    `go to cell 0`
-sssssssssss. `print out characters`",
-            )],
+                    )],
+                )
+            },
         }],
     };

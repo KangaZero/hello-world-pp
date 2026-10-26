@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,16 +21,8 @@ language_names! {
     extensions: [Cf => "cf"],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::Cfengine,
-        extensions: &[FileExtension::Cf],
-        categories: &[Configuration],
-        families: &[],
-        versions: &[ProgrammingLanguageVersion {
-            label: ProgrammingLanguageDialect::Cfengine,
-            syntax: concat!(
-                r#"body common control
+const CFENGINE: &str = concat!(
+    r#"body common control
 {
   bundlesequence => { "run" };
 }
@@ -40,69 +32,84 @@ bundle agent run
   reports:
     cfengine::
       ""#,
-                output_for_hello_world!(),
-                r#"";
+    output_for_hello_world!(),
+    r#"";
 }"#
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Plain,
-                    r"body common control
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Cfengine,
+        extensions: &[FileExtension::Cf],
+        categories: &[Configuration],
+        families: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Cfengine,
+            syntax: CFENGINE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CFENGINE,
+                    [
+                        (
+                            TokenKind::Plain,
+                            r"body common control
 ",
-                ),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
   bundlesequence => ",
-                ),
-                (TokenKind::Punctuation, r"{"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::String, r#""run""#),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"};"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"{"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::String, r#""run""#),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"};"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 bundle agent run
 ",
-                ),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
   reports",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (
+                            TokenKind::Plain,
+                            r"
     cfengine",
-                ),
-                (TokenKind::Punctuation, r"::"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"::"),
+                        (
+                            TokenKind::Plain,
+                            r"
       ",
-                ),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r";"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r";"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                    ],
+                )
+            },
         }],
     };

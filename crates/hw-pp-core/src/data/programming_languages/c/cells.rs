@@ -11,13 +11,20 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Cells => "Cells",
     versions: [Cells => "Cells"],
     extensions: [],
 }
+
+const CELLS: &str = r"(alpha)(8,=_)(5,=_)(12,=_)(12,=_)(15,=_)
+(ascii)(32,=_)
+(alpha)(23,=_)(15,=_)(18,=_)(12,=_)(4,=_)";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,14 +34,17 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cells,
-            syntax: r"(alpha)(8,=_)(5,=_)(12,=_)(12,=_)(15,=_)
+            syntax: CELLS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CELLS,
+                    [(
+                        TokenKind::Plain,
+                        r"(alpha)(8,=_)(5,=_)(12,=_)(12,=_)(15,=_)
 (ascii)(32,=_)
 (alpha)(23,=_)(15,=_)(18,=_)(12,=_)(4,=_)",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"(alpha)(8,=_)(5,=_)(12,=_)(12,=_)(15,=_)
-(ascii)(32,=_)
-(alpha)(23,=_)(15,=_)(18,=_)(12,=_)(4,=_)",
-            )],
+                    )],
+                )
+            },
         }],
     };

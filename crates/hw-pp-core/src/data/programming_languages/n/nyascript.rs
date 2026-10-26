@@ -11,13 +11,29 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Nyascript => "NyaScript",
     versions: [Nyascript => "NyaScript"],
     extensions: [],
 }
+
+const NYASCRIPT: &str = r"NyA NyA NyA NyA NyA NyA NyA NyA NyA NyA NYa 
+Nya NyA NyA NyA NyA NyA NyA NyA Nya NyA NyA 
+NyA NyA NyA NyA NyA NyA NyA NyA Nya NyA NyA 
+NyA NyA Nya NyA NyA NyA Nya NyA NyA NyA NyA 
+NyA NyA NyA NyA NyA Nya NyA NyA NyA NyA NyA
+NyA nyA nyA nyA nyA nyA nyA nYa nYA Nya NyA 
+NyA NYA Nya NyA NYA NyA NyA NyA NyA NyA NyA 
+NyA NYA NYA nyan NyA NyA NyA NYA Nya NyA NyA 
+NyA NyA NYA Nya NyA NyA NYA Nya nYa nYa nYa 
+NYA NYAN NyA NyA NyA NYA NyA NyA NyA NYA NYAN
+NYA nYa nYa nYa nYa nYa nYa nYa nYa NYA nyA
+NyA NYA";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +43,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Nyascript,
-            syntax: r"NyA NyA NyA NyA NyA NyA NyA NyA NyA NyA NYa 
+            syntax: NYASCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    NYASCRIPT,
+                    [(
+                        TokenKind::Plain,
+                        r"NyA NyA NyA NyA NyA NyA NyA NyA NyA NyA NYa 
 Nya NyA NyA NyA NyA NyA NyA NyA Nya NyA NyA 
 NyA NyA NyA NyA NyA NyA NyA NyA Nya NyA NyA 
 NyA NyA Nya NyA NyA NyA Nya NyA NyA NyA NyA 
@@ -39,20 +61,8 @@ NyA NyA NYA Nya NyA NyA NYA Nya nYa nYa nYa
 NYA NYAN NyA NyA NyA NYA NyA NyA NyA NYA NYAN
 NYA nYa nYa nYa nYa nYa nYa nYa nYa NYA nyA
 NyA NYA",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"NyA NyA NyA NyA NyA NyA NyA NyA NyA NyA NYa 
-Nya NyA NyA NyA NyA NyA NyA NyA Nya NyA NyA 
-NyA NyA NyA NyA NyA NyA NyA NyA Nya NyA NyA 
-NyA NyA Nya NyA NyA NyA Nya NyA NyA NyA NyA 
-NyA NyA NyA NyA NyA Nya NyA NyA NyA NyA NyA
-NyA nyA nyA nyA nyA nyA nyA nYa nYA Nya NyA 
-NyA NYA Nya NyA NYA NyA NyA NyA NyA NyA NyA 
-NyA NYA NYA nyan NyA NyA NyA NYA Nya NyA NyA 
-NyA NyA NYA Nya NyA NyA NYA Nya nYa nYa nYa 
-NYA NYAN NyA NyA NyA NYA NyA NyA NyA NYA NYAN
-NYA nYa nYa nYa nYa nYa nYa nYa nYa NYA nyA
-NyA NYA",
-            )],
+                    )],
+                )
+            },
         }],
     };

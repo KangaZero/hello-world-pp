@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,13 @@ language_names! {
     versions: [Nit => "Nit"],
     extensions: [Nit => "nit"],
 }
+
+const NIT: &str = concat!(
+    r#"print ""#,
+    output_for_hello_world!(),
+    r#""
+"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,24 +36,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Nit,
-            syntax: concat!(
-                r#"print ""#,
-                output_for_hello_world!(),
-                r#""
-"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Function, r"print"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: NIT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    NIT,
+                    [
+                        (TokenKind::Function, r"print"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-            ],
+                        ),
+                    ],
+                )
+            },
         }],
     };

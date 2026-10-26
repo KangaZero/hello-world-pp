@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,14 @@ language_names! {
     versions: [Modiscript => "ModiScript"],
     extensions: [Chai => "chai"],
 }
+
+const MODISCRIPT: &str = concat!(
+    r#"Mitrooon
+    bhaiyo aur behno ""#,
+    output_for_hello_world!(),
+    r#""
+Achhe din aa gaye"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +37,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Modiscript,
-            syntax: concat!(
-                r#"Mitrooon
+            syntax: MODISCRIPT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MODISCRIPT,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"Mitrooon
     bhaiyo aur behno ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 Achhe din aa gaye"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"Mitrooon
-    bhaiyo aur behno ""#,
-                    output_for_hello_world!(),
-                    r#""
-Achhe din aa gaye"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

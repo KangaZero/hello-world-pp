@@ -11,13 +11,22 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Pigs => "pigs",
     versions: [Pigs => "pigs"],
     extensions: [],
 }
+
+const PIGS: &str = r"ppppppppiiiiiiiisgpppppppppppiiiiiiiiisg
+pppppppppppiisgpppppppppppiisgppppppppppppiiiiiiiiisg
+ppppiiiiiiiisgpppppppppiiisgppppppppppppiiiiiiiiisg
+ppppppppppppiiiiiisgpppppppppppiisgppppppppppsg
+ppppiiiiiiis";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,18 +36,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Pigs,
-            syntax: r"ppppppppiiiiiiiisgpppppppppppiiiiiiiiisg
+            syntax: PIGS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PIGS,
+                    [(
+                        TokenKind::Plain,
+                        r"ppppppppiiiiiiiisgpppppppppppiiiiiiiiisg
 pppppppppppiisgpppppppppppiisgppppppppppppiiiiiiiiisg
 ppppiiiiiiiisgpppppppppiiisgppppppppppppiiiiiiiiisg
 ppppppppppppiiiiiisgpppppppppppiisgppppppppppsg
 ppppiiiiiiis",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"ppppppppiiiiiiiisgpppppppppppiiiiiiiiisg
-pppppppppppiisgpppppppppppiisgppppppppppppiiiiiiiiisg
-ppppiiiiiiiisgpppppppppiiisgppppppppppppiiiiiiiiisg
-ppppppppppppiiiiiisgpppppppppppiisgppppppppppsg
-ppppiiiiiiis",
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,20 @@ language_names! {
     versions: [AssemblerArmRiscOs => "Assembler (ARM, RISC OS)"],
     extensions: [],
 }
+
+const ASSEMBLER_ARM_RISC_OS: &str = concat!(
+    r"; ",
+    output_for_hello_world!(),
+    r#" in ARM code assembler, with RISC OS software interrupt
+
+SWI "OS_WriteS"
+EQUS ""#,
+    output_for_hello_world!(),
+    r#""
+EQUB 0
+ALIGN
+MOV PC,R14"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,34 +44,27 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblerArmRiscOs,
-            syntax: concat!(
-                r"; ",
-                output_for_hello_world!(),
-                r#" in ARM code assembler, with RISC OS software interrupt
+            syntax: ASSEMBLER_ARM_RISC_OS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER_ARM_RISC_OS,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"; ",
+                            output_for_hello_world!(),
+                            r#" in ARM code assembler, with RISC OS software interrupt
 
 SWI "OS_WriteS"
 EQUS ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 EQUB 0
 ALIGN
 MOV PC,R14"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"; ",
-                    output_for_hello_world!(),
-                    r#" in ARM code assembler, with RISC OS software interrupt
-
-SWI "OS_WriteS"
-EQUS ""#,
-                    output_for_hello_world!(),
-                    r#""
-EQUB 0
-ALIGN
-MOV PC,R14"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

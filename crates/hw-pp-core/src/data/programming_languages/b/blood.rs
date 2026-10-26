@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,19 @@ language_names! {
     versions: [Blood => "Blood"],
     extensions: [],
 }
+
+const BLOOD: &str = concat!(
+    r"<a grid of 0 cells>
+[0,0]
+<set tape to '",
+    output_for_hello_world!(),
+    r"' with ASCII values in binary (reversed)>
+T: 00100010B00110010B01001010B11110010B11101010B000001B11110010B00110010B00110010B10100010B0001001
+<note that if the tape input is interrupted by a newline in this source, the newline should be ignored>
+{
+C()
+}"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,32 +43,26 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Blood,
-            syntax: concat!(
-                r"<a grid of 0 cells>
+            syntax: BLOOD,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BLOOD,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"<a grid of 0 cells>
 [0,0]
 <set tape to '",
-                output_for_hello_world!(),
-                r"' with ASCII values in binary (reversed)>
+                            output_for_hello_world!(),
+                            r"' with ASCII values in binary (reversed)>
 T: 00100010B00110010B01001010B11110010B11101010B000001B11110010B00110010B00110010B10100010B0001001
 <note that if the tape input is interrupted by a newline in this source, the newline should be ignored>
 {
 C()
 }"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"<a grid of 0 cells>
-[0,0]
-<set tape to '",
-                    output_for_hello_world!(),
-                    r"' with ASCII values in binary (reversed)>
-T: 00100010B00110010B01001010B11110010B11101010B000001B11110010B00110010B00110010B10100010B0001001
-<note that if the tape input is interrupted by a newline in this source, the newline should be ignored>
-{
-C()
-}"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,18 @@ language_names! {
     versions: [Lwc => "LWC"],
     extensions: [],
 }
+
+const LWC: &str = concat!(
+    r"<template>
+  <lightning-card>
+    <div>
+      <p>",
+    output_for_hello_world!(),
+    r"</p>
+    </div>
+  </lightning-card>
+</template>"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,73 +41,68 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Lwc,
-            syntax: concat!(
-                r"<template>
-  <lightning-card>
-    <div>
-      <p>",
-                output_for_hello_world!(),
-                r"</p>
-    </div>
-  </lightning-card>
-</template>"
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Punctuation, r"<"),
-                (TokenKind::Plain, r"template"),
-                (TokenKind::Punctuation, r">"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: LWC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    LWC,
+                    [
+                        (TokenKind::Punctuation, r"<"),
+                        (TokenKind::Plain, r"template"),
+                        (TokenKind::Punctuation, r">"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Punctuation, r"<"),
-                (TokenKind::Plain, r"lightning-card"),
-                (TokenKind::Punctuation, r">"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"<"),
+                        (TokenKind::Plain, r"lightning-card"),
+                        (TokenKind::Punctuation, r">"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Punctuation, r"<"),
-                (TokenKind::Plain, r"div"),
-                (TokenKind::Punctuation, r">"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"<"),
+                        (TokenKind::Plain, r"div"),
+                        (TokenKind::Punctuation, r">"),
+                        (
+                            TokenKind::Plain,
+                            r"
       ",
-                ),
-                (TokenKind::Punctuation, r"<"),
-                (TokenKind::Plain, r"p"),
-                (TokenKind::Punctuation, r">"),
-                (TokenKind::Plain, output_for_hello_world!()),
-                (TokenKind::Punctuation, r"</"),
-                (TokenKind::Plain, r"p"),
-                (TokenKind::Punctuation, r">"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"<"),
+                        (TokenKind::Plain, r"p"),
+                        (TokenKind::Punctuation, r">"),
+                        (TokenKind::Plain, output_for_hello_world!()),
+                        (TokenKind::Punctuation, r"</"),
+                        (TokenKind::Plain, r"p"),
+                        (TokenKind::Punctuation, r">"),
+                        (
+                            TokenKind::Plain,
+                            r"
     ",
-                ),
-                (TokenKind::Punctuation, r"</"),
-                (TokenKind::Plain, r"div"),
-                (TokenKind::Punctuation, r">"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"</"),
+                        (TokenKind::Plain, r"div"),
+                        (TokenKind::Punctuation, r">"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Punctuation, r"</"),
-                (TokenKind::Plain, r"lightning-card"),
-                (TokenKind::Punctuation, r">"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"</"),
+                        (TokenKind::Plain, r"lightning-card"),
+                        (TokenKind::Punctuation, r">"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"</"),
-                (TokenKind::Plain, r"template"),
-                (TokenKind::Punctuation, r">"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"</"),
+                        (TokenKind::Plain, r"template"),
+                        (TokenKind::Punctuation, r">"),
+                    ],
+                )
+            },
         }],
     };

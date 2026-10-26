@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Hzcode => "HZCode",
     versions: [Hzcode => "HZCode"],
     extensions: [],
 }
+
+const HZCODE: &str = r"十十十十十十十一一加加加加加加加加写百一加写百一一一一一一一一加加加加加加加加写百一一一一一一一一加加加加加加加加写百 十一加加写十十十十一一一一加加加加加加加写十十十一一加加加加写十十十十十十十十一一一一一一一加加加加加加加加加加加加加加写百十一加加写百十一一一一加加加加加写百一一一一一一一一加加加加加加加加写百写十十十一一一加加加加加写停";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hzcode,
-            syntax: r"十十十十十十十一一加加加加加加加加写百一加写百一一一一一一一一加加加加加加加加写百一一一一一一一一加加加加加加加加写百 十一加加写十十十十一一一一加加加加加加加写十十十一一加加加加写十十十十十十十十一一一一一一一加加加加加加加加加加加加加加写百十一加加写百十一一一一加加加加加写百一一一一一一一一加加加加加加加加写百写十十十一一一加加加加加写停",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"十十十十十十十一一加加加加加加加加写百一加写百一一一一一一一一加加加加加加加加写百一一一一一一一一加加加加加加加加写百 十一加加写十十十十一一一一加加加加加加加写十十十一一加加加加写十十十十十十十十一一一一一一一加加加加加加加加加加加加加加写百十一加加写百十一一一一加加加加加写百一一一一一一一一加加加加加加加加写百写十十十一一一加加加加加写停",
-            )],
+            syntax: HZCODE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    HZCODE,
+                    [(
+                        TokenKind::Plain,
+                        r"十十十十十十十一一加加加加加加加加写百一加写百一一一一一一一一加加加加加加加加写百一一一一一一一一加加加加加加加加写百 十一加加写十十十十一一一一加加加加加加加写十十十一一加加加加写十十十十十十十十一一一一一一一加加加加加加加加加加加加加加写百十一加加写百十一一一一加加加加加写百一一一一一一一一加加加加加加加加写百写十十十一一一加加加加加写停",
+                    )],
+                )
+            },
         }],
     };

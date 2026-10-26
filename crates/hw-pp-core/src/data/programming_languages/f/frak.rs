@@ -11,13 +11,41 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Frak => "FRAK",
     versions: [Frak => "FRAK"],
     extensions: [],
 }
+
+const FRAK: &str = r"LI 0,C'H'
+PUT 0
+LI 0,C'e'
+PUT 0
+LI 0,C'l'
+PUT 0
+LI 0,C'l'
+PUT 0
+LI 0,C'o'
+PUT 0
+LI 0,32
+PUT 0
+LI 0,C'w'
+PUT 0
+LI 0,C'o'
+PUT 0
+LI 0,C'r'
+PUT 0
+LI 0,C'l'
+PUT 0
+LI 0,C'd'
+PUT 0
+LI 0,C'!'
+PUT 0";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +55,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Frak,
-            syntax: r"LI 0,C'H'
+            syntax: FRAK,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    FRAK,
+                    [(
+                        TokenKind::Plain,
+                        r"LI 0,C'H'
 PUT 0
 LI 0,C'e'
 PUT 0
@@ -51,32 +85,8 @@ LI 0,C'd'
 PUT 0
 LI 0,C'!'
 PUT 0",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"LI 0,C'H'
-PUT 0
-LI 0,C'e'
-PUT 0
-LI 0,C'l'
-PUT 0
-LI 0,C'l'
-PUT 0
-LI 0,C'o'
-PUT 0
-LI 0,32
-PUT 0
-LI 0,C'w'
-PUT 0
-LI 0,C'o'
-PUT 0
-LI 0,C'r'
-PUT 0
-LI 0,C'l'
-PUT 0
-LI 0,C'd'
-PUT 0
-LI 0,C'!'
-PUT 0",
-            )],
+                    )],
+                )
+            },
         }],
     };

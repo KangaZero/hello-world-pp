@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,19 @@ language_names! {
     versions: [Wxpython => "wxPython"],
     extensions: [],
 }
+
+const WXPYTHON: &str = concat!(
+    r#"import wx 
+ 
+app = wx.App() 
+window = wx.Frame(None)
+panel = wx.Panel(window) 
+label = wx.StaticText(panel, label = ""#,
+    output_for_hello_world!(),
+    r#"")
+window.Show(True) 
+app.MainLoop()"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,93 +42,87 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Python],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Wxpython,
-            syntax: concat!(
-                r#"import wx 
- 
-app = wx.App() 
-window = wx.Frame(None)
-panel = wx.Panel(window) 
-label = wx.StaticText(panel, label = ""#,
-                output_for_hello_world!(),
-                r#"")
-window.Show(True) 
-app.MainLoop()"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"import"),
-                (
-                    TokenKind::Plain,
-                    r" wx 
+            syntax: WXPYTHON,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    WXPYTHON,
+                    [
+                        (TokenKind::Keyword, r"import"),
+                        (
+                            TokenKind::Plain,
+                            r" wx 
  
 app ",
-                ),
-                (TokenKind::Keyword, r"="),
-                (TokenKind::Plain, r" wx"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"App"),
-                (TokenKind::Punctuation, r"()"),
-                (
-                    TokenKind::Plain,
-                    r" 
+                        ),
+                        (TokenKind::Keyword, r"="),
+                        (TokenKind::Plain, r" wx"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"App"),
+                        (TokenKind::Punctuation, r"()"),
+                        (
+                            TokenKind::Plain,
+                            r" 
 window ",
-                ),
-                (TokenKind::Keyword, r"="),
-                (TokenKind::Plain, r" wx"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"Frame"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"None"),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"="),
+                        (TokenKind::Plain, r" wx"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"Frame"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"None"),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
 panel ",
-                ),
-                (TokenKind::Keyword, r"="),
-                (TokenKind::Plain, r" wx"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"Panel"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"window"),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r" 
+                        ),
+                        (TokenKind::Keyword, r"="),
+                        (TokenKind::Plain, r" wx"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"Panel"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"window"),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r" 
 label ",
-                ),
-                (TokenKind::Keyword, r"="),
-                (TokenKind::Plain, r" wx"),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"StaticText"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"panel"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r" label "),
-                (TokenKind::Keyword, r"="),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"="),
+                        (TokenKind::Plain, r" wx"),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"StaticText"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"panel"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r" label "),
+                        (TokenKind::Keyword, r"="),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r"
 window",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"Show"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"True"),
-                (TokenKind::Punctuation, r")"),
-                (
-                    TokenKind::Plain,
-                    r" 
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"Show"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"True"),
+                        (TokenKind::Punctuation, r")"),
+                        (
+                            TokenKind::Plain,
+                            r" 
 app",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Function, r"MainLoop"),
-                (TokenKind::Punctuation, r"()"),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Function, r"MainLoop"),
+                        (TokenKind::Punctuation, r"()"),
+                    ],
+                )
+            },
         }],
     };

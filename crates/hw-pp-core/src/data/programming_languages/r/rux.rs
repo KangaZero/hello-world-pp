@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,17 @@ language_names! {
     versions: [Rux => "Rux"],
     extensions: [Rux => "rux"],
 }
+
+const RUX: &str = concat!(
+    r#"import Std::Io::Print;
+
+func Main() -> int {
+	Print(""#,
+    output_for_hello_world!(),
+    r#"");
+	return 0;
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,28 +40,24 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rux,
-            syntax: concat!(
-                r#"import Std::Io::Print;
+            syntax: RUX,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    RUX,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"import Std::Io::Print;
 
 func Main() -> int {
 	Print(""#,
-                output_for_hello_world!(),
-                r#"");
+                            output_for_hello_world!(),
+                            r#"");
 	return 0;
 }"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"import Std::Io::Print;
-
-func Main() -> int {
-	Print(""#,
-                    output_for_hello_world!(),
-                    r#"");
-	return 0;
-}"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -11,13 +11,24 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Bucket => "Bucket",
     versions: [Bucket => "Bucket"],
     extensions: [],
 }
+
+const BUCKET: &str = r"fpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfp
+fpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpOfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpOfpfpfpfpfpfpfpOOfpfp
+fpOPePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePeP
+ePePePePePePePePePePePePeOPePePePePePePePePePePePeOfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpf
+pfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpf
+pOPePePePePePePePeOfpfpfpOPePePePePePeOPePePePePePePePeOPePePePePePePePePePePePePePePePePePePePePePePePePePePePe
+PePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePeO";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,22 +38,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Bucket,
-            syntax: r"fpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfp
+            syntax: BUCKET,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BUCKET,
+                    [(
+                        TokenKind::Plain,
+                        r"fpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfp
 fpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpOfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpOfpfpfpfpfpfpfpOOfpfp
 fpOPePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePeP
 ePePePePePePePePePePePePeOPePePePePePePePePePePePeOfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpf
 pfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpf
 pOPePePePePePePePeOfpfpfpOPePePePePePeOPePePePePePePePeOPePePePePePePePePePePePePePePePePePePePePePePePePePePePe
 PePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePeO",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"fpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfp
-fpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpOfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpOfpfpfpfpfpfpfpOOfpfp
-fpOPePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePeP
-ePePePePePePePePePePePePeOPePePePePePePePePePePePeOfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpf
-pfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpfpf
-pOPePePePePePePePeOfpfpfpOPePePePePePeOPePePePePePePePeOPePePePePePePePePePePePePePePePePePePePePePePePePePePePe
-PePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePePeO",
-            )],
+                    )],
+                )
+            },
         }],
     };

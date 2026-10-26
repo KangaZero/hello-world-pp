@@ -10,13 +10,37 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Chem => "Chem",
     versions: [Chem => "Chem"],
     extensions: [],
 }
+
+const CHEM: &str = r"Chemicals needed:
+72 g Ca
+101 g Cl
+Check to confirm you have the required chemicals before proceeding.
+Chemicals are to be added to a small beaker.
+Add the Ca.
+Add the Cl.
+Now find the following chemicals and mix together in a separate beaker:
+108 ml water
+108 g calcium
+111 g sulfur
+32 g carbon
+87 ml mercury
+111 g salt
+114 g zinc
+108 g tin
+100 ml bromine
+Going back to the original beaker,
+Dump the contents of beaker 1 into this beaker.
+Record your findings.";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +50,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Chem,
-            syntax: r"Chemicals needed:
+            syntax: CHEM,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    CHEM,
+                    [(
+                        TokenKind::Plain,
+                        r"Chemicals needed:
 72 g Ca
 101 g Cl
 Check to confirm you have the required chemicals before proceeding.
@@ -46,28 +76,8 @@ Now find the following chemicals and mix together in a separate beaker:
 Going back to the original beaker,
 Dump the contents of beaker 1 into this beaker.
 Record your findings.",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"Chemicals needed:
-72 g Ca
-101 g Cl
-Check to confirm you have the required chemicals before proceeding.
-Chemicals are to be added to a small beaker.
-Add the Ca.
-Add the Cl.
-Now find the following chemicals and mix together in a separate beaker:
-108 ml water
-108 g calcium
-111 g sulfur
-32 g carbon
-87 ml mercury
-111 g salt
-114 g zinc
-108 g tin
-100 ml bromine
-Going back to the original beaker,
-Dump the contents of beaker 1 into this beaker.
-Record your findings.",
-            )],
+                    )],
+                )
+            },
         }],
     };

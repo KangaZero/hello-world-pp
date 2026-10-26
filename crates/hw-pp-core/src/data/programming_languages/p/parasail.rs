@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,14 @@ language_names! {
     versions: [Parasail => "ParaSail"],
     extensions: [Psi => "psi"],
 }
+
+const PARASAIL: &str = concat!(
+    r#"func Hello_World(var IO) is
+    IO.Println(""#,
+    output_for_hello_world!(),
+    r#"");
+end func Hello_World;"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,22 +38,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Pascal],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Parasail,
-            syntax: concat!(
-                r#"func Hello_World(var IO) is
+            syntax: PARASAIL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PARASAIL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"func Hello_World(var IO) is
     IO.Println(""#,
-                output_for_hello_world!(),
-                r#"");
+                            output_for_hello_world!(),
+                            r#"");
 end func Hello_World;"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"func Hello_World(var IO) is
-    IO.Println(""#,
-                    output_for_hello_world!(),
-                    r#"");
-end func Hello_World;"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

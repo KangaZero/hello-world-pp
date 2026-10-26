@@ -11,13 +11,155 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: GenAlphaBrainrot => "Gen Alpha Brainrot",
     versions: [GenAlphaBrainrot => "Gen Alpha Brainrot"],
     extensions: [],
 }
+
+const GEN_ALPHA_BRAINROT: &str = r"sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+grimaceshake
+skibidi
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+rizz
+gyatt
+fanumtax
+skibidi
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+ohio
+skibidi
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+grimaceshake
+skibidi
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+rizz
+gyatt
+fanumtax
+skibidi
+sigma
+sigma
+sigma
+sigma
+sigma
+ohio
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+ohio
+ohio
+sigma
+sigma
+sigma
+ohio
+skibidi
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+grimaceshake
+skibidi
+sigma
+sigma
+sigma
+sigma
+sigma
+rizz
+gyatt
+fanumtax
+skibidi
+sigma
+sigma
+sigma
+sigma
+ohio
+gyatt
+gyatt
+gyatt
+gyatt
+gyatt
+gyatt
+gyatt
+gyatt
+gyatt
+gyatt
+gyatt
+gyatt
+ohio
+rizz
+rizz
+rizz
+rizz
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+sigma
+ohio
+skibidi
+skibidi
+ohio";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +169,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::GenAlphaBrainrot,
-            syntax: r"sigma
+            syntax: GEN_ALPHA_BRAINROT,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    GEN_ALPHA_BRAINROT,
+                    [(
+                        TokenKind::Plain,
+                        r"sigma
 sigma
 sigma
 sigma
@@ -165,146 +313,8 @@ ohio
 skibidi
 skibidi
 ohio",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-grimaceshake
-skibidi
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-rizz
-gyatt
-fanumtax
-skibidi
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-ohio
-skibidi
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-grimaceshake
-skibidi
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-rizz
-gyatt
-fanumtax
-skibidi
-sigma
-sigma
-sigma
-sigma
-sigma
-ohio
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-ohio
-ohio
-sigma
-sigma
-sigma
-ohio
-skibidi
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-grimaceshake
-skibidi
-sigma
-sigma
-sigma
-sigma
-sigma
-rizz
-gyatt
-fanumtax
-skibidi
-sigma
-sigma
-sigma
-sigma
-ohio
-gyatt
-gyatt
-gyatt
-gyatt
-gyatt
-gyatt
-gyatt
-gyatt
-gyatt
-gyatt
-gyatt
-gyatt
-ohio
-rizz
-rizz
-rizz
-rizz
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-sigma
-ohio
-skibidi
-skibidi
-ohio",
-            )],
+                    )],
+                )
+            },
         }],
     };

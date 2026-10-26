@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,19 @@ language_names! {
     versions: [Thp => "THP"],
     extensions: [Hrp => "hrp"],
 }
+
+const THP: &str = concat!(
+    r"; ",
+    output_for_hello_world!(),
+    r#" in "The Harper Programmer"
+; Compiled and tested with version 2.0 Sybex Edition
+
+Variable        Msg,13,""#,
+    output_for_hello_world!(),
+    r#""
+
+Write           Msg"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,32 +42,26 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Thp,
-            syntax: concat!(
-                r"; ",
-                output_for_hello_world!(),
-                r#" in "The Harper Programmer"
+            syntax: THP,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    THP,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"; ",
+                            output_for_hello_world!(),
+                            r#" in "The Harper Programmer"
 ; Compiled and tested with version 2.0 Sybex Edition
 
 Variable        Msg,13,""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 
 Write           Msg"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"; ",
-                    output_for_hello_world!(),
-                    r#" in "The Harper Programmer"
-; Compiled and tested with version 2.0 Sybex Edition
-
-Variable        Msg,13,""#,
-                    output_for_hello_world!(),
-                    r#""
-
-Write           Msg"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -18,7 +18,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -27,57 +27,18 @@ language_names! {
     extensions: [M => "m", Mm => "mm"],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::ObjectiveC,
-        extensions: &[FileExtension::M, FileExtension::Mm],
-        categories: &[Compiled, Historical],
-        families: &[C],
-        versions: &[
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::ObjectiveC2,
-                syntax: concat!(
-                    r#"#import <Foundation/Foundation.h>
+const OBJECTIVE_C2: &str = concat!(
+    r#"#import <Foundation/Foundation.h>
 
 int main() {
     NSLog(@""#,
-                    output_for_hello_world!(),
-                    r#"");
+    output_for_hello_world!(),
+    r#"");
     return 0;
 }"#
-                ),
-                tokenized_syntax: &[
-                    (TokenKind::Keyword, "#import"),
-                    (TokenKind::Plain, " "),
-                    (TokenKind::String, "<Foundation/Foundation.h>"),
-                    (TokenKind::Plain, "\n\n"),
-                    (TokenKind::Type, "int"),
-                    (TokenKind::Plain, " "),
-                    (TokenKind::Function, "main"),
-                    (TokenKind::Punctuation, "()"),
-                    (TokenKind::Plain, " "),
-                    (TokenKind::Punctuation, "{"),
-                    (TokenKind::Plain, "\n    "),
-                    (TokenKind::Function, "NSLog"),
-                    (TokenKind::Punctuation, "("),
-                    (
-                        TokenKind::String,
-                        concat!("@\"", output_for_hello_world!(), "\""),
-                    ),
-                    (TokenKind::Punctuation, ");"),
-                    (TokenKind::Plain, "\n    "),
-                    (TokenKind::Keyword, "return"),
-                    (TokenKind::Plain, " "),
-                    (TokenKind::Number, "0"),
-                    (TokenKind::Punctuation, ";"),
-                    (TokenKind::Plain, "\n"),
-                    (TokenKind::Punctuation, "}"),
-                ],
-            },
-            ProgrammingLanguageVersion {
-                label: ProgrammingLanguageDialect::ObjectiveCArc,
-                syntax: concat!(
-                    r#"/*
+);
+const OBJECTIVE_C_ARC: &str = concat!(
+    r#"/*
  Build on OS X: 
  clang -framework Foundation -fobjc-arc objc.m -o objc
  
@@ -90,67 +51,119 @@ int main() {
 int main(void)
 {
     NSLog(@""#,
-                    output_for_hello_world!(),
-                    r#"");
+    output_for_hello_world!(),
+    r#"");
 }"#
-                ),
-                tokenized_syntax: &[
-                    (
-                        TokenKind::Comment,
-                        r"/*
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::ObjectiveC,
+        extensions: &[FileExtension::M, FileExtension::Mm],
+        categories: &[Compiled, Historical],
+        families: &[C],
+        versions: &[
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::ObjectiveC2,
+                syntax: OBJECTIVE_C2,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        OBJECTIVE_C2,
+                        [
+                            (TokenKind::Keyword, "#import"),
+                            (TokenKind::Plain, " "),
+                            (TokenKind::String, "<Foundation/Foundation.h>"),
+                            (TokenKind::Plain, "\n\n"),
+                            (TokenKind::Type, "int"),
+                            (TokenKind::Plain, " "),
+                            (TokenKind::Function, "main"),
+                            (TokenKind::Punctuation, "()"),
+                            (TokenKind::Plain, " "),
+                            (TokenKind::Punctuation, "{"),
+                            (TokenKind::Plain, "\n    "),
+                            (TokenKind::Function, "NSLog"),
+                            (TokenKind::Punctuation, "("),
+                            (
+                                TokenKind::String,
+                                concat!("@\"", output_for_hello_world!(), "\""),
+                            ),
+                            (TokenKind::Punctuation, ");"),
+                            (TokenKind::Plain, "\n    "),
+                            (TokenKind::Keyword, "return"),
+                            (TokenKind::Plain, " "),
+                            (TokenKind::Number, "0"),
+                            (TokenKind::Punctuation, ";"),
+                            (TokenKind::Plain, "\n"),
+                            (TokenKind::Punctuation, "}"),
+                        ],
+                    )
+                },
+            },
+            ProgrammingLanguageVersion {
+                label: ProgrammingLanguageDialect::ObjectiveCArc,
+                syntax: OBJECTIVE_C_ARC,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        OBJECTIVE_C_ARC,
+                        [
+                            (
+                                TokenKind::Comment,
+                                r"/*
  Build on OS X: 
  clang -framework Foundation -fobjc-arc objc.m -o objc
  
  Build on Linux with GNUstep:
  clang `gnustep-config --objc-flags` `gnustep-config --base-libs` -fobjc-nonfragile-abi -fobjc-arc objc.m -o objc
  */",
-                    ),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (
+                                TokenKind::Plain,
+                                r"
 
 ",
-                    ),
-                    (TokenKind::Keyword, r"#import"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::String, r"<Foundation/Foundation.h>"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Keyword, r"#import"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::String, r"<Foundation/Foundation.h>"),
+                            (
+                                TokenKind::Plain,
+                                r"
 
 ",
-                    ),
-                    (TokenKind::Type, r"int"),
-                    (TokenKind::Plain, r" "),
-                    (TokenKind::Function, r"main"),
-                    (TokenKind::Punctuation, r"("),
-                    (TokenKind::Type, r"void"),
-                    (TokenKind::Punctuation, r")"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Type, r"int"),
+                            (TokenKind::Plain, r" "),
+                            (TokenKind::Function, r"main"),
+                            (TokenKind::Punctuation, r"("),
+                            (TokenKind::Type, r"void"),
+                            (TokenKind::Punctuation, r")"),
+                            (
+                                TokenKind::Plain,
+                                r"
 ",
-                    ),
-                    (TokenKind::Punctuation, r"{"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Punctuation, r"{"),
+                            (
+                                TokenKind::Plain,
+                                r"
     ",
-                    ),
-                    (TokenKind::Function, r"NSLog"),
-                    (TokenKind::Punctuation, r"("),
-                    (
-                        TokenKind::String,
-                        concat!(r#"@""#, output_for_hello_world!(), r#"""#),
-                    ),
-                    (TokenKind::Punctuation, r");"),
-                    (
-                        TokenKind::Plain,
-                        r"
+                            ),
+                            (TokenKind::Function, r"NSLog"),
+                            (TokenKind::Punctuation, r"("),
+                            (
+                                TokenKind::String,
+                                concat!(r#"@""#, output_for_hello_world!(), r#"""#),
+                            ),
+                            (TokenKind::Punctuation, r");"),
+                            (
+                                TokenKind::Plain,
+                                r"
 ",
-                    ),
-                    (TokenKind::Punctuation, r"}"),
-                ],
+                            ),
+                            (TokenKind::Punctuation, r"}"),
+                        ],
+                    )
+                },
             },
         ],
     };

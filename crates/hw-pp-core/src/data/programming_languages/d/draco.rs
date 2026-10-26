@@ -15,7 +15,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -23,6 +23,14 @@ language_names! {
     versions: [Draco => "Draco"],
     extensions: [],
 }
+
+const DRACO: &str = concat!(
+    r#"proc main()void:
+    writeln(""#,
+    output_for_hello_world!(),
+    r#"");
+corp;"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -32,22 +40,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Algol],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Draco,
-            syntax: concat!(
-                r#"proc main()void:
+            syntax: DRACO,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    DRACO,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"proc main()void:
     writeln(""#,
-                output_for_hello_world!(),
-                r#"");
+                            output_for_hello_world!(),
+                            r#"");
 corp;"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"proc main()void:
-    writeln(""#,
-                    output_for_hello_world!(),
-                    r#"");
-corp;"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

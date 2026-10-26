@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,22 @@ language_names! {
     versions: [Vue => "Vue"],
     extensions: [],
 }
+
+const VUE: &str = concat!(
+    r#"<div id="app">
+  <p>{{ message }}</p>
+</div>
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    message: '"#,
+    output_for_hello_world!(),
+    r"'
+  }
+})
+</script>"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,110 +45,101 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Vue,
-            syntax: concat!(
-                r#"<div id="app">
-  <p>{{ message }}</p>
-</div>
-<script>
-new Vue({
-  el: '#app',
-  data: {
-    message: '"#,
-                output_for_hello_world!(),
-                r"'
-  }
-})
-</script>"
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, r"<"),
-                (TokenKind::Plain, r"div id"),
-                (TokenKind::Keyword, r"="),
-                (TokenKind::String, r#""app""#),
-                (TokenKind::Keyword, r">"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: VUE,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    VUE,
+                    [
+                        (TokenKind::Keyword, r"<"),
+                        (TokenKind::Plain, r"div id"),
+                        (TokenKind::Keyword, r"="),
+                        (TokenKind::String, r#""app""#),
+                        (TokenKind::Keyword, r">"),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Keyword, r"<"),
-                (TokenKind::Plain, r"p"),
-                (TokenKind::Keyword, r">"),
-                (TokenKind::Punctuation, r"{"),
-                (TokenKind::Plain, r"{ message "),
-                (TokenKind::Punctuation, r"}"),
-                (TokenKind::Plain, r"}"),
-                (TokenKind::Keyword, r"<"),
-                (
-                    TokenKind::String,
-                    r"/p>
+                        ),
+                        (TokenKind::Keyword, r"<"),
+                        (TokenKind::Plain, r"p"),
+                        (TokenKind::Keyword, r">"),
+                        (TokenKind::Punctuation, r"{"),
+                        (TokenKind::Plain, r"{ message "),
+                        (TokenKind::Punctuation, r"}"),
+                        (TokenKind::Plain, r"}"),
+                        (TokenKind::Keyword, r"<"),
+                        (
+                            TokenKind::String,
+                            r"/p>
 </",
-                ),
-                (TokenKind::Plain, r"div"),
-                (TokenKind::Keyword, r">"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Plain, r"div"),
+                        (TokenKind::Keyword, r">"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"<"),
-                (TokenKind::Plain, r"script"),
-                (TokenKind::Keyword, r">"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"<"),
+                        (TokenKind::Plain, r"script"),
+                        (TokenKind::Keyword, r">"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"new"),
-                (TokenKind::Plain, r" Vue"),
-                (TokenKind::Punctuation, r"({"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"new"),
+                        (TokenKind::Plain, r" Vue"),
+                        (TokenKind::Punctuation, r"({"),
+                        (
+                            TokenKind::Plain,
+                            r"
   el",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::String, r"'#app'"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::String, r"'#app'"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"
   data",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"{"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"{"),
+                        (
+                            TokenKind::Plain,
+                            r"
     message",
-                ),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r"'", output_for_hello_world!(), r"'"),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r"'", output_for_hello_world!(), r"'"),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
   ",
-                ),
-                (TokenKind::Punctuation, r"}"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"}"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Punctuation, r"})"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Punctuation, r"})"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Keyword, r"<"),
-                (TokenKind::String, r"/script>"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"<"),
+                        (TokenKind::String, r"/script>"),
+                    ],
+                )
+            },
         }],
     };

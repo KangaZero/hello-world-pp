@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,18 @@ language_names! {
     versions: [Pb => "PB"],
     extensions: [Pwr => "pwr"],
 }
+
+const PB: &str = concat!(
+    r"; ",
+    output_for_hello_world!(),
+    r#" in "PowerBatch Plus+" from Computing Systems Design, Inc.
+
+Variable        Msg,13,""#,
+    output_for_hello_world!(),
+    r#""
+
+Write           Msg"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,30 +41,25 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Pb,
-            syntax: concat!(
-                r"; ",
-                output_for_hello_world!(),
-                r#" in "PowerBatch Plus+" from Computing Systems Design, Inc.
+            syntax: PB,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PB,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"; ",
+                            output_for_hello_world!(),
+                            r#" in "PowerBatch Plus+" from Computing Systems Design, Inc.
 
 Variable        Msg,13,""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 
 Write           Msg"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"; ",
-                    output_for_hello_world!(),
-                    r#" in "PowerBatch Plus+" from Computing Systems Design, Inc.
-
-Variable        Msg,13,""#,
-                    output_for_hello_world!(),
-                    r#""
-
-Write           Msg"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

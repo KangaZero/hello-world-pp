@@ -10,13 +10,18 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Configuration,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Toml => "TOML",
     versions: [Toml => "TOML"],
     extensions: [Toml => "toml"],
 }
+
+const TOML: &str = r#"Hello = "World""#;
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,10 +31,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Toml,
-            syntax: r#"Hello = "World""#,
-            tokenized_syntax: &[
-                (TokenKind::Plain, r"Hello = "),
-                (TokenKind::String, r#""World""#),
-            ],
+            syntax: TOML,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    TOML,
+                    [
+                        (TokenKind::Plain, r"Hello = "),
+                        (TokenKind::String, r#""World""#),
+                    ],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -22,18 +22,10 @@ language_names! {
     extensions: [],
 }
 
-pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
-    ProgrammingLanguage {
-        name: ProgrammingLanguageName::Assembler68000Amiga,
-        extensions: &[],
-        categories: &[Assembly],
-        families: &[],
-        versions: &[ProgrammingLanguageVersion {
-            label: ProgrammingLanguageDialect::Assembler68000Amiga,
-            syntax: concat!(
-                r"; ",
-                output_for_hello_world!(),
-                r" in 68000 Assembler for dos.library (Amiga)
+const ASSEMBLER68000_AMIGA: &str = concat!(
+    r"; ",
+    output_for_hello_world!(),
+    r" in 68000 Assembler for dos.library (Amiga)
 
         move.l  #DOS
         move.l  4.w,a6
@@ -54,177 +46,192 @@ B)      jsr     -$03B4          ;PutStr
 
 DOS          dc.b    'dos.library',0
 HelloWorld   dc.b    '",
-                output_for_hello_world!(),
-                r"',$A,0"
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Comment,
-                    concat!(
-                        r"; ",
-                        output_for_hello_world!(),
-                        r" in 68000 Assembler for dos.library (Amiga)"
-                    ),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+    output_for_hello_world!(),
+    r"',$A,0"
+);
+
+pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
+    ProgrammingLanguage {
+        name: ProgrammingLanguageName::Assembler68000Amiga,
+        extensions: &[],
+        categories: &[Assembly],
+        families: &[],
+        versions: &[ProgrammingLanguageVersion {
+            label: ProgrammingLanguageDialect::Assembler68000Amiga,
+            syntax: ASSEMBLER68000_AMIGA,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ASSEMBLER68000_AMIGA,
+                    [
+                        (
+                            TokenKind::Comment,
+                            concat!(
+                                r"; ",
+                                output_for_hello_world!(),
+                                r" in 68000 Assembler for dos.library (Amiga)"
+                            ),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
         ",
-                ),
-                (TokenKind::Keyword, r"move"),
-                (TokenKind::Macro, r".l"),
-                (
-                    TokenKind::Plain,
-                    r"  #DOS
+                        ),
+                        (TokenKind::Keyword, r"move"),
+                        (TokenKind::Macro, r".l"),
+                        (
+                            TokenKind::Plain,
+                            r"  #DOS
         ",
-                ),
-                (TokenKind::Keyword, r"move"),
-                (TokenKind::Macro, r".l"),
-                (TokenKind::Plain, r"  "),
-                (TokenKind::Number, r"4"),
-                (TokenKind::Macro, r".w"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"a6
+                        ),
+                        (TokenKind::Keyword, r"move"),
+                        (TokenKind::Macro, r".l"),
+                        (TokenKind::Plain, r"  "),
+                        (TokenKind::Number, r"4"),
+                        (TokenKind::Macro, r".w"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"a6
         ",
-                ),
-                (TokenKind::Keyword, r"jsr"),
-                (TokenKind::Plain, r"     -$"),
-                (TokenKind::Number, r"0198"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"a6"),
-                (TokenKind::Punctuation, r")"),
-                (TokenKind::Plain, r"      "),
-                (TokenKind::Comment, r";OldOpenLibrary"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"jsr"),
+                        (TokenKind::Plain, r"     -$"),
+                        (TokenKind::Number, r"0198"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"a6"),
+                        (TokenKind::Punctuation, r")"),
+                        (TokenKind::Plain, r"      "),
+                        (TokenKind::Comment, r";OldOpenLibrary"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"move"),
-                (TokenKind::Macro, r".l"),
-                (TokenKind::Plain, r"  d0"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"a6
+                        ),
+                        (TokenKind::Keyword, r"move"),
+                        (TokenKind::Macro, r".l"),
+                        (TokenKind::Plain, r"  d0"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"a6
         ",
-                ),
-                (TokenKind::Keyword, r"beq"),
-                (TokenKind::Macro, r".s"),
-                (TokenKind::Plain, r"   "),
-                (TokenKind::Macro, r".Out"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"beq"),
+                        (TokenKind::Macro, r".s"),
+                        (TokenKind::Plain, r"   "),
+                        (TokenKind::Macro, r".Out"),
+                        (
+                            TokenKind::Plain,
+                            r"
         ",
-                ),
-                (TokenKind::Keyword, r"move"),
-                (TokenKind::Macro, r".l"),
-                (TokenKind::Plain, r"  #HelloWorld"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"d1
-
-",
-                ),
-                (TokenKind::Keyword, r"A"),
-                (TokenKind::Punctuation, r")"),
-                (TokenKind::Plain, r"      moveq   #"),
-                (TokenKind::Number, r"13"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"d2
-        ",
-                ),
-                (TokenKind::Keyword, r"jsr"),
-                (TokenKind::Plain, r"     -$03AE"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"a6"),
-                (TokenKind::Punctuation, r")"),
-                (TokenKind::Plain, r"      "),
-                (TokenKind::Comment, r";WriteChars"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"move"),
+                        (TokenKind::Macro, r".l"),
+                        (TokenKind::Plain, r"  #HelloWorld"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"d1
 
 ",
-                ),
-                (TokenKind::Keyword, r"B"),
-                (TokenKind::Punctuation, r")"),
-                (TokenKind::Plain, r"      jsr     -$03B4          "),
-                (TokenKind::Comment, r";PutStr"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"A"),
+                        (TokenKind::Punctuation, r")"),
+                        (TokenKind::Plain, r"      moveq   #"),
+                        (TokenKind::Number, r"13"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"d2
+        ",
+                        ),
+                        (TokenKind::Keyword, r"jsr"),
+                        (TokenKind::Plain, r"     -$03AE"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"a6"),
+                        (TokenKind::Punctuation, r")"),
+                        (TokenKind::Plain, r"      "),
+                        (TokenKind::Comment, r";WriteChars"),
+                        (
+                            TokenKind::Plain,
+                            r"
+
+",
+                        ),
+                        (TokenKind::Keyword, r"B"),
+                        (TokenKind::Punctuation, r")"),
+                        (TokenKind::Plain, r"      jsr     -$03B4          "),
+                        (TokenKind::Comment, r";PutStr"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
         ",
-                ),
-                (TokenKind::Keyword, r"move"),
-                (TokenKind::Macro, r".l"),
-                (TokenKind::Plain, r"  a6"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"a1
+                        ),
+                        (TokenKind::Keyword, r"move"),
+                        (TokenKind::Macro, r".l"),
+                        (TokenKind::Plain, r"  a6"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"a1
         ",
-                ),
-                (TokenKind::Keyword, r"move"),
-                (TokenKind::Macro, r".l"),
-                (TokenKind::Plain, r"  "),
-                (TokenKind::Number, r"4"),
-                (TokenKind::Macro, r".w"),
-                (TokenKind::Punctuation, r","),
-                (
-                    TokenKind::Plain,
-                    r"a6
+                        ),
+                        (TokenKind::Keyword, r"move"),
+                        (TokenKind::Macro, r".l"),
+                        (TokenKind::Plain, r"  "),
+                        (TokenKind::Number, r"4"),
+                        (TokenKind::Macro, r".w"),
+                        (TokenKind::Punctuation, r","),
+                        (
+                            TokenKind::Plain,
+                            r"a6
         ",
-                ),
-                (TokenKind::Keyword, r"jsr"),
-                (TokenKind::Plain, r"     -$019E"),
-                (TokenKind::Punctuation, r"("),
-                (TokenKind::Plain, r"a6"),
-                (TokenKind::Punctuation, r")"),
-                (TokenKind::Plain, r"      "),
-                (TokenKind::Comment, r";CloseLibrary"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"jsr"),
+                        (TokenKind::Plain, r"     -$019E"),
+                        (TokenKind::Punctuation, r"("),
+                        (TokenKind::Plain, r"a6"),
+                        (TokenKind::Punctuation, r")"),
+                        (TokenKind::Plain, r"      "),
+                        (TokenKind::Comment, r";CloseLibrary"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Macro, r".Out"),
-                (
-                    TokenKind::Plain,
-                    r"    rts
+                        ),
+                        (TokenKind::Macro, r".Out"),
+                        (
+                            TokenKind::Plain,
+                            r"    rts
 
 DOS          ",
-                ),
-                (TokenKind::Keyword, r"dc"),
-                (TokenKind::Macro, r".b"),
-                (TokenKind::Plain, r"    "),
-                (TokenKind::String, r"'dos.library'"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"0"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"dc"),
+                        (TokenKind::Macro, r".b"),
+                        (TokenKind::Plain, r"    "),
+                        (TokenKind::String, r"'dos.library'"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"0"),
+                        (
+                            TokenKind::Plain,
+                            r"
 HelloWorld   ",
-                ),
-                (TokenKind::Keyword, r"dc"),
-                (TokenKind::Macro, r".b"),
-                (TokenKind::Plain, r"    "),
-                (
-                    TokenKind::String,
-                    concat!(r"'", output_for_hello_world!(), r"'"),
-                ),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Plain, r"$A"),
-                (TokenKind::Punctuation, r","),
-                (TokenKind::Number, r"0"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"dc"),
+                        (TokenKind::Macro, r".b"),
+                        (TokenKind::Plain, r"    "),
+                        (
+                            TokenKind::String,
+                            concat!(r"'", output_for_hello_world!(), r"'"),
+                        ),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Plain, r"$A"),
+                        (TokenKind::Punctuation, r","),
+                        (TokenKind::Number, r"0"),
+                    ],
+                )
+            },
         }],
     };

@@ -11,13 +11,38 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Mention => "Mention",
     versions: [Mention => "Mention"],
     extensions: [],
 }
+
+const MENTION: &str = r"v 0 01001000 // H
+o 1
+v 1 01100101 // e
+o 1
+v 10 01101100 // l
+o 1
+o 1
+v 11 01101111 // o
+o 1
+v 100 00100000 // space
+o 1
+v 101 01010111 // W
+o 1
+v 11 // o
+o 1
+v 110 01110000 // r
+o 1
+v 10 // l
+o 1
+v 111 01100100 // d
+o 1";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +52,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Mention,
-            syntax: r"v 0 01001000 // H
+            syntax: MENTION,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MENTION,
+                    [(
+                        TokenKind::Plain,
+                        r"v 0 01001000 // H
 o 1
 v 1 01100101 // e
 o 1
@@ -48,29 +79,8 @@ v 10 // l
 o 1
 v 111 01100100 // d
 o 1",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"v 0 01001000 // H
-o 1
-v 1 01100101 // e
-o 1
-v 10 01101100 // l
-o 1
-o 1
-v 11 01101111 // o
-o 1
-v 100 00100000 // space
-o 1
-v 101 01010111 // W
-o 1
-v 11 // o
-o 1
-v 110 01110000 // r
-o 1
-v 10 // l
-o 1
-v 111 01100100 // d
-o 1",
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -10,13 +10,18 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Markup,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Cson => "CSON",
     versions: [Cson => "CSON"],
     extensions: [Cson => "cson"],
 }
+
+const CSON: &str = r"{'Hello': 'World'}";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +31,9 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cson,
-            syntax: r"{'Hello': 'World'}",
-            tokenized_syntax: &[(TokenKind::Plain, r"{'Hello': 'World'}")],
+            syntax: CSON,
+            tokenized_syntax: &const {
+                checked_token_lengths(CSON, [(TokenKind::Plain, r"{'Hello': 'World'}")])
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,12 @@ language_names! {
     versions: [AmigaE => "Amiga-E"],
     extensions: [AmigaE => "amiga-e"],
 }
+
+const AMIGA_E: &str = concat!(
+    r"PROC main() IS WriteF('",
+    output_for_hello_world!(),
+    r"\n')"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,18 +36,19 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AmigaE,
-            syntax: concat!(
-                r"PROC main() IS WriteF('",
-                output_for_hello_world!(),
-                r"\n')"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"PROC main() IS WriteF('",
-                    output_for_hello_world!(),
-                    r"\n')"
-                ),
-            )],
+            syntax: AMIGA_E,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    AMIGA_E,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"PROC main() IS WriteF('",
+                            output_for_hello_world!(),
+                            r"\n')"
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -10,13 +10,25 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Binaryfuck => "Binaryfuck",
     versions: [Binaryfuck => "Binaryfuck"],
     extensions: [],
 }
+
+const BINARYFUCK: &str = r"000 000 000 000 000 000 000 000 000 000 110 010 000 010 000
+000 000 010 000 000 000 000 000 000 000 010 000 000 000 000
+000 000 000 000 000 000 011 011 011 011 001 111 010 010 010
+000 000 100 010 000 100 000 000 000 000 000 000 000 100 100
+000 000 000 100 011 011 000 000 100 010 000 000 000 000 000
+000 000 000 000 000 000 000 000 000 000 100 010 100 000 000
+000 100 001 001 001 001 001 001 100 001 001 001 001 001 001
+001 001 100";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +38,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Binaryfuck,
-            syntax: r"000 000 000 000 000 000 000 000 000 000 110 010 000 010 000
+            syntax: BINARYFUCK,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    BINARYFUCK,
+                    [(
+                        TokenKind::Plain,
+                        r"000 000 000 000 000 000 000 000 000 000 110 010 000 010 000
 000 000 010 000 000 000 000 000 000 000 010 000 000 000 000
 000 000 000 000 000 000 011 011 011 011 001 111 010 010 010
 000 000 100 010 000 100 000 000 000 000 000 000 000 100 100
@@ -34,16 +52,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 000 000 000 000 000 000 000 000 000 000 100 010 100 000 000
 000 100 001 001 001 001 001 001 100 001 001 001 001 001 001
 001 001 100",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"000 000 000 000 000 000 000 000 000 000 110 010 000 010 000
-000 000 010 000 000 000 000 000 000 000 010 000 000 000 000
-000 000 000 000 000 000 011 011 011 011 001 111 010 010 010
-000 000 100 010 000 100 000 000 000 000 000 000 000 100 100
-000 000 000 100 011 011 000 000 100 010 000 000 000 000 000
-000 000 000 000 000 000 000 000 000 000 100 010 100 000 000
-000 100 001 001 001 001 001 001 100 001 001 001 001 001 001
-001 001 100",
-            )],
+                    )],
+                )
+            },
         }],
     };

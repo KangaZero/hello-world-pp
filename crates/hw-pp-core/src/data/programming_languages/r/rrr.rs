@@ -11,13 +11,26 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Rrr => "Rrr",
     versions: [Rrr => "Rrr"],
     extensions: [],
 }
+
+const RRR: &str = r"rRrRrrRrrRrrRrrRrRrrrRrrRrrrRrrr
+RrRrrrrRrrRrrrrRrrrrRrRrrrrRrrRr
+rrrrRrrrrrRrRrrrrrRrrRrrrrrrRrrr
+rrrRrRrRrrRrrrrrrrRrrrrrrrRrRrrr
+rrrRrrRrrrrrrrrRrrrrrrrrRrRrrrrr
+RrrRrrrrrrrrrRrrrrrrrrrRrRrrrrrr
+rRrrRrrrrrrrrrrRrrrrrrrrrrRrRrrr
+rRrrRrrrrrrrrrrrRrrrrrrrrrrrRrRr
+rrrrrrrRrrRrrrrrrrrrrrr";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +40,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rrr,
-            syntax: r"rRrRrrRrrRrrRrrRrRrrrRrrRrrrRrrr
+            syntax: RRR,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    RRR,
+                    [(
+                        TokenKind::Plain,
+                        r"rRrRrrRrrRrrRrrRrRrrrRrrRrrrRrrr
 RrRrrrrRrrRrrrrRrrrrRrRrrrrRrrRr
 rrrrRrrrrrRrRrrrrrRrrRrrrrrrRrrr
 rrrRrRrRrrRrrrrrrrRrrrrrrrRrRrrr
@@ -36,17 +55,8 @@ RrrRrrrrrrrrrRrrrrrrrrrRrRrrrrrr
 rRrrRrrrrrrrrrrRrrrrrrrrrrRrRrrr
 rRrrRrrrrrrrrrrrRrrrrrrrrrrrRrRr
 rrrrrrrRrrRrrrrrrrrrrrr",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"rRrRrrRrrRrrRrrRrRrrrRrrRrrrRrrr
-RrRrrrrRrrRrrrrRrrrrRrRrrrrRrrRr
-rrrrRrrrrrRrRrrrrrRrrRrrrrrrRrrr
-rrrRrRrRrrRrrrrrrrRrrrrrrrRrRrrr
-rrrRrrRrrrrrrrrRrrrrrrrrRrRrrrrr
-RrrRrrrrrrrrrRrrrrrrrrrRrRrrrrrr
-rRrrRrrrrrrrrrrRrrrrrrrrrrRrRrrr
-rRrrRrrrrrrrrrrrRrrrrrrrrrrrRrRr
-rrrrrrrRrrRrrrrrrrrrrrr",
-            )],
+                    )],
+                )
+            },
         }],
     };

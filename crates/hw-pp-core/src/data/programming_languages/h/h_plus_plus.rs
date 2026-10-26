@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,26 @@ language_names! {
     versions: [HPlusPlus => "H++"],
     extensions: [],
 }
+
+const H_PLUS_PLUS: &str = concat!(
+    r#"import "stdhpp\stdapi.hcc";
+
+using printf = Console::WriteLn;
+
+namespace
+{
+    class Application
+    {
+        public static void main()
+        {
+            printf(""#,
+    output_for_hello_world!(),
+    r#"");
+            return;
+        }
+    };
+};"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,8 +49,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::HPlusPlus,
-            syntax: concat!(
-                r#"import "stdhpp\stdapi.hcc";
+            syntax: H_PLUS_PLUS,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    H_PLUS_PLUS,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"import "stdhpp\stdapi.hcc";
 
 using printf = Console::WriteLn;
 
@@ -41,34 +67,15 @@ namespace
         public static void main()
         {
             printf(""#,
-                output_for_hello_world!(),
-                r#"");
+                            output_for_hello_world!(),
+                            r#"");
             return;
         }
     };
 };"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"import "stdhpp\stdapi.hcc";
-
-using printf = Console::WriteLn;
-
-namespace
-{
-    class Application
-    {
-        public static void main()
-        {
-            printf(""#,
-                    output_for_hello_world!(),
-                    r#"");
-            return;
-        }
-    };
-};"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

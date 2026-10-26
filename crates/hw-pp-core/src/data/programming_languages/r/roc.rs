@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,18 @@ language_names! {
     versions: [Roc => "Roc"],
     extensions: [Roc => "roc"],
 }
+
+const ROC: &str = concat!(
+    r#"app [main] { pf: platform "https://github.com/roc-lang/basic-cli/releases/download/0.12.0/Lb8EgiejTUzbggO2HVVuPJFkwvvsfW6LojkLR20kTVE.tar.br" }
+
+import pf.Stdout
+import pf.Task
+
+main =
+    Stdout.line! ""#,
+    output_for_hello_world!(),
+    r#"""#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,63 +41,58 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Roc,
-            syntax: concat!(
-                r#"app [main] { pf: platform "https://github.com/roc-lang/basic-cli/releases/download/0.12.0/Lb8EgiejTUzbggO2HVVuPJFkwvvsfW6LojkLR20kTVE.tar.br" }
-
-import pf.Stdout
-import pf.Task
-
-main =
-    Stdout.line! ""#,
-                output_for_hello_world!(),
-                r#"""#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Plain, r"app "),
-                (TokenKind::Punctuation, r"["),
-                (TokenKind::Plain, r"main"),
-                (TokenKind::Punctuation, r"]"),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"{"),
-                (TokenKind::Plain, r" pf"),
-                (TokenKind::Punctuation, r":"),
-                (TokenKind::Plain, r" platform "),
-                (
-                    TokenKind::String,
-                    r#""https://github.com/roc-lang/basic-cli/releases/download/0.12.0/Lb8EgiejTUzbggO2HVVuPJFkwvvsfW6LojkLR20kTVE.tar.br""#,
-                ),
-                (TokenKind::Plain, r" "),
-                (TokenKind::Punctuation, r"}"),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: ROC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ROC,
+                    [
+                        (TokenKind::Plain, r"app "),
+                        (TokenKind::Punctuation, r"["),
+                        (TokenKind::Plain, r"main"),
+                        (TokenKind::Punctuation, r"]"),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"{"),
+                        (TokenKind::Plain, r" pf"),
+                        (TokenKind::Punctuation, r":"),
+                        (TokenKind::Plain, r" platform "),
+                        (
+                            TokenKind::String,
+                            r#""https://github.com/roc-lang/basic-cli/releases/download/0.12.0/Lb8EgiejTUzbggO2HVVuPJFkwvvsfW6LojkLR20kTVE.tar.br""#,
+                        ),
+                        (TokenKind::Plain, r" "),
+                        (TokenKind::Punctuation, r"}"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"import"),
-                (TokenKind::Plain, r" pf"),
-                (TokenKind::Punctuation, r"."),
-                (
-                    TokenKind::Plain,
-                    r"Stdout
+                        ),
+                        (TokenKind::Keyword, r"import"),
+                        (TokenKind::Plain, r" pf"),
+                        (TokenKind::Punctuation, r"."),
+                        (
+                            TokenKind::Plain,
+                            r"Stdout
 ",
-                ),
-                (TokenKind::Keyword, r"import"),
-                (TokenKind::Plain, r" pf"),
-                (TokenKind::Punctuation, r"."),
-                (
-                    TokenKind::Plain,
-                    r"Task
+                        ),
+                        (TokenKind::Keyword, r"import"),
+                        (TokenKind::Plain, r" pf"),
+                        (TokenKind::Punctuation, r"."),
+                        (
+                            TokenKind::Plain,
+                            r"Task
 
 main =
     Stdout",
-                ),
-                (TokenKind::Punctuation, r"."),
-                (TokenKind::Plain, r"line! "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-            ],
+                        ),
+                        (TokenKind::Punctuation, r"."),
+                        (TokenKind::Plain, r"line! "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                    ],
+                )
+            },
         }],
     };

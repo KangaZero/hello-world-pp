@@ -11,13 +11,31 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: MushyBang3 => "Mushy! :3",
     versions: [MushyBang3 => "Mushy! :3"],
     extensions: [],
 }
+
+const MUSHY_BANG3: &str = r" tsspssspt
+sssppwwwpqtt
+ wwwpepwww
+     p
+     q
+     q
+     t
+     w
+     p
+     q
+     w
+     w
+     w
+     w";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +45,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::MushyBang3,
-            syntax: r" tsspssspt
+            syntax: MUSHY_BANG3,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MUSHY_BANG3,
+                    [(
+                        TokenKind::Plain,
+                        r" tsspssspt
 sssppwwwpqtt
  wwwpepwww
      p
@@ -41,22 +65,8 @@ sssppwwwpqtt
      w
      w
      w",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r" tsspssspt
-sssppwwwpqtt
- wwwpepwww
-     p
-     q
-     q
-     t
-     w
-     p
-     q
-     w
-     w
-     w
-     w",
-            )],
+                    )],
+                )
+            },
         }],
     };

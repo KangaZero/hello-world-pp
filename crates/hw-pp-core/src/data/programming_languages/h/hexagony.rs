@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Hexagony => "Hexagony",
     versions: [Hexagony => "Hexagony"],
     extensions: [],
 }
+
+const HEXAGONY: &str = r"H;e;l;d;*;r;o;Wl;;o;*433;@.>;23<\4;*/";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +32,12 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hexagony,
-            syntax: r"H;e;l;d;*;r;o;Wl;;o;*433;@.>;23<\4;*/",
-            tokenized_syntax: &[(TokenKind::Plain, r"H;e;l;d;*;r;o;Wl;;o;*433;@.>;23<\4;*/")],
+            syntax: HEXAGONY,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    HEXAGONY,
+                    [(TokenKind::Plain, r"H;e;l;d;*;r;o;Wl;;o;*433;@.>;23<\4;*/")],
+                )
+            },
         }],
     };

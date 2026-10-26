@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,19 @@ language_names! {
     versions: [Hop => "HOP"],
     extensions: [],
 }
+
+const HOP: &str = concat!(
+    r#"(define-service (hello-world)
+  (<HTML>
+     (<HEAD>
+        (<TITLE> ""#,
+    output_for_hello_world!(),
+    r#""))
+     (<BODY>
+        ""#,
+    output_for_hello_world!(),
+    r#"")))"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,32 +42,26 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Lisp],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hop,
-            syntax: concat!(
-                r#"(define-service (hello-world)
+            syntax: HOP,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    HOP,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"(define-service (hello-world)
   (<HTML>
      (<HEAD>
         (<TITLE> ""#,
-                output_for_hello_world!(),
-                r#""))
+                            output_for_hello_world!(),
+                            r#""))
      (<BODY>
         ""#,
-                output_for_hello_world!(),
-                r#"")))"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"(define-service (hello-world)
-  (<HTML>
-     (<HEAD>
-        (<TITLE> ""#,
-                    output_for_hello_world!(),
-                    r#""))
-     (<BODY>
-        ""#,
-                    output_for_hello_world!(),
-                    r#"")))"#
-                ),
-            )],
+                            output_for_hello_world!(),
+                            r#"")))"#
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,12 @@ language_names! {
     versions: [Tex => "TeX"],
     extensions: [],
 }
+
+const TEX: &str = concat!(
+    output_for_hello_world!(),
+    r"
+\bye"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,22 +35,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Tex,
-            syntax: concat!(
-                output_for_hello_world!(),
-                r"
-\bye"
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Plain,
-                    concat!(
-                        output_for_hello_world!(),
-                        r"
+            syntax: TEX,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    TEX,
+                    [
+                        (
+                            TokenKind::Plain,
+                            concat!(
+                                output_for_hello_world!(),
+                                r"
 "
-                    ),
-                ),
-                (TokenKind::Punctuation, r"\"),
-                (TokenKind::Function, r"bye"),
-            ],
+                            ),
+                        ),
+                        (TokenKind::Punctuation, r"\"),
+                        (TokenKind::Function, r"bye"),
+                    ],
+                )
+            },
         }],
     };

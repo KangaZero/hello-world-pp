@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,19 @@ language_names! {
     versions: [Svm => "SVM"],
     extensions: [],
 }
+
+const SVM: &str = concat!(
+    r"## The ",
+    output_for_hello_world!(),
+    r" program in SVM code
+AM =0000000C
+CM $",
+    output_for_hello_world!(),
+    r",=0000000C,*00000000
+DD *00000000,=0000000C
+IC *00000000
+EP"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,32 +43,26 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Svm,
-            syntax: concat!(
-                r"## The ",
-                output_for_hello_world!(),
-                r" program in SVM code
+            syntax: SVM,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SVM,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"## The ",
+                            output_for_hello_world!(),
+                            r" program in SVM code
 AM =0000000C
 CM $",
-                output_for_hello_world!(),
-                r",=0000000C,*00000000
+                            output_for_hello_world!(),
+                            r",=0000000C,*00000000
 DD *00000000,=0000000C
 IC *00000000
 EP"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"## The ",
-                    output_for_hello_world!(),
-                    r" program in SVM code
-AM =0000000C
-CM $",
-                    output_for_hello_world!(),
-                    r",=0000000C,*00000000
-DD *00000000,=0000000C
-IC *00000000
-EP"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

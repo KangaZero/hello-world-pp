@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,16 @@ language_names! {
     versions: [Advpl => "Advpl"],
     extensions: [],
 }
+
+const ADVPL: &str = concat!(
+    r#"User Function Hello()
+Local cMsg := ""#,
+    output_for_hello_world!(),
+    r#""
+conout(cMsg)
+MsgInfo(cMsg)
+Return"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,26 +39,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[XBase],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Advpl,
-            syntax: concat!(
-                r#"User Function Hello()
+            syntax: ADVPL,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    ADVPL,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"User Function Hello()
 Local cMsg := ""#,
-                output_for_hello_world!(),
-                r#""
+                            output_for_hello_world!(),
+                            r#""
 conout(cMsg)
 MsgInfo(cMsg)
 Return"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"User Function Hello()
-Local cMsg := ""#,
-                    output_for_hello_world!(),
-                    r#""
-conout(cMsg)
-MsgInfo(cMsg)
-Return"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,8 @@ language_names! {
     versions: [Smurf => "Smurf"],
     extensions: [],
 }
+
+const SMURF: &str = concat!(r#"""#, output_for_hello_world!(), r#""o"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Smurf,
-            syntax: concat!(r#"""#, output_for_hello_world!(), r#""o"#),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(r#"""#, output_for_hello_world!(), r#""o"#),
-            )],
+            syntax: SMURF,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SMURF,
+                    [(
+                        TokenKind::Plain,
+                        concat!(r#"""#, output_for_hello_world!(), r#""o"#),
+                    )],
+                )
+            },
         }],
     };

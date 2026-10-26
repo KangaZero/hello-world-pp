@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,21 @@ language_names! {
     versions: [Pbasic => "PBASIC"],
     extensions: [],
 }
+
+const PBASIC: &str = concat!(
+    r"' ",
+    output_for_hello_world!(),
+    r#" in PBASIC (for the Boe-Bot Robot)
+
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+DEBUG ""#,
+    output_for_hello_world!(),
+    r#""
+
+END"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,61 +45,53 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[Basic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Pbasic,
-            syntax: concat!(
-                r"' ",
-                output_for_hello_world!(),
-                r#" in PBASIC (for the Boe-Bot Robot)
-
-' {$STAMP BS2}
-' {$PBASIC 2.5}
-
-DEBUG ""#,
-                output_for_hello_world!(),
-                r#""
-
-END"#
-            ),
-            tokenized_syntax: &[
-                (
-                    TokenKind::Comment,
-                    concat!(
-                        r"' ",
-                        output_for_hello_world!(),
-                        r" in PBASIC (for the Boe-Bot Robot)"
-                    ),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+            syntax: PBASIC,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PBASIC,
+                    [
+                        (
+                            TokenKind::Comment,
+                            concat!(
+                                r"' ",
+                                output_for_hello_world!(),
+                                r" in PBASIC (for the Boe-Bot Robot)"
+                            ),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Comment, r"' {$STAMP BS2}"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"' {$STAMP BS2}"),
+                        (
+                            TokenKind::Plain,
+                            r"
 ",
-                ),
-                (TokenKind::Comment, r"' {$PBASIC 2.5}"),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Comment, r"' {$PBASIC 2.5}"),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"DEBUG"),
-                (TokenKind::Plain, r" "),
-                (
-                    TokenKind::String,
-                    concat!(r#"""#, output_for_hello_world!(), r#"""#),
-                ),
-                (
-                    TokenKind::Plain,
-                    r"
+                        ),
+                        (TokenKind::Keyword, r"DEBUG"),
+                        (TokenKind::Plain, r" "),
+                        (
+                            TokenKind::String,
+                            concat!(r#"""#, output_for_hello_world!(), r#"""#),
+                        ),
+                        (
+                            TokenKind::Plain,
+                            r"
 
 ",
-                ),
-                (TokenKind::Keyword, r"END"),
-            ],
+                        ),
+                        (TokenKind::Keyword, r"END"),
+                    ],
+                )
+            },
         }],
     };

@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,14 @@ language_names! {
     versions: [PocketCalculator => "Pocket Calculator"],
     extensions: [],
 }
+
+const POCKET_CALCULATOR: &str = concat!(
+    output_for_hello_world!(),
+    r" for standard pocket calculators (7-segment display).
+Type in and turn calculator upside down.
+
+0.7734"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,22 +38,21 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PocketCalculator,
-            syntax: concat!(
-                output_for_hello_world!(),
-                r" for standard pocket calculators (7-segment display).
+            syntax: POCKET_CALCULATOR,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    POCKET_CALCULATOR,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            output_for_hello_world!(),
+                            r" for standard pocket calculators (7-segment display).
 Type in and turn calculator upside down.
 
 0.7734"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    output_for_hello_world!(),
-                    r" for standard pocket calculators (7-segment display).
-Type in and turn calculator upside down.
-
-0.7734"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

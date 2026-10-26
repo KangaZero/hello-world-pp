@@ -11,13 +11,20 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: HowDareYouFuckTheBrain => "How dare you fuck the brain",
     versions: [HowDareYouFuckTheBrain => "How dare you fuck the brain"],
     extensions: [],
 }
+
+const HOW_DARE_YOU_FUCK_THE_BRAIN: &str = r"IIII=+=+=+=+IIIIIIIIP=DDDP^IIIIPPIIIP^IIII=+=+=+^IIII=+=+DDDDv+P
+DvD^)IIII=+=+=+P=+^IIII=+=+v+IIIIIIIP=
+vD^D)^DDDDDDDDv+P=IIIP^DDDP^DDDD=+v+P^IIII=+=+=+IPH";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,14 +34,17 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::HowDareYouFuckTheBrain,
-            syntax: r"IIII=+=+=+=+IIIIIIIIP=DDDP^IIIIPPIIIP^IIII=+=+=+^IIII=+=+DDDDv+P
+            syntax: HOW_DARE_YOU_FUCK_THE_BRAIN,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    HOW_DARE_YOU_FUCK_THE_BRAIN,
+                    [(
+                        TokenKind::Plain,
+                        r"IIII=+=+=+=+IIIIIIIIP=DDDP^IIIIPPIIIP^IIII=+=+=+^IIII=+=+DDDDv+P
 DvD^)IIII=+=+=+P=+^IIII=+=+v+IIIIIIIP=
 vD^D)^DDDDDDDDv+P=IIIP^DDDP^DDDD=+v+P^IIII=+=+=+IPH",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"IIII=+=+=+=+IIIIIIIIP=DDDP^IIIIPPIIIP^IIII=+=+=+^IIII=+=+DDDDv+P
-DvD^)IIII=+=+=+P=+^IIII=+=+v+IIIIIIIP=
-vD^D)^DDDDDDDDv+P=IIIP^DDDP^DDDD=+v+P^IIII=+=+=+IPH",
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -11,7 +11,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -19,6 +19,8 @@ language_names! {
     versions: [R4 => "R 4"],
     extensions: [R => "r"],
 }
+
+const R4: &str = concat!(r#"cat(""#, output_for_hello_world!(), r#"\n")"#);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -28,15 +30,20 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[R],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::R4,
-            syntax: concat!(r#"cat(""#, output_for_hello_world!(), r#"\n")"#),
-            tokenized_syntax: &[
-                (TokenKind::Function, "cat"),
-                (TokenKind::Plain, "("),
-                (
-                    TokenKind::String,
-                    concat!("\"", output_for_hello_world!(), r#"\n""#),
-                ),
-                (TokenKind::Punctuation, ")"),
-            ],
+            syntax: R4,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    R4,
+                    [
+                        (TokenKind::Function, "cat"),
+                        (TokenKind::Plain, "("),
+                        (
+                            TokenKind::String,
+                            concat!("\"", output_for_hello_world!(), r#"\n""#),
+                        ),
+                        (TokenKind::Punctuation, ")"),
+                    ],
+                )
+            },
         }],
     };

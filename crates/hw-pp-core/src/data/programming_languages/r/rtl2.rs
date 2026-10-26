@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,25 @@ language_names! {
     versions: [Rtl2 => "RTL2"],
     extensions: [Rtl2 => "rtl2"],
 }
+
+const RTL2: &str = concat!(
+    r"TITLE ",
+    output_for_hello_world!(),
+    r#";
+
+LET NL=10;
+
+EXT PROC(REF ARRAY BYTE) TWRT;
+
+ENT PROC INT RRJOB();
+
+    TWRT(""#,
+    output_for_hello_world!(),
+    r#"#NL#");
+    RETURN(1);
+
+ENDPROC;"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,10 +48,16 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rtl2,
-            syntax: concat!(
-                r"TITLE ",
-                output_for_hello_world!(),
-                r#";
+            syntax: RTL2,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    RTL2,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"TITLE ",
+                            output_for_hello_world!(),
+                            r#";
 
 LET NL=10;
 
@@ -41,32 +66,14 @@ EXT PROC(REF ARRAY BYTE) TWRT;
 ENT PROC INT RRJOB();
 
     TWRT(""#,
-                output_for_hello_world!(),
-                r#"#NL#");
+                            output_for_hello_world!(),
+                            r#"#NL#");
     RETURN(1);
 
 ENDPROC;"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"TITLE ",
-                    output_for_hello_world!(),
-                    r#";
-
-LET NL=10;
-
-EXT PROC(REF ARRAY BYTE) TWRT;
-
-ENT PROC INT RRJOB();
-
-    TWRT(""#,
-                    output_for_hello_world!(),
-                    r#"#NL#");
-    RETURN(1);
-
-ENDPROC;"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

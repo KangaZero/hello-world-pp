@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,18 @@ language_names! {
     versions: [Go1 => "Go 1"],
     extensions: [Go => "go"],
 }
+
+const GO1: &str = concat!(
+    r#"package main
+
+import "fmt"
+
+func main() {
+    fmt.Println(""#,
+    output_for_hello_world!(),
+    r#"")
+}"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,41 +41,36 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[C],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Go1,
-            syntax: concat!(
-                r#"package main
-
-import "fmt"
-
-func main() {
-    fmt.Println(""#,
-                output_for_hello_world!(),
-                r#"")
-}"#
-            ),
-            tokenized_syntax: &[
-                (TokenKind::Keyword, "package"),
-                (TokenKind::Plain, " main\n\n"),
-                (TokenKind::Keyword, "import"),
-                (TokenKind::Plain, " "),
-                (TokenKind::String, "\"fmt\""),
-                (TokenKind::Plain, "\n\n"),
-                (TokenKind::Type, "func"),
-                (TokenKind::Plain, " "),
-                (TokenKind::Function, "main"),
-                (TokenKind::Punctuation, "()"),
-                (TokenKind::Plain, " "),
-                (TokenKind::Punctuation, "{"),
-                (TokenKind::Plain, "\n    fmt"),
-                (TokenKind::Punctuation, "."),
-                (TokenKind::Function, "Println"),
-                (TokenKind::Punctuation, "("),
-                (
-                    TokenKind::String,
-                    concat!("\"", output_for_hello_world!(), "\""),
-                ),
-                (TokenKind::Punctuation, ")"),
-                (TokenKind::Plain, "\n"),
-                (TokenKind::Punctuation, "}"),
-            ],
+            syntax: GO1,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    GO1,
+                    [
+                        (TokenKind::Keyword, "package"),
+                        (TokenKind::Plain, " main\n\n"),
+                        (TokenKind::Keyword, "import"),
+                        (TokenKind::Plain, " "),
+                        (TokenKind::String, "\"fmt\""),
+                        (TokenKind::Plain, "\n\n"),
+                        (TokenKind::Type, "func"),
+                        (TokenKind::Plain, " "),
+                        (TokenKind::Function, "main"),
+                        (TokenKind::Punctuation, "()"),
+                        (TokenKind::Plain, " "),
+                        (TokenKind::Punctuation, "{"),
+                        (TokenKind::Plain, "\n    fmt"),
+                        (TokenKind::Punctuation, "."),
+                        (TokenKind::Function, "Println"),
+                        (TokenKind::Punctuation, "("),
+                        (
+                            TokenKind::String,
+                            concat!("\"", output_for_hello_world!(), "\""),
+                        ),
+                        (TokenKind::Punctuation, ")"),
+                        (TokenKind::Plain, "\n"),
+                        (TokenKind::Punctuation, "}"),
+                    ],
+                )
+            },
         }],
     };

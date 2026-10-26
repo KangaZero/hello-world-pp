@@ -11,13 +11,18 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Seeker => "Seeker",
     versions: [Seeker => "Seeker"],
     extensions: [],
 }
+
+const SEEKER: &str = r"!chr.@chr:72.$chr.@chr:101.$chr.@chr:108.$chr.@chr:111.$chr.@chr:32.$chr.@chr:119.$chr.@chr:114.$chr.@chr:100.$chr.@chr:33.$chr._";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,10 +32,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Seeker,
-            syntax: r"!chr.@chr:72.$chr.@chr:101.$chr.@chr:108.$chr.@chr:111.$chr.@chr:32.$chr.@chr:119.$chr.@chr:114.$chr.@chr:100.$chr.@chr:33.$chr._",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"!chr.@chr:72.$chr.@chr:101.$chr.@chr:108.$chr.@chr:111.$chr.@chr:32.$chr.@chr:119.$chr.@chr:114.$chr.@chr:100.$chr.@chr:33.$chr._",
-            )],
+            syntax: SEEKER,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SEEKER,
+                    [(
+                        TokenKind::Plain,
+                        r"!chr.@chr:72.$chr.@chr:101.$chr.@chr:108.$chr.@chr:111.$chr.@chr:32.$chr.@chr:119.$chr.@chr:114.$chr.@chr:100.$chr.@chr:33.$chr._",
+                    )],
+                )
+            },
         }],
     };

@@ -10,13 +10,27 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Tri => "Tri",
     versions: [Tri => "Tri"],
     extensions: [Tri => "tri"],
 }
+
+const TRI: &str = r"inc inc psh psh psh mul sto nxt sto psh mul lst psh add 
+sto prn nxt zro clr inc inc inc psh psh add inc nxt pop 
+inc psh lst psh mul one psh add sto nxt sto lst lst psh 
+nxt nxt nxt add sto prn zro inc inc inc psh inc psh add 
+sto prn prn inc inc inc prn clr lst lst lst psh nxt psh
+sub nxt sto inc prn lst one clr inc psh psh inc psh mul 
+nxt psh sub neg pop prn inc nxt psh nxt sto inc inc inc
+inc inc inc inc inc prn lst prn nxt dec dec dec dec dec 
+prn dec dec dec dec dec dec prn lst dec dec dec dec dec 
+dec dec dec dec dec dec prn lst prn lin";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +40,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Tri,
-            syntax: r"inc inc psh psh psh mul sto nxt sto psh mul lst psh add 
+            syntax: TRI,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    TRI,
+                    [(
+                        TokenKind::Plain,
+                        r"inc inc psh psh psh mul sto nxt sto psh mul lst psh add 
 sto prn nxt zro clr inc inc inc psh psh add inc nxt pop 
 inc psh lst psh mul one psh add sto nxt sto lst lst psh 
 nxt nxt nxt add sto prn zro inc inc inc psh inc psh add 
@@ -36,18 +56,8 @@ nxt psh sub neg pop prn inc nxt psh nxt sto inc inc inc
 inc inc inc inc inc prn lst prn nxt dec dec dec dec dec 
 prn dec dec dec dec dec dec prn lst dec dec dec dec dec 
 dec dec dec dec dec dec prn lst prn lin",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"inc inc psh psh psh mul sto nxt sto psh mul lst psh add 
-sto prn nxt zro clr inc inc inc psh psh add inc nxt pop 
-inc psh lst psh mul one psh add sto nxt sto lst lst psh 
-nxt nxt nxt add sto prn zro inc inc inc psh inc psh add 
-sto prn prn inc inc inc prn clr lst lst lst psh nxt psh
-sub nxt sto inc prn lst one clr inc psh psh inc psh mul 
-nxt psh sub neg pop prn inc nxt psh nxt sto inc inc inc
-inc inc inc inc inc prn lst prn nxt dec dec dec dec dec 
-prn dec dec dec dec dec dec prn lst dec dec dec dec dec 
-dec dec dec dec dec dec prn lst prn lin",
-            )],
+                    )],
+                )
+            },
         }],
     };

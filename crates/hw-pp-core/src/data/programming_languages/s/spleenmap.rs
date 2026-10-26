@@ -11,13 +11,36 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Spleenmap => "Spleenmap",
     versions: [Spleenmap => "Spleenmap"],
     extensions: [],
 }
+
+const SPLEENMAP: &str = r"   .++  ...+...+...
+ +++ +* .         +
+++      ++       +.
+.        +       +
+.+       + +..+ ++
+ ++ +++ .+ +  + +
+  +.. + .  + .+ .++
+      . ...+ +    +
+    ++.      +. ++.
+    +         . .
+    .+       ++ ++
+     +++     +   +++   ?++.
+       +     +     +      .
+       .     +   ++.     ++
+      ++     ++. +  +++  +
+      +        . +... ++ +
+      .+   ++. .       +..
+       +++ + +++
+         ++.";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +50,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Spleenmap,
-            syntax: r"   .++  ...+...+...
+            syntax: SPLEENMAP,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SPLEENMAP,
+                    [(
+                        TokenKind::Plain,
+                        r"   .++  ...+...+...
  +++ +* .         +
 ++      ++       +.
 .        +       +
@@ -46,27 +75,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
       .+   ++. .       +..
        +++ + +++
          ++.",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"   .++  ...+...+...
- +++ +* .         +
-++      ++       +.
-.        +       +
-.+       + +..+ ++
- ++ +++ .+ +  + +
-  +.. + .  + .+ .++
-      . ...+ +    +
-    ++.      +. ++.
-    +         . .
-    .+       ++ ++
-     +++     +   +++   ?++.
-       +     +     +      .
-       .     +   ++.     ++
-      ++     ++. +  +++  +
-      +        . +... ++ +
-      .+   ++. .       +..
-       +++ + +++
-         ++.",
-            )],
+                    )],
+                )
+            },
         }],
     };

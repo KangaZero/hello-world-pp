@@ -19,7 +19,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -27,6 +27,42 @@ language_names! {
     versions: [RpgIv => "RPG IV", RpgIvV5 => "RPG IV v5", RpgIvV71 => "RPG IV v7.1"],
     extensions: [],
 }
+
+const RPG_IV: &str = concat!(
+    r"/free
+    dsply '",
+    output_for_hello_world!(),
+    r"';
+    return;
+/end-free"
+);
+const RPG_IV_V5: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r" in RPG IV version 5
+
+D wait           S              1
+
+  /Free
+   dsply ( '",
+    output_for_hello_world!(),
+    r"') ' ' wait;
+
+   *inlr = *on;    "
+);
+const RPG_IV_V71: &str = concat!(
+    r"// ",
+    output_for_hello_world!(),
+    r" in RPG IV version 7.1
+
+dcl-s wait char(1);
+
+dsply ( '",
+    output_for_hello_world!(),
+    r"') ' ' wait;
+
+*inlr = *on;"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -37,91 +73,74 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::RpgIv,
-                syntax: concat!(
-                    r"/free
+                syntax: RPG_IV,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        RPG_IV,
+                        [(
+                            TokenKind::Plain,
+                            concat!(
+                                r"/free
     dsply '",
-                    output_for_hello_world!(),
-                    r"';
+                                output_for_hello_world!(),
+                                r"';
     return;
 /end-free"
-                ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r"/free
-    dsply '",
-                        output_for_hello_world!(),
-                        r"';
-    return;
-/end-free"
-                    ),
-                )],
+                            ),
+                        )],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::RpgIvV5,
-                syntax: concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r" in RPG IV version 5
+                syntax: RPG_IV_V5,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        RPG_IV_V5,
+                        [(
+                            TokenKind::Plain,
+                            concat!(
+                                r"// ",
+                                output_for_hello_world!(),
+                                r" in RPG IV version 5
 
 D wait           S              1
 
   /Free
    dsply ( '",
-                    output_for_hello_world!(),
-                    r"') ' ' wait;
+                                output_for_hello_world!(),
+                                r"') ' ' wait;
 
    *inlr = *on;    "
-                ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r"// ",
-                        output_for_hello_world!(),
-                        r" in RPG IV version 5
-
-D wait           S              1
-
-  /Free
-   dsply ( '",
-                        output_for_hello_world!(),
-                        r"') ' ' wait;
-
-   *inlr = *on;    "
-                    ),
-                )],
+                            ),
+                        )],
+                    )
+                },
             },
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::RpgIvV71,
-                syntax: concat!(
-                    r"// ",
-                    output_for_hello_world!(),
-                    r" in RPG IV version 7.1
+                syntax: RPG_IV_V71,
+                tokenized_syntax: &const {
+                    checked_token_lengths(
+                        RPG_IV_V71,
+                        [(
+                            TokenKind::Plain,
+                            concat!(
+                                r"// ",
+                                output_for_hello_world!(),
+                                r" in RPG IV version 7.1
 
 dcl-s wait char(1);
 
 dsply ( '",
-                    output_for_hello_world!(),
-                    r"') ' ' wait;
+                                output_for_hello_world!(),
+                                r"') ' ' wait;
 
 *inlr = *on;"
-                ),
-                tokenized_syntax: &[(
-                    TokenKind::Plain,
-                    concat!(
-                        r"// ",
-                        output_for_hello_world!(),
-                        r" in RPG IV version 7.1
-
-dcl-s wait char(1);
-
-dsply ( '",
-                        output_for_hello_world!(),
-                        r"') ' ' wait;
-
-*inlr = *on;"
-                    ),
-                )],
+                            ),
+                        )],
+                    )
+                },
             },
         ],
     };

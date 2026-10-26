@@ -13,7 +13,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -21,6 +21,16 @@ language_names! {
     versions: [Rickrolling => "Rickrolling"],
     extensions: [],
 }
+
+const RICKROLLING: &str = concat!(
+    r"We're no strangers to love
+You know the rules and so do I (hi)
+A full commitment's what I'm thinking of hi
+You wouldn't get this from any other ",
+    output_for_hello_world!(),
+    r"
+Your heart's been aching, but you're too shy to say it (hi)"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -30,26 +40,23 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rickrolling,
-            syntax: concat!(
-                r"We're no strangers to love
+            syntax: RICKROLLING,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    RICKROLLING,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"We're no strangers to love
 You know the rules and so do I (hi)
 A full commitment's what I'm thinking of hi
 You wouldn't get this from any other ",
-                output_for_hello_world!(),
-                r"
+                            output_for_hello_world!(),
+                            r"
 Your heart's been aching, but you're too shy to say it (hi)"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"We're no strangers to love
-You know the rules and so do I (hi)
-A full commitment's what I'm thinking of hi
-You wouldn't get this from any other ",
-                    output_for_hello_world!(),
-                    r"
-Your heart's been aching, but you're too shy to say it (hi)"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

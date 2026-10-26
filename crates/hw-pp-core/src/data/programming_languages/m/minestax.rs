@@ -11,13 +11,51 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Minestax => "MineStax",
     versions: [Minestax => "MineStax"],
     extensions: [],
 }
+
+const MINESTAX: &str = r"liidsdsdsslliiiscliscliiscliidsiiiscliiislliidsdsdsslliidsdsdssl
+liidsdsdsslliidsdsdsslliidsdsdsslliiiscliidsdsiiiscliislliiiscli
+iscliidsscliiscliidsislliiiscliscliidsiscliiscliidsislliiisclisc
+liidsiscliiscliidsislliiiscliiiscliscliiiscliidsiislliidsscliids
+iscliidsiiislliidsdsdsslliidsdsdsslliiiscliscliidsdsiiiislliiisc
+liscliidsdsiiiislliiiscliidsdsiiiscliislliiiscliidsdsiiiscliisll
+iiiscliscliidsdsiscliscliislliiiscliscliidsdsiscliscliislliidsds
+dsslliidsdsdsslliidsdsiscliscliidsiislliidsdsiscliiscliidsisllii
+dsdsiscliiscliidsislliidsdsiscliscliidsiislliidsiiiscliiiscliids
+iislliiiscliidsdsscliidsislliidsdsdsslliidsdsdsslliidsiiscliscli
+idsdsislliidsscliidsiiscliidsiislliiiscliiscliiiscliiscliidsiisl
+liiiscliscliidsiscliiscliidsislliiiscliscliidsiscliiscliidsislli
+iiscliiscliiiscliiscliidsiislliidsscliidsiiscliidsiislliidsiiscl
+iscliidsdsislliidsdsiiscliiiscliiislliiiscliidsdsiiscliiislliiis
+cliidsscliidsdsislliidsiscliidsscliidsiiislliidsiiscliidsscliids
+iislliidsscliidsscliidsdsslliiiscliidsiiscliidsiiislliiiscliidsd
+siiscliiislliidsdsiiiiscliscliiislliidsdsdsslliidsdsdsslliidsdsd
+sslliidsdsdsslliidsdsdsslliidsdsdsslliidsdsdsslliidsdsdsslliidsd
+sdsslliidsscliidsiscliidsiiislliiiscliiiscliiscliiscliidsiisllii
+iscliscliidsiscliiscliidsislliiiscliscliidsiscliiscliidsislliiis
+cliiscliidsscliscliidsiislliidsscliidsiiscliidsiislliidsiscliiis
+cliidsdsslliidsdsdsslliiiscliscliidsdsiiiislliiiscliscliidsdsiii
+islliiiscliscliidsdsiiiislliiiscliidsdsiiiscliislliiiscliscliids
+dsscliiscliislliiiscliscliidsdsiscliscliislliiiscliscliidsdsiiii
+slliidsdsdsslliidsdsdsslliiiscliscliidsdsiiiislliiiscliscliidsds
+iiiislliiiscliidsdsiiiscliislliiiscliidsdsiiiscliislliiiscliscli
+idsdsiscliscliislliiiscliscliidsdsiscliscliislliidsdsdsslliidsds
+dsslliiiscliscliiscliiiscliidsiiislliiiscliscliiscliidsscliidsii
+slliiiscliscliiscliiscliscliiscliidsislliiiscliscliiscliiscliscl
+iiscliidsislliiiscliiscliscliiscliscliiscliidsislliidsscliidsiis
+cliidsiislliidsiscliidsscliidsiiislliidsdsdsslliiiscliidsdsiiscl
+iiislliiiscliidsdsiiscliiislliidsiiiscliiscliidsiiislliidsiiiscl
+iiscliidsiiislliidsiiiscliiscliidsiiislliidsiiiscliiscliidsiiisl
+liiiscliidsdsiiscliiislliidsdsdss";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,7 +65,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Minestax,
-            syntax: r"liidsdsdsslliiiscliscliiscliidsiiiscliiislliidsdsdsslliidsdsdssl
+            syntax: MINESTAX,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    MINESTAX,
+                    [(
+                        TokenKind::Plain,
+                        r"liidsdsdsslliiiscliscliiscliidsiiiscliiislliidsdsdsslliidsdsdssl
 liidsdsdsslliidsdsdsslliidsdsdsslliiiscliidsdsiiiscliislliiiscli
 iscliidsscliiscliidsislliiiscliscliidsiscliiscliidsislliiisclisc
 liidsiscliiscliidsislliiiscliiiscliscliiiscliidsiislliidsscliids
@@ -61,42 +105,8 @@ cliidsiislliidsiscliidsscliidsiiislliidsdsdsslliiiscliidsdsiiscl
 iiislliiiscliidsdsiiscliiislliidsiiiscliiscliidsiiislliidsiiiscl
 iiscliidsiiislliidsiiiscliiscliidsiiislliidsiiiscliiscliidsiiisl
 liiiscliidsdsiiscliiislliidsdsdss",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"liidsdsdsslliiiscliscliiscliidsiiiscliiislliidsdsdsslliidsdsdssl
-liidsdsdsslliidsdsdsslliidsdsdsslliiiscliidsdsiiiscliislliiiscli
-iscliidsscliiscliidsislliiiscliscliidsiscliiscliidsislliiisclisc
-liidsiscliiscliidsislliiiscliiiscliscliiiscliidsiislliidsscliids
-iscliidsiiislliidsdsdsslliidsdsdsslliiiscliscliidsdsiiiislliiisc
-liscliidsdsiiiislliiiscliidsdsiiiscliislliiiscliidsdsiiiscliisll
-iiiscliscliidsdsiscliscliislliiiscliscliidsdsiscliscliislliidsds
-dsslliidsdsdsslliidsdsiscliscliidsiislliidsdsiscliiscliidsisllii
-dsdsiscliiscliidsislliidsdsiscliscliidsiislliidsiiiscliiiscliids
-iislliiiscliidsdsscliidsislliidsdsdsslliidsdsdsslliidsiiscliscli
-idsdsislliidsscliidsiiscliidsiislliiiscliiscliiiscliiscliidsiisl
-liiiscliscliidsiscliiscliidsislliiiscliscliidsiscliiscliidsislli
-iiscliiscliiiscliiscliidsiislliidsscliidsiiscliidsiislliidsiiscl
-iscliidsdsislliidsdsiiscliiiscliiislliiiscliidsdsiiscliiislliiis
-cliidsscliidsdsislliidsiscliidsscliidsiiislliidsiiscliidsscliids
-iislliidsscliidsscliidsdsslliiiscliidsiiscliidsiiislliiiscliidsd
-siiscliiislliidsdsiiiiscliscliiislliidsdsdsslliidsdsdsslliidsdsd
-sslliidsdsdsslliidsdsdsslliidsdsdsslliidsdsdsslliidsdsdsslliidsd
-sdsslliidsscliidsiscliidsiiislliiiscliiiscliiscliiscliidsiisllii
-iscliscliidsiscliiscliidsislliiiscliscliidsiscliiscliidsislliiis
-cliiscliidsscliscliidsiislliidsscliidsiiscliidsiislliidsiscliiis
-cliidsdsslliidsdsdsslliiiscliscliidsdsiiiislliiiscliscliidsdsiii
-islliiiscliscliidsdsiiiislliiiscliidsdsiiiscliislliiiscliscliids
-dsscliiscliislliiiscliscliidsdsiscliscliislliiiscliscliidsdsiiii
-slliidsdsdsslliidsdsdsslliiiscliscliidsdsiiiislliiiscliscliidsds
-iiiislliiiscliidsdsiiiscliislliiiscliidsdsiiiscliislliiiscliscli
-idsdsiscliscliislliiiscliscliidsdsiscliscliislliidsdsdsslliidsds
-dsslliiiscliscliiscliiiscliidsiiislliiiscliscliiscliidsscliidsii
-slliiiscliscliiscliiscliscliiscliidsislliiiscliscliiscliiscliscl
-iiscliidsislliiiscliiscliscliiscliscliiscliidsislliidsscliidsiis
-cliidsiislliidsiscliidsscliidsiiislliidsdsdsslliiiscliidsdsiiscl
-iiislliiiscliidsdsiiscliiislliidsiiiscliiscliidsiiislliidsiiiscl
-iiscliidsiiislliidsiiiscliiscliidsiiislliidsiiiscliiscliidsiiisl
-liiiscliidsdsiiscliiislliidsdsdss",
-            )],
+                    )],
+                )
+            },
         }],
     };

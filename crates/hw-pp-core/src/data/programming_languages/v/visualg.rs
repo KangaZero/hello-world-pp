@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,15 @@ language_names! {
     versions: [Visualg => "VisuAlg"],
     extensions: [],
 }
+
+const VISUALG: &str = concat!(
+    r#"Algoritmo " "
+Inicio
+escreva(""#,
+    output_for_hello_world!(),
+    r#"")
+Fimalgoritmo"#
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,24 +38,22 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Visualg,
-            syntax: concat!(
-                r#"Algoritmo " "
+            syntax: VISUALG,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    VISUALG,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r#"Algoritmo " "
 Inicio
 escreva(""#,
-                output_for_hello_world!(),
-                r#"")
+                            output_for_hello_world!(),
+                            r#"")
 Fimalgoritmo"#
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r#"Algoritmo " "
-Inicio
-escreva(""#,
-                    output_for_hello_world!(),
-                    r#"")
-Fimalgoritmo"#
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };

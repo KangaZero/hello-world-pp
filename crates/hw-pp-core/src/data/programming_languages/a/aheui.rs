@@ -10,13 +10,25 @@ use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Aheui => "Aheui",
     versions: [Aheui => "Aheui"],
     extensions: [Aheui => "aheui"],
 }
+
+const AHEUI: &str = r"밤밣따빠밣밟따뿌
+빠맣파빨받밤뚜뭏
+돋밬탕빠맣붏두붇
+볻뫃박발뚷투뭏붖
+뫃도뫃희멓뭏뭏붘
+뫃봌토범더벌뿌뚜
+뽑뽀멓멓더벓뻐뚠
+뽀덩벐멓뻐덕더벅";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +38,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Aheui,
-            syntax: r"밤밣따빠밣밟따뿌
+            syntax: AHEUI,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    AHEUI,
+                    [(
+                        TokenKind::Plain,
+                        r"밤밣따빠밣밟따뿌
 빠맣파빨받밤뚜뭏
 돋밬탕빠맣붏두붇
 볻뫃박발뚷투뭏붖
@@ -34,16 +52,8 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
 뫃봌토범더벌뿌뚜
 뽑뽀멓멓더벓뻐뚠
 뽀덩벐멓뻐덕더벅",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r"밤밣따빠밣밟따뿌
-빠맣파빨받밤뚜뭏
-돋밬탕빠맣붏두붇
-볻뫃박발뚷투뭏붖
-뫃도뫃희멓뭏뭏붘
-뫃봌토범더벌뿌뚜
-뽑뽀멓멓더벓뻐뚠
-뽀덩벐멓뻐덕더벅",
-            )],
+                    )],
+                )
+            },
         }],
     };

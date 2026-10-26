@@ -11,13 +11,20 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: Sickbay => "SICKBAY",
     versions: [Sickbay => "SICKBAY"],
     extensions: [],
 }
+
+const SICKBAY: &str = r#"20 PRINT "WORLD!"
+10 PRINT "HELLO, ";
+20 PRINT "SAILOR""#;
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -27,14 +34,17 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sickbay,
-            syntax: r#"20 PRINT "WORLD!"
+            syntax: SICKBAY,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    SICKBAY,
+                    [(
+                        TokenKind::Plain,
+                        r#"20 PRINT "WORLD!"
 10 PRINT "HELLO, ";
 20 PRINT "SAILOR""#,
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r#"20 PRINT "WORLD!"
-10 PRINT "HELLO, ";
-20 PRINT "SAILOR""#,
-            )],
+                    )],
+                )
+            },
         }],
     };

@@ -10,13 +10,30 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
 };
-use crate::data::{macros::language_names, programming_languages_token::TokenKind};
+use crate::data::{
+    macros::language_names,
+    programming_languages_token::{TokenKind, checked_token_lengths},
+};
 
 language_names! {
     language: U03bcU03bb => "μλ",
     versions: [U03bcU03bb => "μλ"],
     extensions: [],
 }
+
+const U03BC_U03BB: &str = r">  EEEEEEEΔΔΘς       v
+v  ςΘΔEEEEEEEEEE     <
+>  EEEEEEEEEEEδδΘς   v
+v  ΘδδEEEEEEEEEEEς   <
+>  ς EEEEEEEEEEEΔΘ   v
+v  ΘΔΔΔΔEEEEς        <
+>  ςEEEΔΔΘ           v
+v  ΘδEEEEEEEEEEEEς   <
+>  ςEEEEEEEEEEEΔΘ    v
+v  ΘΔΔΔΔEEEEEEEEEEEς <
+>  ςEEEEEEEEEEEδδΘ   v
+v  ΘEEEEEEEEEEς      <
+>  ςEEEΔΔΔΘ          λ";
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -26,7 +43,13 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::U03bcU03bb,
-            syntax: r">  EEEEEEEΔΔΘς       v
+            syntax: U03BC_U03BB,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    U03BC_U03BB,
+                    [(
+                        TokenKind::Plain,
+                        r">  EEEEEEEΔΔΘς       v
 v  ςΘΔEEEEEEEEEE     <
 >  EEEEEEEEEEEδδΘς   v
 v  ΘδδEEEEEEEEEEEς   <
@@ -39,21 +62,8 @@ v  ΘΔΔΔΔEEEEEEEEEEEς <
 >  ςEEEEEEEEEEEδδΘ   v
 v  ΘEEEEEEEEEEς      <
 >  ςEEEΔΔΔΘ          λ",
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                r">  EEEEEEEΔΔΘς       v
-v  ςΘΔEEEEEEEEEE     <
->  EEEEEEEEEEEδδΘς   v
-v  ΘδδEEEEEEEEEEEς   <
->  ς EEEEEEEEEEEΔΘ   v
-v  ΘΔΔΔΔEEEEς        <
->  ςEEEΔΔΘ           v
-v  ΘδEEEEEEEEEEEEς   <
->  ςEEEEEEEEEEEΔΘ    v
-v  ΘΔΔΔΔEEEEEEEEEEEς <
->  ςEEEEEEEEEEEδδΘ   v
-v  ΘEEEEEEEEEEς      <
->  ςEEEΔΔΔΘ          λ",
-            )],
+                    )],
+                )
+            },
         }],
     };

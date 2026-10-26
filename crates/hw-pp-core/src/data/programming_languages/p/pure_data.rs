@@ -12,7 +12,7 @@ use crate::data::programming_languages::{
 };
 use crate::data::{
     macros::{language_names, output_for_hello_world},
-    programming_languages_token::TokenKind,
+    programming_languages_token::{TokenKind, checked_token_lengths},
 };
 
 language_names! {
@@ -20,6 +20,15 @@ language_names! {
     versions: [PureData => "Pure Data"],
     extensions: [Pd => "pd"],
 }
+
+const PURE_DATA: &str = concat!(
+    r"#N canvas 1029 457 450 300 10;
+#X obj 127 132 print;
+#X msg 127 86 ",
+    output_for_hello_world!(),
+    r";
+#X connect 1 0 0 0;"
+);
 
 pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
     ProgrammingLanguage {
@@ -29,24 +38,22 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         families: &[],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PureData,
-            syntax: concat!(
-                r"#N canvas 1029 457 450 300 10;
+            syntax: PURE_DATA,
+            tokenized_syntax: &const {
+                checked_token_lengths(
+                    PURE_DATA,
+                    [(
+                        TokenKind::Plain,
+                        concat!(
+                            r"#N canvas 1029 457 450 300 10;
 #X obj 127 132 print;
 #X msg 127 86 ",
-                output_for_hello_world!(),
-                r";
+                            output_for_hello_world!(),
+                            r";
 #X connect 1 0 0 0;"
-            ),
-            tokenized_syntax: &[(
-                TokenKind::Plain,
-                concat!(
-                    r"#N canvas 1029 457 450 300 10;
-#X obj 127 132 print;
-#X msg 127 86 ",
-                    output_for_hello_world!(),
-                    r";
-#X connect 1 0 0 0;"
-                ),
-            )],
+                        ),
+                    )],
+                )
+            },
         }],
     };
