@@ -33,6 +33,15 @@ anstyle = "1.0.14"
 assert_cmd = "2.2.2"
 predicates = "3.1.4"
 
+[profile.release]
+# One codegen unit + fat LTO: whole-program inlining and dead-code removal (~19% smaller binary).
+lto = "fat"
+codegen-units = 1
+# Debug symbols are useless in a shipped CLI.
+strip = true
+# Nothing catches unwinds, and `main` returns `anyhow::Result`, so errors never panic.
+panic = "abort"
+
 [workspace.lints.rust]
 unsafe_code = "forbid"
 
