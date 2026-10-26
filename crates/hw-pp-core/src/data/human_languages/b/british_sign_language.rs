@@ -3,27 +3,96 @@
 //! Sources:
 //! - <https://www.signbsl.com/sign/hello>
 //! - <https://www.signbsl.com/sign/world>
+//! - <https://commons.wikimedia.org/wiki/Category:British_manual_alphabet>
+//!
+//! The fingerspelling greetings are ASCII art derived from "BSL letter D/E/H/L/O/R/W.svg" by
+//! Coloringbuddymike (<https://commons.wikimedia.org/wiki/User:Coloringbuddymike>), licensed
+//! CC BY-SA 3.0 (<https://creativecommons.org/licenses/by-sa/3.0/>). Changes: rasterized,
+//! converted to ASCII characters and, for the left-handed dialect, mirrored. The ASCII art is
+//! itself licensed CC BY-SA 3.0.
 
 use crate::data::human_languages::{
-    Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Signed, HumanLanguageName,
+    Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Signed,
+    HumanLanguageName, ScriptName,
 };
 use crate::data::macros::language_names;
 
 language_names! {
     language: BritishSignLanguage => "British Sign Language",
-    dialects: [Bsl => "BSL"],
-    scripts: [],
+    dialects: [Bsl => "BSL", LeftHandedBsl => "Left-handed BSL"],
+    scripts: [Fingerspelling => "Fingerspelling"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
     name: HumanLanguageName::BritishSignLanguage,
     categories: &[Signed],
-    scripts: &[],
-    dialects: &[Dialect {
-        label: DialectName::Bsl,
-        greetings: &[Greeting {
-            scripts: &[],
-            text: "HELLO WORLD",
-        }],
-    }],
+    scripts: &[ScriptName::Fingerspelling],
+    dialects: &[
+        Dialect {
+            label: DialectName::Bsl,
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Fingerspelling],
+                // H-E-L-L-O W-O-R-L-D fingerspelled with the right hand dominant, as ASCII art traced from the
+                // CC BY-SA 3.0 letter drawings (see the module docs).
+                text: r"             __/|_|||||                |/|                                      _|/||\|                           _|/||\|                 |(_ _|||
+    \||_   _|/`_/`|||/'              _|`||_  _ _                        |||   _|'_|/_|/|                  |||   _|'_|/_|/|               |/_||'_/  __/|||__
+    ||\| _/' _/'_/|||               _/ |||_//||_\|_                    _|'| _|/ |/`|/`||                 _|'| _|/ |/`|/`||              _|_||`|/_|/'_//\_`|\_
+    |`'|||_||__||/|/|\              |_|/'`_//` '\_`\_                  |` |/'`\/`_/'_/_|                 |` |/'`\/`_/'_/_|              /|'|` ||/_|/`   `\| '|_
+   _|  |||'\|`\|\|_|`             _//'|\|/`      '\_`\|___            ||  ' _||_\|_|'|/                 ||  ' _||_\|_|'|/                | '||||_|`       `|_ '\|__
+   ||  '|_\|_\|`\|'|_             | ||'_|          \_  ``'\||          |     \|'\||_||__|__              |     \|'\||_||__|__            |  |//||`        _||     `\-
+   ||    |_`\_`|_`| '|_           | |( ||         _||       `|         |      '|_ |||| '|`\|\_           |      '|_ |||| '|`\|\_         | _|  ||        _| |
+  _/|_  __||_`\_`     \|          |/'  ||         |_/        '|        ||_      \|_ `\-      '|_         ||_      \|_ `\-      '|_       | /  _|||       |||/
+_|/` ' /||'\|\_``      `|         |    `|          |          |      _|` `    _|/`'|           \\      _|` `    _|/`'|           \\      |    /| |        |_
+'`      _|\|_ \         '|_      |\    |\          `\|_       '\    |/`     _|'`   `\__         \|    |/`     _|'`   `\__         \|     |     ||\         '\|___
+      _|/   `\|__         '|_   /'   _|`              '\|_     `|   `      |/        `\\_        \_   `      |/        `\\_        \_    |     |/              `'\|_
+     -/`       `'\|/        `        '`                  \/               ''            '\/       `         ''            '\/       `   |`    |/                   '\
+
+         _|||||_||||||_               |(_ _|||                                _|/||/|                        _|/||\|                            ||||||\\\|__
+        \|\\_||||||||||              |/_||'_/  __/|||__                |/|  _|/_|/_|\|               |||   _|'_|/_|/|                          _|'|'||\|_ `|_
+         '\__|/'`_|||_              _|_||`|/_|/'_//\_`|\_              | |_|\||/_|'_/|              _|'| _|/ |/`|/`||                         _| |/    _||  \\_
+        |/||/`|/\|`||/\_            /|'|` ||/_|/`   `\| '|_           || ''   `\/_|'|'              |` |/'`\/`_/'_/_|                        _| _|   _|'`|_  `(|
+      _/' ` /||_ `\/   `(_           | '||||_|`       `|_ '\|__       ||        _|_|'              ||  ' _||_\|_|'|/                       __|`_||__ |`\|||`   '|
+     |/    __|_||__      '|_         |  |//||`        _||     `\-     _|    _|/'``'\\|__            |     \|'\||_||__|__                 _|'/  |\|_'\||//'`     |_
+   _|`    |||\//`|||       '|_       | _|  ||        _| |              |__  |`|||\|_   `\_          |      '|_ |||| '|`\|\_             _|`       '|___         '|
+ _|/`      `` _||` ``        \|      | /  _|||       |||/            _/```\_|||/_|/\|/   \_         ||_      \|_ `\-      '|_          _|`          |'|_         ||
+|`         _|/'`'\|_          '\|    |    /| |        |_            /'     |/`  |_||'     '|_     _|` `    _|/`'|           \\        _/`        __//  '\|_       \|
+      __|//'       '\___             |     ||\         '\|___             |`   |/``         |_   |/`     _|'`   `\__         \|     _|/        _|/`       '\|      '
+   _|/'`              `'|\|_         |     |/              `'\|_                \\|__        |   `      |/        `\\_        \_   |/`     __|/'`           '|
+   '`                      '\/      |`    |/                   '\                  `''\\/              ''            '\/       `          \/`                ||",
+            }],
+        },
+        Dialect {
+            label: DialectName::LeftHandedBsl,
+            greetings: &[Greeting {
+                scripts: &[ScriptName::Fingerspelling],
+                // H-E-L-L-O W-O-R-L-D fingerspelled with the left hand dominant (mirrored), as ASCII art traced from the
+                // CC BY-SA 3.0 letter drawings (see the module docs).
+                text: r"      |||||_|\__                                       |\|                      |/||\|_                           |/||\|_                                  |||_ _||
+      '\|||`\_`\|_   _||/                        _ _  _|\`|_                   |\\_\|_'\_   |||                  |\\_\|_'\_   |||                 __|||\__  \_'||_||
+        |||\_'\_ '\_ |/||                     _|/_||\\_||| \_                  || \| \| \\_ |'|_                 || \| \| \\_ |'|_              _/|`_/'\_'\|_'| ||_|_
+        |\|\||__||_|||\'|                   _/'_/' `\\_`'\\_|                  |_\_'\_`\/ '\| '|                 |_\_'\_`\/ '\| '|            _|' |/`   `\|_'\| '|'|\
+        '|_|/|/`|/'|||  |/             ___|/`_/'      `\|/|'\\_                 \|'|_|/_||_ '  |/                 \|'|_|/_||_ '  |/       __|/' _|`       '|_||||` |
+        _|'|/`|/`|/`|\  |\          ||/'`'` _/          |_'|| |             __|__||_||/'|/     |              __|__||_||/'|/     |      -/`     ||_         ||\\|  |
+      _|' |`_|`_/`_|`   |\         |`       |\_         || )\ |          _/|/`|'`||||`_|'      |           _/|/`|'`||||`_|'      |              | |_        ||  |_ |`
+     |/     `_/`_||__  _|\_       |\        \_|         ||  '\|        _|'       /' _|/      _||         _|'       /' _|/      _||              \|/|       |/|_  \ |
+    |`       `_||/'||\ '` \|_     |          |`         |`    |\      |/           |'`\|_      '|_      |/           |'`\|_      '|_             _|`       | |\    |
+  _|`         /`_|/|_       '    |/       _|/`          '\    '\     |/         __/`    '|_      \|    |/         __/`    '|_      \|       ___|/'         |\|     |
+_|'         __|/'   ||_         (`     _|/'              '|_   '\   _/        _|/`        \|      `   _/        _|/`        \|      `    _|/'``             \|     |
+`        \|/'``       \\               /                   '        `       ./'            '\         `       ./'            '\         |'                   \|    '|
+
+          _||||||_|||||_                               |||_ _||              |\||\|_                         |/||\|_                       __|///||||||
+          ||||||||||_//|/                     __|||\__  \_'||_||            |/|_\|_\|_  |\|                 |\\_\|_'\_   |||              _|` _|/||'|'|_
+           _|||_`'\|__|'                    _/|`_/'\_'\|_'| ||_|_           |\_'|_\||/\_| |                 || \| \| \\_ |'|_           _|/  ||_    || |_
+         _|\|/`|/\| \||\|                 _|' |/`   `\|_'\| '|'|\           '\'|_\/`   '' ||                |_\_'\_`\/ '\| '|          ||`  _|`'|_   |_ |_
+       _|``  \/` _||\ ` '\_           __|/' _|`       '|_||||` |             '|_|_        |/                 \|'|_|/_||_ '  |/        |\    |||/_| __||_ |__
+     _|'      __||_|__    |\        -/`     ||_         ||\\|  |          __|//'``'\|_    |/             __|__||_||/'|/     |        _|      '\\||/'_|/|  \'|_
+   _|'       |||`|\||||    `|_              | |_        ||  |_ |`       _/`   _|/||| |  __|`          _/|/`|'`||||`_|'      |        |'         ___|'        |_
+  |/         ` `||_ ```      \|_            \|/|       |/|_  \ |       _/   \|/\|_\|||_/```\_       _|'       /' _|/      _||       |/         _|'|           |_
+|/'          _|/' '\|_         `|            _|`       | |\    |      |'     '||_|  `\|     '\     |/           |'`\|_      '|_    |/       _|/'  |\__         \_
+         ___/'       `\\|__             ___|/'         |\|     |    _|`        ``'|   `|          |/         __/`    '|_      \|   '      |/'`      `\|_        '|_
+     _|/|'``              '\|_       _|/'``             \|     |    |`       __|//`              _/        _|/`        \|      `         |'            '\|__      \\
+    /'`                      '      |'                   \|    '|        .//''`                  `       ./'            '\              ((                `\/",
+            }],
+        },
+    ],
 };
