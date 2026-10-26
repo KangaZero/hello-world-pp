@@ -131,6 +131,8 @@
               pkgs.shellcheck
               pkgs.cargo-nextest
               pkgs.just
+              # `just bench`
+              pkgs.hyperfine
             ]
             ++ enabledPackages;
           };
