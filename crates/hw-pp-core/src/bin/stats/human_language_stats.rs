@@ -1,4 +1,4 @@
-use crate::data::human_languages::{
+use hw_pp_core::data::human_languages::{
     HUMAN_LANGUAGES, HumanLanguageCategory, HumanLanguageName, ScriptName,
 };
 use std::sync::LazyLock;

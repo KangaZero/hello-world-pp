@@ -1,10 +1,14 @@
-use crate::data::programming_languages::{
+use hw_pp_core::data::programming_languages::{
     PROGRAMMING_LANGUAGES, ProgrammingLanguageCategory, ProgrammingLanguageFamily,
     ProgrammingLanguageName,
 };
 use std::sync::LazyLock;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[expect(
+    clippy::struct_field_names,
+    reason = "every field is a total; `_count` keeps `language_count` from reading as a list"
+)]
 pub struct ProgrammingLanguageStats {
     pub language_count: usize,
     pub dialect_count: usize,

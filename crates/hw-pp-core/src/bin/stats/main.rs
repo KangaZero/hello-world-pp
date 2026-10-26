@@ -1,11 +1,13 @@
+//! Developer-only catalog stats: counts and gaps in the human and programming
+//! language data. Run with `cargo run -p hw-pp-core --bin stats`.
+
+mod human_language_stats;
+mod programming_language_stats;
+
 use anstyle::Style;
-use hw_pp_core::{
-    data::human_languages::ScriptName,
-    stats::{
-        HUMAN_LANGUAGE_STATS, HumanLanguageStats, PROGRAMMING_LANGUAGE_STATS,
-        ProgrammingLanguageStats,
-    },
-};
+use human_language_stats::{HUMAN_LANGUAGE_STATS, HumanLanguageStats};
+use hw_pp_core::data::human_languages::ScriptName;
+use programming_language_stats::{PROGRAMMING_LANGUAGE_STATS, ProgrammingLanguageStats};
 
 fn main() {
     const BOLD: Style = Style::new().bold();
