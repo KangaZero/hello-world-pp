@@ -1,4 +1,5 @@
 use assert_cmd::Command;
+use hw_pp_core::data::human_languages::{Greeting, HumanLanguageName};
 use predicates::prelude::*;
 
 fn hw_pp() -> Command {
@@ -263,11 +264,14 @@ fn nato_picks_the_latin_script_of_the_language() {
 
 #[test]
 fn nato_warns_when_the_language_has_no_latin_script() {
+    let asl = Greeting::text_for(Some(HumanLanguageName::AmericanSignLanguage), None, None)
+        .expect("ASL has a greeting");
     hw_pp()
         .args(["-l", "american sign language", "--notation", "nato"])
         .assert()
         .success()
-        .stdout("\n")
+        // The ASCII-art handshapes contain no letters, so NATO leaves them as they are.
+        .stdout(format!("{asl}\n"))
         .stderr(predicate::str::contains(
             "warning: this language has no Latin-script greeting",
         ));

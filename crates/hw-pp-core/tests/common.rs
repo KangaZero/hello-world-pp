@@ -4,7 +4,7 @@ use hw_pp_core::data::common::{
     reverse_str,
 };
 use hw_pp_core::data::human_languages::{
-    DialectName, Greeting, HUMAN_LANGUAGES, HumanLanguageName,
+    DialectName, Greeting, HUMAN_LANGUAGES, HumanLanguageName, ScriptName,
 };
 use hw_pp_core::data::programming_languages::{
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -49,6 +49,8 @@ fn hello_world_punctuation_covers_every_greeting() {
         .iter()
         .flat_map(|lang| lang.dialects)
         .flat_map(|dialect| dialect.greetings)
+        // Fingerspelling greetings are ASCII-art pictures, not text with punctuation.
+        .filter(|greeting| !greeting.scripts.contains(&ScriptName::Fingerspelling))
         .filter_map(|greeting| {
             let chars: String = greeting
                 .text
