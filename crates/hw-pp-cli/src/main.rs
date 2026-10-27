@@ -245,14 +245,19 @@ impl Args {
         self.color == ColorWhen::Yes
     }
 
-    /// Rejects option combinations clap can't declare: `--script` with `--notation nato`.
     fn validate(&self) {
-        if self.notation == Notation::NATO && self.script.is_some() {
+        if self.notation == Notation::NATO &&
+        let Some(script) = self.script
+                //TODO: Change to NATO_COMPATIBLE_SCRIPT
+                && script != ScriptName::Latin
+        {
             Self::command()
                 .error(
                     ErrorKind::ArgumentConflict,
-                    "the argument '--script <SCRIPT>' cannot be used with '--notation nato' \
-                     (NATO picks the language's Latin script itself)",
+                    format!(
+                        "the argument '--script {script}' cannot be used with '--notation nato' \
+                             (NATO picks the language's NATO compatible script itself)"
+                    ),
                 )
                 .exit();
         }

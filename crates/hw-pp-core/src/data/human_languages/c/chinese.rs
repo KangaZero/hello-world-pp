@@ -55,6 +55,7 @@ pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLangua
             greetings: &[
                 Greeting {
                     scripts: &[
+                        ScriptName::Hanzi,
                         ScriptName::SimplifiedChinese,
                         ScriptName::TraditionalChinese,
                     ],
@@ -70,7 +71,7 @@ pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLangua
             label: DialectName::Cantonese,
             greetings: &[
                 Greeting {
-                    scripts: &[ScriptName::TraditionalChinese],
+                    scripts: &[ScriptName::Hanzi, ScriptName::TraditionalChinese],
                     text: "哈囉，世界！",
                 },
                 Greeting {
@@ -84,6 +85,7 @@ pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLangua
             greetings: &[
                 Greeting {
                     scripts: &[
+                        ScriptName::Hanzi,
                         ScriptName::TraditionalChinese,
                         ScriptName::SimplifiedChinese,
                     ],
@@ -99,11 +101,11 @@ pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLangua
             label: DialectName::Shanghainese,
             greetings: &[
                 Greeting {
-                    scripts: &[ScriptName::SimplifiedChinese],
+                    scripts: &[ScriptName::Hanzi, ScriptName::SimplifiedChinese],
                     text: "侬好，世界！",
                 },
                 Greeting {
-                    scripts: &[ScriptName::TraditionalChinese],
+                    scripts: &[ScriptName::Hanzi, ScriptName::TraditionalChinese],
                     text: "儂好，世界！",
                 },
                 Greeting {
@@ -117,6 +119,7 @@ pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLangua
             greetings: &[
                 Greeting {
                     scripts: &[
+                        ScriptName::Hanzi,
                         ScriptName::SimplifiedChinese,
                         ScriptName::TraditionalChinese,
                     ],
@@ -133,6 +136,7 @@ pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLangua
             greetings: &[
                 Greeting {
                     scripts: &[
+                        ScriptName::Hanzi,
                         ScriptName::SimplifiedChinese,
                         ScriptName::TraditionalChinese,
                     ],

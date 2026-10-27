@@ -3,6 +3,8 @@ use hw_pp_core::data::human_languages::{
     HumanLanguageFamily, HumanLanguageName, ScriptName,
 };
 use hw_pp_core::data::lookup::LookupError;
+use hw_pp_core::data::normalize::normalize_text;
+use std::collections::HashMap;
 
 #[test]
 fn english_american_hello_world() {
@@ -363,6 +365,24 @@ fn every_endonym_round_trips() {
     for &dialect in DialectName::ALL {
         if let Some(endonym) = dialect.endonym() {
             assert_eq!(endonym.parse(), Ok(dialect), "{endonym:?}");
+        }
+    }
+    for &script in ScriptName::ALL {
+        if let Some(endonym) = script.endonym() {
+            assert_eq!(endonym.parse(), Ok(script), "{endonym:?}");
+        }
+    }
+}
+
+/// `ScriptName` is hand-written, so `build.rs` cannot reject names that fold alike.
+#[test]
+fn script_names_stay_distinct_once_folded() {
+    let mut seen = HashMap::new();
+    for &script in ScriptName::ALL {
+        for name in std::iter::once(script.as_str()).chain(script.endonym()) {
+            if let Some(other) = seen.insert(normalize_text(name), script) {
+                panic!("{name:?} ({script:?}) folds like a name of {other:?}");
+            }
         }
     }
 }
