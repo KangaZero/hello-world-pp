@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/c/CypherNeo4j.cypher>
+//! - <https://en.wikipedia.org/wiki/Cypher_(query_language)> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Declarative;
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Query,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -34,7 +36,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Cypher],
         categories: &[Query],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Declarative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cypherneo4j,
             syntax: CYPHERNEO4J,

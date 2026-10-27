@@ -7,6 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(T-Z)#VTL>
 //! - <https://esolangs.org/wiki/VTL>
 
+use crate::data::programming_languages::ProgrammingParadigm::{CellBased, Reflective};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -32,7 +33,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Reflective, CellBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Vtl,
             syntax: VTL,

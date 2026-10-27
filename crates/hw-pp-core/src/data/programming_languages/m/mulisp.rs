@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/MuLisp.txt>
 //! - <http://helloworldcollection.de/#MuLisp>
+//! - <https://en.wikipedia.org/wiki/Lisp_(programming_language)> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Functional, Metaprogramming, Procedural, Reflective};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -36,7 +38,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Procedural, Functional, Reflective, Metaprogramming],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Mulisp,
             syntax: MULISP,

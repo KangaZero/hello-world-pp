@@ -7,6 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(B-C)#Chicken_you_too_beautiful>
 //! - <https://esolangs.org/wiki/Chicken_you_too_beautiful>
 
+use crate::data::programming_languages::ProgrammingParadigm::CellBased;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -30,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[CellBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::ChickenYouTooBeautiful,
             syntax: CHICKEN_YOU_TOO_BEAUTIFUL,

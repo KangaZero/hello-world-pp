@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/HP-48>
 //! - <http://helloworldcollection.de/#HP-48>
+//! - <https://en.wikipedia.org/wiki/RPL_(programming_language)> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Concatenative, StackBased, Structured};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -40,7 +42,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Structured, StackBased, Concatenative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hp48,
             syntax: HP48,

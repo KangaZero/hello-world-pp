@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(N-S)#Python_but_even_worse>
 //! - <https://esolangs.org/wiki/Python_but_even_worse>
+//! - <https://en.wikipedia.org/wiki/Python_(programming_language)> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Functional, Imperative, ObjectOriented, Procedural, Reflective, Structured};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -35,7 +37,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Procedural, Structured, ObjectOriented, Functional, Reflective],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PythonButEvenWorse,
             syntax: PYTHON_BUT_EVEN_WORSE,

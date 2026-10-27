@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(B-C)#C-INTERCAL>
 //! - <https://esolangs.org/wiki/C-INTERCAL>
+//! - <https://esolangs.org/wiki/INTERCAL> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Imperative;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -94,7 +96,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::CIntercal,
             syntax: C_INTERCAL,

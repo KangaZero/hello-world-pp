@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/s/Streem.strm>
+//! - <https://github.com/matz/streem> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Concurrent, Dataflow};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -29,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Strm],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Concurrent, Dataflow],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Streem,
             syntax: STREEM,

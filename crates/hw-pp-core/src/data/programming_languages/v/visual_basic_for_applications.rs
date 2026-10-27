@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/v/Visual%20Basic%20for%20Applications.vba>
+//! - <https://en.wikipedia.org/wiki/Visual_Basic_for_Applications> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::EventDriven;
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Basic, ProgrammingLanguageName,
@@ -36,7 +38,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Vba],
         categories: &[Scripting],
         families: &[Basic],
-        paradigms: &[],
+        paradigms: &[EventDriven],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::VisualBasicForApplications,
             syntax: VISUAL_BASIC_FOR_APPLICATIONS,

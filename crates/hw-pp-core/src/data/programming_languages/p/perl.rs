@@ -4,6 +4,7 @@
 //! - <https://perldoc.perl.org/perlintro>
 //! - <https://perldoc.perl.org/functions/print>
 
+use crate::data::programming_languages::ProgrammingParadigm::{ObjectOriented, Procedural};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage,
     ProgrammingLanguageCategory::Scripting,
@@ -30,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Pl, FileExtension::Pm],
         categories: &[Scripting],
         families: &[C, Perl],
-        paradigms: &[],
+        paradigms: &[Procedural, ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Perl5,
             syntax: PERL5,

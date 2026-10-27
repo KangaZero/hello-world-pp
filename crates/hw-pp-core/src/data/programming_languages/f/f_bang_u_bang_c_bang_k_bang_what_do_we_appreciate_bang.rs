@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(D-G)#F!_U!_C!_K!_What_do_we_appreciate!>
 //! - <https://esolangs.org/wiki/F!_U!_C!_K!_What_do_we_appreciate!>
+//! - <https://esolangs.org/wiki/F%21_U%21_C%21_K%21_What_do_we_appreciate%21> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::CellBased;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -37,7 +39,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[CellBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::FBangUBangCBangKBangWhatDoWeAppreciateBang,
             syntax: F_BANG_U_BANG_C_BANG_K_BANG_WHAT_DO_WE_APPRECIATE_BANG,

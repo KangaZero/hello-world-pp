@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Smalltalk%26nbsp%3BMT.htm>
 //! - <http://helloworldcollection.de/#Smalltalk%C2%A0MT>
+//! - <https://en.wikipedia.org/wiki/Smalltalk> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::ObjectOriented;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageFamily::Smalltalk,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -40,7 +42,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[Smalltalk],
-        paradigms: &[],
+        paradigms: &[ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::SmalltalkMt,
             syntax: SMALLTALK_MT,

@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/p/Porth.porth>
+//! - <https://gitlab.com/tsoding/porth> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Concatenative, StackBased};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -37,7 +39,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Porth],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[StackBased, Concatenative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Porth,
             syntax: PORTH,

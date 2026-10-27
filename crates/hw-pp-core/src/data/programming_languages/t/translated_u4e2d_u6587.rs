@@ -7,6 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(T-Z)#Translated_%E4%B8%AD%E6%96%87>
 //! - <https://esolangs.org/wiki/Translated_%E4%B8%AD%E6%96%87>
 
+use crate::data::programming_languages::ProgrammingParadigm::CellBased;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -33,7 +34,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[CellBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::TranslatedU4e2dU6587,
             syntax: TRANSLATED_U4E2D_U6587,

@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/pull/1837>
+//! - <https://janet-lang.org/> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Functional, Imperative};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Janet],
         categories: &[Scripting],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Functional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Janet,
             syntax: JANET,

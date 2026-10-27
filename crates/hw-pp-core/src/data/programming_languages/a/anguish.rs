@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Anguish.htm>
 //! - <http://helloworldcollection.de/#Anguish>
+//! - <https://esolangs.org/wiki/Anguish> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::CellBased;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -30,7 +32,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[CellBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Anguish,
             syntax: ANGUISH,

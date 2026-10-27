@@ -7,6 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(N-S)#Never_Gonna_Fuck_You_Up>
 //! - <https://esolangs.org/wiki/Never_Gonna_Fuck_You_Up>
 
+use crate::data::programming_languages::ProgrammingParadigm::CellBased;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -135,7 +136,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[CellBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::NeverGonnaFuckYouUp,
             syntax: NEVER_GONNA_FUCK_YOU_UP,

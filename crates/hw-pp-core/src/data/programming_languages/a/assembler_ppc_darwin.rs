@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Assembler%26nbsp%3B%28PPC%2C%26nbsp%3BDarwin%29.txt>
 //! - <http://helloworldcollection.de/#Assembler%C2%A0(PPC,%C2%A0Darwin)>
+//! - <https://en.wikipedia.org/wiki/Assembly_language> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Metaprogramming};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Assembly, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -56,7 +58,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Assembly],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Metaprogramming],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblerPpcDarwin,
             syntax: ASSEMBLER_PPC_DARWIN,

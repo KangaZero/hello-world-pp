@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/pull/1602>
+//! - <https://beyondloom.com/decker/lil.html> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Array, Declarative, Functional, Imperative};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Lil],
         categories: &[Scripting],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Functional, Declarative, Array],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Lil,
             syntax: LIL,

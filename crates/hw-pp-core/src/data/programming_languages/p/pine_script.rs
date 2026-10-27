@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/pull/1822>
+//! - <https://www.tradingview.com/pine-script-docs/language/execution-model/> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::EventDriven;
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -37,7 +39,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Pine],
         categories: &[Scripting],
         families: &[],
-        paradigms: &[],
+        paradigms: &[EventDriven],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PineScript,
             syntax: PINE_SCRIPT,

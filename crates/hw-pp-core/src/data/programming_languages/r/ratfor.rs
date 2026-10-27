@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/r/RatFor.ratfor>
+//! - <https://en.wikipedia.org/wiki/Ratfor> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Structured;
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Historical,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Fortran, ProgrammingLanguageName,
@@ -35,7 +37,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Ratfor],
         categories: &[Historical],
         families: &[Fortran],
-        paradigms: &[],
+        paradigms: &[Structured],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ratfor,
             syntax: RATFOR,

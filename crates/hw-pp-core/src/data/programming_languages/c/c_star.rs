@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/c/C%E2%88%97>
+//! - <https://www.wikidata.org/wiki/Q5005842> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, ObjectOriented};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageFamily::C,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -38,7 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[C],
-        paradigms: &[],
+        paradigms: &[Imperative, ObjectOriented],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::CStar,
             syntax: C_STAR,

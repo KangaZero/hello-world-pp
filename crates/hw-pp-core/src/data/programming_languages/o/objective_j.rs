@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/o/Objective%20J.j>
+//! - <https://www.wikidata.org/wiki/Q1443431> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Functional, Imperative, ObjectOriented, Reflective};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Scripting, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Scripting],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, ObjectOriented, Functional, Reflective],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::ObjectiveJ,
             syntax: OBJECTIVE_J,

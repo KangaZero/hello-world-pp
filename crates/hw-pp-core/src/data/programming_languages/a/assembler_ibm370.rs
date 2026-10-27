@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/Assembler%26nbsp%3B%28IBM%26nbsp%3B370%29.txt>
 //! - <http://helloworldcollection.de/#Assembler%C2%A0(IBM%C2%A0370)>
+//! - <https://en.wikipedia.org/wiki/Assembly_language> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Metaprogramming};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Assembly, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -46,7 +48,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Assembly],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Metaprogramming],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblerIbm370,
             syntax: ASSEMBLER_IBM370,

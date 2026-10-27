@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/o/Oracle%20SQL.sql>
+//! - <https://en.wikipedia.org/wiki/SQL> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Declarative;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Query, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Query],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Declarative],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::OracleSql,
             syntax: ORACLE_SQL,

@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/f/Factors.fact>
+//! - <https://esolangs.org/wiki/Factor> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{CellBased, Imperative};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -31,7 +33,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Fact],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, CellBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Factors,
             syntax: FACTORS,

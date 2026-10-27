@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/pull/1664>
+//! - <https://www.rascal-mpl.org/> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Metaprogramming;
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -29,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Rsc],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Metaprogramming],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rascal,
             syntax: RASCAL,

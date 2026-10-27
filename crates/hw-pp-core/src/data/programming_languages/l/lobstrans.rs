@@ -25,6 +25,7 @@
 //! - <https://codeberg.org/de67/lobstrans/src/commit/a93a8b8ffc6ddd4dc823d7a52dedf76522e15a12/SPEC.md>
 
 use crate::data::macros::language_names;
+use crate::data::programming_languages::ProgrammingParadigm::QueueBased;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -45,7 +46,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[QueueBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Lobstrans,
             syntax: LOBSTRANS,

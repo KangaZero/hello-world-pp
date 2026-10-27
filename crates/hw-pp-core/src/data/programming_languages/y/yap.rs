@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/pull/1618>
+//! - <https://en.wikipedia.org/wiki/Prolog> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Logic;
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Prolog, ProgrammingLanguageName,
@@ -37,7 +39,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Yap],
         categories: &[Scripting],
         families: &[Prolog],
-        paradigms: &[],
+        paradigms: &[Logic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Yap,
             syntax: YAP,

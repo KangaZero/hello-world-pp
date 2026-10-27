@@ -7,6 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(D-G)#Graph_Oriented_Fictional_Computer>
 //! - <https://esolangs.org/wiki/Graph_Oriented_Fictional_Computer>
 
+use crate::data::programming_languages::ProgrammingParadigm::Reflective;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -35,7 +36,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Reflective],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::GraphOrientedFictionalComputer,
             syntax: GRAPH_ORIENTED_FICTIONAL_COMPUTER,

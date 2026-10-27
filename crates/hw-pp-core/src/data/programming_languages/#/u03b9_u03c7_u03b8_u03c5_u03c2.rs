@@ -7,6 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(nonalphabetic_and_A)#%CE%99%CE%A7%CE%98%CE%A5%CE%A3>
 //! - <https://esolangs.org/wiki/%CE%99%CE%A7%CE%98%CE%A5%CE%A3>
 
+use crate::data::programming_languages::ProgrammingParadigm::Reflective;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -30,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Reflective],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::U03b9U03c7U03b8U03c5U03c2,
             syntax: U03B9_U03C7_U03B8_U03C5_U03C2,

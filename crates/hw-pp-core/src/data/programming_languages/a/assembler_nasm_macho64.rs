@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/a/Assembler%20NASM%20Macho64.asm>
+//! - <https://en.wikipedia.org/wiki/Assembly_language> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Metaprogramming};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Assembly, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -49,7 +51,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Assembly],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Metaprogramming],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AssemblerNasmMacho64,
             syntax: ASSEMBLER_NASM_MACHO64,

@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/pull/1598>
+//! - <https://github.com/c3lang/c3c> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Generic, Procedural};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -38,7 +40,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::C3],
         categories: &[Compiled],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Procedural, Generic],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::C3,
             syntax: C3,

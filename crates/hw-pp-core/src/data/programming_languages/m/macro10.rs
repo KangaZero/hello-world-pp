@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/MACRO-10.txt>
 //! - <http://helloworldcollection.de/#MACRO-10>
+//! - <https://en.wikipedia.org/wiki/Assembly_language> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Metaprogramming};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -47,7 +49,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Imperative, Metaprogramming],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Macro10,
             syntax: MACRO10,

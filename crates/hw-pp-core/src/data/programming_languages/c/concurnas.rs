@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/c/Concurnas.conc>
+//! - <https://github.com/Concurnas/Concurnas> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::Concurrent;
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -33,7 +35,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Conc],
         categories: &[Compiled],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Concurrent],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Concurnas,
             syntax: CONCURNAS,

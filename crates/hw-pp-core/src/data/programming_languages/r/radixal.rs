@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/r/Radixal.radixal>
+//! - <https://esolangs.org/wiki/Radixal!!!!> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{CellBased, Reflective};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -30,7 +32,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Radixal],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Reflective, CellBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Radixal,
             syntax: RADIXAL,

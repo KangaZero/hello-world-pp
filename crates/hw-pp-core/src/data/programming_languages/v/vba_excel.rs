@@ -6,7 +6,9 @@
 //! Sources:
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/VBA%26nbsp%3B%28Excel%29.htm>
 //! - <http://helloworldcollection.de/#VBA%C2%A0(Excel)>
+//! - <https://en.wikipedia.org/wiki/Visual_Basic_for_Applications> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::EventDriven;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -40,7 +42,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[EventDriven],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::VbaExcel,
             syntax: VBA_EXCEL,

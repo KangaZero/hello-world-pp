@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/pull/1770>
+//! - <https://www.wikidata.org/wiki/Q3558930> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Logic, Metaprogramming, Reflective};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -29,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Maude],
         categories: &[],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Logic, Reflective, Metaprogramming],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Maude,
             syntax: MAUDE,

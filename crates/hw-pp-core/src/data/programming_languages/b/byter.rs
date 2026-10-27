@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/b/Byter.byter>
+//! - <https://esolangs.org/wiki/Byter> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Reflective, TwoDimensional};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -44,7 +46,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Byter],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Reflective, TwoDimensional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Byter,
             syntax: BYTER,

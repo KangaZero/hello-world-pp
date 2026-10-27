@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/%23/%EF%B9%A5%EF%B9%A4%EF%B9%A5>
+//! - <https://esolangs.org/wiki/Fish> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Reflective, StackBased, TwoDimensional};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -34,7 +36,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Reflective, StackBased, TwoDimensional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Ufe65Ufe64Ufe65,
             syntax: UFE65_UFE64_UFE65,

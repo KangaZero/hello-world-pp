@@ -12,7 +12,9 @@
 //! - <http://helloworldcollection.de/#ELENA%C2%A03.0>
 //! - <https://gitlab.com/wolframroesler/helloworld/-/blob/8e4c09528f95fde5c00813ae6669dfdebd31fec3/files/ELENA%26nbsp%3B4.0.htm>
 //! - <http://helloworldcollection.de/#ELENA%C2%A04.0>
+//! - <https://github.com/ELENA-LANG/elena-lang> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Functional, ObjectOriented};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -67,7 +69,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Elena],
         categories: &[Compiled],
         families: &[],
-        paradigms: &[],
+        paradigms: &[ObjectOriented, Functional],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Elena,

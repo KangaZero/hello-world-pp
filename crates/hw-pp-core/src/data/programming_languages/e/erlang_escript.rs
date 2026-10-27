@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/e/Erlang%20EScript.erl>
+//! - <https://en.wikipedia.org/wiki/Erlang_(programming_language)> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{Concurrent, Functional};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Scripting, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -36,7 +38,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Scripting],
         families: &[],
-        paradigms: &[],
+        paradigms: &[Functional, Concurrent],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::ErlangEscript,
             syntax: ERLANG_ESCRIPT,
