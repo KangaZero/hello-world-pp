@@ -1,5 +1,8 @@
 //! Catalog-wide defaults and string helpers for greetings and snippets.
 
+use std::collections::HashSet;
+use std::hash::Hash;
+
 use super::human_languages::{DialectName, HumanLanguageName, ScriptName};
 use super::macros::output_for_hello_world;
 use super::programming_languages::ProgrammingLanguageName;
@@ -13,6 +16,17 @@ pub const DEFAULT_HUMAN_LANGUAGE_DIALECT: DialectName = DialectName::AmericanEng
 pub const DEFAULT_SCRIPT: ScriptName = ScriptName::Latin;
 /// The programming language used when none is given or inferable.
 pub const DEFAULT_PROGRAMMING_LANGUAGE: ProgrammingLanguageName = ProgrammingLanguageName::C;
+
+/// `values` without repeats, each kept where it first appears.
+///
+/// Backs the `all_by` listings, where several languages can share a category, family, script
+/// or paradigm.
+pub(crate) fn unique<T: Copy + Eq + Hash>(
+    values: impl Iterator<Item = T>,
+) -> impl Iterator<Item = T> {
+    let mut seen = HashSet::new();
+    values.filter(move |value| seen.insert(*value))
+}
 
 /// Punctuation marks that appear in the recorded human-language greetings:
 /// Latin, CJK (`，！、`), the Arabic comma `،`, the Tibetan shad `།` and the

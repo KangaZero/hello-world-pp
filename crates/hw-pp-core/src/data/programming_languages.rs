@@ -1,8 +1,9 @@
 //! The programming-language catalog: languages, versions, extensions and their snippets.
 
-use std::collections::BTreeSet;
-
-use crate::data::{common::DEFAULT_PROGRAMMING_LANGUAGE, programming_languages_token::TokenKind};
+use crate::data::{
+    common::{DEFAULT_PROGRAMMING_LANGUAGE, unique},
+    programming_languages_token::TokenKind,
+};
 
 use super::lookup::LookupError;
 use super::macros::name_enum;
@@ -207,7 +208,8 @@ pub struct ProgrammingLanguage {
     pub categories: &'static [ProgrammingLanguageCategory],
     /// Every family it belongs to.
     pub families: &'static [ProgrammingLanguageFamily],
-    /// Every paradigm it supports, as recorded by Wikidata; empty when none is recorded.
+    /// Every paradigm it supports, as recorded by Wikidata, Wikipedia or esolangs.org; empty
+    /// when none is recorded.
     pub paradigms: &'static [ProgrammingParadigm],
     /// Its versions; the first is the default.
     pub versions: &'static [ProgrammingLanguageVersion],
@@ -343,23 +345,26 @@ impl ProgrammingLanguageDialect {
             .ok_or(LookupError::NoOwner(self))
     }
 
-    /// Display names of the versions of `language`, or of every language if `None`.
+    /// The versions of `language` (or of every language if `None`), in catalog order.
     ///
     /// ```
     /// use hw_pp_core::data::programming_languages::{
     ///     ProgrammingLanguageDialect, ProgrammingLanguageName,
     /// };
-    /// let versions =
-    ///     ProgrammingLanguageDialect::all_as_str_by(Some(ProgrammingLanguageName::Python));
-    /// assert_eq!(versions, ["Python 2", "Python 3"]);
+    /// let versions: Vec<_> =
+    ///     ProgrammingLanguageDialect::all_by(Some(ProgrammingLanguageName::Python)).collect();
+    /// assert_eq!(
+    ///     versions,
+    ///     [ProgrammingLanguageDialect::Python2, ProgrammingLanguageDialect::Python3]
+    /// );
     /// ```
-    #[must_use]
-    pub fn all_as_str_by(language: Option<ProgrammingLanguageName>) -> Vec<&'static str> {
-        PROGRAMMING_LANGUAGES
-            .iter()
-            .filter(|lang| language.is_none_or(|l| lang.name == l))
-            .flat_map(|lang| lang.versions.iter().map(|v| v.label.as_str()))
-            .collect()
+    pub fn all_by(language: Option<ProgrammingLanguageName>) -> impl Iterator<Item = Self> {
+        unique(
+            PROGRAMMING_LANGUAGES
+                .iter()
+                .filter(move |lang| language.is_none_or(|l| lang.name == l))
+                .flat_map(|lang| lang.versions.iter().map(|v| v.label)),
+        )
     }
 }
 
@@ -398,7 +403,8 @@ impl ProgrammingLanguageName {
             .ok_or(LookupError::NoVariants(self))
     }
 
-    /// Display names of the programming languages matching every given filter; `None` matches all.
+    /// The programming languages matching every given filter, in catalog order; `None` matches
+    /// all.
     ///
     /// - `extension`: languages using it.
     /// - `family`: languages in it (e.g. [`ProgrammingLanguageFamily::OCaml`]).
@@ -409,97 +415,96 @@ impl ProgrammingLanguageName {
     /// use hw_pp_core::data::programming_languages::{
     ///     FileExtension, ProgrammingLanguageFamily, ProgrammingLanguageName, ProgrammingParadigm,
     /// };
-    /// let users_of_m =
-    ///     ProgrammingLanguageName::all_as_str_by(Some(FileExtension::M), None, None, None);
-    /// assert_eq!(users_of_m, ["MATLAB", "Objective-C"]);
-    /// let ocaml_family =
-    ///     ProgrammingLanguageName::all_as_str_by(
-    ///         None,
-    ///         Some(ProgrammingLanguageFamily::OCaml),
-    ///         None,
-    ///         None,
-    ///     );
-    /// assert!(ocaml_family.contains(&"F#") && ocaml_family.contains(&"OCaml"));
-    /// let logic =
-    ///     ProgrammingLanguageName::all_as_str_by(None, None, None, Some(ProgrammingParadigm::Logic));
-    /// assert!(logic.contains(&"Prolog"));
+    /// let users_of_m: Vec<_> =
+    ///     ProgrammingLanguageName::all_by(Some(FileExtension::M), None, None, None).collect();
+    /// assert_eq!(users_of_m, [ProgrammingLanguageName::Matlab, ProgrammingLanguageName::ObjectiveC]);
+    /// let ocaml_family: Vec<_> =
+    ///     ProgrammingLanguageName::all_by(None, Some(ProgrammingLanguageFamily::OCaml), None, None)
+    ///         .collect();
+    /// assert!(
+    ///     ocaml_family.contains(&ProgrammingLanguageName::FSharp)
+    ///         && ocaml_family.contains(&ProgrammingLanguageName::OCaml)
+    /// );
+    /// assert!(
+    ///     ProgrammingLanguageName::all_by(None, None, None, Some(ProgrammingParadigm::Logic))
+    ///         .any(|name| name == ProgrammingLanguageName::Prolog)
+    /// );
     /// ```
-    #[must_use]
-    pub fn all_as_str_by(
+    pub fn all_by(
         extension: Option<FileExtension>,
         family: Option<ProgrammingLanguageFamily>,
         category: Option<ProgrammingLanguageCategory>,
         paradigm: Option<ProgrammingParadigm>,
-    ) -> Vec<&'static str> {
-        PROGRAMMING_LANGUAGES
-            .iter()
-            .filter(|lang| {
-                extension.is_none_or(|e| lang.extensions.contains(&e))
-                    && family.is_none_or(|f| lang.families.contains(&f))
-                    && category.is_none_or(|c| lang.categories.contains(&c))
-                    && paradigm.is_none_or(|p| lang.paradigms.contains(&p))
-            })
-            .map(|lang| lang.name.as_str())
-            .collect()
+    ) -> impl Iterator<Item = Self> {
+        unique(
+            PROGRAMMING_LANGUAGES
+                .iter()
+                .filter(move |lang| {
+                    extension.is_none_or(|e| lang.extensions.contains(&e))
+                        && family.is_none_or(|f| lang.families.contains(&f))
+                        && category.is_none_or(|c| lang.categories.contains(&c))
+                        && paradigm.is_none_or(|p| lang.paradigms.contains(&p))
+                })
+                .map(|lang| lang.name),
+        )
     }
 }
 
 impl ProgrammingLanguageCategory {
-    /// Display names of the categories of `language` (or of all languages if `None`), sorted,
-    /// without duplicates.
+    /// The categories of `language` (or of every language if `None`), each once, in the order
+    /// first recorded.
     ///
     /// ```
     /// use hw_pp_core::data::programming_languages::{
     ///     ProgrammingLanguageCategory, ProgrammingLanguageName,
     /// };
-    /// let categories =
-    ///     ProgrammingLanguageCategory::all_as_str_by(Some(ProgrammingLanguageName::TypeScript));
-    /// assert_eq!(categories, ["Compiled", "Scripting"]);
+    /// let categories: Vec<_> =
+    ///     ProgrammingLanguageCategory::all_by(Some(ProgrammingLanguageName::TypeScript)).collect();
+    /// assert_eq!(
+    ///     categories,
+    ///     [ProgrammingLanguageCategory::Scripting, ProgrammingLanguageCategory::Compiled]
+    /// );
     /// ```
-    #[must_use]
-    pub fn all_as_str_by(language: Option<ProgrammingLanguageName>) -> Vec<&'static str> {
-        PROGRAMMING_LANGUAGES
-            .iter()
-            .filter(|lang| language.is_none_or(|l| lang.name == l))
-            .flat_map(|lang| lang.categories.iter().map(|c| c.as_str()))
-            .collect::<BTreeSet<_>>()
-            .into_iter()
-            .collect()
+    pub fn all_by(language: Option<ProgrammingLanguageName>) -> impl Iterator<Item = Self> {
+        unique(
+            PROGRAMMING_LANGUAGES
+                .iter()
+                .filter(move |lang| language.is_none_or(|l| lang.name == l))
+                .flat_map(|lang| lang.categories.iter().copied()),
+        )
     }
 }
 
 impl ProgrammingLanguageFamily {
-    /// Display names of the families of `language` (or of all languages if `None`), sorted,
-    /// without duplicates.
-    #[must_use]
-    pub fn all_as_str_by(language: Option<ProgrammingLanguageName>) -> Vec<&'static str> {
-        PROGRAMMING_LANGUAGES
-            .iter()
-            .filter(|lang| language.is_none_or(|l| lang.name == l))
-            .flat_map(|lang| lang.families.iter().map(|f| f.as_str()))
-            .collect::<BTreeSet<_>>()
-            .into_iter()
-            .collect()
+    /// The families of `language` (or of every language if `None`), each once, in the order first
+    /// recorded.
+    pub fn all_by(language: Option<ProgrammingLanguageName>) -> impl Iterator<Item = Self> {
+        unique(
+            PROGRAMMING_LANGUAGES
+                .iter()
+                .filter(move |lang| language.is_none_or(|l| lang.name == l))
+                .flat_map(|lang| lang.families.iter().copied()),
+        )
     }
 }
 
 impl ProgrammingParadigm {
-    /// Display names of the paradigms of `language` (or of all languages if `None`), sorted,
-    /// without duplicates.
+    /// The paradigms of `language` (or of every language if `None`), each once, in the order
+    /// first recorded.
     ///
     /// ```
     /// use hw_pp_core::data::programming_languages::{ProgrammingLanguageName, ProgrammingParadigm};
-    /// let paradigms = ProgrammingParadigm::all_as_str_by(Some(ProgrammingLanguageName::Prolog));
-    /// assert!(paradigms.contains(&"Logic"));
+    /// assert!(
+    ///     ProgrammingParadigm::all_by(Some(ProgrammingLanguageName::Prolog))
+    ///         .any(|paradigm| paradigm == ProgrammingParadigm::Logic)
+    /// );
     /// ```
-    #[must_use]
-    pub fn all_as_str_by(language: Option<ProgrammingLanguageName>) -> Vec<&'static str> {
-        PROGRAMMING_LANGUAGES
-            .iter()
-            .filter(|lang| language.is_none_or(|l| lang.name == l))
-            .flat_map(|lang| lang.paradigms.iter().map(|p| p.as_str()))
-            .collect::<BTreeSet<_>>()
-            .into_iter()
-            .collect()
+    pub fn all_by(language: Option<ProgrammingLanguageName>) -> impl Iterator<Item = Self> {
+        unique(
+            PROGRAMMING_LANGUAGES
+                .iter()
+                .filter(move |lang| language.is_none_or(|l| lang.name == l))
+                .flat_map(|lang| lang.paradigms.iter().copied()),
+        )
     }
 }

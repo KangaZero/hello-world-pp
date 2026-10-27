@@ -291,16 +291,23 @@ fn selected_snippet(args: &Args) -> anyhow::Result<String> {
 }
 
 impl ListCategory {
-    /// The display names this `list` subcommand prints.
+    /// The display names this `list` subcommand prints. Languages and dialects keep catalog
+    /// order, so a language's default dialect comes first; attribute lists are alphabetical.
     fn entries(&self) -> Vec<&'static str> {
         match self {
             ListCategory::HumanLanguages {
                 script,
                 category,
                 family,
-            } => HumanLanguageName::all_as_str_by(*script, *category, *family),
-            ListCategory::HumanDialects { language } => DialectName::all_as_str_by(*language),
-            ListCategory::Scripts { language } => ScriptName::all_as_str_by(*language),
+            } => HumanLanguageName::all_by(*script, *category, *family)
+                .map(HumanLanguageName::as_str)
+                .collect(),
+            ListCategory::HumanDialects { language } => DialectName::all_by(*language)
+                .map(DialectName::as_str)
+                .collect(),
+            ListCategory::Scripts { language } => {
+                alphabetical(ScriptName::all_by(*language).map(ScriptName::as_str))
+            }
             ListCategory::Notations => Notation::all_as_str(),
             // TODO: Able to filter by dark/light in the future
             ListCategory::Themes => Theme::all_as_str(),
@@ -309,27 +316,39 @@ impl ListCategory {
                 family,
                 category,
                 paradigm,
-            } => ProgrammingLanguageName::all_as_str_by(*extension, *family, *category, *paradigm),
+            } => ProgrammingLanguageName::all_by(*extension, *family, *category, *paradigm)
+                .map(ProgrammingLanguageName::as_str)
+                .collect(),
             ListCategory::ProgrammingDialects { language } => {
-                ProgrammingLanguageDialect::all_as_str_by(*language)
+                ProgrammingLanguageDialect::all_by(*language)
+                    .map(ProgrammingLanguageDialect::as_str)
+                    .collect()
             }
-            ListCategory::HumanLanguageCategories { language } => {
-                HumanLanguageCategory::all_as_str_by(*language)
-            }
-            ListCategory::HumanLanguageFamilies { language } => {
-                HumanLanguageFamily::all_as_str_by(*language)
-            }
-            ListCategory::ProgrammingLanguageCategories { language } => {
-                ProgrammingLanguageCategory::all_as_str_by(*language)
-            }
-            ListCategory::ProgrammingLanguageFamilies { language } => {
-                ProgrammingLanguageFamily::all_as_str_by(*language)
-            }
-            ListCategory::ProgrammingParadigms { language } => {
-                ProgrammingParadigm::all_as_str_by(*language)
-            }
+            ListCategory::HumanLanguageCategories { language } => alphabetical(
+                HumanLanguageCategory::all_by(*language).map(HumanLanguageCategory::as_str),
+            ),
+            ListCategory::HumanLanguageFamilies { language } => alphabetical(
+                HumanLanguageFamily::all_by(*language).map(HumanLanguageFamily::as_str),
+            ),
+            ListCategory::ProgrammingLanguageCategories { language } => alphabetical(
+                ProgrammingLanguageCategory::all_by(*language)
+                    .map(ProgrammingLanguageCategory::as_str),
+            ),
+            ListCategory::ProgrammingLanguageFamilies { language } => alphabetical(
+                ProgrammingLanguageFamily::all_by(*language).map(ProgrammingLanguageFamily::as_str),
+            ),
+            ListCategory::ProgrammingParadigms { language } => alphabetical(
+                ProgrammingParadigm::all_by(*language).map(ProgrammingParadigm::as_str),
+            ),
         }
     }
+}
+
+/// `names` sorted for display.
+fn alphabetical(names: impl Iterator<Item = &'static str>) -> Vec<&'static str> {
+    let mut names: Vec<_> = names.collect();
+    names.sort_unstable();
+    names
 }
 
 fn main() -> anyhow::Result<()> {

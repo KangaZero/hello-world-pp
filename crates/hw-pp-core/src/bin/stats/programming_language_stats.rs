@@ -74,10 +74,10 @@ pub static PROGRAMMING_LANGUAGE_STATS: LazyLock<ProgrammingLanguageStats> =
             .iter()
             .map(|language| language.versions.len())
             .sum(),
-        category_count: ProgrammingLanguageCategory::all_as_str_by(None).len(),
+        category_count: ProgrammingLanguageCategory::all_by(None).count(),
         extension_count: PROGRAMMING_LANGUAGES
             .iter()
             .map(|language| language.extensions.len())
             .sum(),
-        family_count: ProgrammingLanguageFamily::all_as_str_by(None).len(),
+        family_count: ProgrammingLanguageFamily::all_by(None).count(),
     });

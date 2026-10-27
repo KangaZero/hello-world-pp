@@ -172,12 +172,16 @@ fn tokens_rebuild_every_snippet_exactly() {
 
 #[test]
 fn paradigms_filter_languages_and_list_per_language() {
-    let logic =
-        ProgrammingLanguageName::all_as_str_by(None, None, None, Some(ProgrammingParadigm::Logic));
-    assert!(logic.contains(&"Prolog"));
-    assert!(!logic.contains(&"C"));
-    let rust = ProgrammingParadigm::all_as_str_by(Some(ProgrammingLanguageName::Rust));
-    assert!(rust.contains(&"Functional") && rust.contains(&"Imperative"));
+    let logic: Vec<_> =
+        ProgrammingLanguageName::all_by(None, None, None, Some(ProgrammingParadigm::Logic))
+            .collect();
+    assert!(logic.contains(&ProgrammingLanguageName::Prolog));
+    assert!(!logic.contains(&ProgrammingLanguageName::C));
+    let rust: Vec<_> = ProgrammingParadigm::all_by(Some(ProgrammingLanguageName::Rust)).collect();
+    assert!(
+        rust.contains(&ProgrammingParadigm::Functional)
+            && rust.contains(&ProgrammingParadigm::Imperative)
+    );
 }
 
 #[test]

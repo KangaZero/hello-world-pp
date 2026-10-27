@@ -1,8 +1,8 @@
 //! The human-language catalog: languages, dialects, scripts and their greetings.
 
-use std::collections::BTreeSet;
-
-use crate::data::common::{DEFAULT_HUMAN_LANGUAGE, DEFAULT_HUMAN_LANGUAGE_DIALECT, DEFAULT_SCRIPT};
+use crate::data::common::{
+    DEFAULT_HUMAN_LANGUAGE, DEFAULT_HUMAN_LANGUAGE_DIALECT, DEFAULT_SCRIPT, unique,
+};
 use crate::data::lookup::LookupError;
 use crate::data::macros::name_enum;
 
@@ -327,20 +327,20 @@ impl DialectName {
             .ok_or(LookupError::NoOwner(self))
     }
 
-    /// Display names of the dialects of `language`, or of every language if `None`.
+    /// The dialects of `language` (or of every language if `None`), in catalog order.
     ///
     /// ```
     /// use hw_pp_core::data::human_languages::{DialectName, HumanLanguageName};
-    /// let dialects = DialectName::all_as_str_by(Some(HumanLanguageName::Japanese));
-    /// assert_eq!(dialects, ["Standard Japanese", "Kansai Japanese"]);
+    /// let dialects: Vec<_> = DialectName::all_by(Some(HumanLanguageName::Japanese)).collect();
+    /// assert_eq!(dialects, [DialectName::StandardJapanese, DialectName::KansaiJapanese]);
     /// ```
-    #[must_use]
-    pub fn all_as_str_by(language: Option<HumanLanguageName>) -> Vec<&'static str> {
-        HUMAN_LANGUAGES
-            .iter()
-            .filter(|lang| language.is_none_or(|l| lang.name == l))
-            .flat_map(|lang| lang.dialects.iter().map(|d| d.label.as_str()))
-            .collect()
+    pub fn all_by(language: Option<HumanLanguageName>) -> impl Iterator<Item = Self> {
+        unique(
+            HUMAN_LANGUAGES
+                .iter()
+                .filter(move |lang| language.is_none_or(|l| lang.name == l))
+                .flat_map(|lang| lang.dialects.iter().map(|d| d.label)),
+        )
     }
 }
 
@@ -379,57 +379,61 @@ impl HumanLanguageName {
             .ok_or(LookupError::NoVariants(self))
     }
 
-    /// Display names of the recorded human languages; `None` filters are ignored.
+    /// The human languages matching every given filter, in catalog order; `None` matches all.
     ///
     /// ```
     /// use hw_pp_core::data::human_languages::{
     ///     HumanLanguageCategory, HumanLanguageFamily, HumanLanguageName, ScriptName,
     /// };
-    /// let dead_in_latin_script =
-    ///     HumanLanguageName::all_as_str_by(
+    /// assert!(
+    ///     HumanLanguageName::all_by(
     ///         Some(ScriptName::Latin),
     ///         Some(HumanLanguageCategory::Dead),
     ///         None,
-    ///     );
-    /// assert!(dead_in_latin_script.contains(&"Latin"));
-    /// let romance = HumanLanguageName::all_as_str_by(None, None, Some(HumanLanguageFamily::Romance));
-    /// assert!(romance.contains(&"Spanish") && !romance.contains(&"Latin"));
+    ///     )
+    ///     .any(|name| name == HumanLanguageName::Latin)
+    /// );
+    /// let romance: Vec<_> =
+    ///     HumanLanguageName::all_by(None, None, Some(HumanLanguageFamily::Romance)).collect();
+    /// assert!(
+    ///     romance.contains(&HumanLanguageName::Spanish)
+    ///         && !romance.contains(&HumanLanguageName::Latin)
+    /// );
     /// ```
-    #[must_use]
-    pub fn all_as_str_by(
+    pub fn all_by(
         script: Option<ScriptName>,
         category: Option<HumanLanguageCategory>,
         family: Option<HumanLanguageFamily>,
-    ) -> Vec<&'static str> {
-        HUMAN_LANGUAGES
-            .iter()
-            .filter(|lang| {
-                category.is_none_or(|c| lang.categories.contains(&c))
-                    && script.is_none_or(|s| lang.scripts.contains(&s))
-                    && family.is_none_or(|f| lang.families.contains(&f))
-            })
-            .map(|lang| lang.name.as_str())
-            .collect()
+    ) -> impl Iterator<Item = Self> {
+        unique(
+            HUMAN_LANGUAGES
+                .iter()
+                .filter(move |lang| {
+                    category.is_none_or(|c| lang.categories.contains(&c))
+                        && script.is_none_or(|s| lang.scripts.contains(&s))
+                        && family.is_none_or(|f| lang.families.contains(&f))
+                })
+                .map(|lang| lang.name),
+        )
     }
 }
 
 impl ScriptName {
-    /// Display names of the scripts `language` uses (or every language's if `None`), sorted,
-    /// without duplicates.
+    /// The scripts `language` uses (or every language's if `None`), each once, in the order first
+    /// recorded.
     ///
     /// ```
     /// use hw_pp_core::data::human_languages::{HumanLanguageName, ScriptName};
-    /// assert_eq!(ScriptName::all_as_str_by(Some(HumanLanguageName::Klingon)), ["Latin", "pIqaD"]);
+    /// let scripts: Vec<_> = ScriptName::all_by(Some(HumanLanguageName::Klingon)).collect();
+    /// assert_eq!(scripts, [ScriptName::Latin, ScriptName::Piqad]);
     /// ```
-    #[must_use]
-    pub fn all_as_str_by(language_name: Option<HumanLanguageName>) -> Vec<&'static str> {
-        HUMAN_LANGUAGES
-            .iter()
-            .filter(|lang| language_name.is_none_or(|l| lang.name == l))
-            .flat_map(|lang| lang.scripts.iter().map(|s| s.as_str()))
-            .collect::<BTreeSet<_>>()
-            .into_iter()
-            .collect()
+    pub fn all_by(language: Option<HumanLanguageName>) -> impl Iterator<Item = Self> {
+        unique(
+            HUMAN_LANGUAGES
+                .iter()
+                .filter(move |lang| language.is_none_or(|l| lang.name == l))
+                .flat_map(|lang| lang.scripts.iter().copied()),
+        )
     }
 
     #[must_use]
@@ -449,43 +453,40 @@ impl ScriptName {
 }
 
 impl HumanLanguageCategory {
-    /// Display names of the categories of `language` (or of all languages if `None`), sorted,
-    /// without duplicates.
+    /// The categories of `language` (or of every language if `None`), each once, in the order
+    /// first recorded.
     ///
     /// ```
     /// use hw_pp_core::data::human_languages::{HumanLanguageCategory, HumanLanguageName};
-    /// let categories = HumanLanguageCategory::all_as_str_by(Some(HumanLanguageName::Sumerian));
-    /// assert_eq!(categories, ["Extinct", "Isolate"]);
+    /// let categories: Vec<_> =
+    ///     HumanLanguageCategory::all_by(Some(HumanLanguageName::Sumerian)).collect();
+    /// assert_eq!(categories, [HumanLanguageCategory::Extinct, HumanLanguageCategory::Isolate]);
     /// ```
-    #[must_use]
-    pub fn all_as_str_by(language: Option<HumanLanguageName>) -> Vec<&'static str> {
-        HUMAN_LANGUAGES
-            .iter()
-            .filter(|lang| language.is_none_or(|l| lang.name == l))
-            .flat_map(|lang| lang.categories.iter().map(|c| c.as_str()))
-            .collect::<BTreeSet<_>>()
-            .into_iter()
-            .collect()
+    pub fn all_by(language: Option<HumanLanguageName>) -> impl Iterator<Item = Self> {
+        unique(
+            HUMAN_LANGUAGES
+                .iter()
+                .filter(move |lang| language.is_none_or(|l| lang.name == l))
+                .flat_map(|lang| lang.categories.iter().copied()),
+        )
     }
 }
 
 impl HumanLanguageFamily {
-    /// Display names of the families of `language` (or of all languages if `None`), sorted,
-    /// without duplicates.
+    /// The families of `language` (or of every language if `None`), each once, in the order first
+    /// recorded.
     ///
     /// ```
     /// use hw_pp_core::data::human_languages::{HumanLanguageFamily, HumanLanguageName};
-    /// let families = HumanLanguageFamily::all_as_str_by(Some(HumanLanguageName::English));
-    /// assert_eq!(families, ["Germanic", "Indo-European"]);
+    /// let families: Vec<_> = HumanLanguageFamily::all_by(Some(HumanLanguageName::English)).collect();
+    /// assert_eq!(families, [HumanLanguageFamily::IndoEuropean, HumanLanguageFamily::Germanic]);
     /// ```
-    #[must_use]
-    pub fn all_as_str_by(language: Option<HumanLanguageName>) -> Vec<&'static str> {
-        HUMAN_LANGUAGES
-            .iter()
-            .filter(|lang| language.is_none_or(|l| lang.name == l))
-            .flat_map(|lang| lang.families.iter().map(|f| f.as_str()))
-            .collect::<BTreeSet<_>>()
-            .into_iter()
-            .collect()
+    pub fn all_by(language: Option<HumanLanguageName>) -> impl Iterator<Item = Self> {
+        unique(
+            HUMAN_LANGUAGES
+                .iter()
+                .filter(move |lang| language.is_none_or(|l| lang.name == l))
+                .flat_map(|lang| lang.families.iter().copied()),
+        )
     }
 }

@@ -105,8 +105,8 @@ fn dialect_mismatch_for_language_errors() {
 
 #[test]
 fn all_human_language_names() {
-    let result = HumanLanguageName::all_as_str_by(None, None, None);
-    assert!(result.contains(&"English"));
+    let result: Vec<_> = HumanLanguageName::all_by(None, None, None).collect();
+    assert!(result.contains(&HumanLanguageName::English));
     assert_eq!(result.len(), HumanLanguageName::ALL.len());
 }
 
@@ -208,16 +208,23 @@ fn every_variant_is_used_in_the_data() {
 
 #[test]
 fn families_filter_languages_and_list_per_language() {
-    let bantu = HumanLanguageName::all_as_str_by(None, None, Some(HumanLanguageFamily::Bantu));
-    assert!(bantu.contains(&"Zulu") && bantu.contains(&"Swahili"));
-    assert!(!bantu.contains(&"Yoruba"));
+    let bantu: Vec<_> =
+        HumanLanguageName::all_by(None, None, Some(HumanLanguageFamily::Bantu)).collect();
+    assert!(
+        bantu.contains(&HumanLanguageName::Zulu) && bantu.contains(&HumanLanguageName::Swahili)
+    );
+    assert!(!bantu.contains(&HumanLanguageName::Yoruba));
     assert_eq!(
-        HumanLanguageFamily::all_as_str_by(Some(HumanLanguageName::Spanish)),
-        ["Indo-European", "Italic", "Romance"]
+        HumanLanguageFamily::all_by(Some(HumanLanguageName::Spanish)).collect::<Vec<_>>(),
+        [
+            HumanLanguageFamily::IndoEuropean,
+            HumanLanguageFamily::Italic,
+            HumanLanguageFamily::Romance
+        ]
     );
     assert_eq!(
-        HumanLanguageFamily::all_as_str_by(Some(HumanLanguageName::Basque)),
-        Vec::<&str>::new()
+        HumanLanguageFamily::all_by(Some(HumanLanguageName::Basque)).count(),
+        0
     );
 }
 

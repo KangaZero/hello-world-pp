@@ -97,7 +97,7 @@ pub static HUMAN_LANGUAGE_STATS: LazyLock<HumanLanguageStats> =
             .iter()
             .map(|language| language.dialects.len())
             .sum(),
-        category_count: HumanLanguageCategory::all_as_str_by(None).len(),
+        category_count: HumanLanguageCategory::all_by(None).count(),
         greeting_count: HUMAN_LANGUAGES
             .iter()
             .flat_map(|languages| languages.dialects.iter())
