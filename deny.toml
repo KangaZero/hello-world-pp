@@ -1,0 +1,23 @@
+# cargo-deny: RustSec advisories, licenses, duplicate/wildcard deps and crate sources.
+# Run with `just deny`; CI runs the same check. Reference: https://embarkstudios.github.io/cargo-deny/
+
+[graph]
+all-features = true
+
+[advisories]
+# Vulnerabilities always fail; unmaintained crates only when we depend on them directly.
+unmaintained = "workspace"
+yanked = "deny"
+
+[licenses]
+# Every license in the current tree. Add one only after checking it is permissive.
+allow = ["MIT", "Apache-2.0", "Unicode-3.0"]
+confidence-threshold = 0.93
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"

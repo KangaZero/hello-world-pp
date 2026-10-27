@@ -1,0 +1,19 @@
+# Keeps the SHA-pinned actions in ci.yml and the crates in Cargo.lock current.
+# flake.lock is updated with `just update` (Dependabot has no Nix flake support).
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]
+
+  - package-ecosystem: cargo
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      cargo:
+        update-types: [minor, patch]

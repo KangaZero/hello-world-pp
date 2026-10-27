@@ -41,95 +41,116 @@
 
       # Single source of truth, shared with rustup / CI via rust-toolchain.toml.
       mkToolchain = pkgs: pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain.toml;
+
+      # The CI toolchain plus editor-only components, kept out of rust-toolchain.toml so CI
+      # does not download them.
+      mkDevToolchain =
+        pkgs:
+        (mkToolchain pkgs).override {
+          extensions = (pkgs.lib.importTOML ./rust-toolchain.toml).toolchain.components ++ [
+            "rust-src"
+            "rust-analyzer"
+          ];
+        };
+
+      # Nix hygiene: the only hooks `nix flake check` runs, since CI's `lint` job already
+      # covers rustfmt and clippy.
+      nixHooks = {
+        nixfmt.enable = true;
+        statix.enable = true;
+        deadnix.enable = true;
+      };
+
+      # Rust, using the same toolchain as CI; local pre-commit only.
+      mkRustHooks =
+        toolchain:
+        let
+          tools = {
+            cargo = toolchain;
+            clippy = toolchain;
+            rustfmt = toolchain;
+          };
+        in
+        {
+          rustfmt = {
+            enable = true;
+            packageOverrides = { inherit (tools) cargo rustfmt; };
+          };
+          clippy = {
+            enable = true;
+            # Same bar as CI: warnings (incl. pedantic) block the commit.
+            settings = {
+              allFeatures = true;
+              denyWarnings = true;
+            };
+            packageOverrides = { inherit (tools) cargo clippy; };
+          };
+
+          # just-hook = {
+          #    enable = true;
+          #    name = "just hook";
+          #    entry = "${pkgs.writeShellScriptBin "just-hook" ''
+          #      just review-count
+          #      # Nudge only (never blocks the commit): remind to refresh the
+          #      # README image when UI files are staged. Screenshot stays a
+          #      # manual `just screenshot` so PNG blobs don't bloat git history.
+          #      if git diff --cached --name-only | grep -qE '^(app|components)/'; then
+          #        echo "note: UI files staged - refresh the README image with: just screenshot"
+          #      fi
+          #    ''}/bin/just-hook";
+          #    language = "system";
+          #    pass_filenames = false;
+          #    always_run = true;
+          #    stages = [ "pre-commit" ];
+          #  };
+          #
+          # typecheck = {
+          #   enable = true;
+          #   name = "typecheck";
+          #   entry = "${pkgs.writeShellScriptBin "typecheck-hook" ''
+          #     just typecheck
+          #   ''}/bin/typecheck-hook";
+          #   language = "system";
+          #   pass_filenames = false;
+          #   always_run = true;
+          #   stages = [ "pre-push" ];
+          # };
+          #
+        };
     in
     {
       checks = forEachSystem (
-        system: pkgs:
-        let
-          toolchain = mkToolchain pkgs;
-        in
-        {
+        system: _: {
           pre-commit-check = git-hooks.lib.${system}.run {
             src = ./.;
-            # Sandboxed `nix flake check` has no network: vendor crates from Cargo.lock.
-            settings.rust.check.cargoDeps = pkgs.rustPlatform.importCargoLock {
-              lockFile = ./Cargo.lock;
-            };
-            hooks = {
-              # Nix hygiene.
-              nixfmt.enable = true;
-              statix.enable = true;
-              deadnix.enable = true;
-
-              # Rust, using the same toolchain as the dev shell.
-              rustfmt = {
-                enable = true;
-                packageOverrides = {
-                  cargo = toolchain;
-                  rustfmt = toolchain;
-                };
-              };
-              clippy = {
-                enable = true;
-                # Same bar as CI: warnings (incl. pedantic) block the commit.
-                settings = {
-                  allFeatures = true;
-                  denyWarnings = true;
-                };
-                packageOverrides = {
-                  cargo = toolchain;
-                  clippy = toolchain;
-                };
-              };
-
-              # just-hook = {
-              #    enable = true;
-              #    name = "just hook";
-              #    entry = "${pkgs.writeShellScriptBin "just-hook" ''
-              #      just review-count
-              #      # Nudge only (never blocks the commit): remind to refresh the
-              #      # README image when UI files are staged. Screenshot stays a
-              #      # manual `just screenshot` so PNG blobs don't bloat git history.
-              #      if git diff --cached --name-only | grep -qE '^(app|components)/'; then
-              #        echo "note: UI files staged - refresh the README image with: just screenshot"
-              #      fi
-              #    ''}/bin/just-hook";
-              #    language = "system";
-              #    pass_filenames = false;
-              #    always_run = true;
-              #    stages = [ "pre-commit" ];
-              #  };
-              #
-              # typecheck = {
-              #   enable = true;
-              #   name = "typecheck";
-              #   entry = "${pkgs.writeShellScriptBin "typecheck-hook" ''
-              #     just typecheck
-              #   ''}/bin/typecheck-hook";
-              #   language = "system";
-              #   pass_filenames = false;
-              #   always_run = true;
-              #   stages = [ "pre-push" ];
-              # };
-              #
-            };
+            hooks = nixHooks;
           };
+          # Builds the CLI and runs its `--version` install check.
+          package = self.packages.${system}.default;
         }
       );
 
       devShells = forEachSystem (
         system: pkgs:
         let
-          inherit (self.checks.${system}.pre-commit-check) shellHook enabledPackages;
+          inherit
+            (git-hooks.lib.${system}.run {
+              src = ./.;
+              hooks = nixHooks // mkRustHooks (mkToolchain pkgs);
+            })
+            shellHook
+            enabledPackages
+            ;
         in
         {
           default = pkgs.mkShell {
-            # shellHook = installs the git pre-commit hook defined above.
+            # shellHook = installs the git pre-commit hooks defined above.
             inherit shellHook;
             packages = [
-              (mkToolchain pkgs)
+              (mkDevToolchain pkgs)
               pkgs.shellcheck
               pkgs.cargo-nextest
+              pkgs.cargo-deny
               pkgs.just
               # `just bench`
               pkgs.hyperfine

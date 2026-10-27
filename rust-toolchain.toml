@@ -1,4 +1,5 @@
 [toolchain]
 channel = "1.99.0"
 profile = "minimal"
-components = ["clippy", "rustfmt", "rust-src", "rust-analyzer"]
+# Editor-only components (rust-src, rust-analyzer) come from the Nix dev shell, so CI skips them.
+components = ["clippy", "rustfmt"]

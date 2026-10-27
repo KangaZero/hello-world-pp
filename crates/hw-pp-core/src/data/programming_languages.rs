@@ -191,9 +191,8 @@ pub struct ProgrammingLanguageVersion {
     pub syntax: &'static str,
     /// `syntax` split into highlighted tokens, as each token's kind and byte length; see
     /// [`tokens`](Self::tokens). Lengths, not `&str`s, so the table needs no load-time
-    /// relocations; built with
-    /// [`checked_token_lengths`](crate::data::programming_languages_token::checked_token_lengths),
-    /// which checks the tokens against `syntax` at compile time.
+    /// relocations; built with the crate-internal `checked_token_lengths`, which checks the
+    /// tokens against `syntax` at compile time.
     pub tokenized_syntax: &'static [(TokenKind, usize)],
 }
 

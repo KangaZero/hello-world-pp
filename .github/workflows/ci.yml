@@ -34,6 +34,23 @@ jobs:
       - name: Clippy
         run: cargo clippy --locked --workspace --all-targets --all-features -- -D warnings
 
+      # Broken intra-doc links and other rustdoc warnings fail the build.
+      - name: Docs
+        run: cargo doc --locked --workspace --all-features --no-deps
+        env:
+          RUSTDOCFLAGS: -D warnings
+
+  # RustSec advisories, licenses, banned/duplicate crates and sources; config in deny.toml.
+  deny:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: EmbarkStudios/cargo-deny-action@3c6349835b2b7b196a839186cb8b78e02f7b5f25 # v2.1.1
+
   test:
     strategy:
       fail-fast: false
@@ -69,6 +86,13 @@ jobs:
 
       - uses: cachix/install-nix-action@13d8dd58da0234aa297dedd986986ccb8e7f3e24 # v31.11.1
 
-      # Pre-commit hooks (nixfmt, statix, deadnix, rustfmt, clippy) + package build.
+      # Caches /nix/store paths in the GitHub Actions cache, so the toolchain and crate
+      # builds are not refetched every run. FlakeHub is off: it needs `id-token: write`.
+      - uses: DeterminateSystems/magic-nix-cache-action@84c0677f58dcedf3b91f8223ce36a9ea5b3c84b7 # v15
+        with:
+          use-flakehub: false
+
+      # Nix hooks (nixfmt, statix, deadnix) + package build with its `--version` check.
+      # rustfmt/clippy run in the `lint` job instead.
       - name: Flake check
         run: nix flake check -L

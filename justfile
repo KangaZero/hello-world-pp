@@ -44,9 +44,19 @@ test *args:
     cargo nextest run {{ cargo_flags }} --no-tests=warn {{ args }}
     cargo test {{ cargo_flags }} --doc
 
-# Everything the CI `lint` and `test` jobs run
+# Rustdoc, warnings are errors (same as CI)
 [group('check')]
-ci: fmt-check lint test
+doc-check:
+    RUSTDOCFLAGS="-D warnings" cargo doc {{ cargo_flags }} --no-deps
+
+# Advisories, licenses, bans and sources (config in deny.toml)
+[group('check')]
+deny:
+    cargo deny --locked check
+
+# Everything the CI `lint`, `deny` and `test` jobs run
+[group('check')]
+ci: fmt-check lint doc-check deny test
 
 # Benchmark build times and CLI run times (needs hyperfine, in the dev shell)
 [group('bench')]
@@ -77,7 +87,7 @@ bench-run:
         -n 'NATO notation' '{{ release_bin }} -l russian --notation nato' \
         -n 'list 1772 versions' '{{ release_bin }} list pd'
 
-# Pre-commit hooks + Nix package build (the CI `nix` job)
+# Nix hooks + Nix package build (the CI `nix` job)
 [group('nix')]
 nix-check:
     nix flake check -L
