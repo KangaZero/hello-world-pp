@@ -8,7 +8,9 @@
 //! - <http://helloworldcollection.de/#Guile>
 //! - <https://en.wikipedia.org/wiki/Scheme_(programming_language)> (paradigms)
 
-use crate::data::programming_languages::ProgrammingParadigm::{Functional, Imperative, Metaprogramming};
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Imperative, Metaprogramming,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,

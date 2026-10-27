@@ -9,7 +9,9 @@
 //! - <https://github.com/Draco18s/RunicEnchantments> (paradigms)
 
 use crate::data::macros::language_names;
-use crate::data::programming_languages::ProgrammingParadigm::{Concurrent, StackBased, TwoDimensional};
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concurrent, StackBased, TwoDimensional,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,

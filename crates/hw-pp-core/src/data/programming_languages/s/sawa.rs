@@ -7,7 +7,9 @@
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/s/Sawa.%EA%A6%B1%EA%A6%AE>
 //! - <https://en.wikipedia.org/wiki/Python_(programming_language)> (paradigms)
 
-use crate::data::programming_languages::ProgrammingParadigm::{Functional, Imperative, ObjectOriented, Procedural, Reflective, Structured};
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Imperative, ObjectOriented, Procedural, Reflective, Structured,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -31,7 +33,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Ua9b1Ua9ae],
         categories: &[],
         families: &[],
-        paradigms: &[Imperative, Procedural, Structured, ObjectOriented, Functional, Reflective],
+        paradigms: &[
+            Imperative,
+            Procedural,
+            Structured,
+            ObjectOriented,
+            Functional,
+            Reflective,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Sawa,
             syntax: SAWA,

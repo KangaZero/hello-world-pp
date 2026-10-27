@@ -8,7 +8,9 @@
 //! - <https://esolangs.org/wiki/Python,_but_it_received_the_worst_translation.>
 //! - <https://en.wikipedia.org/wiki/Python_(programming_language)> (paradigms)
 
-use crate::data::programming_languages::ProgrammingParadigm::{Functional, Imperative, ObjectOriented, Procedural, Reflective, Structured};
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Imperative, ObjectOriented, Procedural, Reflective, Structured,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -33,7 +35,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[Imperative, Procedural, Structured, ObjectOriented, Functional, Reflective],
+        paradigms: &[
+            Imperative,
+            Procedural,
+            Structured,
+            ObjectOriented,
+            Functional,
+            Reflective,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::PythonButItReceivedTheWorstTranslation,
             syntax: PYTHON_BUT_IT_RECEIVED_THE_WORST_TRANSLATION,

@@ -31,6 +31,10 @@ jobs:
       - name: Format
         run: cargo fmt --all -- --check
 
+      # Language files are only reached via `#[path]` in generated code, so `cargo fmt` skips them.
+      - name: Format language files
+        run: find crates/hw-pp-core/src/data/programming_languages crates/hw-pp-core/src/data/human_languages -name '*.rs' -exec rustfmt --check {} +
+
       - name: Clippy
         run: cargo clippy --locked --workspace --all-targets --all-features -- -D warnings
 

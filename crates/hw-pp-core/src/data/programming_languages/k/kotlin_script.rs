@@ -7,7 +7,9 @@
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/k/Kotlin%20Script.kts>
 //! - <https://en.wikipedia.org/wiki/Kotlin> (paradigms)
 
-use crate::data::programming_languages::ProgrammingParadigm::{Concurrent, Functional, Generic, Imperative, ObjectOriented, Reflective, Structured};
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concurrent, Functional, Generic, Imperative, ObjectOriented, Reflective, Structured,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Scripting, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -31,7 +33,15 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Scripting],
         families: &[],
-        paradigms: &[Imperative, Structured, ObjectOriented, Functional, Concurrent, Reflective, Generic],
+        paradigms: &[
+            Imperative,
+            Structured,
+            ObjectOriented,
+            Functional,
+            Concurrent,
+            Reflective,
+            Generic,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::KotlinScript,
             syntax: KOTLIN_SCRIPT,

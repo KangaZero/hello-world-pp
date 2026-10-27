@@ -7,7 +7,9 @@
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/m/Mozart.oz>
 //! - <https://en.wikipedia.org/wiki/Oz_(programming_language)> (paradigms)
 
-use crate::data::programming_languages::ProgrammingParadigm::{Concurrent, Constraint, Functional, Imperative, Logic, ObjectOriented};
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concurrent, Constraint, Functional, Imperative, Logic, ObjectOriented,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,
@@ -42,7 +44,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Oz],
         categories: &[],
         families: &[],
-        paradigms: &[Imperative, ObjectOriented, Functional, Logic, Constraint, Concurrent],
+        paradigms: &[
+            Imperative,
+            ObjectOriented,
+            Functional,
+            Logic,
+            Constraint,
+            Concurrent,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Mozart,
             syntax: MOZART,

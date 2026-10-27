@@ -8,7 +8,9 @@
 //! - <http://helloworldcollection.de/#HP-48>
 //! - <https://en.wikipedia.org/wiki/RPL_(programming_language)> (paradigms)
 
-use crate::data::programming_languages::ProgrammingParadigm::{Concatenative, StackBased, Structured};
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concatenative, StackBased, Structured,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,

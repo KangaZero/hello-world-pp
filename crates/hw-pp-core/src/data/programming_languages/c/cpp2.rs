@@ -7,7 +7,9 @@
 //! - <https://github.com/leachim6/hello-world/pull/1572>
 //! - <https://en.wikipedia.org/wiki/C%2B%2B> (paradigms)
 
-use crate::data::programming_languages::ProgrammingParadigm::{Functional, Generic, Imperative, ObjectOriented, Procedural, Reflective};
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Generic, Imperative, ObjectOriented, Procedural, Reflective,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Compiled,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -35,7 +37,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Cpp2],
         categories: &[Compiled],
         families: &[],
-        paradigms: &[Imperative, Procedural, ObjectOriented, Functional, Reflective, Generic],
+        paradigms: &[
+            Imperative,
+            Procedural,
+            ObjectOriented,
+            Functional,
+            Reflective,
+            Generic,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cpp2,
             syntax: CPP2,

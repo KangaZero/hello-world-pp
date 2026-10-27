@@ -7,7 +7,9 @@
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/x/XLisp.xlisp>
 //! - <https://en.wikipedia.org/wiki/Lisp_(programming_language)> (paradigms)
 
-use crate::data::programming_languages::ProgrammingParadigm::{Functional, Metaprogramming, Procedural, Reflective};
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Metaprogramming, Procedural, Reflective,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Scripting,
     ProgrammingLanguageDialect, ProgrammingLanguageFamily::Lisp, ProgrammingLanguageName,

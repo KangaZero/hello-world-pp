@@ -8,7 +8,9 @@
 //! - <http://helloworldcollection.de/#MuLisp>
 //! - <https://en.wikipedia.org/wiki/Lisp_(programming_language)> (paradigms)
 
-use crate::data::programming_languages::ProgrammingParadigm::{Functional, Metaprogramming, Procedural, Reflective};
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Functional, Metaprogramming, Procedural, Reflective,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageDialect, ProgrammingLanguageName,
     ProgrammingLanguageVersion,

@@ -1,6 +1,8 @@
 # Shared by every cargo recipe; mirrors .github/workflows/ci.yml.
 cargo_flags := "--locked --workspace --all-features"
 release_bin := "target/release/hw-pp"
+# Language files are only reached via `#[path]` in generated code, so `cargo fmt` skips them.
+data_dirs := "crates/hw-pp-core/src/data/programming_languages crates/hw-pp-core/src/data/human_languages"
 
 # List all recipes
 [private]
@@ -26,12 +28,14 @@ doc:
 [group('dev')]
 fmt:
     cargo fmt --all
+    find {{ data_dirs }} -name '*.rs' -exec rustfmt {} +
     nix fmt
 
 # Check formatting without changing files
 [group('check')]
 fmt-check:
     cargo fmt --all -- --check
+    find {{ data_dirs }} -name '*.rs' -exec rustfmt --check {} +
 
 # Clippy, warnings are errors (same as CI)
 [group('check')]

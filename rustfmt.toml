@@ -1,0 +1,3 @@
+# Lets plain `rustfmt` (used on the language files, which `cargo fmt` cannot reach) match
+# the workspace edition in Cargo.toml.
+edition = "2024"
