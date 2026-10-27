@@ -19,7 +19,6 @@ use crate::data::macros::language_names;
 language_names! {
     language: Portuguese => "Portuguese" | "Português",
     dialects: [BrazilianPortuguese => "Brazilian Portuguese" | "português brasileiro", EuropeanPortuguese => "European Portuguese" | "português europeu"],
-    scripts: [Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {

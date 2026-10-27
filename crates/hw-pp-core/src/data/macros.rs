@@ -131,8 +131,9 @@ macro_rules! output_for_hello_world {
 /// - Every pair is `Variant => "Name"`, optionally `| "Endonym"`.
 /// - `language`: exactly one pair.
 /// - Programming: `versions` (non-empty), `extensions` (may be empty).
-/// - Human: `dialects` (non-empty), `scripts` (may be empty).
-/// - `extensions`/`scripts` may repeat across files with the same names; all else is unique.
+/// - Human: `dialects` (non-empty). Scripts are not declared here: pick them from the
+///   hand-written [`ScriptName`](super::human_languages::ScriptName).
+/// - `extensions` may repeat across files with the same names; all else is unique.
 ///
 /// ```ignore
 /// language_names! {

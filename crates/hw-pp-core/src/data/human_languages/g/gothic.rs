@@ -19,7 +19,6 @@ use crate::data::macros::language_names;
 language_names! {
     language: Gothic => "Gothic" | "𐌲𐌿𐍄𐌹𐍃𐌺",
     dialects: [BiblicalGothic => "Biblical Gothic"],
-    scripts: [Gothic => "Gothic", Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {

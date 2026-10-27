@@ -19,7 +19,6 @@ use crate::data::macros::language_names;
 language_names! {
     language: Hindi => "Hindi" | "हिन्दी",
     dialects: [ModernStandardHindi => "Modern Standard Hindi"],
-    scripts: [Devanagari => "Devanagari", Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {

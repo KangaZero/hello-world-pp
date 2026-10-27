@@ -19,7 +19,6 @@ use crate::data::macros::language_names;
 language_names! {
     language: Kurdish => "Kurdish" | "Kurdî",
     dialects: [Kurmanji => "Kurmanji" | "Kurmancî", Sorani => "Sorani" | "سۆرانی"],
-    scripts: [Latin => "Latin", Arabic => "Arabic"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {

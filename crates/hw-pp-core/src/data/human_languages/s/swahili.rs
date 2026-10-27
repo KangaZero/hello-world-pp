@@ -19,7 +19,6 @@ use crate::data::macros::language_names;
 language_names! {
     language: Swahili => "Swahili" | "Kiswahili",
     dialects: [StandardSwahili => "Standard Swahili" | "Kiswahili sanifu"],
-    scripts: [Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {

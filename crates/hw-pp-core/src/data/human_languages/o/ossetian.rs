@@ -16,7 +16,6 @@ use crate::data::macros::language_names;
 language_names! {
     language: Ossetian => "Ossetian" | "ирон ӕвзаг",
     dialects: [IronOssetian => "Iron Ossetian" | "ирон"],
-    scripts: [Cyrillic => "Cyrillic", Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {

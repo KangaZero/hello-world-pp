@@ -36,9 +36,9 @@ struct EnumSpec {
     doc: &'static str,
     /// `Name: ParseError("kind")`, as `name_enum!` expects.
     header: &'static str,
-    /// Whether several files may declare the same variant (e.g. shared scripts).
+    /// Whether several files may declare the same variant (e.g. shared extensions).
     shared: bool,
-    /// Whether a file may leave the list empty (e.g. sign languages have no script).
+    /// Whether a file may leave the list empty (e.g. a language with no extension).
     allow_empty: bool,
 }
 
@@ -49,7 +49,7 @@ struct Catalog {
     /// Output file name in `OUT_DIR`.
     output: &'static str,
     /// `language:` (a single pair) comes first, then the list keys.
-    enums: [EnumSpec; 3],
+    enums: &'static [EnumSpec],
     /// The table's `///` doc comment, as emitted into the generated source.
     table_doc: &'static str,
     /// `NAME: &[Type]`.
@@ -61,7 +61,7 @@ const CATALOGS: [Catalog; 2] = [
     Catalog {
         dir: "src/data/programming_languages",
         output: "programming_languages_registry.rs",
-        enums: [
+        enums: &[
             EnumSpec {
                 key: "language",
                 doc: "/// A recorded programming language.",
@@ -92,7 +92,9 @@ const CATALOGS: [Catalog; 2] = [
     Catalog {
         dir: "src/data/human_languages",
         output: "human_languages_registry.rs",
-        enums: [
+        // `ScriptName` is hand-written in `human_languages.rs`: scripts are a fixed set the
+        // language files pick from, not names each file introduces.
+        enums: &[
             EnumSpec {
                 key: "language",
                 doc: "/// A recorded human language.",
@@ -106,13 +108,6 @@ const CATALOGS: [Catalog; 2] = [
                 header: "DialectName: ParseDialectNameError(\"dialect\")",
                 shared: false,
                 allow_empty: false,
-            },
-            EnumSpec {
-                key: "scripts",
-                doc: "/// A writing system used by at least one recorded human language.",
-                header: "ScriptName: ParseScriptNameError(\"script\")",
-                shared: true,
-                allow_empty: true,
             },
         ],
         table_doc: "/// Every recorded human language, in alphabetical order of file name.",
@@ -210,7 +205,7 @@ fn read_language_file(catalog: &Catalog, path: &Path) -> Result<LanguageFile, St
         marker_block(&source).ok_or_else(|| at(format!("no `{MARKER} {{ ... }}` block")))?;
     let fields = parse_fields(&tokenize(block).map_err(at)?).map_err(at)?;
 
-    for spec in &catalog.enums {
+    for spec in catalog.enums {
         let pairs = fields
             .get(spec.key)
             .ok_or_else(|| at(format!("`{MARKER}` is missing `{}:`", spec.key)))?;
@@ -512,7 +507,7 @@ fn generate(catalog: &Catalog, languages: &[LanguageFile]) -> Result<String, Str
         let path = language.path.to_str().ok_or("non-UTF-8 path")?;
         writeln!(out, "#[path = {path:?}]\nmod {};", language.module).map_err(|e| e.to_string())?;
     }
-    for spec in &catalog.enums {
+    for spec in catalog.enums {
         write_enum(
             &mut out,
             spec.doc,

@@ -15,7 +15,6 @@ use crate::data::macros::language_names;
 language_names! {
     language: Korean => "Korean" | "한국어",
     dialects: [SouthKorean => "South Korean" | "표준어", NorthKorean => "North Korean" | "문화어"],
-    scripts: [Hangul => "Hangul", Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {

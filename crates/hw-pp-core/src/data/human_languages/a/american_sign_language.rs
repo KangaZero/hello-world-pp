@@ -16,7 +16,6 @@ use crate::data::macros::language_names;
 language_names! {
     language: AmericanSignLanguage => "American Sign Language",
     dialects: [Asl => "ASL", LeftHandedAsl => "Left-handed ASL"],
-    scripts: [Fingerspelling => "Fingerspelling"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {

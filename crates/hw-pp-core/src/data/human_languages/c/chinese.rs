@@ -31,18 +31,6 @@ language_names! {
         Teochew => "Teochew" | "潮州話",
         Fuzhounese => "Fuzhounese" | "福州話",
     ],
-    scripts: [
-        Han => "Han",
-        SimplifiedChinese => "Simplified Chinese",
-        TraditionalChinese => "Traditional Chinese",
-        Latin => "Latin",
-        Pinyin => "Pinyin",
-        Jyutping => "Jyutping",
-        PehOeJi => "Pe̍h-ōe-jī",
-        Wugniu => "Wugniu",
-        Pengim => "Peng'im",
-        FoochowRomanized => "Foochow Romanized",
-    ],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
@@ -50,7 +38,7 @@ pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLangua
     categories: &[Natural],
     families: &[SinoTibetan, Sinitic],
     scripts: &[
-        ScriptName::Han,
+        ScriptName::Hanzi,
         ScriptName::SimplifiedChinese,
         ScriptName::TraditionalChinese,
         ScriptName::Latin,

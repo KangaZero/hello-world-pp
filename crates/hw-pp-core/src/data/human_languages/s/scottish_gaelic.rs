@@ -19,7 +19,6 @@ use crate::data::macros::language_names;
 language_names! {
     language: ScottishGaelic => "Scottish Gaelic" | "Gàidhlig",
     dialects: [StandardScottishGaelic => "Standard Scottish Gaelic"],
-    scripts: [Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {

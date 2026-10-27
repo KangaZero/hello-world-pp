@@ -18,7 +18,6 @@ use crate::data::macros::language_names;
 language_names! {
     language: LowerSorbian => "Lower Sorbian" | "dolnoserbšćina",
     dialects: [StandardLowerSorbian => "Standard Lower Sorbian"],
-    scripts: [Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {

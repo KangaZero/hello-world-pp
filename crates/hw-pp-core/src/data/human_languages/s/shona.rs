@@ -14,7 +14,6 @@ use crate::data::macros::language_names;
 language_names! {
     language: Shona => "Shona" | "chiShona",
     dialects: [StandardShona => "Standard Shona"],
-    scripts: [Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {

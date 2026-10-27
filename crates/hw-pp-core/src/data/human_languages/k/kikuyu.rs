@@ -20,7 +20,6 @@ use crate::data::macros::language_names;
 language_names! {
     language: Kikuyu => "Kikuyu" | "Gĩkũyũ",
     dialects: [StandardKikuyu => "Standard Kikuyu"],
-    scripts: [Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {

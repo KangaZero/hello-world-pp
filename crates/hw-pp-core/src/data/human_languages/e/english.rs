@@ -27,7 +27,6 @@ use crate::data::macros::language_names;
 language_names! {
     language: English => "English",
     dialects: [AmericanEnglish => "American English", BritishEnglish => "British English", AustralianEnglish => "Australian English"],
-    scripts: [Latin => "Latin", Katakana => "Katakana", Kana => "Kana", Cyrillic => "Cyrillic", Hangul => "Hangul", Arabic => "Arabic", PersoArabic => "Perso-Arabic", Hebrew => "Hebrew", Devanagari => "Devanagari", Bengali => "Bengali", Gurmukhi => "Gurmukhi", Gujarati => "Gujarati", Odia => "Odia", Tamil => "Tamil", Telugu => "Telugu", Kannada => "Kannada", Malayalam => "Malayalam", Sinhala => "Sinhala", Thai => "Thai", Ethiopic => "Ethiopic", Braille => "Braille", BrailleContracted => "Braille (Contracted)"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {

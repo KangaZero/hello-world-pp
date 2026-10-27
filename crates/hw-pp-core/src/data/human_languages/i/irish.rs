@@ -18,7 +18,6 @@ use crate::data::macros::language_names;
 language_names! {
     language: Irish => "Irish" | "Gaeilge",
     dialects: [StandardIrish => "Standard Irish" | "An Caighdeán Oifigiúil"],
-    scripts: [Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {

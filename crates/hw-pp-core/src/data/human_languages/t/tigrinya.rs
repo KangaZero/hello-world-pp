@@ -16,7 +16,6 @@ use crate::data::macros::language_names;
 language_names! {
     language: Tigrinya => "Tigrinya" | "ትግርኛ",
     dialects: [StandardTigrinya => "Standard Tigrinya"],
-    scripts: [Ethiopic => "Ethiopic", Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {

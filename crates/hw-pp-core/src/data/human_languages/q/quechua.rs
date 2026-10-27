@@ -13,7 +13,6 @@ use crate::data::macros::language_names;
 language_names! {
     language: Quechua => "Quechua" | "Runa Simi",
     dialects: [SouthernQuechua => "Southern Quechua"],
-    scripts: [Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {

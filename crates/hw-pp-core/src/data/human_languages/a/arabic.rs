@@ -24,7 +24,6 @@ use crate::data::macros::language_names;
 language_names! {
     language: Arabic => "Arabic" | "العربية",
     dialects: [ModernStandardArabic => "Modern Standard Arabic" | "العربية الفصحى", EgyptianArabic => "Egyptian Arabic" | "مصري", LevantineArabic => "Levantine Arabic" | "شامي"],
-    scripts: [Arabic => "Arabic", Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {

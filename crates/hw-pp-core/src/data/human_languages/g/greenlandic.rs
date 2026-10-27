@@ -14,7 +14,6 @@ use crate::data::macros::language_names;
 language_names! {
     language: Greenlandic => "Greenlandic" | "kalaallisut",
     dialects: [WestGreenlandic => "West Greenlandic"],
-    scripts: [Latin => "Latin"],
 }
 
 pub(in crate::data::human_languages) const LANGUAGE: HumanLanguage = HumanLanguage {
