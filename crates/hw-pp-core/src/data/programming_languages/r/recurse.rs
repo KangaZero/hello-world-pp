@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/r/Recurse.recurse>
+//! - <https://esolangs.org/wiki/Recurse> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::{CellBased, TwoDimensional};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -58,7 +60,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Recurse],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[CellBased, TwoDimensional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Recurse,
             syntax: RECURSE,

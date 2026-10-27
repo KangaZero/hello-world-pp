@@ -7,7 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(nonalphabetic_and_A)#Astridec>
 //! - <https://esolangs.org/wiki/Astridec>
 
-use crate::data::programming_languages::ProgrammingParadigm::Imperative;
+use crate::data::programming_languages::ProgrammingParadigm::{CellBased, Imperative};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -42,7 +42,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[Imperative],
+        paradigms: &[Imperative, CellBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Astridec,
             syntax: ASTRIDEC,

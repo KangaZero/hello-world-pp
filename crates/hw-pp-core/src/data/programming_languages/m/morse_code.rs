@@ -11,7 +11,7 @@
 //! - <https://www.itu.int/rec/R-REC-M.1677-1-200910-I/>
 //! - <https://esolangs.org/wiki/Morse_code> (paradigms)
 
-use crate::data::programming_languages::ProgrammingParadigm::Reflective;
+use crate::data::programming_languages::ProgrammingParadigm::{Reflective, StringRewriting};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -35,7 +35,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[Reflective],
+        paradigms: &[Reflective, StringRewriting],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::MorseCode,
             syntax: MORSE_CODE,

@@ -5,7 +5,9 @@
 //! - <https://esolangs.org/wiki/Funge-98>
 //! - <https://catseye.tc/view/Befunge-93/doc/Befunge-93.markdown>
 
-use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Reflective, StackBased};
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Imperative, Reflective, StackBased, TwoDimensional,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -36,7 +38,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         ],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[Imperative, Reflective, StackBased],
+        paradigms: &[Imperative, Reflective, StackBased, TwoDimensional],
         versions: &[
             ProgrammingLanguageVersion {
                 label: ProgrammingLanguageDialect::Befunge93,

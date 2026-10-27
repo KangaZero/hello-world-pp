@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/%23/%40text>
+//! - <https://esolangs.org/wiki/@text> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::StringRewriting;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -29,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[StringRewriting],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AtText,
             syntax: AT_TEXT,

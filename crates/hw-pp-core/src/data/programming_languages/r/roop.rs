@@ -8,7 +8,7 @@
 //! - <https://esolangs.org/wiki/ROOP>
 //! - <https://www.wikidata.org/wiki/Q7277404> (paradigms)
 
-use crate::data::programming_languages::ProgrammingParadigm::{Logic, ObjectOriented, Procedural};
+use crate::data::programming_languages::ProgrammingParadigm::{Logic, ObjectOriented, Procedural, TwoDimensional};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -37,7 +37,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[Procedural, ObjectOriented, Logic],
+        paradigms: &[Procedural, ObjectOriented, Logic, TwoDimensional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Roop,
             syntax: ROOP,

@@ -7,7 +7,7 @@
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/s/SubleQ.sq>
 //! - <https://esolangs.org/wiki/Subleq> (paradigms)
 
-use crate::data::programming_languages::ProgrammingParadigm::Reflective;
+use crate::data::programming_languages::ProgrammingParadigm::{CellBased, Reflective};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -42,7 +42,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Sq],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[Reflective],
+        paradigms: &[Reflective, CellBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Subleq,
             syntax: SUBLEQ,

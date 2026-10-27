@@ -7,7 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(N-S)#Nqubl>
 //! - <https://esolangs.org/wiki/Nqubl>
 
-use crate::data::programming_languages::ProgrammingParadigm::StackBased;
+use crate::data::programming_languages::ProgrammingParadigm::{QueueBased, StackBased};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -31,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[StackBased],
+        paradigms: &[StackBased, QueueBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Nqubl,
             syntax: NQUBL,

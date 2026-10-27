@@ -7,7 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(B-C)#BackFlip>
 //! - <https://esolangs.org/wiki/BackFlip>
 
-use crate::data::programming_languages::ProgrammingParadigm::Reflective;
+use crate::data::programming_languages::ProgrammingParadigm::{Reflective, TwoDimensional};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -32,7 +32,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[Reflective],
+        paradigms: &[Reflective, TwoDimensional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Backflip,
             syntax: BACKFLIP,

@@ -7,7 +7,9 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(N-S)#RASEL>
 //! - <https://esolangs.org/wiki/RASEL>
 
-use crate::data::programming_languages::ProgrammingParadigm::{Imperative, StackBased};
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Imperative, StackBased, TwoDimensional,
+};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -31,7 +33,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Rasel, FileExtension::Rasela],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[Imperative, StackBased],
+        paradigms: &[Imperative, StackBased, TwoDimensional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Rasel,
             syntax: RASEL,

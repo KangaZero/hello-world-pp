@@ -7,7 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(D-G)#Funciton>
 //! - <https://esolangs.org/wiki/Funciton>
 
-use crate::data::programming_languages::ProgrammingParadigm::Declarative;
+use crate::data::programming_languages::ProgrammingParadigm::{Declarative, TwoDimensional};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -39,7 +39,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[Declarative],
+        paradigms: &[Declarative, TwoDimensional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Funciton,
             syntax: FUNCITON,

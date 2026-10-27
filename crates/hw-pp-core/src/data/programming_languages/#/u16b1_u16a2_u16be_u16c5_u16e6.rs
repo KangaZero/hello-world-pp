@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/%23/%E1%9A%B1%E1%9A%A2%E1%9A%BE%E1%9B%85%E1%9B%A6>
+//! - <https://esolangs.org/wiki/%E1%9A%B1%E1%9A%A2%E1%9A%BE%E1%9B%85%E1%9B%A6> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::TwoDimensional;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -30,7 +32,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[TwoDimensional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::U16b1U16a2U16beU16c5U16e6,
             syntax: U16B1_U16A2_U16BE_U16C5_U16E6,

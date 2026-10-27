@@ -8,7 +8,7 @@
 //! - <http://helloworldcollection.de/#L33t>
 //! - <https://esolangs.org/wiki/L33t> (paradigms)
 
-use crate::data::programming_languages::ProgrammingParadigm::Reflective;
+use crate::data::programming_languages::ProgrammingParadigm::{CellBased, Reflective};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -59,7 +59,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[Reflective],
+        paradigms: &[Reflective, CellBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::L33t,
             syntax: L33T,

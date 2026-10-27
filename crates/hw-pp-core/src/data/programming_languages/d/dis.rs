@@ -7,7 +7,7 @@
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/d/Dis.dis>
 //! - <https://esolangs.org/wiki/Dis> (paradigms)
 
-use crate::data::programming_languages::ProgrammingParadigm::{Imperative, Reflective};
+use crate::data::programming_languages::ProgrammingParadigm::{CellBased, Imperative, Reflective};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -41,7 +41,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Dis],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[Imperative, Reflective],
+        paradigms: &[Imperative, Reflective, CellBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Dis,
             syntax: DIS,

@@ -5,11 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/a/Alice.alice>
-//! - <https://www.wikidata.org/wiki/Q1136926> (paradigms)
+//! - <https://esolangs.org/wiki/Alice> (paradigms)
 
-use crate::data::programming_languages::ProgrammingParadigm::{
-    Concurrent, Constraint, Functional, Imperative,
-};
+use crate::data::programming_languages::ProgrammingParadigm::{StackBased, TwoDimensional};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -33,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Alice],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[Imperative, Functional, Constraint, Concurrent],
+        paradigms: &[StackBased, TwoDimensional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Alice,
             syntax: ALICE,

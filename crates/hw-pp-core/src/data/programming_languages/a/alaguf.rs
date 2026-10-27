@@ -7,7 +7,7 @@
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/a/ALAGUF.alaguf>
 //! - <https://esolangs.org/wiki/ALAGUF> (paradigms)
 
-use crate::data::programming_languages::ProgrammingParadigm::StackBased;
+use crate::data::programming_languages::ProgrammingParadigm::{StackBased, TwoDimensional};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -31,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Alaguf],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[StackBased],
+        paradigms: &[StackBased, TwoDimensional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Alaguf,
             syntax: ALAGUF,

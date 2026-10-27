@@ -8,7 +8,7 @@
 //! - <https://esolangs.org/wiki/Grass>
 //! - <https://www.wikidata.org/wiki/Q3756259> (paradigms)
 
-use crate::data::programming_languages::ProgrammingParadigm::Procedural;
+use crate::data::programming_languages::ProgrammingParadigm::{Functional, Procedural};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -71,7 +71,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[Procedural],
+        paradigms: &[Procedural, Functional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Grass,
             syntax: GRASS,

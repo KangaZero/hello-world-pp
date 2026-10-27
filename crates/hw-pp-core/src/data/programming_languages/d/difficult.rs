@@ -8,7 +8,7 @@
 //! - <https://esolangs.org/wiki/Difficult>
 
 use crate::data::programming_languages::ProgrammingParadigm::{
-    Functional, ObjectOriented, Reflective, StackBased,
+    CellBased, Functional, ObjectOriented, QueueBased, Reflective, StackBased,
 };
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
@@ -37,7 +37,14 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[ObjectOriented, Functional, Reflective, StackBased],
+        paradigms: &[
+            ObjectOriented,
+            Functional,
+            Reflective,
+            StackBased,
+            CellBased,
+            QueueBased,
+        ],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Difficult,
             syntax: DIFFICULT,

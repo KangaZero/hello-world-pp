@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/%23/%40tention%21>
+//! - <https://esolangs.org/wiki/@tention!> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::QueueBased;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -30,7 +32,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[QueueBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::AtTentionBang,
             syntax: AT_TENTION_BANG,

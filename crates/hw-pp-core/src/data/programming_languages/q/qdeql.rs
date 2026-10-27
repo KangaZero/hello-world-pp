@@ -7,6 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(N-S)#Qdeql>
 //! - <https://esolangs.org/wiki/Qdeql>
 
+use crate::data::programming_languages::ProgrammingParadigm::QueueBased;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -84,7 +85,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[QueueBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Qdeql,
             syntax: QDEQL,

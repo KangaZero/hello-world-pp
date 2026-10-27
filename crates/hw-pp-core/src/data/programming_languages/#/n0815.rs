@@ -5,7 +5,9 @@
 //!
 //! Sources:
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/%23/0815.0815>
+//! - <https://esolangs.org/wiki/0815> (paradigms)
 
+use crate::data::programming_languages::ProgrammingParadigm::QueueBased;
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -32,7 +34,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::E0815],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[QueueBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::N0815,
             syntax: N0815,

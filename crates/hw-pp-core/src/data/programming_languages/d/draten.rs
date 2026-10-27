@@ -7,7 +7,9 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(D-G)#Draten>
 //! - <https://esolangs.org/wiki/Draten>
 
-use crate::data::programming_languages::ProgrammingParadigm::Imperative;
+use crate::data::programming_languages::ProgrammingParadigm::{
+    CellBased, Imperative, TwoDimensional,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -37,7 +39,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[Imperative],
+        paradigms: &[Imperative, CellBased, TwoDimensional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Draten,
             syntax: DRATEN,

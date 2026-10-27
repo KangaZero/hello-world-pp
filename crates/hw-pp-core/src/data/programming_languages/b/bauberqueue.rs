@@ -7,7 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(B-C)#Bauberqueue>
 //! - <https://esolangs.org/wiki/Bauberqueue>
 
-use crate::data::programming_languages::ProgrammingParadigm::Reflective;
+use crate::data::programming_languages::ProgrammingParadigm::{QueueBased, Reflective};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -37,7 +37,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[Reflective],
+        paradigms: &[Reflective, QueueBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Bauberqueue,
             syntax: BAUBERQUEUE,

@@ -7,7 +7,9 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(T-Z)#Trampolines>
 //! - <https://esolangs.org/wiki/Trampolines>
 
-use crate::data::programming_languages::ProgrammingParadigm::{Imperative, StackBased};
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Imperative, StackBased, TwoDimensional,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -37,7 +39,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[Imperative, StackBased],
+        paradigms: &[Imperative, StackBased, TwoDimensional],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Trampolines,
             syntax: TRAMPOLINES,

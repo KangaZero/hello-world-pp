@@ -7,7 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(D-G)#Gofe>
 //! - <https://esolangs.org/wiki/Gofe>
 
-use crate::data::programming_languages::ProgrammingParadigm::StackBased;
+use crate::data::programming_languages::ProgrammingParadigm::{CellBased, QueueBased, StackBased};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -31,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[StackBased],
+        paradigms: &[StackBased, CellBased, QueueBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Gofe,
             syntax: GOFE,

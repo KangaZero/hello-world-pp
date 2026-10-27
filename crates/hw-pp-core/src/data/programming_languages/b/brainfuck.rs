@@ -5,7 +5,7 @@
 //! - <https://en.wikipedia.org/wiki/Brainfuck>
 //! - <https://www.wikidata.org/wiki/Q244627> (paradigms)
 
-use crate::data::programming_languages::ProgrammingParadigm::Imperative;
+use crate::data::programming_languages::ProgrammingParadigm::{CellBased, Imperative};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -30,7 +30,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Bf],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[Imperative],
+        paradigms: &[Imperative, CellBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Brainfuck,
             syntax: BRAINFUCK,

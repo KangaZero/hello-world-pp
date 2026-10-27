@@ -7,6 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(B-C)#Cells>
 //! - <https://esolangs.org/wiki/Cells>
 
+use crate::data::programming_languages::ProgrammingParadigm::StringRewriting;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -32,7 +33,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[],
+        paradigms: &[StringRewriting],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Cells,
             syntax: CELLS,

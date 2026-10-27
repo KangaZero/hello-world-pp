@@ -7,7 +7,9 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(H-M)#HZCode>
 //! - <https://esolangs.org/wiki/HZCode>
 
-use crate::data::programming_languages::ProgrammingParadigm::{Concurrent, StackBased};
+use crate::data::programming_languages::ProgrammingParadigm::{
+    Concurrent, QueueBased, StackBased, TwoDimensional,
+};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -31,7 +33,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[Concurrent, StackBased],
+        paradigms: &[Concurrent, StackBased, TwoDimensional, QueueBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Hzcode,
             syntax: HZCODE,

@@ -7,7 +7,7 @@
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/a/Asm2bf.asm>
 //! - <https://esolangs.org/wiki/Asm2bf> (paradigms)
 
-use crate::data::programming_languages::ProgrammingParadigm::{Imperative, StackBased};
+use crate::data::programming_languages::ProgrammingParadigm::{CellBased, Imperative, StackBased};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -46,7 +46,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[Imperative, StackBased],
+        paradigms: &[Imperative, StackBased, CellBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Asm2bf,
             syntax: ASM2BF,

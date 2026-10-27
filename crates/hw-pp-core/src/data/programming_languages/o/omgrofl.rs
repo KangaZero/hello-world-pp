@@ -7,7 +7,7 @@
 //! - <https://github.com/leachim6/hello-world/blob/a152253b102999bf31988fef077101022e2ad1a5/o/Omgrofl.omgrofl>
 //! - <https://esolangs.org/wiki/Omgrofl> (paradigms)
 
-use crate::data::programming_languages::ProgrammingParadigm::StackBased;
+use crate::data::programming_languages::ProgrammingParadigm::{QueueBased, StackBased};
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -53,7 +53,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[FileExtension::Omgrofl],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[StackBased],
+        paradigms: &[StackBased, QueueBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Omgrofl,
             syntax: OMGROFL,

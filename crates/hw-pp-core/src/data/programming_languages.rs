@@ -123,7 +123,8 @@ pub enum ProgrammingLanguageError {
 name_enum! {
     /// A [programming paradigm](https://en.wikipedia.org/wiki/Programming_paradigm): a style a
     /// language supports. Most languages support several. Recorded from Wikidata's
-    /// "programming paradigm" (P3966), with finer paradigms folded into these.
+    /// "programming paradigm" (P3966), Wikipedia's infobox or esolangs.org, with finer
+    /// paradigms folded into these.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
     pub enum ProgrammingParadigm: ParseProgrammingParadigmError("programming paradigm") {
         /// Statements that change program state, step by step (C, Pascal).
@@ -168,6 +169,15 @@ name_enum! {
         Concatenative => "Concatenative",
         /// Cross-cutting concerns (logging, security) added separately as aspects (`AspectJ`).
         AspectOriented => "Aspect-Oriented",
+        // Esoteric-language styles, as categorised by esolangs.org.
+        /// Memory is a tape or grid of cells that a pointer moves over (Brainfuck).
+        CellBased => "Cell-Based",
+        /// The program is a 2D grid that the instruction pointer travels across (Befunge, ><>).
+        TwoDimensional => "Two-Dimensional",
+        /// Programs repeatedly rewrite a string with substitution rules (Thue, ///).
+        StringRewriting => "String-Rewriting",
+        /// Data lives in a queue rather than on a stack (Fueue).
+        QueueBased => "Queue-Based",
     }
 }
 

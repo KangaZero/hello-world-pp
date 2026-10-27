@@ -7,7 +7,7 @@
 //! - <https://esolangs.org/wiki/Hello_world_program_in_esoteric_languages_(H-M)#Integ>
 //! - <https://esolangs.org/wiki/Integ>
 
-use crate::data::programming_languages::ProgrammingParadigm::Imperative;
+use crate::data::programming_languages::ProgrammingParadigm::{CellBased, Imperative};
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
@@ -31,7 +31,7 @@ pub(in crate::data::programming_languages) const LANGUAGE: ProgrammingLanguage =
         extensions: &[],
         categories: &[Esolang],
         families: &[],
-        paradigms: &[Imperative],
+        paradigms: &[Imperative, CellBased],
         versions: &[ProgrammingLanguageVersion {
             label: ProgrammingLanguageDialect::Integ,
             syntax: INTEG,
