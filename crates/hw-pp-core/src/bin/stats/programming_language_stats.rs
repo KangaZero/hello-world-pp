@@ -1,6 +1,6 @@
 use hw_pp_core::data::programming_languages::{
-    PROGRAMMING_LANGUAGES, ProgrammingLanguageCategory, ProgrammingLanguageFamily,
-    ProgrammingLanguageName,
+    PROGRAMMING_LANGUAGES, ProgrammingLanguage, ProgrammingLanguageCategory,
+    ProgrammingLanguageFamily, ProgrammingLanguageName, ProgrammingParadigm,
 };
 use std::sync::LazyLock;
 
@@ -15,54 +15,60 @@ pub struct ProgrammingLanguageStats {
     pub extension_count: usize,
     pub category_count: usize,
     pub family_count: usize,
+    pub paradigm_count: usize,
+}
+
+/// Names of the languages matching `predicate`, in catalog order.
+fn languages_where(
+    predicate: impl Fn(&ProgrammingLanguage) -> bool,
+) -> Vec<ProgrammingLanguageName> {
+    PROGRAMMING_LANGUAGES
+        .iter()
+        .filter(|language| predicate(language))
+        .map(|language| language.name)
+        .collect()
 }
 
 impl ProgrammingLanguageStats {
     #[must_use]
     pub fn languages_without_extension() -> Vec<ProgrammingLanguageName> {
-        PROGRAMMING_LANGUAGES
-            .iter()
-            .filter(|language| language.extensions.is_empty())
-            .map(|lang| lang.name)
-            .collect()
+        languages_where(|language| language.extensions.is_empty())
+    }
+
+    #[must_use]
+    pub fn languages_without_category() -> Vec<ProgrammingLanguageName> {
+        languages_where(|language| language.categories.is_empty())
     }
 
     #[must_use]
     pub fn languages_without_family() -> Vec<ProgrammingLanguageName> {
-        PROGRAMMING_LANGUAGES
-            .iter()
-            .filter(|language| language.families.is_empty())
-            .map(|lang| lang.name)
-            .collect()
+        languages_where(|language| language.families.is_empty())
+    }
+
+    #[must_use]
+    pub fn languages_without_paradigm() -> Vec<ProgrammingLanguageName> {
+        languages_where(|language| language.paradigms.is_empty())
     }
 
     #[must_use]
     // Note: Excludes `Whitespace` as the syntax is literally just spaces
     pub fn languages_without_syntax() -> Vec<ProgrammingLanguageName> {
-        PROGRAMMING_LANGUAGES
-            .iter()
-            .filter(|language| {
-                language.name != ProgrammingLanguageName::Whitespace
-                    && language.versions.iter().any(|v| v.syntax.trim().is_empty())
-            })
-            .map(|lang| lang.name)
-            .collect()
+        languages_where(|language| {
+            language.name != ProgrammingLanguageName::Whitespace
+                && language.versions.iter().any(|v| v.syntax.trim().is_empty())
+        })
     }
 
     #[must_use]
     // Note: Excludes `Whitespace` as the syntax is literally just spaces
     pub fn languages_without_tokenized_syntax() -> Vec<ProgrammingLanguageName> {
-        PROGRAMMING_LANGUAGES
-            .iter()
-            .filter(|language| {
-                language.name != ProgrammingLanguageName::Whitespace
-                    && language
-                        .versions
-                        .iter()
-                        .any(|v| v.tokenized_syntax.len() <= 1)
-            })
-            .map(|lang| lang.name)
-            .collect()
+        languages_where(|language| {
+            language.name != ProgrammingLanguageName::Whitespace
+                && language
+                    .versions
+                    .iter()
+                    .any(|v| v.tokenized_syntax.len() <= 1)
+        })
     }
 }
 
@@ -80,4 +86,5 @@ pub static PROGRAMMING_LANGUAGE_STATS: LazyLock<ProgrammingLanguageStats> =
             .map(|language| language.extensions.len())
             .sum(),
         family_count: ProgrammingLanguageFamily::all_by(None).count(),
+        paradigm_count: ProgrammingParadigm::all_by(None).count(),
     });
