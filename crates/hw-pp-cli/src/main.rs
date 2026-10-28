@@ -1,4 +1,5 @@
 use std::borrow::Cow;
+use std::io;
 
 use crate::constants::cli_info::{self, BANNER};
 use crate::tools::helpers::{
@@ -7,8 +8,11 @@ use crate::tools::helpers::{
 };
 use anstream::println;
 use anyhow::Context;
+use clap::Command as ClapCommand;
 use clap::error::ErrorKind;
 use clap::{ArgGroup, CommandFactory, Parser, Subcommand, ValueEnum};
+use clap_complete::Generator;
+use clap_complete::aot::{Shell, generate};
 use hw_pp_core::data::common::replace_default_hello_world_string_with;
 use hw_pp_core::data::human_languages::{
     DialectName, Greeting, HumanLanguageCategory, HumanLanguageFamily, HumanLanguageName,
@@ -157,9 +161,11 @@ enum Command {
         count: bool,
 
         /// Print in endonym name next to each entry if any. Wrapped in brackets
-        #[arg(visible_alias = "en", long, default_value_t = true)]
+        #[arg(visible_alias = "en", long, default_value_t = false)]
         endonym: bool,
     },
+    /// Generate Shell completions (bash/zsh/fish/elvish/powershell)
+    Completions { shell: Shell },
 }
 
 /// Command-line options of `hw-pp`.
@@ -371,19 +377,34 @@ impl ListCategory {
     }
 }
 
+//TODO: Move these fns as well helpers to their own crate hw-pp-tools
 /// `names` sorted for display.
-fn alphabetical<T>(names: impl Iterator<Item = T>) -> Vec<T>
-where
-    T: Ord,
-{
+fn alphabetical<T: Ord>(names: impl Iterator<Item = T>) -> Vec<T> {
     let mut names: Vec<_> = names.collect();
     names.sort_unstable();
     names
 }
 
+fn print_completions<G: Generator>(generator: G, cmd: &mut ClapCommand) {
+    generate(
+        generator,
+        cmd,
+        cmd.get_name().to_string(),
+        &mut io::stdout(),
+    );
+}
+
 fn main() -> anyhow::Result<()> {
     let args = Args::parse();
+
+    if let Some(Command::Completions { shell }) = args.command {
+        let mut cmd = Args::command();
+        print_completions(shell, &mut cmd);
+        return Ok(());
+    }
+
     args.validate();
+
     if let Some(Command::List {
         ref category,
         endonym,
