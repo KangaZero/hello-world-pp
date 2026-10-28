@@ -48,18 +48,38 @@ pub fn snippet_output_with_default_hello_world_with_options(args: &Args, snippet
     replace_default_hello_world_string_with(snippet, &default_hello_world_with_options)
 }
 
+fn replace_all_except_the_match_before_until(s: &str, from: &str, to: &str, until: &str) -> String {
+    match (s.rfind(from), s.find(until)) {
+        (Some(_), Some(i)) => {
+            format!("{}{}", s[..i - 1].replace(from, to), &s[i - 1..])
+        }
+        _ => s.replace(from, to),
+    }
+}
+
 /// Prints `stringified_list` space-separated when `compact`, otherwise one per line.
 ///
-/// Spaces inside a name become `-` (`"Catppuccin Latte"` → `Catppuccin-Latte`), so
-/// every printed name is one shell word that parses back as a flag value unquoted.
+/// If compact, Spaces inside a name become `-` (`"Catppuccin Latte"` → `Catppuccin-Latte`).
+/// (Excludes  adding "-" in spaces for endonym)
 /// With `count`, prints a final `Count: N` line.
-pub fn output_list_command_with(stringified_list: &[&str], compact: bool, count: bool) {
+pub fn output_list_command_with<T: AsRef<str>>(
+    stringified_list: &[T],
+    compact: bool,
+    count: bool,
+    endonym: bool,
+) {
     let separator = if compact { " " } else { "\n" };
     println!(
         "{}",
         stringified_list
             .iter()
-            .map(|item| item.replace(' ', "-"))
+            .map(|item| match (compact, endonym) {
+                (true, true) =>
+                    replace_all_except_the_match_before_until(item.as_ref(), " ", "-", "(")
+                        .replace(')', "),"),
+                (true, false) => item.as_ref().replace(' ', "-"),
+                _ => item.as_ref().to_string(),
+            })
             .collect::<Vec<_>>()
             .join(separator)
     );

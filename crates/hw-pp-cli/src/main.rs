@@ -1,3 +1,5 @@
+use std::borrow::Cow;
+
 use crate::constants::cli_info::{self, BANNER};
 use crate::tools::helpers::{
     hello_world_output_with_options, output_list_command_with,
@@ -147,12 +149,16 @@ enum Command {
         category: ListCategory,
 
         /// Print entries space-separated on one line
-        #[arg(visible_alias = "com", long, default_value_t = false)]
+        #[arg(visible_alias = "co", long, default_value_t = false)]
         compact: bool,
 
         /// Print the number of entries after the list
-        #[arg(visible_alias = "cnt", long, default_value_t = false)]
+        #[arg(visible_alias = "cn", long, default_value_t = false)]
         count: bool,
+
+        /// Print in endonym name next to each entry if any. Wrapped in brackets
+        #[arg(visible_alias = "en", long, default_value_t = true)]
+        endonym: bool,
     },
 }
 
@@ -179,7 +185,7 @@ pub struct Args {
     human_dialect: Option<DialectName>,
 
     /// Script to write the greeting in (e.g. "Katakana", "Braille"). Defaults to the dialect's primary script
-    #[arg(short = 's', long, visible_alias = "scr", group = HUMAN)]
+    #[arg(short = 's', long, visible_alias = "sc", group = HUMAN)]
     script: Option<ScriptName>,
 
     /// Programming language to print a hello-world program in (e.g. "Rust", "C++"). Defaults to "C" unless --programming-dialect or --extension is given
@@ -206,7 +212,7 @@ pub struct Args {
     #[arg(
         short = 'c',
         long,
-        visible_alias = "clr",
+        visible_alias = "cl",
         group = STYLING,
         value_enum,
         default_value_t = ColorWhen::Yes
@@ -298,59 +304,78 @@ fn selected_snippet(args: &Args) -> anyhow::Result<String> {
 impl ListCategory {
     /// The display names this `list` subcommand prints. Languages and dialects keep catalog
     /// order, so a language's default dialect comes first; attribute lists are alphabetical.
-    fn entries(&self) -> Vec<&'static str> {
+    fn entries(&self, has_endonym_arg: bool) -> Vec<Cow<'static, str>> {
         match self {
             ListCategory::HumanLanguages {
                 script,
                 category,
                 family,
             } => HumanLanguageName::all_by(*script, *category, *family)
-                .map(HumanLanguageName::as_str)
+                .map(|lang| match (lang.endonym(), has_endonym_arg) {
+                    (Some(e), true) => Cow::Owned(format!("{} ({e})", lang.as_str())),
+                    _ => Cow::Borrowed(lang.as_str()),
+                })
                 .collect(),
             ListCategory::HumanDialects { language } => DialectName::all_by(*language)
-                .map(DialectName::as_str)
+                .map(|dialect| match (dialect.endonym(), has_endonym_arg) {
+                    (Some(e), true) => Cow::Owned(format!("{} ({e})", dialect.as_str())),
+                    _ => Cow::Borrowed(dialect.as_str()),
+                })
                 .collect(),
             ListCategory::Scripts { language } => {
-                alphabetical(ScriptName::all_by(*language).map(ScriptName::as_str))
+                alphabetical(ScriptName::all_by(*language).map(|s| {
+                    match (s.endonym(), has_endonym_arg) {
+                        (Some(e), true) => Cow::Owned(format!("{} ({e})", s.as_str())),
+                        _ => Cow::Borrowed(s.as_str()),
+                    }
+                }))
             }
-            ListCategory::Notations => Notation::all_as_str(),
+            ListCategory::Notations => Notation::ALL
+                .iter()
+                .map(|n| Cow::Borrowed(n.as_str()))
+                .collect(),
             // TODO: Able to filter by dark/light in the future
-            ListCategory::Themes => Theme::all_as_str(),
+            ListCategory::Themes => Theme::ALL
+                .iter()
+                .map(|n| Cow::Borrowed(n.as_str()))
+                .collect(),
             ListCategory::ProgrammingLanguages {
                 extension,
                 family,
                 category,
                 paradigm,
             } => ProgrammingLanguageName::all_by(*extension, *family, *category, *paradigm)
-                .map(ProgrammingLanguageName::as_str)
+                .map(|lang| Cow::Borrowed(lang.as_str()))
                 .collect(),
             ListCategory::ProgrammingDialects { language } => {
                 ProgrammingLanguageDialect::all_by(*language)
-                    .map(ProgrammingLanguageDialect::as_str)
+                    .map(|d| Cow::Borrowed(d.as_str()))
                     .collect()
             }
             ListCategory::HumanLanguageCategories { language } => alphabetical(
-                HumanLanguageCategory::all_by(*language).map(HumanLanguageCategory::as_str),
+                HumanLanguageCategory::all_by(*language).map(|lang| Cow::Borrowed(lang.as_str())),
             ),
             ListCategory::HumanLanguageFamilies { language } => alphabetical(
-                HumanLanguageFamily::all_by(*language).map(HumanLanguageFamily::as_str),
+                HumanLanguageFamily::all_by(*language).map(|f| Cow::Borrowed(f.as_str())),
             ),
             ListCategory::ProgrammingLanguageCategories { language } => alphabetical(
-                ProgrammingLanguageCategory::all_by(*language)
-                    .map(ProgrammingLanguageCategory::as_str),
+                ProgrammingLanguageCategory::all_by(*language).map(|c| Cow::Borrowed(c.as_str())),
             ),
             ListCategory::ProgrammingLanguageFamilies { language } => alphabetical(
-                ProgrammingLanguageFamily::all_by(*language).map(ProgrammingLanguageFamily::as_str),
+                ProgrammingLanguageFamily::all_by(*language).map(|f| Cow::Borrowed(f.as_str())),
             ),
             ListCategory::ProgrammingParadigms { language } => alphabetical(
-                ProgrammingParadigm::all_by(*language).map(ProgrammingParadigm::as_str),
+                ProgrammingParadigm::all_by(*language).map(|b| Cow::Borrowed(b.as_str())),
             ),
         }
     }
 }
 
 /// `names` sorted for display.
-fn alphabetical(names: impl Iterator<Item = &'static str>) -> Vec<&'static str> {
+fn alphabetical<T>(names: impl Iterator<Item = T>) -> Vec<T>
+where
+    T: Ord,
+{
     let mut names: Vec<_> = names.collect();
     names.sort_unstable();
     names
@@ -361,13 +386,14 @@ fn main() -> anyhow::Result<()> {
     args.validate();
     if let Some(Command::List {
         ref category,
+        endonym,
         compact,
         count,
     }) = args.command
     {
-        let list_as_str = category.entries();
+        let list_as_str = category.entries(endonym);
 
-        output_list_command_with(&list_as_str, compact, count);
+        output_list_command_with(&list_as_str, compact, count, endonym);
         return Ok(());
     }
     if args.banner {
