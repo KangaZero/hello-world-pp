@@ -1,12 +1,17 @@
 {
   lib,
   rustPlatform,
+
+  stdenv,
+  buildPackages,
+
+  installShellFiles,
   versionCheckHook,
 }:
 let
   manifest = (lib.importTOML ./Cargo.toml).workspace.package;
 in
-rustPlatform.buildRustPackage {
+rustPlatform.buildRustPackage (finalAttrs: {
   pname = "hw-pp";
   inherit (manifest) version;
 
@@ -27,6 +32,20 @@ rustPlatform.buildRustPackage {
     "hw-pp-cli"
   ];
 
+  postInstall = lib.optionalString (stdenv.hostPlatform.emulatorAvailable buildPackages) (
+    let
+      emulator = stdenv.hostPlatform.emulator buildPackages;
+    in
+    ''
+      installShellCompletion --cmd hw-pp \
+        --bash <(${emulator} $out/bin/${finalAttrs.meta.mainProgram} completion bash) \
+        --fish <(${emulator} $out/bin/${finalAttrs.meta.mainProgram} completion fish) \
+        --zsh <(${emulator} $out/bin/${finalAttrs.meta.mainProgram} completion zsh)
+    ''
+  );
+
+  nativeBuildInputs = [ installShellFiles ];
+
   nativeInstallCheckInputs = [ versionCheckHook ];
   versionCheckProgramArg = "--version";
   doInstallCheck = true;
@@ -37,4 +56,4 @@ rustPlatform.buildRustPackage {
     license = lib.licenses.mit;
     mainProgram = "hw-pp";
   };
-}
+})

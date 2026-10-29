@@ -239,7 +239,7 @@ fn list_notations_includes_every_notation() {
         .assert()
         .success()
         .stdout(predicate::str::contains("Base64\n"))
-        .stdout(predicate::str::contains("Code-Points\n"))
+        .stdout(predicate::str::contains("Code Points\n"))
         .stdout(predicate::str::contains(format!(
             "Count: {}\n",
             hw_pp_core::data::notation::Notation::ALL.len()

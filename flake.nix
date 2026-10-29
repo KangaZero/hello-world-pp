@@ -86,6 +86,16 @@
             packageOverrides = { inherit (tools) cargo clippy; };
           };
 
+          test = {
+            enable = true;
+            name = "cargo test";
+            entry = "${toolchain}/bin/cargo test";
+            language = "system";
+            pass_filenames = false;
+            always_run = true;
+            stages = [ "pre-commit" ];
+          };
+          #
           # just-hook = {
           #    enable = true;
           #    name = "just hook";

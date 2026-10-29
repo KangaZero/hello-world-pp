@@ -165,7 +165,7 @@ enum Command {
         endonym: bool,
     },
     /// Generate Shell completions (bash/zsh/fish/elvish/powershell)
-    Completions { shell: Shell },
+    Completion { shell: Shell },
 }
 
 /// Command-line options of `hw-pp`.
@@ -397,7 +397,7 @@ fn print_completions<G: Generator>(generator: G, cmd: &mut ClapCommand) {
 fn main() -> anyhow::Result<()> {
     let args = Args::parse();
 
-    if let Some(Command::Completions { shell }) = args.command {
+    if let Some(Command::Completion { shell }) = args.command {
         let mut cmd = Args::command();
         print_completions(shell, &mut cmd);
         return Ok(());
