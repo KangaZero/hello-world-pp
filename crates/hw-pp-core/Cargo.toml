@@ -8,13 +8,14 @@ license.workspace = true
 repository.workspace = true
 
 [dependencies]
+hw-pp-macros.workspace = true
 thiserror.workspace = true
 anstyle.workspace = true
 unicode-normalization.workspace = true
 unicode-segmentation.workspace = true
 
 [build-dependencies]
-# build.rs shares src/data/normalize.rs to check names for collisions
+# build.rs shares hw-pp-macros' src/normalize.rs to check names for collisions
 unicode-normalization.workspace = true
 
 [lints]

@@ -4,8 +4,8 @@ use std::collections::HashSet;
 use std::hash::Hash;
 
 use super::human_languages::{DialectName, HumanLanguageName, ScriptName};
-use super::macros::output_for_hello_world;
 use super::programming_languages::ProgrammingLanguageName;
+use hw_pp_macros::output_for_hello_world;
 use unicode_segmentation::UnicodeSegmentation;
 
 /// The human language used when none is given or inferable.

@@ -14,10 +14,9 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{
-    macros::language_names,
-    programming_languages_token::{TokenKind, checked_token_lengths},
-};
+use crate::data::programming_languages_token::{TokenKind, checked_token_lengths};
+
+use hw_pp_macros::language_names;
 
 language_names! {
     language: U05eaU05dcU05ea => "תלת",

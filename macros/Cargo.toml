@@ -1,0 +1,15 @@
+[package]
+name = "hw-pp-macros"
+description = "Macro library for hw-pp (hello world++)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+# Accent folding behind `name_enum!`'s lenient `FromStr` (`normalize`)
+unicode-normalization.workspace = true
+
+[lints]
+workspace = true

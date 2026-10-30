@@ -7,13 +7,14 @@
 //! - <https://esolangs.org/wiki/Ndim#Hello,_World!>
 //! - <https://esolangs.org/wiki/Ndim> (paradigms)
 
-use crate::data::macros::language_names;
 use crate::data::programming_languages::ProgrammingParadigm::StackBased;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::programming_languages_token::{TokenKind, checked_token_lengths};
+
+use hw_pp_macros::language_names;
 
 language_names! {
     language: Ndim => "Ndim",

@@ -2,10 +2,9 @@
 
 use std::fmt::{self, Write as _};
 
+use hw_pp_macros::name_enum;
 use unicode_normalization::{UnicodeNormalization, char::is_combining_mark};
 use unicode_segmentation::UnicodeSegmentation;
-
-use crate::data::macros::name_enum;
 
 /// RFC 4648 §4 alphabet.
 const BASE64_STANDARD: &[u8; 64] =

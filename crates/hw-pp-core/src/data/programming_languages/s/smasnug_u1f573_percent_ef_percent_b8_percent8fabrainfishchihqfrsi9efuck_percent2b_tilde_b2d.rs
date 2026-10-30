@@ -12,10 +12,9 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{
-    macros::{language_names, output_for_hello_world},
-    programming_languages_token::{TokenKind, checked_token_lengths},
-};
+use crate::data::programming_languages_token::{TokenKind, checked_token_lengths};
+
+use hw_pp_macros::{language_names, output_for_hello_world};
 
 language_names! {
     language: SmasnugU1f573PercentEfPercentB8Percent8fabrainfishchihqfrsi9efuckPercent2bTildeB2d => "Smasnug 🕳%EF%B8%8FABrainFIsHCHIHqFRSI9efuck%2B-~B2D",

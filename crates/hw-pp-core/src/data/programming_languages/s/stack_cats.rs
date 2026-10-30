@@ -7,13 +7,14 @@
 //! - <https://github.com/m-ender/stackcats/blob/7109b1b6aa3953edcc2c1b40ab88f0bbc6dc7143/examples/hello-world.sks>
 //! - <https://esolangs.org/wiki/Stack_Cats>
 
-use crate::data::macros::language_names;
 use crate::data::programming_languages::ProgrammingParadigm::StackBased;
 use crate::data::programming_languages::{
     FileExtension, ProgrammingLanguage, ProgrammingLanguageCategory::Esolang,
     ProgrammingLanguageDialect, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::programming_languages_token::{TokenKind, checked_token_lengths};
+
+use hw_pp_macros::language_names;
 
 language_names! {
     language: StackCats => "Stack Cats",

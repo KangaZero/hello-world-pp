@@ -13,7 +13,8 @@ use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Pidgin,
     HumanLanguageName, ScriptName,
 };
-use crate::data::macros::language_names;
+
+use hw_pp_macros::language_names;
 
 language_names! {
     language: ChinookJargon => "Chinook Jargon" | "Chinuk Wawa",

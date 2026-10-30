@@ -194,9 +194,17 @@ name = "hw-pp-core"
 version = "0.1.0"
 dependencies = [
  "anstyle",
+ "hw-pp-macros",
  "thiserror",
  "unicode-normalization",
  "unicode-segmentation",
+]
+
+[[package]]
+name = "hw-pp-macros"
+version = "0.1.0"
+dependencies = [
+ "unicode-normalization",
 ]
 
 [[package]]

@@ -8,7 +8,7 @@ use std::fmt::Write as _;
 use std::path::{Path, PathBuf};
 
 // Shared with the library, so names are folded exactly as `FromStr` folds them.
-#[path = "src/data/normalize.rs"]
+#[path = "../../macros/src/normalize.rs"]
 #[expect(
     dead_code,
     reason = "`folded_eq` is only used by the library's `FromStr`"
@@ -147,6 +147,7 @@ fn main() {
 /// Writes each catalog's registry to `OUT_DIR`.
 fn run() -> Result<(), String> {
     println!("cargo::rerun-if-changed=build.rs");
+    println!("cargo::rerun-if-changed=../../macros/src/normalize.rs");
     let manifest_dir = PathBuf::from(env("CARGO_MANIFEST_DIR")?);
     let out_dir = PathBuf::from(env("OUT_DIR")?);
     for catalog in &CATALOGS {

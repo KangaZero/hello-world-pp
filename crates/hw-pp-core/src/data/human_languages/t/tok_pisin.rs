@@ -8,7 +8,8 @@ use crate::data::human_languages::{
     HumanLanguageCategory::{Creole, Natural},
     HumanLanguageName, ScriptName,
 };
-use crate::data::macros::language_names;
+
+use hw_pp_macros::language_names;
 
 language_names! {
     language: TokPisin => "Tok Pisin",

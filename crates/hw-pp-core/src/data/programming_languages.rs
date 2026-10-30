@@ -6,7 +6,7 @@ use crate::data::{
 };
 
 use super::lookup::LookupError;
-use super::macros::name_enum;
+use hw_pp_macros::name_enum;
 use thiserror::Error;
 
 name_enum! {

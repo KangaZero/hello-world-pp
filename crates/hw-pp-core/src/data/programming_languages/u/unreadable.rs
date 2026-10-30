@@ -7,12 +7,13 @@
 //! Sources:
 //! - <https://esolangs.org/wiki/Unreadable>
 
-use crate::data::macros::language_names;
 use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Esolang, ProgrammingLanguageDialect,
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::programming_languages_token::{TokenKind, checked_token_lengths};
+
+use hw_pp_macros::language_names;
 
 language_names! {
     language: Unreadable => "Unreadable",

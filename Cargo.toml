@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["crates/*"]
+members = ["macros", "crates/*"]
 
 [workspace.package]
 version = "0.1.0"
@@ -12,6 +12,7 @@ repository = "https://github.com/KangaZero/hello-world-pp"
 [workspace.dependencies]
 # Internal
 hw-pp-core = { path = "crates/hw-pp-core", version = "0.1.0" }
+hw-pp-macros = { path = "macros", version = "0.1.0" }
 
 # Normalize accents/diacritics etc. for endonyms
 unicode-normalization = "0.1.26"

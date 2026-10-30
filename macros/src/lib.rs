@@ -1,4 +1,13 @@
-//! Declarative macros shared by the catalogs and language files.
+//! Declarative macros shared by the catalogs and language files, plus the
+//! text folding (`normalize`) behind `name_enum!`'s lenient `FromStr`.
+
+pub mod normalize;
+
+/// Paths `name_enum!` expands to; not public API.
+#[doc(hidden)]
+pub mod __private {
+    pub use crate::normalize::folded_eq;
+}
 
 /// Defines a fieldless enum from one `Variant => "Display Name"` list (or
 /// `Variant => "Display Name" | "Endonym"`), plus `ALL`, `as_str`, `endonym`,
@@ -21,6 +30,7 @@
 /// assert_eq!(Color::DarkRed.to_string(), "Dark Red");
 /// assert_eq!(Color::DarkRed.endonym(), Some("Rouge Foncé"));
 /// ```
+#[macro_export]
 macro_rules! name_enum {
     // Internal: optional endonym as `Option<&'static str>`.
     (@endonym) => { None };
@@ -62,7 +72,7 @@ macro_rules! name_enum {
             #[must_use]
             pub const fn endonym(self) -> Option<&'static str> {
                 match self {
-                    $(Self::$variant => name_enum!(@endonym $($endonym)?),)+
+                    $(Self::$variant => $crate::name_enum!(@endonym $($endonym)?),)+
                 }
             }
         }
@@ -101,7 +111,7 @@ macro_rules! name_enum {
                         Self::ALL
                             .iter()
                             .copied()
-                            .find(|&variant| names(variant).any(|name| $crate::data::normalize::folded_eq(name, trimmed)))
+                            .find(|&variant| names(variant).any(|name| $crate::__private::folded_eq(name, trimmed)))
                     })
                     .ok_or_else(|| $error(s.to_owned()))
             }
@@ -117,6 +127,7 @@ macro_rules! name_enum {
 /// ```ignore
 /// concat!(r#"printf(""#, output_for_hello_world!(), r#"\n");"#) // printf("Hello, World!\n");
 /// ```
+#[macro_export]
 macro_rules! output_for_hello_world {
     () => {
         "Hello, World!"
@@ -136,7 +147,7 @@ macro_rules! output_for_hello_world {
 /// - `language`: exactly one pair.
 /// - Programming: `versions` (non-empty), `extensions` (may be empty).
 /// - Human: `dialects` (non-empty). Scripts are not declared here: pick them from the
-///   hand-written [`ScriptName`](super::human_languages::ScriptName).
+///   hand-written `ScriptName` in `hw_pp_core::data::human_languages`.
 /// - `extensions` may repeat across files with the same names; all else is unique.
 ///
 /// ```ignore
@@ -146,10 +157,7 @@ macro_rules! output_for_hello_world {
 ///     extensions: [Rs => "rs"],
 /// }
 /// ```
+#[macro_export]
 macro_rules! language_names {
     ($($declaration:tt)*) => {};
 }
-
-pub(crate) use language_names;
-pub(crate) use name_enum;
-pub(crate) use output_for_hello_world;

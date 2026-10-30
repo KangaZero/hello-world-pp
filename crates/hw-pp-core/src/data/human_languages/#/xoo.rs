@@ -11,7 +11,8 @@ use crate::data::human_languages::{
     Dialect, DialectName, Greeting, HumanLanguage, HumanLanguageCategory::Natural,
     HumanLanguageFamily::Tuu, HumanLanguageName, ScriptName,
 };
-use crate::data::macros::language_names;
+
+use hw_pp_macros::language_names;
 
 language_names! {
     language: Xoo => "ǃXóõ" | "Taa",

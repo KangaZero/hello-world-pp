@@ -1,8 +1,9 @@
 //! Syntax-highlighting color themes and the style of each token kind in them.
 
 use anstyle::{RgbColor, Style};
+use hw_pp_macros::name_enum;
 
-use crate::data::{macros::name_enum, programming_languages_token::TokenKind};
+use crate::data::programming_languages_token::TokenKind;
 
 name_enum! {
     /// A color theme for [`highlighted`] snippets.

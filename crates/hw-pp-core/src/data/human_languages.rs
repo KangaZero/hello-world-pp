@@ -4,8 +4,8 @@ use crate::data::common::{
     DEFAULT_HUMAN_LANGUAGE, DEFAULT_HUMAN_LANGUAGE_DIALECT, DEFAULT_SCRIPT, unique,
 };
 use crate::data::lookup::LookupError;
-use crate::data::macros::name_enum;
 
+use hw_pp_macros::name_enum;
 use thiserror::Error;
 
 name_enum! {

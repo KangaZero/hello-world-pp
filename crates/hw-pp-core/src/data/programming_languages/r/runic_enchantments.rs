@@ -8,7 +8,6 @@
 //! - <https://github.com/Draco18s/RunicEnchantments/tree/Console#hello-world>
 //! - <https://github.com/Draco18s/RunicEnchantments> (paradigms)
 
-use crate::data::macros::language_names;
 use crate::data::programming_languages::ProgrammingParadigm::{
     Concurrent, StackBased, TwoDimensional,
 };
@@ -17,6 +16,8 @@ use crate::data::programming_languages::{
     ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
 use crate::data::programming_languages_token::{TokenKind, checked_token_lengths};
+
+use hw_pp_macros::language_names;
 
 language_names! {
     language: RunicEnchantments => "Runic Enchantments",

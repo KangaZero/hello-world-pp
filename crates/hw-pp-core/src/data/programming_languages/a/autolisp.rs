@@ -14,10 +14,9 @@ use crate::data::programming_languages::{
     ProgrammingLanguage, ProgrammingLanguageCategory::Scripting, ProgrammingLanguageDialect,
     ProgrammingLanguageFamily::Lisp, ProgrammingLanguageName, ProgrammingLanguageVersion,
 };
-use crate::data::{
-    macros::{language_names, output_for_hello_world},
-    programming_languages_token::{TokenKind, checked_token_lengths},
-};
+use crate::data::programming_languages_token::{TokenKind, checked_token_lengths};
+
+use hw_pp_macros::{language_names, output_for_hello_world};
 
 language_names! {
     language: Autolisp => "AutoLISP",

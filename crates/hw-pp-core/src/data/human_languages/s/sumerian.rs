@@ -9,7 +9,8 @@ use crate::data::human_languages::{
     HumanLanguageCategory::{Extinct, Isolate},
     HumanLanguageName, ScriptName,
 };
-use crate::data::macros::language_names;
+
+use hw_pp_macros::language_names;
 
 language_names! {
     language: Sumerian => "Sumerian" | "𒅴𒂠",

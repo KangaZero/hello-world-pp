@@ -14,7 +14,8 @@ use crate::data::human_languages::{
     HumanLanguageFamily::{IndoEuropean, Slavic},
     HumanLanguageName, ScriptName,
 };
-use crate::data::macros::language_names;
+
+use hw_pp_macros::language_names;
 
 language_names! {
     language: Bosnian => "Bosnian" | "Bosanski",

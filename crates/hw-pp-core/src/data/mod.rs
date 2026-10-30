@@ -1,7 +1,6 @@
 //! The language catalogs and the helpers that query and render them.
 
-mod macros;
-pub mod normalize;
+pub use hw_pp_macros::normalize;
 
 pub mod common;
 pub mod human_languages;

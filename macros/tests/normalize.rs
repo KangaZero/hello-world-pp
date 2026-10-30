@@ -1,4 +1,4 @@
-use hw_pp_core::data::normalize::{folded_eq, normalize_text};
+use hw_pp_macros::normalize::{folded_eq, normalize_text};
 
 #[test]
 fn strips_accents_and_lowercases() {
