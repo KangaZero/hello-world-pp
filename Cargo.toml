@@ -48,3 +48,10 @@ unsafe_code = "forbid"
 
 [workspace.lints.clippy]
 pedantic = { level = "warn", priority = -1 }
+# Borrow the data, not its container: `&[T]`/`&str`/`&T`/`Option<&T>` over
+# `&Vec<T>`/`&String`/`&Box<T>`/`&Option<T>` (Rust API Guidelines, C-GENERIC).
+ptr_arg = "deny"
+borrowed_box = "deny"
+ref_option = "deny"
+ref_option_ref = "deny"
+box_collection = "deny"

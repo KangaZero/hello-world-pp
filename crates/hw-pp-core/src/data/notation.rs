@@ -79,7 +79,7 @@ name_enum! {
         Graphemes => "Graphemes" | "Grapheme",
 
         // Codewords ( Only works on the latin alphabet )
-        NATO => "NATO" | "ICAO"
+        Nato => "NATO" | "ICAO"
     }
 }
 
@@ -114,17 +114,8 @@ impl Notation {
             Self::Nfkc => str_to_nfkc(text),
             Self::Nfkd => str_to_nfkd(text),
             Self::Graphemes => str_to_graphemes(text),
-            Self::NATO => str_to_nato(text),
+            Self::Nato => str_to_nato(text),
         }
-    }
-
-    /// Display names of every notation, e.g. `"Base64"`.
-    #[must_use]
-    pub fn all_as_str() -> Vec<&'static str> {
-        Notation::ALL
-            .iter()
-            .map(|notation| notation.as_str())
-            .collect()
     }
 }
 

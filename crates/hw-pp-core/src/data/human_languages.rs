@@ -217,7 +217,7 @@ name_enum! {
 }
 
 /// One recorded human language, as declared by its language file.
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct HumanLanguage {
     /// The language's name.
     pub name: HumanLanguageName,
@@ -233,7 +233,7 @@ pub struct HumanLanguage {
 }
 
 /// One dialect of a [`HumanLanguage`] and its greetings.
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Dialect {
     /// The dialect's name.
     pub label: DialectName,
@@ -242,7 +242,7 @@ pub struct Dialect {
 }
 
 /// A "Hello, World!" in one spelling.
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Greeting {
     /// The scripts this spelling is written in.
     pub scripts: &'static [ScriptName],

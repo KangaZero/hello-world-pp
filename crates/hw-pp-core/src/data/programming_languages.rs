@@ -183,7 +183,7 @@ name_enum! {
 }
 
 /// One version of a [`ProgrammingLanguage`] and its hello-world snippet.
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct ProgrammingLanguageVersion {
     /// The version's name.
     pub label: ProgrammingLanguageDialect,
@@ -197,7 +197,7 @@ pub struct ProgrammingLanguageVersion {
 }
 
 /// One recorded programming language, as declared by its language file.
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct ProgrammingLanguage {
     /// The language's name.
     pub name: ProgrammingLanguageName,

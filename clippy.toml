@@ -1,0 +1,2 @@
+# Pre-1.0: let API-shape lints (`ref_option`, `box_collection`, …) fire on `pub` items too.
+avoid-breaking-exported-api = false

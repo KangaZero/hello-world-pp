@@ -226,7 +226,7 @@ pub struct Args {
     color: ColorWhen,
 
     /// Syntax-highlighting theme for snippets (e.g. "Catppuccin Latte"); see `hw-pp list themes`
-    #[arg(short = 't', long, group = STYLING, default_value_t = Theme::Kanga)]
+    #[arg(short = 't', long, group = STYLING, default_value_t = Theme::default())]
     theme: Theme,
 
     /// Print only the banner
@@ -258,7 +258,7 @@ impl Args {
     }
 
     fn validate(&self) {
-        if self.notation == Notation::NATO &&
+        if self.notation == Notation::Nato &&
         let Some(script) = self.script
                 //TODO: Change to NATO_COMPATIBLE_SCRIPT
                 && script != ScriptName::Latin
@@ -277,7 +277,7 @@ impl Args {
 
     /// `--script`, or Latin when `--notation nato` and the language has a Latin-script greeting.
     fn greeting_script(&self) -> Option<ScriptName> {
-        let wants_latin = self.notation == Notation::NATO
+        let wants_latin = self.notation == Notation::Nato
             && ScriptName::contains_script(
                 self.human_language,
                 self.human_dialect,
@@ -336,15 +336,9 @@ impl ListCategory {
                     }
                 }))
             }
-            ListCategory::Notations => Notation::ALL
-                .iter()
-                .map(|n| Cow::Borrowed(n.as_str()))
-                .collect(),
+            ListCategory::Notations => Notation::names().map(Cow::Borrowed).collect(),
             // TODO: Able to filter by dark/light in the future
-            ListCategory::Themes => Theme::ALL
-                .iter()
-                .map(|n| Cow::Borrowed(n.as_str()))
-                .collect(),
+            ListCategory::Themes => Theme::names().map(Cow::Borrowed).collect(),
             ListCategory::ProgrammingLanguages {
                 extension,
                 family,
@@ -421,7 +415,7 @@ fn main() -> anyhow::Result<()> {
         println!("{}", BANNER);
         return Ok(());
     }
-    if args.notation == Notation::NATO
+    if args.notation == Notation::Nato
         && args.has_human_options()
         && args.greeting_script() != Some(ScriptName::Latin)
     {

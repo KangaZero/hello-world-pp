@@ -54,6 +54,10 @@ macro_rules! name_enum {
                 }
             }
 
+            pub fn names() -> impl Iterator<Item = &'static str> {
+                Self::ALL.iter().copied().map(Self::as_str)
+            }
+
             /// The second accepted name, if any: an endonym or a short alias.
             #[must_use]
             pub const fn endonym(self) -> Option<&'static str> {

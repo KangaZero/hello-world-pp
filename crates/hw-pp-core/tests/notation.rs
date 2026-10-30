@@ -110,13 +110,13 @@ fn renders_nato_code_words() {
         ("A1 J9", "Alfa One Juliett Niner"),     // ICAO digits and spellings
         ("世界", "世界"),                        // no Latin form: kept as-is
     ] {
-        assert_eq!(Notation::NATO.render(input), expected, "{input:?}");
+        assert_eq!(Notation::Nato.render(input), expected, "{input:?}");
     }
 }
 
 #[test]
 fn nato_parses_by_name_and_icao_alias() {
     for name in ["NATO", "nato", "ICAO", "icao"] {
-        assert_eq!(name.parse(), Ok(Notation::NATO), "{name:?}");
+        assert_eq!(name.parse(), Ok(Notation::Nato), "{name:?}");
     }
 }

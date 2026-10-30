@@ -8,9 +8,10 @@ name_enum! {
     /// A color theme for [`highlighted`] snippets.
     ///
     /// [`highlighted`]: super::programming_languages::ProgrammingLanguageVersion::highlighted
-    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+    #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Hash)]
     pub enum Theme: ParseThemeNameError("theme") {
         /// Same as [`Theme::Kanga`].
+        #[default]
         Default => "Default",
         /// Tokyo Night Moon with a Dracula-purple accent.
         Kanga => "Kanga",
@@ -26,7 +27,7 @@ name_enum! {
 }
 
 /// A theme's colors outside of code tokens: CLI help, errors, warnings and the banner.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct ThemeColors {
     /// Section headers in help, e.g. `Options:`, `Commands:`.
     pub header: Style,
@@ -47,14 +48,14 @@ pub struct ThemeColors {
     /// The ASCII-art banner.
     pub banner: Style,
 }
+//
+// impl Default for Theme {
+//     fn default() -> Self {
+//         Self::Default
+//     }
+// }
 
 impl Theme {
-    /// Display names of every theme, e.g. `"Kanga"`.
-    #[must_use]
-    pub fn all_as_str() -> Vec<&'static str> {
-        Theme::ALL.iter().map(|theme| theme.as_str()).collect()
-    }
-
     /// This theme's [`ThemeColors`], from the same palette as its snippet colors.
     #[must_use]
     pub const fn colors(self) -> ThemeColors {
