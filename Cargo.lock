@@ -186,7 +186,9 @@ dependencies = [
  "clap",
  "clap_complete",
  "hw-pp-core",
+ "hw-pp-macros",
  "predicates",
+ "thiserror",
 ]
 
 [[package]]

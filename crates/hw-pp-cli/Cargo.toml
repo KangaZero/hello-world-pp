@@ -15,7 +15,9 @@ path = "src/main.rs"
 anyhow.workspace = true
 clap.workspace = true
 clap_complete.workspace = true
+thiserror.workspace = true
 hw-pp-core.workspace = true
+hw-pp-macros.workspace = true
 anstream.workspace = true
 anstyle.workspace = true
 

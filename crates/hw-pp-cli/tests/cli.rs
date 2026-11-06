@@ -114,7 +114,7 @@ fn no_punctuation_strips_only_the_inserted_greeting() {
 #[test]
 fn inserting_into_an_encoded_snippet_warns_and_prints_it_unchanged() {
     hw_pp()
-        .args(["-l", "german", "-p", "brainfuck", "--color", "no"])
+        .args(["-l", "german", "-p", "brainfuck", "--color", "never"])
         .assert()
         .success()
         .stdout(predicate::str::starts_with("++++++++"))
@@ -126,7 +126,7 @@ fn inserting_into_an_encoded_snippet_warns_and_prints_it_unchanged() {
 #[test]
 fn inserting_into_a_reversed_message_reverses_the_greeting() {
     hw_pp()
-        .args(["-l", "german", "-p", "befunge", "--color", "no"])
+        .args(["-l", "german", "-p", "befunge", "--color", "never"])
         .assert()
         .success()
         .stdout("\"!tleW ,ollaH\">:#,_@\n")
@@ -310,7 +310,7 @@ fn nato_warns_when_the_language_has_no_latin_script() {
 #[test]
 fn nato_encodes_only_the_message_in_snippets() {
     hw_pp()
-        .args(["-p", "rust", "-c", "no", "--notation", "nato"])
+        .args(["-p", "rust", "-c", "never", "--notation", "nato"])
         .assert()
         .success()
         .stdout(predicate::str::contains(

@@ -1,7 +1,8 @@
 use std::borrow::Cow;
-use std::io;
+use std::io::{self};
 
 use crate::constants::cli_info::{self, BANNER};
+use crate::tools::color::Color;
 use crate::tools::helpers::{
     hello_world_output_with_options, output_list_command_with,
     snippet_output_with_default_hello_world_with_options, warn,
@@ -10,7 +11,7 @@ use anstream::println;
 use anyhow::Context;
 use clap::Command as ClapCommand;
 use clap::error::ErrorKind;
-use clap::{ArgGroup, CommandFactory, Parser, Subcommand, ValueEnum};
+use clap::{ArgGroup, CommandFactory, Parser, Subcommand};
 use clap_complete::Generator;
 use clap_complete::aot::{Shell, generate};
 use hw_pp_core::data::common::replace_default_hello_world_string_with;
@@ -37,18 +38,6 @@ const PROGRAMMING: &str = "programming";
 const LOGO: &str = "logo";
 /// Group ID that only groups the styling options in `--help`; imposes no constraint.
 const STYLING: &str = "styling";
-
-/// When to syntax-highlight programming snippets.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
-enum ColorWhen {
-    /// Highlight snippets
-    Yes,
-    /// Print snippets as plain text
-    No,
-    // TODO: Create $HOME/.config/hw-pp/config.toml
-    // Always,
-    // Never,
-}
 
 /// What `hw-pp list` can list.
 #[derive(Subcommand, Debug)]
@@ -221,9 +210,9 @@ pub struct Args {
         visible_alias = "cl",
         group = STYLING,
         value_enum,
-        default_value_t = ColorWhen::Yes
+        default_value_t = Color::Auto
     )]
-    color: ColorWhen,
+    color: Color,
 
     /// Syntax-highlighting theme for snippets (e.g. "Catppuccin Latte"); see `hw-pp list themes`
     #[arg(short = 't', long, group = STYLING, default_value_t = Theme::default())]
@@ -249,12 +238,6 @@ impl Args {
         self.programming_language.is_some()
             || self.programming_dialect.is_some()
             || self.extension.is_some()
-    }
-
-    // TODO: Add more logic when config toml and ColorWhen::Always & ColorWhen::Never is added
-    /// Whether `--color` allows colored output (`yes`, the default).
-    fn has_color_on(&self) -> bool {
-        self.color == ColorWhen::Yes
     }
 
     fn validate(&self) {
@@ -294,13 +277,14 @@ impl Args {
 /// Hello-world snippet for the selected programming language, syntax-highlighted
 /// unless `--color no`.
 fn selected_snippet(args: &Args) -> anyhow::Result<String> {
+    let stream = io::stdout();
     let language_version = ProgrammingLanguageVersion::find(
         args.programming_language,
         args.programming_dialect,
         args.extension,
     )
     .context("failed to look up a 'hello-world' programming language version")?;
-    Ok(if args.has_color_on() {
+    Ok(if Color::infer(args, &stream) {
         language_version.highlighted(Some(args.theme))
     } else {
         language_version.syntax.to_owned()
