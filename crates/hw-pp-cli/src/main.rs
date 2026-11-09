@@ -3,6 +3,7 @@ use std::io::{self};
 
 use crate::constants::cli_info::{self, BANNER};
 use crate::tools::color::Color;
+use crate::tools::config::Config;
 use crate::tools::helpers::{
     hello_world_output_with_options, output_list_command_with,
     snippet_output_with_default_hello_world_with_options, warn,
@@ -374,6 +375,8 @@ fn print_completions<G: Generator>(generator: G, cmd: &mut ClapCommand) {
 
 fn main() -> anyhow::Result<()> {
     let args = Args::parse();
+
+    println!("{:?}", Config::config_dir());
 
     if let Some(Command::Completion { shell }) = args.command {
         let mut cmd = Args::command();

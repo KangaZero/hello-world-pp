@@ -1,0 +1,71 @@
+# hw-pp configuration
+#
+# Every key is optional; a missing key falls back to the default shown here.
+# Precedence: CLI flag > env var > this file > built-in default.
+#
+# Names are matched loosely: case, accents, `-` and `_` are ignored, so
+# "catppuccin-mocha", "Catppuccin Mocha" and "CATPPUCCIN_MOCHA" are the same value.
+
+# Schema version of this file. Bumped only on breaking changes; do not edit.
+version = 1
+
+# When to color output.
+#   "auto"   - color only when writing to a terminal that supports it (respects NO_COLOR, CLICOLOR, ...)
+#   "always" - always color, even when piped
+#   "never"  - never color
+color = "auto"
+
+# Human language used for greetings when none is given on the command line.
+# Any name from `hw-pp list`, e.g. "english", "german", "japanese".
+language = "english"
+
+# How greeting text is rendered.
+#   Plain text:     "utf8"
+#   Radix:          "binary", "octal", "decimal", "lower-hex", "upper-hex"
+#   Unicode units:  "code-points", "utf16"
+#   Escapes:        "rust-escape", "rust-literal", "byte-escape", "js-escape", "css-escape",
+#                   "html-decimal-entities", "html-hex-entities", "percent-encoding"
+#   Encodings:      "base64", "base64-url", "base32", "quoted-printable"
+#   Byte glyphs:    "braille"
+#   Normalization:  "nfd", "nfkc", "nfkd"
+#   Segmentation:   "graphemes"
+#   Code words:     "nato" (Latin letters and digits only)
+notation = "utf8"
+
+# Output format.
+#   "plain" - human-readable text
+#   "json"  - machine-readable JSON, for scripts and pipes
+output = "plain"
+
+# Color theme, either a preset name or a custom palette (not both).
+#
+# Presets:
+#   "default"              - same as "kanga"
+#   "kanga"                - Tokyo Night Moon with a Dracula-purple accent
+#   "catppuccin-latte"     - light   (alias "latte")
+#   "catppuccin-frappe"    - dark    (alias "frappe")
+#   "catppuccin-macchiato" - darker  (alias "macchiato")
+#   "catppuccin-mocha"     - darkest (alias "mocha")
+theme = "default"
+
+# Custom palette: delete the `theme = ...` line above and uncomment this table.
+# Each entry takes `fg` (hex color) and optional `bold` (default false).
+#
+# [theme]
+# header      = { fg = "#bd93f9", bold = true } # section headers in help, e.g. `Options:`
+# usage       = { fg = "#bd93f9", bold = true } # the `Usage:` label
+# literal     = { fg = "#82aaff", bold = true } # flags and subcommands in help, e.g. `--color`
+# placeholder = { fg = "#4fd6be" }              # value placeholders in help, e.g. `<LANGUAGE>`
+# error       = { fg = "#ff5c57", bold = true } # `error:` labels
+# valid       = { fg = "#c3e88d" }              # suggested valid values in errors
+# invalid     = { fg = "#ff966c", bold = true } # the rejected input in errors
+# warning     = { fg = "#ffc777", bold = true } # `warning:` labels
+# banner      = { fg = "#bd93f9", bold = true } # the ASCII-art banner
+
+[snippet]
+# Programming language used for snippets when none is given on the command line.
+# Any name from `hw-pp list`, e.g. "c", "rust", "python".
+language = "c"
+
+# Prefix each snippet line with its line number.
+line_numbers = false

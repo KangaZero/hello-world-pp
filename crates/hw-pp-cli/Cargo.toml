@@ -20,6 +20,8 @@ hw-pp-core.workspace = true
 hw-pp-macros.workspace = true
 anstream.workspace = true
 anstyle.workspace = true
+toml_edit.workspace = true
+serde.workspace = true
 
 [build-dependencies]
 hw-pp-core.workspace = true

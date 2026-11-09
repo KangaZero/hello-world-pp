@@ -1,5 +1,6 @@
 use clap::ValueEnum;
 use hw_pp_macros::name_enum;
+use serde::{Deserialize, Serialize};
 use std::{
     env::{self},
     ffi::OsString,
@@ -8,7 +9,6 @@ use std::{
 use crate::Args;
 
 name_enum! {
-    /// A classification of a human language; a language may have several.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 enum ColorEnv: ParseColorEnvError("color") {
     NoColor => "NO_COLOR",       //  !(is_empty()) ? true
@@ -37,10 +37,11 @@ impl ColorEnv {
         env::var_os(self.as_str())
     }
 }
-/// When to syntax-highlight programming snippets.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
+
+#[derive(Debug, Default, Deserialize, Serialize, Clone, Copy, PartialEq, Eq, ValueEnum)]
+#[serde(rename_all = "lowercase")]
 pub enum Color {
-    /// Highlight snippets
+    #[default]
     Auto,
     Always,
     Never,
